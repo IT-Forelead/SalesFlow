@@ -5,7 +5,7 @@ import Navbar from '../components/Navbar.vue'
 <template>
   <div class="bg-gray-100 min-h-screen w-full">
     <Sidebar />
-    <div class="flex-1 ml-80">
+    <div class="flex-1 ml-72">
       <Navbar />
       <div class="text-gray-900">
         <router-view v-slot="{ Component }">

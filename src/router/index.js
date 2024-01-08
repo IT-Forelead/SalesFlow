@@ -15,6 +15,12 @@ const routes = [
     meta: { layout: 'dashboard' },
   },
   {
+    path: '/transactions',
+    name: 'Transactions',
+    component: () => import('../views/Transactions.vue'),
+    meta: { layout: 'dashboard' },
+  },
+  {
     path: '/notfound',
     name: 'Not-Found',
     component: () => import('../components/NotFound.vue'),
@@ -31,16 +37,16 @@ const router = createRouter({
   routes: routes,
 })
 
-router.beforeEach((to, from, next) => {
-  const publicPages = ['/', '/login', '/sign-up', '/forgot-password', '/reset-password', '/dashboard']
-  const authNotRequired = !publicPages.includes(to.path)
-  const notLoggedIn = localStorage.getItem('session')
-  if ((authNotRequired && notLoggedIn) || publicPages.includes(`/${to.path.split('/')[1]}`)) {
-    next()
-  } else {
-    next('/')
-  }
-})
+// router.beforeEach((to, from, next) => {
+//   const publicPages = ['/', '/login', '/sign-up', '/forgot-password', '/reset-password', '/dashboard']
+//   const authNotRequired = !publicPages.includes(to.path)
+//   const notLoggedIn = localStorage.getItem('session')
+//   if ((authNotRequired && notLoggedIn) || publicPages.includes(`/${to.path.split('/')[1]}`)) {
+//     next()
+//   } else {
+//     next('/')
+//   }
+// })
 
 function navigationGuards(access) {
   return () => {
