@@ -1,0 +1,31 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+/* Scrollbar Style */
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+::-webkit-scrollbar-track {
+  border-radius: 10px;
+  background-color: #ccc;
+  -webkit-border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+  border-radius: 10px;
+  background: #555;
+  -webkit-border-radius: 10px;
+}
+
+/* SIDEBAR ACTIVE CLASS */
+.active div.first-child-bg-color {
+  @apply bg-yellow-200;
+}
+.active div.second-child-bg-color {
+  @apply bg-yellow-200/10;
+}
+
+.active div {
+  @apply text-yellow-200;
+}

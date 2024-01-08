@@ -1,0 +1,14 @@
+{
+  "compilerOptions": {
+    "types": ["vitest/globals"],
+    "baseUrl": ".",
+    "paths": {
+      "$libs": ["src/libs"],
+      "$libs/*": ["src/libs/*"]
+    },
+    "lib": ["ES2022", "dom"]
+  },
+  "include": ["src/**/*.d.ts", "src/**/*.js", "src/**/*.svelte"],
+  "exclude": ["node_modules", "**/node_modules", "dist"],
+  "allowJs": true
+}

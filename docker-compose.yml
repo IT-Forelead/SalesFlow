@@ -1,0 +1,15 @@
+version: "3.9"
+services:
+  workout-frontend:
+    restart: always
+    image: workout/frontend:latest
+    hostname: workout-ui
+    container_name: workout-ui
+    networks:
+      - external-net
+    ports:
+      - "3003:80"
+networks:
+  external-net:
+    name: external-net
+    external: true
