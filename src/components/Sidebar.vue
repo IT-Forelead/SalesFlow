@@ -7,9 +7,8 @@ import PhShoppingCart from '../assets/icons/ShoppingCartIcon.vue'
 </script>
 
 <template>
-  <div class="fixed block h-screen bg-white w-72 z-50 border-r">
+  <div class="fixed block h-screen bg-white w-64 z-50 border-r">
     <div class="h-20 flex space-x-1 items-center justify-center">
-<!--      <img src="#" class="h-14 w-auto" alt="#" />-->
       <PhShoppingCart class="w-12 h-12 text-blue-700" />
       <p class="text-2xl text-black font-extrabold">MarketStore</p>
     </div>
