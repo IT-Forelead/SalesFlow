@@ -15,6 +15,12 @@ const routes = [
     meta: { layout: 'dashboard' },
   },
   {
+    path: '/add_products',
+    name: 'AddProducts',
+    component: () => import('../pages/AddProducts.vue'),
+    meta: { layout: 'add_products' },
+  },
+  {
     path: '/notfound',
     name: 'Not-Found',
     component: () => import('../components/NotFound.vue'),
@@ -32,7 +38,7 @@ const router = createRouter({
 })
 
 router.beforeEach((to, from, next) => {
-  const publicPages = ['/', '/login', '/sign-up', '/forgot-password', '/reset-password', '/dashboard']
+  const publicPages = ['/', '/login', '/sign-up', '/forgot-password', '/reset-password', '/dashboard', '/add_products']
   const authNotRequired = !publicPages.includes(to.path)
   const notLoggedIn = localStorage.getItem('session')
   if ((authNotRequired && notLoggedIn) || publicPages.includes(`/${to.path.split('/')[1]}`)) {
