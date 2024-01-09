@@ -7,13 +7,24 @@ import PhShoppingCart from '../assets/icons/ShoppingCartIcon.vue'
 import { useRouter } from 'vue-router'
 import { useSidebarStore } from '../store/sidebar.store.js'
 import PhArrowLineLeftLight from '../assets/icons/ArrowLineLeftLight.vue'
+import { onMounted } from 'vue'
 
 const router = useRouter()
+
+const getCurrentPageName = (pageName)=>{
+  useSidebarStore().setCurrentPage(pageName)
+  useSidebarStore().isOpenSidebar = false
+
+}
 const closeSidebar = (event) => {
   if (event.target.closest('#sidebar') === null) {
     useSidebarStore().isOpenSidebar = false;
   }
 }
+const currentPage = useSidebarStore().currentPage
+onMounted(() => {
+  useSidebarStore().setCurrentPage(currentPage);
+});
 </script>
 <template>
   <div v-if="useSidebarStore().toggleSidebar">
@@ -34,35 +45,35 @@ const closeSidebar = (event) => {
       </div>
       <div class="space-y-8">
         <div class="relative space-y-1 h-5/6 overflow-y-auto">
-          <router-link to="/dashboard" active-class="active" class="relative h-10 flex items-center w-full hover:bg-blue-300/10 hover:text-blue-600 py-7 text-zinc-400 text-lg font-medium space-x-4 cursor-pointer transition-colors duration-300">
+          <router-link to="/dashboard" @click="getCurrentPageName('Dashboard')" active-class="active" class="relative h-10 flex items-center w-full hover:bg-blue-300/10 hover:text-blue-600 py-7 text-zinc-400 text-lg font-medium space-x-4 cursor-pointer transition-colors duration-300">
             <div class="w-1.5 h-12 rounded-r-xl first-child-bg-color mr-2"></div>
             <div class="flex h-10 items-center justify-center rounded-xl w-10 second-child-bg-color">
               <HouseIcon class="w-6 h-6" />
             </div>
             <div>Dashboard</div>
           </router-link>
-          <router-link to="/sales" active-class="active" class="relative h-10 flex items-center w-full hover:bg-blue-300/10 hover:text-blue-600 py-7 text-zinc-400 text-lg font-medium space-x-4 cursor-pointer transition-colors duration-300">
+          <router-link to="/sales" @click="getCurrentPageName('Sales')" active-class="active" class="relative h-10 flex items-center w-full hover:bg-blue-300/10 hover:text-blue-600 py-7 text-zinc-400 text-lg font-medium space-x-4 cursor-pointer transition-colors duration-300">
             <div class="w-1.5 h-12 rounded-r-xl first-child-bg-color mr-2"></div>
             <div class="flex items-center justify-center rounded-xl w-10 h-10 second-child-bg-color">
               <MoneyIcon class="w-6 h-6" />
             </div>
             <div>Sales</div>
           </router-link>
-          <router-link to="/products" active-class="active" class="relative h-10 flex items-center w-full hover:bg-blue-300/10 hover:text-blue-600 py-7 text-zinc-400 text-lg font-medium space-x-4 cursor-pointer transition-colors duration-300">
+          <router-link to="/products" @click="getCurrentPageName('Products')" active-class="active" class="relative h-10 flex items-center w-full hover:bg-blue-300/10 hover:text-blue-600 py-7 text-zinc-400 text-lg font-medium space-x-4 cursor-pointer transition-colors duration-300">
             <div class="w-1.5 h-12 rounded-r-xl first-child-bg-color mr-2"></div>
             <div class="flex items-center justify-center rounded-xl w-10 h-10 second-child-bg-color">
               <PhShoppingCart class="w-6 h-6" />
             </div>
             <div>Products</div>
           </router-link>
-          <router-link to="accounts" active-class="active" class="relative h-10 flex items-center w-full hover:bg-blue-300/10 hover:text-blue-600 py-7 text-zinc-400 text-lg font-medium space-x-4 cursor-pointer transition-colors duration-300">
+          <router-link to="accounts" @click="getCurrentPageName('Accounts')" active-class="active" class="relative h-10 flex items-center w-full hover:bg-blue-300/10 hover:text-blue-600 py-7 text-zinc-400 text-lg font-medium space-x-4 cursor-pointer transition-colors duration-300">
             <div class="w-1.5 h-12 rounded-r-xl first-child-bg-color mr-2"></div>
             <div class="flex items-center justify-center rounded-xl w-10 h-10 second-child-bg-color">
               <PhUser class="w-6 h-6"/>
             </div>
             <div>Accounts</div>
           </router-link>
-          <router-link to="settings" active-class="active" class="relative h-10 flex items-center w-full hover:bg-blue-300/10 hover:text-blue-600 py-7 text-zinc-400 text-lg font-medium space-x-4 cursor-pointer transition-colors duration-300">
+          <router-link to="settings" @click="getCurrentPageName('Settings')" active-class="active" class="relative h-10 flex items-center w-full hover:bg-blue-300/10 hover:text-blue-600 py-7 text-zinc-400 text-lg font-medium space-x-4 cursor-pointer transition-colors duration-300">
             <div class="w-1.5 h-12 rounded-r-xl first-child-bg-color mr-2"></div>
             <div class="flex items-center justify-center rounded-xl w-10 h-10 second-child-bg-color">
               <PhGear class="w-6 h-6"/>

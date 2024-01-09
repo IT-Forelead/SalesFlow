@@ -29,7 +29,7 @@ onClickOutside(notificationDropdown, () => {
         <HamburgerMenuOutlineIcon class="w-6 h-6" />
       </div>
       <div class="text-slate-700 text-2xl md:text-3xl font-semibold">
-        Overview
+        {{useSidebarStore().currentPage}}
       </div>
     </div>
     <div class="flex items-center space-x-4 md:space-x-6">
@@ -42,10 +42,10 @@ onClickOutside(notificationDropdown, () => {
                placeholder="Search for something...">
       </div>
       <router-link to="/settings"
-                   class="p-2 md:p-3 bg-slate-100 text-slate-400 hover:text-blue-600 rounded-full hover:bg-blue-100 cursor-pointer transition duration-150">
+                   class="p-2 md:p-3 bg-slate-100 text-slate-400 hover:text-blue-600 rounded-full hover:bg-blue-100 cursor-pointer transition duration-150 hidden md:block">
         <PhGear class="w-6 h-6" />
       </router-link>
-      <div class="relative" ref="notificationDropdown">
+      <div class="relative hidden md:block" ref="notificationDropdown">
         <div @click="useModalStore().toggleNotification"
              class="p-2 md:p-3 bg-slate-100 text-red-400 hover:text-red-600 rounded-full hover:bg-red-100 cursor-pointer transition duration-150">
           <PhBell class="w-6 h-6" />
