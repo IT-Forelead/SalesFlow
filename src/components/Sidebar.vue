@@ -34,16 +34,14 @@ onMounted(() => {
     <div id="sidebar" ref="sidebar"
          class="flex flex-col bg-white absolute z-40 left-0 top-0 lg:static border-r lg:left-auto lg:top-auto lg:translate-x-0 min-h-screen w-64 2xl:!w-64 shrink-0 transition-all duration-200 ease-in-out"
          :class="useSidebarStore().isOpenSidebar ? 'translate-x-0' : '-translate-x-64'">
-      <div class="my-2 p-3">
-        <button class="mt-16 lg:hidden p-1.5 rounded-md text-slate-400 hover:bg-blue-100 hover:text-blue-600" @click="useSidebarStore().toggleSidebar">
-          <PhArrowLineLeftLight class="w-6 h-6" />
-        </button>
-        <div class="h-20 flex space-x-1 items-center justify-center">
-          <PhShoppingCart class="w-12 h-12 text-blue-700" />
-          <p class="text-2xl text-black font-extrabold">SaleFlow</p>
+      <div class="h-20 flex space-x-1 items-center justify-center">
+        <img src="/images/logo.svg" class="w-12 h-12" alt="#">
+        <div class="text-3xl font-extrabold">
+          <span class="text-[#0167f3]">Sale</span>
+          <span class="text-black">Flow</span>
         </div>
       </div>
-      <div class="space-y-8">
+      <div class="space-y-8 py-4">
         <div class="relative space-y-1 h-5/6 overflow-y-auto">
           <router-link to="/dashboard" @click="getCurrentPageName('Dashboard')" active-class="active" class="relative h-10 flex items-center w-full hover:bg-blue-300/10 hover:text-blue-600 py-7 text-zinc-400 text-lg font-medium space-x-4 cursor-pointer transition-colors duration-300">
             <div class="w-1.5 h-12 rounded-r-xl first-child-bg-color mr-2"></div>
