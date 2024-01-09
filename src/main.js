@@ -11,7 +11,6 @@ import VOtpInput from 'vue3-otp-input'
 import App from './App.vue'
 import i18n from './i18n.js'
 import DashboardLayout from './layouts/DashboardLayout.vue'
-import AddProductsLayot from './layouts/AddProductsLayout.vue'
 import LoginLayout from './layouts/LoginLayout.vue'
 import router from './router'
 import './style.css'
@@ -27,7 +26,6 @@ app.use(MotionPlugin)
 app.use(VueApexCharts)
 app.use(Vue3Marquee)
 app.component('dashboard-layout', DashboardLayout)
-app.component('add_products-layout', AddProductsLayot)
 app.component('login-layout', LoginLayout)
 app.component('infinite-loading', InfiniteLoading)
 app.component('v-otp-input', VOtpInput)
