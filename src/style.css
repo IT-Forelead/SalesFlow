@@ -20,12 +20,12 @@
 
 /* SIDEBAR ACTIVE CLASS */
 .active div.first-child-bg-color {
-  @apply bg-yellow-200;
+  @apply bg-blue-700;
 }
 .active div.second-child-bg-color {
-  @apply bg-yellow-200/10;
+  @apply bg-blue-400/10;
 }
 
 .active div {
-  @apply text-yellow-200;
+  @apply text-blue-700;
 }
