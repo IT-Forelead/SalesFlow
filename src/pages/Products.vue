@@ -28,10 +28,6 @@ const formatIndex = (index) => {
             </td>
            
           </tr>
-          <tr>
-            <td class="text-center px-4 py-4 text-sm leading-5 text-red-600">Total</td>
-            <td class="px-4 py-4 text-sm leading-5 text-left text-red-600">8</td>
-          </tr>
         </tbody>
       </table>
     </div>
