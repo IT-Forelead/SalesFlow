@@ -3,11 +3,11 @@ import Sidebar from '../components/Sidebar.vue'
 import Navbar from '../components/Navbar.vue'
 </script>
 <template>
-  <div class="bg-gray-100 min-h-screen w-full">
+  <div class="bg-gray-100 flex h-screen overflow-hidden">
     <Sidebar />
-    <div class="flex-1 ml-64">
+    <div class="relative flex flex-col flex-1 overflow-y-auto overflow-x-hidden">
       <Navbar />
-      <div class="text-gray-900">
+      <div class="px-4 sm:px-6 lg:px-8 py-8 w-full max-w-9xl mx-auto">
         <router-view v-slot="{ Component }">
           <component :is="Component" />
         </router-view>

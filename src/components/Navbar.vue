@@ -1,37 +1,65 @@
 <script setup>
 import SearchIcon from '../assets/icons/SearchIcon.vue'
-import { ref } from 'vue'
 import PhGear from '../assets/icons/SettingsIcon.vue'
-import PhClockClockwise from '../assets/icons/ClockwiseIcon.vue'
+import PhBell from '../assets/icons/BellIcon.vue'
+import ProfileDropDown from './ProfileDropDown.vue'
+import { useSidebarStore } from '../store/sidebar.store.js'
+import HamburgerMenuOutlineIcon from '../assets/icons/HamburgerMenuOutlineIcon.vue'
+import { useModalStore } from '../store/modal.store.js'
+import { ref } from 'vue'
+import { onClickOutside } from '@vueuse/core'
 
 
+const notificationDropdown = ref(null)
 
-// Define a ref to track the mobile menu state
-const isMobileMenuOpen = ref(false);
+onClickOutside(notificationDropdown, () => {
+  if (useModalStore().isOpenNotification) {
+    useModalStore().toggleNotification()
+  }
+})
 
-// Function to toggle the mobile menu
-const toggleMobileMenu = () => {
-  isMobileMenuOpen.value = !isMobileMenuOpen.value;
-};
 </script>
 
 <template>
-  <div class="flex items-center justify-between z-10 h-12 px-6 py-4 text-black bg-white sticky-top md:h-24">
-    <div class="w-full flex flex-wrap items-center justify-between mx-auto p-4">
-        <div class="text-slate-700 text-3xl font-semibold">
+  <div
+    class="sticky top-0 z-50 flex items-center justify-between w-full h-20 px-6 py-4 bg-white border-b border-gray-200 shadow-7xl">
+    <div class="flex space-x-4 items-center">
+      <div @click="useSidebarStore().toggleSidebar"
+           class="flex md:hidden items-center justify-center w-8 h-8 rounded-lg cursor-pointer hover:bg-gray-100">
+        <HamburgerMenuOutlineIcon class="w-6 h-6" />
+      </div>
+      <div class="text-slate-700 text-2xl md:text-3xl font-semibold">
         Overview
+      </div>
+    </div>
+    <div class="flex items-center space-x-4 md:space-x-6">
+      <div class="relative mr-3 md:mr-0 md:block hidden">
+        <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+          <SearchIcon class="w-5 h-5 text-slate-400" />
         </div>
-        <div class="flex">
-          <div class="relative mr-3 md:mr-0 hidden md:block">
-            <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-              <SearchIcon class="w-5 h-5 text-slate-400"/>
-            </div>
-            <input type="search"
-                   class="bg-slate-100 border-none text-slate-400 text-lg rounded-full block w-full pl-10 p-2 placeholder-slate-400"
-                   placeholder="Search for something...">
+        <input type="search"
+               class="bg-slate-100 border-none text-slate-400 text-base md:text-lg rounded-full block w-full pl-10 py-2.5 placeholder-slate-400"
+               placeholder="Search for something...">
+      </div>
+      <router-link to="/settings"
+                   class="p-2 md:p-3 bg-slate-100 text-slate-400 hover:text-blue-600 rounded-full hover:bg-blue-100 cursor-pointer transition duration-150">
+        <PhGear class="w-6 h-6" />
+      </router-link>
+      <div class="relative" ref="notificationDropdown">
+        <div @click="useModalStore().toggleNotification"
+             class="p-2 md:p-3 bg-slate-100 text-red-400 hover:text-red-600 rounded-full hover:bg-red-100 cursor-pointer transition duration-150">
+          <PhBell class="w-6 h-6" />
+        </div>
+        <div v-if="useModalStore().isOpenNotification"
+             class="absolute flex flex-col items-center justify-center bg-white w-72 h-40 shadow-xl rounded-md p-3 z-20 top-[60px] md:top-16 -right-16 space-y-2">
+          <div class="flex items-center justify-center w-16 h-16 rounded-full bg-slate-100 shadow">
+            <PhBell class="w-10 h-10 text-slate-400" />
           </div>
+          <div class="text-sm">Hech qanday bildirishnoma yo'q</div>
         </div>
       </div>
+      <ProfileDropDown />
+    </div>
   </div>
 </template>
 

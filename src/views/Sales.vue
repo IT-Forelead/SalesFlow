@@ -4,7 +4,7 @@
 
 <template>
 <div>
-  <h1>Transactions page</h1>
+  <h1>Sales page</h1>
 </div>
 </template>
 
