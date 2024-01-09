@@ -23,7 +23,7 @@ const routes = [
   {
     path: '/sales',
     name: 'Sales',
-    component: () => import('../views/Sales.vue'),
+    component: () => import('../pages/Sales.vue'),
     meta: { layout: 'dashboard' },
   },
   {
