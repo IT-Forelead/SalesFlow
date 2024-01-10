@@ -32,14 +32,6 @@ onClickOutside(notificationDropdown, () => {
       </div>
     </div>
     <div class="flex items-center space-x-4 md:space-x-6">
-      <div class="relative mr-3 md:mr-0 md:block hidden">
-        <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-          <SearchIcon class="w-5 h-5 text-slate-400" />
-        </div>
-        <input type="search"
-               class="bg-slate-100 border-none text-slate-400 text-base md:text-lg rounded-full block w-full pl-10 py-2.5 placeholder-slate-400"
-               placeholder="Search for something...">
-      </div>
       <router-link to="/settings"
                    class="p-2 md:p-3 bg-slate-100 text-slate-400 hover:text-blue-600 rounded-full hover:bg-blue-100 cursor-pointer transition duration-150 hidden md:block">
         <PhGear class="w-6 h-6" />
