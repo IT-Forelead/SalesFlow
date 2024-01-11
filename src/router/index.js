@@ -27,6 +27,12 @@ const routes = [
     meta: { layout: 'dashboard' },
   },
   {
+    path: '/markets',
+    name: 'Markets',
+    component: () => import('../pages/Markets.vue'),
+    meta: { layout: 'dashboard' },
+  },
+  {
     path: '/sales',
     name: 'Sales',
     component: () => import('../pages/Sales.vue'),

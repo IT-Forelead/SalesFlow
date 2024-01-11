@@ -20,7 +20,7 @@ const cost = ref(0)
 
 <template>
   <div class="grid grid-cols-3 gap-4">
-    <div class="col-span-2 bg-white rounded-lg py-6 px-4 space-y-4">
+    <div class="col-span-2 bg-white rounded-3xl py-6 px-4 space-y-4 shadow">
       <div class="flex items-center justify-between">
         <div class="relative w-96">
           <div class="absolute inset-y-0 left-0 flex items-center pl-2 pointer-events-none">
@@ -131,7 +131,7 @@ const cost = ref(0)
       </div>
     </div>
 
-    <div class="bg-white rounded-lg py-2 px-6">
+    <div class="bg-white rounded-3xl py-2 px-6 shadow">
       <div class="border-b py-2">
         <h3 class="text-xl font-semibold">Harid tafsilotlari</h3>
       </div>

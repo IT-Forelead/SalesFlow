@@ -2,7 +2,7 @@
 import { h } from 'vue'
 import CTable from '../components/common/CTable.vue'
 import moment from 'moment'
-import cars from '/public/users.json'
+import cars from '/public/markets.json'
 import EditButton from '../components/buttons/EditButton.vue'
 import DeleteButton from '../components/buttons/DeleteButton.vue'
 
@@ -13,29 +13,21 @@ const columnsCars = [
     enableSorting: false,
   },
   {
-    accessorKey: 'login',
-    header: 'Login',
+    accessorKey: 'name',
+    header: "Do'kon nomi",
   },
   {
-    accessorFn: row => `${row.firstname} ${row.lastname}`,
-    header: 'Foydalanuvchi',
+    accessorKey: 'owner',
+    header: "Egasi",
   },
   {
-    accessorKey: 'phone',
-    header: 'Telefon raqami',
-  },
-  {
-    accessorKey: 'role',
-    header: 'Role',
+    accessorFn: row => `${row.address}, ${row.cown}, ${row.region}`,
+    header: 'Manzili',
   },
   {
     accessorKey: 'createdAt',
     accessorFn: row => moment(row.createdAt).format('DD/MM/YYYY H:mm'),
     header: 'Yaratilgan vaqti',
-  },
-  {
-    accessorKey: 'active',
-    header: 'Active',
   },
   {
     accessorKey: 'edit',

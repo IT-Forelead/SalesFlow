@@ -72,33 +72,19 @@ onMounted(() => {
             </div>
             <div>Market products</div>
           </router-link>
-          <router-link to="/products" @click="getCurrentPageName('Products')" active-class="active" class="relative h-10 flex items-center w-full hover:bg-blue-300/10 hover:text-blue-600 py-7 text-zinc-400 text-lg font-medium space-x-4 cursor-pointer transition-colors duration-300">
+          <router-link to="/markets" @click="getCurrentPageName('Markets')" active-class="active" class="relative h-10 flex items-center w-full hover:bg-blue-300/10 hover:text-blue-600 py-7 text-zinc-400 text-lg font-medium space-x-4 cursor-pointer transition-colors duration-300">
             <div class="w-1.5 h-12 rounded-r-xl first-child-bg-color mr-2"></div>
             <div class="flex items-center justify-center rounded-xl w-10 h-10 second-child-bg-color">
               <StoreIcon class="w-6 h-6" />
             </div>
             <div>Markets</div>
           </router-link>
-          <router-link to="/users" @click="getCurrentPageName('Products')" active-class="active" class="relative h-10 flex items-center w-full hover:bg-blue-300/10 hover:text-blue-600 py-7 text-zinc-400 text-lg font-medium space-x-4 cursor-pointer transition-colors duration-300">
+          <router-link to="/users" @click="getCurrentPageName('Users')" active-class="active" class="relative h-10 flex items-center w-full hover:bg-blue-300/10 hover:text-blue-600 py-7 text-zinc-400 text-lg font-medium space-x-4 cursor-pointer transition-colors duration-300">
             <div class="w-1.5 h-12 rounded-r-xl first-child-bg-color mr-2"></div>
             <div class="flex items-center justify-center rounded-xl w-10 h-10 second-child-bg-color">
               <UsersIcon class="w-6 h-6" />
             </div>
             <div>Users</div>
-          </router-link>
-          <router-link to="accounts" @click="getCurrentPageName('Accounts')" active-class="active" class="relative h-10 flex items-center w-full hover:bg-blue-300/10 hover:text-blue-600 py-7 text-zinc-400 text-lg font-medium space-x-4 cursor-pointer transition-colors duration-300">
-            <div class="w-1.5 h-12 rounded-r-xl first-child-bg-color mr-2"></div>
-            <div class="flex items-center justify-center rounded-xl w-10 h-10 second-child-bg-color">
-              <PhUser class="w-6 h-6"/>
-            </div>
-            <div>Accounts</div>
-          </router-link>
-          <router-link to="settings" @click="getCurrentPageName('Settings')" active-class="active" class="relative h-10 flex items-center w-full hover:bg-blue-300/10 hover:text-blue-600 py-7 text-zinc-400 text-lg font-medium space-x-4 cursor-pointer transition-colors duration-300">
-            <div class="w-1.5 h-12 rounded-r-xl first-child-bg-color mr-2"></div>
-            <div class="flex items-center justify-center rounded-xl w-10 h-10 second-child-bg-color">
-              <PhGear class="w-6 h-6"/>
-            </div>
-            <div>Settings</div>
           </router-link>
         </div>
       </div>

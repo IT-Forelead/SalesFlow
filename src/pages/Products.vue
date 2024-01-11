@@ -6,7 +6,6 @@ import cars from '/public/cars.json'
 import EditButton from '../components/buttons/EditButton.vue'
 import DeleteButton from '../components/buttons/DeleteButton.vue'
 
-
 const columnsCars = [
   {
     accessorKey: 'id',
@@ -81,7 +80,7 @@ const columnsCars = [
         </div>
       </div>
     </div>
-    <div class="overflow-auto border border-gray-200 bg-white rounded-3xl shadow">
+    <div class="overflow-auto bg-white rounded-3xl shadow">
       <CTable :data="cars" :columns="columnsCars" />
     </div>
   </div>

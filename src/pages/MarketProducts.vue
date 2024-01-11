@@ -42,7 +42,7 @@ const columnsCars = [
 
 <template>
   <div class="container mx-auto">
-    <div class="overflow-auto border border-gray-200 bg-white rounded-3xl shadow">
+    <div class="overflow-auto bg-white rounded-3xl shadow">
       <CTable :data="cars" :columns="columnsCars" />
     </div>
   </div>
