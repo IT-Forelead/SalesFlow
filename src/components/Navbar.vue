@@ -1,5 +1,4 @@
 <script setup>
-import SearchIcon from '../assets/icons/SearchIcon.vue'
 import PhGear from '../assets/icons/SettingsIcon.vue'
 import PhBell from '../assets/icons/BellIcon.vue'
 import ProfileDropDown from './ProfileDropDown.vue'

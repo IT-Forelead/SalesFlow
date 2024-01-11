@@ -15,23 +15,23 @@ const columnsCars = [
   },
   {
     accessorKey: 'car_make',
-    header: 'Car Make',
+    header: 'Mahsulot nomi',
   },
   {
     accessorKey: 'car_model',
-    header: 'Car Model',
+    header: 'Mahsulot turi',
   },
   {
     accessorKey: 'car_year',
-    header: 'Year',
+    header: 'Ishlan chiqarilgan sana',
   },
   {
     accessorKey: 'price',
-    header: 'Price',
+    header: 'Narxi',
   },
   {
     accessorKey: 'edit',
-    header: 'Actions',
+    header: 'Amallar',
     cell: ({ row }) => h('button', { class: 'flex space-x-2' }, [
       h(EditButton, { id: row.original.id }),
       h(DeleteButton, { id: row.original.id }),

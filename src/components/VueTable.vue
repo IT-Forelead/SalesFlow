@@ -42,11 +42,11 @@ const table = useVueTable({
         ? updaterOrValue(sorting.value)
         : updaterOrValue
   },
-  // initialState: {
-  //   pagination: {
-  //     pageSize: 10,
-  //   },
-  // },
+  initialState: {
+    pagination: {
+      pageSize: 20,
+    },
+  },
 })
 
 const displayedPageNumbers = computed(() => {
