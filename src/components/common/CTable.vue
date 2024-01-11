@@ -1,11 +1,5 @@
 <script setup>
 import { computed, ref } from 'vue'
-
-const props = defineProps({
-  data: Array,
-  columns: Array,
-})
-
 import {
   useVueTable,
   FlexRender,
@@ -14,7 +8,16 @@ import {
   getSortedRowModel,
   getFilteredRowModel,
 } from '@tanstack/vue-table'
-import SearchIcon from '../assets/icons/SearchIcon.vue'
+import SearchIcon from '../../assets/icons/SearchIcon.vue'
+import CaretDoubleLeftIcon from '../../assets/icons/CaretDoubleLeftIcon.vue';
+import CaretDoubleRightIcon from '../../assets/icons/CaretDoubleRightIcon.vue';
+import CaretLeftIcon from '../../assets/icons/CaretLeftIcon.vue';
+import CaretRightIcon from '../../assets/icons/CaretRightIcon.vue';
+
+const props = defineProps({
+  data: Array,
+  columns: Array,
+})
 
 const data = ref(props.data)
 
@@ -123,33 +126,33 @@ const displayedPageNumbers = computed(() => {
       <div class="flex items-center justify-between my-5">
         <div class="text-base text-slate-900 font-medium">
           Total:
-          {{ table.getFilteredRowModel().rows.length }} products
+          {{ table.getFilteredRowModel().rows.length }}
         </div>
-        <div class="flex space-x-2">
+        <div class="flex items-center space-x-2">
           <button
             :disabled="!table.getCanPreviousPage()"
             @click="table.setPageIndex(0)"
-            class="flex items-center px-3 py-2 text-base font-medium text-center text-slate-900 rounded-lg select-none hover:bg-blue-200 disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
+            class="flex items-center justify-center px-3 py-2 text-base font-medium text-slate-900 rounded-lg select-none hover:bg-blue-200 disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
             type="button"
           >
-            <<
+            <CaretDoubleLeftIcon class="w-5 h-5" />
           </button>
           <button
             :disabled="!table.getCanPreviousPage()"
             @click="table.previousPage()"
-            class="flex items-center px-3 py-2 text-base font-medium text-center text-slate-900 rounded-lg select-none hover:bg-blue-200 disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
+            class="flex items-center justify-center px-3 py-2 text-base font-medium text-slate-900 rounded-lg select-none hover:bg-blue-200 disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
             type="button"
           >
-            <
+            <CaretLeftIcon class="w-5 h-5" />
           </button>
-          <div class="flex items-center gap-2">
+          <div class="flex items-center space-x-2">
             <button
               v-for="pageNumber in displayedPageNumbers"
               :key="pageNumber"
               @click="table.setPageIndex(pageNumber - 1)"
               :class="{'bg-blue-600 text-white': pageNumber === table.getState().pagination.pageIndex + 1,
                       'hover:bg-blue-200': pageNumber !== table.getState().pagination.pageIndex + 1,}"
-              class="px-4 py-2 select-none rounded-lg text-slate-900 text-center text-base font-medium transition-all"
+              class="px-3 py-2 select-none rounded-lg text-slate-900 text-center text-base font-medium transition-all"
             >
               {{ pageNumber }}
             </button>
@@ -160,7 +163,7 @@ const displayedPageNumbers = computed(() => {
             class="flex items-center gap-2 px-3 py-2 text-base font-medium text-center text-slate-900 rounded-lg select-none hover:bg-blue-200 disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
             type="button"
           >
-            >
+            <CaretRightIcon class="w-5 h-5" />
           </button>
           <button
             :disabled="!table.getCanNextPage()"
@@ -168,7 +171,7 @@ const displayedPageNumbers = computed(() => {
             class="flex items-center gap-2 px-3 py-2 text-base font-medium text-slate-900 rounded-lg select-none hover:bg-blue-200 disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
             type="button"
           >
-            >>
+            <CaretDoubleRightIcon class="w-5 h-5" />
           </button>
         </div>
       </div>

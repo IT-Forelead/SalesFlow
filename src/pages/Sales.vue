@@ -1,4 +1,5 @@
 <script setup>
+import { ref } from '@vue/reactivity'
 import ImageIcon from '../assets/icons/ImageIcon.vue';
 import MinusIcon from '../assets/icons/MinusIcon.vue';
 import PlusIcon from '../assets/icons/PlusIcon.vue';
@@ -6,6 +7,14 @@ import TrashIcon from '../assets/icons/TrashIcon.vue';
 import SearchIcon from '../assets/icons/SearchIcon.vue';
 import MoneyIcon from '../assets/icons/MoneyIcon.vue';
 import CreditCardIcon from '../assets/icons/CreditCardIcon.vue';
+
+const moneyConf = {
+  thousands: ' ',
+  suffix: ' UZS',
+  precision: 0,
+}
+
+const cost = ref(0)
 
 </script>
 

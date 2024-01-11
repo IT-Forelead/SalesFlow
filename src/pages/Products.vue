@@ -1,7 +1,7 @@
 <script setup>
 import { h } from 'vue'
 import TotalProductIcon from '../assets/icons/TotalProductIcon.vue'
-import VueTable from '../components/VueTable.vue'
+import CTable from '../components/common/CTable.vue'
 import cars from '/public/cars.json'
 import EditButton from '../components/buttons/EditButton.vue'
 import DeleteButton from '../components/buttons/DeleteButton.vue'
@@ -14,8 +14,8 @@ const columnsCars = [
     enableSorting: false,
   },
   {
-    accessorKey: 'car_make',
-    header: 'Mahsulot nomi',
+    accessorKey: 'fistname',
+    header: 'Foydalanuvchi',
   },
   {
     accessorKey: 'car_model',
@@ -82,7 +82,7 @@ const columnsCars = [
       </div>
     </div>
     <div class="overflow-auto border border-gray-200 bg-white rounded-3xl shadow">
-      <VueTable :data="cars" :columns="columnsCars" />
+      <CTable :data="cars" :columns="columnsCars" />
     </div>
   </div>
 </template>

@@ -4,9 +4,10 @@ import MoneyIcon from './../assets/icons/MoneyIcon.vue'
 import PhUser from '../assets/icons/UserIcon.vue'
 import PhGear from '../assets/icons/SettingsIcon.vue'
 import PhShoppingCart from '../assets/icons/ShoppingCartIcon.vue'
+import UsersIcon from '../assets/icons/UsersIcon.vue'
+import StoreIcon from '../assets/icons/StoreIcon.vue'
 import { useRouter } from 'vue-router'
 import { useSidebarStore } from '../store/sidebar.store.js'
-import PhArrowLineLeftLight from '../assets/icons/ArrowLineLeftLight.vue'
 import { onMounted } from 'vue'
 
 const router = useRouter()
@@ -63,6 +64,27 @@ onMounted(() => {
               <PhShoppingCart class="w-6 h-6" />
             </div>
             <div>Products</div>
+          </router-link>
+          <router-link to="/market-products" @click="getCurrentPageName('Products')" active-class="active" class="relative h-10 flex items-center w-full hover:bg-blue-300/10 hover:text-blue-600 py-7 text-zinc-400 text-lg font-medium space-x-4 cursor-pointer transition-colors duration-300">
+            <div class="w-1.5 h-12 rounded-r-xl first-child-bg-color mr-2"></div>
+            <div class="flex items-center justify-center rounded-xl w-10 h-10 second-child-bg-color">
+              <PhShoppingCart class="w-6 h-6" />
+            </div>
+            <div>Market products</div>
+          </router-link>
+          <router-link to="/products" @click="getCurrentPageName('Products')" active-class="active" class="relative h-10 flex items-center w-full hover:bg-blue-300/10 hover:text-blue-600 py-7 text-zinc-400 text-lg font-medium space-x-4 cursor-pointer transition-colors duration-300">
+            <div class="w-1.5 h-12 rounded-r-xl first-child-bg-color mr-2"></div>
+            <div class="flex items-center justify-center rounded-xl w-10 h-10 second-child-bg-color">
+              <StoreIcon class="w-6 h-6" />
+            </div>
+            <div>Markets</div>
+          </router-link>
+          <router-link to="/users" @click="getCurrentPageName('Products')" active-class="active" class="relative h-10 flex items-center w-full hover:bg-blue-300/10 hover:text-blue-600 py-7 text-zinc-400 text-lg font-medium space-x-4 cursor-pointer transition-colors duration-300">
+            <div class="w-1.5 h-12 rounded-r-xl first-child-bg-color mr-2"></div>
+            <div class="flex items-center justify-center rounded-xl w-10 h-10 second-child-bg-color">
+              <UsersIcon class="w-6 h-6" />
+            </div>
+            <div>Users</div>
           </router-link>
           <router-link to="accounts" @click="getCurrentPageName('Accounts')" active-class="active" class="relative h-10 flex items-center w-full hover:bg-blue-300/10 hover:text-blue-600 py-7 text-zinc-400 text-lg font-medium space-x-4 cursor-pointer transition-colors duration-300">
             <div class="w-1.5 h-12 rounded-r-xl first-child-bg-color mr-2"></div>

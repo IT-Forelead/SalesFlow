@@ -21,9 +21,21 @@ const routes = [
     meta: { layout: 'dashboard' },
   },
   {
+    path: '/market-products',
+    name: 'Market products',
+    component: () => import('../pages/MarketProducts.vue'),
+    meta: { layout: 'dashboard' },
+  },
+  {
     path: '/sales',
     name: 'Sales',
     component: () => import('../pages/Sales.vue'),
+    meta: { layout: 'dashboard' },
+  },
+  {
+    path: '/users',
+    name: 'Users',
+    component: () => import('../pages/Users.vue'),
     meta: { layout: 'dashboard' },
   },
   {
