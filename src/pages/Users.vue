@@ -2,6 +2,7 @@
 import { h } from 'vue'
 import TotalProductIcon from '../assets/icons/TotalProductIcon.vue'
 import CTable from '../components/common/CTable.vue'
+import moment from 'moment'
 import cars from '/public/users.json'
 import EditButton from '../components/buttons/EditButton.vue'
 import DeleteButton from '../components/buttons/DeleteButton.vue'
@@ -17,12 +18,8 @@ const columnsCars = [
     header: 'Login',
   },
   {
-    accessorKey: 'createdAt',
-    header: 'Yaratilganvaqti',
-  },
-  {
-    accessorKey: 'firstname',
-    header: 'Ismi',
+    accessorFn: row => `${row.firstname} ${row.lastname}`,
+    header: 'Foydalanuvchi',
   },
   {
     accessorKey: 'phone',
@@ -31,6 +28,11 @@ const columnsCars = [
   {
     accessorKey: 'role',
     header: 'Role',
+  },
+  {
+    accessorKey: 'createdAt',
+    accessorFn: row => moment(row.createdAt).format('DD/MM/YYYY H:mm'),
+    header: 'Yaratilgan vaqti',
   },
   {
     accessorKey: 'active',
