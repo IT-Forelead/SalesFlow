@@ -4,10 +4,10 @@ import { useRouter } from 'vue-router'
 import { onClickOutside } from '@vueuse/core'
 import AuthService from '../services/auth.service'
 import { useModalStore } from '../store/modal.store'
-import PhUser from '../assets/icons/UserIcon.vue'
+import UserIcon from '../assets/icons/UserIcon.vue'
 import LogoutIcon from './../assets/icons/LogoutIcon.vue'
-import PhGear from '../assets/icons/SettingsIcon.vue'
-import PhCaretDown from '../assets/icons/CaretDownIcon.vue'
+import SettingsIcon from '../assets/icons/SettingsIcon.vue'
+import DotsThreeVerticalBoldIcon from '../assets/icons/DotsThreeVerticalBoldIcon.vue'
 
 const router = useRouter()
 const dropdown = ref(null)
@@ -28,30 +28,45 @@ const logout = () => {
 </script>
 <template>
   <div class="relative" ref="dropdown">
-    <button @click="useModalStore().toggleProfile()"
-            class="flex items-center p-3 space-x-2 md:p-4 bg-slate-100 text-slate-400 hover:text-blue-600 rounded-full hover:bg-blue-100 cursor-pointer transition duration-150"
-            type="button">
-      <PhUser class="w-7 h-7 mr-2" />
-      Super Admin
-      <PhCaretDown class="w-4 h-4" />
-    </button>
-    <ul v-if="useModalStore().isOpenProfileDropDown"
-        class="w-48 absolute bg-white shadow-xl rounded-md z-20 md:top-[70px] top-[66px] right-0 divide-y divide-slate-200">
-      <li class="px-4 py-3 text-sm text-slate-900">
-        <div class="font-medium">Super Admin</div>
-        <div class="truncate">+998901234567</div>
-      </li>
-      <li
-        class="flex items-center text-slate-900 hover:bg-blue-100 hover:text-blue-600 rounded-t-md cursor-pointer p-2 space-x-2">
-        <PhGear class="w-5 h-5" />
-        <span>Settings</span>
-      </li>
-      <li @click="logout"
-          class="flex items-center text-slate-900 hover:text-blue-600 hover:bg-blue-100 cursor-pointer p-2 space-x-2">
-        <LogoutIcon class="w-5 h-5" />
-        <span>Logout</span>
-      </li>
-    </ul>
+    <div class="flex items-center justify-between px-3">
+      <div class="inline-flex items-center space-x-2">
+        <div class="relative flex items-center justify-center w-8 h-8 lg:w-10 lg:h-10 bg-[#0167f3] text-white text-lg font-medium rounded-full">
+          <span>JS</span>
+          <div class="absolute bottom-0 right-0 w-3 h-3 rounded-full bg-green-400 border border-white"></div>
+        </div>
+        <div>
+          <div class="text-base font-medium text-gray-700 text-center">
+            Muhammadyusufov S.  
+          </div>
+          <div class="text-gray-600">
+            Tech admin
+          </div>
+        </div>
+      </div>
+      <div @click="useModalStore().toggleProfile()" class="hover:bg-gray-100 p-0.5 rounded-lg cursor-pointer" :class="useModalStore().isOpenProfileDropDown ? 'bg-gray-100 ' : ''">
+        <DotsThreeVerticalBoldIcon class="w-5 h-5" />
+      </div>
+    </div>
+    <div v-if="useModalStore().isOpenProfileDropDown" class="absolute z-50 top-0 -right-[200px] w-52 bg-white border border-gray-200 shadow rounded-lg divide-y divide-gray-200">
+      <ul class="p-1.5 relative">
+        <li
+          class="flex items-center text-slate-900 hover:bg-blue-100 hover:text-blue-600 rounded-lg cursor-pointer p-2 space-x-2">
+          <UserIcon class="w-5 h-5" />
+          <span>Profile</span>
+        </li>
+        <li
+          class="flex items-center text-slate-900 hover:bg-blue-100 hover:text-blue-600 rounded-lg cursor-pointer p-2 space-x-2">
+          <SettingsIcon class="w-5 h-5" />
+          <span>Settings</span>
+        </li>
+      </ul>
+      <div class="p-1.5">
+        <div @click="logout" class="flex items-center text-slate-900 hover:text-blue-600 hover:bg-blue-100 rounded-lg cursor-pointer p-2 space-x-2">
+          <LogoutIcon class="w-5 h-5" />
+          <span>Logout</span>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 <style scoped></style>

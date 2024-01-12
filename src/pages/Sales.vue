@@ -23,16 +23,16 @@ const cost = ref(0)
     <div class="col-span-2 bg-white rounded-3xl py-6 px-4 space-y-4 shadow">
       <div class="flex items-center justify-between">
         <div class="relative w-96">
-          <div class="absolute inset-y-0 left-0 flex items-center pl-2 pointer-events-none">
-            <SearchIcon class="w-6 h-6 text-gray-500 dark:text-gray-400" />
+            <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+              <SearchIcon class="w-5 h-5 text-slate-400" />
+            </div>
+            <input type="search"
+              class="bg-slate-100 border-none text-slate-900 text-base md:text-lg rounded-full block w-full pl-10 py-2 placeholder-slate-400"
+              placeholder="Mahsulot nomi bo'yicha izlash...">
+            <button type="button" class="absolute inset-y-0 right-0 px-4 bg-[#0167F3] text-white rounded-full">
+              Izlash
+            </button>
           </div>
-          <input type="text"
-            class="bg-white border border-gray-300 text-gray-900 text-md rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full pl-10 px-3 py-2  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-            placeholder="Mahsulot nomi bo'yicha izlash...">
-          <button type="button" class="absolute inset-y-0 right-0 px-3 bg-[#0167F3] text-white rounded-r-lg">
-            Izlash
-          </button>
-        </div>
       </div>
 
       <div class="inline-block min-w-full py-2 align-middle">

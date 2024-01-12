@@ -91,7 +91,6 @@ const displayedPageNumbers = computed(() => {
                 </th>
               </tr>
             </thead>
-
             <tbody class="divide-y divide-gray-200">
               <tr v-for="row in table.getRowModel().rows" :key="row.id">
                 <td v-for="cell in row.getVisibleCells()" :key="cell.id"
