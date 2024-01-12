@@ -3,8 +3,8 @@ import { h } from 'vue'
 import CTable from '../components/common/CTable.vue'
 import moment from 'moment'
 import cars from '/public/markets.json'
-import EditButton from '../components/buttons/EditButton.vue'
-import DeleteButton from '../components/buttons/DeleteButton.vue'
+import EditProductModal from '../components/modals/EditProductModal.vue'
+import DeleteProductModal from '../components/modals/DeleteProductModal.vue'
 
 const columnsCars = [
   {
@@ -33,8 +33,8 @@ const columnsCars = [
     accessorKey: 'edit',
     header: 'Amallar',
     cell: ({ row }) => h('button', { class: 'flex space-x-2' }, [
-      h(EditButton, { id: row.original.id }),
-      h(DeleteButton, { id: row.original.id }),
+      h(EditProductModal, { id: row.original.id }),
+      h(DeleteProductModal, { id: row.original.id }),
     ]),
     enableSorting: false,
   },
