@@ -27,7 +27,7 @@ onMounted(() => {
 });
 </script>
 <template>
-  <div v-if="useSidebarStore().toggleSidebar">
+  <div class="relative z-40" v-if="useSidebarStore().toggleSidebar">
     <div class="fixed inset-0 z-40 transition-opacity duration-200 bg-slate-900 bg-opacity-30 lg:hidden lg:z-auto"
          :class="useSidebarStore().isOpenSidebar ? 'opacity-100' : 'opacity-0 pointer-events-none'" @click="closeSidebar">
     </div>
