@@ -1,4 +1,5 @@
 <script setup>
+import { Toaster } from 'vue-sonner'
 import { useRouter } from 'vue-router'
 import { computed } from 'vue'
 import { useI18n } from 'vue-i18n'
@@ -10,6 +11,7 @@ const layout = computed(() => `${currentRoute.value.meta.layout || defaultLayout
 </script>
 
 <template>
+  <Toaster position="top-center" richColors closeButton />
   <component :is="layout">
     <router-view />
   </component>
