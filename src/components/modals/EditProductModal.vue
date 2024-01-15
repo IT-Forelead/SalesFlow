@@ -25,7 +25,9 @@ const closeModal = () => {
         Mahsulotni tahrirlash
       </template>
       <template v-slot:body>
-        <input type="text">
+        <div class="absolute mt-20 p-4 md:p-5">
+
+        </div>
       </template>
       <template v-slot:footer>
         <CancelButton @click="closeModal"/>

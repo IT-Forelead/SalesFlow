@@ -21,7 +21,6 @@ const closeModal = () => {
       <PhTrash class="flex w-6 h-6 text-red-600 cursor-pointer hover:scale-105" />
     </button>
     <CModal
-      class="mx-auto max-w-2xl"
       v-if="useModalStore().isDeleteProductModalOpen"
       @close=closeModal
     >
@@ -29,9 +28,9 @@ const closeModal = () => {
         Mahsulot o'chirish
       </template>
       <template v-slot:body>
-        <div class="text-center">
+        <div class="absolute w-full top-1/3 p-2 md:p-5">
           <PhWarningCircleBold class="mx-auto mb-4 text-slate-400 w-14 h-14" />
-          <h3 class="mb-5 text-lg font-normal text-slate-500">Haqiqatdan ushbu mahsulotni o'chirishni xohlaysizmi?</h3>
+          <h3 class="mb-5 text-lg font-normal text-slate-500">Haqiqatdan ushbu mahsulotni o'chirishni <br> xohlaysizmi?</h3>
         </div>
       </template>
       <template v-slot:footer>
