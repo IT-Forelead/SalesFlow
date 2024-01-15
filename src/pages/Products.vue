@@ -1,5 +1,5 @@
 <script setup>
-import { computed } from '@vue/reactivity'
+import { computed, ref } from '@vue/reactivity'
 import { h, onMounted } from 'vue'
 import TotalProductIcon from '../assets/icons/TotalProductIcon.vue'
 import CTable from '../components/common/CTable.vue'
@@ -7,6 +7,9 @@ import EditProductModal from '../components/modals/EditProductModal.vue'
 import DeleteProductModal from '../components/modals/DeleteProductModal.vue'
 import ProductService from '../services/product.service'
 import { useProductStore } from '../store/product.store'
+import SearchIcon from '../assets/icons/SearchIcon.vue'
+
+const globaleSearchFromTable = ref('')
 
 const columns = [
   {
@@ -91,8 +94,23 @@ onMounted(() => {
         </div>
       </div>
     </div>
-    <div class="overflow-auto bg-white rounded-3xl shadow">
-      <CTable :data="products" :columns="columns" />
+    <div class="bg-white rounded-3xl shadow px-4 py-4 lg:px-8">
+      <div class="flex items-center justify-between my-2">
+        <div class="relative">
+          <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+            <SearchIcon class="w-5 h-5 text-slate-400" />
+          </div>
+          <input type="search" v-model="globaleSearchFromTable"
+            class="bg-slate-100 border-none text-slate-900 text-base md:text-lg rounded-full block pl-10 py-2 placeholder-slate-400"
+            placeholder="Search everything...">
+        </div>
+        <div>
+          <button class="w-full py-2 px-4 rounded-full text-white text-lg font-medium bg-blue-500 cursor-pointer hover:bg-blue-600">
+            Mahsulot qo'shish
+          </button>
+        </div>
+      </div>
+      <CTable :data="products" :columns="columns" :filter="globaleSearchFromTable" />
     </div>
   </div>
 </template>
