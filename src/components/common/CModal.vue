@@ -14,7 +14,7 @@ const close = () => {
       <!-- Modal content -->
       <div class="relative bg-white md:rounded-l-2xl drop-shadow min-h-screen w-full md:w-auto">
         <!-- Modal header -->
-        <div class="absolute top-1 w-full flex items-center p-4 md:p-5 border-b rounded-t">
+        <div class="w-full flex items-center p-4 md:p-5  border-b rounded-t">
           <div class="pr-4">
             <button
               @click="close"
