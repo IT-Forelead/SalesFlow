@@ -1,32 +1,31 @@
 <script setup>
-import { h } from 'vue'
+import { computed } from '@vue/reactivity'
+import { h, onMounted } from 'vue'
 import TotalProductIcon from '../assets/icons/TotalProductIcon.vue'
 import CTable from '../components/common/CTable.vue'
-import cars from '/public/cars.json'
 import EditProductModal from '../components/modals/EditProductModal.vue'
 import DeleteProductModal from '../components/modals/DeleteProductModal.vue'
+import ProductService from '../services/product.service'
+import { useProductStore } from '../store/product.store'
 
-const columnsCars = [
+const columns = [
   {
     accessorKey: 'id',
     header: 'ID',
     enableSorting: false,
+    cell: ({ row }) => `${parseInt(row.id, 10) + 1}`,
   },
   {
-    accessorKey: 'fistname',
-    header: 'Foydalanuvchi',
+    accessorKey: 'name',
+    header: 'Nomi',
   },
   {
-    accessorKey: 'car_model',
-    header: 'Mahsulot turi',
+    accessorFn: row => `${row.value} ${row.type}`,
+    header: "O'lchov turi",
   },
   {
-    accessorKey: 'car_year',
-    header: 'Ishlan chiqarilgan sana',
-  },
-  {
-    accessorKey: 'price',
-    header: 'Narxi',
+    accessorKey: 'barcode',
+    header: 'Barcode',
   },
   {
     accessorKey: 'actions',
@@ -38,6 +37,18 @@ const columnsCars = [
     enableSorting: false,
   },
 ]
+
+const products = computed(() => {
+  return useProductStore().products
+})
+
+onMounted(() => {
+  ProductService.getProducts({})
+    .then((res) => {
+      useProductStore().clearStore()
+      useProductStore().setProducts(res)
+    })
+})
 </script>
 
 <template>
@@ -81,7 +92,7 @@ const columnsCars = [
       </div>
     </div>
     <div class="overflow-auto bg-white rounded-3xl shadow">
-      <CTable :data="cars" :columns="columnsCars" />
+      <CTable :data="products" :columns="columns" />
     </div>
   </div>
 </template>

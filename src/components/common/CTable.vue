@@ -19,13 +19,11 @@ const props = defineProps({
   columns: Array,
 })
 
-const data = ref(props.data)
-
 const sorting = ref([])
 const filter = ref('')
 
 const table = useVueTable({
-  data: data.value,
+  data: props.data,
   columns: props.columns,
   getCoreRowModel: getCoreRowModel(),
   getPaginationRowModel: getPaginationRowModel(),
