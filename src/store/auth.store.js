@@ -10,7 +10,7 @@ export const useAuthStore = defineStore('auth', {
       this.token = jwt
     },
     setUser(data) {
-      this.user = data
+      this.user = data?.User
     }
   },
 })

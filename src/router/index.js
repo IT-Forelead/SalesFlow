@@ -13,36 +13,42 @@ const routes = [
     name: 'Dashboard',
     component: () => import('../pages/Dashboard.vue'),
     meta: { layout: 'dashboard' },
+    beforeEnter: navigationGuards(['admin', 'manager', 'cashier']),
   },
   {
     path: '/products',
     name: 'Products',
     component: () => import('../pages/Products.vue'),
     meta: { layout: 'dashboard' },
+    beforeEnter: navigationGuards(['admin', 'manager', 'cashier']),
   },
   {
     path: '/market-products',
     name: 'Market products',
     component: () => import('../pages/MarketProducts.vue'),
     meta: { layout: 'dashboard' },
+    beforeEnter: navigationGuards(['admin', 'manager', 'cashier']),
   },
   {
     path: '/markets',
     name: 'Markets',
     component: () => import('../pages/Markets.vue'),
     meta: { layout: 'dashboard' },
+    beforeEnter: navigationGuards(['admin', 'manager', 'cashier']),
   },
   {
     path: '/sales',
     name: 'Sales',
     component: () => import('../pages/Sales.vue'),
     meta: { layout: 'dashboard' },
+    beforeEnter: navigationGuards(['admin', 'manager', 'cashier']),
   },
   {
     path: '/users',
     name: 'Users',
     component: () => import('../pages/Users.vue'),
     meta: { layout: 'dashboard' },
+    beforeEnter: navigationGuards(['admin', 'manager']),
   },
   {
     path: '/notfound',
@@ -61,23 +67,23 @@ const router = createRouter({
   routes: routes,
 })
 
-// router.beforeEach((to, from, next) => {
-//   const publicPages = ['/', '/login', '/sign-up', '/forgot-password', '/reset-password', '/dashboard', '/add_products']
-//   const authNotRequired = !publicPages.includes(to.path)
-//   const notLoggedIn = localStorage.getItem('session')
-//   if ((authNotRequired && notLoggedIn) || publicPages.includes(`/${to.path.split('/')[1]}`)) {
-//     next()
-//   } else {
-//     next('/')
-//   }
-// })
+router.beforeEach((to, from, next) => {
+  const publicPages = ['/', '/login']
+  const authNotRequired = !publicPages.includes(to.path)
+  const notLoggedIn = localStorage.getItem('session')
+  if ((authNotRequired && notLoggedIn) || publicPages.includes(`/${to.path.split('/')[1]}`)) {
+    next()
+  } else {
+    next('/')
+  }
+})
 
 function navigationGuards(access) {
   return () => {
-    if (localStorage.getItem('session') && !access.includes(parseJwt()?.role)) {
+    if (localStorage.getItem('session') && !access.includes(parseJwt()?.User?.role)) {
       router.push('/notfound')
     }
-    return access.includes(parseJwt()?.role)
+    return access.includes(parseJwt()?.User?.role)
   }
 }
 

@@ -4,6 +4,7 @@ import { useRouter } from 'vue-router'
 import { onClickOutside } from '@vueuse/core'
 import AuthService from '../services/auth.service'
 import { useModalStore } from '../store/modal.store'
+import { useAuthStore } from '../store/auth.store'
 import UserIcon from '../assets/icons/UserIcon.vue'
 import LogoutIcon from './../assets/icons/LogoutIcon.vue'
 import SettingsIcon from '../assets/icons/SettingsIcon.vue'
@@ -31,15 +32,17 @@ const logout = () => {
     <div class="flex items-center justify-between px-3">
       <div class="inline-flex items-center space-x-2">
         <div class="relative flex items-center justify-center w-8 h-8 lg:w-10 lg:h-10 bg-[#0167f3] text-white text-lg font-medium rounded-full">
-          <span>JS</span>
+          <span>            
+            {{ useAuthStore().user?.firstname?.at(0) + useAuthStore().user?.lastname?.at(0) }}
+          </span>
           <div class="absolute bottom-0 right-0 w-3 h-3 rounded-full bg-green-400 border border-white"></div>
         </div>
         <div>
-          <div class="text-base font-medium text-gray-700 text-center">
-            Muhammadyusufov S.  
+          <div class="text-base font-medium text-gray-700 whitespace-nowrap">
+            {{ useAuthStore().user?.firstname + ' ' + useAuthStore().user?.lastname }}
           </div>
           <div class="text-gray-600">
-            Tech admin
+            {{ useAuthStore().user?.role }}
           </div>
         </div>
       </div>

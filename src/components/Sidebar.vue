@@ -1,15 +1,19 @@
 <script setup>
+import { ref, onMounted } from 'vue'
 import HouseIcon from './../assets/icons/HouseIcon.vue'
 import MoneyIcon from './../assets/icons/MoneyIcon.vue'
 import PhShoppingCart from '../assets/icons/ShoppingCartIcon.vue'
 import UsersIcon from '../assets/icons/UsersIcon.vue'
 import StoreIcon from '../assets/icons/StoreIcon.vue'
 import { useRouter } from 'vue-router'
-import { useSidebarStore } from '../store/sidebar.store.js'
-import { onMounted } from 'vue'
+import decodeJwt, { parseJwt } from '../mixins/utils';
+import { useSidebarStore } from '../store/sidebar.store'
 import ProfileDropDown from './ProfileDropDown.vue'
+import { useAuthStore } from '../store/auth.store'
 
 const router = useRouter()
+
+const payload = ref({})
 
 const getCurrentPageName = (pageName)=>{
   useSidebarStore().setCurrentPage(pageName)
@@ -25,6 +29,11 @@ const currentPage = useSidebarStore().currentPage
 onMounted(() => {
   useSidebarStore().setCurrentPage(currentPage);
 });
+
+onMounted(() => {
+  useAuthStore().setUser(decodeJwt(JSON.parse(localStorage.getItem('session'))?.accessToken))
+  payload.value = parseJwt()
+})
 </script>
 <template>
   <div class="relative z-40" v-if="useSidebarStore().toggleSidebar">

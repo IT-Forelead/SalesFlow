@@ -1,9 +1,13 @@
 <script setup>
-import { reactive, ref } from '@vue/reactivity';
-import { useRouter } from 'vue-router';
+import { reactive, ref } from '@vue/reactivity'
+import { useRouter } from 'vue-router'
 import { toast } from 'vue-sonner'
 import EyeIcon from '../assets/icons/EyeIcon.vue'
 import EyeSlashIcon from '../assets/icons/EyeSlashIcon.vue'
+import Spinners270RingIcon from '../assets/icons/Spinners270RingIcon.vue'
+import AuthService from '../services/auth.service'
+import decodeJwt from '../mixins/utils';
+import { useAuthStore } from '../store/auth.store'
 
 const isLoading = ref(false)
 const hidePassword = ref(true)
@@ -21,33 +25,29 @@ const login = () => {
   if (!submitData.login) {
     toast.error('Please enter your login!')
   } else if (!submitData.password) {
-    toast.error('Please enter your login!')
+    toast.error('Please enter your password!')
   } else {
-    // isLoading.value = true
-    // AuthService.login({
-    //   phone: loginFormData.phone,
-    //   password: loginFormData.password,
-    // })
-    //   .then((res) => {
-    //     if (res) {
-    //       useAuthStore().setToken(res?.accessToken)
-    //       useAuthStore().setUser(decodeJwt(res?.accessToken))
-    //       isLoading.value = false
-    //       if (localStorage.getItem('session')) {
-    //         setTimeout(() => {
-    //           router.push('/dashboard')
-    //         }, 200)
-    //       }
-    //     }
-    //   })
-    //   .catch((err) => {
-    //     notify.warning({
-    //       message: t('phoneOrPasswordIncorrect'),
-    //     })
-    //     setTimeout(() => {
-    //       isLoading.value = false
-    //     }, 3000)
-    //   })
+    isLoading.value = true
+    AuthService.login({
+      login: submitData.login,
+      password: submitData.password,
+    }).then((res) => {
+      if (res) {
+        useAuthStore().setToken(res?.accessToken)
+        useAuthStore().setUser(decodeJwt(res?.accessToken))
+        isLoading.value = false
+        if (localStorage.getItem('session')) {
+          setTimeout(() => {
+            router.push('/dashboard')
+          }, 200)
+        }
+      }
+    }).catch((err) => {
+      toast.error('Login yoki parol xato!')
+      setTimeout(() => {
+        isLoading.value = false
+      }, 3000)
+    })
   }
 }
 
@@ -107,7 +107,15 @@ const login = () => {
             </div>
           </div>
         </div>
-        <button @click="login()"
+        <button v-if="isLoading"
+          class="inline-flex items-center justify-center rounded-lg p-2.5 text-base font-semibold bg-blue-600 text-white mt-8 w-full cursor-default"
+          type="submit">
+            <Spinners270RingIcon class="mr-2 w-5 h-5 text-gray-200 animate-spin dark:text-gray-600 fill-gray-600 dark:fill-gray-300" />
+            <span>
+              Kirish
+            </span>
+        </button>
+        <button v-else @click="login()"
           class="inline-flex items-center justify-center rounded-lg p-2.5 text-base font-semibold bg-blue-500 text-white hover:bg-blue-600 mt-8 w-full cursor-pointer"
           type="submit">
           Kirish
