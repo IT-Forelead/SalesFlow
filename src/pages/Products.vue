@@ -9,7 +9,7 @@ import ProductService from '../services/product.service'
 import { useProductStore } from '../store/product.store'
 import SearchIcon from '../assets/icons/SearchIcon.vue'
 
-const globaleSearchFromTable = ref('')
+const globalSearchFromTable = ref('')
 
 const columns = [
   {
@@ -41,15 +41,12 @@ const columns = [
   },
 ]
 
-const products = computed(() => {
-  return useProductStore().products
-})
+const products = ref([])
 
 onMounted(() => {
   ProductService.getProducts({})
     .then((res) => {
-      useProductStore().clearStore()
-      useProductStore().setProducts(res)
+      products.value = res
     })
 })
 </script>
@@ -100,7 +97,7 @@ onMounted(() => {
           <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
             <SearchIcon class="w-5 h-5 text-slate-400" />
           </div>
-          <input type="search" v-model="globaleSearchFromTable"
+          <input type="search" v-model="globalSearchFromTable"
             class="bg-slate-100 border-none text-slate-900 text-base md:text-lg rounded-full block pl-10 py-2 placeholder-slate-400"
             placeholder="Search everything...">
         </div>

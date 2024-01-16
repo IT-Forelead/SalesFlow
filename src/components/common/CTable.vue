@@ -28,6 +28,7 @@ watch(() => props.data, (val) => {
   immediate: true,
   deep: true
 })
+
 const table = useVueTable({
   data: data.value,
   columns: props.columns,
