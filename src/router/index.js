@@ -80,10 +80,10 @@ router.beforeEach((to, from, next) => {
 
 function navigationGuards(access) {
   return () => {
-    if (localStorage.getItem('session') && !access.includes(parseJwt()?.User?.role)) {
+    if (localStorage.getItem('session') && !access.includes(parseJwt()?.role)) {
       router.push('/notfound')
     }
-    return access.includes(parseJwt()?.User?.role)
+    return access.includes(parseJwt()?.role)
   }
 }
 
