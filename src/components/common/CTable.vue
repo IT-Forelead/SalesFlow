@@ -1,5 +1,5 @@
 <script setup>
-import { computed, ref } from 'vue'
+import { computed, ref, watch } from 'vue'
 import {
   useVueTable,
   FlexRender,
@@ -20,9 +20,13 @@ const props = defineProps({
 })
 
 const sorting = ref([])
+const data = ref()
 
+watch(() => props.data, (val) => {
+  data.value = val
+})
 const table = useVueTable({
-  data: props.data,
+  data: data.value,
   columns: props.columns,
   getCoreRowModel: getCoreRowModel(),
   getPaginationRowModel: getPaginationRowModel(),
