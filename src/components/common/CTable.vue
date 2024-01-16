@@ -24,6 +24,9 @@ const data = ref()
 
 watch(() => props.data, (val) => {
   data.value = val
+}, {
+  immediate: true,
+  deep: true
 })
 const table = useVueTable({
   data: data.value,
