@@ -8,7 +8,6 @@ import {
   getSortedRowModel,
   getFilteredRowModel,
 } from '@tanstack/vue-table'
-import SearchIcon from '../../assets/icons/SearchIcon.vue'
 import CaretDoubleLeftIcon from '../../assets/icons/CaretDoubleLeftIcon.vue';
 import CaretDoubleRightIcon from '../../assets/icons/CaretDoubleRightIcon.vue';
 import CaretLeftIcon from '../../assets/icons/CaretLeftIcon.vue';
