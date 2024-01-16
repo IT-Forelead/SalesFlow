@@ -1,15 +1,17 @@
 <script setup>
-import { computed, ref } from '@vue/reactivity'
-import { h, onMounted } from 'vue'
+import { ref } from '@vue/reactivity'
+import { h } from 'vue'
+import SearchIcon from '../assets/icons/SearchIcon.vue'
+import Spinners270RingIcon from '../assets/icons/Spinners270RingIcon.vue'
 import TotalProductIcon from '../assets/icons/TotalProductIcon.vue'
 import CTable from '../components/common/CTable.vue'
-import EditProductModal from '../components/modals/EditProductModal.vue'
 import DeleteProductModal from '../components/modals/DeleteProductModal.vue'
+import EditProductModal from '../components/modals/EditProductModal.vue'
 import ProductService from '../services/product.service'
-import { useProductStore } from '../store/product.store'
-import SearchIcon from '../assets/icons/SearchIcon.vue'
 
 const globalSearchFromTable = ref('')
+const products = ref([])
+const isLoading = ref(false)
 
 const columns = [
   {
@@ -41,14 +43,17 @@ const columns = [
   },
 ]
 
-const products = ref([])
-
-onMounted(() => {
+const getProducts = () => {
+  isLoading.value = true
   ProductService.getProducts({})
     .then((res) => {
       products.value = res
+    }).finally(() => {
+      isLoading.value = false
     })
-})
+}
+
+getProducts()
 </script>
 
 <template>
@@ -102,12 +107,16 @@ onMounted(() => {
             placeholder="Search everything...">
         </div>
         <div>
-          <button class="w-full py-2 px-4 rounded-full text-white text-lg font-medium bg-blue-500 cursor-pointer hover:bg-blue-600">
+          <button
+            class="w-full py-2 px-4 rounded-full text-white text-lg font-medium bg-blue-500 cursor-pointer hover:bg-blue-600">
             Mahsulot qo'shish
           </button>
         </div>
       </div>
-      <CTable :data="products" :columns="columns" :filter="globaleSearchFromTable" />
+      <div v-if="isLoading" class="flex items-center justify-center h-20">
+        <Spinners270RingIcon class="w-6 h-6 text-gray-500 animate-spin" />
+      </div>
+      <CTable v-else :data="products" :columns="columns" :filter="globalSearchFromTable" />
     </div>
   </div>
 </template>

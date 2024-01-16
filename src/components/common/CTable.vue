@@ -1,13 +1,13 @@
 <script setup>
-import { computed, ref, watch } from 'vue'
 import {
-  useVueTable,
   FlexRender,
   getCoreRowModel,
+  getFilteredRowModel,
   getPaginationRowModel,
   getSortedRowModel,
-  getFilteredRowModel,
-} from '@tanstack/vue-table'
+  useVueTable,
+} from '@tanstack/vue-table';
+import { computed, ref, watch } from 'vue';
 import CaretDoubleLeftIcon from '../../assets/icons/CaretDoubleLeftIcon.vue';
 import CaretDoubleRightIcon from '../../assets/icons/CaretDoubleRightIcon.vue';
 import CaretLeftIcon from '../../assets/icons/CaretLeftIcon.vue';

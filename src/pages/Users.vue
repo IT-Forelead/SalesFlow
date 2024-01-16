@@ -1,15 +1,17 @@
 <script setup>
-import { computed, ref } from '@vue/reactivity'
-import { h, onMounted } from 'vue'
-import CTable from '../components/common/CTable.vue'
+import { ref } from '@vue/reactivity'
 import moment from 'moment'
-import EditProductModal from '../components/modals/EditProductModal.vue'
-import DeleteProductModal from '../components/modals/DeleteProductModal.vue'
-import UserService from '../services/user.service'
-import { useUserStore } from '../store/user.store'
+import { h } from 'vue'
 import SearchIcon from '../assets/icons/SearchIcon.vue'
+import Spinners270RingIcon from '../assets/icons/Spinners270RingIcon.vue'
+import CTable from '../components/common/CTable.vue'
+import DeleteProductModal from '../components/modals/DeleteProductModal.vue'
+import EditProductModal from '../components/modals/EditProductModal.vue'
+import UserService from '../services/user.service'
 
-const globaleSearchFromTable = ref('')
+const globalSearchFromTable = ref('')
+const users = ref([])
+const isLoading = ref(false)
 
 const columns = [
   {
@@ -53,17 +55,17 @@ const columns = [
   },
 ]
 
-const users = computed(() => {
-  return useUserStore().users
-})
-
-onMounted(() => {
+const getUsers = () => {
+  isLoading.value = true
   UserService.getUsers({})
     .then((res) => {
-      useUserStore().clearStore()
-      useUserStore().setUsers(res)
+      users.value = res
+    }).finally(() => {
+      isLoading.value = false
     })
-})
+}
+
+getUsers()
 </script>
 
 <template>
@@ -78,11 +80,15 @@ onMounted(() => {
           placeholder="Search everything...">
       </div>
       <div>
-        <button class="w-full py-2 px-4 rounded-full text-white text-lg font-medium bg-blue-500 cursor-pointer hover:bg-blue-600">
+        <button
+          class="w-full py-2 px-4 rounded-full text-white text-lg font-medium bg-blue-500 cursor-pointer hover:bg-blue-600">
           Foydalanuvchi qo'shish
         </button>
       </div>
     </div>
-    <CTable :data="users" :columns="columns" :filter="globaleSearchFromTable" />
+    <div v-if="isLoading" class="flex items-center justify-center h-20">
+      <Spinners270RingIcon class="w-6 h-6 text-gray-500 animate-spin" />
+    </div>
+    <CTable v-else :data="users" :columns="columns" :filter="globalSearchFromTable" />
   </div>
 </template>
