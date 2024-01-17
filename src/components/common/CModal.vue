@@ -28,7 +28,7 @@ const props = defineProps({
               <PhX class="w-5 h-5"/>
             </button>
           </div>
-          <h3 class="text-xl font-bold text-slate-900 md:flex-1">
+          <h3 class="text-xl font-bold text-slate-900">
             <slot name="header">
               This is the default title!
             </slot>
