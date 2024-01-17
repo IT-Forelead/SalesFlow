@@ -18,6 +18,7 @@ const closeModal = () => {
       <PhPencilLine class="w-6 h-6 text-blue-600 hover:scale-105" />
     </button>
     <CModal
+      :is-open="useModalStore().isEditProductModalOpen"
       v-if="useModalStore().isEditProductModalOpen"
       @close=closeModal
     >

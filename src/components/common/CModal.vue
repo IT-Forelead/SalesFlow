@@ -5,14 +5,17 @@ const emit = defineEmits(['close'])
 const close = () => {
   emit('close')
 }
+const props = defineProps({
+  isOpen:Boolean
+})
 </script>
 
 <template>
-  <div class="overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 w-full h-full cursor-default">
-    <div class="fixed top-0 right-0 bottom-0 left-0 bg-black opacity-5"></div>
+  <div  :class="[isOpen ? 'slide-in-right' : '' ]" class="overflow-y-auto overflow-x-hidden fixed top-0 right-0 backdrop-blur-sm left-0 z-50 w-full h-full cursor-default">
     <div class="absolute w-full max-w-md md:max-w-2xl lg:max-w-3xl xl:max-w-4xl right-0 top-1/2 -translate-y-1/2 mx-auto">
       <!-- Modal content -->
-      <div class="relative bg-white md:rounded-l-2xl drop-shadow min-h-screen w-full md:w-auto">
+      <div
+        class="relative bg-white md:rounded-l-2xl shadow-xl min-h-screen w-full md:w-auto ">
         <!-- Modal header -->
         <div class="w-full flex items-center p-4 md:p-5  border-b rounded-t">
           <div class="pr-4">
@@ -48,5 +51,16 @@ const close = () => {
 </template>
 
 <style scoped>
+@keyframes slideInRight {
+  from {
+    transform: translateX(100%);
+  }
+  to {
+    transform: translateX(0);
+  }
+}
+.slide-in-right {
+  animation: slideInRight 0.3s ease-out;
+}
 
 </style>
