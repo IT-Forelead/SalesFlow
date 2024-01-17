@@ -6,6 +6,7 @@ export const useModalStore = defineStore('modal', {
     isOpenNotification: false,
     isEditProductModalOpen: false,
     isDeleteProductModalOpen: false,
+    isOpenOrderInfoModal: false,
   }),
   actions:{
     openEditProductModal() {
@@ -19,6 +20,12 @@ export const useModalStore = defineStore('modal', {
     },
     closeDeleteProductModal() {
       this.isDeleteProductModalOpen = false
+    },
+    openOrderInfoModal() {
+      this.isOpenOrderInfoModal = true
+    },
+    closeOrderInfoModal() {
+      this.isOpenOrderInfoModal = false
     },
     toggleNotification() {
       this.isOpenNotification = !this.isOpenNotification

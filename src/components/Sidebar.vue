@@ -72,14 +72,21 @@ onMounted(() => {
             <div class="flex items-center justify-center rounded-xl w-10 h-10 second-child-bg-color">
               <PhShoppingCart class="w-6 h-6" />
             </div>
-            <div>Products</div>
+            <div>Mahsulotlar</div>
           </router-link>
-          <router-link to="/market-products" @click="getCurrentPageName('Products')" active-class="active" class="relative h-10 flex items-center w-full hover:bg-blue-300/10 hover:text-blue-600 py-7 text-zinc-400 text-lg font-medium space-x-4 cursor-pointer transition-colors duration-300">
+          <router-link to="/product-histories" @click="getCurrentPageName('Product histories')" active-class="active" class="relative h-10 flex items-center w-full hover:bg-blue-300/10 hover:text-blue-600 py-7 text-zinc-400 text-lg font-medium space-x-4 cursor-pointer transition-colors duration-300">
             <div class="w-1.5 h-12 rounded-r-xl first-child-bg-color mr-2"></div>
             <div class="flex items-center justify-center rounded-xl w-10 h-10 second-child-bg-color">
               <PhShoppingCart class="w-6 h-6" />
             </div>
-            <div>Market products</div>
+            <div>Mahsulotlar tarixi</div>
+          </router-link>
+          <router-link to="/orders" @click="getCurrentPageName('Orders')" active-class="active" class="relative h-10 flex items-center w-full hover:bg-blue-300/10 hover:text-blue-600 py-7 text-zinc-400 text-lg font-medium space-x-4 cursor-pointer transition-colors duration-300">
+            <div class="w-1.5 h-12 rounded-r-xl first-child-bg-color mr-2"></div>
+            <div class="flex items-center justify-center rounded-xl w-10 h-10 second-child-bg-color">
+              <PhShoppingCart class="w-6 h-6" />
+            </div>
+            <div>Sotuvlar</div>
           </router-link>
           <router-link to="/markets" @click="getCurrentPageName('Markets')" active-class="active" class="relative h-10 flex items-center w-full hover:bg-blue-300/10 hover:text-blue-600 py-7 text-zinc-400 text-lg font-medium space-x-4 cursor-pointer transition-colors duration-300">
             <div class="w-1.5 h-12 rounded-r-xl first-child-bg-color mr-2"></div>
