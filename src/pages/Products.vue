@@ -8,6 +8,7 @@ import CTable from '../components/common/CTable.vue'
 import DeleteProductModal from '../components/modals/DeleteProductModal.vue'
 import EditProductModal from '../components/modals/EditProductModal.vue'
 import ProductService from '../services/product.service'
+import { useModalStore } from '../store/modal.store'
 
 const globalSearchFromTable = ref('')
 const products = ref([])
@@ -107,7 +108,7 @@ getProducts()
             placeholder="Search everything...">
         </div>
         <div>
-          <button
+          <button @click="useModalStore().openCreateProductModal()"
             class="w-full py-2 px-4 rounded-full text-white text-lg font-medium bg-blue-500 cursor-pointer hover:bg-blue-600">
             Mahsulot qo'shish
           </button>

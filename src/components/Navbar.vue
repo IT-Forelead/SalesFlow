@@ -5,6 +5,8 @@ import { useModalStore } from '../store/modal.store.js'
 import { ref } from 'vue'
 import { onClickOutside } from '@vueuse/core'
 import CreateMarketModal from '../components/modals/CreateMarketModal.vue'
+import CreateProductModal from '../components/modals/CreateProductModal.vue'
+import CreateProductHistoryModal from '../components/modals/CreateProductHistoryModal.vue'
 
 const notificationDropdown = ref(null)
 
@@ -31,6 +33,8 @@ onClickOutside(notificationDropdown, () => {
   </div>
 
   <CreateMarketModal />
+  <CreateProductModal />
+  <CreateProductHistoryModal />
 </template>
 
 <style scoped></style>

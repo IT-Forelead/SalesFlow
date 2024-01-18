@@ -3,11 +3,11 @@ import { ref } from '@vue/reactivity'
 import { h } from 'vue'
 import SearchIcon from '../assets/icons/SearchIcon.vue'
 import Spinners270RingIcon from '../assets/icons/Spinners270RingIcon.vue'
-import TotalProductIcon from '../assets/icons/TotalProductIcon.vue'
 import CTable from '../components/common/CTable.vue'
 import DeleteProductModal from '../components/modals/DeleteProductModal.vue'
 import EditProductModal from '../components/modals/EditProductModal.vue'
 import ProductService from '../services/product.service'
+import { useModalStore } from '../store/modal.store'
 
 const globalSearchFromTable = ref('')
 const products = ref([])
@@ -68,7 +68,7 @@ getProducts()
                     placeholder="Search everything...">
             </div>
             <div>
-                <button
+                <button @click="useModalStore().openCreateProductHistoriyModal()"
                     class="w-full py-2 px-4 rounded-full text-white text-lg font-medium bg-blue-500 cursor-pointer hover:bg-blue-600">
                     Mahsulot qo'shish
                 </button>

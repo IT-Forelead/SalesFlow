@@ -34,15 +34,12 @@ const columns = [
   {
     accessorKey: 'role',
     header: 'Role',
+    accessorFn: row => row?.privileges.join(", "),
   },
   {
     accessorKey: 'createdAt',
     accessorFn: row => moment(row.createdAt).format('DD/MM/YYYY H:mm'),
     header: 'Yaratilgan vaqti',
-  },
-  {
-    accessorKey: 'active',
-    header: 'Active',
   },
   {
     accessorKey: 'edit',
