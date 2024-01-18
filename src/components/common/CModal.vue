@@ -11,7 +11,7 @@ const props = defineProps({
 </script>
 
 <template>
-  <div class="fixed top-0 right-0 bottom-0 bg-gray-800/25 left-0 z-50 backdrop-blur-sm"></div>
+  <div class="fixed top-0 right-0 bottom-0 left-0 z-50 backdrop-blur-[2px] bg-gray-900/70"></div>
   <div  :class="[isOpen ? 'slide-in-right' : '' ]" class="overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 w-full h-full cursor-default">
     <div class="absolute w-full max-w-md md:max-w-2xl lg:max-w-3xl xl:max-w-4xl right-0 top-1/2 -translate-y-1/2 mx-auto">
       <!-- Modal content -->
