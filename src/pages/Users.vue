@@ -8,8 +8,8 @@ import CTable from '../components/common/CTable.vue'
 import UserService from '../services/user.service'
 import EditUserModal from '../components/modals/EditUserModal.vue'
 import DeleteUserModal from '../components/modals/DeleteUserModal.vue'
-import CreateUserModal from '../components/modals/CreateUserModal.vue'
 import { useUserStore } from '../store/user.store.js'
+import { useModalStore } from '../store/modal.store.js'
 
 const globalSearchFromTable = ref('')
 // const users = ref([])
@@ -88,7 +88,9 @@ getUsers()
                placeholder="Search everything...">
       </div>
       <div>
-        <CreateUserModal />
+        <button @click="useModalStore().openCreateUserModal()" class="w-full py-2 px-4 rounded-full text-white text-lg font-medium bg-blue-500 cursor-pointer hover:bg-blue-600">
+          Foydalanuvchi qo'shish
+        </button>
       </div>
     </div>
     <div v-if="isLoading" class="flex items-center justify-center h-20">
