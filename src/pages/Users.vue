@@ -1,17 +1,24 @@
 <script setup>
 import { ref } from '@vue/reactivity'
 import moment from 'moment'
-import { h } from 'vue'
+import { computed, h } from 'vue'
 import SearchIcon from '../assets/icons/SearchIcon.vue'
 import Spinners270RingIcon from '../assets/icons/Spinners270RingIcon.vue'
 import CTable from '../components/common/CTable.vue'
-import DeleteProductModal from '../components/modals/DeleteProductModal.vue'
-import EditProductModal from '../components/modals/EditProductModal.vue'
 import UserService from '../services/user.service'
+import EditUserModal from '../components/modals/EditUserModal.vue'
+import DeleteUserModal from '../components/modals/DeleteUserModal.vue'
+import { useUserStore } from '../store/user.store.js'
+import { useModalStore } from '../store/modal.store.js'
 
 const globalSearchFromTable = ref('')
-const users = ref([])
+// const users = ref([])
 const isLoading = ref(false)
+
+const userStore = useUserStore()
+const users = computed(() => {
+  return userStore.users
+})
 
 const columns = [
   {
@@ -34,7 +41,7 @@ const columns = [
   {
     accessorKey: 'role',
     header: 'Role',
-    accessorFn: row => row?.privileges.join(", "),
+    accessorFn: row => row?.privileges.join(', '),
   },
   {
     accessorKey: 'createdAt',
@@ -45,8 +52,8 @@ const columns = [
     accessorKey: 'edit',
     header: 'Amallar',
     cell: ({ row }) => h('button', { class: 'flex space-x-2' }, [
-      h(EditProductModal, { id: row.original.id }),
-      h(DeleteProductModal, { id: row.original.id }),
+      h(EditUserModal, { id: row.original.id }),
+      h(DeleteUserModal, { id: row.original.id }),
     ]),
     enableSorting: false,
   },
@@ -56,13 +63,14 @@ const getUsers = () => {
   isLoading.value = true
   UserService.getUsers({})
     .then((res) => {
-      users.value = res
+      userStore.setUsers(res)
     }).finally(() => {
       isLoading.value = false
     })
 }
 
 getUsers()
+
 </script>
 
 <template>
@@ -76,12 +84,11 @@ getUsers()
           <SearchIcon class="w-5 h-5 text-slate-400" />
         </div>
         <input type="search" v-model="globalSearchFromTable"
-          class="bg-slate-100 border-none text-slate-900 text-base md:text-lg rounded-full block pl-10 py-2 placeholder-slate-400"
-          placeholder="Search everything...">
+               class="bg-slate-100 border-none text-slate-900 text-base md:text-lg rounded-full block pl-10 py-2 placeholder-slate-400"
+               placeholder="Search everything...">
       </div>
       <div>
-        <button
-          class="w-full py-2 px-4 rounded-full text-white text-lg font-medium bg-blue-500 cursor-pointer hover:bg-blue-600">
+        <button @click="useModalStore().openCreateUserModal()" class="w-full py-2 px-4 rounded-full text-white text-lg font-medium bg-blue-500 cursor-pointer hover:bg-blue-600">
           Foydalanuvchi qo'shish
         </button>
       </div>
