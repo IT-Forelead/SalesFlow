@@ -21,6 +21,7 @@ const cost = ref(0)
 
 </script>
 
+
 <template>
   <div class="flex">
     <div class="flex-auto w-2/3 space-y-4 py-8 px-8">

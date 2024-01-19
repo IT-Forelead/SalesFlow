@@ -1,6 +1,6 @@
 <script setup>
 import { ref } from '@vue/reactivity'
-import { h } from 'vue'
+import { computed, h } from 'vue'
 import SearchIcon from '../assets/icons/SearchIcon.vue'
 import Spinners270RingIcon from '../assets/icons/Spinners270RingIcon.vue'
 import CTable from '../components/common/CTable.vue'
@@ -8,10 +8,16 @@ import DeleteProductModal from '../components/modals/DeleteProductModal.vue'
 import EditProductModal from '../components/modals/EditProductModal.vue'
 import ProductService from '../services/product.service'
 import { useModalStore } from '../store/modal.store'
+import { useProductStore } from '../store/product.store'
 
 const globalSearchFromTable = ref('')
-const products = ref([])
 const isLoading = ref(false)
+
+const productStore = useProductStore()
+
+const products = computed(() => {
+  return productStore.products
+})
 
 const columns = [
   {
@@ -47,7 +53,8 @@ const getProducts = () => {
   isLoading.value = true
   ProductService.getProducts({})
     .then((res) => {
-      products.value = res
+      useProductStore().clearStore()
+      useProductStore().setProducts(res)
     }).finally(() => {
       isLoading.value = false
     })
