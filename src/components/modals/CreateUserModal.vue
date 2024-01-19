@@ -19,6 +19,7 @@ const privileges = ref([
   { name: 'Admin', code: ['create_user', 'update_user', 'update_any_user', 'view_users', 'create_product'] },
   { name: 'Boshqaruvchi', code: ['create_user', 'view_users', 'update_user'] },
 ])
+
 const submitForm = reactive({
   firstname: '',
   lastname: '',
@@ -68,16 +69,15 @@ const createUser = () => {
         UserService.getUsers()
           .then((res) => {
               useUserStore().clearStore()
-            setTimeout(()=>{
               useUserStore().setUsers(res)
-            }, 100)
+            console.log(useUserStore().users)
           })
-          .catch((err) => {
+          .catch(() => {
             toast.error('Foydalanuvchilar topilmadi!')
           })
       })
       .catch((err) => {
-        toast.error('Foydalanuvchi yaratishda xatolik!')
+        toast.error('Foydalanuvchi yaratishda xatolik!', err)
         isLoading.value = false
       })
     closeModal()
@@ -149,7 +149,6 @@ const createUser = () => {
               <label for="password"
                      class="block mb-2 text-neutral-800 text-base font-normal after:text-red-500 after:content-['*']">Rol
                 tanlash</label>
-
               <MultiSelect
                 :show-toggle-all="false"
                 :display="'chip'"

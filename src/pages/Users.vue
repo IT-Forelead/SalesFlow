@@ -1,7 +1,7 @@
 <script setup>
 import { ref } from '@vue/reactivity'
 import moment from 'moment'
-import { computed, h, onMounted } from 'vue'
+import { computed, h } from 'vue'
 import SearchIcon from '../assets/icons/SearchIcon.vue'
 import Spinners270RingIcon from '../assets/icons/Spinners270RingIcon.vue'
 import CTable from '../components/common/CTable.vue'
@@ -12,8 +12,13 @@ import CreateUserModal from '../components/modals/CreateUserModal.vue'
 import { useUserStore } from '../store/user.store.js'
 
 const globalSearchFromTable = ref('')
-const users = ref([])
+// const users = ref([])
 const isLoading = ref(false)
+
+const userStore = useUserStore()
+const users = computed(() => {
+  return userStore.users
+})
 
 const columns = [
   {
@@ -36,7 +41,7 @@ const columns = [
   {
     accessorKey: 'role',
     header: 'Role',
-    accessorFn: row => row?.privileges.join(", "),
+    accessorFn: row => row?.privileges.join(', '),
   },
   {
     accessorKey: 'createdAt',
@@ -53,14 +58,12 @@ const columns = [
     enableSorting: false,
   },
 ]
-const data = computed(()=>{
-  return useUserStore().users
-})
+
 const getUsers = () => {
   isLoading.value = true
   UserService.getUsers({})
     .then((res) => {
-      users.value = res
+      userStore.setUsers(res)
     }).finally(() => {
       isLoading.value = false
     })
@@ -81,16 +84,16 @@ getUsers()
           <SearchIcon class="w-5 h-5 text-slate-400" />
         </div>
         <input type="search" v-model="globalSearchFromTable"
-          class="bg-slate-100 border-none text-slate-900 text-base md:text-lg rounded-full block pl-10 py-2 placeholder-slate-400"
-          placeholder="Search everything...">
+               class="bg-slate-100 border-none text-slate-900 text-base md:text-lg rounded-full block pl-10 py-2 placeholder-slate-400"
+               placeholder="Search everything...">
       </div>
       <div>
-       <CreateUserModal :users="users"/>
+        <CreateUserModal />
       </div>
     </div>
     <div v-if="isLoading" class="flex items-center justify-center h-20">
       <Spinners270RingIcon class="w-6 h-6 text-gray-500 animate-spin" />
     </div>
-    <CTable v-else :data="users" :columns="columns" :filter="globalSearchFromTable"  />
+    <CTable v-else :data="users" :columns="columns" :filter="globalSearchFromTable" />
   </div>
 </template>
