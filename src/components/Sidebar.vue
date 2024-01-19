@@ -41,7 +41,7 @@ onMounted(() => {
          :class="useSidebarStore().isOpenSidebar ? 'opacity-100' : 'opacity-0 pointer-events-none'" @click="closeSidebar">
     </div>
     <div id="sidebar" ref="sidebar"
-         class="flex flex-col bg-white absolute z-40 left-0 top-0 lg:static border-r lg:left-auto lg:top-auto lg:translate-x-0 min-h-screen w-64 2xl:w-72 shrink-0 transition-all duration-200 ease-in-out"
+         class="flex flex-col bg-slate-100 absolute z-40 left-0 top-0 lg:static border-r lg:left-auto lg:top-auto lg:translate-x-0 min-h-screen w-64 2xl:w-72 shrink-0 transition-all duration-200 ease-in-out"
          :class="useSidebarStore().isOpenSidebar ? 'translate-x-0' : '-translate-x-64'">
       <div class="h-20 flex space-x-1 items-center justify-center">
         <img src="/images/logo.svg" class="w-12 h-12" alt="#">

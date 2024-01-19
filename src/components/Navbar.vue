@@ -4,6 +4,9 @@ import HamburgerMenuOutlineIcon from '../assets/icons/HamburgerMenuOutlineIcon.v
 import { useModalStore } from '../store/modal.store.js'
 import { ref } from 'vue'
 import { onClickOutside } from '@vueuse/core'
+import CreateMarketModal from '../components/modals/CreateMarketModal.vue'
+import CreateProductModal from '../components/modals/CreateProductModal.vue'
+import CreateProductHistoryModal from '../components/modals/CreateProductHistoryModal.vue'
 
 const notificationDropdown = ref(null)
 
@@ -16,8 +19,7 @@ onClickOutside(notificationDropdown, () => {
 </script>
 
 <template>
-  <div
-    class="sticky top-0 z-50 flex items-center w-full px-6 py-4 lg:pt-4 lg:pb-2 bg-white border-b border-gray-200 shadow-7xl lg:bg-transparent lg:border-0 lg:shadow-none">
+  <div class="sticky top-0 z-50 flex items-center w-full px-6 py-4 bg-white border-b border-gray-200 shadow-7xl lg:hidden">
     <div class="flex space-x-4 items-center">
       <div @click="useSidebarStore().toggleSidebar"
            class="flex lg:hidden items-center justify-center w-8 h-8 rounded-lg cursor-pointer hover:bg-gray-100">
@@ -28,6 +30,10 @@ onClickOutside(notificationDropdown, () => {
       </div>
     </div>
   </div>
+
+  <CreateMarketModal />
+  <CreateProductModal />
+  <CreateProductHistoryModal />
 </template>
 
 <style scoped></style>

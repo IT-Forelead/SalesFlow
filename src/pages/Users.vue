@@ -36,15 +36,12 @@ const columns = [
   {
     accessorKey: 'role',
     header: 'Role',
+    accessorFn: row => row?.privileges.join(", "),
   },
   {
     accessorKey: 'createdAt',
     accessorFn: row => moment(row.createdAt).format('DD/MM/YYYY H:mm'),
     header: 'Yaratilgan vaqti',
-  },
-  {
-    accessorKey: 'active',
-    header: 'Active',
   },
   {
     accessorKey: 'edit',
@@ -74,7 +71,10 @@ getUsers()
 </script>
 
 <template>
-  <div class="bg-white rounded-3xl shadow px-4 py-4 lg:px-8">
+  <div class="p-8">
+    <div class="text-slate-900 text-2xl md:text-3xl font-semibold mb-6">
+      Foydalanuvchilar
+    </div>
     <div class="flex items-center justify-between my-2">
       <div class="relative">
         <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">

@@ -10,6 +10,9 @@ export const useModalStore = defineStore('modal', {
     isEditUserModalOpen: false,
     isDeleteUserModalOpen: false,
     isOpenOrderInfoModal: false,
+    isOpenCreateMarketModal: false,
+    isOpenCreateProductModal: false,
+    isOpenCreateProductHistoryModal: false,
   }),
   actions:{
     openCreateUserModal() {
@@ -47,6 +50,24 @@ export const useModalStore = defineStore('modal', {
     },
     closeOrderInfoModal() {
       this.isOpenOrderInfoModal = false
+    },
+    openCreateMarketModal() {
+      this.isOpenCreateMarketModal = true
+    },
+    closeCreateMarketModal() {
+      this.isOpenCreateMarketModal = false
+    },
+    openCreateProductModal() {
+      this.isOpenCreateProductModal = true
+    },
+    closeCreateProductModal() {
+      this.isOpenCreateProductModal = false
+    },
+    openCreateProductHistoriyModal() {
+      this.isOpenCreateProductHistoryModal = true
+    },
+    closeCreateProductHistoriyModal() {
+      this.isOpenCreateProductHistoryModal = false
     },
     toggleNotification() {
       this.isOpenNotification = !this.isOpenNotification
