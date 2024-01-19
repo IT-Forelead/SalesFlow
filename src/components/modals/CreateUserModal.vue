@@ -12,13 +12,19 @@ import { useUserStore } from '../../store/user.store.js'
 import { vMaska } from 'maska'
 
 const isLoading = ref(false)
+const selectedRole = ref([])
 
+const privileges = ref([
+  { name: 'Kassir', code: ['create_product'] },
+  { name: 'Admin', code: ['create_user', 'update_user', 'update_any_user', 'view_users', 'create_product'] },
+  { name: 'Boshqaruvchi', code: ['create_user', 'view_users', 'update_user'] },
+])
 const submitForm = reactive({
   firstname: '',
   lastname: '',
   login: '',
   password: '',
-  privileges: [''],
+  privileges: [],
   phone: '',
 })
 
@@ -37,40 +43,46 @@ const closeModal = () => {
 }
 
 const createUser = () => {
-  isLoading.value = true
   submitForm.privileges = selectedRole.value.flatMap(role => role.code)
-  const formData = new FormData()
-  formData.append('firstname', submitForm.firstname)
-  formData.append('lastname', submitForm.lastname)
-  formData.append('login', submitForm.login)
-  formData.append('password', submitForm.password)
-  submitForm.privileges.forEach(privilege => {
-    formData.append('privileges[]', privilege)
-  })
-  console.log(submitForm.privileges)
-  formData.append('phone', submitForm.phone)
-  UserService.createUser(formData)
-    .then(() => {
-      toast.success('Foydalanuvchi muvaffaqiyatli yaratildi!')
-      isLoading.value = false
-      UserService.getUsers()
-        .then((res) => {
-          useUserStore().clearStore()
-          setTimeout(() => {
-            useUserStore().setUsers(res?.data)
-          }, 500)
-        })
-
-
+  if (!submitForm.firstname) return toast.warning('Iltimos ism kiriting')
+  if (!submitForm.lastname) return toast.warning('Iltimos familiya kiriting')
+  if (!submitForm.login) return toast.warning('Iltimos login kiriting')
+  if (!submitForm.password) return toast.warning('Iltimos parol kiriting')
+  if (submitForm.privileges.length === 0) return toast.warning('Iltimos rol tanlang')
+  if (!submitForm.phone) return toast.warning('Iltimos telefon raqam kiriting')
+  else {
+    isLoading.value = true
+    const formData = new FormData()
+    formData.append('firstname', submitForm.firstname)
+    formData.append('lastname', submitForm.lastname)
+    formData.append('login', submitForm.login)
+    formData.append('password', submitForm.password)
+    submitForm.privileges.forEach(privilege => {
+      formData.append('privileges[]', privilege)
     })
+    formData.append('phone', submitForm.phone.replace(/([() -])/g, ''))
+    UserService.createUser(formData)
+      .then(() => {
+        toast.success('Foydalanuvchi muvaffaqiyatli yaratildi!')
+        isLoading.value = false
+        UserService.getUsers()
+          .then((res) => {
+              useUserStore().clearStore()
+            setTimeout(()=>{
+              useUserStore().setUsers(res)
+            }, 100)
+          })
+          .catch((err) => {
+            toast.error('Foydalanuvchilar topilmadi!')
+          })
+      })
+      .catch((err) => {
+        toast.error('Foydalanuvchi yaratishda xatolik!')
+        isLoading.value = false
+      })
+    closeModal()
+  }
 }
-const selectedRole = ref()
-const privileges = ref([
-  { name: 'Kassir', code: ['create_product'] },
-  { name: 'Admin', code: ['create_user', 'update_user', 'update_any_user', 'view_users', 'create_product'] },
-  { name: 'Boshqaruvchi', code: ['create_user', 'view_users', 'update_user'] },
-])
-
 </script>
 
 <template>
@@ -155,6 +167,8 @@ const privileges = ref([
             <div class="w-full">
               <label for="phone" class="block mb-2 text-neutral-800 text-base font-normal">Telefon raqam:</label>
               <input
+                v-maska
+                data-maska="+998(##) ###-##-##"
                 v-model="submitForm.phone"
                 placeholder="+998(00) 000-00-00"
                 type="text"
@@ -163,13 +177,11 @@ const privileges = ref([
                 class="bg-slate-50 border border-slate-200 text-slate-900 text-base rounded-2xl focus:ring-green-400/40 focus:border-green-400/40 focus:ring-4 block w-full p-2.5"
               >
             </div>
-            {{ submitForm.privileges }}
-            {{ submitForm.phone }}
           </div>
         </form>
       </template>
       <template v-slot:footer>
-        <SaveButton :isLoading="isLoading" @click="createUser"/>
+        <SaveButton :isLoading="isLoading" @click="createUser" />
         <CancelButton @click="closeModal" />
       </template>
     </CModal>

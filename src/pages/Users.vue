@@ -1,7 +1,7 @@
 <script setup>
 import { ref } from '@vue/reactivity'
 import moment from 'moment'
-import { h } from 'vue'
+import { computed, h, onMounted } from 'vue'
 import SearchIcon from '../assets/icons/SearchIcon.vue'
 import Spinners270RingIcon from '../assets/icons/Spinners270RingIcon.vue'
 import CTable from '../components/common/CTable.vue'
@@ -9,6 +9,7 @@ import UserService from '../services/user.service'
 import EditUserModal from '../components/modals/EditUserModal.vue'
 import DeleteUserModal from '../components/modals/DeleteUserModal.vue'
 import CreateUserModal from '../components/modals/CreateUserModal.vue'
+import { useUserStore } from '../store/user.store.js'
 
 const globalSearchFromTable = ref('')
 const users = ref([])
@@ -55,7 +56,9 @@ const columns = [
     enableSorting: false,
   },
 ]
-
+const data = computed(()=>{
+  return useUserStore().users
+})
 const getUsers = () => {
   isLoading.value = true
   UserService.getUsers({})
@@ -67,6 +70,7 @@ const getUsers = () => {
 }
 
 getUsers()
+
 </script>
 
 <template>
@@ -81,12 +85,12 @@ getUsers()
           placeholder="Search everything...">
       </div>
       <div>
-       <CreateUserModal/>
+       <CreateUserModal :users="users"/>
       </div>
     </div>
     <div v-if="isLoading" class="flex items-center justify-center h-20">
       <Spinners270RingIcon class="w-6 h-6 text-gray-500 animate-spin" />
     </div>
-    <CTable v-else :data="users" :columns="columns" :filter="globalSearchFromTable" />
+    <CTable v-else :data="users" :columns="columns" :filter="globalSearchFromTable"  />
   </div>
 </template>
