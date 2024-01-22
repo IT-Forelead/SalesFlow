@@ -1,15 +1,20 @@
 <script setup>
 import { ref } from '@vue/reactivity'
+import { toast } from 'vue-sonner'
+import { cleanObjectEmptyFields } from '../mixins/utils'
 import ImageIcon from '../assets/icons/ImageIcon.vue';
 import MinusIcon from '../assets/icons/MinusIcon.vue';
 import PlusIcon from '../assets/icons/PlusIcon.vue';
 import TrashIcon from '../assets/icons/TrashIcon.vue';
 import SearchIcon from '../assets/icons/SearchIcon.vue';
 import MoneyIcon from '../assets/icons/MoneyIcon.vue';
-import CreditCardIcon from '../assets/icons/CreditCardIcon.vue';
+import XIcon from '../assets/icons/XIcon.vue';
+import useMoneyFormatter from '../mixins/currencyFormatter.js'
 import ClockIcon from '../assets/icons/ClockIcon.vue';
 import ArrowsLeftRightIcon from '../assets/icons/ArrowsLeftRightIcon.vue';
-import UserIcon from '../assets/icons/UserIcon.vue';
+import ProductService from '../services/product.service';
+import { useProductStore } from '../store/product.store';
+import { computed, onMounted } from 'vue';
 
 const moneyConf = {
   thousands: ' ',
@@ -18,26 +23,90 @@ const moneyConf = {
 }
 
 const cost = ref(0)
+const search = ref('')
+const isLoading = ref(false)
+const selectedProducts = ref([])
 
+const productStore = useProductStore()
+
+const products = computed(() => {
+  return productStore.products
+})
+
+const searchProducts = () => {
+  if (!search.value) {
+    toast.error('Mahsulot nomi yoki shtrix kodini kiriting!')
+  } else {
+    isLoading.value = true
+    ProductService.getProducts(
+      cleanObjectEmptyFields({
+        name: search.value,
+      })
+    ).then((res) => {
+      useProductStore().clearStore()
+      useProductStore().setProducts(res)
+    })
+  }
+}
+
+
+const clearSearchInput = () => {
+  search.value = ''
+  useProductStore().clearStore()
+}
+
+onMounted(() => {
+  useProductStore().clearStore()
+})
 </script>
 
-
 <template>
+  <div v-if="products.length > 0" class="fixed top-0 right-0 bottom-0 left-0 z-50 backdrop-blur-[2px] bg-gray-900/70"></div>
   <div class="flex">
     <div class="flex-auto w-2/3 space-y-4 py-8 px-8">
       <div class="flex items-center space-x-2 pb-2">
-        <div class="relative flex-auto">
+        <div class="relative flex-auto z-50">
           <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
             <SearchIcon class="w-5 h-5 text-slate-400" />
           </div>
-          <input type="search"
+          <input v-model="search" type="search"
             class="bg-slate-100 border-none text-slate-900 text-base md:text-lg rounded-xl block w-full h-12 pl-10 py-2 placeholder-slate-400"
             placeholder="Mahsulot nomi bo'yicha izlash...">
-          <button type="button" class="absolute inset-y-0 right-0 px-4 bg-[#0167F3] text-white rounded-xl">
+          <div v-if="search" @click="clearSearchInput()" class="absolute inset-y-0 right-20 p-1 flex items-center cursor-pointer">
+            <XIcon class="w-5 h-5 text-slate-600" />
+          </div>
+          <button @click="searchProducts()" type="button"
+            class="absolute inset-y-0 right-0 px-4 bg-[#0167F3] text-white rounded-xl">
             Izlash
           </button>
-          <!-- <div class="absolute top-12 left-0 bg-white border shadow-sm rounded-xl h-20 w-full">
-          </div> -->
+          <div v-if="products.length > 0" class="absolute top-16 left-0 bg-transparent w-full space-y-2 z-50">
+            <div v-for="(product, idx) in products" :key="idx" class="flex items-center justify-between bg-white border shadow-sm rounded-xl px-3 py-2 w-full cursor-pointer hover:bg-slate-100">
+              <div class="flex items-center space-x-3">
+                <div class="flex items-center justify-center bg-slate-200 w-10 h-10 rounded-lg">
+                  <ImageIcon class="text-gray-500 w-8 h-8" />
+                </div>
+                <div>
+                  <div class="text-base font-semibold text-gray-800">
+                    {{ product?.name }}
+                  </div>
+                  <div class="text-base font-medium text-gray-500">
+                    {{ product?.barcode }}
+                  </div>
+                </div>
+              </div>
+              <div>
+                <div class="text-base font-semibold text-gray-800">
+                  {{ useMoneyFormatter(product?.price) }}
+                </div>
+                <div class="text-base font-medium text-gray-500">
+                  Miqdori:
+                  <span class="text-gray-700">
+                    {{ product?.quantity }}
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
         <div class="flex items-center justify-center bg-slate-100 rounded-xl h-12 w-12">
           <ArrowsLeftRightIcon class="w-5 h-5 text-blue-600" />
@@ -51,16 +120,7 @@ const cost = ref(0)
         Savatcha
       </div>
 
-      <!-- <div class="flex flex-col items-center justify-center border-2 border-dashed h-96 rounded-3xl space-y-1">
-        <h4 class="text-slate-900 text-xl font-semibold">
-          Savat hozircha bo'sh
-        </h4>
-        <div class="text-slate-600 text-base text-center">
-          Mahsulotlarni izlab toping yoki <br> mahsulotlarni skanerlang
-        </div>
-      </div> -->
-
-      <div class="inline-block min-w-full py-2 align-middle">
+      <div v-if="selectedProducts.length > 0" class="inline-block min-w-full py-2 align-middle">
         <div class="overflow-hidden border border-white">
           <table class="min-w-full divide-y-8 divide-white">
             <thead>
@@ -162,6 +222,14 @@ const cost = ref(0)
           </table>
         </div>
       </div>
+      <div v-else class="flex flex-col items-center justify-center border-2 border-dashed h-96 rounded-3xl space-y-1">
+        <h4 class="text-slate-900 text-xl font-semibold">
+          Savat hozircha bo'sh
+        </h4>
+        <div class="text-slate-600 text-base text-center">
+          Mahsulotlarni izlab toping yoki <br> mahsulotlarni skanerlang
+        </div>
+      </div>
     </div>
 
     <div class="flex-auto w-1/3 border-l h-dvh py-8 px-8 space-y-4">
@@ -189,47 +257,47 @@ const cost = ref(0)
       <div class="space-y-2">
         <h3 class="text-xl font-semibold">Harid tafsilotlari</h3>
         <div class="pb-3 space-y-1">
-            <div class="flex items-center justify-between">
-              <div class="text-base text-gray-600">
-                Mahsulotlar soni
-              </div>
-              <div class="text-base font-semibold text-gray-900">
-                2 ta
-              </div>
+          <div class="flex items-center justify-between">
+            <div class="text-base text-gray-600">
+              Mahsulotlar soni
             </div>
-            <div class="flex items-center justify-between">
-              <div class="text-base text-gray-600">
-                Narxi
-              </div>
-              <div class="text-base font-semibold text-gray-900">
-                409 000 so'm
-              </div>
-            </div>
-            <div class="flex items-center justify-between">
-              <div class="text-base text-gray-600">
-                Chegirma
-              </div>
-              <div class="text-base font-semibold text-gray-900">
-                0 %
-              </div>
-            </div>
-            <div class="flex items-center justify-between">
-              <div class="text-base text-gray-600">
-                Chegirma miqdori
-              </div>
-              <div class="text-base font-semibold text-red-500">
-                -0 so'm
-              </div>
+            <div class="text-base font-semibold text-gray-900">
+              2 ta
             </div>
           </div>
-          <div class="flex items-center justify-between mt-2 pt-3 border-t border-dashed">
-            <div class="text-xl font-semibold text-gray-900">
-              Umumiy
+          <div class="flex items-center justify-between">
+            <div class="text-base text-gray-600">
+              Narxi
             </div>
-            <div class="text-xl font-semibold text-gray-900">
-              409 000 so'm
+            <div class="text-base font-semibold text-gray-900">
+              {{ useMoneyFormatter(409000) }}
             </div>
           </div>
+          <div class="flex items-center justify-between">
+            <div class="text-base text-gray-600">
+              Chegirma
+            </div>
+            <div class="text-base font-semibold text-gray-900">
+              0 %
+            </div>
+          </div>
+          <div class="flex items-center justify-between">
+            <div class="text-base text-gray-600">
+              Chegirma miqdori
+            </div>
+            <div class="text-base font-semibold text-red-500">
+              -{{ useMoneyFormatter(0) }}
+            </div>
+          </div>
+        </div>
+        <div class="flex items-center justify-between mt-2 pt-3 border-t border-dashed">
+          <div class="text-xl font-semibold text-gray-900">
+            Umumiy
+          </div>
+          <div class="text-xl font-semibold text-gray-900">
+            {{ useMoneyFormatter(409000) }}
+          </div>
+        </div>
       </div>
 
       <div class="space-y-1">
@@ -241,8 +309,7 @@ const cost = ref(0)
       <div class="py-3 space-y-1">
         <div class="text-base font-medium">To'lov turi</div>
         <div class="flex items-center space-x-4">
-          <div
-            class="flex-1 flex flex-col items-center justify-center bg-blue-50 border border-blue-300 rounded-lg py-4">
+          <div class="flex-1 flex flex-col items-center justify-center bg-blue-50 border border-blue-300 rounded-lg py-4">
             <MoneyIcon class="w-6 h-6 text-blue-500" />
             <div class="text-lg font-medium text-blue-500">
               Naqt pul orqali
