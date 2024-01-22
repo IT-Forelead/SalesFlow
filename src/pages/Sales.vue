@@ -49,6 +49,15 @@ const searchProducts = () => {
   }
 }
 
+const addProduct = (product) => {
+  selectedProducts.value.push({
+    id: product?.id,
+    name: product?.name,
+    price: product?.price,
+    quantity: 1
+  })
+  clearSearchInput()
+}
 
 const clearSearchInput = () => {
   search.value = ''
@@ -80,7 +89,7 @@ onMounted(() => {
             Izlash
           </button>
           <div v-if="products.length > 0" class="absolute top-16 left-0 bg-transparent w-full space-y-2 z-50">
-            <div v-for="(product, idx) in products" :key="idx" class="flex items-center justify-between bg-white border shadow-sm rounded-xl px-3 py-2 w-full cursor-pointer hover:bg-slate-100">
+            <div v-for="(product, idx) in products" :key="idx" @click="addProduct(product)" class="flex items-center justify-between bg-white border shadow-sm rounded-xl px-3 py-2 w-full cursor-pointer hover:bg-slate-100">
               <div class="flex items-center space-x-3">
                 <div class="flex items-center justify-center bg-slate-200 w-10 h-10 rounded-lg">
                   <ImageIcon class="text-gray-500 w-8 h-8" />
@@ -132,18 +141,18 @@ onMounted(() => {
               </tr>
             </thead>
             <tbody class="bg-slate-100 divide-y-8 divide-white">
-              <tr>
+              <tr v-for="(product, idx) in selectedProducts" :key="idx">
                 <td class="px-3 py-2 whitespace-nowrap rounded-l-xl">
                   <div class="flex items-center space-x-3">
                     <div class="flex items-center justify-center bg-slate-200 w-12 h-12 rounded-lg">
                       <ImageIcon class="text-gray-500 w-8 h-8" />
                     </div>
                     <div>
-                      <div class="text-base font-semibold text-gray-800">Jacobs Monarch 500g</div>
+                      <div class="text-base font-semibold text-gray-800">{{ product?.name }}</div>
                       <div class="text-base font-medium text-gray-500">
                         Narxi:
                         <span class="text-gray-700">
-                          158 000 so'm
+                          {{ useMoneyFormatter(product?.price) }}
                         </span>
                       </div>
                     </div>
@@ -157,7 +166,7 @@ onMounted(() => {
                         <MinusIcon class="w-4 h-4" />
                       </div>
                       <div class="flex items-center justify-center text-lg font-normal">
-                        2
+                        {{ product?.quantity }}
                       </div>
                       <div
                         class="flex items-center justify-center w-8 h-8 bg-white text-blue-600 hover:text-blue-500 hover:bg-slate-50 cursor-pointer rounded-xl">
@@ -167,50 +176,7 @@ onMounted(() => {
                   </div>
                 </td>
                 <td class="px-3 py-2 text-center whitespace-nowrap">
-                  316 000 so'm
-                </td>
-                <td class="px-3 py-2 whitespace-nowrap rounded-r-2xl">
-                  <div class="flex justify-center">
-                    <TrashIcon class="w-6 h-6 text-rose-500 cursor-pointer transform hover:scale-105" />
-                  </div>
-                </td>
-              </tr>
-              <tr>
-                <td class="px-3 py-2 whitespace-nowrap rounded-l-xl">
-                  <div class="flex items-center space-x-3">
-                    <div class="flex items-center justify-center bg-slate-200 w-12 h-12 rounded-lg">
-                      <ImageIcon class="text-gray-500 w-8 h-8" />
-                    </div>
-                    <div>
-                      <div class="text-base font-semibold text-gray-800">Frima 1000g</div>
-                      <div class="text-base font-medium text-gray-500">
-                        Narxi:
-                        <span class="text-gray-700">
-                          93 000 so'm
-                        </span>
-                      </div>
-                    </div>
-                  </div>
-                </td>
-                <td class="px-3 py-2 text-center whitespace-nowrap">
-                  <div class="flex justify-center">
-                    <div class="flex items-center justify-between bg-slate-100 w-28 rounded-xl p-1">
-                      <div
-                        class="flex items-center justify-center w-8 h-8 bg-white text-slate-700 hover:text-blue-500 hover:bg-slate-50 cursor-pointer rounded-xl">
-                        <MinusIcon class="w-4 h-4" />
-                      </div>
-                      <div class="flex items-center justify-center text-lg font-normal">
-                        1
-                      </div>
-                      <div
-                        class="flex items-center justify-center w-8 h-8 bg-white text-blue-600 hover:text-blue-500 hover:bg-slate-50 cursor-pointer rounded-xl">
-                        <PlusIcon class="w-4 h-4" />
-                      </div>
-                    </div>
-                  </div>
-                </td>
-                <td class="px-3 py-2 text-center whitespace-nowrap">
-                  93 000 so'm
+                  {{ useMoneyFormatter(product?.price * product?.quantity) }}
                 </td>
                 <td class="px-3 py-2 whitespace-nowrap rounded-r-2xl">
                   <div class="flex justify-center">
@@ -240,7 +206,7 @@ onMounted(() => {
         </div>
         <div class="relative">
           <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-            <UserIcon class="w-5 h-5 text-slate-400" />
+            <UserIcon cluseMoneyFormatterass="w-5 h-5 text-slate-400" />
           </div>
           <input type="text"
             class="bg-slate-100 border-none text-slate-700 text-base rounded-xl block w-full pl-10 placeholder-slate-400"
@@ -265,12 +231,12 @@ onMounted(() => {
               2 ta
             </div>
           </div>
-          <div class="flex items-center justify-between">
+          <div class="fluseMoneyFormatterex items-center justify-between">
             <div class="text-base text-gray-600">
               Narxi
             </div>
             <div class="text-base font-semibold text-gray-900">
-              {{ useMoneyFormatter(409000) }}
+              {{ (409000) }}
             </div>
           </div>
           <div class="flex items-center justify-between">
