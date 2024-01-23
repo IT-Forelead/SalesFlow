@@ -12,7 +12,6 @@ import { useUserStore } from '../store/user.store.js'
 import { useModalStore } from '../store/modal.store.js'
 
 const globalSearchFromTable = ref('')
-// const users = ref([])
 const isLoading = ref(false)
 
 const userStore = useUserStore()
@@ -63,11 +62,13 @@ const getUsers = () => {
   isLoading.value = true
   UserService.getUsers({})
     .then((res) => {
-      userStore.setUsers(res)
+      useUserStore().clearStore()
+      useUserStore().setUsers(res)
     }).finally(() => {
-      isLoading.value = false
-    })
+    isLoading.value = false
+  })
 }
+
 
 getUsers()
 

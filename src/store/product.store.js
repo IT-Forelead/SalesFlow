@@ -3,6 +3,7 @@ import { defineStore } from 'pinia'
 export const useProductStore = defineStore('product', {
   state: () => ({
     products: [],
+    selectProduct: ''
   }),
   actions: {
     setProducts(data) {
@@ -10,6 +11,9 @@ export const useProductStore = defineStore('product', {
     },
     clearStore() {
       this.products = []
+    },
+    setSelectProduct(data) {
+      this.selectProduct = data
     },
   },
 })
