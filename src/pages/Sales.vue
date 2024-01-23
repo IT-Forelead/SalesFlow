@@ -51,13 +51,22 @@ const searchProducts = () => {
 }
 
 const addProductToCart = (product) => {
-  selectedProducts.value.push({
-    id: product?.id,
-    name: product?.name,
-    price: product?.price,
-    quantity: product?.quantity,
-    count: 1
-  })
+  if (selectedProducts.value.find((p) => p?.id == product?.id)) {
+    selectedProducts.value = selectedProducts.value.map((item) => {
+      if (item.id === product.id) {
+        return { ...item, count: item.count + 1 }
+      } else item
+      return item
+    });
+  } else {
+    selectedProducts.value.push({
+      id: product?.id,
+      name: product?.name,
+      price: product?.price,
+      quantity: product?.quantity,
+      count: 1
+    })
+  }
   clearSearchInput()
 }
 
@@ -94,7 +103,8 @@ onMounted(() => {
 </script>
 
 <template>
-  <div v-if="products.length > 0" class="fixed top-0 right-0 bottom-0 left-0 z-50 backdrop-blur-[2px] bg-gray-900/70"></div>
+  <div v-if="products.length > 0" class="fixed top-0 right-0 bottom-0 left-0 z-50 backdrop-blur-[2px] bg-gray-900/70">
+  </div>
   <div class="flex">
     <div class="flex-auto w-2/3 space-y-4 py-8 px-8">
       <div class="flex items-center space-x-2 pb-2">
@@ -105,7 +115,8 @@ onMounted(() => {
           <input v-model="search" type="search"
             class="bg-slate-100 border-none text-slate-900 text-base md:text-lg rounded-xl block w-full h-12 pl-10 py-2 placeholder-slate-400"
             placeholder="Mahsulot nomi bo'yicha izlash...">
-          <div v-if="search" @click="clearSearchInput()" class="absolute inset-y-0 right-20 p-1 flex items-center cursor-pointer">
+          <div v-if="search" @click="clearSearchInput()"
+            class="absolute inset-y-0 right-20 p-1 flex items-center cursor-pointer">
             <XIcon class="w-5 h-5 text-slate-600" />
           </div>
           <button @click="searchProducts()" type="button"
@@ -113,12 +124,12 @@ onMounted(() => {
             Izlash
           </button>
           <div v-if="products.length > 0" class="absolute top-16 left-0 bg-transparent w-full space-y-2 z-50">
-            <div v-for="(product, idx) in products" :key="idx" @click="addProductToCart(product)" class="flex items-center justify-between bg-white border shadow-sm rounded-xl px-3 py-2 w-full cursor-pointer hover:bg-slate-100">
+            <div v-for="(product, idx) in products" :key="idx" @click="addProductToCart(product)"
+              class="flex items-center justify-between bg-white border shadow-sm rounded-xl px-3 py-2 w-full cursor-pointer hover:bg-slate-100">
               <div class="flex items-center space-x-3">
                 <div class="flex items-center justify-center bg-slate-200 w-10 h-10 rounded-lg">
                   <ImageIcon class="text-gray-500 w-8 h-8" />
-                </div>2
-
+                </div>
                 <div>
                   <div class="text-base font-semibold text-gray-800">
                     {{ product?.name }}
@@ -213,7 +224,8 @@ onMounted(() => {
                 </td>
                 <td class="px-3 py-2 whitespace-nowrap rounded-r-2xl">
                   <div class="flex justify-center">
-                    <TrashIcon @click="removeProductFromCart(product)" class="w-6 h-6 text-rose-500 cursor-pointer transform hover:scale-105" />
+                    <TrashIcon @click="removeProductFromCart(product)"
+                      class="w-6 h-6 text-rose-500 cursor-pointer transform hover:scale-105" />
                   </div>
                 </td>
               </tr>
