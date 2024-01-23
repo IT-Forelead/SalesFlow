@@ -26,36 +26,35 @@ const closeModal = () => {
 
 const createMarket = () => {
   if (!submitData.name) {
-    toast.error(`Do'kon nomini kiriting!`)
+    toast.error("Do'kon nomini kiriting!")
   } else if (!submitData.address) {
-    toast.error(`Do'kon manzilni kiriting!`)
+    toast.error("Do'kon manzilni kiriting!")
   } else {
     isLoading.value = true
     MarketService.createMarket({
       name: submitData.name,
       address: submitData.address,
-    })
-      .then(() => {
-        toast.success("Do'kon muoffaqiyatli qo'shildi!")
-        MarketService.getMarkets({}).then((res) => {
-          useMarketStore().clearStore()
-          useMarketStore().setMarkets(res)
-        })
+    }).then(() => {
+      toast.success("Do'kon muoffaqiyatli qo'shildi!")
+      MarketService.getMarkets({}).then((res) => {
+        useMarketStore().clearStore()
+        useMarketStore().setMarkets(res)
+      })
+      isLoading.value = false
+      closeModal()
+    }).catch((err) => {
+      toast.error("Do'kon yaratishda xatolik yuz berdi!")
+      setTimeout(() => {
         isLoading.value = false
-        closeModal()
-      })
-      .catch((err) => {
-        toast.error("Do'kon yaratishda xatolik yuz berdi!")
-        setTimeout(() => {
-          isLoading.value = false
-        }, 3000)
-      })
+      }, 3000)
+    })
   }
 }
 </script>
 
 <template>
-  <CModal :is-open="useModalStore().isOpenCreateMarketModal" v-if="useModalStore().isOpenCreateMarketModal" @close="closeModal">
+  <CModal :is-open="useModalStore().isOpenCreateMarketModal" v-if="useModalStore().isOpenCreateMarketModal"
+    @close="closeModal">
     <template v-slot:header> Do'kon yaratish </template>
     <template v-slot:body>
       <div class="space-y-4">
@@ -65,25 +64,32 @@ const createMarket = () => {
               Do'kon nomi
               <span class="text-red-500 mr-2">*</span>
             </label>
-            <input id="name" type="text" v-model="submitData.name" class="bg-slate-100 border-none text-slate-900 rounded-lg w-full py-2.5 placeholder-slate-400" placeholder="Do'kon nomini kiriting" />
+            <input id="name" type="text" v-model="submitData.name"
+              class="bg-slate-100 border-none text-slate-900 rounded-lg w-full py-2.5 placeholder-slate-400"
+              placeholder="Do'kon nomini kiriting" />
           </div>
           <div class="flex-1">
             <label for="name" class="text-base font-medium">
               Do'kon manzil
               <span class="text-red-500 mr-2">*</span>
             </label>
-            <input id="name" type="text" v-model="submitData.address" class="bg-slate-100 border-none text-slate-900 rounded-lg w-full py-2.5 placeholder-slate-400" placeholder="Do'kon manzilni kiriting" />
+            <input id="name" type="text" v-model="submitData.address"
+              class="bg-slate-100 border-none text-slate-900 rounded-lg w-full py-2.5 placeholder-slate-400"
+              placeholder="Do'kon manzilni kiriting" />
           </div>
         </div>
       </div>
     </template>
     <template v-slot:footer>
       <CancelButton @click="closeModal" />
-      <button v-if="isLoading" type="bSearchIconutton" class="inline-flex items-center justify-center ms-3 text-white bg-blue-600 focus:ring-4 focus:outline-none focus:ring-slate-300 rounded-xl border border-slate-200 text-sm font-medium px-5 py-2.5 focus:z-10 cursor-default">
-        <Spinners270RingIcon class="mr-2 w-5 h-5 text-gray-200 animate-spin dark:text-gray-600 fill-gray-600 dark:fill-gray-300" />
+      <button v-if="isLoading" type="bSearchIconutton"
+        class="inline-flex items-center justify-center ms-3 text-white bg-blue-600 focus:ring-4 focus:outline-none focus:ring-slate-300 rounded-xl border border-slate-200 text-sm font-medium px-5 py-2.5 focus:z-10 cursor-default">
+        <Spinners270RingIcon
+          class="mr-2 w-5 h-5 text-gray-200 animate-spin dark:text-gray-600 fill-gray-600 dark:fill-gray-300" />
         Yaratish
       </button>
-      <button v-else @click="createMarket()" type="button" class="ms-3 text-white bg-blue-500 hover:bg-blue-600 focus:ring-4 focus:outline-none focus:ring-slate-300 rounded-xl border border-slate-200 text-sm font-medium px-5 py-2.5 focus:z-10">Yaratish</button>
+      <button v-else @click="createMarket()" type="button"
+        class="ms-3 text-white bg-blue-500 hover:bg-blue-600 focus:ring-4 focus:outline-none focus:ring-slate-300 rounded-xl border border-slate-200 text-sm font-medium px-5 py-2.5 focus:z-10">Yaratish</button>
     </template>
   </CModal>
 </template>
