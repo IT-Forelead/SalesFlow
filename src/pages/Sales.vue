@@ -8,6 +8,7 @@ import PlusIcon from '../assets/icons/PlusIcon.vue';
 import TrashIcon from '../assets/icons/TrashIcon.vue';
 import SearchIcon from '../assets/icons/SearchIcon.vue';
 import MoneyIcon from '../assets/icons/MoneyIcon.vue';
+import CreditCardIcon from '../assets/icons/CreditCardIcon.vue';
 import XIcon from '../assets/icons/XIcon.vue';
 import useMoneyFormatter from '../mixins/currencyFormatter.js'
 import ClockIcon from '../assets/icons/ClockIcon.vue';
@@ -49,7 +50,7 @@ const searchProducts = () => {
   }
 }
 
-const addProduct = (product) => {
+const addProductToCart = (product) => {
   selectedProducts.value.push({
     id: product?.id,
     name: product?.name,
@@ -57,6 +58,10 @@ const addProduct = (product) => {
     quantity: 1
   })
   clearSearchInput()
+}
+
+const removeProductFromCart = (product) => {
+  selectedProducts.value = selectedProducts.value.filter((p) => p.id !== product.id)
 }
 
 const clearSearchInput = () => {
@@ -89,7 +94,7 @@ onMounted(() => {
             Izlash
           </button>
           <div v-if="products.length > 0" class="absolute top-16 left-0 bg-transparent w-full space-y-2 z-50">
-            <div v-for="(product, idx) in products" :key="idx" @click="addProduct(product)" class="flex items-center justify-between bg-white border shadow-sm rounded-xl px-3 py-2 w-full cursor-pointer hover:bg-slate-100">
+            <div v-for="(product, idx) in products" :key="idx" @click="addProductToCart(product)" class="flex items-center justify-between bg-white border shadow-sm rounded-xl px-3 py-2 w-full cursor-pointer hover:bg-slate-100">
               <div class="flex items-center space-x-3">
                 <div class="flex items-center justify-center bg-slate-200 w-10 h-10 rounded-lg">
                   <ImageIcon class="text-gray-500 w-8 h-8" />
@@ -180,7 +185,7 @@ onMounted(() => {
                 </td>
                 <td class="px-3 py-2 whitespace-nowrap rounded-r-2xl">
                   <div class="flex justify-center">
-                    <TrashIcon class="w-6 h-6 text-rose-500 cursor-pointer transform hover:scale-105" />
+                    <TrashIcon @click="removeProductFromCart(product)" class="w-6 h-6 text-rose-500 cursor-pointer transform hover:scale-105" />
                   </div>
                 </td>
               </tr>
@@ -228,15 +233,15 @@ onMounted(() => {
               Mahsulotlar soni
             </div>
             <div class="text-base font-semibold text-gray-900">
-              2 ta
+              {{ selectedProducts.length }} ta
             </div>
           </div>
-          <div class="fluseMoneyFormatterex items-center justify-between">
+          <div class="flex items-center justify-between">
             <div class="text-base text-gray-600">
               Narxi
             </div>
             <div class="text-base font-semibold text-gray-900">
-              {{ (409000) }}
+              {{ useMoneyFormatter(409000) }}
             </div>
           </div>
           <div class="flex items-center justify-between">
