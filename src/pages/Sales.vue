@@ -55,13 +55,32 @@ const addProductToCart = (product) => {
     id: product?.id,
     name: product?.name,
     price: product?.price,
-    quantity: 1
+    quantity: product?.quantity,
+    count: 1
   })
   clearSearchInput()
 }
 
 const removeProductFromCart = (product) => {
   selectedProducts.value = selectedProducts.value.filter((p) => p.id !== product.id)
+}
+
+const increaseCountOfProducts = (product) => {
+  selectedProducts.value = selectedProducts.value.map((item) => {
+    if (item.id === product.id) {
+      return { ...item, count: item.count + 1 }
+    } else item
+    return item
+  });
+}
+
+const reduceCountOfProducts = (product) => {
+  selectedProducts.value = selectedProducts.value.map((item) => {
+    if (item.id === product.id) {
+      return { ...item, count: item.count - 1 }
+    } else item
+    return item
+  });
 }
 
 const clearSearchInput = () => {
@@ -98,7 +117,8 @@ onMounted(() => {
               <div class="flex items-center space-x-3">
                 <div class="flex items-center justify-center bg-slate-200 w-10 h-10 rounded-lg">
                   <ImageIcon class="text-gray-500 w-8 h-8" />
-                </div>
+                </div>2
+
                 <div>
                   <div class="text-base font-semibold text-gray-800">
                     {{ product?.name }}
@@ -166,22 +186,30 @@ onMounted(() => {
                 <td class="px-3 py-2 text-center whitespace-nowrap">
                   <div class="flex justify-center">
                     <div class="flex items-center justify-between bg-slate-100 w-28 rounded-xl p-1">
-                      <div
-                        class="flex items-center justify-center w-8 h-8 bg-white text-slate-700 hover:text-blue-500 hover:bg-slate-50 cursor-pointer rounded-xl">
+                      <div @click="reduceCountOfProducts(product)" v-if="product?.count > 1"
+                        class="flex items-center justify-center w-8 h-8 bg-white text-blue-700 shadow-sm hover:bg-slate-200 cursor-pointer rounded-xl">
+                        <MinusIcon class="w-4 h-4" />
+                      </div>
+                      <div v-else
+                        class="flex items-center justify-center w-8 h-8 bg-white text-slate-700 cursor-default rounded-xl">
                         <MinusIcon class="w-4 h-4" />
                       </div>
                       <div class="flex items-center justify-center text-lg font-normal">
-                        {{ product?.quantity }}
+                        {{ product?.count }}
                       </div>
-                      <div
-                        class="flex items-center justify-center w-8 h-8 bg-white text-blue-600 hover:text-blue-500 hover:bg-slate-50 cursor-pointer rounded-xl">
+                      <div @click="increaseCountOfProducts(product)" v-if="product?.quantity > product?.count"
+                        class="flex items-center justify-center w-8 h-8 bg-white text-blue-700 shadow-sm hover:bg-slate-200 cursor-pointer rounded-xl">
+                        <PlusIcon class="w-4 h-4" />
+                      </div>
+                      <div v-else
+                        class="flex items-center justify-center w-8 h-8 bg-white text-slate-700 cursor-default rounded-xl">
                         <PlusIcon class="w-4 h-4" />
                       </div>
                     </div>
                   </div>
                 </td>
                 <td class="px-3 py-2 text-center whitespace-nowrap">
-                  {{ useMoneyFormatter(product?.price * product?.quantity) }}
+                  {{ useMoneyFormatter(product?.price * product?.count) }}
                 </td>
                 <td class="px-3 py-2 whitespace-nowrap rounded-r-2xl">
                   <div class="flex justify-center">
