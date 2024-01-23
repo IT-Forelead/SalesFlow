@@ -1,6 +1,6 @@
 <script setup>
 import { ref } from '@vue/reactivity'
-import { computed, h, onMounted } from 'vue'
+import { computed, h, onMounted, watchEffect } from 'vue'
 import SearchIcon from '../assets/icons/SearchIcon.vue'
 import Spinners270RingIcon from '../assets/icons/Spinners270RingIcon.vue'
 import CTable from '../components/common/CTable.vue'
@@ -25,9 +25,7 @@ const getProductName = (productId) => {
   const product = productStore.products.find(product => product.id === productId);
   return product?.name || 'Mahsulot nomi yo\'q';
 };
-onMounted(()=>{
-  getProductName()
-})
+
 
 const getHistoryType = (historyType) => {
   switch (historyType){
@@ -113,6 +111,7 @@ getProductHistories()
                 class="w-full py-2 px-4 rounded-full text-white text-lg font-medium bg-blue-500 cursor-pointer hover:bg-blue-600">
           Mahsulot tarixi qo'shish
         </button>
+
       </div>
     </div>
     <div v-if="isLoading" class="flex items-center justify-center h-20">

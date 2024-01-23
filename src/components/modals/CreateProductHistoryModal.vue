@@ -7,7 +7,7 @@ import CancelButton from '../buttons/CancelButton.vue'
 import SaveButton from '../buttons/SaveButton.vue'
 import AutoComplete from 'primevue/autocomplete'
 import { useProductStore } from '../../store/product.store.js'
-import { computed, onMounted, reactive } from 'vue'
+import { computed, onMounted, reactive, watchEffect } from 'vue'
 import ProductService from '../../services/product.service.js'
 import ProductHistoryService from '../../services/productHistory.service.js'
 import { useProductHistoryStore } from '../../store/productHistory.store.js'
@@ -92,7 +92,12 @@ const getProducts = () => {
     isLoading.value = false
   })
 }
-getProducts()
+
+watchEffect(()=>{
+  if (useModalStore().isOpenCreateProductHistoryModal === true){
+    getProducts()
+  }
+})
 
 const search = (event) => {
   const query = event.query.toLowerCase().trim()
