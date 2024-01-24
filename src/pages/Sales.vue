@@ -62,6 +62,7 @@ const addProductToCart = (product) => {
     selectedProducts.value.push({
       id: product?.id,
       name: product?.name,
+      packaging: product?.packaging,
       price: product?.price,
       quantity: product?.quantity,
       count: 1
@@ -132,7 +133,7 @@ onMounted(() => {
                 </div>
                 <div>
                   <div class="text-base font-semibold text-gray-800">
-                    {{ product?.name }}
+                    {{ product?.name + " - " + product?.packaging }}
                   </div>
                   <div class="text-base font-medium text-gray-500">
                     {{ product?.barcode }}
@@ -184,7 +185,9 @@ onMounted(() => {
                       <ImageIcon class="text-gray-500 w-8 h-8" />
                     </div>
                     <div>
-                      <div class="text-base font-semibold text-gray-800">{{ product?.name }}</div>
+                      <div class="text-base font-semibold text-gray-800">
+                        {{ product?.name + " - " + product?.packaging }}
+                      </div>
                       <div class="text-base font-medium text-gray-500">
                         Narxi:
                         <span class="text-gray-700">
