@@ -1,5 +1,5 @@
 <script setup>
-import { ref } from '@vue/reactivity'
+import { ref } from 'vue'
 import moment from 'moment'
 import { computed, h } from 'vue'
 import SearchIcon from '../assets/icons/SearchIcon.vue'
