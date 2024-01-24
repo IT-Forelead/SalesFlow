@@ -1,5 +1,5 @@
 <script setup>
-import { ref } from '@vue/reactivity'
+import { ref } from 'vue'
 import { h } from 'vue'
 import SearchIcon from '../assets/icons/SearchIcon.vue'
 import Spinners270RingIcon from '../assets/icons/Spinners270RingIcon.vue'

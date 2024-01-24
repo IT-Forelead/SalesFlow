@@ -3,7 +3,7 @@ import { useModalStore } from '../../store/modal.store.js'
 import CModal from '../common/CModal.vue'
 import CancelButton from '../buttons/CancelButton.vue'
 import SaveButton from '../buttons/SaveButton.vue'
-import { reactive, ref } from '@vue/reactivity'
+import { reactive, ref } from 'vue'
 import MultiSelect from 'primevue/multiselect'
 import UserService from '../../services/user.service.js'
 import { toast } from 'vue-sonner'
@@ -99,7 +99,7 @@ const createUser = () => {
           <div class="grid gap-4 sm:grid-cols-1 sm:gap-6 px-2">
             <div class="w-full">
               <label for="firstname"
-                     class="block mb-2 text-neutral-800 text-base font-normal  after:text-red-500 after:content-['*']">Ism</label>
+                     class="block mb-2 text-neutral-800 text-base font-normal after:text-red-500 after:content-['*']">Ism</label>
               <input
                 v-model="submitForm.firstname"
                 type="text"
@@ -111,7 +111,7 @@ const createUser = () => {
               />
             </div>
             <div class="w-full">
-              <label for="lastname" class="text-neutral-800 text-base font-normal  after:text-red-500 after:content-['*']">Familiya</label>
+              <label for="lastname" class="text-neutral-800 text-base font-normal after:text-red-500 after:content-['*']">Familiya</label>
               <input
                 v-model="submitForm.lastname"
                 type="text"
@@ -134,7 +134,7 @@ const createUser = () => {
             </div>
             <div class="w-full">
               <label for="parol"
-                     class="block mb-2 text-neutral-800 text-base font-normal  after:text-red-500 after:content-['*']">Parol</label>
+                     class="block mb-2 text-neutral-800 text-base font-normal after:text-red-500 after:content-['*']">Parol</label>
               <input v-model="submitForm.password"
                      type="password"
                      name="parol"

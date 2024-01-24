@@ -1,5 +1,5 @@
 <script setup>
-import { ref } from '@vue/reactivity'
+import { ref, watch } from 'vue'
 import { toast } from 'vue-sonner'
 import { cleanObjectEmptyFields } from '../mixins/utils'
 import ImageIcon from '../assets/icons/ImageIcon.vue';
@@ -8,6 +8,7 @@ import PlusIcon from '../assets/icons/PlusIcon.vue';
 import TrashIcon from '../assets/icons/TrashIcon.vue';
 import SearchIcon from '../assets/icons/SearchIcon.vue';
 import MoneyIcon from '../assets/icons/MoneyIcon.vue';
+import CreditCardIcon from '../assets/icons/CreditCardIcon.vue';
 import XIcon from '../assets/icons/XIcon.vue';
 import useMoneyFormatter from '../mixins/currencyFormatter.js'
 import ClockIcon from '../assets/icons/ClockIcon.vue';
@@ -23,6 +24,8 @@ const moneyConf = {
 }
 
 const cost = ref(0)
+const totalPrice = ref(0)
+// const totalPriceWithDiscount = ref(0)
 const search = ref('')
 const isLoading = ref(false)
 const selectedProducts = ref([])
@@ -49,11 +52,63 @@ const searchProducts = () => {
   }
 }
 
+const addProductToCart = (product) => {
+  if (selectedProducts.value.find((p) => p?.id == product?.id)) {
+    selectedProducts.value = selectedProducts.value.map((item) => {
+      if (item.id === product.id) {
+        return { ...item, count: item.count + 1 }
+      } else item
+      return item
+    });
+  } else {
+    selectedProducts.value.push({
+      id: product?.id,
+      name: product?.name,
+      packaging: product?.packaging,
+      price: product?.price,
+      quantity: product?.quantity,
+      count: 1
+    })
+  }
+  clearSearchInput()
+}
+
+const removeProductFromCart = (product) => {
+  selectedProducts.value = selectedProducts.value.filter((p) => p.id !== product.id)
+}
+
+const increaseCountOfProducts = (product) => {
+  selectedProducts.value = selectedProducts.value.map((item) => {
+    if (item.id === product.id) {
+      return { ...item, count: item.count + 1 }
+    } else item
+    return item
+  });
+}
+
+const reduceCountOfProducts = (product) => {
+  selectedProducts.value = selectedProducts.value.map((item) => {
+    if (item.id === product.id) {
+      return { ...item, count: item.count - 1 }
+    } else item
+    return item
+  });
+}
 
 const clearSearchInput = () => {
   search.value = ''
   useProductStore().clearStore()
 }
+
+watch(
+  () => selectedProducts.value,
+  () => {
+    totalPrice.value = selectedProducts.value
+      .map((product) => product?.price * product?.count)
+      .reduce((accumulator, currentValue) => accumulator + currentValue, 0);
+  },
+  { deep: true }
+)
 
 onMounted(() => {
   useProductStore().clearStore()
@@ -61,7 +116,8 @@ onMounted(() => {
 </script>
 
 <template>
-  <div v-if="products.length > 0" class="fixed top-0 right-0 bottom-0 left-0 z-50 backdrop-blur-[2px] bg-gray-900/70"></div>
+  <div v-if="products.length > 0" class="fixed top-0 right-0 bottom-0 left-0 z-50 backdrop-blur-[2px] bg-gray-900/70">
+  </div>
   <div class="flex">
     <div class="flex-auto w-2/3 space-y-4 py-8 px-8">
       <div class="flex items-center space-x-2 pb-2">
@@ -72,7 +128,8 @@ onMounted(() => {
           <input v-model="search" type="search"
             class="bg-slate-100 border-none text-slate-900 text-base md:text-lg rounded-xl block w-full h-12 pl-10 py-2 placeholder-slate-400"
             placeholder="Mahsulot nomi bo'yicha izlash...">
-          <div v-if="search" @click="clearSearchInput()" class="absolute inset-y-0 right-20 p-1 flex items-center cursor-pointer">
+          <div v-if="search" @click="clearSearchInput()"
+            class="absolute inset-y-0 right-20 p-1 flex items-center cursor-pointer">
             <XIcon class="w-5 h-5 text-slate-600" />
           </div>
           <button @click="searchProducts()" type="button"
@@ -80,14 +137,15 @@ onMounted(() => {
             Izlash
           </button>
           <div v-if="products.length > 0" class="absolute top-16 left-0 bg-transparent w-full space-y-2 z-50">
-            <div v-for="(product, idx) in products" :key="idx" class="flex items-center justify-between bg-white border shadow-sm rounded-xl px-3 py-2 w-full cursor-pointer hover:bg-slate-100">
+            <div v-for="(product, idx) in products" :key="idx" @click="addProductToCart(product)"
+              class="flex items-center justify-between bg-white border shadow-sm rounded-xl px-3 py-2 w-full cursor-pointer hover:bg-slate-100">
               <div class="flex items-center space-x-3">
                 <div class="flex items-center justify-center bg-slate-200 w-10 h-10 rounded-lg">
                   <ImageIcon class="text-gray-500 w-8 h-8" />
                 </div>
                 <div>
                   <div class="text-base font-semibold text-gray-800">
-                    {{ product?.name }}
+                    {{ product?.name + " - " + product?.packaging }}
                   </div>
                   <div class="text-base font-medium text-gray-500">
                     {{ product?.barcode }}
@@ -132,18 +190,20 @@ onMounted(() => {
               </tr>
             </thead>
             <tbody class="bg-slate-100 divide-y-8 divide-white">
-              <tr>
+              <tr v-for="(product, idx) in selectedProducts" :key="idx">
                 <td class="px-3 py-2 whitespace-nowrap rounded-l-xl">
                   <div class="flex items-center space-x-3">
                     <div class="flex items-center justify-center bg-slate-200 w-12 h-12 rounded-lg">
                       <ImageIcon class="text-gray-500 w-8 h-8" />
                     </div>
                     <div>
-                      <div class="text-base font-semibold text-gray-800">Jacobs Monarch 500g</div>
+                      <div class="text-base font-semibold text-gray-800">
+                        {{ product?.name + " - " + product?.packaging }}
+                      </div>
                       <div class="text-base font-medium text-gray-500">
                         Narxi:
                         <span class="text-gray-700">
-                          158 000 so'm
+                          {{ useMoneyFormatter(product?.price) }}
                         </span>
                       </div>
                     </div>
@@ -152,69 +212,35 @@ onMounted(() => {
                 <td class="px-3 py-2 text-center whitespace-nowrap">
                   <div class="flex justify-center">
                     <div class="flex items-center justify-between bg-slate-100 w-28 rounded-xl p-1">
-                      <div
-                        class="flex items-center justify-center w-8 h-8 bg-white text-slate-700 hover:text-blue-500 hover:bg-slate-50 cursor-pointer rounded-xl">
+                      <div @click="reduceCountOfProducts(product)" v-if="product?.count > 1"
+                        class="flex items-center justify-center w-8 h-8 bg-white text-blue-700 shadow-sm hover:bg-slate-200 cursor-pointer rounded-xl">
+                        <MinusIcon class="w-4 h-4" />
+                      </div>
+                      <div v-else
+                        class="flex items-center justify-center w-8 h-8 bg-white text-slate-700 cursor-default rounded-xl">
                         <MinusIcon class="w-4 h-4" />
                       </div>
                       <div class="flex items-center justify-center text-lg font-normal">
-                        2
+                        {{ product?.count }}
                       </div>
-                      <div
-                        class="flex items-center justify-center w-8 h-8 bg-white text-blue-600 hover:text-blue-500 hover:bg-slate-50 cursor-pointer rounded-xl">
+                      <div @click="increaseCountOfProducts(product)" v-if="product?.quantity > product?.count"
+                        class="flex items-center justify-center w-8 h-8 bg-white text-blue-700 shadow-sm hover:bg-slate-200 cursor-pointer rounded-xl">
+                        <PlusIcon class="w-4 h-4" />
+                      </div>
+                      <div v-else
+                        class="flex items-center justify-center w-8 h-8 bg-white text-slate-700 cursor-default rounded-xl">
                         <PlusIcon class="w-4 h-4" />
                       </div>
                     </div>
                   </div>
                 </td>
                 <td class="px-3 py-2 text-center whitespace-nowrap">
-                  316 000 so'm
+                  {{ useMoneyFormatter(product?.price * product?.count) }}
                 </td>
                 <td class="px-3 py-2 whitespace-nowrap rounded-r-2xl">
                   <div class="flex justify-center">
-                    <TrashIcon class="w-6 h-6 text-rose-500 cursor-pointer transform hover:scale-105" />
-                  </div>
-                </td>
-              </tr>
-              <tr>
-                <td class="px-3 py-2 whitespace-nowrap rounded-l-xl">
-                  <div class="flex items-center space-x-3">
-                    <div class="flex items-center justify-center bg-slate-200 w-12 h-12 rounded-lg">
-                      <ImageIcon class="text-gray-500 w-8 h-8" />
-                    </div>
-                    <div>
-                      <div class="text-base font-semibold text-gray-800">Frima 1000g</div>
-                      <div class="text-base font-medium text-gray-500">
-                        Narxi:
-                        <span class="text-gray-700">
-                          93 000 so'm
-                        </span>
-                      </div>
-                    </div>
-                  </div>
-                </td>
-                <td class="px-3 py-2 text-center whitespace-nowrap">
-                  <div class="flex justify-center">
-                    <div class="flex items-center justify-between bg-slate-100 w-28 rounded-xl p-1">
-                      <div
-                        class="flex items-center justify-center w-8 h-8 bg-white text-slate-700 hover:text-blue-500 hover:bg-slate-50 cursor-pointer rounded-xl">
-                        <MinusIcon class="w-4 h-4" />
-                      </div>
-                      <div class="flex items-center justify-center text-lg font-normal">
-                        1
-                      </div>
-                      <div
-                        class="flex items-center justify-center w-8 h-8 bg-white text-blue-600 hover:text-blue-500 hover:bg-slate-50 cursor-pointer rounded-xl">
-                        <PlusIcon class="w-4 h-4" />
-                      </div>
-                    </div>
-                  </div>
-                </td>
-                <td class="px-3 py-2 text-center whitespace-nowrap">
-                  93 000 so'm
-                </td>
-                <td class="px-3 py-2 whitespace-nowrap rounded-r-2xl">
-                  <div class="flex justify-center">
-                    <TrashIcon class="w-6 h-6 text-rose-500 cursor-pointer transform hover:scale-105" />
+                    <TrashIcon @click="removeProductFromCart(product)"
+                      class="w-6 h-6 text-rose-500 cursor-pointer transform hover:scale-105" />
                   </div>
                 </td>
               </tr>
@@ -240,7 +266,7 @@ onMounted(() => {
         </div>
         <div class="relative">
           <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-            <UserIcon class="w-5 h-5 text-slate-400" />
+            <UserIcon cluseMoneyFormatterass="w-5 h-5 text-slate-400" />
           </div>
           <input type="text"
             class="bg-slate-100 border-none text-slate-700 text-base rounded-xl block w-full pl-10 placeholder-slate-400"
@@ -262,7 +288,7 @@ onMounted(() => {
               Mahsulotlar soni
             </div>
             <div class="text-base font-semibold text-gray-900">
-              2 ta
+              {{ selectedProducts.length }} ta
             </div>
           </div>
           <div class="flex items-center justify-between">
@@ -270,7 +296,7 @@ onMounted(() => {
               Narxi
             </div>
             <div class="text-base font-semibold text-gray-900">
-              {{ useMoneyFormatter(409000) }}
+              {{ useMoneyFormatter(totalPrice) }}
             </div>
           </div>
           <div class="flex items-center justify-between">
@@ -295,7 +321,7 @@ onMounted(() => {
             Umumiy
           </div>
           <div class="text-xl font-semibold text-gray-900">
-            {{ useMoneyFormatter(409000) }}
+            {{ useMoneyFormatter(totalPrice) }}
           </div>
         </div>
       </div>

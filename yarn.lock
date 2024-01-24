@@ -309,19 +309,11 @@
   resolved "https://registry.npmjs.org/@vue/devtools-api/-/devtools-api-6.5.1.tgz"
   integrity sha512-+KpckaAQyfbvshdDW5xQylLni1asvNSGme1JFs8I1+/H5pHEhqUKMEQD/qn3Nx5+/nycBq11qAEi8lk+LXI2dA==
 
-"@vue/reactivity@3.4.6":
-  version "3.4.6"
-  resolved "https://registry.npmjs.org/@vue/reactivity/-/reactivity-3.4.6.tgz"
-  integrity sha512-/VuOxdWDyAeKFHjOuSKEtH9jEVPRgsXxu84utBP1SiXFcFRx2prwiC9cSR8hKOfj5nBwhLXYb6XEU69mLpuk0w==
-  dependencies:
-    "@vue/shared" "3.4.6"
-
 "@vue/runtime-core@3.4.6":
   version "3.4.6"
   resolved "https://registry.npmjs.org/@vue/runtime-core/-/runtime-core-3.4.6.tgz"
   integrity sha512-XDOx8iiNmP66p+goUHT5XL1AnV8406VVFQARbylqmSCBZEtxchfu2ZoQk7U07ze8G/E0/BtX/C5o29zB1W4o5A==
   dependencies:
-    "@vue/reactivity" "3.4.6"
     "@vue/shared" "3.4.6"
 
 "@vue/runtime-dom@3.4.6":

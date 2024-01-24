@@ -1,5 +1,5 @@
 <script setup>
-import { reactive, ref } from '@vue/reactivity'
+import { reactive, ref } from 'vue'
 import { useRouter } from 'vue-router'
 import { toast } from 'vue-sonner'
 import EyeIcon from '../assets/icons/EyeIcon.vue'

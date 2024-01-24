@@ -1,6 +1,5 @@
 <script setup>
-import { ref } from '@vue/reactivity'
-import { computed, h } from 'vue'
+import { computed, h, ref } from 'vue'
 import SearchIcon from '../assets/icons/SearchIcon.vue'
 import Spinners270RingIcon from '../assets/icons/Spinners270RingIcon.vue'
 import CTable from '../components/common/CTable.vue'
@@ -9,6 +8,7 @@ import EditProductModal from '../components/modals/EditProductModal.vue'
 import ProductService from '../services/product.service'
 import { useModalStore } from '../store/modal.store'
 import { useProductStore } from '../store/product.store'
+import useMoneyFormatter from '../mixins/currencyFormatter'
 
 const globalSearchFromTable = ref('')
 const isLoading = ref(false)
@@ -31,12 +31,25 @@ const columns = [
     header: 'Nomi',
   },
   {
-    accessorFn: row => `${row.value} ${row.type}`,
-    header: "O'lchov turi",
+    accessorKey: 'packaging',
+    header: 'Qadoqi',
   },
   {
     accessorKey: 'barcode',
     header: 'Barcode',
+  },
+  {
+    accessorKey: 'quantity',
+    header: 'Miqdori',
+  },
+  {
+    accessorKey: 'saleType',
+    header: 'Sotilish turi',
+  },
+  {
+    accessorKey: 'price',
+    accessorFn: row => `${ useMoneyFormatter(row.price) }`,
+    header: 'Narxi',
   },
   {
     accessorKey: 'actions',
