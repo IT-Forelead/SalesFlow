@@ -1,6 +1,6 @@
 <script setup>
 import { ref } from '@vue/reactivity'
-import { computed, h, onMounted, watchEffect } from 'vue'
+import { computed, h } from 'vue'
 import SearchIcon from '../assets/icons/SearchIcon.vue'
 import Spinners270RingIcon from '../assets/icons/Spinners270RingIcon.vue'
 import CTable from '../components/common/CTable.vue'
