@@ -1,5 +1,5 @@
 <script setup>
-import { ref } from 'vue'
+import { ref, watch } from 'vue'
 import { toast } from 'vue-sonner'
 import { cleanObjectEmptyFields } from '../mixins/utils'
 import ImageIcon from '../assets/icons/ImageIcon.vue';
@@ -24,6 +24,8 @@ const moneyConf = {
 }
 
 const cost = ref(0)
+const totalPrice = ref(0)
+// const totalPriceWithDiscount = ref(0)
 const search = ref('')
 const isLoading = ref(false)
 const selectedProducts = ref([])
@@ -97,6 +99,16 @@ const clearSearchInput = () => {
   search.value = ''
   useProductStore().clearStore()
 }
+
+watch(
+  () => selectedProducts.value,
+  () => {
+    totalPrice.value = selectedProducts.value
+      .map((product) => product?.price * product?.count)
+      .reduce((accumulator, currentValue) => accumulator + currentValue, 0);
+  },
+  { deep: true }
+)
 
 onMounted(() => {
   useProductStore().clearStore()
@@ -284,7 +296,7 @@ onMounted(() => {
               Narxi
             </div>
             <div class="text-base font-semibold text-gray-900">
-              {{ useMoneyFormatter(409000) }}
+              {{ useMoneyFormatter(totalPrice) }}
             </div>
           </div>
           <div class="flex items-center justify-between">
@@ -309,7 +321,7 @@ onMounted(() => {
             Umumiy
           </div>
           <div class="text-xl font-semibold text-gray-900">
-            {{ useMoneyFormatter(409000) }}
+            {{ useMoneyFormatter(totalPrice) }}
           </div>
         </div>
       </div>
