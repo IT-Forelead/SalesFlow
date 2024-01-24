@@ -9,17 +9,32 @@ import UserService from '../../services/user.service.js'
 import { toast } from 'vue-sonner'
 import { useUserStore } from '../../store/user.store.js'
 import { vMaska } from 'maska'
+import MarketService from '../../services/market.service.js'
 
 const isLoading = ref(false)
 const selectedRole = ref([])
 
 const privileges = ref([
-  { name: 'Kassir', code: ['create_product'] },
-  { name: 'Admin', code: ['create_user', 'update_user', 'update_any_user', 'view_users', 'create_product'] },
+  { name: 'Kassir', code: ['create_product', 'create_order'] },
+  { name: 'Admin', code: ['create_user', 'update_user', 'create_order', 'update_any_user', 'view_users', 'create_product'] },
   { name: 'Boshqaruvchi', code: ['create_user', 'view_users', 'update_user'] },
 ])
 
+const markets = ref([])
+const selectedMarket = ref([])
+const getMarkets = () => {
+  isLoading.value = true
+  MarketService.getMarkets({})
+    .then((res) => {
+      markets.value = res
+    }).finally(() => {
+    isLoading.value = false
+  })
+}
+
+getMarkets()
 const submitForm = reactive({
+  marketId: '',
   firstname: '',
   lastname: '',
   login: '',
@@ -29,11 +44,12 @@ const submitForm = reactive({
 })
 
 const clearForm = () => {
+  selectedRole.value = []
+  selectedMarket.value = []
   submitForm.firstname = ''
   submitForm.lastname = ''
   submitForm.login = ''
   submitForm.password = ''
-  submitForm.privileges = ['']
   submitForm.phone = ''
 }
 
@@ -44,15 +60,19 @@ const closeModal = () => {
 
 const createUser = () => {
   submitForm.privileges = selectedRole.value.flatMap(role => role.code)
+  const selectedMarketId = selectedMarket.value.length > 0 ? selectedMarket.value[0].id : null;
+  submitForm.marketId = selectedMarketId !== null ? String(selectedMarketId) : '';
   if (!submitForm.firstname) return toast.warning('Iltimos ism kiriting')
   if (!submitForm.lastname) return toast.warning('Iltimos familiya kiriting')
   if (!submitForm.login) return toast.warning('Iltimos login kiriting')
   if (!submitForm.password) return toast.warning('Iltimos parol kiriting')
   if (submitForm.privileges.length === 0) return toast.warning('Iltimos rol tanlang')
+  if (submitForm.marketId.length === 0) return toast.warning('Iltimos do\'kon tanlang')
   if (!submitForm.phone) return toast.warning('Iltimos telefon raqam kiriting')
   else {
     isLoading.value = true
     const formData = new FormData()
+    formData.append('marketId', submitForm.marketId)
     formData.append('firstname', submitForm.firstname)
     formData.append('lastname', submitForm.lastname)
     formData.append('login', submitForm.login)
@@ -65,10 +85,11 @@ const createUser = () => {
       .then(() => {
         toast.success('Foydalanuvchi muvaffaqiyatli yaratildi!')
         isLoading.value = false
+        useUserStore().privileges = submitForm.privileges
         UserService.getUsers()
           .then((res) => {
-              useUserStore().clearStore()
-              useUserStore().setUsers(res)
+            useUserStore().clearStore()
+            useUserStore().setUsers(res)
             console.log(useUserStore().users)
           })
           .catch(() => {
@@ -83,7 +104,6 @@ const createUser = () => {
   }
 }
 </script>
-
 <template>
   <div>
     <CModal
@@ -111,7 +131,8 @@ const createUser = () => {
               />
             </div>
             <div class="w-full">
-              <label for="lastname" class="text-neutral-800 text-base font-normal after:text-red-500 after:content-['*']">Familiya</label>
+              <label for="lastname"
+                     class="text-neutral-800 text-base font-normal after:text-red-500 after:content-['*']">Familiya</label>
               <input
                 v-model="submitForm.lastname"
                 type="text"
@@ -154,6 +175,24 @@ const createUser = () => {
                 panel-class="bg-slate-100 rounded-2xl"
                 v-model="selectedRole"
                 :options="privileges"
+                optionLabel="name"
+                placeholder="Tanlang"
+                :maxSelectedLabels="1"
+                :selection-limit="1"
+                class="w-full border rounded-2xl bg-slate-100"
+              />
+            </div>
+            <div class="w-full">
+              <label for="password"
+                     class="block mb-2 text-neutral-800 text-base font-normal after:text-red-500 after:content-['*']">Do'kon
+                tanlash</label>
+              <MultiSelect
+                :show-toggle-all="false"
+                :display="'chip'"
+                :select-all="false"
+                panel-class="bg-slate-100 rounded-2xl"
+                v-model="selectedMarket"
+                :options="markets"
                 optionLabel="name"
                 placeholder="Tanlang"
                 :maxSelectedLabels="1"
