@@ -39,7 +39,7 @@ const clearSubmitData = () => {
 }
 
 const closeModal = () => {
-  useModalStore().closeCreateProductHistoriyModal()
+  useModalStore().closeCreateProductHistoryModal()
   clearSubmitData()
 }
 const selectedProduct = ref()
@@ -136,7 +136,6 @@ const search = (event) => {
           input-class="bg-slate-50 border border-slate-200 text-slate-900 text-base rounded-2xl focus:ring-green-400/40 focus:border-green-400/40 focus:ring-4 block w-full p-3" />
         <label for="ac">Mahsulot shtrix kodi yoki nomi bo'yicha izlash...</label>
       </div>
-
       <div v-if="selectedProduct" class="space-y-4">
         <div class="w-full mb-10">
           <div class="border-b border-gray-200 py-3">
@@ -146,15 +145,15 @@ const search = (event) => {
           </div>
           <div class="py-4 border-b border-slate-200 flex items-center justify-between">
             <p class="text-neutral-800 text-base font-normal">Shtrix kod</p>
-            <p class="text-sm leading-none text-gray-600 dark:text-gray-300">{{ selectedProduct.barcode }}</p>
+            <p class="text-sm leading-none text-gray-600">{{ selectedProduct.barcode }}</p>
           </div>
           <div class="py-4 border-b border-slate-200 flex items-center justify-between">
             <p class="text-neutral-800 text-base font-normal">Miqdori</p>
-            <p class="text-sm leading-none text-gray-600 dark:text-gray-300 mr-3">{{ selectedProduct.quantity }}</p>
+            <p class="text-sm leading-none text-gray-600 mr-3">{{ selectedProduct.quantity }}</p>
           </div>
           <div class="py-4 border-b border-slate-200 flex items-center justify-between">
             <p class="text-neutral-800 text-base font-normal">Narxi</p>
-            <p class="text-sm leading-none text-gray-600 dark:text-gray-300 mr-3">{{ selectedProduct.price }}</p>
+            <p class="text-sm leading-none text-gray-600 mr-3">{{ selectedProduct.price }}</p>
           </div>
         </div>
         <div class="flex items-center space-x-4">
