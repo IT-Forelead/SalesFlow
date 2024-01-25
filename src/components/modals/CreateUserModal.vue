@@ -1,23 +1,23 @@
 <script setup>
-import { useModalStore } from '../../store/modal.store.js'
-import CModal from '../common/CModal.vue'
-import CancelButton from '../buttons/CancelButton.vue'
-import { reactive, ref } from 'vue'
+import { vMaska } from 'maska'
 import MultiSelect from 'primevue/multiselect'
-import Spinners270RingIcon from '../../assets/icons/Spinners270RingIcon.vue'
+import { reactive, ref, watch } from 'vue'
+import { toast } from 'vue-sonner'
 import EyeIcon from '../../assets/icons/EyeIcon.vue'
 import EyeSlashIcon from '../../assets/icons/EyeSlashIcon.vue'
-import UserService from '../../services/user.service.js'
-import { toast } from 'vue-sonner'
-import { useUserStore } from '../../store/user.store.js'
-import { vMaska } from 'maska'
+import Spinners270RingIcon from '../../assets/icons/Spinners270RingIcon.vue'
+import { cleanObjectEmptyFields } from '../../mixins/utils'
 import MarketService from '../../services/market.service.js'
+import UserService from '../../services/user.service.js'
+import { useModalStore } from '../../store/modal.store.js'
+import { useUserStore } from '../../store/user.store.js'
+import CancelButton from '../buttons/CancelButton.vue'
+import CModal from '../common/CModal.vue'
 
 const isLoading = ref(false)
 const hidePassword = ref(true)
 const selectedRole = ref([])
-
-const togglePassword = () => (hidePassword.value = !hidePassword.value)
+const markets = ref([])
 
 const privileges = ref([
   { name: 'Kassir', code: ['create_product', 'create_order'] },
@@ -25,19 +25,15 @@ const privileges = ref([
   { name: 'Boshqaruvchi', code: ['create_user', 'view_users', 'update_user'] },
 ])
 
-const markets = ref([])
-const selectedMarket = ref([])
+const togglePassword = () => (hidePassword.value = !hidePassword.value)
+
 const getMarkets = () => {
-  isLoading.value = true
   MarketService.getMarkets({})
     .then((res) => {
       markets.value = res
-    }).finally(() => {
-    isLoading.value = false
-  })
+    })
 }
 
-getMarkets()
 const submitForm = reactive({
   marketId: '',
   firstname: '',
@@ -51,12 +47,13 @@ const submitForm = reactive({
 
 const clearForm = () => {
   selectedRole.value = []
-  selectedMarket.value = []
   submitForm.firstname = ''
   submitForm.lastname = ''
   submitForm.login = ''
-  submitForm.password = ''
   submitForm.phone = ''
+  submitForm.marketId = ''
+  submitForm.privileges = ''
+  submitForm.password = ''
 }
 
 const closeModal = () => {
@@ -74,6 +71,8 @@ const createUser = () => {
     toast.warning('Iltimos loginni kiriting')
   } else if (!submitForm.phone) {
     toast.warning('Iltimos telefon raqamni kiriting')
+  } else if (!submitForm.marketId) {
+    toast.warning("Iltimos do'konni tanlang!")
   } else if (submitForm.privileges.length === 0) {
     toast.warning('Iltimos rol tanlang')
   } else if (!submitForm.password) {
@@ -83,49 +82,43 @@ const createUser = () => {
   } else if (submitForm.password !== submitForm.confirmPassword) {
     toast.warning('Parollar mos kelmadi')
   } else {
-  const selectedMarketId = selectedMarket.value.length > 0 ? selectedMarket.value[0].id : null;
-  submitForm.marketId = selectedMarketId !== null ? String(selectedMarketId) : '';
-  if (!submitForm.firstname) return toast.warning('Iltimos ism kiriting')
-  if (!submitForm.lastname) return toast.warning('Iltimos familiya kiriting')
-  if (!submitForm.login) return toast.warning('Iltimos login kiriting')
-  if (!submitForm.password) return toast.warning('Iltimos parol kiriting')
-  if (submitForm.privileges.length === 0) return toast.warning('Iltimos rol tanlang')
-  if (submitForm.marketId.length === 0) return toast.warning('Iltimos do\'kon tanlang')
-  if (!submitForm.phone) return toast.warning('Iltimos telefon raqam kiriting')
-  else {
     isLoading.value = true
-    const formData = new FormData()
-    formData.append('marketId', submitForm.marketId)
-    formData.append('firstname', submitForm.firstname)
-    formData.append('lastname', submitForm.lastname)
-    formData.append('login', submitForm.login)
-    formData.append('password', submitForm.password)
-    submitForm.privileges.forEach(privilege => {
-      formData.append('privileges[]', privilege)
+    UserService.createUser(
+      cleanObjectEmptyFields({
+        firstname: submitForm.firstname,
+        lastname: submitForm.lastname,
+        login: submitForm.login,
+        phone: submitForm.phone.replace(/([() -])/g, ''),
+        marketId: submitForm.marketId,
+        privileges: submitForm.privileges,
+        password: submitForm.password,
+      })
+    ).then(() => {
+      toast.success('Foydalanuvchi muvaffaqiyatli yaratildi!')
+      isLoading.value = false
+      useUserStore().privileges = submitForm.privileges
+      UserService.getUsers()
+        .then((res) => {
+          useUserStore().clearStore()
+          useUserStore().setUsers(res)
+        })
+    }).catch((err) => {
+      toast.error('Foydalanuvchi yaratishda xatolik!')
+      isLoading.value = false
     })
-    formData.append('phone', submitForm.phone.replace(/([() -])/g, ''))
-    UserService.createUser(formData)
-      .then(() => {
-        toast.success('Foydalanuvchi muvaffaqiyatli yaratildi!')
-        isLoading.value = false
-        useUserStore().privileges = submitForm.privileges
-        UserService.getUsers()
-          .then((res) => {
-            useUserStore().clearStore()
-            useUserStore().setUsers(res)
-            console.log(useUserStore().users)
-          })
-          .catch(() => {
-            toast.error('Foydalanuvchilar topilmadi!')
-          })
-      })
-      .catch((err) => {
-        toast.error('Foydalanuvchi yaratishda xatolik!', err)
-        isLoading.value = false
-      })
     closeModal()
   }
 }
+
+watch(
+  () => useModalStore().isCreateUserModalOpen,
+  (data) => {
+    if (data) {
+      getMarkets()
+    }
+  },
+  { deep: true }
+)
 </script>
 <template>
   <div>
@@ -179,14 +172,16 @@ const createUser = () => {
           </div>
           <div class="flex items-center space-x-4">
             <div class="flex-1 space-y-1">
-              <label for="default-type" class="text-base font-medium">
+              <label for="market" class="text-base font-medium">
                 Do'kon
+                <span class="text-red-500 mr-2">*</span>
               </label>
-              <select id="default-type" class="bg-slate-100 border-none text-slate-900 rounded-lg block w-full h-11">
-                <option selected>Do'konni tanlang</option>
-                <option value="market">Market 1</option>
-                <option value="market">Market 2</option>
-                <option value="market">Market 3</option>
+              <select id="market" v-model="submitForm.marketId"
+                class="bg-slate-100 border-none text-slate-900 rounded-lg block w-full h-11">
+                <option value="" selected>Do'konni tanlang</option>
+                <option v-for="(market, idx) in markets" :key="idx" :value="market?.id">
+                  {{ market?.name }}
+                </option>
               </select>
             </div>
             <div class="flex-1">
@@ -222,7 +217,8 @@ const createUser = () => {
                 <span class="text-red-500 mr-2">*</span>
               </label>
               <div class="relative">
-                <input v-model="submitForm.confirmPassword" id="confirm-password" :type="hidePassword ? 'password' : 'text'"
+                <input v-model="submitForm.confirmPassword" id="confirm-password"
+                  :type="hidePassword ? 'password' : 'text'"
                   class="bg-slate-100 border-none text-slate-900 rounded-lg w-full py-2.5 placeholder-slate-400"
                   placeholder="Parolni qayta kiriting">
                 <EyeIcon v-if="hidePassword" @click="togglePassword()"
