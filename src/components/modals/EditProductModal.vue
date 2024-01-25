@@ -109,7 +109,7 @@ const editProduct = () => {
     <CModal :is-open="useModalStore().isEditProductModalOpen" v-if="useModalStore().isEditProductModalOpen && isLoading && selectedProduct != undefined" @close="closeModal">
       <template v-slot:header> Mahsulotni tahrirlash </template>
       <template v-slot:body>
-        <div class="grid grid-cols-2 grid-rows-3 gap-4">
+        <div class="p-4 md:p-5 grid grid-cols-2 grid-rows-3 gap-4">
           <div class="flex flex-col">
             <label for="name" class="text-left text-base font-medium">
               Mahsulot nomi
