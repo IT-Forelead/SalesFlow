@@ -11,6 +11,7 @@ import UserService from '../../services/user.service.js'
 import { toast } from 'vue-sonner'
 import { useUserStore } from '../../store/user.store.js'
 import { vMaska } from 'maska'
+import MarketService from '../../services/market.service.js'
 
 const isLoading = ref(false)
 const hidePassword = ref(true)
@@ -19,12 +20,26 @@ const selectedRole = ref([])
 const togglePassword = () => (hidePassword.value = !hidePassword.value)
 
 const privileges = ref([
-  { name: 'Kassir', code: ['create_product'] },
-  { name: 'Admin', code: ['create_user', 'update_user', 'update_any_user', 'view_users', 'create_product'] },
+  { name: 'Kassir', code: ['create_product', 'create_order'] },
+  { name: 'Admin', code: ['create_user', 'update_user', 'create_order', 'update_any_user', 'view_users', 'create_product'] },
   { name: 'Boshqaruvchi', code: ['create_user', 'view_users', 'update_user'] },
 ])
 
+const markets = ref([])
+const selectedMarket = ref([])
+const getMarkets = () => {
+  isLoading.value = true
+  MarketService.getMarkets({})
+    .then((res) => {
+      markets.value = res
+    }).finally(() => {
+    isLoading.value = false
+  })
+}
+
+getMarkets()
 const submitForm = reactive({
+  marketId: '',
   firstname: '',
   lastname: '',
   login: '',
@@ -35,11 +50,12 @@ const submitForm = reactive({
 })
 
 const clearForm = () => {
+  selectedRole.value = []
+  selectedMarket.value = []
   submitForm.firstname = ''
   submitForm.lastname = ''
   submitForm.login = ''
   submitForm.password = ''
-  submitForm.privileges = ['']
   submitForm.phone = ''
 }
 
@@ -67,8 +83,19 @@ const createUser = () => {
   } else if (submitForm.password !== submitForm.confirmPassword) {
     toast.warning('Parollar mos kelmadi')
   } else {
+  const selectedMarketId = selectedMarket.value.length > 0 ? selectedMarket.value[0].id : null;
+  submitForm.marketId = selectedMarketId !== null ? String(selectedMarketId) : '';
+  if (!submitForm.firstname) return toast.warning('Iltimos ism kiriting')
+  if (!submitForm.lastname) return toast.warning('Iltimos familiya kiriting')
+  if (!submitForm.login) return toast.warning('Iltimos login kiriting')
+  if (!submitForm.password) return toast.warning('Iltimos parol kiriting')
+  if (submitForm.privileges.length === 0) return toast.warning('Iltimos rol tanlang')
+  if (submitForm.marketId.length === 0) return toast.warning('Iltimos do\'kon tanlang')
+  if (!submitForm.phone) return toast.warning('Iltimos telefon raqam kiriting')
+  else {
     isLoading.value = true
     const formData = new FormData()
+    formData.append('marketId', submitForm.marketId)
     formData.append('firstname', submitForm.firstname)
     formData.append('lastname', submitForm.lastname)
     formData.append('login', submitForm.login)
@@ -81,6 +108,7 @@ const createUser = () => {
       .then(() => {
         toast.success('Foydalanuvchi muvaffaqiyatli yaratildi!')
         isLoading.value = false
+        useUserStore().privileges = submitForm.privileges
         UserService.getUsers()
           .then((res) => {
             useUserStore().clearStore()
@@ -99,7 +127,6 @@ const createUser = () => {
   }
 }
 </script>
-
 <template>
   <div>
     <CModal :is-open="useModalStore().isCreateUserModalOpen" v-if="useModalStore().isCreateUserModalOpen"
