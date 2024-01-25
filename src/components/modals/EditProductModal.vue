@@ -153,7 +153,7 @@ const editProduct = () => {
       </template>
       <template v-slot:footer>
         <CancelButton @click="closeModal" />
-        <button type="button" class="ms-3 text-white bg-blue-500 hover:bg-blue-600 focus:ring-4 focus:outline-none focus:ring-slate-300 rounded-xl border border-slate-200 text-sm font-medium px-5 py-2.5 focus:z-10" onclick="editProduct">Yaratish</button>
+        <button type="button" class="ms-3 text-white bg-blue-500 hover:bg-blue-600 focus:ring-4 focus:outline-none focus:ring-slate-300 rounded-xl border border-slate-200 text-sm font-medium px-5 py-2.5 focus:z-10" @click="editProduct()">Yaratish</button>
       </template>
     </CModal>
   </div>
