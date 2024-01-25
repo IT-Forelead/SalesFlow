@@ -1,16 +1,17 @@
 <script setup>
-import { ref } from 'vue'
+import { onMounted, ref } from 'vue'
 import { computed, h } from 'vue'
 import SearchIcon from '../assets/icons/SearchIcon.vue'
 import Spinners270RingIcon from '../assets/icons/Spinners270RingIcon.vue'
 import CTable from '../components/common/CTable.vue'
-import DeleteProductModal from '../components/modals/DeleteProductModal.vue'
-import EditProductModal from '../components/modals/EditProductModal.vue'
 import { useModalStore } from '../store/modal.store'
 import { useProductHistoryStore } from '../store/productHistory.store.js'
 import ProductHistoryService from '../services/productHistory.service.js'
 import { useProductStore } from '../store/product.store.js'
 import useMoneyFormatter from '../mixins/currencyFormatter.js'
+import EditProductHistoryModal from '../components/modals/EditProductHistoryModal.vue'
+import DeleteProductHistoryModal from '../components/modals/DeleteProductHistoryModal.vue'
+import ProductService from '../services/product.service.js'
 
 const globalSearchFromTable = ref('')
 const isLoading = ref(false)
@@ -23,8 +24,23 @@ const productsHistories = computed(() => {
 const productStore = useProductStore()
 const getProductName = (productId) => {
   const product = productStore.products.find(product => product.id === productId);
-  return product?.name || 'Mahsulot nomi yo\'q';
+  return product?.name + product?.packaging || 'Mahsulot nomi yo\'q';
 };
+
+const getProducts = () => {
+  ProductService.getProducts({})
+    .then((res) => {
+      useProductStore().clearStore();
+      useProductStore().setProducts(res);
+    })
+    .catch(() => {
+      toast.error('Failed to fetch products');
+    });
+}
+
+onMounted(()=>{
+  getProducts(); // Fetch product data
+})
 
 
 const getHistoryType = (historyType) => {
@@ -48,7 +64,7 @@ const columns = [
   {
     accessorKey: 'productId',
     header: 'Mahsulot nomi',
-    cell: ({row}) => getProductName(row.original.productId)
+    cell: ({row}) => getProductName(row.getValue('productId'))
   },
   {
     accessorKey: 'quantity',
@@ -73,8 +89,8 @@ const columns = [
     accessorKey: 'actions',
     header: 'Amallar',
     cell: ({ row }) => h('button', { class: 'flex space-x-2' }, [
-      h(EditProductModal, { id: row.original.id }),
-      h(DeleteProductModal, { id: row.original.id }),
+      h(EditProductHistoryModal, { id: row.original.id }),
+      h(DeleteProductHistoryModal, { id: row.original.id }),
     ]),
     enableSorting: false,
   },
@@ -107,7 +123,7 @@ getProductHistories()
                placeholder="Search everything...">
       </div>
       <div>
-        <button @click="useModalStore().openCreateProductHistoriyModal()"
+        <button @click="useModalStore().openCreateProductHistoryModal()"
                 class="w-full py-2 px-4 rounded-full text-white text-lg font-medium bg-blue-500 cursor-pointer hover:bg-blue-600">
           Mahsulot tarixi qo'shish
         </button>

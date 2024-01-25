@@ -1,5 +1,5 @@
 <script setup>
-import { ref } from 'vue'
+import { reactive, ref, watch } from 'vue'
 import { toast } from 'vue-sonner'
 import { cleanObjectEmptyFields } from '../mixins/utils'
 import ImageIcon from '../assets/icons/ImageIcon.vue';
@@ -14,6 +14,7 @@ import useMoneyFormatter from '../mixins/currencyFormatter.js'
 import ClockIcon from '../assets/icons/ClockIcon.vue';
 import ArrowsLeftRightIcon from '../assets/icons/ArrowsLeftRightIcon.vue';
 import ProductService from '../services/product.service';
+import OrderService from '../services/order.service';
 import { useProductStore } from '../store/product.store';
 import { computed, onMounted } from 'vue';
 
@@ -23,7 +24,14 @@ const moneyConf = {
   precision: 0,
 }
 
+const submitData = reactive({
+  discountPercent: 0,
+  paymentReceived: 0,
+})
+
 const cost = ref(0)
+const totalPrice = ref(0)
+// const totalPriceWithDiscount = ref(0)
 const search = ref('')
 const isLoading = ref(false)
 const selectedProducts = ref([])
@@ -41,9 +49,10 @@ const searchProducts = () => {
     isLoading.value = true
     ProductService.getProducts(
       cleanObjectEmptyFields({
-        name: search.value,
+        name: '%' + search.value + '%',
       })
     ).then((res) => {
+      isLoading.value = false
       useProductStore().clearStore()
       useProductStore().setProducts(res)
     })
@@ -51,34 +60,34 @@ const searchProducts = () => {
 }
 
 const addProductToCart = (product) => {
-  if (selectedProducts.value.find((p) => p?.id == product?.id)) {
+  if (selectedProducts.value.find((p) => p?.productId == product?.id)) {
     selectedProducts.value = selectedProducts.value.map((item) => {
-      if (item.id === product.id) {
-        return { ...item, count: item.count + 1 }
+      if (item.productId === product.id) {
+        return { ...item, amount: item.amount + 1 }
       } else item
       return item
     });
   } else {
     selectedProducts.value.push({
-      id: product?.id,
+      productId: product?.id,
       name: product?.name,
       packaging: product?.packaging,
       price: product?.price,
       quantity: product?.quantity,
-      count: 1
+      amount: 1
     })
   }
   clearSearchInput()
 }
 
 const removeProductFromCart = (product) => {
-  selectedProducts.value = selectedProducts.value.filter((p) => p.id !== product.id)
+  selectedProducts.value = selectedProducts.value.filter((p) => p.productId !== product.productId)
 }
 
 const increaseCountOfProducts = (product) => {
   selectedProducts.value = selectedProducts.value.map((item) => {
-    if (item.id === product.id) {
-      return { ...item, count: item.count + 1 }
+    if (item.productId === product.productId) {
+      return { ...item, amount: item.amount + 1 }
     } else item
     return item
   });
@@ -86,8 +95,8 @@ const increaseCountOfProducts = (product) => {
 
 const reduceCountOfProducts = (product) => {
   selectedProducts.value = selectedProducts.value.map((item) => {
-    if (item.id === product.id) {
-      return { ...item, count: item.count - 1 }
+    if (item.productId === product.productId) {
+      return { ...item, amount: item.amount - 1 }
     } else item
     return item
   });
@@ -97,6 +106,49 @@ const clearSearchInput = () => {
   search.value = ''
   useProductStore().clearStore()
 }
+
+const clearSubmitData = () => {
+  submitData.discountPercent = ''
+  submitData.paymentReceived = ''
+  selectedProducts.value = []
+}
+
+const createOrder = () => {
+  if (selectedProducts.value.length == 0) {
+    toast.error("Tanlangan mahsulotlar mavjud emas!")
+  } else {
+    isLoading.value = true
+    OrderService.createOrder(
+      cleanObjectEmptyFields({
+        discountPercent: submitData.discountPercent,
+        paymentReceived: submitData.paymentReceived,
+        items: selectedProducts.value,
+      })
+    ).then((res) => {
+      toast.success("Sotuv muoffaqiyatli amalga oshirildi!")
+      isLoading.value = false
+      clearSubmitData()
+    })
+  }
+}
+
+watch(
+  () => selectedProducts.value,
+  () => {
+    totalPrice.value = selectedProducts.value
+      .map((product) => product?.price * product?.amount)
+      .reduce((accumulator, currentValue) => accumulator + currentValue, 0);
+  },
+  { deep: true }
+)
+
+watch(
+  () => totalPrice.value,
+  () => {
+    submitData.paymentReceived = totalPrice.value
+  },
+  { deep: true }
+)
 
 onMounted(() => {
   useProductStore().clearStore()
@@ -200,7 +252,7 @@ onMounted(() => {
                 <td class="px-3 py-2 text-center whitespace-nowrap">
                   <div class="flex justify-center">
                     <div class="flex items-center justify-between bg-slate-100 w-28 rounded-xl p-1">
-                      <div @click="reduceCountOfProducts(product)" v-if="product?.count > 1"
+                      <div @click="reduceCountOfProducts(product)" v-if="product?.amount > 1"
                         class="flex items-center justify-center w-8 h-8 bg-white text-blue-700 shadow-sm hover:bg-slate-200 cursor-pointer rounded-xl">
                         <MinusIcon class="w-4 h-4" />
                       </div>
@@ -209,9 +261,9 @@ onMounted(() => {
                         <MinusIcon class="w-4 h-4" />
                       </div>
                       <div class="flex items-center justify-center text-lg font-normal">
-                        {{ product?.count }}
+                        {{ product?.amount }}
                       </div>
-                      <div @click="increaseCountOfProducts(product)" v-if="product?.quantity > product?.count"
+                      <div @click="increaseCountOfProducts(product)" v-if="product?.quantity > product?.amount"
                         class="flex items-center justify-center w-8 h-8 bg-white text-blue-700 shadow-sm hover:bg-slate-200 cursor-pointer rounded-xl">
                         <PlusIcon class="w-4 h-4" />
                       </div>
@@ -223,7 +275,7 @@ onMounted(() => {
                   </div>
                 </td>
                 <td class="px-3 py-2 text-center whitespace-nowrap">
-                  {{ useMoneyFormatter(product?.price * product?.count) }}
+                  {{ useMoneyFormatter(product?.price * product?.amount) }}
                 </td>
                 <td class="px-3 py-2 whitespace-nowrap rounded-r-2xl">
                   <div class="flex justify-center">
@@ -284,7 +336,7 @@ onMounted(() => {
               Narxi
             </div>
             <div class="text-base font-semibold text-gray-900">
-              {{ useMoneyFormatter(409000) }}
+              {{ useMoneyFormatter(totalPrice) }}
             </div>
           </div>
           <div class="flex items-center justify-between">
@@ -292,7 +344,7 @@ onMounted(() => {
               Chegirma
             </div>
             <div class="text-base font-semibold text-gray-900">
-              0 %
+              {{ submitData.discountPercent }} %
             </div>
           </div>
           <div class="flex items-center justify-between">
@@ -309,14 +361,14 @@ onMounted(() => {
             Umumiy
           </div>
           <div class="text-xl font-semibold text-gray-900">
-            {{ useMoneyFormatter(409000) }}
+            {{ useMoneyFormatter(totalPrice) }}
           </div>
         </div>
       </div>
 
       <div class="space-y-1">
         <label class="text-base font-medium">Qabul qilingan to'lov</label>
-        <money3 v-model="cost" v-bind="moneyConf" id="price"
+        <money3 v-model="submitData.paymentReceived" v-bind="moneyConf" id="price"
           class="border-none text-right text-gray-500 bg-slate-100 rounded-lg w-full text-lg">
         </money3>
       </div>
@@ -338,7 +390,7 @@ onMounted(() => {
         </div>
       </div>
 
-      <button
+      <button @click="createOrder()"
         class="w-full py-3 px-4 rounded-full text-white text-lg font-medium bg-blue-500 cursor-pointer hover:bg-blue-600">
         To'lov
       </button>

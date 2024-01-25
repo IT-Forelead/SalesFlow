@@ -42,7 +42,7 @@ const logout = () => {
             {{ useAuthStore().user?.firstname + ' ' + useAuthStore().user?.lastname }}
           </div>
           <div class="text-gray-600">
-            {{ useAuthStore().user?.role }}
+            {{ useAuthStore().user?.login }}
           </div>
         </div>
       </div>

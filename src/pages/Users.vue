@@ -19,6 +19,23 @@ const users = computed(() => {
   return userStore.users
 })
 
+const privileges = computed(() => {
+  return userStore.privileges
+})
+
+const getRole = (privileges) => {
+  switch (true) {
+    case privileges.includes('create_user') && privileges.includes('update_user') && privileges.includes('create_order') && privileges.includes('update_any_user') && privileges.includes('view_users') && privileges.includes('create_product'):
+      return 'Admin';
+    case privileges.includes('create_user') && privileges.includes('view_users') && privileges.includes('update_user'):
+      return 'Boshqaruvchi';
+    case privileges.includes('create_product') && privileges.includes('create_order'):
+      return 'Kassir';
+    default:
+      return 'Foydalanuvchi';
+  }
+}
+
 const columns = [
   {
     accessorKey: 'id',
@@ -38,9 +55,9 @@ const columns = [
     header: 'Telefon raqami',
   },
   {
-    accessorKey: 'role',
+    accessorKey: 'privileges',
     header: 'Role',
-    accessorFn: row => row?.privileges.join(', '),
+    accessorFn: row => getRole(row.privileges),
   },
   {
     accessorKey: 'createdAt',
@@ -89,7 +106,8 @@ getUsers()
                placeholder="Search everything...">
       </div>
       <div>
-        <button @click="useModalStore().openCreateUserModal()" class="w-full py-2 px-4 rounded-full text-white text-lg font-medium bg-blue-500 cursor-pointer hover:bg-blue-600">
+        <button @click="useModalStore().openCreateUserModal()"
+                class="w-full py-2 px-4 rounded-full text-white text-lg font-medium bg-blue-500 cursor-pointer hover:bg-blue-600">
           Foydalanuvchi qo'shish
         </button>
       </div>
