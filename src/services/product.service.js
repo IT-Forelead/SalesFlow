@@ -5,7 +5,6 @@ class ProductService {
     return AxiosService.post('/product/add', data)
   }
   async getProducts(filter) {
-    console.log(filter)
     return AxiosService.post('/product', filter)
   }
 }

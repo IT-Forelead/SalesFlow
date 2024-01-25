@@ -40,18 +40,18 @@ const moneyConf = {
 
 const submitData = reactive({
   name: '',
-  barcode: '',
-  defaultType: 0.0,
-  defaultValue: '',
+  barcode: 0,
+  saleType: 0.0,
+  packaging: '',
   price: 0,
   quantity: 0,
 })
 
 const clearSubmitData = () => {
   submitData.name = ''
-  submitData.barcode = ''
-  submitData.defaultType = ''
-  submitData.defaultValue = ''
+  submitData.barcode = 0
+  submitData.saleType = ''
+  submitData.packaging = ''
   submitData.price = 0
   submitData.quantity = 0
 }
@@ -66,9 +66,9 @@ const editProduct = () => {
     toast.error('Mahsulot nomini kiriting!')
   } else if (!submitData.barcode) {
     toast.error('Mahsulot shtrix kodini kiriting!')
-  } else if (!submitData.defaultValue) {
+  } else if (!submitData.packaging) {
     toast.error('Mahsulot standart qiym0.0atini kiriting!')
-  } else if (!submitData.defaultType) {
+  } else if (!submitData.saleType) {
     toast.error("Mahsulot o'lchov turini kiriting!")
   } else if (submitData.price == 0) {
     toast.error('Mahsulot narxini kiriting!')
@@ -77,8 +77,8 @@ const editProduct = () => {
     ProductService.createProduct({
       name: submitData.name,
       barcode: submitData.barcode,
-      defaultType: submitData.defaultType,
-      defaultValue: submitData.defaultValue,
+      saleType: submitData.saleType,
+      packaging: submitData.packaging,
       price: submitData.price,
       quantity: submitData.quantity,
     })
@@ -123,14 +123,14 @@ const editProduct = () => {
           </div>
           <div class="flex flex-col">
             <label for="name" class="text-left text-base font-medium">
-              Standart qiymati
+              Qadoqi
               <span class="text-red-500 mr-2">*</span>
             </label>
-            <input id="default-value" type="text" v-model="selectedProduct.packaging" class="bg-slate-100 border-none text-slate-900 rounded-lg w-full h-11 placeholder-slate-400" placeholder="Standart qiymatini kiriting" />
+            <input id="default-value" type="text" v-model="selectedProduct.packaging" class="bg-slate-100 border-none text-slate-900 rounded-lg w-full h-11 placeholder-slate-400" placeholder="Qadoqini kiriting" />
           </div>
           <div class="flex flex-col">
             <label for="name" class="text-left text-base font-medium">
-              Standart turi
+              Sotuv turi
               <span class="text-red-500 mr-2">*</span>
             </label>
             <select id="default-type" v-model="selectedProduct.saleType" class="bg-slate-100 border-none text-slate-900 rounded-lg block w-full h-11">
