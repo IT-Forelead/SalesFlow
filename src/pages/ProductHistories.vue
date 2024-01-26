@@ -24,7 +24,7 @@ const productsHistories = computed(() => {
 const productStore = useProductStore()
 const getProductName = (productId) => {
   const product = productStore.products.find(product => product.id === productId);
-  return product?.name + product?.packaging || 'Mahsulot nomi yo\'q';
+  return product?.name + " - " + product?.packaging || 'Mahsulot nomi yo\'q';
 };
 
 const getProducts = () => {
