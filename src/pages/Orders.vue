@@ -8,6 +8,9 @@ import CTable from '../components/common/CTable.vue'
 import OrderInfoModal from '../components/modals/OrderInfoModal.vue'
 import OrderService from '../services/order.service'
 import useMoneyFormatter from '../mixins/currencyFormatter.js'
+import EyeIcon from '../assets/icons/EyeIcon.vue'
+import { useModalStore } from '../store/modal.store'
+import { useOrderStore } from '../store/order.store'
 
 const globalSearchFromTable = ref('')
 const orders = ref([])
@@ -81,12 +84,19 @@ const columns = [
     {
         accessorKey: 'actions',
         header: 'Amallar',
-        cell: ({ row }) => h('button', { class: 'flex space-x-2' }, [
-            h(OrderInfoModal, { id: row.original.id }),
+        cell: ({ row }) => h('div', { class: 'flex items-center space-x-2' }, [
+            h('button', { onClick: () => {openOrderinfo(row.original)} }, [
+                h(EyeIcon, {class: 'w-6 h-6 text-blue-600 hover:scale-105'})
+            ]),
         ]),
         enableSorting: false,
     },
 ]
+
+const openOrderinfo = (data) => {
+    useModalStore().openOrderInfoModal()
+    useOrderStore().setSelectedOrder(data)
+}
 
 const getOrders = () => {
     isLoading.value = true
