@@ -7,29 +7,43 @@ import { useProductStore } from '../../store/product.store.js'
 import CancelButton from '../buttons/CancelButton.vue'
 import Spinners270RingIcon from '../../assets/icons/Spinners270RingIcon.vue'
 import ProductService from '../../services/product.service.js'
-import { reactive, ref, toRefs, computed, onMounted } from 'vue'
+import { reactive, ref, toRefs, watch } from 'vue'
 
 const props = defineProps({
-  id:String
+  id: String
 })
 const { id } = toRefs(props)
 
 const isLoading = ref(false)
 
 const selectedProduct = ref({})
+const selectedProductPrice = ref(0)
 
-
-onMounted(() => {
-
+const getProductById = () => {
   isLoading.value = false
   ProductService.getProducts({ productIds: [id.value] }).then((res) => {
     setTimeout(() => {
-      
       isLoading.value = true
       selectedProduct.value = res[0]
+      if (selectedProduct.value != undefined && selectedProduct.value.price != undefined) {
+        selectedProductPrice.value = selectedProduct.value.price
+      }
     }, 500)
   })
-}); 
+
+}
+
+watch(
+  () => useModalStore().isEditProductModalOpen,
+  (data) => {
+    if (data) {
+      console.log(id.value)
+      //selectedProduct.value = id.value
+      getProductById()
+    }
+  },
+  { deep: true }
+)
 
 const moneyConf = {
   thousands: ' ',
@@ -37,23 +51,13 @@ const moneyConf = {
   precision: 0,
 }
 
-
-const submitData = reactive({
-  name: '',
-  barcode: 0,
-  saleType: 0.0,
-  packaging: '',
-  price: 0,
-  quantity: 0,
-})
-
 const clearSubmitData = () => {
-  submitData.name = ''
-  submitData.barcode = 0
-  submitData.saleType = ''
-  submitData.packaging = ''
-  submitData.price = 0
-  submitData.quantity = 0
+  selectedProduct.value.name = ''
+  selectedProduct.value.barcode = 0
+  selectedProduct.value.saleType = ''
+  selectedProduct.value.packaging = ''
+  selectedProduct.value.price = 0
+  selectedProduct.value.quantity = 0
 }
 
 const closeModal = () => {
@@ -62,26 +66,19 @@ const closeModal = () => {
 }
 
 const editProduct = () => {
-  if (!submitData.name) {
+  if (!selectedProduct.value.name) {
     toast.error('Mahsulot nomini kiriting!')
-  } else if (!submitData.barcode) {
+  } else if (!selectedProduct.value.barcode) {
     toast.error('Mahsulot shtrix kodini kiriting!')
-  } else if (!submitData.packaging) {
+  } else if (!selectedProduct.value.packaging) {
     toast.error('Mahsulot standart qiym0.0atini kiriting!')
-  } else if (!submitData.saleType) {
+  } else if (!selectedProduct.value.saleType) {
     toast.error("Mahsulot o'lchov turini kiriting!")
-  } else if (submitData.price == 0) {
+  } else if (selectedProduct.value.price == 0) {
     toast.error('Mahsulot narxini kiriting!')
   } else {
     isLoading.value = true
-    ProductService.createProduct({
-      name: submitData.name,
-      barcode: submitData.barcode,
-      saleType: submitData.saleType,
-      packaging: submitData.packaging,
-      price: submitData.price,
-      quantity: submitData.quantity,
-    })
+    ProductService.createProduct(selectedProduct.value)
       .then(() => {
         toast.success("Mahsulot muoffaqiyatli qo'shildi!")
         ProductService.getProducts({}).then((res) => {
@@ -106,7 +103,7 @@ const editProduct = () => {
     <button type="button" @click="useModalStore().openEditProductModal()">
       <PhPencilLine class="w-6 h-6 text-blue-600 hover:scale-105" />
     </button>
-    <CModal :is-open="useModalStore().isEditProductModalOpen" v-if="useModalStore().isEditProductModalOpen && isLoading && selectedProduct != undefined" @close="closeModal">
+    <CModal :is-open="useModalStore().isEditProductModalOpen" v-if="useModalStore().isEditProductModalOpen && selectedProduct != undefined" @close="closeModal">
       <template v-slot:header> Mahsulotni tahrirlash </template>
       <template v-slot:body>
         <div class="p-4 md:p-5 grid grid-cols-2 grid-rows-3 gap-4">
@@ -146,7 +143,9 @@ const editProduct = () => {
               Narxi
               <span class="text-red-500 mr-2">*</span>
             </label>
-            <money3 v-model.number="selectedProduct.price" v-bind="moneyConf" id="price" class="border-none text-right text-gray-500 bg-slate-100 h-11 rounded-lg w-full text-lg"> </money3>
+            <money3 v-bind="moneyConf" 
+            v-model.number="selectedProductPrice"  
+            id="price" class="border-none text-right text-gray-500 bg-slate-100 h-11 rounded-lg w-full text-lg"> </money3>
           </div>
           
         </div>
