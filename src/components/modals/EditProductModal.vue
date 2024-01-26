@@ -7,43 +7,12 @@ import { useProductStore } from '../../store/product.store.js'
 import CancelButton from '../buttons/CancelButton.vue'
 import Spinners270RingIcon from '../../assets/icons/Spinners270RingIcon.vue'
 import ProductService from '../../services/product.service.js'
-import { reactive, ref, toRefs, watch } from 'vue'
+import { computed, reactive, ref, toRefs, watch } from 'vue'
 
-const props = defineProps({
-  id: String
+const selectedProduct = computed(() => {
+  return useProductStore().selectedProduct
 })
-const { id } = toRefs(props)
 
-const isLoading = ref(false)
-
-const selectedProduct = ref({})
-const selectedProductPrice = ref(0)
-
-const getProductById = () => {
-  isLoading.value = false
-  ProductService.getProducts({ productIds: [id.value] }).then((res) => {
-    setTimeout(() => {
-      isLoading.value = true
-      selectedProduct.value = res[0]
-      if (selectedProduct.value != undefined && selectedProduct.value.price != undefined) {
-        selectedProductPrice.value = selectedProduct.value.price
-      }
-    }, 500)
-  })
-
-}
-
-watch(
-  () => useModalStore().isEditProductModalOpen,
-  (data) => {
-    if (data) {
-      console.log(id.value)
-      //selectedProduct.value = id.value
-      getProductById()
-    }
-  },
-  { deep: true }
-)
 
 const moneyConf = {
   thousands: ' ',
@@ -62,7 +31,7 @@ const clearSubmitData = () => {
 
 const closeModal = () => {
   useModalStore().closeEditProductModal()
-  clearSubmitData()
+  useProductStore().setSelectedProduct({})
 }
 
 const editProduct = () => {
@@ -77,21 +46,24 @@ const editProduct = () => {
   } else if (selectedProduct.value.price == 0) {
     toast.error('Mahsulot narxini kiriting!')
   } else {
-    isLoading.value = true
+
     ProductService.createProduct(selectedProduct.value)
       .then(() => {
-        toast.success("Mahsulot muoffaqiyatli qo'shildi!")
-        ProductService.getProducts({}).then((res) => {
-          useProductStore().clearStore()
-          useProductStore().setProducts(res)
-        })
-        isLoading.value = false
+        setTimeout(() => {
+          toast.success("Mahsulot muoffaqiyatli qo'shildi!")
+          ProductService.getProducts({}).then((res) => {
+            setTimeout(() => {
+              useProductStore().clearStore()
+              useProductStore().setProducts(res)
+            }, 500)
+          })
+        }, 500)
+
         closeModal()
       })
       .catch((err) => {
         toast.error('Mahsulot yaratishda xatolik yuz berdi!')
         setTimeout(() => {
-          isLoading.value = false
         }, 3000)
       })
   }
@@ -99,11 +71,8 @@ const editProduct = () => {
 </script>
 
 <template>
-  <div>
-    <button type="button" @click="useModalStore().openEditProductModal()">
-      <PhPencilLine class="w-6 h-6 text-blue-600 hover:scale-105" />
-    </button>
-    <CModal :is-open="useModalStore().isEditProductModalOpen" v-if="useModalStore().isEditProductModalOpen && selectedProduct != undefined" @close="closeModal">
+  
+    <CModal :is-open="useModalStore().isEditProductModalOpen" v-if="useModalStore().isEditProductModalOpen" @close="closeModal">
       <template v-slot:header> Mahsulotni tahrirlash </template>
       <template v-slot:body>
         <div class="p-4 md:p-5 grid grid-cols-2 grid-rows-3 gap-4">
@@ -144,7 +113,7 @@ const editProduct = () => {
               <span class="text-red-500 mr-2">*</span>
             </label>
             <money3 v-bind="moneyConf" 
-            v-model.number="selectedProductPrice"  
+            v-model.number="selectedProduct.price"  
             id="price" class="border-none text-right text-gray-500 bg-slate-100 h-11 rounded-lg w-full text-lg"> </money3>
           </div>
           
@@ -155,7 +124,7 @@ const editProduct = () => {
         <button type="button" class="ms-3 text-white bg-blue-500 hover:bg-blue-600 focus:ring-4 focus:outline-none focus:ring-slate-300 rounded-xl border border-slate-200 text-sm font-medium px-5 py-2.5 focus:z-10" @click="editProduct()">Yaratish</button>
       </template>
     </CModal>
-  </div>
+  
 </template>
 
 <style scoped></style>
