@@ -25,10 +25,6 @@ const columns = [
     header: "Do'kon nomi",
   },
   {
-    accessorKey: 'owner',
-    header: "Egasi",
-  },
-  {
     accessorKey: 'address',
     header: 'Manzili',
   },

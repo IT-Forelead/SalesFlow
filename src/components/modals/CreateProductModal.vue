@@ -20,8 +20,8 @@ const isLoading = ref(false)
 const submitData = reactive({
     name: '',
     barcode: '',
-    defaultType: 0.0,
-    defaultValue: '',
+    packaging: '',
+    saleType: '',
     price: 0,
     quantity: 0,
 })
@@ -29,8 +29,8 @@ const submitData = reactive({
 const clearSubmitData = () => {
     submitData.name = ''
     submitData.barcode = ''
-    submitData.defaultType = ''
-    submitData.defaultValue = ''
+    submitData.packaging = ''
+    submitData.saleType = ''
     submitData.price = 0
     submitData.quantity = 0
 }
@@ -43,12 +43,10 @@ const closeModal = () => {
 const createProduct = () => {
     if (!submitData.name) {
         toast.error('Mahsulot nomini kiriting!')
-    } else if (!submitData.barcode) {
-        toast.error('Mahsulot shtrix kodini kiriting!')
-    } else if (!submitData.defaultValue) {
-        toast.error('Mahsulot standart qiym0.0atini kiriting!')
-    } else if (!submitData.defaultType) {
-        toast.error('Mahsulot o\'lchov turini kiriting!')
+    } else if (!submitData.packaging) {
+        toast.error("Mahsulot qadoqi haqida ma'lumot kiriting!")
+    } else if (!submitData.saleType) {
+        toast.error("Mahsulot Sotuv turini tanlang!")
     } else if (submitData.price == 0) {
         toast.error("Mahsulot narxini kiriting!")
     } else {
@@ -56,8 +54,8 @@ const createProduct = () => {
         ProductService.createProduct({
             name: submitData.name,
             barcode: submitData.barcode,
-            defaultType: submitData.defaultType,
-            defaultValue: submitData.defaultValue,
+            packaging: submitData.packaging,
+            saleType: submitData.saleType,
             price: submitData.price,
             quantity: submitData.quantity,
         }).then(() => {
@@ -120,23 +118,22 @@ const createProduct = () => {
                 <div class="flex items-center space-x-4">
                     <div class="flex-1 space-y-1">
                         <label for="default-value" class="text-base font-medium">
-                            Standart qiymati
+                            Qadoqi
                             <span class="text-red-500 mr-2">*</span>
                         </label>
-                        <input id="default-value" type="text" v-model="submitData.defaultValue"
+                        <input id="default-value" type="text" v-model="submitData.packaging"
                             class="bg-slate-100 border-none text-slate-900 rounded-lg w-full h-11 placeholder-slate-400"
-                            placeholder="Standart qiymatini kiriting">
+                            placeholder="Qadoqi haqida ma'lumot kiriting">
                     </div>
                     <div class="flex-1 space-y-1">
                         <label for="default-type" class="text-base font-medium">
-                            Standart turi
+                            Sotuv turi
                             <span class="text-red-500 mr-2">*</span>
                         </label>
-                        <select id="default-type" v-model="submitData.defaultType"
+                        <select id="default-type" v-model="submitData.saleType"
                             class="bg-slate-100 border-none text-slate-900 rounded-lg block w-full h-11">
-                            <option selected>Turini tanlang</option>
+                            <option value="" selected>Turini tanlang</option>
                             <option value="amount">dona</option>
-                            <option value="kg">kilogramm</option>
                             <option value="g">gramm</option>
                             <option value="litre">litr</option>
                         </select>

@@ -173,7 +173,7 @@ onMounted(() => {
             <XIcon class="w-5 h-5 text-slate-600" />
           </div>
           <button @click="searchProducts()" type="button"
-            class="absolute inset-y-0 right-0 px-4 bg-[#0167F3] text-white rounded-xl">
+            class="absolute inset-y-0 right-0 px-4 bg-[#0167F3] text-white rounded-r-xl">
             Izlash
           </button>
           <div v-if="products.length > 0" class="absolute top-16 left-0 bg-transparent w-full space-y-2 z-50">
