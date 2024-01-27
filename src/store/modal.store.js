@@ -12,6 +12,7 @@ export const useModalStore = defineStore('modal', {
     isOpenOrderInfoModal: false,
     isOpenCreateMarketModal: false,
     isOpenEditMarketModal: false,
+    isOpenDeleteMarketModal: false,
     isOpenCreateProductModal: false,
     isOpenCreateProductHistoryModal: false,
     isOpenDeleteProductHistoryModal: false,
@@ -65,6 +66,12 @@ export const useModalStore = defineStore('modal', {
     },
     closeEditMarketModal() {
       this.isOpenEditMarketModal = false
+    },
+    openDeleteMarketModal() {
+      this.isOpenDeleteMarketModal = true
+    },
+    closeDeleteMarketModal() {
+      this.isOpenDeleteMarketModal = false
     },
     openCreateProductModal() {
       this.isOpenCreateProductModal = true

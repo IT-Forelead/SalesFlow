@@ -41,7 +41,7 @@ const columns = [
       h('button', { onClick: () => { openEditMarketModal(row.original) } }, [
         h(EditIcon, { class: 'w-6 h-6 text-blue-600 hover:scale-105' })
       ]),
-      h('button', { onClick: () => { openEditMarketModal(row.original) } }, [
+      h('button', { onClick: () => { openDeleteMarketModal(row.original) } }, [
         h(TrashIcon, { class: 'w-6 h-6 text-red-600 hover:scale-105' })
       ]),
     ]),
@@ -51,6 +51,11 @@ const columns = [
 
 const openEditMarketModal = (data) => {
   useModalStore().openEditMarketModal()
+  useMarketStore().setSelectedMarket(data)
+}
+
+const openDeleteMarketModal = (data) => {
+  useModalStore().openDeleteMarketModal()
   useMarketStore().setSelectedMarket(data)
 }
 
