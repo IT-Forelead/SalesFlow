@@ -18,6 +18,18 @@ const productStore = useProductStore()
 const products = computed(() => {
   return productStore.products
 })
+const saleTypeTranslate = (type) => {
+  switch (type){
+    case 'amount':
+      return 'Donali'
+    case 'litre':
+      return 'Litrli'
+    case 'kg':
+      return 'Kilogrammli'
+    case 'g':
+      return 'Grammli'
+  }
+}
 
 const columns = [
   {
@@ -45,6 +57,7 @@ const columns = [
   {
     accessorKey: 'saleType',
     header: 'Sotilish turi',
+    accessorFn: row => `${ saleTypeTranslate(row.saleType) }`,
   },
   {
     accessorKey: 'price',
