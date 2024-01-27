@@ -4,13 +4,14 @@ export const useModalStore = defineStore('modal', {
   state:()=>({
     isOpenProfileDropDown: false,
     isOpenNotification: false,
-    isEditProductModalOpen: false,
-    isDeleteProductModalOpen: false,
-    isCreateUserModalOpen: false,
-    isEditUserModalOpen: false,
-    isDeleteUserModalOpen: false,
+    isOpenEditProductModal: false,
+    isOpenDeleteProductModal: false,
+    isOpenCreateUserModal: false,
+    isOpenEditUserModal: false,
+    isOpenDeleteUserModal: false,
     isOpenOrderInfoModal: false,
     isOpenCreateMarketModal: false,
+    isOpenEditMarketModal: false,
     isOpenCreateProductModal: false,
     isOpenCreateProductHistoryModal: false,
     isOpenDeleteProductHistoryModal: false,
@@ -18,34 +19,34 @@ export const useModalStore = defineStore('modal', {
   }),
   actions:{
     openCreateUserModal() {
-      this.isCreateUserModalOpen = true
+      this.isOpenCreateUserModal = true
     },
     closeCreateUserModal() {
-      this.isCreateUserModalOpen = false
+      this.isOpenCreateUserModal = false
     },
     openEditUserModal() {
-      this.isEditUserModalOpen = true
+      this.isOpenEditUserModal = true
     },
     closeEditUserModal() {
-      this.isEditUserModalOpen = false
+      this.isOpenEditUserModal = false
     },
     openDeleteUserModal() {
-      this.isDeleteUserModalOpen = true
+      this.isOpenDeleteUserModal = true
     },
     closeDeleteUserModal() {
-      this.isDeleteUserModalOpen = false
+      this.isOpenDeleteUserModal = false
     },
     openEditProductModal() {
-      this.isEditProductModalOpen = true
+      this.isOpenEditProductModal = true
     },
     closeEditProductModal() {
-      this.isEditProductModalOpen = false
+      this.isOpenEditProductModal = false
     },
     openDeleteProductModal() {
-      this.isDeleteProductModalOpen = true
+      this.isOpenDeleteProductModal = true
     },
     closeDeleteProductModal() {
-      this.isDeleteProductModalOpen = false
+      this.isOpenDeleteProductModal = false
     },
     openOrderInfoModal() {
       this.isOpenOrderInfoModal = true
@@ -58,6 +59,12 @@ export const useModalStore = defineStore('modal', {
     },
     closeCreateMarketModal() {
       this.isOpenCreateMarketModal = false
+    },
+    openEditMarketModal() {
+      this.isOpenEditMarketModal = true
+    },
+    closeEditMarketModal() {
+      this.isOpenEditMarketModal = false
     },
     openCreateProductModal() {
       this.isOpenCreateProductModal = true

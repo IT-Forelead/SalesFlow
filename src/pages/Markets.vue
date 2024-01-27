@@ -2,12 +2,13 @@
 import { h, ref } from 'vue'
 import CTable from '../components/common/CTable.vue'
 import moment from 'moment'
-import EditProductModal from '../components/modals/EditProductModal.vue'
-import DeleteProductModal from '../components/modals/DeleteProductModal.vue'
 import SearchIcon from '../assets/icons/SearchIcon.vue'
 import Spinners270RingIcon from '../assets/icons/Spinners270RingIcon.vue'
+import EditIcon from '../assets/icons/EditIcon.vue'
+import TrashIcon from '../assets/icons/TrashIcon.vue'
 import MarketService from '../services/market.service'
 import { useModalStore } from '../store/modal.store'
+import { useMarketStore } from '../store/market.store'
 
 const globalSearchFromTable = ref('')
 const markets = ref([])
@@ -34,15 +35,24 @@ const columns = [
     header: 'Yaratilgan vaqti',
   },
   {
-    accessorKey: 'edit',
+    accessorKey: 'actions',
     header: 'Amallar',
-    cell: ({ row }) => h('button', { class: 'flex space-x-2' }, [
-      h(EditProductModal, { id: row.original.id }),
-      h(DeleteProductModal, { id: row.original.id }),
+    cell: ({ row }) => h('div', { class: 'flex items-center space-x-2' }, [
+      h('button', { onClick: () => { openEditMarketModal(row.original) } }, [
+        h(EditIcon, { class: 'w-6 h-6 text-blue-600 hover:scale-105' })
+      ]),
+      h('button', { onClick: () => { openEditMarketModal(row.original) } }, [
+        h(TrashIcon, { class: 'w-6 h-6 text-red-600 hover:scale-105' })
+      ]),
     ]),
     enableSorting: false,
   },
 ]
+
+const openEditMarketModal = (data) => {
+  useModalStore().openEditMarketModal()
+  useMarketStore().setSelectedMarket(data)
+}
 
 const getMarkets = () => {
   isLoading.value = true
@@ -72,7 +82,8 @@ getMarkets()
           placeholder="Search everything...">
       </div>
       <div>
-        <button @click="useModalStore().openCreateMarketModal()" class="w-full py-2 px-4 rounded-full text-white text-lg font-medium bg-blue-500 cursor-pointer hover:bg-blue-600">
+        <button @click="useModalStore().openCreateMarketModal()"
+          class="w-full py-2 px-4 rounded-full text-white text-lg font-medium bg-blue-500 cursor-pointer hover:bg-blue-600">
           Do'kon qo'shish
         </button>
       </div>

@@ -21,8 +21,8 @@ const closeModal = () => {
       <PhTrash class="flex w-6 h-6 text-red-600 cursor-pointer hover:scale-105" />
     </button>
     <CModal
-      :is-open="useModalStore().isDeleteUserModalOpen"
-      v-if="useModalStore().isDeleteUserModalOpen"
+      :is-open="useModalStore().isOpenDeleteUserModal"
+      v-if="useModalStore().isOpenDeleteUserModal"
       @close=closeModal
     >
       <template v-slot:header>
