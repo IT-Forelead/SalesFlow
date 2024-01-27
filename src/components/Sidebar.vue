@@ -15,8 +15,7 @@ const router = useRouter()
 
 const payload = ref({})
 
-const getCurrentPageName = (pageName) => {
-  useSidebarStore().setCurrentPage(pageName)
+const selectPage = () => {
   useSidebarStore().isOpenSidebar = false
 }
 
@@ -25,10 +24,6 @@ const closeSidebar = (event) => {
     useSidebarStore().isOpenSidebar = false;
   }
 }
-const currentPage = useSidebarStore().currentPage
-onMounted(() => {
-  useSidebarStore().setCurrentPage(currentPage);
-});
 
 onMounted(() => {
   useAuthStore().setUser(decodeJwt(JSON.parse(localStorage.getItem('session'))?.accessToken))
@@ -53,7 +48,7 @@ onMounted(() => {
       <div class="space-y-8 py-4">
         <ProfileDropDown />
         <div class="relative space-y-1 h-5/6 overflow-y-auto">
-          <router-link to="/dashboard" @click="getCurrentPageName('Dashboard')" active-class="active"
+          <router-link to="/dashboard" @click="selectPage()" active-class="active"
             class="relative h-10 flex items-center w-full hover:bg-blue-300/10 hover:text-blue-600 py-7 text-zinc-400 text-lg font-medium space-x-4 cursor-pointer transition-colors duration-300">
             <div class="w-1.5 h-12 rounded-r-xl first-child-bg-color mr-2"></div>
             <div class="flex h-10 items-center justify-center rounded-xl w-10 second-child-bg-color">
@@ -61,7 +56,7 @@ onMounted(() => {
             </div>
             <div>Bosh sahifa</div>
           </router-link>
-          <router-link to="/sales" @click="getCurrentPageName('Sales')" active-class="active"
+          <router-link to="/sales" @click="selectPage()" active-class="active"
             class="relative h-10 flex items-center w-full hover:bg-blue-300/10 hover:text-blue-600 py-7 text-zinc-400 text-lg font-medium space-x-4 cursor-pointer transition-colors duration-300">
             <div class="w-1.5 h-12 rounded-r-xl first-child-bg-color mr-2"></div>
             <div class="flex items-center justify-center rounded-xl w-10 h-10 second-child-bg-color">
@@ -69,7 +64,7 @@ onMounted(() => {
             </div>
             <div>Sotuv</div>
           </router-link>
-          <router-link to="/products" @click="getCurrentPageName('Products')" active-class="active"
+          <router-link to="/products" @click="selectPage()" active-class="active"
             class="relative h-10 flex items-center w-full hover:bg-blue-300/10 hover:text-blue-600 py-7 text-zinc-400 text-lg font-medium space-x-4 cursor-pointer transition-colors duration-300">
             <div class="w-1.5 h-12 rounded-r-xl first-child-bg-color mr-2"></div>
             <div class="flex items-center justify-center rounded-xl w-10 h-10 second-child-bg-color">
@@ -77,7 +72,7 @@ onMounted(() => {
             </div>
             <div>Mahsulotlar</div>
           </router-link>
-          <router-link to="/product-histories" @click="getCurrentPageName('Product histories')" active-class="active"
+          <router-link to="/product-histories" @click="selectPage()" active-class="active"
             class="relative h-10 flex items-center w-full hover:bg-blue-300/10 hover:text-blue-600 py-7 text-zinc-400 text-lg font-medium space-x-4 cursor-pointer transition-colors duration-300">
             <div class="w-1.5 h-12 rounded-r-xl first-child-bg-color mr-2"></div>
             <div class="flex items-center justify-center rounded-xl w-10 h-10 second-child-bg-color">
@@ -85,7 +80,7 @@ onMounted(() => {
             </div>
             <div>Mahsulotlar tarixi</div>
           </router-link>
-          <router-link to="/orders" @click="getCurrentPageName('Orders')" active-class="active"
+          <router-link to="/orders" @click="selectPage()" active-class="active"
             class="relative h-10 flex items-center w-full hover:bg-blue-300/10 hover:text-blue-600 py-7 text-zinc-400 text-lg font-medium space-x-4 cursor-pointer transition-colors duration-300">
             <div class="w-1.5 h-12 rounded-r-xl first-child-bg-color mr-2"></div>
             <div class="flex items-center justify-center rounded-xl w-10 h-10 second-child-bg-color">
@@ -93,7 +88,7 @@ onMounted(() => {
             </div>
             <div>Sotuvlar</div>
           </router-link>
-          <router-link to="/markets" @click="getCurrentPageName('Markets')" active-class="active"
+          <router-link to="/markets" @click="selectPage()" active-class="active"
             class="relative h-10 flex items-center w-full hover:bg-blue-300/10 hover:text-blue-600 py-7 text-zinc-400 text-lg font-medium space-x-4 cursor-pointer transition-colors duration-300">
             <div class="w-1.5 h-12 rounded-r-xl first-child-bg-color mr-2"></div>
             <div class="flex items-center justify-center rounded-xl w-10 h-10 second-child-bg-color">
@@ -101,7 +96,7 @@ onMounted(() => {
             </div>
             <div>Do'konlar</div>
           </router-link>
-          <router-link to="/users" @click="getCurrentPageName('Users')" active-class="active"
+          <router-link to="/users" @click="selectPage()" active-class="active"
             class="relative h-10 flex items-center w-full hover:bg-blue-300/10 hover:text-blue-600 py-7 text-zinc-400 text-lg font-medium space-x-4 cursor-pointer transition-colors duration-300">
             <div class="w-1.5 h-12 rounded-r-xl first-child-bg-color mr-2"></div>
             <div class="flex items-center justify-center rounded-xl w-10 h-10 second-child-bg-color">
