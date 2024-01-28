@@ -46,12 +46,12 @@ const closeModal = () => {
                       </div>
                       <div>
                         <div class="text-base font-semibold text-gray-800">
-                          {{ product?.name + " - " + product?.packaging }}
+                          {{ product?.productName + " - " + product?.packaging }}
                         </div>
                         <div class="text-base font-medium text-gray-500">
                           Narxi:
                           <span class="text-gray-700">
-                            {{ useMoneyFormatter(product?.price) }}
+                            {{ useMoneyFormatter(product?.salePrice) }}
                           </span>
                         </div>
                       </div>
@@ -114,7 +114,7 @@ const closeModal = () => {
               Kassir
             </div>
             <div class="text-base font-medium">
-              Jumaniyozov Suroj
+              {{ selectedOrder?.cashierFirstName + " " + selectedOrder?.cashierLastName }}
             </div>
           </li>
           <li class="flex items-center justify-between py-2">

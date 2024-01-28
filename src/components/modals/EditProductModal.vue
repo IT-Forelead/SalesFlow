@@ -71,9 +71,21 @@ const editProduct = () => {
 </script>
 
 <template>
-  
-    <CModal :is-open="useModalStore().isEditProductModalOpen" v-if="useModalStore().isEditProductModalOpen" @close="closeModal">
-      <template v-slot:header> Mahsulotni tahrirlash </template>
+  <div>
+    <button
+      type="button"
+      @click="useModalStore().openEditProductModal()"
+    >
+      <PhPencilLine class="w-6 h-6 text-blue-600 hover:scale-105" />
+    </button>
+    <CModal
+      :is-open="useModalStore().isOpenEditProductModal"
+      v-if="useModalStore().isOpenEditProductModal"
+      @close=closeModal
+    >
+      <template v-slot:header>
+        Mahsulotni tahrirlash
+      </template>
       <template v-slot:body>
         <div class="p-4 md:p-5 grid grid-cols-2 grid-rows-3 gap-4">
           <div class="flex flex-col">
@@ -112,11 +124,11 @@ const editProduct = () => {
               Narxi
               <span class="text-red-500 mr-2">*</span>
             </label>
-            <money3 v-bind="moneyConf" 
-            v-model.number="selectedProduct.price"  
+            <money3 v-bind="moneyConf"
+            v-model.number="selectedProduct.price"
             id="price" class="border-none text-right text-gray-500 bg-slate-100 h-11 rounded-lg w-full text-lg"> </money3>
           </div>
-          
+
         </div>
       </template>
       <template v-slot:footer>
@@ -124,7 +136,7 @@ const editProduct = () => {
         <button type="button" class="ms-3 text-white bg-blue-500 hover:bg-blue-600 focus:ring-4 focus:outline-none focus:ring-slate-300 rounded-xl border border-slate-200 text-sm font-medium px-5 py-2.5 focus:z-10" @click="editProduct()">Yaratish</button>
       </template>
     </CModal>
-  
+  </div>
 </template>
 
 <style scoped></style>

@@ -25,6 +25,7 @@ const columns = [
     {
         accessorKey: 'caisher',
         header: 'Kassir',
+        accessorFn: row => `${row.cashierFirstName} ${row.cashierLastName}`,
     },
     {
         accessorKey: 'createdAt',

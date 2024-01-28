@@ -111,7 +111,7 @@ const createUser = () => {
 }
 
 watch(
-  () => useModalStore().isCreateUserModalOpen,
+  () => useModalStore().isOpenCreateUserModal,
   (data) => {
     if (data) {
       getMarkets()
@@ -122,7 +122,7 @@ watch(
 </script>
 <template>
   <div>
-    <CModal :is-open="useModalStore().isCreateUserModalOpen" v-if="useModalStore().isCreateUserModalOpen"
+    <CModal :is-open="useModalStore().isOpenCreateUserModal" v-if="useModalStore().isOpenCreateUserModal"
       @close=closeModal>
       <template v-slot:header>
         Foydalanuvchi qo'shish
