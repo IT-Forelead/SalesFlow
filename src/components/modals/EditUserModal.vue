@@ -111,91 +111,94 @@ const editUser = () => {
 }
 </script>
 <template>
-  <button type="button" @click="useModalStore().openEditUserModal()">
-    <PhPencilLine class="w-6 h-6 text-blue-600 hover:scale-105" />
-  </button>
-  <CModal :is-open="useModalStore().isOpenEditUserModal" v-if="useModalStore().isOpenEditUserModal" @close="closeModal">
-    <template v-slot:header> Foydalanuvchini tahrirlash </template>
-    <template v-slot:body>
-      <div class="space-y-4">
-        <div class="grid grid-cols-2 grid-rows-4 gap-4">
-          <div class="flex flex-col">
-            <label for="firstname" class="text-base text-left font-medium">
-              Ism
-              <span class="text-red-500 mr-2">*</span>
-            </label>
-            <input id="firstname" type="text" v-model="selected.firstname" class="bg-slate-100 border-none text-slate-900 rounded-lg w-full py-2.5 placeholder-slate-400" placeholder="Ismni kiriting" />
-          </div>
-          <div class="flex flex-col">
-            <label for="lastname" class="text-base text-left font-medium">
-              Familiya
-              <span class="text-red-500 mr-2">*</span>
-            </label>
-            <input id="lastname" type="text" v-model="selected.lastname" class="bg-slate-100 border-none text-slate-900 rounded-lg w-full py-2.5 placeholder-slate-400" placeholder="Familiyani kiriting" />
-          </div>
-
-          <div class="flex flex-col">
-            <label for="login" class="text-base text-left font-medium">
-              Login
-              <span class="text-red-500 mr-2">*</span>
-            </label>
-            <input id="login" type="text" v-model="selected.login" class="bg-slate-100 border-none text-slate-900 rounded-lg w-full py-2.5 placeholder-slate-400" placeholder="Loginni kiriting" />
-          </div>
-          <div class="flex flex-col">
-            <label for="phone" class="text-base text-left font-medium">
-              Telefon raqam:
-              <span class="text-red-500 mr-2">*</span>
-            </label>
-            <input id="phone" type="text" v-model="selected.phone" v-maska data-maska="+998(##) ###-##-##" class="bg-slate-100 border-none text-slate-900 rounded-lg w-full py-2.5 placeholder-slate-400" placeholder="+998(00) 000-00-00" />
-          </div>
-          <div class="flex flex-col">
-            <label for="market" class="text-base text-left font-medium">
-              Do'kon
-              <span class="text-red-500 mr-2">*</span>
-            </label>
-            <select id="market" v-model="selected.marketId" class="bg-slate-100 border-none text-slate-900 rounded-lg block w-full h-11">
-              <option value="" selected>Do'konni tanlang</option>
-              <option v-for="(market, idx) in markets" :key="idx" :value="market?.id">
-                {{ market?.name }}
-              </option>
-            </select>
-          </div>
-          <div class="flex flex-col">
-            <label for="role" class="text-base text-left font-medium">
-              Rol:
-              <span class="text-red-500 mr-2">*</span>
-            </label>
-            <MultiSelect :show-toggle-all="false" :display="'chip'" :select-all="false" panel-class="bg-slate-100 rounded-2xl" v-model="selectedRole" :options="privileges" optionLabel="name" placeholder="Tanlang" :maxSelectedLabels="1" :selection-limit="1" class="bg-slate-100 border-none text-slate-900 rounded-lg w-full placeholder-slate-400" />
-          </div>
-          <div class="flex flex-col">
-            <label for="password" class="text-base text-left font-medium">
-              Parol
-              <span class="text-red-500 mr-2">*</span>
-            </label>
-            <div class="relative">
-              <input v-model="selected.password" id="password" :type="hidePassword ? 'password' : 'text'" class="bg-slate-100 border-none text-slate-900 rounded-lg w-full py-2.5 placeholder-slate-400" placeholder="Parolni kiriting" />
-              <EyeIcon v-if="hidePassword" @click="togglePassword()" class="text-gray-500 dark:text-gray-500 absolute z-10 top-1/2 -translate-y-1/2 right-3 w-5 h-5 cursor-pointer" />
-              <EyeSlashIcon v-else @click="togglePassword()" class="text-gray-500 dark:text-gray-500 absolute z-10 top-1/2 -translate-y-1/2 right-3 w-5 h-5 cursor-pointer" />
+  <div>
+    <button type="button" @click="useModalStore().openEditUserModal()">
+      <PhPencilLine class="w-6 h-6 text-blue-600 hover:scale-105" />
+    </button>
+    <CModal :is-open="useModalStore().isOpenEditUserModal" v-if="useModalStore().isOpenEditUserModal" @close="closeModal">
+      <template v-slot:header> Foydalanuvchini tahrirlash </template>
+      <template v-slot:body>
+        <div class="space-y-4">
+          <div class="grid grid-cols-2 grid-rows-4 gap-4">
+            <div class="flex flex-col">
+              <label for="firstname" class="text-base text-left font-medium">
+                Ism
+                <span class="text-red-500 mr-2">*</span>
+              </label>
+              <input id="firstname" type="text" v-model="selected.firstname" class="bg-slate-100 border-none text-slate-900 rounded-lg w-full py-2.5 placeholder-slate-400" placeholder="Ismni kiriting" />
             </div>
-          </div>
-          <div class="flex flex-col">
-            <label for="confirm-password" class="text-base text-left font-medium">
-              Parolni takrorlang
-              <span class="text-red-500 mr-2">*</span>
-            </label>
-            <div class="relative">
-              <input v-model="selected.confirmPassword" id="confirm-password" :type="hidePassword ? 'password' : 'text'" class="bg-slate-100 border-none text-slate-900 rounded-lg w-full py-2.5 placeholder-slate-400" placeholder="Parolni qayta kiriting" />
-              <EyeIcon v-if="hidePassword" @click="togglePassword()" class="text-gray-500 dark:text-gray-500 absolute z-10 top-1/2 -translate-y-1/2 right-3 w-5 h-5 cursor-pointer" />
-              <EyeSlashIcon v-else @click="togglePassword()" class="text-gray-500 dark:text-gray-500 absolute z-10 top-1/2 -translate-y-1/2 right-3 w-5 h-5 cursor-pointer" />
+            <div class="flex flex-col">
+              <label for="lastname" class="text-base text-left font-medium">
+                Familiya
+                <span class="text-red-500 mr-2">*</span>
+              </label>
+              <input id="lastname" type="text" v-model="selected.lastname" class="bg-slate-100 border-none text-slate-900 rounded-lg w-full py-2.5 placeholder-slate-400" placeholder="Familiyani kiriting" />
+            </div>
+
+            <div class="flex flex-col">
+              <label for="login" class="text-base text-left font-medium">
+                Login
+                <span class="text-red-500 mr-2">*</span>
+              </label>
+              <input id="login" type="text" v-model="selected.login" class="bg-slate-100 border-none text-slate-900 rounded-lg w-full py-2.5 placeholder-slate-400" placeholder="Loginni kiriting" />
+            </div>
+            <div class="flex flex-col">
+              <label for="phone" class="text-base text-left font-medium">
+                Telefon raqam:
+                <span class="text-red-500 mr-2">*</span>
+              </label>
+              <input id="phone" type="text" v-model="selected.phone" v-maska data-maska="+998(##) ###-##-##" class="bg-slate-100 border-none text-slate-900 rounded-lg w-full py-2.5 placeholder-slate-400" placeholder="+998(00) 000-00-00" />
+            </div>
+            <div class="flex flex-col">
+              <label for="market" class="text-base text-left font-medium">
+                Do'kon
+                <span class="text-red-500 mr-2">*</span>
+              </label>
+              <select id="market" v-model="selected.marketId" class="bg-slate-100 border-none text-slate-900 rounded-lg block w-full h-11">
+                <option value="" selected>Do'konni tanlang</option>
+                <option v-for="(market, idx) in markets" :key="idx" :value="market?.id">
+                  {{ market?.name }}
+                </option>
+              </select>
+            </div>
+            <div class="flex flex-col">
+              <label for="role" class="text-base text-left font-medium">
+                Rol:
+                <span class="text-red-500 mr-2">*</span>
+              </label>
+              <MultiSelect :show-toggle-all="false" :display="'chip'" :select-all="false" panel-class="bg-slate-100 rounded-2xl" v-model="selectedRole" :options="privileges" optionLabel="name" placeholder="Tanlang" :maxSelectedLabels="1" :selection-limit="1" class="bg-slate-100 border-none text-slate-900 rounded-lg w-full placeholder-slate-400" />
+            </div>
+            <div class="flex flex-col">
+              <label for="password" class="text-base text-left font-medium">
+                Parol
+                <span class="text-red-500 mr-2">*</span>
+              </label>
+              <div class="relative">
+                <input v-model="selected.password" id="password" :type="hidePassword ? 'password' : 'text'" class="bg-slate-100 border-none text-slate-900 rounded-lg w-full py-2.5 placeholder-slate-400" placeholder="Parolni kiriting" />
+                <EyeIcon v-if="hidePassword" @click="togglePassword()" class="text-gray-500 dark:text-gray-500 absolute z-10 top-1/2 -translate-y-1/2 right-3 w-5 h-5 cursor-pointer" />
+                <EyeSlashIcon v-else @click="togglePassword()" class="text-gray-500 dark:text-gray-500 absolute z-10 top-1/2 -translate-y-1/2 right-3 w-5 h-5 cursor-pointer" />
+              </div>
+            </div>
+            <div class="flex flex-col">
+              <label for="confirm-password" class="text-base text-left font-medium">
+                Parolni takrorlang
+                <span class="text-red-500 mr-2">*</span>
+              </label>
+              <div class="relative">
+                <input v-model="selected.confirmPassword" id="confirm-password" :type="hidePassword ? 'password' : 'text'" class="bg-slate-100 border-none text-slate-900 rounded-lg w-full py-2.5 placeholder-slate-400" placeholder="Parolni qayta kiriting" />
+                <EyeIcon v-if="hidePassword" @click="togglePassword()" class="text-gray-500 dark:text-gray-500 absolute z-10 top-1/2 -translate-y-1/2 right-3 w-5 h-5 cursor-pointer" />
+                <EyeSlashIcon v-else @click="togglePassword()" class="text-gray-500 dark:text-gray-500 absolute z-10 top-1/2 -translate-y-1/2 right-3 w-5 h-5 cursor-pointer" />
+              </div>
             </div>
           </div>
         </div>
-      </div>
-    </template>
-    <template v-slot:footer>
-      <SaveButton :isLoading="isLoading" @click="editUser" />
-      <CancelButton @click="closeModal" />
-    </template>
-  </CModal>
+      </template>
+      <template v-slot:footer>
+        <CancelButton @click="closeModal" />
+        <SaveButton :isLoading="isLoading" @click="editUser" />
+      </template>
+    </CModal>
+  </div>
 </template>
+
 <style scoped></style>
