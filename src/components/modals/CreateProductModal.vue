@@ -28,12 +28,6 @@ const submitData = reactive({
     quantity: 0,
 })
 
-const removeZero = (e) => {
-  if (e.target.value == '0 UZS') {
-    e.target.value = 'UZS'
-  }
-}
-
 const clearSubmitData = () => {
     submitData.name = ''
     submitData.barcode = ''
@@ -154,7 +148,7 @@ const createProduct = () => {
                             <span class="text-red-500 mr-2">*</span>
                         </label>
                         <money3 v-model.number="submitData.price" v-bind="moneyConf" id="price"
-                            class="border-none text-right text-gray-500 bg-slate-100 h-11 rounded-lg w-full text-lg" @focus="removeZero">
+                            class="border-none text-right text-gray-500 bg-slate-100 h-11 rounded-lg w-full text-lg">
                         </money3>
                     </div>
                     <div class="flex-1">
