@@ -61,9 +61,7 @@ const createProductHistory = () => {
       ProductHistoryService.getProductHistories({})
         .then((res) => {
           useProductHistoryStore().clearStore()
-          setTimeout(() => {
-            useProductHistoryStore().setProductHistories(res)
-          }, 500)
+          useProductHistoryStore().setProductHistories(res)
         })
         .catch(() => {
           toast.error('Mahsulot tarixini olishda xatolik yuz berdi!')
@@ -96,17 +94,17 @@ watchEffect(() => {
 
 const searchResults = computed(() => {
   if (search.value === '') {
-    return [];
+    return []
   }
-  const searchString = search.value.toLowerCase();
+  const searchString = search.value.toLowerCase()
   return products.value.filter(item => {
-    const barcodeString = item.barcode.toString();
+    const barcodeString = item.barcode.toString()
     return (
       item.name.toLowerCase().includes(searchString) ||
       barcodeString.includes(searchString)
-    );
-  });
-});
+    )
+  })
+})
 const setSelectedProduct = (product) => {
   isOpen.value = false
   selectedProduct.value = product

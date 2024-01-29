@@ -13,14 +13,11 @@ import useMoneyFormatter from '../mixins/currencyFormatter'
 
 const globalSearchFromTable = ref('')
 const isLoading = ref(false)
-
-const productsTableKey = ref(0)
-
+const renderKey = ref(0)
 const productStore = useProductStore()
 
 const products = computed(() => {
-  productsTableKey.value += 1
-  
+  renderKey.value += 1
   return productStore.products
 })
 const saleTypeTranslate = (type) => {
@@ -125,6 +122,6 @@ getProducts()
     <div v-if="isLoading" class="flex items-center justify-center h-20">
       <Spinners270RingIcon class="w-6 h-6 text-gray-500 animate-spin" />
     </div>
-    <CTable v-else :data="products" :columns="columns" :filter="globalSearchFromTable" :key="productsTableKey"/>
+    <CTable v-else :data="products" :key="renderKey" :columns="columns" :filter="globalSearchFromTable" />
   </div>
 </template>
