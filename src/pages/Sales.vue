@@ -17,6 +17,7 @@ import ProductService from '../services/product.service';
 import OrderService from '../services/order.service';
 import { useProductStore } from '../store/product.store';
 import { computed, onMounted } from 'vue';
+import isBarcode from '../mixins/barcodeFormatter'
 
 const moneyConf = {
   thousands: ' ',
@@ -47,19 +48,37 @@ const searchProducts = () => {
     toast.error('Mahsulot nomi yoki shtrix kodini kiriting!')
   } else {
     isLoading.value = true
-    ProductService.getProducts(
-      cleanObjectEmptyFields({
-        name: '%' + search.value + '%',
+    if (isBarcode(search.value)) {
+      console.log("is barcode === true");
+      ProductService.getProducts(
+        cleanObjectEmptyFields({
+          barcode: search.value,
+        })
+      ).then((res) => {
+        isLoading.value = false
+        if (res.length == 1) {
+          addProductToCart(res[0])
+        } else {
+          useProductStore().clearStore()
+          useProductStore().setProducts(res)
+        }
       })
-    ).then((res) => {
-      isLoading.value = false
-      if (res.length == 1) {
-        addProductToCart(res[0])
-      } else {
-        useProductStore().clearStore()
-        useProductStore().setProducts(res)
-      }
-    })
+    } else {
+      console.log("is barcode === true");
+      ProductService.getProducts(
+        cleanObjectEmptyFields({
+          name: '%' + search.value + '%',
+        })
+      ).then((res) => {
+        isLoading.value = false
+        if (res.length == 1) {
+          addProductToCart(res[0])
+        } else {
+          useProductStore().clearStore()
+          useProductStore().setProducts(res)
+        }
+      })
+    }
   }
 }
 
