@@ -1,5 +1,5 @@
 <script setup>
-import { onMounted, ref, watch } from 'vue'
+import { ref } from 'vue'
 import { computed, h } from 'vue'
 import SearchIcon from '../assets/icons/SearchIcon.vue'
 import Spinners270RingIcon from '../assets/icons/Spinners270RingIcon.vue'
@@ -9,9 +9,9 @@ import { useProductHistoryStore } from '../store/productHistory.store.js'
 import ProductHistoryService from '../services/productHistory.service.js'
 import { useProductStore } from '../store/product.store.js'
 import useMoneyFormatter from '../mixins/currencyFormatter.js'
-import EditProductHistoryModal from '../components/modals/EditProductHistoryModal.vue'
-import DeleteProductHistoryModal from '../components/modals/DeleteProductHistoryModal.vue'
 import ProductService from '../services/product.service.js'
+import EditIcon from '../assets/icons/EditIcon.vue'
+import TrashIcon from '../assets/icons/TrashIcon.vue'
 
 const globalSearchFromTable = ref('')
 const isLoading = ref(false)
@@ -87,13 +87,27 @@ const columns = [
   {
     accessorKey: 'actions',
     header: 'Amallar',
-    cell: ({ row }) => h('button', { class: 'flex space-x-2' }, [
-      h(EditProductHistoryModal, { id: row.original.id }),
-      h(DeleteProductHistoryModal, { id: row.original.id }),
+    cell: ({ row }) => h('div', { class: 'flex items-center space-x-2' }, [
+      h('button', { onClick: () => { openEditProductHistoryModal(row.original) } }, [
+        h(EditIcon, { class: 'w-6 h-6 text-blue-600 hover:scale-105' })
+      ]),
+      h('button', { onClick: () => { openDeleteProductHistoryModal(row.original) } }, [
+        h(TrashIcon, { class: 'w-6 h-6 text-red-600 hover:scale-105' })
+      ]),
     ]),
     enableSorting: false,
   },
 ]
+
+const openEditProductHistoryModal = (data) => {
+  useModalStore().openEditProductHistoryModal()
+  useProductHistoryStore().setSelectedProductHistory(data)
+}
+
+const openDeleteProductHistoryModal = (data) => {
+  useModalStore().openDeleteProductHistoryModal()
+  useProductHistoryStore().setSelectedProductHistory(data)
+}
 
 const getProductHistories = () => {
   isLoading.value = true
