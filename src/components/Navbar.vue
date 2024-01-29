@@ -8,6 +8,11 @@ import CreateMarketModal from '../components/modals/CreateMarketModal.vue'
 import CreateProductModal from '../components/modals/CreateProductModal.vue'
 import CreateProductHistoryModal from '../components/modals/CreateProductHistoryModal.vue'
 import CreateUserModal from './modals/CreateUserModal.vue'
+import OrderInfoModal from './modals/OrderInfoModal.vue'
+import EditMarketModal from './modals/EditMarketModal.vue'
+import DeleteMarketModal from './modals/DeleteMarketModal.vue'
+import DeleteProductHistoryModal from './modals/DeleteProductHistoryModal.vue'
+import EditProductHistoryModal from './modals/EditProductHistoryModal.vue'
 
 const notificationDropdown = ref(null)
 
@@ -20,14 +25,19 @@ onClickOutside(notificationDropdown, () => {
 </script>
 
 <template>
-  <div class="sticky top-0 z-50 flex items-center w-full px-6 py-4 bg-white border-b border-gray-200 shadow-7xl lg:hidden">
+  <div
+    class="sticky top-0 z-50 flex items-center w-full px-6 py-4 bg-white border-b border-gray-200 shadow-7xl lg:hidden">
     <div class="flex space-x-4 items-center">
       <div @click="useSidebarStore().toggleSidebar"
-           class="flex lg:hidden items-center justify-center w-8 h-8 rounded-lg cursor-pointer hover:bg-gray-100">
+        class="flex lg:hidden items-center justify-center w-8 h-8 rounded-lg cursor-pointer hover:bg-gray-100">
         <HamburgerMenuOutlineIcon class="w-6 h-6" />
       </div>
-      <div class="text-slate-700 text-2xl md:text-3xl font-semibold">
-        {{ useSidebarStore().currentPage }}
+      <div class="flex space-x-1 items-center justify-center">
+        <img src="/images/logo.svg" class="w-10 h-10" alt="#">
+        <div class="text-2xl font-extrabold">
+          <span class="text-[#0167f3]">Sale</span>
+          <span class="text-black">Flow</span>
+        </div>
       </div>
     </div>
   </div>
@@ -35,7 +45,12 @@ onClickOutside(notificationDropdown, () => {
   <CreateMarketModal />
   <CreateProductModal />
   <CreateProductHistoryModal />
-  <CreateUserModal/>
+  <CreateUserModal />
+  <OrderInfoModal />
+  <EditMarketModal />
+  <DeleteMarketModal />
+  <DeleteProductHistoryModal/>
+  <EditProductHistoryModal/>
 </template>
 
 <style scoped></style>

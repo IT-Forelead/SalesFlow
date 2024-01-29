@@ -5,16 +5,19 @@ import { toast } from 'vue-sonner'
 import { useModalStore } from '../../store/modal.store.js'
 import CancelButton from '../buttons/CancelButton.vue'
 import SaveButton from '../buttons/SaveButton.vue'
-import AutoComplete from 'primevue/autocomplete'
 import { useProductStore } from '../../store/product.store.js'
-import { computed, onMounted, reactive, watchEffect } from 'vue'
+import { computed, reactive, watchEffect } from 'vue'
 import ProductService from '../../services/product.service.js'
 import ProductHistoryService from '../../services/productHistory.service.js'
 import { useProductHistoryStore } from '../../store/productHistory.store.js'
+import SearchIcon from '../../assets/icons/SearchIcon.vue'
+import useMoneyFormatter from '../../mixins/currencyFormatter.js'
 
 const isLoading = ref(false)
 const productStore = useProductStore()
-
+const selectedProduct = ref()
+const isOpen = ref(true)
+const search = ref('')
 let products = computed(() => {
   return productStore.products
 })
@@ -38,13 +41,6 @@ const clearSubmitData = () => {
   submitData.quantity = 0
 }
 
-const closeModal = () => {
-  useModalStore().closeCreateProductHistoryModal()
-  clearSubmitData()
-}
-const selectedProduct = ref()
-const filteredProducts = ref()
-
 const createProductHistory = () => {
   if (!selectedProduct.value?.id) return toast.warning('Iltimos mahsulot tanlang!')
   if (!submitData.quantity) return toast.warning('Iltimos qiymatini kiriting')
@@ -65,9 +61,7 @@ const createProductHistory = () => {
       ProductHistoryService.getProductHistories({})
         .then((res) => {
           useProductHistoryStore().clearStore()
-          setTimeout(() => {
-            useProductHistoryStore().setProductHistories(res)
-          }, 500)
+          useProductHistoryStore().setProductHistories(res)
         })
         .catch(() => {
           toast.error('Mahsulot tarixini olishda xatolik yuz berdi!')
@@ -81,7 +75,6 @@ const createProductHistory = () => {
   }
 }
 
-
 const getProducts = () => {
   isLoading.value = true
   ProductService.getProducts({})
@@ -93,27 +86,36 @@ const getProducts = () => {
   })
 }
 
-watchEffect(()=>{
-  if (useModalStore().isOpenCreateProductHistoryModal === true){
+watchEffect(() => {
+  if (useModalStore().isOpenCreateProductHistoryModal === true) {
     getProducts()
   }
 })
 
-const search = (event) => {
-  const query = event.query.toLowerCase().trim()
-  if (!query) {
-    filteredProducts.value = [...products.value]
-  } else {
-    filteredProducts.value = products.value.filter((product) => {
-      const barcodeString = product.barcode.toString()
-      return (
-        product.name.toLowerCase().includes(query) ||
-        barcodeString.includes(query)
-      )
-    })
+const searchResults = computed(() => {
+  if (search.value === '') {
+    return []
   }
+  const searchString = search.value.toLowerCase()
+  return products.value.filter(item => {
+    const barcodeString = item.barcode.toString()
+    return (
+      item.name.toLowerCase().includes(searchString) ||
+      barcodeString.includes(searchString)
+    )
+  })
+})
+const setSelectedProduct = (product) => {
+  isOpen.value = false
+  selectedProduct.value = product
 }
 
+const closeModal = () => {
+  useModalStore().closeCreateProductHistoryModal()
+  clearSubmitData()
+  search.value = ''
+  selectedProduct.value = null
+}
 </script>
 
 <template>
@@ -123,18 +125,29 @@ const search = (event) => {
       Mahsulot tarixi yaratish
     </template>
     <template v-slot:body>
-      <div class="p-float-label card p-fluid my-4">
-        <AutoComplete
-          dropdown
-          :dropdown-mode="'current'"
-          emptySearchMessage="Mahsulot topilmadi"
-          scroll-height="200px"
-          v-model="selectedProduct"
-          option-label="name"
-          :suggestions="filteredProducts"
-          @complete="search"
-          input-class="bg-slate-50 border border-slate-200 text-slate-900 text-base rounded-2xl focus:ring-green-400/40 focus:border-green-400/40 focus:ring-4 block w-full p-3" />
-        <label for="ac">Mahsulot shtrix kodi yoki nomi bo'yicha izlash...</label>
+      <div class="w-full relative mb-4">
+        <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+          <SearchIcon class="w-5 h-5 text-slate-400" />
+        </div>
+        <input
+          type="text"
+          v-model="search"
+          placeholder="Mahsulot nomi va shtrix kodini kiriting"
+          class="bg-slate-100 border-none text-slate-900 rounded-lg w-full h-12 pl-10 placeholder-slate-400"
+          @input="isOpen = true"
+        >
+        <ul
+          v-if="searchResults.length && isOpen"
+          class="mt-1 w-full max-h-60 overflow-y-auto absolute z-10 bg-white border border-slate-200 rounded-xl shadow-md">
+          <li
+            class="px-4 py-3 border-b border-slate-200 cursor-pointer hover:bg-slate-100"
+            v-for="result in searchResults"
+            :key="result.id"
+            @click="setSelectedProduct(result)"
+          >
+            <span class="font-semibold">{{ result.name }}</span> - {{ result.packaging }}
+          </li>
+        </ul>
       </div>
       <div v-if="selectedProduct" class="space-y-4">
         <div class="w-full mb-10">
@@ -153,7 +166,7 @@ const search = (event) => {
           </div>
           <div class="py-4 border-b border-slate-200 flex items-center justify-between">
             <p class="text-neutral-800 text-base font-normal">Narxi</p>
-            <p class="text-sm leading-none text-gray-600 mr-3">{{ selectedProduct.price }}</p>
+            <p class="text-sm leading-none text-gray-600 mr-3">{{ useMoneyFormatter(selectedProduct.price) }}</p>
           </div>
         </div>
         <div class="flex items-center space-x-4">

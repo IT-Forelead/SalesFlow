@@ -15,7 +15,9 @@ const globalSearchFromTable = ref('')
 const isLoading = ref(false)
 
 const userStore = useUserStore()
+const renderkey = ref(0)
 const users = computed(() => {
+  renderkey.value += 1
   return userStore.users
 })
 
@@ -85,10 +87,7 @@ const getUsers = () => {
     isLoading.value = false
   })
 }
-
-
 getUsers()
-
 </script>
 
 <template>
@@ -115,6 +114,6 @@ getUsers()
     <div v-if="isLoading" class="flex items-center justify-center h-20">
       <Spinners270RingIcon class="w-6 h-6 text-gray-500 animate-spin" />
     </div>
-    <CTable v-else :data="users" :columns="columns" :filter="globalSearchFromTable" />
+    <CTable :key="key" v-else :data="users" :columns="columns" :filter="globalSearchFromTable" />
   </div>
 </template>

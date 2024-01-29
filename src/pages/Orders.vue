@@ -1,16 +1,18 @@
 <script setup>
 import { ref } from 'vue'
 import { h } from 'vue'
+import moment from 'moment'
 import SearchIcon from '../assets/icons/SearchIcon.vue'
 import Spinners270RingIcon from '../assets/icons/Spinners270RingIcon.vue'
 import CTable from '../components/common/CTable.vue'
-import DeleteProductModal from '../components/modals/DeleteProductModal.vue'
-import EditProductModal from '../components/modals/EditProductModal.vue'
-import OrderInfoModal from '../components/modals/OrderInfoModal.vue'
-import ProductService from '../services/product.service'
+import OrderService from '../services/order.service'
+import useMoneyFormatter from '../mixins/currencyFormatter.js'
+import EyeIcon from '../assets/icons/EyeIcon.vue'
+import { useModalStore } from '../store/modal.store'
+import { useOrderStore } from '../store/order.store'
 
 const globalSearchFromTable = ref('')
-const products = ref([])
+const orders = ref([])
 const isLoading = ref(false)
 
 const columns = [
@@ -21,40 +23,92 @@ const columns = [
         cell: ({ row }) => `${parseInt(row.id, 10) + 1}`,
     },
     {
-        accessorKey: 'name',
-        header: 'Nomi',
+        accessorKey: 'caisher',
+        header: 'Kassir',
+        accessorFn: row => `${row.cashierFirstName} ${row.cashierLastName}`,
     },
     {
-        accessorFn: row => `${row.value} ${row.type}`,
-        header: "O'lchov turi",
+        accessorKey: 'createdAt',
+        header: 'Vaqti',
+        accessorFn: row => moment(row.createdAt).format('DD/MM/YYYY H:mm'),
     },
     {
-        accessorKey: 'barcode',
-        header: 'Barcode',
+        accessorKey: 'initialPrice',
+        header: 'Mahsulotlar',
+        cell: ({ row }) =>
+            h('div', { class: 'space-y-1' }, [
+                h('div', { class: 'flex items-center space-x-1' }, [
+                    h('div', { class: 'text-sm text-gray-500' }, 'Soni: '),
+                    h('div', { class: 'text-base text-gray-900' }, row.original.items.length + " ta"),
+                ]),
+                h('div', { class: 'flex items-center space-x-1' }, [
+                    h('div', { class: 'text-sm text-gray-500' }, 'Narxi: '),
+                    h('div', { class: 'text-base text-gray-900' }, useMoneyFormatter(row.original.initialPrice)),
+                ]),
+            ]),
+    },
+    {
+        accessorKey: 'discountPercent',
+        header: 'Chegirma',
+        cell: ({ row }) =>
+            h('div', [
+                (row.original.discountPercent) ?
+                    h('div', { class: 'space-y-1' }, [
+                        h('div', { class: 'flex items-center space-x-1' }, [
+                            h('div', { class: 'text-sm text-gray-500' }, 'Foizi: '),
+                            h('div', { class: 'text-base text-gray-900' }, row.original.discountPercent + "%"),
+                        ]),
+                        h('div', { class: 'flex items-center space-x-1' }, [
+                            h('div', { class: 'text-sm text-gray-500' }, 'Miqdori: '),
+                            h('div', { class: 'text-base text-gray-900' }, useMoneyFormatter(row.original.discountPrice)),
+                        ]),
+                    ])
+                    : h('span', '-')
+            ]),
+    },
+    {
+        accessorKey: 'paymentReceived',
+        header: 'Narxi',
+        cell: ({ row }) =>
+            h('div', { class: 'space-y-1' }, [
+                h('div', { class: 'flex items-center space-x-1' }, [
+                    h('div', { class: 'text-sm text-gray-500' }, 'Umumiy: '),
+                    h('div', { class: 'text-base text-gray-900' }, useMoneyFormatter(row.original.totalPrice)),
+                ]),
+                h('div', { class: 'flex items-center space-x-1' }, [
+                    h('div', { class: 'text-sm text-gray-500' }, 'Qabul qilindi: '),
+                    h('div', { class: 'text-base text-gray-900' }, useMoneyFormatter(row.original.paymentReceived)),
+                ]),
+            ]),
     },
     {
         accessorKey: 'actions',
         header: 'Amallar',
-        cell: ({ row }) => h('button', { class: 'flex space-x-2' }, [
-            h(OrderInfoModal, { id: row.original.id }),
-            h(EditProductModal, { id: row.original.id }),
-            h(DeleteProductModal, { id: row.original.id }),
+        cell: ({ row }) => h('div', { class: 'flex items-center space-x-2' }, [
+            h('button', { onClick: () => {openOrderinfo(row.original)} }, [
+                h(EyeIcon, {class: 'w-6 h-6 text-blue-600 hover:scale-105'})
+            ]),
         ]),
         enableSorting: false,
     },
 ]
 
-const getProducts = () => {
+const openOrderinfo = (data) => {
+    useModalStore().openOrderInfoModal()
+    useOrderStore().setSelectedOrder(data)
+}
+
+const getOrders = () => {
     isLoading.value = true
-    ProductService.getProducts({})
+    OrderService.getOrders()
         .then((res) => {
-            products.value = res
+            orders.value = res
         }).finally(() => {
             isLoading.value = false
         })
 }
 
-getProducts()
+getOrders()
 </script>
 
 <template>
@@ -75,6 +129,6 @@ getProducts()
         <div v-if="isLoading" class="flex items-center justify-center h-20">
             <Spinners270RingIcon class="w-6 h-6 text-gray-500 animate-spin" />
         </div>
-        <CTable v-else :data="products" :columns="columns" :filter="globalSearchFromTable" />
+        <CTable v-else :data="orders" :columns="columns" :filter="globalSearchFromTable" />
     </div>
 </template>

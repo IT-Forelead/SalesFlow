@@ -101,7 +101,7 @@ const displayedPageNumbers = computed(() => {
 
     <div class="flex items-center justify-between my-2">
       <div class="text-base text-slate-900 font-medium">
-        Total:
+        Jami:
         {{ table.getFilteredRowModel().rows.length }}
       </div>
       <div class="flex items-center space-x-2">

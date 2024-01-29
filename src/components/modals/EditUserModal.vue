@@ -114,8 +114,8 @@ const editUser = () => {
       <PhPencilLine class="w-6 h-6 text-blue-600 hover:scale-105" />
     </button>
     <CModal
-      :is-open="useModalStore().isEditUserModalOpen"
-      v-if="useModalStore().isEditUserModalOpen"
+      :is-open="useModalStore().isOpenEditUserModal"
+      v-if="useModalStore().isOpenEditUserModal"
       @close=closeModal
     >
       <template v-slot:header>
