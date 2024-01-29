@@ -1,5 +1,5 @@
 <script setup>
-import { onMounted, ref } from 'vue'
+import { onMounted, ref, watch } from 'vue'
 import { computed, h } from 'vue'
 import SearchIcon from '../assets/icons/SearchIcon.vue'
 import Spinners270RingIcon from '../assets/icons/Spinners270RingIcon.vue'
@@ -16,8 +16,10 @@ import ProductService from '../services/product.service.js'
 const globalSearchFromTable = ref('')
 const isLoading = ref(false)
 const productHistoryStore = useProductHistoryStore()
+const renderKey = ref(0)
 
 const productsHistories = computed(() => {
+  renderKey.value += 1
   return productHistoryStore.productHistories
 })
 
@@ -38,10 +40,7 @@ const getProducts = () => {
     });
 }
 
-onMounted(()=>{
-  getProducts(); // Fetch product data
-})
-
+getProducts(); // Fetch product data
 
 const getHistoryType = (historyType) => {
   switch (historyType){
@@ -133,6 +132,6 @@ getProductHistories()
     <div v-if="isLoading" class="flex items-center justify-center h-20">
       <Spinners270RingIcon class="w-6 h-6 text-gray-500 animate-spin" />
     </div>
-    <CTable v-else :data="productsHistories" :columns="columns" :filter="globalSearchFromTable" />
+    <CTable v-else :data="productsHistories" :key="renderKey" :columns="columns" :filter="globalSearchFromTable" />
   </div>
 </template>
