@@ -64,51 +64,7 @@ const closeModal = () => {
   clearForm()
 }
 
-const editUser = () => {
-  selected.privileges = selectedRole.value.flatMap((role) => role.code)
-  const selectedMarketId = selectedMarket.value.length > 0 ? selectedMarket.value[0].id : null
-  selected.marketId = selectedMarketId !== null ? String(selectedMarketId) : ''
-  if (!selected.firstname) return toast.warning('Iltimos ism kiriting')
-  if (!selected.lastname) return toast.warning('Iltimos familiya kiriting')
-  if (!selected.login) return toast.warning('Iltimos login kiriting')
-  if (!selected.password) return toast.warning('Iltimos parol kiriting')
-  if (selected.privileges.length === 0) return toast.warning('Iltimos rol tanlang')
-  if (selected.marketId.length === 0) return toast.warning("Iltimos do'kon tanlang")
-  if (!selected.phone) return toast.warning('Iltimos telefon raqam kiriting')
-  else {
-    isLoading.value = true
-    const formData = new FormData()
-    formData.append('marketId', selected.marketId)
-    formData.append('firstname', selected.firstname)
-    formData.append('lastname', selected.lastname)
-    formData.append('login', selected.login)
-    formData.append('password', selected.password)
-    selected.privileges.forEach((privilege) => {
-      formData.append('privileges[]', privilege)
-    })
-    formData.append('phone', selected.phone.replace(/([() -])/g, ''))
-    UserService.editUser(formData)
-      .then(() => {
-        toast.success('Foydalanuvchi muvaffaqiyatli yaratildi!')
-        isLoading.value = false
-        useUserStore().privileges = selected.privileges
-        UserService.getUsers()
-          .then((res) => {
-            useUserStore().clearStore()
-            useUserStore().setUsers(res)
-            console.log(useUserStore().users)
-          })
-          .catch(() => {
-            toast.error('Foydalanuvchilar topilmadi!')
-          })
-      })
-      .catch((err) => {
-        toast.error('Foydalanuvchi yaratishda xatolik!', err)
-        isLoading.value = false
-      })
-    closeModal()
-  }
-}
+
 </script>
 <template>
   <div>
@@ -119,7 +75,7 @@ const editUser = () => {
       <template v-slot:header> Foydalanuvchini tahrirlash </template>
       <template v-slot:body>
         <div class="space-y-4">
-          <div class="grid grid-cols-2 grid-rows-4 gap-4">
+          <div class="grid grid-cols-2 grid-rows-4 gap-6">
             <div class="flex flex-col">
               <label for="firstname" class="text-base text-left font-medium">
                 Ism
@@ -166,7 +122,7 @@ const editUser = () => {
                 Rol:
                 <span class="text-red-500 mr-2">*</span>
               </label>
-              <MultiSelect :show-toggle-all="false" :display="'chip'" :select-all="false" panel-class="bg-slate-100 rounded-2xl" v-model="selectedRole" :options="privileges" optionLabel="name" placeholder="Tanlang" :maxSelectedLabels="1" :selection-limit="1" class="bg-slate-100 border-none text-slate-900 rounded-lg w-full placeholder-slate-400" />
+              <MultiSelect :show-toggle-all="false" :display="'chip'" :select-all="false" panel-class="bg-slate-100 rounded-2xl" v-model="selectedRole" :options="privileges" optionLabel="name" placeholder="Tanlang" :maxSelectedLabels="1" :selection-limit="1" class="text-left bg-slate-100 border-none text-slate-900 rounded-lg w-full placeholder-slate-400" />
             </div>
             <div class="flex flex-col">
               <label for="password" class="text-base text-left font-medium">
@@ -195,7 +151,7 @@ const editUser = () => {
       </template>
       <template v-slot:footer>
         <CancelButton @click="closeModal" />
-        <SaveButton :isLoading="isLoading" @click="editUser" />
+        <button type="button" class="ms-3 text-white bg-blue-500 hover:bg-blue-600 focus:ring-4 focus:outline-none focus:ring-slate-300 rounded-xl border border-slate-200 text-sm font-medium px-5 py-2.5 focus:z-10" @click="editUser()">Saqlash</button>
       </template>
     </CModal>
   </div>
