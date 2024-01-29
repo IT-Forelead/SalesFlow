@@ -53,8 +53,12 @@ const searchProducts = () => {
       })
     ).then((res) => {
       isLoading.value = false
-      useProductStore().clearStore()
-      useProductStore().setProducts(res)
+      if (res.length == 1) {
+        addProductToCart(res[0])
+      } else {
+        useProductStore().clearStore()
+        useProductStore().setProducts(res)
+      }
     })
   }
 }
