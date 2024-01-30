@@ -1,6 +1,7 @@
 <script setup>
 import { reactive, ref, watch, watchEffect } from 'vue'
 import { toast } from 'vue-sonner'
+import { useRouter } from 'vue-router'
 import { cleanObjectEmptyFields } from '../mixins/utils'
 import ImageIcon from '../assets/icons/ImageIcon.vue';
 import MinusIcon from '../assets/icons/MinusIcon.vue';
@@ -18,6 +19,8 @@ import OrderService from '../services/order.service';
 import { useProductStore } from '../store/product.store';
 import { computed, onMounted } from 'vue';
 import isBarcode from '../mixins/barcodeFormatter'
+
+const router = useRouter()
 
 const moneyConf = {
   thousands: ' ',
@@ -184,7 +187,9 @@ watchEffect(() => {
 })
 
 const reFocus = () => {
-  onSearchFocus.value.focus()
+  if (router?.currentRoute?.value?.path === '/sales') {
+    onSearchFocus.value.focus()
+  }
 }
 
 onMounted(() => {
