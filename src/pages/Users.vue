@@ -1,4 +1,5 @@
 <script setup>
+import PhPencilIcon from '../assets/icons/EditIcon.vue'
 import { ref } from 'vue'
 import moment from 'moment'
 import { computed, h } from 'vue'
@@ -21,9 +22,9 @@ const users = computed(() => {
   return userStore.users
 })
 
-const privileges = computed(() => {
-  return userStore.privileges
-})
+// const privileges = computed(() => {
+//   return userStore.privileges
+// })
 
 const getRole = (privileges) => {
   switch (true) {
@@ -69,13 +70,20 @@ const columns = [
   {
     accessorKey: 'edit',
     header: 'Amallar',
-    cell: ({ row }) => h('button', { class: 'flex space-x-2' }, [
-      h(EditUserModal, { id: row.original.id }),
-      h(DeleteUserModal, { id: row.original.id }),
-    ]),
+    cell: ({ row }) => h('div', { class: 'flex items-center space-x-2' }, [
+            h('button', { onClick: () => {openEditUser(row.original)} }, [
+                h(PhPencilIcon, {class: 'w-6 h-6 text-blue-600 hover:scale-105'})
+            ]),
+            h(DeleteUserModal, { id: row.original.id }),
+        ]),
     enableSorting: false,
   },
 ]
+
+const openEditUser = (data) => {
+  useUserStore().setSelectedUser(data)
+  useModalStore().openEditUserModal()
+}
 
 const getUsers = () => {
   isLoading.value = true
