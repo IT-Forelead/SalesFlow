@@ -1,5 +1,5 @@
 <script setup>
-import { h, ref } from 'vue'
+import { computed, h, ref } from 'vue'
 import CTable from '../components/common/CTable.vue'
 import moment from 'moment'
 import SearchIcon from '../assets/icons/SearchIcon.vue'
@@ -11,7 +11,12 @@ import { useModalStore } from '../store/modal.store'
 import { useMarketStore } from '../store/market.store'
 
 const globalSearchFromTable = ref('')
-const markets = ref([])
+const renderKey = ref(0)
+const marketStore = useMarketStore()
+const markets = computed(() => {
+  renderKey.value += 1
+  return marketStore.markets
+})
 const isLoading = ref(false)
 
 const columns = [
@@ -63,7 +68,8 @@ const getMarkets = () => {
   isLoading.value = true
   MarketService.getMarkets({})
     .then((res) => {
-      markets.value = res
+      useMarketStore().clearStore()
+      useMarketStore().setMarkets(res)
     }).finally(() => {
       isLoading.value = false
     })
@@ -96,6 +102,6 @@ getMarkets()
     <div v-if="isLoading" class="flex items-center justify-center h-20">
       <Spinners270RingIcon class="w-6 h-6 text-gray-500 animate-spin" />
     </div>
-    <CTable v-else :data="markets" :columns="columns" :filter="globalSearchFromTable" />
+    <CTable v-else :data="markets" :key="renderKey" :columns="columns" :filter="globalSearchFromTable" />
   </div>
 </template>
