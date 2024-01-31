@@ -1,6 +1,7 @@
 <script setup>
-import { reactive, ref, watch } from 'vue'
+import { reactive, ref, watch, watchEffect } from 'vue'
 import { toast } from 'vue-sonner'
+import { useRouter } from 'vue-router'
 import { cleanObjectEmptyFields } from '../mixins/utils'
 import ImageIcon from '../assets/icons/ImageIcon.vue';
 import MinusIcon from '../assets/icons/MinusIcon.vue';
@@ -17,6 +18,9 @@ import ProductService from '../services/product.service';
 import OrderService from '../services/order.service';
 import { useProductStore } from '../store/product.store';
 import { computed, onMounted } from 'vue';
+import isBarcode from '../mixins/barcodeFormatter'
+
+const router = useRouter()
 
 const moneyConf = {
   thousands: ' ',
@@ -29,10 +33,10 @@ const submitData = reactive({
   paymentReceived: 0,
 })
 
-const cost = ref(0)
 const totalPrice = ref(0)
 // const totalPriceWithDiscount = ref(0)
 const search = ref('')
+const onSearchFocus = ref(null)
 const isLoading = ref(false)
 const selectedProducts = ref([])
 
@@ -47,19 +51,35 @@ const searchProducts = () => {
     toast.error('Mahsulot nomi yoki shtrix kodini kiriting!')
   } else {
     isLoading.value = true
-    ProductService.getProducts(
-      cleanObjectEmptyFields({
-        name: '%' + search.value + '%',
+    if (isBarcode(search.value)) {
+      ProductService.getProducts(
+        cleanObjectEmptyFields({
+          barcode: search.value,
+        })
+      ).then((res) => {
+        isLoading.value = false
+        if (res.length == 1) {
+          addProductToCart(res[0])
+        } else {
+          useProductStore().clearStore()
+          useProductStore().setProducts(res)
+        }
       })
-    ).then((res) => {
-      isLoading.value = false
-      if (res.length == 1) {
-        addProductToCart(res[0])
-      } else {
-        useProductStore().clearStore()
-        useProductStore().setProducts(res)
-      }
-    })
+    } else {
+      ProductService.getProducts(
+        cleanObjectEmptyFields({
+          name: '%' + search.value + '%',
+        })
+      ).then((res) => {
+        isLoading.value = false
+        if (res.length == 1) {
+          addProductToCart(res[0])
+        } else {
+          useProductStore().clearStore()
+          useProductStore().setProducts(res)
+        }
+      })
+    }
   }
 }
 
@@ -154,6 +174,24 @@ watch(
   { deep: true }
 )
 
+const whenPressEnter = (e) => {
+  if (e.keyCode === 13) {
+    searchProducts()
+  }
+}
+
+watchEffect(() => {
+  if (onSearchFocus.value) {
+    onSearchFocus.value.focus()
+  }
+})
+
+const reFocus = () => {
+  if (router?.currentRoute?.value?.path === '/sales') {
+    onSearchFocus.value.focus()
+  }
+}
+
 onMounted(() => {
   useProductStore().clearStore()
 })
@@ -169,7 +207,7 @@ onMounted(() => {
           <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
             <SearchIcon class="w-5 h-5 text-slate-400" />
           </div>
-          <input v-model="search" type="search"
+          <input v-model="search" v-on:keypress="whenPressEnter($event)" type="search" ref="onSearchFocus" @blur="reFocus()"
             class="bg-slate-100 border-none text-slate-900 text-base md:text-lg rounded-xl block w-full h-12 pl-10 py-2 placeholder-slate-400"
             placeholder="Mahsulot nomi bo'yicha izlash...">
           <div v-if="search" @click="clearSearchInput()"
@@ -373,7 +411,7 @@ onMounted(() => {
       <div class="space-y-1">
         <label class="text-base font-medium">Qabul qilingan to'lov</label>
         <money3 v-model="submitData.paymentReceived" v-bind="moneyConf" id="price"
-          class="border-none text-right text-gray-500 bg-slate-100 rounded-lg w-full text-lg">
+          class="border-none text-right text-gray-500 bg-slate-100 rounded-lg w-full text-lg" disabled>
         </money3>
       </div>
       <div class="py-3 space-y-1">

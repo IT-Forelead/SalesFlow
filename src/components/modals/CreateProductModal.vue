@@ -7,7 +7,7 @@ import CancelButton from '../buttons/CancelButton.vue'
 import SearchIcon from '../../assets/icons/SearchIcon.vue'
 import Spinners270RingIcon from '../../assets/icons/Spinners270RingIcon.vue'
 import ProductService from '../../services/product.service'
-import { reactive, ref } from 'vue';
+import { reactive, ref, watch, watchEffect } from 'vue';
 
 
 
@@ -18,6 +18,9 @@ const moneyConf = {
 }
 
 const isLoading = ref(false)
+const isSearching = ref(false)
+const searchBarcodeProduct = ref('')
+const barcodeProduct = ref({})
 
 const submitData = reactive({
     name: '',
@@ -77,6 +80,51 @@ const createProduct = () => {
         })
     }
 }
+
+const searchProductByBarcode = () => {
+    if (!searchBarcodeProduct.value) {
+        toast.error('Shtrix kodni kiriting!')
+    } else {
+        isSearching.value = true
+        ProductService.getBarcodeProduct(searchBarcodeProduct.value)
+            .then((res) => {
+                barcodeProduct.value = res
+                isSearching.value = false
+                searchBarcodeProduct.value = ''
+            }).catch((err) => {
+                toast.error("Bunday shtrix kodli mahsulot mavjud emas!")
+                setTimeout(() => {
+                    searchBarcodeProduct.value = false
+                }, 3000)
+            })
+    }
+}
+
+const whenPressEnter = (e) => {
+    if (e.keyCode === 13) {
+        searchProductByBarcode()
+    }
+}
+
+const onSearchFocus = ref(null)
+
+watchEffect(() => {
+    if (onSearchFocus.value) {
+        onSearchFocus.value.focus()
+    }
+})
+
+watch(
+    () => barcodeProduct.value,
+    (data) => {
+        if (data) {
+            submitData.barcode = data?.barcode
+            submitData.name = data?.trademark
+            submitData.packaging = data?.packaging
+        }
+    }
+)
+
 </script>
 
 <template>
@@ -90,10 +138,12 @@ const createProduct = () => {
                 <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                     <SearchIcon class="w-5 h-5 text-slate-400" />
                 </div>
-                <input type="search"
+                <input type="search" v-model="searchBarcodeProduct" ref="onSearchFocus"
+                    v-on:keypress="whenPressEnter($event)"
                     class="bg-slate-100 border-none text-slate-900 rounded-lg w-full h-12 pl-10 placeholder-slate-400"
                     placeholder="Mahsulotni shtrix kodi bo'yicha izlash...">
-                <button type="button" class="absolute inset-y-0 right-0 px-4 bg-[#0167F3] text-white rounded-lg">
+                <button type="button" @click="searchProductByBarcode()"
+                    class="absolute inset-y-0 right-0 px-4 bg-[#0167F3] text-white rounded-lg">
                     Izlash
                 </button>
             </div>
@@ -135,9 +185,9 @@ const createProduct = () => {
                         <select id="default-type" v-model="submitData.saleType"
                             class="bg-slate-100 border-none text-slate-900 rounded-lg block w-full h-11">
                             <option value="" selected>Turini tanlang</option>
-                            <option value="amount">dona</option>
-                            <option value="g">gramm</option>
-                            <option value="litre">litr</option>
+                            <option value="amount">Donali</option>
+                            <option value="g">Gramli</option>
+                            <option value="litre">Litrli</option>
                         </select>
                     </div>
                 </div>
