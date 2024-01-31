@@ -9,23 +9,16 @@ import Spinners270RingIcon from '../../assets/icons/Spinners270RingIcon.vue'
 import ProductService from '../../services/product.service.js'
 import { computed, reactive, ref, toRefs, watch } from 'vue'
 
+const productStore = useProductStore()
+
 const selectedProduct = computed(() => {
-  return useProductStore().selectedProduct
+  return productStore.selectedProduct
 })
 
 const moneyConf = {
   thousands: ' ',
   suffix: ' UZS',
   precision: 0,
-}
-
-const clearSubmitData = () => {
-  selectedProduct.value.name = ''
-  selectedProduct.value.barcode = 0
-  selectedProduct.value.saleType = ''
-  selectedProduct.value.packaging = ''
-  selectedProduct.value.price = 0
-  selectedProduct.value.quantity = 0
 }
 
 const closeModal = () => {
@@ -46,6 +39,7 @@ const editProduct = () => {
     toast.error('Mahsulot narxini kiriting!')
   } else {
     toast.success('Mahsulot muoffaqiyatli taxrirlandi!')
+    closeModal()
   }
 }
 </script>
