@@ -45,53 +45,74 @@ const editProduct = () => {
 </script>
 
 <template>
-  <CModal :is-open="useModalStore().isOpenEditProductModal" v-if="useModalStore().isOpenEditProductModal" @close="closeModal">
+  <CModal :is-open="useModalStore().isOpenEditProductModal" v-if="useModalStore().isOpenEditProductModal"
+    @close="closeModal">
     <template v-slot:header> Mahsulotni tahrirlash </template>
     <template v-slot:body>
-      <div class="p-4 md:p-5 grid grid-cols-2 grid-rows-3 gap-4">
-        <div class="flex flex-col">
-          <label for="name" class="text-left text-base font-medium">
-            Mahsulot nomi
-            <span class="text-red-500 mr-2">*</span>
-          </label>
-          <input id="name" type="text" v-model="selectedProduct.name" class="bg-slate-100 border-none text-slate-900 rounded-lg w-full py-2.5 placeholder-slate-400" placeholder="Mahsulot nomini kiriting" />
+      <div class="space-y-4">
+        <div class="flex items-center space-x-4">
+          <div class="flex-1">
+            <label for="name" class="text-base font-medium">
+              Mahsulot nomi
+              <span class="text-red-500 mr-2">*</span>
+            </label>
+            <input id="name" type="text" 
+              class="bg-slate-100 border-none text-slate-900 rounded-lg w-full py-2.5 placeholder-slate-400"
+              placeholder="Mahsulot nomini kiriting">
+          </div>
+          <div class="flex-1">
+            <label for="barcode" class="text-base font-medium">
+              Shtrix kodi
+            </label>
+            <input id="barcode" type="text" 
+              class="bg-slate-100 border-none text-slate-900 rounded-lg w-full py-2.5 placeholder-slate-400"
+              placeholder="Shtrix kodini kiriting">
+          </div>
         </div>
-        <div class="flex flex-col">
-          <label for="name" class="text-left text-base font-medium"> Shtrix kodi </label>
-          <input id="barcode" type="text" v-model="selectedProduct.barcode" class="bg-slate-100 border-none text-slate-900 rounded-lg w-full py-2.5 placeholder-slate-400" placeholder="Shtrix kodini kiriting" />
+        <div class="flex items-center space-x-4">
+          <div class="flex-1 space-y-1">
+            <label for="default-value" class="text-base font-medium">
+              Qadoqi
+              <span class="text-red-500 mr-2">*</span>
+            </label>
+            <input id="default-value" type="text" 
+              class="bg-slate-100 border-none text-slate-900 rounded-lg w-full h-11 placeholder-slate-400"
+              placeholder="Qadoqi haqida ma'lumot kiriting">
+          </div>
+          <div class="flex-1 space-y-1">
+            <label for="default-type" class="text-base font-medium">
+              Sotuv turi
+              <span class="text-red-500 mr-2">*</span>
+            </label>
+            <select id="default-type" 
+              class="bg-slate-100 border-none text-slate-900 rounded-lg block w-full h-11">
+              <option value="" selected>Turini tanlang</option>
+              <option value="amount">Donali</option>
+              <option value="g">Grammli</option>
+              <option value="litre">Litrli</option>
+            </select>
+          </div>
         </div>
-        <div class="flex flex-col">
-          <label for="name" class="text-left text-base font-medium">
-            Qadoqi
-            <span class="text-red-500 mr-2">*</span>
-          </label>
-          <input id="default-value" type="text" v-model="selectedProduct.packaging" class="bg-slate-100 border-none text-slate-900 rounded-lg w-full h-11 placeholder-slate-400" placeholder="Qadoqini kiriting" />
-        </div>
-        <div class="flex flex-col">
-          <label for="name" class="text-left text-base font-medium">
-            Sotuv turi
-            <span class="text-red-500 mr-2">*</span>
-          </label>
-          <select id="default-type" v-model="selectedProduct.saleType" class="bg-slate-100 border-none text-slate-900 rounded-lg block w-full h-11">
-            <option selected>Turini tanlang</option>
-            <option value="amount">dona</option>
-            <option value="kg">kilogramm</option>
-            <option value="g">gramm</option>
-            <option value="litre">litr</option>
-          </select>
-        </div>
-        <div class="flex flex-col">
-          <label for="name" class="text-left text-base font-medium">
-            Narxi
-            <span class="text-red-500 mr-2">*</span>
-          </label>
-          <money3 v-bind="moneyConf" v-model.number="selectedProduct.price" id="price" class="border-none text-right text-gray-500 bg-slate-100 h-11 rounded-lg w-full text-lg"> </money3>
+        <div class="flex items-center space-x-4">
+          <div class="flex-1 spaceSearchIcon-y-1">
+            <label for="price" class="text-base font-medium">
+              Narxi
+              <span class="text-red-500 mr-2">*</span>
+            </label>
+            <money3 v-bind="moneyConf" id="price"
+              class="border-none text-right text-gray-500 bg-slate-100 h-11 rounded-lg w-full text-lg">
+            </money3>
+          </div>
+          <div class="flex-1">
+          </div>
         </div>
       </div>
     </template>
     <template v-slot:footer>
       <CancelButton @click="closeModal" />
-      <button type="button" class="ms-3 text-white bg-blue-500 hover:bg-blue-600 focus:ring-4 focus:outline-none focus:ring-slate-300 rounded-xl border border-slate-200 text-sm font-medium px-5 py-2.5 focus:z-10" @click="editProduct()">Saqlash</button>
+      <button type="button"
+        class="ms-3 text-white bg-blue-500 hover:bg-blue-600 focus:ring-4 focus:outline-none focus:ring-slate-300 rounded-xl border border-slate-200 text-sm font-medium px-5 py-2.5 focus:z-10"
+        @click="editProduct()">Saqlash</button>
     </template>
   </CModal>
 </template>
