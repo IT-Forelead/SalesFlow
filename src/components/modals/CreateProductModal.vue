@@ -9,6 +9,8 @@ import Spinners270RingIcon from '../../assets/icons/Spinners270RingIcon.vue'
 import ProductService from '../../services/product.service'
 import { reactive, ref, watch, watchEffect } from 'vue';
 
+
+
 const moneyConf = {
     thousands: ' ',
     suffix: ' UZS',
@@ -66,7 +68,7 @@ const createProduct = () => {
             ProductService.getProducts({})
                 .then((res) => {
                     useProductStore().clearStore()
-                    useProductStore().setProducts(res)
+                    useProductStore().setProducts(res.reverse())
                 })
             isLoading.value = false
             closeModal()
