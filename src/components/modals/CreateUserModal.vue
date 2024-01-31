@@ -20,15 +20,15 @@ const selectedRole = ref([])
 const markets = ref([])
 
 const privileges = ref([
-  { name: 'Kassir', code: ['create_product', 'create_order'] },
-  { name: 'Admin', code: ['create_user', 'update_user', 'create_order', 'update_any_user', 'view_users', 'create_product'] },
-  { name: 'Boshqaruvchi', code: ['create_user', 'view_users', 'update_user'] },
+  { name: 'Kassir', code: ['create_order', 'create_product'] },
+  { name: 'Admin', code: ['create_market', 'create_user',  'dashboard', 'find_barcode', 'find_order', 'update_user', 'view_histories', 'view_markets', 'view_orders', 'view_products', 'view_users'] },
+  { name: 'Boshqaruvchi', code: ['create_user', 'update_user', 'view_users'] },
 ])
 
 const togglePassword = () => (hidePassword.value = !hidePassword.value)
 
 const getMarkets = () => {
-  MarketService.getMarkets({})
+  MarketService.getMarkets()
     .then((res) => {
       markets.value = res
     })

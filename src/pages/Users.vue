@@ -22,13 +22,9 @@ const users = computed(() => {
   return userStore.users
 })
 
-// const privileges = computed(() => {
-//   return userStore.privileges
-// })
-
 const getRole = (privileges) => {
   switch (true) {
-    case privileges.includes('create_user') && privileges.includes('update_user') && privileges.includes('create_order') && privileges.includes('update_any_user') && privileges.includes('view_users') && privileges.includes('create_product'):
+    case privileges.includes('create_user') && privileges.includes('update_user') && privileges.includes('dashboard') && privileges.includes('view_users') && privileges.includes('view_products') && privileges.includes('view_histories') && privileges.includes('view_histories') && privileges.includes('find_order') && privileges.includes('find_barcode') && privileges.includes('create_market') && privileges.includes('view_markets'):
       return 'Admin';
     case privileges.includes('create_user') && privileges.includes('view_users') && privileges.includes('update_user'):
       return 'Boshqaruvchi';
@@ -87,7 +83,7 @@ const openEditUser = (data) => {
 
 const getUsers = () => {
   isLoading.value = true
-  UserService.getUsers({})
+  UserService.getUsers()
     .then((res) => {
       useUserStore().clearStore()
       useUserStore().setUsers(res)
