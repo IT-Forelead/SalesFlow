@@ -7,6 +7,9 @@ class ProductService {
   async getProducts(filter) {
     return AxiosService.post('/product', filter)
   }
+  async getBarcodeProduct(barcode) {
+    return AxiosService.get(`/product/barcode/${barcode}`)
+  }
 }
 
 export default new ProductService()
