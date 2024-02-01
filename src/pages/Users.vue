@@ -27,14 +27,41 @@ const privileges = computed(() => {
 
 const getRole = (privileges) => {
   switch (true) {
-    case privileges.includes('create_user') && privileges.includes('update_user') && privileges.includes('create_order') && privileges.includes('update_any_user') && privileges.includes('view_users') && privileges.includes('create_product'):
-      return 'Admin';
-    case privileges.includes('create_user') && privileges.includes('view_users') && privileges.includes('update_user'):
-      return 'Boshqaruvchi';
-    case privileges.includes('create_product') && privileges.includes('create_order'):
-      return 'Kassir';
+    case
+    privileges.includes('create_user') &&
+    privileges.includes('update_user') &&
+    privileges.includes('view_users') &&
+    privileges.includes('view_products') &&
+    privileges.includes('view_histories') &&
+    privileges.includes('find_barcode') &&
+    privileges.includes('find_order') &&
+    privileges.includes('view_orders') &&
+    privileges.includes('create_market') &&
+    privileges.includes('view_markets') &&
+    privileges.includes('dashboard'):
+      return 'Admin'
+    case
+    privileges.includes('create_user') &&
+    privileges.includes('view_users') &&
+    privileges.includes('update_user') &&
+    privileges.includes('dashboard') &&
+    privileges.includes('view_products') &&
+    privileges.includes('view_histories') &&
+    privileges.includes('find_barcode') &&
+    privileges.includes('find_order'):
+      return 'Boshqaruvchi'
+    case
+    privileges.includes('create_user') &&
+    privileges.includes('view_users') &&
+    privileges.includes('update_user') &&
+    privileges.includes('view_products') &&
+    privileges.includes('view_histories') &&
+    privileges.includes('find_barcode') &&
+    privileges.includes('find_order') &&
+    privileges.includes('dashboard'):
+      return 'Kassir'
     default:
-      return 'Foydalanuvchi';
+      return 'Foydalanuvchi'
   }
 }
 
@@ -116,6 +143,6 @@ getUsers()
     <div v-if="isLoading" class="flex items-center justify-center h-20">
       <Spinners270RingIcon class="w-6 h-6 text-gray-500 animate-spin" />
     </div>
-    <CTable :key ="renderkey" v-else :data="users" :columns="columns" :filter="globalSearchFromTable" />
+    <CTable :key="renderkey" v-else :data="users" :columns="columns" :filter="globalSearchFromTable" />
   </div>
 </template>
