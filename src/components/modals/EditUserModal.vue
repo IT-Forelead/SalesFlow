@@ -3,9 +3,7 @@ import Spinners270RingIcon from '../../assets/icons/Spinners270RingIcon.vue'
 import CModal from '../common/CModal.vue'
 import { useModalStore } from '../../store/modal.store.js'
 import CancelButton from '../buttons/CancelButton.vue'
-import SaveButton from '../buttons/SaveButton.vue'
 import { reactive, ref, computed, watch } from 'vue'
-import UserService from '../../services/user.service.js'
 import { toast } from 'vue-sonner'
 import { useUserStore } from '../../store/user.store.js'
 import { vMaska } from 'maska'
@@ -84,14 +82,18 @@ watch(
               Ism
               <span class="text-red-500 mr-2">*</span>
             </label>
-            <input id="firstname" type="text" v-model="submitData.firstname" class="bg-slate-100 border-none text-slate-900 rounded-lg w-full py-2.5 placeholder-slate-400" placeholder="Ismni kiriting" />
+            <input id="firstname" type="text" v-model="submitData.firstname"
+              class="bg-slate-100 border-none text-slate-900 rounded-lg w-full py-2.5 placeholder-slate-400"
+              placeholder="Ismni kiriting" />
           </div>
           <div class="flex-1">
             <label for="lastname" class="text-base font-medium">
               Familiya
               <span class="text-red-500 mr-2">*</span>
             </label>
-            <input id="lastname" type="text" v-model="submitData.lastname" class="bg-slate-100 border-none text-slate-900 rounded-lg w-full py-2.5 placeholder-slate-400" placeholder="Familiyani kiriting" />
+            <input id="lastname" type="text" v-model="submitData.lastname"
+              class="bg-slate-100 border-none text-slate-900 rounded-lg w-full py-2.5 placeholder-slate-400"
+              placeholder="Familiyani kiriting" />
           </div>
         </div>
         <div class="flex items-center space-x-4">
@@ -100,7 +102,9 @@ watch(
               Telefon raqam:
               <span class="text-red-500 mr-2">*</span>
             </label>
-            <input id="phone" type="text" v-model="submitData.phone" v-maska data-maska="+998(##) ###-##-##" class="bg-slate-100 border-none text-slate-900 rounded-lg w-full py-2.5 placeholder-slate-400" placeholder="+998(00) 000-00-00" />
+            <input id="phone" type="text" v-model="submitData.phone" v-maska data-maska="+998(##) ###-##-##"
+              class="bg-slate-100 border-none text-slate-900 rounded-lg w-full py-2.5 placeholder-slate-400"
+              placeholder="+998(00) 000-00-00" />
           </div>
           <div class="flex-1">
             <label for="role" class="text-base text-left font-medium">
@@ -108,7 +112,8 @@ watch(
               <span class="text-red-500 mr-2">*</span>
             </label>
 
-            <select id="role" v-model="submitData.privileges" class="bg-slate-100 border-none text-slate-900 rounded-lg block w-full h-11">
+            <select id="role" v-model="submitData.privileges"
+              class="bg-slate-100 border-none text-slate-900 rounded-lg block w-full h-11">
               <option value="" selected>Tanlang</option>
               <option v-for="(priv, idx) in privileges" :key="idx" :value="priv?.code">
                 {{ priv?.name }}
