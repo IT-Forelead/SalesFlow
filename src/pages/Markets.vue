@@ -66,7 +66,7 @@ const openDeleteMarketModal = (data) => {
 
 const getMarkets = () => {
   isLoading.value = true
-  MarketService.getMarkets({})
+  MarketService.getMarkets()
     .then((res) => {
       useMarketStore().clearStore()
       useMarketStore().setMarkets(res)

@@ -69,7 +69,7 @@ const privileges = ref([
 const togglePassword = () => (hidePassword.value = !hidePassword.value)
 
 const getMarkets = () => {
-  MarketService.getMarkets({})
+  MarketService.getMarkets()
     .then((res) => {
       markets.value = res
     })
@@ -113,7 +113,7 @@ const createUser = () => {
   } else if (!submitForm.phone) {
     toast.warning('Iltimos telefon raqamni kiriting')
   } else if (!submitForm.marketId) {
-    toast.warning('Iltimos do\'konni tanlang!')
+    toast.warning("Iltimos do'konni tanlang!")
   } else if (submitForm.privileges.length === 0) {
     toast.warning('Iltimos rol tanlang')
   } else if (!submitForm.password) {
@@ -133,7 +133,7 @@ const createUser = () => {
         marketId: submitForm.marketId,
         privileges: submitForm.privileges,
         password: submitForm.password,
-      }),
+      })
     ).then(() => {
       toast.success('Foydalanuvchi muvaffaqiyatli yaratildi!')
       isLoading.value = false
@@ -158,13 +158,13 @@ watch(
       getMarkets()
     }
   },
-  { deep: true },
+  { deep: true }
 )
 </script>
 <template>
   <div>
     <CModal :is-open="useModalStore().isOpenCreateUserModal" v-if="useModalStore().isOpenCreateUserModal"
-            @close=closeModal>
+      @close=closeModal>
       <template v-slot:header>
         Foydalanuvchi qo'shish
       </template>
@@ -178,8 +178,8 @@ watch(
                 <span class="text-red-500 mr-2">*</span>
               </label>
               <input id="firstname" type="text" v-model="submitForm.firstname"
-                     class="bg-slate-100 border-none text-slate-900 rounded-lg w-full py-2.5 placeholder-slate-400"
-                     placeholder="Ismni kiriting">
+                class="bg-slate-100 border-none text-slate-900 rounded-lg w-full py-2.5 placeholder-slate-400"
+                placeholder="Ismni kiriting">
             </div>
             <div class="flex-1">
               <label for="lastname" class="text-base font-medium">
@@ -187,8 +187,8 @@ watch(
                 <span class="text-red-500 mr-2">*</span>
               </label>
               <input id="lastname" type="text" v-model="submitForm.lastname"
-                     class="bg-slate-100 border-none text-slate-900 rounded-lg w-full py-2.5 placeholder-slate-400"
-                     placeholder="Familiyani kiriting">
+                class="bg-slate-100 border-none text-slate-900 rounded-lg w-full py-2.5 placeholder-slate-400"
+                placeholder="Familiyani kiriting">
             </div>
           </div>
           <div class="flex items-center space-x-4">
@@ -198,8 +198,8 @@ watch(
                 <span class="text-red-500 mr-2">*</span>
               </label>
               <input id="login" type="text" v-model="submitForm.login"
-                     class="bg-slate-100 border-none text-slate-900 rounded-lg w-full py-2.5 placeholder-slate-400"
-                     placeholder="Loginni kiriting">
+                class="bg-slate-100 border-none text-slate-900 rounded-lg w-full py-2.5 placeholder-slate-400"
+                placeholder="Loginni kiriting">
             </div>
             <div class="flex-1">
               <label for="phone" class="text-base font-medium">
@@ -207,8 +207,8 @@ watch(
                 <span class="text-red-500 mr-2">*</span>
               </label>
               <input id="phone" type="text" v-model="submitForm.phone" v-maska data-maska="+998(##) ###-##-##"
-                     class="bg-slate-100 border-none text-slate-900 rounded-lg w-full py-2.5 placeholder-slate-400"
-                     placeholder="+998(00) 000-00-00">
+                class="bg-slate-100 border-none text-slate-900 rounded-lg w-full py-2.5 placeholder-slate-400"
+                placeholder="+998(00) 000-00-00">
             </div>
           </div>
           <div class="flex items-center space-x-4">
@@ -218,7 +218,7 @@ watch(
                 <span class="text-red-500 mr-2">*</span>
               </label>
               <select id="market" v-model="submitForm.marketId"
-                      class="bg-slate-100 border-none text-slate-900 rounded-lg block w-full h-11">
+                class="bg-slate-100 border-none text-slate-900 rounded-lg block w-full h-11">
                 <option value="" selected>Do'konni tanlang</option>
                 <option v-for="(market, idx) in markets" :key="idx" :value="market?.id">
                   {{ market?.name }}
@@ -231,9 +231,9 @@ watch(
                 <span class="text-red-500 mr-2">*</span>
               </label>
               <MultiSelect :show-toggle-all="false" :display="'chip'" :select-all="false"
-                           panel-class="bg-slate-100 rounded-2xl" v-model="selectedRole" :options="privileges" optionLabel="name"
-                           placeholder="Tanlang" :maxSelectedLabels="1" :selection-limit="1"
-                           class="bg-slate-100 border-none text-slate-900 rounded-lg w-full placeholder-slate-400" />
+                panel-class="bg-slate-100 rounded-2xl" v-model="selectedRole" :options="privileges" optionLabel="name"
+                placeholder="Tanlang" :maxSelectedLabels="1" :selection-limit="1"
+                class="bg-slate-100 border-none text-slate-900 rounded-lg w-full placeholder-slate-400" />
             </div>
           </div>
           <div class="flex items-center space-x-4">
@@ -244,12 +244,12 @@ watch(
               </label>
               <div class="relative">
                 <input v-model="submitForm.password" id="password" :type="hidePassword ? 'password' : 'text'"
-                       class="bg-slate-100 border-none text-slate-900 rounded-lg w-full py-2.5 placeholder-slate-400"
-                       placeholder="Parolni kiriting">
+                  class="bg-slate-100 border-none text-slate-900 rounded-lg w-full py-2.5 placeholder-slate-400"
+                  placeholder="Parolni kiriting">
                 <EyeIcon v-if="hidePassword" @click="togglePassword()"
-                         class="text-gray-500 dark:text-gray-500 absolute z-10 top-1/2 -translate-y-1/2 right-3 w-5 h-5 cursor-pointer" />
+                  class="text-gray-500 dark:text-gray-500 absolute z-10 top-1/2 -translate-y-1/2 right-3 w-5 h-5 cursor-pointer" />
                 <EyeSlashIcon v-else @click="togglePassword()"
-                              class="text-gray-500 dark:text-gray-500 absolute z-10 top-1/2 -translate-y-1/2 right-3 w-5 h-5 cursor-pointer" />
+                  class="text-gray-500 dark:text-gray-500 absolute z-10 top-1/2 -translate-y-1/2 right-3 w-5 h-5 cursor-pointer" />
               </div>
             </div>
             <div class="flex-1">
@@ -259,13 +259,13 @@ watch(
               </label>
               <div class="relative">
                 <input v-model="submitForm.confirmPassword" id="confirm-password"
-                       :type="hidePassword ? 'password' : 'text'"
-                       class="bg-slate-100 border-none text-slate-900 rounded-lg w-full py-2.5 placeholder-slate-400"
-                       placeholder="Parolni qayta kiriting">
+                  :type="hidePassword ? 'password' : 'text'"
+                  class="bg-slate-100 border-none text-slate-900 rounded-lg w-full py-2.5 placeholder-slate-400"
+                  placeholder="Parolni qayta kiriting">
                 <EyeIcon v-if="hidePassword" @click="togglePassword()"
-                         class="text-gray-500 dark:text-gray-500 absolute z-10 top-1/2 -translate-y-1/2 right-3 w-5 h-5 cursor-pointer" />
+                  class="text-gray-500 dark:text-gray-500 absolute z-10 top-1/2 -translate-y-1/2 right-3 w-5 h-5 cursor-pointer" />
                 <EyeSlashIcon v-else @click="togglePassword()"
-                              class="text-gray-500 dark:text-gray-500 absolute z-10 top-1/2 -translate-y-1/2 right-3 w-5 h-5 cursor-pointer" />
+                  class="text-gray-500 dark:text-gray-500 absolute z-10 top-1/2 -translate-y-1/2 right-3 w-5 h-5 cursor-pointer" />
               </div>
             </div>
           </div>
@@ -274,13 +274,13 @@ watch(
       <template v-slot:footer>
         <CancelButton @click="closeModal" />
         <button v-if="isLoading" type="bSearchIconutton"
-                class="inline-flex items-center justify-center ms-3 text-white bg-blue-600 focus:ring-4 focus:outline-none focus:ring-slate-300 rounded-xl border border-slate-200 text-sm font-medium px-5 py-2.5 focus:z-10 cursor-default">
+          class="inline-flex items-center justify-center ms-3 text-white bg-blue-600 focus:ring-4 focus:outline-none focus:ring-slate-300 rounded-xl border border-slate-200 text-sm font-medium px-5 py-2.5 focus:z-10 cursor-default">
           <Spinners270RingIcon
             class="mr-2 w-5 h-5 text-gray-200 animate-spin dark:text-gray-600 fill-gray-600 dark:fill-gray-300" />
           Yaratish
         </button>
         <button v-else @click="createUser()" type="button"
-                class="ms-3 text-white bg-blue-500 hover:bg-blue-600 focus:ring-4 focus:outline-none focus:ring-slate-300 rounded-xl border border-slate-200 text-sm font-medium px-5 py-2.5 focus:z-10">
+          class="ms-3 text-white bg-blue-500 hover:bg-blue-600 focus:ring-4 focus:outline-none focus:ring-slate-300 rounded-xl border border-slate-200 text-sm font-medium px-5 py-2.5 focus:z-10">
           Yaratish
         </button>
       </template>
