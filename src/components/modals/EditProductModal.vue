@@ -1,5 +1,4 @@
 <script setup>
-import PhPencilLine from '../../assets/icons/EditIcon.vue'
 import CModal from '../common/CModal.vue'
 import { toast } from 'vue-sonner'
 import { useModalStore } from '../../store/modal.store.js'
