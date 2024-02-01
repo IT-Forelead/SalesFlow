@@ -20,9 +20,50 @@ const selectedRole = ref([])
 const markets = ref([])
 
 const privileges = ref([
-  { name: 'Kassir', code: ['create_order', 'create_product'] },
-  { name: 'Admin', code: ['create_market', 'create_user',  'dashboard', 'find_barcode', 'find_order', 'update_user', 'view_histories', 'view_markets', 'view_orders', 'view_products', 'view_users'] },
-  { name: 'Boshqaruvchi', code: ['create_user', 'update_user', 'view_users'] },
+  {
+    name: 'Kassir',
+    code: [
+      'create_product',
+      'update_product',
+      'create_history',
+      'create_order',
+      'dashboard',
+      'view_products',
+      'view_histories',
+      'find_barcode',
+      'find_order',
+      'view_orders'
+    ],
+  },
+  {
+    name: 'Admin',
+    code: [
+      'create_user',
+      'update_user',
+      'dashboard',
+      'view_users',
+      'view_products',
+      'view_histories',
+      'find_barcode',
+      'find_order',
+      'view_orders',
+      'create_market',
+      'view_markets',
+    ],
+  },
+  {
+    name: 'Boshqaruvchi',
+    code: [
+      'create_user',
+      'view_users',
+      'update_user',
+      'dashboard',
+      'view_products',
+      'view_histories',
+      'find_barcode',
+      'find_order',
+    ]
+  },
 ])
 
 const togglePassword = () => (hidePassword.value = !hidePassword.value)

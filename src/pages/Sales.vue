@@ -86,20 +86,26 @@ const searchProducts = () => {
 const addProductToCart = (product) => {
   if (selectedProducts.value.find((p) => p?.productId == product?.id)) {
     selectedProducts.value = selectedProducts.value.map((item) => {
-      if (item.productId === product.id) {
+      if (item.productId === product.id && product?.quantity > item.amount) {
         return { ...item, amount: item.amount + 1 }
-      } else item
-      return item
+      } else {
+        toast.error('Mahsulot sotuv limitidan oshib ketdi!')
+        return item
+      }
     });
   } else {
-    selectedProducts.value.push({
-      productId: product?.id,
-      name: product?.name,
-      packaging: product?.packaging,
-      price: product?.price,
-      quantity: product?.quantity,
-      amount: 1
-    })
+    if (product.quantity > 0) {
+      selectedProducts.value.push({
+        productId: product?.id,
+        name: product?.name,
+        packaging: product?.packaging,
+        price: product?.price,
+        quantity: product?.quantity,
+        amount: 1
+      })
+    } else {
+      toast.error('Mahsulot sotuvda mavjud emas!')
+    }
   }
   clearSearchInput()
 }
