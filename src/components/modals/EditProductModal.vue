@@ -28,7 +28,7 @@ const submitData = reactive({
   barcode: 0,
   packaging: '',
     price: 0,
-  quantity: 0,
+  saleType: 0,
 })
 
 const clearSubmitData = () => {
@@ -37,7 +37,7 @@ const clearSubmitData = () => {
   submitData.barcode = 0
   submitData.packaging = ''
     submitData.price = 0
-  submitData.quantity = 0
+  submitData.saleType = 0
 }
 
 const closeModal = () => {
@@ -55,7 +55,7 @@ const editProduct = () => {
     toast.error('Mahsulot standart qiymatini kiriting!')
     } else if (submitData.value.price == 0) {
     toast.error('Mahsulot narxini kiriting!')
-  } else if (submitData.value.quantity == 0) {
+  } else if (submitData.value.saleType == 0) {
     toast.error('Mahsulot sotuv turini kiriting!')
   } else {
     toast.success('Mahsulot muoffaqiyatli taxrirlandi!')
@@ -71,8 +71,8 @@ watch(
       submitData.name = data?.name
       submitData.barcode = data?.barcode
       submitData.packaging = data?.packaging
-            submitData.price = data?.price
-      submitData.quantity = data?.quantity
+      submitData.price = data?.price
+      submitData.saleType = data?.saleType
     }
   }
 )
