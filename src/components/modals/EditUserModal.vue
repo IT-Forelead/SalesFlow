@@ -126,7 +126,7 @@ watch(
           class="mr-2 w-5 h-5 text-gray-200 animate-spin dark:text-gray-600 fill-gray-600 dark:fill-gray-300" />
         Saqlash
       </button>
-      <button v-else @click="createUser()" type="button"
+      <button v-else @click="editUser()" type="button"
         class="ms-3 text-white bg-blue-500 hover:bg-blue-600 focus:ring-4 focus:outline-none focus:ring-slate-300 rounded-xl border border-slate-200 text-sm font-medium px-5 py-2.5 focus:z-10">
         Saqlash
       </button>
