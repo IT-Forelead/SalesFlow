@@ -10,6 +10,10 @@ class ProductService {
   async getBarcodeProduct(barcode) {
     return AxiosService.get(`/product/barcode/${barcode}`)
   }
+
+  async updateProduct(data){
+    return AxiosService.put('/product/update', data)
+  }
 }
 
 export default new ProductService()
