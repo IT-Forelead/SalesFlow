@@ -30,6 +30,13 @@ const routes = [
     beforeEnter: navigationGuards('dashboard'),
   },
   {
+    path: '/product-barcodes',
+    name: 'Product barcodes',
+    component: () => import('../pages/ProductBarcodes.vue'),
+    meta: { layout: 'dashboard' },
+    beforeEnter: navigationGuards('dashboard'),
+  },
+  {
     path: '/orders',
     name: 'Orders',
     component: () => import('../pages/Orders.vue'),
