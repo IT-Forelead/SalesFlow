@@ -1,13 +1,13 @@
 <script setup>
-import Spinners270RingIcon from '../../assets/icons/Spinners270RingIcon.vue'
-import CModal from '../common/CModal.vue'
-import { useModalStore } from '../../store/modal.store.js'
-import CancelButton from '../buttons/CancelButton.vue'
-import { reactive, ref, computed, watch } from 'vue'
-import { toast } from 'vue-sonner'
-import UserService from '../../services/user.service.js'
-import { useUserStore } from '../../store/user.store.js'
 import { vMaska } from 'maska'
+import { computed, reactive, ref, watch } from 'vue'
+import { toast } from 'vue-sonner'
+import Spinners270RingIcon from '../../assets/icons/Spinners270RingIcon.vue'
+import UserService from '../../services/user.service.js'
+import { useModalStore } from '../../store/modal.store.js'
+import { useUserStore } from '../../store/user.store.js'
+import CancelButton from '../buttons/CancelButton.vue'
+import CModal from '../common/CModal.vue'
 
 const isLoading = ref(false)
 const userStore = useUserStore()
@@ -46,13 +46,13 @@ const closeModal = () => {
 
 const editUser = () => {
   if (!submitData.firstname) {
-    toast.warning('Foydolanuvchini ismi kiriting!')
+    toast.warning('Foydolanuvchini ismini kiriting!')
   } else if (!submitData.lastname) {
     toast.warning('Foydolanuvchini familiyasini kiriting!')
   } else if (!submitData.phone) {
     toast.warning('Foydolanuvchini telefon raqamini kiriting!')
   } else if (!submitData.privileges) {
-    toast.warning('Foydolanuvchini rolni kiriting!')
+    toast.warning('Foydolanuvchini rolini tanlang!')
   } else {
     isLoading.value = true
     UserService.updateUser({
@@ -61,9 +61,9 @@ const editUser = () => {
       lastname: submitData.lastname,
       privileges: submitData.privileges,
       phone: submitData.phone.replace(/([() -])/g, ''),
-    }) .then(() => {
+    }).then(() => {
       toast.success('Mahsulot muvaffaqiyatli tahrirlandi!')
-      UserService.getUsers({})
+      UserService.getUsers()
         .then((res) => {
           userStore.clearStore()
           userStore.setUsers(res)
@@ -73,8 +73,7 @@ const editUser = () => {
         })
       isLoading.value = false
       closeModal()
-    })
-    .catch((err) => {
+    }).catch((err) => {
       toast.error(err.message)
       isLoading.value = false
       closeModal()
@@ -162,5 +161,4 @@ watch(
     </template>
   </CModal>
 </template>
-
 <style scoped></style>
