@@ -1,12 +1,13 @@
 <script setup>
-import Spinners270RingIcon from '../../assets/icons/Spinners270RingIcon.vue'
-import CModal from '../common/CModal.vue'
-import { useModalStore } from '../../store/modal.store.js'
-import CancelButton from '../buttons/CancelButton.vue'
-import { reactive, ref, computed, watch } from 'vue'
-import { toast } from 'vue-sonner'
-import { useUserStore } from '../../store/user.store.js'
 import { vMaska } from 'maska'
+import { computed, reactive, ref, watch } from 'vue'
+import { toast } from 'vue-sonner'
+import Spinners270RingIcon from '../../assets/icons/Spinners270RingIcon.vue'
+import UserService from '../../services/user.service.js'
+import { useModalStore } from '../../store/modal.store.js'
+import { useUserStore } from '../../store/user.store.js'
+import CancelButton from '../buttons/CancelButton.vue'
+import CModal from '../common/CModal.vue'
 
 const isLoading = ref(false)
 const userStore = useUserStore()
@@ -44,17 +45,39 @@ const closeModal = () => {
 }
 
 const editUser = () => {
-  if (!submitData.value.firstname) {
-    toast.error('Foydolanuvchini ismi kiriting!')
-  } else if (!submitData.value.lastname) {
-    toast.error('Foydolanuvchini familiyasini kiriting!')
-  } else if (!submitData.value.phone) {
-    toast.error('Foydolanuvchini telefon raqamini kiriting!')
-  } else if (!submitData.value.privileges) {
-    toast.error('Foydolanuvchini rolni kiriting!')
+  if (!submitData.firstname) {
+    toast.warning('Foydolanuvchini ismini kiriting!')
+  } else if (!submitData.lastname) {
+    toast.warning('Foydolanuvchini familiyasini kiriting!')
+  } else if (!submitData.phone) {
+    toast.warning('Foydolanuvchini telefon raqamini kiriting!')
+  } else if (!submitData.privileges) {
+    toast.warning('Foydolanuvchini rolini tanlang!')
   } else {
-    toast.success('Mahsulot muoffaqiyatli taxrirlandi!')
-    closeModal()
+    isLoading.value = true
+    UserService.updateUser({
+      id: submitData.id,
+      firstname: submitData.firstname,
+      lastname: submitData.lastname,
+      privileges: submitData.privileges,
+      phone: submitData.phone.replace(/([() -])/g, ''),
+    }).then(() => {
+      toast.success('Mahsulot muvaffaqiyatli tahrirlandi!')
+      UserService.getUsers()
+        .then((res) => {
+          userStore.clearStore()
+          userStore.setUsers(res)
+        })
+        .catch((err) => {
+          toast.error(err.message)
+        })
+      isLoading.value = false
+      closeModal()
+    }).catch((err) => {
+      toast.error(err.message)
+      isLoading.value = false
+      closeModal()
+    })
   }
 }
 
@@ -125,7 +148,7 @@ watch(
     </template>
     <template v-slot:footer>
       <CancelButton @click="closeModal" />
-      <button v-if="isLoading" type="bSearchIconutton"
+      <button v-if="isLoading" type="button"
         class="inline-flex items-center justify-center ms-3 text-white bg-blue-600 focus:ring-4 focus:outline-none focus:ring-slate-300 rounded-xl border border-slate-200 text-sm font-medium px-5 py-2.5 focus:z-10 cursor-default">
         <Spinners270RingIcon
           class="mr-2 w-5 h-5 text-gray-200 animate-spin dark:text-gray-600 fill-gray-600 dark:fill-gray-300" />
@@ -138,5 +161,4 @@ watch(
     </template>
   </CModal>
 </template>
-
 <style scoped></style>
