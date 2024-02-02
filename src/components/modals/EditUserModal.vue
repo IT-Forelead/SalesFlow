@@ -17,9 +17,57 @@ const selectedUser = computed(() => {
 })
 
 const privileges = ref([
-  { name: 'Kassir', code: ['create_order', 'create_product'] },
-  { name: 'Admin', code: ['create_market', 'create_user', 'dashboard', 'find_barcode', 'find_order', 'update_user', 'view_histories', 'view_markets', 'view_orders', 'view_products', 'view_users'] },
-  { name: 'Boshqaruvchi', code: ['create_user', 'update_user', 'view_users'] },
+  {
+    name: 'Kassir',
+    code: [
+      'dashboard',
+      'create_order',
+      'view_products',
+      'view_orders',
+      'find_barcode',
+      'find_order',
+    ],
+  },
+  {
+    name: 'Admin',
+    code: [
+      'create_user',
+      'update_user',
+      'dashboard',
+      'view_users',
+      'create_product',
+      'update_product',
+      'view_products',
+      'create_history',
+      'view_histories',
+      'find_barcode',
+      'create_order',
+      'find_order',
+      'view_orders',
+      'create_market',
+      'view_markets'
+    ],
+  },
+  {
+    name: 'Boshqaruvchi',
+    code: [
+      'create_user',
+      'update_user',
+      'dashboard',
+      'view_users',
+      'create_product',
+      'update_product',
+      'view_products',
+      'create_history',
+      'view_histories',
+      'find_barcode',
+      'create_order',
+      'find_order',
+      'view_orders',
+      // 'create_market',
+      'view_markets'
+    ]
+  },
 ])
 
 const submitData = reactive({

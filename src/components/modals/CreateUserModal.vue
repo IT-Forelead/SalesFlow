@@ -23,16 +23,12 @@ const privileges = ref([
   {
     name: 'Kassir',
     code: [
-      'create_product',
-      'update_product',
-      'create_history',
-      'create_order',
       'dashboard',
+      'create_order',
       'view_products',
-      'view_histories',
+      'view_orders',
       'find_barcode',
       'find_order',
-      'view_orders'
     ],
   },
   {
@@ -42,26 +38,37 @@ const privileges = ref([
       'update_user',
       'dashboard',
       'view_users',
+      'create_product',
+      'update_product',
       'view_products',
+      'create_history',
       'view_histories',
       'find_barcode',
+      'create_order',
       'find_order',
       'view_orders',
       'create_market',
-      'view_markets',
+      'view_markets'
     ],
   },
   {
     name: 'Boshqaruvchi',
     code: [
       'create_user',
-      'view_users',
       'update_user',
       'dashboard',
+      'view_users',
+      'create_product',
+      'update_product',
       'view_products',
+      'create_history',
       'view_histories',
       'find_barcode',
+      'create_order',
       'find_order',
+      'view_orders',
+      // 'create_market',
+      'view_markets'
     ]
   },
 ])

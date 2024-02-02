@@ -88,8 +88,10 @@ const addProductToCart = (product) => {
     selectedProducts.value = selectedProducts.value.map((item) => {
       if (item.productId === product.id && product?.quantity > item.amount) {
         return { ...item, amount: item.amount + 1 }
-      } else {
+      } else if (item.productId === product.id) {
         toast.error('Mahsulot sotuv limitidan oshib ketdi!')
+        return item
+      } else {
         return item
       }
     });
