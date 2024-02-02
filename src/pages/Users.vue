@@ -30,35 +30,43 @@ const getRole = (privileges) => {
     case
       privileges.includes('create_user') &&
       privileges.includes('update_user') &&
+      privileges.includes('dashboard') &&
       privileges.includes('view_users') &&
+      privileges.includes('create_product') &&
+      privileges.includes('update_product') &&
       privileges.includes('view_products') &&
+      privileges.includes('create_history') &&
       privileges.includes('view_histories') &&
       privileges.includes('find_barcode') &&
+      privileges.includes('create_order') &&
       privileges.includes('find_order') &&
       privileges.includes('view_orders') &&
       privileges.includes('create_market') &&
-      privileges.includes('view_markets') &&
-      privileges.includes('dashboard'):
+      privileges.includes('view_markets'):
       return 'Admin'
     case
       privileges.includes('create_user') &&
-      privileges.includes('view_users') &&
       privileges.includes('update_user') &&
       privileges.includes('dashboard') &&
+      privileges.includes('view_users') &&
+      privileges.includes('create_product') &&
+      privileges.includes('update_product') &&
       privileges.includes('view_products') &&
+      privileges.includes('create_history') &&
       privileges.includes('view_histories') &&
       privileges.includes('find_barcode') &&
-      privileges.includes('find_order'):
+      privileges.includes('create_order') &&
+      privileges.includes('find_order') &&
+      privileges.includes('view_orders') &&
+      privileges.includes('view_markets'):
       return 'Boshqaruvchi'
     case
-      privileges.includes('create_user') &&
-      privileges.includes('view_users') &&
-      privileges.includes('update_user') &&
+      privileges.includes('dashboard') &&
+      privileges.includes('create_order') &&
       privileges.includes('view_products') &&
-      privileges.includes('view_histories') &&
+      privileges.includes('view_orders') &&
       privileges.includes('find_barcode') &&
-      privileges.includes('find_order') &&
-      privileges.includes('dashboard'):
+      privileges.includes('find_order'):
       return 'Kassir'
     default:
       return 'Foydalanuvchi'
