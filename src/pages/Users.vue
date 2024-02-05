@@ -10,6 +10,9 @@ import UserService from '../services/user.service'
 import DeleteUserModal from '../components/modals/DeleteUserModal.vue'
 import { useUserStore } from '../store/user.store.js'
 import { useModalStore } from '../store/modal.store.js'
+import EditIcon from '../assets/icons/EditIcon.vue'
+import TrashIcon from '../assets/icons/TrashIcon.vue'
+import { useProductHistoryStore } from '../store/productHistory.store.js'
 
 const globalSearchFromTable = ref('')
 const isLoading = ref(false)
@@ -45,8 +48,6 @@ const getRole = (privileges) => {
       privileges.includes('view_markets'):
       return 'Admin'
     case
-      privileges.includes('create_user') &&
-      privileges.includes('update_user') &&
       privileges.includes('dashboard') &&
       privileges.includes('view_users') &&
       privileges.includes('create_product') &&
@@ -105,18 +106,25 @@ const columns = [
     accessorKey: 'edit',
     header: 'Amallar',
     cell: ({ row }) => h('div', { class: 'flex items-center space-x-2' }, [
-      h('button', { onClick: () => { openEditUser(row.original) } }, [
-        h(PhPencilIcon, { class: 'w-6 h-6 text-blue-600 hover:scale-105' })
+      h('button', { onClick: () => { openEditUserModal(row.original) } }, [
+        h(EditIcon, { class: 'w-6 h-6 text-blue-600 hover:scale-105' })
       ]),
-      h(DeleteUserModal, { id: row.original.id }),
+      h('button', { onClick: () => { openDeleteUserModal(row.original) } }, [
+        h(TrashIcon, { class: 'w-6 h-6 text-red-600 hover:scale-105' })
+      ]),
     ]),
     enableSorting: false,
   },
 ]
 
-const openEditUser = (data) => {
-  useUserStore().setSelectedUser(data)
+const openEditUserModal = (data) => {
   useModalStore().openEditUserModal()
+  useUserStore().setSelectedUser(data)
+}
+
+const openDeleteUserModal = (data) => {
+  useModalStore().openDeleteUserModal()
+  useUserStore().setSelectedUser(data)
 }
 
 const getUsers = () => {
