@@ -295,6 +295,12 @@ onMounted(() => {
                         <span class="text-gray-700">
                           {{ useMoneyFormatter(product?.price) }}
                         </span>
+                        <div v-if="product.quantity<=15">
+                          Qolgan miqdori:
+                          <span class="text-red-500">
+                          {{ product?.quantity - product?.amount }}
+                        </span>
+                        </div>
                       </div>
                     </div>
                   </div>
