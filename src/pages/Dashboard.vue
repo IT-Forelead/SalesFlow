@@ -1,18 +1,28 @@
 <script setup>
-import { computed } from 'vue';
+import moment from 'moment'
+import { computed, onMounted, ref } from 'vue';
 import StoreIcon from '../assets/icons/StoreIcon.vue'
 import TotalProductIcon from '../assets/icons/TotalProductIcon.vue'
 import useMoneyFormatter from '../mixins/currencyFormatter';
 import ImageIcon from '../assets/icons/ImageIcon.vue';
+import OrderService from '../services/order.service'
+import { useOrderStore } from '../store/order.store'
+
+const orderStore = useOrderStore()
+const isLoading = ref(false)
+
+const ordersStat = computed(() => {
+    return orderStore.ordersStat
+})
 
 // Expenses Chart
 const salesChartSeries = computed(() => [
     {
         name: 'Sotilgan',
-        data: [3100000, 4050000, 2810000, 5179000, 4286000, 1090000, 6004000]
+        data: ordersStat.value?.map((item) => item.soldPrice),
     }, {
         name: 'Sotib olingan',
-        data: [1190000, 3250000, 4510000, 3260000, 3480000, 5240000, 4190000]
+        data: ordersStat.value?.map((item) => item.purchasePrice),
     }
 ])
 
@@ -39,12 +49,19 @@ const salesChartChartOptions = {
         curve: 'smooth'
     },
     xaxis: {
-        type: 'datetime',
+        categories: ordersStat.value?.map((item) => item.date),
+        type: 'date',
         labels: {
             style: {
                 fontSize: '12px',
-                colors: ['#8e8da4', '#8e8da4', '#8e8da4', '#8e8da4', '#8e8da4', '#8e8da4', '#8e8da4', '#8e8da4', '#8e8da4', '#8e8da4', '#8e8da4', '#8e8da4',],
+                colors: '#8e8da4',
             },
+            formatter: function (val) {
+                return moment(val).format('D-MMMM')
+            },
+        },
+        tooltip: {
+            enabled: true,
         },
         axisBorder: {
             show: false,
@@ -52,7 +69,6 @@ const salesChartChartOptions = {
         axisTicks: {
             show: false,
         },
-        categories: ["2018-09-19T00:00:00.000Z", "2018-09-19T01:30:00.000Z", "2018-09-19T02:30:00.000Z", "2018-09-19T03:30:00.000Z", "2018-09-19T04:30:00.000Z", "2018-09-19T05:30:00.000Z", "2018-09-19T06:30:00.000Z"]
     },
     yaxis: {
         tickAmount: 6,
@@ -96,34 +112,20 @@ const salesChartChartOptions = {
     },
 }
 
+onMounted(() => {
+    OrderService.getOrdersStat()
+        .then((res) => {
+            useOrderStore().clearStore()
+            useOrderStore().setOrdersStat(res)
+        })
+})
+
 </script>
 
 <template>
-    <div class="flex p-8 space-x-4">
-        <div class="flex-1 space-y-4">
-            <div class="flex-auto w-full space-y-4 rounded-3xl bg-slate-50 p-5">
-                <div class="flex items-center justify-between">
-                    <div class="space-y-0.5">
-                        <div class="text-base text-gray-600">Do'kondagi barcha mahsulotlar soni</div>
-                        <div class="text-2xl font-semibold">17 456 ta</div>
-                    </div>
-                    <div class="flex items-center justify-center rounded-xl bg-blue-100 p-3">
-                        <StoreIcon class="w-8 h-8 text-blue-600" />
-                    </div>
-                </div>
-            </div>
-            <div class="flex-auto w-full space-y-4 rounded-3xl bg-slate-50 p-5">
-                <div class="flex items-center justify-between">
-                    <div class="space-y-0.5">
-                        <div class="text-base text-gray-600">Do'kondagi barcha mahsulotlar soni</div>
-                        <div class="text-2xl font-semibold">784,534,546 UZS</div>
-                    </div>
-                    <div class="flex items-center justify-center rounded-xl bg-blue-100 p-3">
-                        <StoreIcon class="w-8 h-8 text-blue-600" />
-                    </div>
-                </div>
-            </div>
-            <div class="w-full space-y-4 rounded-3xl  p-5">
+    <div class="p-8 space-y-6">
+        <div class="flex space-x-4">
+            <div class="flex-1 w-full space-y-4 rounded-3xl bg-slate-50 p-5">
                 <div class="flex items-center justify-between">
                     <div class="space-y-0.5">
                         <div class="text-xl font-semibold">Eng ko'p sotilgan mahsulotlar</div>
@@ -133,7 +135,6 @@ const salesChartChartOptions = {
                         <StoreIcon class="w-8 h-8 text-blue-600" />
                     </div>
                 </div>
-
                 <div class="divide-y divide-gray-100">
                     <div class="flex items-center justify-between py-1.5">
                         <div class="flex items-center space-x-3">
@@ -203,11 +204,62 @@ const salesChartChartOptions = {
                         </div>
                         <div class="text-2xl font-bold">57</div>
                     </div>
+                    <div class="flex items-center justify-between py-1.5">
+                        <div class="flex items-center space-x-3">
+                            <div class="bg-blue-600 w-4 h-4 rounded rotate-45"></div>
+                            <div>
+                                <div class="text-base font-semibold text-gray-800">
+                                    Five Cвежая мята
+                                </div>
+                                <div class="text-sm text-gray-600">
+                                    Narxi:
+                                    <span class="text-gray-900">
+                                        {{ useMoneyFormatter(13000) }}
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="text-2xl font-bold">57</div>
+                    </div>
                 </div>
             </div>
-
+            <div class="flex-1 flex flex-col space-y-2">
+                <div class="flex-auto w-full space-y-4 rounded-3xl bg-slate-50 p-5">
+                    <div class="flex items-center justify-between">
+                        <div class="space-y-0.5">
+                            <div class="text-base text-gray-600">Do'kondagi ishchilar soni</div>
+                            <div class="text-2xl font-semibold">3 ta</div>
+                        </div>
+                        <div class="flex items-center justify-center rounded-xl bg-blue-100 p-3">
+                            <StoreIcon class="w-8 h-8 text-blue-600" />
+                        </div>
+                    </div>
+                </div>
+                <div class="flex-auto w-full space-y-4 rounded-3xl bg-slate-50 p-5">
+                    <div class="flex items-center justify-between">
+                        <div class="space-y-0.5">
+                            <div class="text-base text-gray-600">Do'kondagi barcha mahsulotlar soni</div>
+                            <div class="text-2xl font-semibold">17 456 ta</div>
+                        </div>
+                        <div class="flex items-center justify-center rounded-xl bg-blue-100 p-3">
+                            <StoreIcon class="w-8 h-8 text-blue-600" />
+                        </div>
+                    </div>
+                </div>
+                <div class="flex-auto w-full space-y-4 rounded-3xl bg-slate-50 p-5">
+                    <div class="flex items-center justify-between">
+                        <div class="space-y-0.5">
+                            <div class="text-base text-gray-600">Do'kondagi barcha mahsulotlar soni</div>
+                            <div class="text-2xl font-semibold">784,534,546 UZS</div>
+                        </div>
+                        <div class="flex items-center justify-center rounded-xl bg-blue-100 p-3">
+                            <StoreIcon class="w-8 h-8 text-blue-600" />
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
-        <div class="flex-1 space-y-4">
+        <div class="flex space-x-4">
             <div class=" flex-1 bg-slate-50 rounded-3xl p-5">
                 <div class="flex items-center justify-between px-2">
                     <div>

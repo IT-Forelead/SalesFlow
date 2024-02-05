@@ -7,6 +7,9 @@ class OrderService {
   async getOrders() {
     return AxiosService.get('/order')
   }
+  async getOrdersStat() {
+    return AxiosService.get('/order/stats/weak')
+  }
 }
 
 export default new OrderService()
