@@ -45,8 +45,6 @@ const getRole = (privileges) => {
       privileges.includes('view_markets'):
       return 'Admin'
     case
-      privileges.includes('create_user') &&
-      privileges.includes('update_user') &&
       privileges.includes('dashboard') &&
       privileges.includes('view_users') &&
       privileges.includes('create_product') &&

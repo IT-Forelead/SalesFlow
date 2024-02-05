@@ -54,8 +54,6 @@ const privileges = ref([
   {
     name: 'Boshqaruvchi',
     code: [
-      'create_user',
-      'update_user',
       'dashboard',
       'view_users',
       'create_product',
@@ -67,7 +65,6 @@ const privileges = ref([
       'create_order',
       'find_order',
       'view_orders',
-      // 'create_market',
       'view_markets'
     ]
   },
