@@ -187,7 +187,7 @@ const closeModal = () => {
             <select id="product-history-type" v-model="submitData.productHistoryType"
                     class="bg-slate-50 border border-slate-200 text-slate-900 text-base rounded-2xl focus:ring-green-400/40 focus:border-green-400/40 focus:ring-4 block w-full p-2.5">
               <option selected>Turini tanlang</option>
-              <option value="purchased">Sotib olingan</option>
+              <option value="purchased">Kirim</option>
               <option value="returned">Qaytarilgan</option>
             </select>
           </div>
