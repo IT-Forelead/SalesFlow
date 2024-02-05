@@ -1,5 +1,6 @@
 <script setup>
 import PhX from '../../assets/icons/XIcon.vue'
+import { onMounted, onUnmounted } from 'vue'
 
 const emit = defineEmits(['close'])
 const close = () => {
@@ -7,6 +8,20 @@ const close = () => {
 }
 const props = defineProps({
   isOpen:Boolean
+})
+
+const whenPressEsc = (event) => {
+  if (event.key === 'Escape') {
+    close()
+  }
+}
+
+onMounted(() => {
+  window.addEventListener('keydown', whenPressEsc)
+})
+
+onUnmounted(() => {
+  window.removeEventListener('keydown', whenPressEsc)
 })
 </script>
 

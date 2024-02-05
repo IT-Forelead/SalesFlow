@@ -90,7 +90,7 @@ const login = () => {
             </label>
             <input v-model="submitData.login" type="text" id="login"
               class="border appearance-none text-sm rounded-lg block w-full p-2.5  bg-white dark:bg-[#0D1117] border-gray-200 dark:border-[#30363D] placeholder-gray-400 text-gray-900 dark:text-white focus:outline-none  focus:ring-blue-500 focus:border-blue-500"
-              placeholder="Enter your login">
+              placeholder="Enter your login" @keyup.enter="login()">
           </div>
           <div>
             <label for="password" class="mb-2 block text-base font-semibold text-gray-900 dark:text-[#e6edf3]">
@@ -99,7 +99,7 @@ const login = () => {
             <div class="relative">
               <input v-model="submitData.password" id="password" :type="hidePassword ? 'password' : 'text'"
                 class="border appearance-none text-sm rounded-lg block w-full p-2.5 bg-white dark:bg-[#0D1117] border-gray-200 dark:border-[#30363D] placeholder-gray-400 text-gray-900 dark:text-white focus:outline-none  focus:ring-blue-500 focus:border-blue-500"
-                placeholder="Parolingizni kiriting">
+                placeholder="Parolingizni kiriting" @keyup.enter="login()">
               <EyeIcon v-if="hidePassword" @click="togglePassword()"
                 class="text-gray-500 dark:text-gray-500 absolute z-10 top-1/2 -translate-y-1/2 right-3 w-5 h-5 cursor-pointer" />
               <EyeSlashIcon v-else @click="togglePassword()"

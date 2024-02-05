@@ -89,7 +89,7 @@ const addProductToCart = (product) => {
       if (item.productId === product.id && product?.quantity > item.amount) {
         return { ...item, amount: item.amount + 1 }
       } else if (item.productId === product.id) {
-        toast.error('Mahsulot sotuv limitidan oshib ketdi!')
+        toast.error("Mahsulot do'konda qolmadi!")
         return item
       } else {
         return item
@@ -295,6 +295,12 @@ onMounted(() => {
                         <span class="text-gray-700">
                           {{ useMoneyFormatter(product?.price) }}
                         </span>
+                        <div v-if="product.quantity<=15">
+                          Qolgan miqdori:
+                          <span class="text-red-500">
+                          {{ product?.quantity - product?.amount }}
+                        </span>
+                        </div>
                       </div>
                     </div>
                   </div>

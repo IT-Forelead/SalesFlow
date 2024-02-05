@@ -45,7 +45,7 @@ getProducts(); // Fetch product data
 const getHistoryType = (historyType) => {
   switch (historyType){
     case 'purchased':
-      return 'Sotib olingan'
+      return 'Kirim'
     case 'returned':
       return 'Qaytarilgan'
     default:
