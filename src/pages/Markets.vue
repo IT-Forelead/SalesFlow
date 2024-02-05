@@ -16,7 +16,7 @@ const marketStore = useMarketStore()
 const markets = computed(() => {
   renderKey.value += 1
   return marketStore.markets
-})
+}) 
 const isLoading = ref(false)
 
 const columns = [

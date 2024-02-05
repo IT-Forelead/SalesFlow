@@ -1,22 +1,26 @@
 <script setup>
-import { ref } from 'vue'
+import { computed, ref } from 'vue'
 import { h } from 'vue'
 import moment from 'moment'
-import { useProductBarcodeStore } from '../store/productBarcode.store.js'
-import ProductBarcodeService from '../services/productBarcode.service.js'
-import SearchIcon from '../assets/icons/SearchIcon.vue'
+import { useProductStore } from '../store/product.store.js'
+import ProductService from '../services/product.service.js'
+// import SearchIcon from '../assets/i cons/SearchIcon.vue'
 import Spinners270RingIcon from '../assets/icons/Spinners270RingIcon.vue'
 import CTable from '../components/common/CTable.vue'
 
 const globalSearchFromTable = ref('')
-const productBarcodes = ref([])
+const renderKey = ref(0)
+const productStore = useProductStore()
+const barcodes = computed(() => {
+  renderKey.value += 1
+  return productStore.barcodes
+})
+
 const isLoading = ref(false)
-
-
 const columns = [
   {
     accessorKey: 'id',
-    header: '#',
+    header: 'ID',
     enableSorting: false,
     cell: ({ row }) => `${parseInt(row.id, 10) + 1}`,
   },
@@ -29,31 +33,28 @@ const columns = [
     header: 'Kichik turi',
   },
   {
-    accessorKey: 'discription',
-    header: 'Tavsiv',
-  },
-  {
     accessorKey: 'name',
     header: 'Nomi',
   },
   {
-    accessorKey: 'packages',
-    header: 'Qadoqlash',
-  },
-  {
-    accessorKey: 'brand',
+    accessorKey: 'trademark',
     header: 'Savdo belgisi',
   },
+  {
+    accessorKey: 'packaging',
+    header: 'Qadoqlash',
+  },
+  
   {
     accessorKey: 'typeCode',
     header: 'Kod turi',
   },
   {
-    accessorKey: 'number',
+    accessorKey: 'barcode',
     header: 'Raqamli mahsulot kodi',
   },
   {
-    accessorKey: 'registrationNumber',
+    accessorKey: 'regNumber',
     header: "Ro'yxatdan o'tish raqami asl-shtrix-kod tartibi",
   },
   {
@@ -62,9 +63,18 @@ const columns = [
   },
 ]
 
-const openProductBarcodeinfo = (data) => {
-  useProductBarcodeStore().setSelectedProductBarcode(data)
+const getBarcodes = () => {
+  isLoading.value = true
+  ProductService.getBarcodes()
+    .then((res) => {
+      useProductStore().clearStore()
+      useProductStore().setProducts(res)
+    }).finally(() => {
+      isLoading.value = false
+    })
 }
+
+getBarcodes()
 </script>
 
 <template>
@@ -84,6 +94,6 @@ const openProductBarcodeinfo = (data) => {
     <div v-if="isLoading" class="flex items-center justify-center h-20">
       <Spinners270RingIcon class="w-6 h-6 text-gray-500 animate-spin" />
     </div>
-    <CTable v-else :data="productBarcodes" :columns="columns" :filter="globalSearchFromTable" />
+    <CTable v-else :data="barcodes" :columns="columns" :filter="globalSearchFromTable" />
   </div>
 </template>
