@@ -125,6 +125,7 @@ watch(
       submitData.barcode = data?.barcode
       submitData.name = data?.trademark
       submitData.packaging = data?.packaging
+      submitData.saleType = data?.saleType
     }
   },
 )
@@ -189,6 +190,7 @@ watch(
               class="bg-slate-100 border-none text-slate-900 rounded-lg block w-full h-11">
               <option value="" selected>Turini tanlang</option>
               <option value="amount">Donali</option>
+              <option value="kg">Kiloli</option>
               <option value="g">Gramli</option>
               <option value="litre">Litrli</option>
             </select>
