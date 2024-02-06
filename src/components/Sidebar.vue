@@ -3,6 +3,7 @@ import { ref, onMounted } from 'vue'
 import HouseIcon from './../assets/icons/HouseIcon.vue'
 import MoneyIcon from './../assets/icons/MoneyIcon.vue'
 import PhShoppingCart from '../assets/icons/ShoppingCartIcon.vue'
+import PhBarcodeIcon from '../assets/icons/BarcodeIcon.vue'
 import UsersIcon from '../assets/icons/UsersIcon.vue'
 import StoreIcon from '../assets/icons/StoreIcon.vue'
 import { useRouter } from 'vue-router'
@@ -107,6 +108,14 @@ onMounted(() => {
               <UsersIcon class="w-6 h-6" />
             </div>
             <div>Foydalanuvchilar</div>
+          </router-link>
+          <router-link to="/product-barcodes" @click="selectPage()" active-class="active"
+            class="relative h-10 flex items-center w-full hover:bg-blue-300/10 hover:text-blue-600 py-7 text-zinc-400 text-lg font-medium space-x-4 cursor-pointer transition-colors duration-300">
+            <div class="w-1.5 h-12 rounded-r-xl first-child-bg-color mr-2"></div>
+            <div class="flex items-center justify-center rounded-xl w-10 h-10 second-child-bg-color">
+              <PhBarcodeIcon class="w-6 h-6" />
+            </div>
+            <div>Shtrix kodlar</div>
           </router-link>
         </div>
       </div>
