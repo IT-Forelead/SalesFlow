@@ -125,105 +125,107 @@ onMounted(() => {
 <template>
     <div class="p-8 space-y-6">
         <div class="flex space-x-4">
-            <div class="flex-1 w-full space-y-4 rounded-3xl bg-slate-50 p-5">
-                <div class="flex items-center justify-between">
-                    <div class="space-y-0.5">
-                        <div class="text-xl font-semibold">Eng ko'p sotilgan mahsulotlar</div>
-                        <div class="text-base text-gray-600">So'ngi bir haftalik statistika</div>
+            <div class="flex-1">
+                <div class="rounded-3xl bg-slate-50 p-5 space-y-4">
+                    <div class="flex items-center justify-between">
+                        <div class="space-y-0.5">
+                            <div class="text-xl font-semibold">Eng ko'p sotilgan mahsulotlar</div>
+                            <div class="text-base text-gray-600">So'ngi bir haftalik statistika</div>
+                        </div>
+                        <div class="flex items-center justify-center rounded-xl bg-blue-100 p-3">
+                            <StoreIcon class="w-8 h-8 text-blue-600" />
+                        </div>
                     </div>
-                    <div class="flex items-center justify-center rounded-xl bg-blue-100 p-3">
-                        <StoreIcon class="w-8 h-8 text-blue-600" />
-                    </div>
-                </div>
-                <div class="divide-y divide-gray-100">
-                    <div class="flex items-center justify-between py-1.5">
-                        <div class="flex items-center space-x-3">
-                            <div class="bg-blue-600 w-4 h-4 rounded rotate-45"></div>
-                            <div>
-                                <div class="text-base font-semibold text-gray-800">
-                                    Coca cola - ПЭТ бутылка 1,5 л.
-                                </div>
-                                <div class="text-sm text-gray-600">
-                                    Narxi:
-                                    <span class="text-gray-900">
-                                        {{ useMoneyFormatter(13000) }}
-                                    </span>
+                    <div class="divide-y divide-gray-100">
+                        <div class="flex items-center justify-between py-1.5">
+                            <div class="flex items-center space-x-3">
+                                <div class="bg-blue-600 w-4 h-4 rounded rotate-45"></div>
+                                <div>
+                                    <div class="text-base font-semibold text-gray-800">
+                                        Coca cola - ПЭТ бутылка 1,5 л.
+                                    </div>
+                                    <div class="text-sm text-gray-600">
+                                        Narxi:
+                                        <span class="text-gray-900">
+                                            {{ useMoneyFormatter(13000) }}
+                                        </span>
+                                    </div>
                                 </div>
                             </div>
+                            <div class="text-2xl font-bold">110</div>
                         </div>
-                        <div class="text-2xl font-bold">110</div>
-                    </div>
-                    <div class="flex items-center justify-between py-1.5">
-                        <div class="flex items-center space-x-3">
-                            <div class="bg-blue-600 w-4 h-4 rounded rotate-45"></div>
-                            <div>
-                                <div class="text-base font-semibold text-gray-800">
-                                    Jacobs Monarch 300g
-                                </div>
-                                <div class="text-sm text-gray-600">
-                                    Narxi:
-                                    <span class="text-gray-900">
-                                        {{ useMoneyFormatter(13000) }}
-                                    </span>
+                        <div class="flex items-center justify-between py-1.5">
+                            <div class="flex items-center space-x-3">
+                                <div class="bg-blue-600 w-4 h-4 rounded rotate-45"></div>
+                                <div>
+                                    <div class="text-base font-semibold text-gray-800">
+                                        Jacobs Monarch 300g
+                                    </div>
+                                    <div class="text-sm text-gray-600">
+                                        Narxi:
+                                        <span class="text-gray-900">
+                                            {{ useMoneyFormatter(13000) }}
+                                        </span>
+                                    </div>
                                 </div>
                             </div>
+                            <div class="text-2xl font-bold">72</div>
                         </div>
-                        <div class="text-2xl font-bold">72</div>
-                    </div>
-                    <div class="flex items-center justify-between py-1.5">
-                        <div class="flex items-center space-x-3">
-                            <div class="bg-blue-600 w-4 h-4 rounded rotate-45"></div>
-                            <div>
-                                <div class="text-base font-semibold text-gray-800">
-                                    Frima 500g
-                                </div>
-                                <div class="text-sm text-gray-600">
-                                    Narxi:
-                                    <span class="text-gray-900">
-                                        {{ useMoneyFormatter(13000) }}
-                                    </span>
+                        <div class="flex items-center justify-between py-1.5">
+                            <div class="flex items-center space-x-3">
+                                <div class="bg-blue-600 w-4 h-4 rounded rotate-45"></div>
+                                <div>
+                                    <div class="text-base font-semibold text-gray-800">
+                                        Frima 500g
+                                    </div>
+                                    <div class="text-sm text-gray-600">
+                                        Narxi:
+                                        <span class="text-gray-900">
+                                            {{ useMoneyFormatter(13000) }}
+                                        </span>
+                                    </div>
                                 </div>
                             </div>
+                            <div class="text-2xl font-bold">61</div>
                         </div>
-                        <div class="text-2xl font-bold">61</div>
-                    </div>
-                    <div class="flex items-center justify-between py-1.5">
-                        <div class="flex items-center space-x-3">
-                            <div class="bg-blue-600 w-4 h-4 rounded rotate-45"></div>
-                            <div>
-                                <div class="text-base font-semibold text-gray-800">
-                                    Five Cвежая мята
-                                </div>
-                                <div class="text-sm text-gray-600">
-                                    Narxi:
-                                    <span class="text-gray-900">
-                                        {{ useMoneyFormatter(13000) }}
-                                    </span>
+                        <div class="flex items-center justify-between py-1.5">
+                            <div class="flex items-center space-x-3">
+                                <div class="bg-blue-600 w-4 h-4 rounded rotate-45"></div>
+                                <div>
+                                    <div class="text-base font-semibold text-gray-800">
+                                        Five Cвежая мята
+                                    </div>
+                                    <div class="text-sm text-gray-600">
+                                        Narxi:
+                                        <span class="text-gray-900">
+                                            {{ useMoneyFormatter(13000) }}
+                                        </span>
+                                    </div>
                                 </div>
                             </div>
+                            <div class="text-2xl font-bold">57</div>
                         </div>
-                        <div class="text-2xl font-bold">57</div>
-                    </div>
-                    <div class="flex items-center justify-between py-1.5">
-                        <div class="flex items-center space-x-3">
-                            <div class="bg-blue-600 w-4 h-4 rounded rotate-45"></div>
-                            <div>
-                                <div class="text-base font-semibold text-gray-800">
-                                    Five Cвежая мята
-                                </div>
-                                <div class="text-sm text-gray-600">
-                                    Narxi:
-                                    <span class="text-gray-900">
-                                        {{ useMoneyFormatter(13000) }}
-                                    </span>
+                        <div class="flex items-center justify-between py-1.5">
+                            <div class="flex items-center space-x-3">
+                                <div class="bg-blue-600 w-4 h-4 rounded rotate-45"></div>
+                                <div>
+                                    <div class="text-base font-semibold text-gray-800">
+                                        Five Cвежая мята
+                                    </div>
+                                    <div class="text-sm text-gray-600">
+                                        Narxi:
+                                        <span class="text-gray-900">
+                                            {{ useMoneyFormatter(13000) }}
+                                        </span>
+                                    </div>
                                 </div>
                             </div>
+                            <div class="text-2xl font-bold">57</div>
                         </div>
-                        <div class="text-2xl font-bold">57</div>
                     </div>
                 </div>
             </div>
-            <div class="flex-1 flex flex-col space-y-2">
+            <div class="flex-1 flex flex-col space-y-4">
                 <div class="flex-auto w-full space-y-4 rounded-3xl bg-slate-50 p-5">
                     <div class="flex items-center justify-between">
                         <div class="space-y-0.5">
@@ -260,7 +262,7 @@ onMounted(() => {
             </div>
         </div>
         <div class="flex space-x-4">
-            <div class=" flex-1 bg-slate-50 rounded-3xl p-5">
+            <div class="flex-1 bg-slate-50 rounded-3xl p-5">
                 <div class="flex items-center justify-between px-2">
                     <div>
                         <div class="text-base font-bold text-gray-800">
