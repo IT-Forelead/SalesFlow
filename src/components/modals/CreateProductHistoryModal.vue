@@ -98,10 +98,10 @@ const searchResults = computed(() => {
   }
   const searchString = search.value.toLowerCase()
   return products.value.filter(item => {
-    const barcodeString = item.barcode.toString()
+    const barcodeString = item.barcode?.toString()
     return (
       item.name.toLowerCase().includes(searchString) ||
-      barcodeString.includes(searchString)
+      barcodeString?.includes(searchString)
     )
   })
 })
