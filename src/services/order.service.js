@@ -8,7 +8,7 @@ class OrderService {
     return AxiosService.get('/order')
   }
   async getOrdersStat() {
-    return AxiosService.get('/order/stats/weak')
+    return AxiosService.get('/order/stats/week')
   }
 }
 
