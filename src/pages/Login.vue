@@ -6,7 +6,7 @@ import EyeIcon from '../assets/icons/EyeIcon.vue'
 import EyeSlashIcon from '../assets/icons/EyeSlashIcon.vue'
 import Spinners270RingIcon from '../assets/icons/Spinners270RingIcon.vue'
 import AuthService from '../services/auth.service'
-import decodeJwt from '../mixins/utils';
+import decodeJwt from '../mixins/utils'
 import { useAuthStore } from '../store/auth.store'
 
 const isLoading = ref(false)
@@ -19,6 +19,53 @@ const submitData = reactive({
 })
 
 const togglePassword = () => (hidePassword.value = !hidePassword.value)
+
+const getRole = (privileges) => {
+  switch (true) {
+    case
+    privileges.includes('create_market') &&
+    privileges.includes('create_user') &&
+    privileges.includes('dashboard') &&
+    privileges.includes('view_users') &&
+    privileges.includes('view_products') &&
+    privileges.includes('view_histories') &&
+    privileges.includes('view_orders') &&
+    privileges.includes('create_history') &&
+    privileges.includes('view_histories') &&
+    privileges.includes('view_markets') &&
+    privileges.includes('view_barcodes'):
+      return 'Admin'
+    case
+    privileges.includes('create_order') &&
+    privileges.includes('create_product') &&
+    privileges.includes('create_history') &&
+    privileges.includes('create_order') &&
+    privileges.includes('dashboard') &&
+    privileges.includes('find_barcode') &&
+    privileges.includes('find_order') &&
+    privileges.includes('view_products') &&
+    privileges.includes('view_orders') &&
+    privileges.includes('view_users') &&
+    privileges.includes('view_histories') &&
+    privileges.includes('view_orders') &&
+    privileges.includes('view_markets') &&
+    privileges.includes('update_product'):
+      return 'Boshqaruvchi'
+    case
+    privileges.includes('create_product') &&
+    privileges.includes('create_history') &&
+    privileges.includes('create_order') &&
+    privileges.includes('find_barcode') &&
+    privileges.includes('find_order') &&
+    privileges.includes('view_histories') &&
+    privileges.includes('view_products') &&
+    privileges.includes('view_orders') &&
+    privileges.includes('update_product'):
+      return 'Kassir'
+    default:
+      return 'Foydalanuvchi'
+  }
+}
 
 const login = () => {
   localStorage.removeItem('session')
@@ -38,7 +85,11 @@ const login = () => {
         isLoading.value = false
         if (localStorage.getItem('session')) {
           setTimeout(() => {
-            router.push('/dashboard')
+            if (getRole(useAuthStore().user?.privileges) === 'Kassir') {
+              router.push('/sales')
+            } else {
+              router.push('/dashboard')
+            }
           }, 200)
         }
       }
@@ -66,7 +117,7 @@ const login = () => {
       </router-link>
       <div class="relative mt-12 sm:mt-16 z-[1]">
         <svg viewBox="0 0 1090 1090" aria-hidden="true" fill="none" preserveAspectRatio="none" width="1090" height="1090"
-          class="absolute -top-7 left-1/2 -z-10 h-[788px] -translate-x-1/2 stroke-gray-300/30 dark:stroke-gray-600/30 [mask-image:linear-gradient(to_bottom,white_20%,transparent_75%)] sm:-top-9 sm:h-auto">
+             class="absolute -top-7 left-1/2 -z-10 h-[788px] -translate-x-1/2 stroke-gray-300/30 dark:stroke-gray-600/30 [mask-image:linear-gradient(to_bottom,white_20%,transparent_75%)] sm:-top-9 sm:h-auto">
           <circle cx="545" cy="545" r="544.5"></circle>
           <circle cx="545" cy="545" r="480.5"></circle>
           <circle cx="545" cy="545" r="416.5"></circle>
@@ -89,8 +140,8 @@ const login = () => {
               Login
             </label>
             <input v-model="submitData.login" type="text" id="login"
-              class="border appearance-none text-sm rounded-lg block w-full p-2.5  bg-white dark:bg-[#0D1117] border-gray-200 dark:border-[#30363D] placeholder-gray-400 text-gray-900 dark:text-white focus:outline-none  focus:ring-blue-500 focus:border-blue-500"
-              placeholder="Enter your login" @keyup.enter="login()">
+                   class="border appearance-none text-sm rounded-lg block w-full p-2.5  bg-white dark:bg-[#0D1117] border-gray-200 dark:border-[#30363D] placeholder-gray-400 text-gray-900 dark:text-white focus:outline-none  focus:ring-blue-500 focus:border-blue-500"
+                   placeholder="Enter your login" @keyup.enter="login()">
           </div>
           <div>
             <label for="password" class="mb-2 block text-base font-semibold text-gray-900 dark:text-[#e6edf3]">
@@ -98,26 +149,27 @@ const login = () => {
             </label>
             <div class="relative">
               <input v-model="submitData.password" id="password" :type="hidePassword ? 'password' : 'text'"
-                class="border appearance-none text-sm rounded-lg block w-full p-2.5 bg-white dark:bg-[#0D1117] border-gray-200 dark:border-[#30363D] placeholder-gray-400 text-gray-900 dark:text-white focus:outline-none  focus:ring-blue-500 focus:border-blue-500"
-                placeholder="Parolingizni kiriting" @keyup.enter="login()">
+                     class="border appearance-none text-sm rounded-lg block w-full p-2.5 bg-white dark:bg-[#0D1117] border-gray-200 dark:border-[#30363D] placeholder-gray-400 text-gray-900 dark:text-white focus:outline-none  focus:ring-blue-500 focus:border-blue-500"
+                     placeholder="Parolingizni kiriting" @keyup.enter="login()">
               <EyeIcon v-if="hidePassword" @click="togglePassword()"
-                class="text-gray-500 dark:text-gray-500 absolute z-10 top-1/2 -translate-y-1/2 right-3 w-5 h-5 cursor-pointer" />
+                       class="text-gray-500 dark:text-gray-500 absolute z-10 top-1/2 -translate-y-1/2 right-3 w-5 h-5 cursor-pointer" />
               <EyeSlashIcon v-else @click="togglePassword()"
-                class="text-gray-500 dark:text-gray-500 absolute z-10 top-1/2 -translate-y-1/2 right-3 w-5 h-5 cursor-pointer" />
+                            class="text-gray-500 dark:text-gray-500 absolute z-10 top-1/2 -translate-y-1/2 right-3 w-5 h-5 cursor-pointer" />
             </div>
           </div>
         </div>
         <button v-if="isLoading"
-          class="inline-flex items-center justify-center rounded-lg p-2.5 text-base font-semibold bg-blue-600 text-white mt-8 w-full cursor-default"
-          type="submit">
-            <Spinners270RingIcon class="mr-2 w-5 h-5 text-gray-200 animate-spin dark:text-gray-600 fill-gray-600 dark:fill-gray-300" />
-            <span>
+                class="inline-flex items-center justify-center rounded-lg p-2.5 text-base font-semibold bg-blue-600 text-white mt-8 w-full cursor-default"
+                type="submit">
+          <Spinners270RingIcon
+            class="mr-2 w-5 h-5 text-gray-200 animate-spin dark:text-gray-600 fill-gray-600 dark:fill-gray-300" />
+          <span>
               Kirish
             </span>
         </button>
         <button v-else @click="login()"
-          class="inline-flex items-center justify-center rounded-lg p-2.5 text-base font-semibold bg-blue-500 text-white hover:bg-blue-600 mt-8 w-full cursor-pointer"
-          type="submit">
+                class="inline-flex items-center justify-center rounded-lg p-2.5 text-base font-semibold bg-blue-500 text-white hover:bg-blue-600 mt-8 w-full cursor-pointer"
+                type="submit">
           Kirish
         </button>
       </div>
