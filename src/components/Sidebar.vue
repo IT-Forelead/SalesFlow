@@ -25,6 +25,10 @@ const closeSidebar = (event) => {
   }
 }
 
+const navigationGuard = (access) => {
+  return payload.value?.privileges?.includes(access)
+}
+
 onMounted(() => {
   useAuthStore().setUser(decodeJwt(JSON.parse(localStorage.getItem('session'))?.accessToken))
   payload.value = parseJwt()
@@ -48,7 +52,7 @@ onMounted(() => {
       <div class="space-y-8 py-4">
         <ProfileDropDown />
         <div class="relative space-y-1 h-5/6 overflow-y-auto">
-          <router-link to="/dashboard" @click="selectPage()" active-class="active"
+          <router-link v-if="navigationGuard('dashboard')" to="/dashboard" @click="selectPage()" active-class="active"
             class="relative h-10 flex items-center w-full hover:bg-blue-300/10 hover:text-blue-600 py-7 text-zinc-400 text-lg font-medium space-x-4 cursor-pointer transition-colors duration-300">
             <div class="w-1.5 h-12 rounded-r-xl first-child-bg-color mr-2"></div>
             <div class="flex h-10 items-center justify-center rounded-xl w-10 second-child-bg-color">
@@ -56,7 +60,7 @@ onMounted(() => {
             </div>
             <div>Bosh sahifa</div>
           </router-link>
-          <router-link to="/sales" @click="selectPage()" active-class="active"
+          <router-link v-if="navigationGuard('create_product')" to="/sales" @click="selectPage()" active-class="active"
             class="relative h-10 flex items-center w-full hover:bg-blue-300/10 hover:text-blue-600 py-7 text-zinc-400 text-lg font-medium space-x-4 cursor-pointer transition-colors duration-300">
             <div class="w-1.5 h-12 rounded-r-xl first-child-bg-color mr-2"></div>
             <div class="flex items-center justify-center rounded-xl w-10 h-10 second-child-bg-color">
@@ -88,7 +92,7 @@ onMounted(() => {
             </div>
             <div>Sotuvlar</div>
           </router-link>
-          <router-link to="/markets" @click="selectPage()" active-class="active"
+          <router-link v-if="navigationGuard('view_markets')" to="/markets" @click="selectPage()" active-class="active"
             class="relative h-10 flex items-center w-full hover:bg-blue-300/10 hover:text-blue-600 py-7 text-zinc-400 text-lg font-medium space-x-4 cursor-pointer transition-colors duration-300">
             <div class="w-1.5 h-12 rounded-r-xl first-child-bg-color mr-2"></div>
             <div class="flex items-center justify-center rounded-xl w-10 h-10 second-child-bg-color">
@@ -96,7 +100,7 @@ onMounted(() => {
             </div>
             <div>Do'konlar</div>
           </router-link>
-          <router-link to="/users" @click="selectPage()" active-class="active"
+          <router-link v-if="navigationGuard('view_users')" to="/users" @click="selectPage()" active-class="active"
             class="relative h-10 flex items-center w-full hover:bg-blue-300/10 hover:text-blue-600 py-7 text-zinc-400 text-lg font-medium space-x-4 cursor-pointer transition-colors duration-300">
             <div class="w-1.5 h-12 rounded-r-xl first-child-bg-color mr-2"></div>
             <div class="flex items-center justify-center rounded-xl w-10 h-10 second-child-bg-color">

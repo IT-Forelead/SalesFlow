@@ -1,5 +1,5 @@
 <script setup>
-import { computed, h, ref } from 'vue'
+import { computed, h, onMounted, ref } from 'vue'
 import CTable from '../components/common/CTable.vue'
 import moment from 'moment'
 import SearchIcon from '../assets/icons/SearchIcon.vue'
@@ -9,9 +9,12 @@ import TrashIcon from '../assets/icons/TrashIcon.vue'
 import MarketService from '../services/market.service'
 import { useModalStore } from '../store/modal.store'
 import { useMarketStore } from '../store/market.store'
+import { useAuthStore } from '../store/auth.store.js'
+import decodeJwt, { parseJwt } from '../mixins/utils.js'
 
 const globalSearchFromTable = ref('')
 const renderKey = ref(0)
+const payload = ref({})
 const marketStore = useMarketStore()
 const markets = computed(() => {
   renderKey.value += 1
@@ -76,6 +79,15 @@ const getMarkets = () => {
 }
 
 getMarkets()
+
+const navigationGuard = (access) => {
+  return payload.value?.privileges?.includes(access)
+}
+
+onMounted(() => {
+  useAuthStore().setUser(decodeJwt(JSON.parse(localStorage.getItem('session'))?.accessToken))
+  payload.value = parseJwt()
+})
 </script>
 
 <template>
@@ -93,7 +105,7 @@ getMarkets()
           placeholder="Search everything...">
       </div>
       <div>
-        <button @click="useModalStore().openCreateMarketModal()"
+        <button v-if="navigationGuard('create_market')" @click="useModalStore().openCreateMarketModal()"
           class="w-full py-2 px-4 rounded-full text-white text-lg font-medium bg-blue-500 cursor-pointer hover:bg-blue-600">
           Do'kon qo'shish
         </button>

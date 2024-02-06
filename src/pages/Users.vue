@@ -10,9 +10,6 @@ import UserService from '../services/user.service'
 import DeleteUserModal from '../components/modals/DeleteUserModal.vue'
 import { useUserStore } from '../store/user.store.js'
 import { useModalStore } from '../store/modal.store.js'
-import EditIcon from '../assets/icons/EditIcon.vue'
-import TrashIcon from '../assets/icons/TrashIcon.vue'
-import { useProductHistoryStore } from '../store/productHistory.store.js'
 
 const globalSearchFromTable = ref('')
 const isLoading = ref(false)
@@ -31,43 +28,44 @@ const privileges = computed(() => {
 const getRole = (privileges) => {
   switch (true) {
     case
+      privileges.includes('create_market') &&
       privileges.includes('create_user') &&
-      privileges.includes('update_user') &&
       privileges.includes('dashboard') &&
       privileges.includes('view_users') &&
-      privileges.includes('create_product') &&
-      privileges.includes('update_product') &&
       privileges.includes('view_products') &&
+      privileges.includes('view_histories') &&
+      privileges.includes('view_orders') &&
       privileges.includes('create_history') &&
       privileges.includes('view_histories') &&
-      privileges.includes('find_barcode') &&
-      privileges.includes('create_order') &&
-      privileges.includes('find_order') &&
-      privileges.includes('view_orders') &&
-      privileges.includes('create_market') &&
-      privileges.includes('view_markets'):
+      privileges.includes('view_markets') &&
+      privileges.includes('view_barcodes'):
       return 'Admin'
     case
-      privileges.includes('dashboard') &&
-      privileges.includes('view_users') &&
-      privileges.includes('create_product') &&
-      privileges.includes('update_product') &&
-      privileges.includes('view_products') &&
-      privileges.includes('create_history') &&
-      privileges.includes('view_histories') &&
-      privileges.includes('find_barcode') &&
       privileges.includes('create_order') &&
+      privileges.includes('create_product') &&
+      privileges.includes('create_history') &&
+      privileges.includes('create_order') &&
+      privileges.includes('dashboard') &&
+      privileges.includes('find_barcode') &&
       privileges.includes('find_order') &&
+      privileges.includes('view_products') &&
       privileges.includes('view_orders') &&
-      privileges.includes('view_markets'):
+      privileges.includes('view_users') &&
+      privileges.includes('view_histories') &&
+      privileges.includes('view_orders') &&
+      privileges.includes('view_markets') &&
+      privileges.includes('update_product'):
       return 'Boshqaruvchi'
     case
-      privileges.includes('dashboard') &&
+      privileges.includes('create_product') &&
+      privileges.includes('create_history') &&
       privileges.includes('create_order') &&
+      privileges.includes('find_barcode') &&
+      privileges.includes('find_order') &&
+      privileges.includes('view_histories') &&
       privileges.includes('view_products') &&
       privileges.includes('view_orders') &&
-      privileges.includes('find_barcode') &&
-      privileges.includes('find_order'):
+      privileges.includes('update_product'):
       return 'Kassir'
     default:
       return 'Foydalanuvchi'
@@ -106,25 +104,18 @@ const columns = [
     accessorKey: 'edit',
     header: 'Amallar',
     cell: ({ row }) => h('div', { class: 'flex items-center space-x-2' }, [
-      h('button', { onClick: () => { openEditUserModal(row.original) } }, [
-        h(EditIcon, { class: 'w-6 h-6 text-blue-600 hover:scale-105' })
+      h('button', { onClick: () => { openEditUser(row.original) } }, [
+        h(PhPencilIcon, { class: 'w-6 h-6 text-blue-600 hover:scale-105' })
       ]),
-      h('button', { onClick: () => { openDeleteUserModal(row.original) } }, [
-        h(TrashIcon, { class: 'w-6 h-6 text-red-600 hover:scale-105' })
-      ]),
+      h(DeleteUserModal, { id: row.original.id }),
     ]),
     enableSorting: false,
   },
 ]
 
-const openEditUserModal = (data) => {
+const openEditUser = (data) => {
+  useUserStore().setSelectedUser(data)
   useModalStore().openEditUserModal()
-  useUserStore().setSelectedUser(data)
-}
-
-const openDeleteUserModal = (data) => {
-  useModalStore().openDeleteUserModal()
-  useUserStore().setSelectedUser(data)
 }
 
 const getUsers = () => {
