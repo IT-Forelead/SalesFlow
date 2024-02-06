@@ -1,62 +1,50 @@
 <script setup>
-import { computed, ref } from 'vue'
-import { h } from 'vue'
-import moment from 'moment'
-import { useProductStore } from '../store/product.store.js'
+import { ref } from 'vue'
 import ProductService from '../services/product.service.js'
-// import SearchIcon from '../assets/i cons/SearchIcon.vue'
+import SearchIcon from '../assets/icons/SearchIcon.vue'
 import Spinners270RingIcon from '../assets/icons/Spinners270RingIcon.vue'
 import CTable from '../components/common/CTable.vue'
 
 const globalSearchFromTable = ref('')
-const renderKey = ref(0)
-const productStore = useProductStore()
-const barcodes = computed(() => {
-  renderKey.value += 1
-  return productStore.barcodes
-})
-
 const isLoading = ref(false)
+const barcodes = ref([])
+
 const columns = [
   {
     accessorKey: 'id',
-    header: 'ID',
+    header: '#',
     enableSorting: false,
     cell: ({ row }) => `${parseInt(row.id, 10) + 1}`,
   },
-  {
-    accessorKey: 'type',
-    header: 'Turi',
-  },
-  {
-    accessorKey: 'subType',
-    header: 'Kichik turi',
-  },
-  {
-    accessorKey: 'name',
-    header: 'Nomi',
-  },
+  // {
+  //   accessorKey: 'type',
+  //   header: 'Turi',
+  //   accessorFn: row => `${row?.type} - ${row?.sub_type }`,
+  // },
+  // {
+  //   accessorKey: 'name',
+  //   header: 'Nomi',
+  // },
   {
     accessorKey: 'trademark',
     header: 'Savdo belgisi',
   },
   {
     accessorKey: 'packaging',
-    header: 'Qadoqlash',
+    header: 'Qadoqi',
   },
-  
   {
-    accessorKey: 'typeCode',
+    accessorKey: 'type_code',
     header: 'Kod turi',
   },
   {
     accessorKey: 'barcode',
-    header: 'Raqamli mahsulot kodi',
+    header: 'Shtrix kodi',
   },
-  {
-    accessorKey: 'regNumber',
-    header: "Ro'yxatdan o'tish raqami asl-shtrix-kod tartibi",
-  },
+  // {
+  //   accessorKey: 'reg_number',
+  //   header: "Registratsiya raqami",
+  // },
   {
     accessorKey: 'year',
     header: 'Yil',
@@ -67,8 +55,7 @@ const getBarcodes = () => {
   isLoading.value = true
   ProductService.getBarcodes()
     .then((res) => {
-      useProductStore().clearStore()
-      useProductStore().setProducts(res)
+      barcodes.value = res
     }).finally(() => {
       isLoading.value = false
     })
