@@ -55,7 +55,6 @@ const privileges = ref([
       'create_order',
       'create_product',
       'create_history',
-      'create_order',
       'dashboard',
       'find_barcode',
       'find_order',
@@ -63,7 +62,6 @@ const privileges = ref([
       'view_orders',
       'view_users',
       'view_histories',
-      'view_orders',
       'view_markets',
       'update_product'
     ]

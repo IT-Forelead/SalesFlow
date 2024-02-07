@@ -35,21 +35,18 @@ const getRole = (privileges) => {
       privileges.includes('view_products') &&
       privileges.includes('view_histories') &&
       privileges.includes('view_orders') &&
-      privileges.includes('create_history') &&
-      privileges.includes('view_histories') &&
       privileges.includes('view_markets') &&
-      privileges.includes('view_barcodes'):
-      return 'Admin'
+      privileges.includes('view_barcodes') &&
+      privileges.includes('update_user'):
+    return 'Admin'
     case
       privileges.includes('create_order') &&
       privileges.includes('create_product') &&
       privileges.includes('create_history') &&
-      privileges.includes('create_order') &&
       privileges.includes('dashboard') &&
       privileges.includes('find_barcode') &&
       privileges.includes('find_order') &&
       privileges.includes('view_products') &&
-      privileges.includes('view_orders') &&
       privileges.includes('view_users') &&
       privileges.includes('view_histories') &&
       privileges.includes('view_orders') &&
