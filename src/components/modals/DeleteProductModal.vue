@@ -2,7 +2,6 @@
 import { watch, reactive } from 'vue'
 import { useModalStore } from '../../store/modal.store.js'
 import CModal from '../common/CModal.vue'
-import moment from 'moment/moment.js'
 import { useProductStore } from '../../store/product.store.js'
 import { computed } from 'vue'
 import WarningCircleBoldIcon from '../../assets/icons/WarningCircleBoldIcon.vue'
@@ -40,19 +39,6 @@ const closeModal = () => {
   useModalStore().closeDeleteProductModal()
   useProductStore().setSelectedProduct({})
 }
-
-// const saleTypeTranslate = (type) => {
-//   switch (type){
-//     case 'amount':
-//       return 'Donali'
-//     case 'litre':
-//       return 'Litrli'
-//     case 'kg':
-//       return 'Kilogrammli'
-//     case 'g':
-//       return 'Grammli'
-//   }
-// }
 
 watch(
   () => selectedProduct.value,
@@ -122,7 +108,7 @@ watch(
                 Sotilish turi
               </div>
               <div class="text-base font-medium">
-                {{ submitData.saleType }}
+                {{ saleType(submitData?.saleType) }}
               </div>
             </li>
             <li class="flex items-center justify-between py-2 px-3">
@@ -140,7 +126,7 @@ watch(
             <div class="flex flex-col items-center space-y-4">
               <WarningCircleBoldIcon class="text-slate-400 w-14 h-14" />
               <h3 class="mb-5 text-lg text-justify font-normal text-slate-500">
-                Haqiqatdan ushbu do'konni o'chirmoqchimisiz?
+                Haqiqatdan ushbu mahsulotni o'chirmoqchimisiz?
               </h3>
               <div class="flex items-center space-x-4">
                 <button type="button" @click="closeModal()"

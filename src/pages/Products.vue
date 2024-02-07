@@ -3,11 +3,9 @@ import { computed, h, ref } from 'vue'
 import SearchIcon from '../assets/icons/SearchIcon.vue'
 import Spinners270RingIcon from '../assets/icons/Spinners270RingIcon.vue'
 import CTable from '../components/common/CTable.vue'
-import DeleteProductModal from '../components/modals/DeleteProductModal.vue'
-import EditProductModal from '../components/modals/EditProductModal.vue'
 import ProductService from '../services/product.service'
-import PhTrash from '../assets/icons/TrashIcon.vue'
-import PhPencilIcon from '../assets/icons/EditIcon.vue'
+import EditIcon from '../assets/icons/EditIcon.vue'
+import TrashIcon from '../assets/icons/TrashIcon.vue'
 import { useModalStore } from '../store/modal.store'
 import { useProductStore } from '../store/product.store'
 import useMoneyFormatter from '../mixins/currencyFormatter'
@@ -71,20 +69,20 @@ const columns = [
     accessorKey: 'actions',
     header: 'Amallar',
     cell: ({ row }) => h('div', { class: 'flex items-center space-x-2' }, [
-            h('button', { onClick: () => {openEditProduct(row.original)} }, [
-                h(PhPencilIcon, {class: 'w-6 h-6 text-blue-600 hover:scale-105'})
+            h('button', { onClick: () => {openEditProductModal(row.original)} }, [
+                h(EditIcon, {class: 'w-6 h-6 text-blue-600 hover:scale-105'})
             ]),
             h('button', { onClick: () => { openDeleteProductModal(row.original) } }, [
-              h(PhTrash, { class: 'w-6 h-6 text-red-600 hover:scale-105' })
+              h(TrashIcon, { class: 'w-6 h-6 text-red-600 hover:scale-105' })
             ]),
     ]),
     enableSorting: false,
   },
 ]
 
-const openEditProduct = (data) => {
-  useProductStore().setSelectedProduct(data)
+const openEditProductModal = (data) => {
   useModalStore().openEditProductModal()
+  useProductStore().setSelectedProduct(data)
 }
 
 const openDeleteProductModal = (data) => {

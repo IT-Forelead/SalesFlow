@@ -53,9 +53,9 @@ onClickOutside(notificationDropdown, () => {
   <OrderInfoModal />
   <EditMarketModal />
   <DeleteMarketModal />
+  <DeleteProductModal/>
   <EditProductModal/>
   <DeleteProductHistoryModal/>
-  <DeleteProductModal/>
   <EditProductHistoryModal/>
   <EditUserModal/>
   <DeleteUserModal/>
