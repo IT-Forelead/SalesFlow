@@ -73,8 +73,10 @@ const columns = [
             h('button', { onClick: () => {openEditProduct(row.original)} }, [
                 h(PhPencilIcon, {class: 'w-6 h-6 text-blue-600 hover:scale-105'})
             ]),
-            h(DeleteProductModal, { id: row.original.id }),
-        ]),
+            h('button', { onClick: () => { openDeleteProductModal(row.original) } }, [
+              h(TrashIcon, { class: 'w-6 h-6 text-red-600 hover:scale-105' })
+            ]),
+    ]),
     enableSorting: false,
   },
 ]
@@ -82,6 +84,11 @@ const columns = [
 const openEditProduct = (data) => {
   useProductStore().setSelectedProduct(data)
   useModalStore().openEditProductModal()
+}
+
+const openDeleteProductModal = (data) => {
+  useModalStore().openDeleteProductModal()
+  useProductStore().setSelectedProduct(data)
 }
 
 const getProducts = () => {
