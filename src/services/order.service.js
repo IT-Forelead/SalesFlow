@@ -10,6 +10,9 @@ class OrderService {
   async getOrdersStat() {
     return AxiosService.get('/order/stats/week')
   }
+  async getCashierStats() {
+    return AxiosService.get('/order/cashier-stats/week')
+  }
 }
 
 export default new OrderService()

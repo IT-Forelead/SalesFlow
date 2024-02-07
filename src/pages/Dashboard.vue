@@ -1,19 +1,15 @@
 <script setup>
 import moment from 'moment'
-import { computed, onMounted, ref } from 'vue';
+import { computed, onMounted, ref } from 'vue'
 import StoreIcon from '../assets/icons/StoreIcon.vue'
-import TotalProductIcon from '../assets/icons/TotalProductIcon.vue'
-import useMoneyFormatter from '../mixins/currencyFormatter';
-import ImageIcon from '../assets/icons/ImageIcon.vue';
+import useMoneyFormatter from '../mixins/currencyFormatter'
 import OrderService from '../services/order.service'
-import { useOrderStore } from '../store/order.store'
+import ProductService from '../services/product.service'
 
-const orderStore = useOrderStore()
 const isLoading = ref(false)
-
-const ordersStat = computed(() => {
-    return orderStore.ordersStat
-})
+const cashiersStat = ref([])
+const ordersStat = ref([])
+const productStats = ref({})
 
 // Expenses Chart
 const salesChartSeries = computed(() => [
@@ -26,97 +22,131 @@ const salesChartSeries = computed(() => [
     }
 ])
 
-const salesChartChartOptions = {
-    legend: {
-        labels: {
-            colors: ['#8e8da4']
-        },
-    },
-    chart: {
-        height: 350,
-        type: 'area',
-        zoom: {
-            enabled: false,
-        },
-        toolbar: {
-            show: false,
-        },
-    },
-    dataLabels: {
-        enabled: false
-    },
-    stroke: {
-        curve: 'smooth'
-    },
-    xaxis: {
-        categories: ordersStat.value?.map((item) => item.date),
-        type: 'date',
-        labels: {
-            style: {
-                fontSize: '12px',
-                colors: '#8e8da4',
+const salesChartChartOptions = computed(() => {
+    return {
+        legend: {
+            labels: {
+                colors: ['#8e8da4']
             },
-            formatter: function (val) {
-                return moment(val).format('D-MMMM')
+        },
+        chart: {
+            height: 350,
+            type: 'area',
+            zoom: {
+                enabled: false,
             },
+            toolbar: {
+                show: false,
+            },
+        },
+        dataLabels: {
+            enabled: false
+        },
+        stroke: {
+            curve: 'smooth'
+        },
+        xaxis: {
+            categories: ordersStat.value?.map((item) => item.date),
+            type: 'date',
+            labels: {
+                style: {
+                    fontSize: '12px',
+                    colors: '#8e8da4',
+                },
+                formatter: function (val) {
+                    return moment(val).format('D-MMMM')
+                },
+            },
+            tooltip: {
+                enabled: true,
+            },
+            axisBorder: {
+                show: false,
+            },
+            axisTicks: {
+                show: false,
+            },
+        },
+        yaxis: {
+            tickAmount: 6,
+            floating: false,
+            labels: {
+                show: true,
+                formatter: function (val) {
+                    return useMoneyFormatter(val)
+                },
+                style: {
+                    colors: '#8e8da4',
+                },
+                offsetY: 0,
+                offsetX: 0,
+            },
+            axisBorder: {
+                show: false,
+            },
+            axisTicks: {
+                show: true,
+            },
+        },
+        fill: {
+            opacity: 0.5,
         },
         tooltip: {
-            enabled: true,
-        },
-        axisBorder: {
-            show: false,
-        },
-        axisTicks: {
-            show: false,
-        },
-    },
-    yaxis: {
-        tickAmount: 6,
-        floating: false,
-        labels: {
-            show: true,
-            formatter: function (val) {
-                return useMoneyFormatter(val)
-            },
-            style: {
-                colors: '#8e8da4',
-            },
-            offsetY: 0,
-            offsetX: 0,
-        },
-        axisBorder: {
-            show: false,
-        },
-        axisTicks: {
-            show: true,
-        },
-    },
-    fill: {
-        opacity: 0.5,
-    },
-    tooltip: {
-        fixed: {
-            enabled: false,
-            position: 'topRight',
-        },
-    },
-    grid: {
-        yaxis: {
-            lines: {
-                offsetX: -30,
+            fixed: {
+                enabled: false,
+                position: 'topRight',
             },
         },
-        padding: {
-            left: 20,
+        grid: {
+            yaxis: {
+                lines: {
+                    offsetX: -30,
+                },
+            },
+            padding: {
+                left: 20,
+            },
         },
-    },
-}
+    }
+})
+
+// Caisher Donut Chart
+const caishersChartSeries = computed(() => {
+    return cashiersStat.value?.map((a) => a?.soldCount)
+})
+
+const caishersChartOptions = computed(() => {
+    return {
+        chart: {
+            type: 'donut',
+        },
+        labels: cashiersStat.value?.map((a) => a?.cashierName),
+        responsive: [{
+            breakpoint: 480,
+            options: {
+                chart: {
+                    width: 200
+                },
+                legend: {
+                    position: 'bottom'
+                }
+            }
+        }]
+    }
+})
 
 onMounted(() => {
     OrderService.getOrdersStat()
         .then((res) => {
-            useOrderStore().clearStore()
-            useOrderStore().setOrdersStat(res)
+            ordersStat.value = res
+        })
+    OrderService.getCashierStats()
+        .then((res) => {
+            cashiersStat.value = res
+        })
+    ProductService.getProductStats()
+        .then((res) => {
+            productStats.value = res
         })
 })
 
@@ -230,7 +260,7 @@ onMounted(() => {
                     <div class="flex items-center justify-between">
                         <div class="space-y-0.5">
                             <div class="text-base text-gray-600">Do'kondagi ishchilar soni</div>
-                            <div class="text-2xl font-semibold">3 ta</div>
+                            <div class="text-2xl font-semibold">{{ cashiersStat.length }} ta</div>
                         </div>
                         <div class="flex items-center justify-center rounded-xl bg-blue-100 p-3">
                             <StoreIcon class="w-8 h-8 text-blue-600" />
@@ -241,7 +271,7 @@ onMounted(() => {
                     <div class="flex items-center justify-between">
                         <div class="space-y-0.5">
                             <div class="text-base text-gray-600">Do'kondagi barcha mahsulotlar soni</div>
-                            <div class="text-2xl font-semibold">17 456 ta</div>
+                            <div class="text-2xl font-semibold">{{ productStats?.count }} ta</div>
                         </div>
                         <div class="flex items-center justify-center rounded-xl bg-blue-100 p-3">
                             <StoreIcon class="w-8 h-8 text-blue-600" />
@@ -252,7 +282,7 @@ onMounted(() => {
                     <div class="flex items-center justify-between">
                         <div class="space-y-0.5">
                             <div class="text-base text-gray-600">Do'kondagi barcha mahsulotlar soni</div>
-                            <div class="text-2xl font-semibold">784,534,546 UZS</div>
+                            <div class="text-2xl font-semibold">{{ useMoneyFormatter(productStats?.sum) }}</div>
                         </div>
                         <div class="flex items-center justify-center rounded-xl bg-blue-100 p-3">
                             <StoreIcon class="w-8 h-8 text-blue-600" />
@@ -293,7 +323,7 @@ onMounted(() => {
                         <StoreIcon class="w-8 h-8 text-blue-600" />
                     </div>
                 </div>
-                <apexchart type="area" height="320" :options="salesChartChartOptions" :series="salesChartSeries">
+                <apexchart type="donut" height="320" :options="caishersChartOptions" :series="caishersChartSeries">
                 </apexchart>
             </div>
         </div>
