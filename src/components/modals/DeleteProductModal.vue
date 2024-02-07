@@ -1,15 +1,58 @@
 <script setup>
-import PhTrash from '../../assets/icons/TrashIcon.vue'
+import { watch, reactive } from 'vue'
 import { useModalStore } from '../../store/modal.store.js'
 import CModal from '../common/CModal.vue'
-import PhWarningCircleBold from '../../assets/icons/WarningCircleBoldIcon.vue'
-import CancelButton from '../buttons/CancelButton.vue'
-import DeleteButton from '../buttons/DeleteButton.vue'
+import moment from 'moment/moment.js'
+import { useProductStore } from '../../store/product.store.js'
+import { computed } from 'vue'
+import WarningCircleBoldIcon from '../../assets/icons/WarningCircleBoldIcon.vue'
+import useMoneyFormatter from '../../mixins/currencyFormatter.js'
+
+const productStore = useProductStore()
+const selectedProduct = computed(() => {
+  return productStore.selectedProduct
+})
+
+
+const submitData = reactive({
+  name: '',
+  packaging: '',
+  barcode: 0,
+  quantity: 0,
+  saleType: '',
+  price: 0
+})
+
+const saleType = (type) => {
+  switch (type){
+    case 'amount':
+      return 'Donali'
+    case 'litre':
+      return 'Litrli'
+    case 'kg':
+      return 'Kilogrammli'
+    case 'g':
+      return 'Grammli'
+  }
+}
 
 const closeModal = () => {
   useModalStore().closeDeleteProductModal()
+  useProductStore().setSelectedProduct({})
 }
 
+// const saleTypeTranslate = (type) => {
+//   switch (type){
+//     case 'amount':
+//       return 'Donali'
+//     case 'litre':
+//       return 'Litrli'
+//     case 'kg':
+//       return 'Kilogrammli'
+//     case 'g':
+//       return 'Grammli'
+//   }
+// }
 
 watch(
   () => selectedProduct.value,
@@ -28,18 +71,18 @@ watch(
 
 <template>
   <CModal
-    :is-open="useModalStore().isOpenDeleteProductHistoryModal"
-    v-if="useModalStore().isOpenDeleteProductHistoryModal"
+    :is-open="useModalStore().isOpenDeleteProductModal"
+    v-if="useModalStore().isOpenDeleteProductModal"
     @close=closeModal
   >
     <template v-slot:header>
-      Mahsulot tarixini o'chirish
+      Mahsulotni o'chirish
     </template>
     <template v-slot:body>
       <div class="space-y-16">
         <div class="space-y-2">
           <div class="bg-slate-100 px-3 text-center py-2 text-lg font-medium rounded-xl">
-            Mahsulot tarixi ma'lumotlari
+            Mahsulot ma'lumotlari
           </div>
           <ul class="divide-y divide-slate-100">
             <li class="flex items-center justify-between py-2 px-3">
@@ -47,52 +90,47 @@ watch(
                 Nomi
               </div>
               <div class="text-base font-medium">
-                {{ getProductName(submitData?.name) }}
+                {{ submitData?.name }}
               </div>
             </li>
-            l class="divide-y divide-slate-100">
             <li class="flex items-center justify-between py-2 px-3">
               <div class="text-base">
-                Nomi
+                Qadoqi
               </div>
               <div class="text-base font-medium">
-                {{ getProductName(submitData?.packaging) }}
+                {{ submitData?.packaging }}
               </div>
             </li>
-            l class="divide-y divide-slate-100">
             <li class="flex items-center justify-between py-2 px-3">
               <div class="text-base">
-                Nomi
+                Barcode
               </div>
               <div class="text-base font-medium">
-                {{ getProductName(submitData?.barcode) }}
+                {{ submitData?.barcode }}
               </div>
             </li>
-            l class="divide-y divide-slate-100">
             <li class="flex items-center justify-between py-2 px-3">
               <div class="text-base">
-                Nomi
+                Miqdori
               </div>
               <div class="text-base font-medium">
-                {{ getProductName(submitData?.quantity) }}
+                {{ submitData?.quantity }}
               </div>
             </li>
-            l class="divide-y divide-slate-100">
             <li class="flex items-center justify-between py-2 px-3">
               <div class="text-base">
-                Nomi
+                Sotilish turi
               </div>
               <div class="text-base font-medium">
-                {{ getProductName(submitData?.saleType) }}
+                {{ submitData.saleType }}
               </div>
             </li>
-            l class="divide-y divide-slate-100">
             <li class="flex items-center justify-between py-2 px-3">
               <div class="text-base">
-                Nomi
+                Narxi
               </div>
               <div class="text-base font-medium">
-                {{ getProductName(submitData?.price) }}
+               {{ useMoneyFormatter(submitData?.price) }} 
               </div>
             </li>
           </ul>

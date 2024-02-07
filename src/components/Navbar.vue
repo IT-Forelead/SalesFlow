@@ -13,6 +13,7 @@ import EditMarketModal from './modals/EditMarketModal.vue'
 import EditUserModal from './modals/EditUserModal.vue'
 import DeleteMarketModal from './modals/DeleteMarketModal.vue'
 import DeleteProductHistoryModal from './modals/DeleteProductHistoryModal.vue'
+import DeleteProductModal from './modals/DeleteProductModal.vue'
 import EditProductHistoryModal from './modals/EditProductHistoryModal.vue'
 import EditProductModal from './modals/EditProductModal.vue'
 import DeleteUserModal from './modals/DeleteUserModal.vue'
@@ -54,6 +55,7 @@ onClickOutside(notificationDropdown, () => {
   <DeleteMarketModal />
   <EditProductModal/>
   <DeleteProductHistoryModal/>
+  <DeleteProductModal/>
   <EditProductHistoryModal/>
   <EditUserModal/>
   <DeleteUserModal/>

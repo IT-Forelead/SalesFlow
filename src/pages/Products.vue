@@ -6,6 +6,7 @@ import CTable from '../components/common/CTable.vue'
 import DeleteProductModal from '../components/modals/DeleteProductModal.vue'
 import EditProductModal from '../components/modals/EditProductModal.vue'
 import ProductService from '../services/product.service'
+import PhTrash from '../assets/icons/TrashIcon.vue'
 import PhPencilIcon from '../assets/icons/EditIcon.vue'
 import { useModalStore } from '../store/modal.store'
 import { useProductStore } from '../store/product.store'
@@ -74,7 +75,7 @@ const columns = [
                 h(PhPencilIcon, {class: 'w-6 h-6 text-blue-600 hover:scale-105'})
             ]),
             h('button', { onClick: () => { openDeleteProductModal(row.original) } }, [
-              h(TrashIcon, { class: 'w-6 h-6 text-red-600 hover:scale-105' })
+              h(PhTrash, { class: 'w-6 h-6 text-red-600 hover:scale-105' })
             ]),
     ]),
     enableSorting: false,
