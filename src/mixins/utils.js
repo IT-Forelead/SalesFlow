@@ -29,3 +29,15 @@ export function parseJwt() {
   }
 
 }
+
+export function shortenNumber(num) {
+  const suffixes = ['', 'K', 'M', 'B'];
+  let suffixIndex = 0;
+
+  while (num >= 1000 && suffixIndex < suffixes.length - 1) {
+    num /= 1000;
+    suffixIndex++;
+  }
+
+  return num.toLocaleString(undefined, {maximumFractionDigits: 1}) + suffixes[suffixIndex];
+}
