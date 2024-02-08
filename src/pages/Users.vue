@@ -1,5 +1,6 @@
 <script setup>
 import PhPencilIcon from '../assets/icons/EditIcon.vue'
+import PhTrash from '../assets/icons/TrashIcon.vue'
 import { ref } from 'vue'
 import moment from 'moment'
 import { computed, h } from 'vue'
@@ -105,7 +106,9 @@ const columns = [
       h('button', { onClick: () => { openEditUser(row.original) } }, [
         h(PhPencilIcon, { class: 'w-6 h-6 text-blue-600 hover:scale-105' })
       ]),
-      h(DeleteUserModal, { id: row.original.id }),
+      h('button', { onClick: () => { openDeleteUserModal(row.original) } }, [
+        h(PhTrash, { class: 'w-6 h-6 text-red-600 hover:scale-105' })
+      ]),
     ]),
     enableSorting: false,
   },
@@ -114,6 +117,11 @@ const columns = [
 const openEditUser = (data) => {
   useUserStore().setSelectedUser(data)
   useModalStore().openEditUserModal()
+}
+
+const openDeleteUserModal = (data) => {
+  useModalStore().openDeleteUserModal()
+  useUserStore().setSelectedUser(data)
 }
 
 const getUsers = () => {
