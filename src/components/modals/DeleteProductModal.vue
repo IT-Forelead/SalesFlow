@@ -1,5 +1,4 @@
 <script setup>
-import { watch, reactive } from 'vue'
 import { useModalStore } from '../../store/modal.store.js'
 import CModal from '../common/CModal.vue'
 import { useProductStore } from '../../store/product.store.js'
@@ -29,8 +28,6 @@ const closeModal = () => {
   useModalStore().closeDeleteProductModal()
   useProductStore().setSelectedProduct({})
 }
-
-
 </script>
 
 <template>
