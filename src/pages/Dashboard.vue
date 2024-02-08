@@ -2,9 +2,11 @@
 import moment from 'moment'
 import { computed, onMounted, ref } from 'vue'
 import StoreIcon from '../assets/icons/StoreIcon.vue'
+import MoneyIcon from '../assets/icons/MoneyIcon.vue'
 import useMoneyFormatter from '../mixins/currencyFormatter'
 import OrderService from '../services/order.service'
 import ProductService from '../services/product.service'
+import { shortenNumber } from '../mixins/utils'
 
 const isLoading = ref(false)
 const cashiersStat = ref([])
@@ -14,24 +16,16 @@ const productStats = ref({})
 // Expenses Chart
 const salesChartSeries = computed(() => [
     {
-        name: 'Sotilgan',
+        name: 'Kunlik savdo',
         data: ordersStat.value?.map((item) => item.soldPrice),
-    }, {
-        name: 'Sotib olingan',
-        data: ordersStat.value?.map((item) => item.purchasePrice),
+        // data: [1240000, 13000, 12700, 8900, 930000, 5001],
     }
 ])
 
 const salesChartChartOptions = computed(() => {
     return {
-        legend: {
-            labels: {
-                colors: ['#8e8da4']
-            },
-        },
         chart: {
-            height: 350,
-            type: 'area',
+            type: 'bar',
             zoom: {
                 enabled: false,
             },
@@ -39,19 +33,37 @@ const salesChartChartOptions = computed(() => {
                 show: false,
             },
         },
-        dataLabels: {
-            enabled: false
+        plotOptions: {
+            bar: {
+                borderRadius: 5,
+                columnWidth: '60%',
+                dataLabels: {
+                    position: 'top',
+                    formatter: function (val) {
+                        return shortenNumber(val)
+                    },
+                },
+            },
         },
-        stroke: {
-            curve: 'smooth'
+        dataLabels: {
+            enabled: true,
+            offsetY: -20,
+            style: {
+                fontSize: '14px',
+                colors: ['#304758'],
+            },
+            formatter: function (val) {
+                return shortenNumber(val)
+            },
+        },
+        legend: {
+            show: false,
         },
         xaxis: {
             categories: ordersStat.value?.map((item) => item.date),
-            type: 'date',
             labels: {
                 style: {
                     fontSize: '12px',
-                    colors: '#8e8da4',
                 },
                 formatter: function (val) {
                     return moment(val).format('D-MMMM')
@@ -68,44 +80,21 @@ const salesChartChartOptions = computed(() => {
             },
         },
         yaxis: {
-            tickAmount: 6,
-            floating: false,
-            labels: {
-                show: true,
-                formatter: function (val) {
-                    return useMoneyFormatter(val)
-                },
-                style: {
-                    colors: '#8e8da4',
-                },
-                offsetY: 0,
-                offsetX: 0,
-            },
             axisBorder: {
                 show: false,
             },
             axisTicks: {
-                show: true,
+                show: false,
             },
-        },
-        fill: {
-            opacity: 0.5,
-        },
-        tooltip: {
-            fixed: {
-                enabled: false,
-                position: 'topRight',
+            labels: {
+                show: false,
+                formatter: function (val) {
+                    return useMoneyFormatter(val)
+                }
             },
         },
         grid: {
-            yaxis: {
-                lines: {
-                    offsetX: -30,
-                },
-            },
-            padding: {
-                left: 20,
-            },
+            show: false,
         },
     }
 })
@@ -256,36 +245,67 @@ onMounted(() => {
                 </div>
             </div>
             <div class="flex-1 flex flex-col space-y-4">
-                <div class="flex-auto w-full space-y-4 rounded-3xl bg-slate-50 p-5">
-                    <div class="flex items-center justify-between">
-                        <div class="space-y-0.5">
-                            <div class="text-base text-gray-600">Do'kondagi ishchilar soni</div>
-                            <div class="text-2xl font-semibold">{{ cashiersStat.length }} ta</div>
+                <div class="flex items-center space-x-4">
+                    <div class="flex-1 w-full space-y-4 rounded-3xl bg-slate-50 p-5">
+                        <div class="space-y-2">
+                            <div class="inline-flex items-center justify-center rounded-xl bg-blue-100 p-3">
+                                <StoreIcon class="w-8 h-8 text-blue-600" />
+                            </div>
+                            <div>
+                                <div class="text-base text-gray-600">
+                                    Mahsulot turlari
+                                </div>
+                                <div class="text-2xl font-semibold">
+                                    {{ productStats?.typeCount }} ta
+                                </div>
+                            </div>
                         </div>
-                        <div class="flex items-center justify-center rounded-xl bg-blue-100 p-3">
-                            <StoreIcon class="w-8 h-8 text-blue-600" />
+                    </div>
+                    <div class="flex-1 w-full space-y-4 rounded-3xl bg-slate-50 p-5">
+                        <div class="space-y-2">
+                            <div class="inline-flex items-center justify-center rounded-xl bg-blue-100 p-3">
+                                <StoreIcon class="w-8 h-8 text-blue-600" />
+                            </div>
+                            <div>
+                                <div class="text-base text-gray-600">
+                                    Barcha mahsulotlar soni
+                                </div>
+                                <div class="text-2xl font-semibold">
+                                    {{ productStats?.quantity }} ta
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
-                <div class="flex-auto w-full space-y-4 rounded-3xl bg-slate-50 p-5">
-                    <div class="flex items-center justify-between">
-                        <div class="space-y-0.5">
-                            <div class="text-base text-gray-600">Do'kondagi barcha mahsulotlar soni</div>
-                            <div class="text-2xl font-semibold">{{ productStats?.count }} ta</div>
-                        </div>
-                        <div class="flex items-center justify-center rounded-xl bg-blue-100 p-3">
-                            <StoreIcon class="w-8 h-8 text-blue-600" />
+                <div class="flex items-center space-x-4">
+                    <div class="flex-1 w-full space-y-4 rounded-3xl bg-slate-50 p-5">
+                        <div class="space-y-2">
+                            <div class="inline-flex items-center justify-center rounded-xl bg-blue-100 p-3">
+                                <StoreIcon class="w-8 h-8 text-blue-600" />
+                            </div>
+                            <div>
+                                <div class="text-base text-gray-600">
+                                    Barcha mahsulotlarning narxi
+                                </div>
+                                <div class="text-2xl font-semibold">
+                                    {{ useMoneyFormatter(productStats?.sum) }}
+                                </div>
+                            </div>
                         </div>
                     </div>
-                </div>
-                <div class="flex-auto w-full space-y-4 rounded-3xl bg-slate-50 p-5">
-                    <div class="flex items-center justify-between">
-                        <div class="space-y-0.5">
-                            <div class="text-base text-gray-600">Do'kondagi barcha mahsulotlar soni</div>
-                            <div class="text-2xl font-semibold">{{ useMoneyFormatter(productStats?.sum) }}</div>
-                        </div>
-                        <div class="flex items-center justify-center rounded-xl bg-blue-100 p-3">
-                            <StoreIcon class="w-8 h-8 text-blue-600" />
+                    <div class="flex-1 w-full space-y-4 rounded-3xl bg-slate-50 p-5">
+                        <div class="space-y-2">
+                            <div class="inline-flex items-center justify-center rounded-xl bg-blue-100 p-3">
+                                <StoreIcon class="w-8 h-8 text-blue-600" />
+                            </div>
+                            <div>
+                                <div class="text-base text-gray-600">
+                                    Xodimlar soni
+                                </div>
+                                <div class="text-2xl font-semibold">
+                                    {{ cashiersStat.length }} ta
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -299,14 +319,14 @@ onMounted(() => {
                             Sotuvlar statistikasi
                         </div>
                         <div class="text-sm text-gray-600">
-                            Sotuvlar statistikasi
+                            So'ngi yetti kunlik statistika
                         </div>
                     </div>
                     <div class="flex items-center justify-center rounded-xl bg-blue-100 p-2">
-                        <StoreIcon class="w-8 h-8 text-blue-600" />
+                        <MoneyIcon class="w-8 h-8 text-blue-600" />
                     </div>
                 </div>
-                <apexchart type="area" height="320" :options="salesChartChartOptions" :series="salesChartSeries">
+                <apexchart type="bar" height="320" :options="salesChartChartOptions" :series="salesChartSeries">
                 </apexchart>
             </div>
             <div class="flex-1 bg-slate-50 rounded-3xl p-5">
@@ -316,7 +336,7 @@ onMounted(() => {
                             Kassirlar statistikasi
                         </div>
                         <div class="text-sm text-gray-600">
-                            Sotuvlar statistikasi
+                            So'ngi yetti kunlik statistika
                         </div>
                     </div>
                     <div class="flex items-center justify-center rounded-xl bg-blue-100 p-2">
