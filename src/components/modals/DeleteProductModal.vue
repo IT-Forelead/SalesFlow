@@ -12,16 +12,6 @@ const selectedProduct = computed(() => {
   return productStore.selectedProduct
 })
 
-
-const submitData = reactive({
-  name: '',
-  packaging: '',
-  barcode: 0,
-  quantity: 0,
-  saleType: '',
-  price: 0
-})
-
 const saleType = (type) => {
   switch (type){
     case 'amount':
@@ -40,19 +30,7 @@ const closeModal = () => {
   useProductStore().setSelectedProduct({})
 }
 
-watch(
-  () => selectedProduct.value,
-  (data) => {
-    if (data) {
-      submitData.name = data?.name
-      submitData.packaging = data?.packaging
-      submitData.barcode = data?.barcode
-      submitData.quantity = data?.quantity
-      submitData.saleType = data?.saleType
-      submitData.price = data?.price
-    }
-  },
-)
+
 </script>
 
 <template>
@@ -76,7 +54,7 @@ watch(
                 Nomi
               </div>
               <div class="text-base font-medium">
-                {{ submitData?.name }}
+                {{ selectedProduct?.name }}
               </div>
             </li>
             <li class="flex items-center justify-between py-2 px-3">
@@ -84,7 +62,7 @@ watch(
                 Qadoqi
               </div>
               <div class="text-base font-medium">
-                {{ submitData?.packaging }}
+                {{ selectedProduct?.packaging }}
               </div>
             </li>
             <li class="flex items-center justify-between py-2 px-3">
@@ -92,7 +70,7 @@ watch(
                 Barcode
               </div>
               <div class="text-base font-medium">
-                {{ submitData?.barcode }}
+                {{ selectedProduct?.barcode }}
               </div>
             </li>
             <li class="flex items-center justify-between py-2 px-3">
@@ -100,7 +78,7 @@ watch(
                 Miqdori
               </div>
               <div class="text-base font-medium">
-                {{ submitData?.quantity }}
+                {{ selectedProduct?.quantity }}
               </div>
             </li>
             <li class="flex items-center justify-between py-2 px-3">
@@ -108,7 +86,7 @@ watch(
                 Sotilish turi
               </div>
               <div class="text-base font-medium">
-                {{ saleType(submitData?.saleType) }}
+                {{ saleType(selectedProduct?.saleType) }}
               </div>
             </li>
             <li class="flex items-center justify-between py-2 px-3">
@@ -116,7 +94,7 @@ watch(
                 Narxi
               </div>
               <div class="text-base font-medium">
-               {{ useMoneyFormatter(submitData?.price) }} 
+               {{ useMoneyFormatter(selectedProduct?.price) }} 
               </div>
             </li>
           </ul>
