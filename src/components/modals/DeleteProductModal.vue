@@ -1,47 +1,122 @@
 <script setup>
-import PhTrash from '../../assets/icons/TrashIcon.vue'
 import { useModalStore } from '../../store/modal.store.js'
 import CModal from '../common/CModal.vue'
-import PhWarningCircleBold from '../../assets/icons/WarningCircleBoldIcon.vue'
-import CancelButton from '../buttons/CancelButton.vue'
-import DeleteButton from '../buttons/DeleteButton.vue'
+import { useProductStore } from '../../store/product.store.js'
+import { computed } from 'vue'
+import WarningCircleBoldIcon from '../../assets/icons/WarningCircleBoldIcon.vue'
+import useMoneyFormatter from '../../mixins/currencyFormatter.js'
+
+const productStore = useProductStore()
+const selectedProduct = computed(() => {
+  return productStore.selectedProduct
+})
+
+const saleType = (type) => {
+  switch (type){
+    case 'amount':
+      return 'Donali'
+    case 'litre':
+      return 'Litrli'
+    case 'kg':
+      return 'Kilogrammli'
+    case 'g':
+      return 'Grammli'
+  }
+}
 
 const closeModal = () => {
   useModalStore().closeDeleteProductModal()
+  useProductStore().setSelectedProduct({})
 }
-
 </script>
 
 <template>
-  <div>
-    <button
-      type="button"
-      @click="useModalStore().openDeleteProductModal()"
-    >
-      <PhTrash class="flex w-6 h-6 text-red-600 cursor-pointer hover:scale-105" />
-    </button>
-    <CModal
-      :is-open="useModalStore().isOpenDeleteProductModal"
-      v-if="useModalStore().isOpenDeleteProductModal"
-      @close=closeModal
-    >
-      <template v-slot:header>
-        Mahsulot o'chirish
-      </template>
-      <template v-slot:body>
-        <div class="absolute w-full top-1/3 p-2 md:p-5">
-          <PhWarningCircleBold class="mx-auto mb-4 text-slate-400 w-14 h-14" />
-          <h3 class="mb-5 text-lg font-normal text-slate-500">Haqiqatdan ushbu mahsulotni o'chirishni <br> xohlaysizmi?</h3>
+  <CModal
+    :is-open="useModalStore().isOpenDeleteProductModal"
+    v-if="useModalStore().isOpenDeleteProductModal"
+    @close=closeModal
+  >
+    <template v-slot:header>
+      Mahsulotni o'chirish
+    </template>
+    <template v-slot:body>
+      <div class="space-y-16">
+        <div class="space-y-2">
+          <div class="bg-slate-100 px-3 text-center py-2 text-lg font-medium rounded-xl">
+            Mahsulot ma'lumotlari
+          </div>
+          <ul class="divide-y divide-slate-100">
+            <li class="flex items-center justify-between py-2 px-3">
+              <div class="text-base">
+                Nomi
+              </div>
+              <div class="text-base font-medium">
+                {{ selectedProduct?.name }}
+              </div>
+            </li>
+            <li class="flex items-center justify-between py-2 px-3">
+              <div class="text-base">
+                Qadoqi
+              </div>
+              <div class="text-base font-medium">
+                {{ selectedProduct?.packaging }}
+              </div>
+            </li>
+            <li class="flex items-center justify-between py-2 px-3">
+              <div class="text-base">
+                Barcode
+              </div>
+              <div class="text-base font-medium">
+                {{ selectedProduct?.barcode }}
+              </div>
+            </li>
+            <li class="flex items-center justify-between py-2 px-3">
+              <div class="text-base">
+                Miqdori
+              </div>
+              <div class="text-base font-medium">
+                {{ selectedProduct?.quantity }}
+              </div>
+            </li>
+            <li class="flex items-center justify-between py-2 px-3">
+              <div class="text-base">
+                Sotilish turi
+              </div>
+              <div class="text-base font-medium">
+                {{ saleType(selectedProduct?.saleType) }}
+              </div>
+            </li>
+            <li class="flex items-center justify-between py-2 px-3">
+              <div class="text-base">
+                Narxi
+              </div>
+              <div class="text-base font-medium">
+               {{ useMoneyFormatter(selectedProduct?.price) }} 
+              </div>
+            </li>
+          </ul>
         </div>
-      </template>
-      <template v-slot:footer>
-        <DeleteButton />
-        <CancelButton @click="closeModal" />
-      </template>
-    </CModal>
-  </div>
+        <div class="flex items-center justify-center">
+          <div class="py-8 border border-red-300 rounded-2xl w-2/3">
+            <div class="flex flex-col items-center space-y-4">
+              <WarningCircleBoldIcon class="text-slate-400 w-14 h-14" />
+              <h3 class="mb-5 text-lg text-justify font-normal text-slate-500">
+                Haqiqatdan ushbu mahsulotni o'chirmoqchimisiz?
+              </h3>
+              <div class="flex items-center space-x-4">
+                <button type="button" @click="closeModal()"
+                        class="py-2 px-4 rounded-xl text-gray-900 text-base font-medium bg-slate-50 cursor-pointer hover:bg-slate-200 border">
+                  Yo'q
+                </button>
+                <button
+                  class="py-2 px-4 rounded-xl text-white text-base font-medium bg-red-600 cursor-pointer hover:bg-red-700">
+                  Ha, albatta
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </template>
+  </CModal>
 </template>
-
-<style scoped>
-
-</style>
