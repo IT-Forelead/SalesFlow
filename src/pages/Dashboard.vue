@@ -3,6 +3,10 @@ import moment from 'moment'
 import { computed, onMounted, ref } from 'vue'
 import StoreIcon from '../assets/icons/StoreIcon.vue'
 import MoneyIcon from '../assets/icons/MoneyIcon.vue'
+import ChartBarIcon from '../assets/icons/ChartBarIcon.vue'
+import ChartDonutIcon from '../assets/icons/ChartDonutIcon.vue'
+import UsersIcon from '../assets/icons/UsersIcon.vue'
+import ShoppingCartIcon from '../assets/icons/ShoppingCartIcon.vue'
 import useMoneyFormatter from '../mixins/currencyFormatter'
 import OrderService from '../services/order.service'
 import ProductService from '../services/product.service'
@@ -12,6 +16,7 @@ const isLoading = ref(false)
 const cashiersStat = ref([])
 const ordersStat = ref([])
 const productStats = ref({})
+const bestSellerProductStats = ref([])
 
 // Expenses Chart
 const salesChartSeries = computed(() => [
@@ -137,6 +142,11 @@ onMounted(() => {
         .then((res) => {
             productStats.value = res
         })
+    ProductService.getBestSellerStats({
+        limit: 5
+    }).then((res) => {
+        bestSellerProductStats.value = res
+    })
 })
 
 </script>
@@ -149,97 +159,31 @@ onMounted(() => {
                     <div class="flex items-center justify-between">
                         <div class="space-y-0.5">
                             <div class="text-xl font-semibold">Eng ko'p sotilgan mahsulotlar</div>
-                            <div class="text-base text-gray-600">So'ngi bir haftalik statistika</div>
+                            <div class="text-base text-gray-600">So'ngi yetti kunlik statistika</div>
                         </div>
                         <div class="flex items-center justify-center rounded-xl bg-blue-100 p-3">
-                            <StoreIcon class="w-8 h-8 text-blue-600" />
+                            <ShoppingCartIcon class="w-8 h-8 text-blue-600" />
                         </div>
                     </div>
                     <div class="divide-y divide-gray-100">
-                        <div class="flex items-center justify-between py-1.5">
+                        <div v-for="(product, idx) in bestSellerProductStats" :key="idx" class="flex items-center justify-between py-1.5">
                             <div class="flex items-center space-x-3">
                                 <div class="bg-blue-600 w-4 h-4 rounded rotate-45"></div>
                                 <div>
                                     <div class="text-base font-semibold text-gray-800">
-                                        Coca cola - ПЭТ бутылка 1,5 л.
+                                        {{ product?.name + " - " + product?.packaging }}
                                     </div>
                                     <div class="text-sm text-gray-600">
                                         Narxi:
                                         <span class="text-gray-900">
-                                            {{ useMoneyFormatter(13000) }}
+                                            {{ useMoneyFormatter(product?.price) }}
                                         </span>
                                     </div>
                                 </div>
                             </div>
-                            <div class="text-2xl font-bold">110</div>
-                        </div>
-                        <div class="flex items-center justify-between py-1.5">
-                            <div class="flex items-center space-x-3">
-                                <div class="bg-blue-600 w-4 h-4 rounded rotate-45"></div>
-                                <div>
-                                    <div class="text-base font-semibold text-gray-800">
-                                        Jacobs Monarch 300g
-                                    </div>
-                                    <div class="text-sm text-gray-600">
-                                        Narxi:
-                                        <span class="text-gray-900">
-                                            {{ useMoneyFormatter(13000) }}
-                                        </span>
-                                    </div>
-                                </div>
+                            <div class="text-2xl font-bold">
+                                {{ product?.quantity }}
                             </div>
-                            <div class="text-2xl font-bold">72</div>
-                        </div>
-                        <div class="flex items-center justify-between py-1.5">
-                            <div class="flex items-center space-x-3">
-                                <div class="bg-blue-600 w-4 h-4 rounded rotate-45"></div>
-                                <div>
-                                    <div class="text-base font-semibold text-gray-800">
-                                        Frima 500g
-                                    </div>
-                                    <div class="text-sm text-gray-600">
-                                        Narxi:
-                                        <span class="text-gray-900">
-                                            {{ useMoneyFormatter(13000) }}
-                                        </span>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="text-2xl font-bold">61</div>
-                        </div>
-                        <div class="flex items-center justify-between py-1.5">
-                            <div class="flex items-center space-x-3">
-                                <div class="bg-blue-600 w-4 h-4 rounded rotate-45"></div>
-                                <div>
-                                    <div class="text-base font-semibold text-gray-800">
-                                        Five Cвежая мята
-                                    </div>
-                                    <div class="text-sm text-gray-600">
-                                        Narxi:
-                                        <span class="text-gray-900">
-                                            {{ useMoneyFormatter(13000) }}
-                                        </span>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="text-2xl font-bold">57</div>
-                        </div>
-                        <div class="flex items-center justify-between py-1.5">
-                            <div class="flex items-center space-x-3">
-                                <div class="bg-blue-600 w-4 h-4 rounded rotate-45"></div>
-                                <div>
-                                    <div class="text-base font-semibold text-gray-800">
-                                        Five Cвежая мята
-                                    </div>
-                                    <div class="text-sm text-gray-600">
-                                        Narxi:
-                                        <span class="text-gray-900">
-                                            {{ useMoneyFormatter(13000) }}
-                                        </span>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="text-2xl font-bold">57</div>
                         </div>
                     </div>
                 </div>
@@ -281,7 +225,7 @@ onMounted(() => {
                     <div class="flex-1 w-full space-y-4 rounded-3xl bg-slate-50 p-5">
                         <div class="space-y-2">
                             <div class="inline-flex items-center justify-center rounded-xl bg-blue-100 p-3">
-                                <StoreIcon class="w-8 h-8 text-blue-600" />
+                                <MoneyIcon class="w-8 h-8 text-blue-600" />
                             </div>
                             <div>
                                 <div class="text-base text-gray-600">
@@ -296,7 +240,7 @@ onMounted(() => {
                     <div class="flex-1 w-full space-y-4 rounded-3xl bg-slate-50 p-5">
                         <div class="space-y-2">
                             <div class="inline-flex items-center justify-center rounded-xl bg-blue-100 p-3">
-                                <StoreIcon class="w-8 h-8 text-blue-600" />
+                                <UsersIcon class="w-8 h-8 text-blue-600" />
                             </div>
                             <div>
                                 <div class="text-base text-gray-600">
@@ -323,7 +267,7 @@ onMounted(() => {
                         </div>
                     </div>
                     <div class="flex items-center justify-center rounded-xl bg-blue-100 p-2">
-                        <MoneyIcon class="w-8 h-8 text-blue-600" />
+                        <ChartBarIcon class="w-8 h-8 text-blue-600" />
                     </div>
                 </div>
                 <apexchart type="bar" height="320" :options="salesChartChartOptions" :series="salesChartSeries">
@@ -340,7 +284,7 @@ onMounted(() => {
                         </div>
                     </div>
                     <div class="flex items-center justify-center rounded-xl bg-blue-100 p-2">
-                        <StoreIcon class="w-8 h-8 text-blue-600" />
+                        <ChartDonutIcon class="w-8 h-8 text-blue-600" />
                     </div>
                 </div>
                 <apexchart type="donut" height="320" :options="caishersChartOptions" :series="caishersChartSeries">

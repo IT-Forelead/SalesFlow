@@ -19,6 +19,9 @@ class ProductService {
   async getProductStats(){
     return AxiosService.get('/product/stats')
   }
+  async getBestSellerStats(data){
+    return AxiosService.post('/product/best-seller/weekly-stats', data)
+  }
 } 
 
 export default new ProductService()
