@@ -41,3 +41,7 @@ export function shortenNumber(num) {
 
   return num.toLocaleString(undefined, {maximumFractionDigits: 1}) + suffixes[suffixIndex];
 }
+
+export function roundFloatToOneDecimal(num) {
+  return parseFloat((num).toFixed(1))
+}

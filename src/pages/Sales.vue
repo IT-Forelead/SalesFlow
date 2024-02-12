@@ -2,7 +2,7 @@
 import { reactive, ref, watch, watchEffect } from 'vue'
 import { toast } from 'vue-sonner'
 import { useRouter } from 'vue-router'
-import { cleanObjectEmptyFields } from '../mixins/utils'
+import { cleanObjectEmptyFields, roundFloatToOneDecimal } from '../mixins/utils'
 import ImageIcon from '../assets/icons/ImageIcon.vue';
 import MinusIcon from '../assets/icons/MinusIcon.vue';
 import PlusIcon from '../assets/icons/PlusIcon.vue';
@@ -46,6 +46,19 @@ const products = computed(() => {
   return productStore.products
 })
 
+const saleTypeShortTranslate = (type) => {
+  switch (type){
+    case 'amount':
+      return 'ta'
+    case 'litre':
+      return 'litr'
+    case 'kg':
+      return 'kg'
+    case 'g':
+      return 'g'
+  }
+}
+
 const searchProducts = () => {
   if (!search.value) {
     toast.error('Mahsulot nomi yoki shtrix kodini kiriting!')
@@ -87,7 +100,13 @@ const addProductToCart = (product) => {
   if (selectedProducts.value.find((p) => p?.productId == product?.id)) {
     selectedProducts.value = selectedProducts.value.map((item) => {
       if (item.productId === product.id && product?.quantity > item.amount) {
-        return { ...item, amount: item.amount + 1 }
+        if (item.saleType == 'kg' || item.saleType == 'g') {
+          return { ...item, amount: roundFloatToOneDecimal(item.amount + 0.1) }
+        } else if (item.saleType == 'litre') {
+          return { ...item, amount: roundFloatToOneDecimal(item.amount + 0.5) }
+        } else {
+          return { ...item, amount: item.amount + 1 }
+        }
       } else if (item.productId === product.id) {
         toast.error("Mahsulot do'konda qolmadi!")
         return item
@@ -97,14 +116,37 @@ const addProductToCart = (product) => {
     });
   } else {
     if (product.quantity > 0) {
-      selectedProducts.value.push({
-        productId: product?.id,
-        name: product?.name,
-        packaging: product?.packaging,
-        price: product?.price,
-        quantity: product?.quantity,
-        amount: 1
-      })
+      if (product?.saleType == 'amount') {
+        selectedProducts.value.push({
+          productId: product?.id,
+          name: product?.name,
+          packaging: product?.packaging,
+          price: product?.price,
+          quantity: product?.quantity,
+          saleType: product?.saleType,
+          amount: 1
+        })
+      } else if (product?.saleType == 'litre') {
+        selectedProducts.value.push({
+          productId: product?.id,
+          name: product?.name,
+          packaging: product?.packaging,
+          price: product?.price,
+          quantity: product?.quantity,
+          saleType: product?.saleType,
+          amount: 0.5
+        })
+      } else {
+        selectedProducts.value.push({
+          productId: product?.id,
+          name: product?.name,
+          packaging: product?.packaging,
+          price: product?.price,
+          quantity: product?.quantity,
+          saleType: product?.saleType,
+          amount: 0.1
+        })
+      }
     } else {
       toast.error('Mahsulot sotuvda mavjud emas!')
     }
@@ -119,7 +161,14 @@ const removeProductFromCart = (product) => {
 const increaseCountOfProducts = (product) => {
   selectedProducts.value = selectedProducts.value.map((item) => {
     if (item.productId === product.productId) {
-      return { ...item, amount: item.amount + 1 }
+      // return { ...item, amount: item.amount + 1 }
+      if (item.saleType == 'kg' || item.saleType == 'g') {
+        return { ...item, amount: roundFloatToOneDecimal(item.amount + 0.1) }
+      } else if (item.saleType == 'litre') {
+        return { ...item, amount: roundFloatToOneDecimal(item.amount + 0.5) }
+      } else {
+        return { ...item, amount: item.amount + 1 }
+      }
     } else item
     return item
   });
@@ -128,7 +177,14 @@ const increaseCountOfProducts = (product) => {
 const reduceCountOfProducts = (product) => {
   selectedProducts.value = selectedProducts.value.map((item) => {
     if (item.productId === product.productId) {
-      return { ...item, amount: item.amount - 1 }
+      // return { ...item, amount: item.amount - 1 }
+      if (item.saleType == 'amount') {
+        return { ...item, amount: item.amount - 1 }
+      } else if (item.saleType == 'litre') {
+        return { ...item, amount: roundFloatToOneDecimal(item.amount - 0.5) }
+      } else {
+        return { ...item, amount: roundFloatToOneDecimal(item.amount - 0.1) }
+      }
     } else item
     return item
   });
@@ -295,7 +351,7 @@ onMounted(() => {
                         <span class="text-gray-700">
                           {{ useMoneyFormatter(product?.price) }}
                         </span>
-                        <div v-if="product.quantity<=15">
+                        <div v-if="product.quantity <= 15">
                           Qolgan miqdori:
                           <span class="text-red-500">
                           {{ product?.quantity - product?.amount }}
@@ -307,7 +363,7 @@ onMounted(() => {
                 </td>
                 <td class="px-3 py-2 text-center whitespace-nowrap">
                   <div class="flex justify-center">
-                    <div class="flex items-center justify-between bg-slate-100 w-28 rounded-xl p-1">
+                    <div class="flex items-center justify-between bg-slate-100 w-36 rounded-xl p-1">
                       <div @click="reduceCountOfProducts(product)" v-if="product?.amount > 1"
                         class="flex items-center justify-center w-8 h-8 bg-white text-blue-700 shadow-sm hover:bg-slate-200 cursor-pointer rounded-xl">
                         <MinusIcon class="w-4 h-4" />
@@ -317,7 +373,7 @@ onMounted(() => {
                         <MinusIcon class="w-4 h-4" />
                       </div>
                       <div class="flex items-center justify-center text-lg font-normal">
-                        {{ product?.amount }}
+                        {{ product?.amount + " " + saleTypeShortTranslate(product?.saleType) }}
                       </div>
                       <div @click="increaseCountOfProducts(product)" v-if="product?.quantity > product?.amount"
                         class="flex items-center justify-center w-8 h-8 bg-white text-blue-700 shadow-sm hover:bg-slate-200 cursor-pointer rounded-xl">

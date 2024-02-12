@@ -168,7 +168,11 @@ onMounted(() => {
                     <div class="divide-y divide-gray-100">
                         <div v-for="(product, idx) in bestSellerProductStats" :key="idx" class="flex items-center justify-between py-1.5">
                             <div class="flex items-center space-x-3">
-                                <div class="bg-blue-600 w-4 h-4 rounded rotate-45"></div>
+                                <div class="flex items-center justify-center bg-blue-100 w-6 h-6 rounded-lg">
+                                    <span class="text-base text-blue-600">
+                                        {{ idx + 1 }}
+                                    </span>
+                                </div>
                                 <div>
                                     <div class="text-base font-semibold text-gray-800">
                                         {{ product?.name + " - " + product?.packaging }}
@@ -182,7 +186,7 @@ onMounted(() => {
                                 </div>
                             </div>
                             <div class="text-2xl font-bold">
-                                {{ product?.quantity }}
+                                {{ product?.soldCount }}
                             </div>
                         </div>
                     </div>

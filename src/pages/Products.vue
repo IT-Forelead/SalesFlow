@@ -19,6 +19,7 @@ const products = computed(() => {
   renderKey.value += 1
   return productStore.products
 })
+
 const saleTypeTranslate = (type) => {
   switch (type){
     case 'amount':
@@ -29,6 +30,19 @@ const saleTypeTranslate = (type) => {
       return 'Kilogrammli'
     case 'g':
       return 'Grammli'
+  }
+}
+
+const saleTypeShortTranslate = (type) => {
+  switch (type){
+    case 'amount':
+      return 'ta'
+    case 'litre':
+      return 'litr'
+    case 'kg':
+      return 'kg'
+    case 'g':
+      return 'g'
   }
 }
 
@@ -54,6 +68,7 @@ const columns = [
   {
     accessorKey: 'quantity',
     header: 'Miqdori',
+    accessorFn: row => `${ row.quantity } ${ saleTypeShortTranslate(row.saleType) }`,
   },
   {
     accessorKey: 'saleType',
