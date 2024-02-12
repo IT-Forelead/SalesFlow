@@ -100,7 +100,7 @@ const addProductToCart = (product) => {
   if (selectedProducts.value.find((p) => p?.productId == product?.id)) {
     selectedProducts.value = selectedProducts.value.map((item) => {
       if (item.productId === product.id && product?.quantity > item.amount) {
-        if (item.saleType == 'kg' || item.saleType == 'g') {
+        if (item.saleType == 'kg') {
           return { ...item, amount: roundFloatToOneDecimal(item.amount + 0.1) }
         } else if (item.saleType == 'litre') {
           return { ...item, amount: roundFloatToOneDecimal(item.amount + 0.5) }
@@ -116,7 +116,7 @@ const addProductToCart = (product) => {
     });
   } else {
     if (product.quantity > 0) {
-      if (product?.saleType == 'amount') {
+      if (product?.saleType == 'kg') {
         selectedProducts.value.push({
           productId: product?.id,
           name: product?.name,
@@ -124,7 +124,7 @@ const addProductToCart = (product) => {
           price: product?.price,
           quantity: product?.quantity,
           saleType: product?.saleType,
-          amount: 1
+          amount: 0.1
         })
       } else if (product?.saleType == 'litre') {
         selectedProducts.value.push({
@@ -144,7 +144,7 @@ const addProductToCart = (product) => {
           price: product?.price,
           quantity: product?.quantity,
           saleType: product?.saleType,
-          amount: 0.1
+          amount: 1
         })
       }
     } else {
@@ -158,11 +158,23 @@ const removeProductFromCart = (product) => {
   selectedProducts.value = selectedProducts.value.filter((p) => p.productId !== product.productId)
 }
 
+const increaseCountChecking = (product) => {
+  if (product?.amount > 0.1 && product?.saleType == 'kg') {
+    return true
+  } else if (product?.amount > 0.5 && product?.saleType == 'litre') {
+    return true
+  } else if (product?.amount > 1) {
+    return true
+  } else {
+    return false
+  }
+}
+
 const increaseCountOfProducts = (product) => {
   selectedProducts.value = selectedProducts.value.map((item) => {
     if (item.productId === product.productId) {
       // return { ...item, amount: item.amount + 1 }
-      if (item.saleType == 'kg' || item.saleType == 'g') {
+      if (item.saleType == 'kg') {
         return { ...item, amount: roundFloatToOneDecimal(item.amount + 0.1) }
       } else if (item.saleType == 'litre') {
         return { ...item, amount: roundFloatToOneDecimal(item.amount + 0.5) }
@@ -178,12 +190,12 @@ const reduceCountOfProducts = (product) => {
   selectedProducts.value = selectedProducts.value.map((item) => {
     if (item.productId === product.productId) {
       // return { ...item, amount: item.amount - 1 }
-      if (item.saleType == 'amount') {
-        return { ...item, amount: item.amount - 1 }
+      if (item.saleType == 'kg') {
+        return { ...item, amount: roundFloatToOneDecimal(item.amount - 0.1) }
       } else if (item.saleType == 'litre') {
         return { ...item, amount: roundFloatToOneDecimal(item.amount - 0.5) }
       } else {
-        return { ...item, amount: roundFloatToOneDecimal(item.amount - 0.1) }
+        return { ...item, amount: item.amount - 1 }
       }
     } else item
     return item
@@ -364,7 +376,7 @@ onMounted(() => {
                 <td class="px-3 py-2 text-center whitespace-nowrap">
                   <div class="flex justify-center">
                     <div class="flex items-center justify-between bg-slate-100 w-36 rounded-xl p-1">
-                      <div @click="reduceCountOfProducts(product)" v-if="product?.amount > 1"
+                      <div @click="reduceCountOfProducts(product)" v-if="increaseCountChecking(product)"
                         class="flex items-center justify-center w-8 h-8 bg-white text-blue-700 shadow-sm hover:bg-slate-200 cursor-pointer rounded-xl">
                         <MinusIcon class="w-4 h-4" />
                       </div>

@@ -14,6 +14,19 @@ const selectedOrder = computed(() => {
   return orderStore.selectedOrder
 })
 
+const saleTypeShortTranslate = (type) => {
+  switch (type){
+    case 'amount':
+      return 'ta'
+    case 'litre':
+      return 'litr'
+    case 'kg':
+      return 'kg'
+    case 'g':
+      return 'g'
+  }
+}
+
 const closeModal = () => {
   useModalStore().closeOrderInfoModal()
   useOrderStore().setSelectedOrder({})
@@ -58,7 +71,7 @@ const closeModal = () => {
                     </div>
                   </td>
                   <td class="px-3 py-2 text-center whitespace-nowrap">
-                    {{ product?.amount }} dona
+                    {{ product?.amount + " " + saleTypeShortTranslate(product?.saleType) }}
                   </td>
                   <td class="px-3 py-2 text-center whitespace-nowrap">
                     {{ useMoneyFormatter(product?.price) }}
