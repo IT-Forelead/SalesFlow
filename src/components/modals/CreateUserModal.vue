@@ -38,9 +38,11 @@ const privileges = ref([
   {
     name: 'Admin',
     code: [
+      'create_barcode',
       'create_market',
       'create_user',
       'dashboard',
+      'update_barcode',
       'update_user',
       'view_barcodes',
       'view_histories',

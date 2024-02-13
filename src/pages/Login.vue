@@ -23,17 +23,17 @@ const togglePassword = () => (hidePassword.value = !hidePassword.value)
 const getRole = (privileges) => {
   switch (true) {
     case
+    privileges.includes('create_barcode') &&
     privileges.includes('create_market') &&
     privileges.includes('create_user') &&
     privileges.includes('dashboard') &&
-    privileges.includes('view_users') &&
-    privileges.includes('view_products') &&
-    privileges.includes('view_histories') &&
-    privileges.includes('view_orders') &&
-    privileges.includes('create_history') &&
+    privileges.includes('update_barcode') &&
+    privileges.includes('view_barcodes') &&
     privileges.includes('view_histories') &&
     privileges.includes('view_markets') &&
-    privileges.includes('view_barcodes'):
+    privileges.includes('view_orders') &&
+    privileges.includes('view_products') &&
+    privileges.includes('view_users'):
       return 'Admin'
     case
     privileges.includes('create_order') &&
