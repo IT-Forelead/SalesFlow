@@ -11,10 +11,9 @@ import UserService from '../services/user.service'
 import { useUserStore } from '../store/user.store.js'
 import { useModalStore } from '../store/modal.store.js'
 
+const userStore = useUserStore()
 const globalSearchFromTable = ref('')
 const isLoading = ref(false)
-
-const userStore = useUserStore()
 const renderkey = ref(0)
 
 const users = computed(() => {
@@ -121,12 +120,15 @@ const openDeleteUserModal = (data) => {
 }
 
 const getUsers = () => {
+  console.log("aaaaaaaaaaaaa");
   isLoading.value = true
   UserService.getUsers()
     .then((res) => {
+      console.log("bbbbbbbbbbbb");
       useUserStore().clearStore()
       useUserStore().setUsers(res)
     }).finally(() => {
+      console.log("ccccccccccccccccccc");
       isLoading.value = false
     })
 }
