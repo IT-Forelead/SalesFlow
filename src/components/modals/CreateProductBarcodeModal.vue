@@ -11,14 +11,14 @@ const submitData = reactive({
   trademark: '',
   packaging: '',
   barcode: '',
-  trademarkType: '',
+  saleType: '',
 })
 
 const clearSubmitData = () => {
   submitData.trademark = ''
   submitData.packaging = ''
   submitData.barcode = ''
-  submitData.trademarkType = ''
+  submitData.saleType = ''
 }
 
 const closeModal = () => {
@@ -28,49 +28,30 @@ const closeModal = () => {
 
 const createProductBarcode = () => {
   if (!submitData.trademark) {
-    toast.error("Savdo belgisini kiriting!")
+    toast.error("Mahsulot nomini kiriting!")
   } else if (!submitData.packaging) {
     toast.error("Qadoqini kiriting!")
   } else if (!submitData.barcode) {
-    toast.error("Shtrix kodni kiriting!")
-  } else if (!submitData.trademarkType) {
-    toast.error("Savdo turinini kiriting!")
+    toast.error("Shtrix kodini kiriting!")
+  } else if (!submitData.saleType) {
+    toast.error("Sotuv turinini kiriting!")
   } else {
-    isLoading.value = true
-    // ProductBarcodeService.createProductBarcode({
-    //   trademark: submitData.trademark,
-    //   packaging: submitData.packaging,
-    //   barcode: submitData.barcode,
-    //   trademarkType: submitData.packaging,
-    // }).then(() => {
-    //   toast.success("Shtrix kod qo'shildi!")
-    //   ProductBarcodeService.getBarcodes().then((res) => {
-    //     useBarcodeStore().clearStore()
-    //     useBarcodeStore().setBarcodes(res)
-    //   })
-    //   isLoading.value = false
-    //   closeModal()
-    // }).catch((err) => {
-    //   toast.error("Do'kon yaratishda xatolik yuz berdi!")
-    //   setTimeout(() => {
-    //     isLoading.value = false
-    //   }, 3000)
-    // })
+
   }
 }
 
 </script>
 
 <template>
-  <CModal :is-open="useModalStore().isOpenCreateProductBarcodeModal" v-if="useModalStore().isOpenCreateProductBarcodeModal"
-    @close="closeModal">
+  <CModal :is-open="useModalStore().isOpenCreateProductBarcodeModal"
+    v-if="useModalStore().isOpenCreateProductBarcodeModal" @close="closeModal">
     <template v-slot:header> Shtrix kod yaratish </template>
     <template v-slot:body>
       <div class="space-y-4">
         <div class="flex items-center space-x-4">
           <div class="flex-1">
             <label for="trademark" class="text-base font-medium">
-              Savdo belgisi
+              Mahsulot nomi
               <span class="text-red-500 mr-2">*</span>
             </label>
             <input id="trademark" type="text" v-model="submitData.trademark"
@@ -98,11 +79,11 @@ const createProductBarcode = () => {
               placeholder="Shtrix kodni kiriting" />
           </div>
           <div class="flex-1">
-            <label for="default-type" class="text-base font-medium">
-              Savdo turi
+            <label for="sale-type" class="text-base font-medium">
+              Sotuv turi
               <span class="text-red-500 mr-2">*</span>
             </label>
-            <select id="default-type" v-model="submitData.trademarkType"
+            <select id="sale-type" v-model="submitData.saleType"
               class="bg-slate-100 border-none text-slate-900 rounded-lg block w-full h-11">
               <option value="" selected>Turini tanlang</option>
               <option value="amount">Donali</option>
