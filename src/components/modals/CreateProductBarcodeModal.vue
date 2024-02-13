@@ -69,42 +69,47 @@ const createProductBarcode = () => {
       <div class="space-y-4">
         <div class="flex items-center space-x-4">
           <div class="flex-1">
-            <label for="name" class="text-base font-medium">
+            <label for="trademark" class="text-base font-medium">
               Savdo belgisi
               <span class="text-red-500 mr-2">*</span>
             </label>
-            <input id="name" type="text" v-model="submitData.trademark"
+            <input id="trademark" type="text" v-model="submitData.trademark"
               class="bg-slate-100 border-none text-slate-900 rounded-lg w-full py-2.5 placeholder-slate-400"
               placeholder="Savdo belgisini kiriting" />
           </div>
           <div class="flex-1">
-            <label for="name" class="text-base font-medium">
+            <label for="packaging" class="text-base font-medium">
               Qadoqi
               <span class="text-red-500 mr-2">*</span>
             </label>
-            <input id="name" type="text" v-model="submitData.packaging"
+            <input id="packaging" type="text" v-model="submitData.packaging"
               class="bg-slate-100 border-none text-slate-900 rounded-lg w-full py-2.5 placeholder-slate-400"
               placeholder="Qadoqini kiriting" />
           </div>
         </div>
         <div class="flex items-center space-x-4">
           <div class="flex-1">
-            <label for="name" class="text-base font-medium">
+            <label for="barcode" class="text-base font-medium">
               Shtrix kodi
               <span class="text-red-500 mr-2">*</span>
             </label>
-            <input id="name" type="text" v-model="submitData.barcode"
+            <input id="barcode" type="text" v-model="submitData.barcode"
               class="bg-slate-100 border-none text-slate-900 rounded-lg w-full py-2.5 placeholder-slate-400"
               placeholder="Shtrix kodni kiriting" />
           </div>
           <div class="flex-1">
-            <label for="name" class="text-base font-medium">
+            <label for="default-type" class="text-base font-medium">
               Savdo turi
               <span class="text-red-500 mr-2">*</span>
             </label>
-            <input id="name" type="text" v-model="submitData.trademarkType"
-              class="bg-slate-100 border-none text-slate-900 rounded-lg w-full py-2.5 placeholder-slate-400"
-              placeholder="Savdo turinini kiriting" />
+            <select id="default-type" v-model="submitData.trademarkType"
+              class="bg-slate-100 border-none text-slate-900 rounded-lg block w-full h-11">
+              <option value="" selected>Turini tanlang</option>
+              <option value="amount">Donali</option>
+              <option value="kg">Kilogrammli</option>
+              <option value="g">Gramli</option>
+              <option value="litre">Litrli</option>
+            </select>
           </div>
         </div>
       </div>
