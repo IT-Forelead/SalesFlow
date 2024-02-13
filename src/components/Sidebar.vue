@@ -7,11 +7,16 @@ import PhBarcodeIcon from '../assets/icons/BarcodeIcon.vue'
 import UsersIcon from '../assets/icons/UsersIcon.vue'
 import StoreIcon from '../assets/icons/StoreIcon.vue'
 import { useRouter } from 'vue-router'
+import { useI18n } from 'vue-i18n'
 import decodeJwt, { parseJwt } from '../mixins/utils';
 import { useSidebarStore } from '../store/sidebar.store'
 import ProfileDropDown from './ProfileDropDown.vue'
 import { useAuthStore } from '../store/auth.store'
+import GlobeIcon from '../assets/icons/GlobeIcon.vue'
+import CaretDownIcon from '../assets/icons/CaretDownIcon.vue'
+import SelectOptionLanguage from './inputs/SelectOptionLanguage.vue'
 
+const { t } = useI18n()
 const router = useRouter()
 
 const payload = ref({})
@@ -59,7 +64,9 @@ onMounted(() => {
             <div class="flex h-10 items-center justify-center rounded-xl w-10 second-child-bg-color">
               <HouseIcon class="w-6 h-6" />
             </div>
-            <div>Bosh sahifa</div>
+            <div>
+              {{ $t('dashboard') }}
+            </div>
           </router-link>
           <router-link v-if="navigationGuard('create_product')" to="/sales" @click="selectPage()" active-class="active"
             class="relative h-10 flex items-center w-full hover:bg-blue-300/10 hover:text-blue-600 py-7 text-zinc-400 text-lg font-medium space-x-4 cursor-pointer transition-colors duration-300">
@@ -67,7 +74,9 @@ onMounted(() => {
             <div class="flex items-center justify-center rounded-xl w-10 h-10 second-child-bg-color">
               <MoneyIcon class="w-6 h-6" />
             </div>
-            <div>Sotuv</div>
+            <div>
+              {{ $t('sale') }}
+            </div>
           </router-link>
           <router-link to="/products" @click="selectPage()" active-class="active"
             class="relative h-10 flex items-center w-full hover:bg-blue-300/10 hover:text-blue-600 py-7 text-zinc-400 text-lg font-medium space-x-4 cursor-pointer transition-colors duration-300">
@@ -75,7 +84,9 @@ onMounted(() => {
             <div class="flex items-center justify-center rounded-xl w-10 h-10 second-child-bg-color">
               <PhShoppingCart class="w-6 h-6" />
             </div>
-            <div>Mahsulotlar</div>
+            <div>
+              {{ $t('products') }}
+            </div>
           </router-link>
           <router-link to="/product-histories" @click="selectPage()" active-class="active"
             class="relative h-10 flex items-center w-full hover:bg-blue-300/10 hover:text-blue-600 py-7 text-zinc-400 text-lg font-medium space-x-4 cursor-pointer transition-colors duration-300">
@@ -83,7 +94,9 @@ onMounted(() => {
             <div class="flex items-center justify-center rounded-xl w-10 h-10 second-child-bg-color">
               <PhShoppingCart class="w-6 h-6" />
             </div>
-            <div>Mahsulotlar tarixi</div>
+            <div>
+              {{ $t('productsHistory') }}
+            </div>
           </router-link>
           <router-link to="/orders" @click="selectPage()" active-class="active"
             class="relative h-10 flex items-center w-full hover:bg-blue-300/10 hover:text-blue-600 py-7 text-zinc-400 text-lg font-medium space-x-4 cursor-pointer transition-colors duration-300">
@@ -91,7 +104,9 @@ onMounted(() => {
             <div class="flex items-center justify-center rounded-xl w-10 h-10 second-child-bg-color">
               <PhShoppingCart class="w-6 h-6" />
             </div>
-            <div>Sotuvlar</div>
+            <div>
+              {{ $t('sales') }}
+            </div>
           </router-link>
           <router-link v-if="navigationGuard('view_markets')" to="/markets" @click="selectPage()" active-class="active"
             class="relative h-10 flex items-center w-full hover:bg-blue-300/10 hover:text-blue-600 py-7 text-zinc-400 text-lg font-medium space-x-4 cursor-pointer transition-colors duration-300">
@@ -99,7 +114,9 @@ onMounted(() => {
             <div class="flex items-center justify-center rounded-xl w-10 h-10 second-child-bg-color">
               <StoreIcon class="w-6 h-6" />
             </div>
-            <div>Do'konlar</div>
+            <div>
+              {{ $t('shops') }}
+            </div>
           </router-link>
           <router-link v-if="navigationGuard('view_users')" to="/users" @click="selectPage()" active-class="active"
             class="relative h-10 flex items-center w-full hover:bg-blue-300/10 hover:text-blue-600 py-7 text-zinc-400 text-lg font-medium space-x-4 cursor-pointer transition-colors duration-300">
@@ -107,23 +124,41 @@ onMounted(() => {
             <div class="flex items-center justify-center rounded-xl w-10 h-10 second-child-bg-color">
               <UsersIcon class="w-6 h-6" />
             </div>
-            <div>Foydalanuvchilar</div>
+            <div>
+              {{ $t('users') }}
+            </div>
           </router-link>
-          <router-link v-if="navigationGuard('view_barcodes')" to="/product-barcodes" @click="selectPage()" active-class="active"
+          <router-link v-if="navigationGuard('view_barcodes')" to="/product-barcodes" @click="selectPage()"
+            active-class="active"
             class="relative h-10 flex items-center w-full hover:bg-blue-300/10 hover:text-blue-600 py-7 text-zinc-400 text-lg font-medium space-x-4 cursor-pointer transition-colors duration-300">
             <div class="w-1.5 h-12 rounded-r-xl first-child-bg-color mr-2"></div>
             <div class="flex items-center justify-center rounded-xl w-10 h-10 second-child-bg-color">
               <PhBarcodeIcon class="w-6 h-6" />
             </div>
-            <div>Shtrix kodlar</div>
+            <div>
+              {{ $t('barcodes') }}
+            </div>
           </router-link>
         </div>
       </div>
-      <div class="absolute bottom-0 w-full mb-3 text-xs text-center text-slate-400">
-        Copyright &copy; {{ new Date().getFullYear() }} <a href="https://it-forelead.uz"
-          class="hover:underline">IT-Forelead</a>.
-      <br />
-      All Rights Reserved.
+      <div class="absolute bottom-0 w-full mb-3 space-y-4">
+        <div class="flex items-center space-x-3 px-4">
+          <SelectOptionLanguage />
+          <div class="flex-1 flex items-center justify-between rounded-lg bg-white p-2 cursor-pointer hover:bg-gray-100">
+            <div class="flex items-center space-x-1">
+              <GlobeIcon class="w-5 h-5 text-gray-500" />
+              <span>Light</span>
+            </div>
+            <CaretDownIcon class="w-3 h-3" />
+          </div>
+        </div>
+        <div class="text-xs text-center text-slate-400">
+          Copyright &copy; {{ new Date().getFullYear() }} <a href="https://it-forelead.uz"
+            class="hover:underline">IT-Forelead</a>.
+          <br />
+          All Rights Reserved.
+        </div>
+      </div>
     </div>
   </div>
-</div></template>
+</template>
