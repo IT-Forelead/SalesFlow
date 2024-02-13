@@ -8,7 +8,6 @@ import SearchIcon from '../assets/icons/SearchIcon.vue'
 import Spinners270RingIcon from '../assets/icons/Spinners270RingIcon.vue'
 import CTable from '../components/common/CTable.vue'
 import UserService from '../services/user.service'
-import DeleteUserModal from '../components/modals/DeleteUserModal.vue'
 import { useUserStore } from '../store/user.store.js'
 import { useModalStore } from '../store/modal.store.js'
 
@@ -17,13 +16,10 @@ const isLoading = ref(false)
 
 const userStore = useUserStore()
 const renderkey = ref(0)
+
 const users = computed(() => {
   renderkey.value += 1
   return userStore.users
-})
-
-const privileges = computed(() => {
-  return userStore.privileges
 })
 
 const getRole = (privileges) => {
