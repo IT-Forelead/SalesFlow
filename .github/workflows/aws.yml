@@ -1,0 +1,43 @@
+name: Pipeline
+
+on:
+  push:
+    branches: ["main"]
+jobs:
+  build:
+    name: BUILD
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout current branch (fast)
+        uses: actions/checkout@v3
+
+      - name: "Building image 🏗"
+        run: |
+          docker build -t warehouse/frontend .
+          docker save warehouse/frontend:latest > ./warehouse.tar.gz
+
+      - name: Copy repository contents via scp
+        uses: appleboy/scp-action@master
+        with:
+          host: ${{ secrets.HOST }}
+          username: ${{ secrets.USERNAME }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          source: "warehouse.tar.gz"
+          target: "warehouse/ui"    
+  deploy:
+    name: DEPLOY
+    runs-on: ubuntu-latest
+    needs: ["build"]
+    steps:
+      - name: Install SSH key of timeweb
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.HOST }}
+          username: ${{ secrets.USERNAME }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          script: |
+            cd warehouse/ui
+            docker load -i warehouse.tar.gz
+            docker compose down
+            docker compose up -d
+            docker restart nginx
