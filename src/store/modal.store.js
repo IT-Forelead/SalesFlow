@@ -6,6 +6,7 @@ export const useModalStore = defineStore('modal', {
     isOpenNotification: false,
     isOpenEditProductModal: false,
     isOpenDeleteProductModal: false,
+    isOpenCreateBarcodeModal: false,
     isOpenCreateUserModal: false,
     isOpenEditUserModal: false,
     isOpenDeleteUserModal: false,
@@ -18,7 +19,13 @@ export const useModalStore = defineStore('modal', {
     isOpenDeleteProductHistoryModal: false,
     isOpenEditProductHistoryModal: false,
   }),
-  actions:{
+  actions: {
+    openCreateBarcodeModal() {
+      this.isOpenCreateBarcodeModal = true
+    },
+    closeCreateBarcodeModal() {
+      this.isOpenCreateBarcodeModal = false
+    },
     openCreateUserModal() {
       this.isOpenCreateUserModal = true
     },

@@ -1,6 +1,7 @@
 <script setup>
 import { ref } from 'vue'
 import ProductService from '../services/product.service.js'
+import { useModalStore } from '../store/modal.store'
 import SearchIcon from '../assets/icons/SearchIcon.vue'
 import Spinners270RingIcon from '../assets/icons/Spinners270RingIcon.vue'
 import CTable from '../components/common/CTable.vue'
@@ -75,7 +76,10 @@ getBarcodes()
         <input type="search" v-model="globalSearchFromTable" class="bg-slate-100 border-none text-slate-900 text-base md:text-lg rounded-full block pl-10 py-2 placeholder-slate-400" placeholder="Search everything..." />
       </div>
       <div>
-        <button class="w-full py-2 px-4 rounded-full text-white text-lg font-medium bg-blue-500 cursor-pointer hover:bg-blue-600">Shtrix kod qo'shish</button>
+        <button @click="useModalStore().openCreateBarcodeModal()"
+                class="w-full py-2 px-4 rounded-full text-white text-lg font-medium bg-blue-500 cursor-pointer hover:bg-blue-600">
+          Shtrix kod qo'shis
+        </button>
       </div>
     </div>
     <div v-if="isLoading" class="flex items-center justify-center h-20">
