@@ -4,7 +4,7 @@ import HamburgerMenuOutlineIcon from '../assets/icons/HamburgerMenuOutlineIcon.v
 import { useModalStore } from '../store/modal.store.js'
 import { ref } from 'vue'
 import { onClickOutside } from '@vueuse/core'
-import CreateBarcodeModal from '../components/modals/CreateBarcodeModal.vue'
+import CreateProductBarcodeModal from './modals/CreateProductBarcodeModal.vue'
 import CreateMarketModal from '../components/modals/CreateMarketModal.vue'
 import CreateProductModal from '../components/modals/CreateProductModal.vue'
 import CreateProductHistoryModal from '../components/modals/CreateProductHistoryModal.vue'
@@ -47,7 +47,7 @@ onClickOutside(notificationDropdown, () => {
     </div>
   </div>
 
-  <CreateBarcodeModal />
+  <CreateProductBarcodeModal />
   <CreateMarketModal />
   <CreateProductModal />
   <CreateProductHistoryModal />
