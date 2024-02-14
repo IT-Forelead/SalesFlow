@@ -2,9 +2,9 @@ version: "3.9"
 services:
   workout-frontend:
     restart: always
-    image: workout/frontend:latest
-    hostname: workout-ui
-    container_name: workout-ui
+    image: warehouse/frontend:latest
+    hostname: warehouse-frontend
+    container_name: warehouse-frontend
     networks:
       - external-net
     ports:
