@@ -1,10 +1,10 @@
 #!/bin/bash
-source build.sh
+# source build.sh
 echo "Saving frontend image..."
-docker save workout/frontend:latest > ./alphaui.tar.gz
-echo "alphaui.tar.gz file created!"
+docker save warehouse/frontend:latest > ./warehouse.tar.gz
+echo "warehouse.tar.gz file created!"
 echo "--------------------------------------------------------"
 echo "Transfer ui file to server"
-scp ./alphaui.tar.gz timeweb2:./
+scp ./warehouse.tar.gz timeweb:./warehouse/ui
 echo "Transfer successful!"
 echo "--------------------------------------------------------"
