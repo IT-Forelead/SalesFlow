@@ -143,50 +143,50 @@ watch(
           <SearchIcon class="w-5 h-5 text-slate-400" />
         </div>
         <input type="search" v-model="searchBarcodeProduct" ref="onSearchFocus" v-on:keypress="whenPressEnter($event)"
-          class="bg-slate-100 border-none text-slate-900 rounded-lg w-full h-12 pl-10 placeholder-slate-400"
-          placeholder="Mahsulotni shtrix kodi bo'yicha izlash...">
+          class="bg-slate-100 border-none text-slate-900 rounded-lg w-full h-12 pl-10 placeholder-slate-400 placeholder:text-sm md:placeholder:text-lg"
+          placeholder="Mahsulotni shtrix kodi orqali izlash...">
         <button type="button" @click="searchProductByBarcode()"
-          class="absolute inset-y-0 right-0 px-4 bg-[#0167F3] text-white rounded-lg">
+          class="absolute inset-y-0 right-0 px-4 bg-[#0167F3] text-white rounded-lg text-base md:text-lg">
           Izlash
         </button>
       </div>
       <div class="space-y-4">
         <div class="flex items-center space-x-4">
           <div class="flex-1">
-            <label for="name" class="text-base font-medium">
+            <label for="name" class="text-base md:text-lg font-medium">
               Mahsulot nomi
               <span class="text-red-500 mr-2">*</span>
             </label>
             <input id="name" type="text" v-model="submitData.name"
-              class="bg-slate-100 border-none text-slate-900 rounded-lg w-full py-2.5 placeholder-slate-400"
+              class="bg-slate-100 border-none text-slate-900 rounded-lg w-full py-2.5 placeholder-slate-400 placeholder:text-sm md:placeholder:text-lg"
               placeholder="Mahsulot nomini kiriting">
           </div>
           <div class="flex-1">
-            <label for="barcode" class="text-base font-medium">
+            <label for="barcode" class="text-base md:text-lg font-medium">
               Shtrix kodi
             </label>
             <input id="barcode" type="text" v-model="submitData.barcode"
-              class="bg-slate-100 border-none text-slate-900 rounded-lg w-full py-2.5 placeholder-slate-400"
+              class="bg-slate-100 border-none text-slate-900 rounded-lg w-full py-2.5 placeholder-slate-400 placeholder:text-sm md:placeholder:text-lg"
               placeholder="Shtrix kodini kiriting">
           </div>
         </div>
         <div class="flex items-center space-x-4">
           <div class="flex-1 space-y-1">
-            <label for="default-value" class="text-base font-medium">
+            <label for="default-value" class="text-base md:text-lg font-medium">
               Qadoqi
               <span class="text-red-500 mr-2">*</span>
             </label>
             <input id="default-value" type="text" v-model="submitData.packaging"
-              class="bg-slate-100 border-none text-slate-900 rounded-lg w-full h-11 placeholder-slate-400"
+              class="bg-slate-100 border-none text-slate-900 rounded-lg w-full h-11 placeholder-slate-400 placeholder:text-sm md:placeholder:text-lg"
               placeholder="Qadoqi haqida ma'lumot kiriting">
           </div>
           <div class="flex-1 space-y-1">
-            <label for="default-type" class="text-base font-medium">
+            <label for="default-type" class="text-base md:text-lg font-medium">
               Sotuv turi
               <span class="text-red-500 mr-2">*</span>
             </label>
             <select id="default-type" v-model="submitData.saleType"
-              class="bg-slate-100 border-none text-slate-900 rounded-lg block w-full h-11">
+              class="bg-slate-100 border-none text-slate-900 rounded-lg text-base md:text-lg block w-full h-11">
               <option value="" selected>Turini tanlang</option>
               <option value="amount">Donali</option>
               <option value="kg">Kilogrammli</option>
@@ -197,16 +197,16 @@ watch(
         </div>
         <div class="flex items-center space-x-4">
           <div class="flex-1 space-y-1">
-            <label for="quantity" class="text-base font-medium">
+            <label for="quantity" class="text-base md:text-lg font-medium">
               Miqdori
               <span class="text-red-500 mr-2">*</span>
             </label>
             <input id="quantity" type="text" v-model="submitData.quantity"
-              class="bg-slate-100 border-none text-slate-900 rounded-lg w-full h-11 placeholder-slate-400"
+              class="bg-slate-100 border-none text-slate-900 rounded-lg w-full h-11 placeholder-slate-400 placeholder:text-sm md:placeholder:text-lg"
               placeholder="Mahsulot miqdorini kiriting">
           </div>
           <div class="flex-1 spaceSearchIcon-y-1">
-            <label for="price" class="text-base font-medium">
+            <label for="price" class="text-base md:text-lg font-medium">
               Narxi
               <span class="text-red-500 mr-2">*</span>
             </label>

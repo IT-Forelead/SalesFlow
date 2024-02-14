@@ -100,7 +100,6 @@ watch(
   }
 )
 </script>
-
 <template>
   <CModal :is-open="useModalStore().isOpenEditProductModal" v-if="useModalStore().isOpenEditProductModal" @close="closeModal">
     <template v-slot:header> Mahsulotni tahrirlash </template>
@@ -108,14 +107,14 @@ watch(
       <div class="space-y-4">
         <div class="flex items-center space-x-4">
           <div class="flex-1">
-            <label for="name" class="text-base font-medium">
+            <label for="name" class="text-base md:text-lg font-medium">
               Mahsulot nomi
               <span class="text-red-500 mr-2">*</span>
             </label>
             <input id="name" type="text" v-model="submitData.name" class="bg-slate-100 border-none text-slate-900 rounded-lg w-full py-2.5 placeholder-slate-400" placeholder="Mahsulot nomini kiriting" />
           </div>
           <div class="flex-1">
-            <label for="barcode" class="text-base font-medium">
+            <label for="barcode" class="text-base md:text-lg font-medium">
               Shtrix kodi
               <span class="text-red-500 mr-2">*</span>
             </label>
@@ -124,14 +123,14 @@ watch(
         </div>
         <div class="flex items-center space-x-4">
           <div class="flex-1">
-            <label for="packaging" class="text-base font-medium">
+            <label for="packaging" class="text-base md:text-lg font-medium">
               Qadoqi
               <span class="text-red-500 mr-2">*</span>
             </label>
             <input id="packaging" type="text" v-model="submitData.packaging" class="bg-slate-100 border-none text-slate-900 rounded-lg w-full py-2.5 placeholder-slate-400" placeholder="Qadoqi haqidama'lumot kiriting" />
           </div>
           <div class="flex-1">
-            <label for="default-type" class="text-base font-medium">
+            <label for="default-type" class="text-base md:text-lg font-medium">
               Sotuv turi
               <span class="text-red-500 mr-2">*</span>
             </label>
@@ -145,7 +144,7 @@ watch(
         </div>
         <div class="flex items-center space-x-4">
           <div class="flex-1">
-            <label for="price" class="text-base font-medium">
+            <label for="price" class="text-base md:text-lg font-medium">
               Narxi
               <span class="text-red-500 mr-2">*</span>
             </label>
@@ -170,5 +169,3 @@ watch(
     </template>
   </CModal>
 </template>
-
-<style scoped></style>

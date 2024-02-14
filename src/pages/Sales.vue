@@ -276,15 +276,15 @@ onMounted(() => {
 <template>
   <div v-if="products.length > 0" class="fixed top-0 right-0 bottom-0 left-0 z-50 backdrop-blur-[2px] bg-gray-900/70">
   </div>
-  <div class="flex">
-    <div class="flex-auto w-2/3 space-y-4 py-8 px-8">
+  <div class="flex flex-col md:flex-row">
+    <div class="flex-auto md:w-2/3 w-full space-y-4 py-8 px-4 md:px-8">
       <div class="flex items-center space-x-2 pb-2">
-        <div class="relative flex-auto z-50">
+        <div class="relative flex-auto">
           <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
             <SearchIcon class="w-5 h-5 text-slate-400" />
           </div>
           <input v-model="search" v-on:keypress="whenPressEnter($event)" type="search" ref="onSearchFocus" @blur="reFocus()"
-            class="bg-slate-100 border-none text-slate-900 text-base md:text-lg rounded-xl block w-full h-12 pl-10 py-2 placeholder-slate-400"
+            class="bg-slate-100 border-none text-slate-900 text-base md:text-lg rounded-xl block w-full h-12 pl-10 py-2 placeholder-slate-400 placeholder:text-sm md:placeholder:text-lg"
             placeholder="Mahsulot nomi bo'yicha izlash...">
           <div v-if="search" @click="clearSearchInput()"
             class="absolute inset-y-0 right-20 p-1 flex items-center cursor-pointer">
@@ -324,10 +324,10 @@ onMounted(() => {
             </div>
           </div>
         </div>
-        <div class="flex items-center justify-center bg-slate-100 rounded-xl h-12 w-12">
+        <div class="hidden md:block flex items-center justify-center bg-slate-100 rounded-xl h-12 w-12">
           <ArrowsLeftRightIcon class="w-5 h-5 text-blue-600" />
         </div>
-        <div class="flex items-center justify-center bg-slate-100 rounded-xl h-12 w-12">
+        <div class="hidden md:block flex items-center justify-center bg-slate-100 rounded-xl h-12 w-12">
           <ClockIcon class="w-5 h-5 text-blue-600" />
         </div>
       </div>
@@ -336,36 +336,37 @@ onMounted(() => {
         Savatcha
       </div>
 
-      <div v-if="selectedProducts.length > 0" class="inline-block min-w-full py-2 align-middle">
-        <div class="overflow-hidden border border-white">
-          <table class="min-w-full divide-y-8 divide-white">
-            <thead>
+      <div v-if="selectedProducts.length > 0" class="inline-block md:min-w-full py-2 align-middle">
+        <div class="overflow-x-auto overflow-y-auto border border-white">
+          <div class="min-w-full">
+            <table class="md:min-w-full divide-y-8 divide-white">
+              <thead>
               <tr class="bg-slate-100 text-base font-semibold text-gray-900  h-12">
-                <th class="px-3 py-2 text-left rounded-l-xl">Mahsulot</th>
-                <th class="px-3 py-2 text-center">Miqdori</th>
-                <th class="px-3 py-2 text-center">Jami narxi</th>
-                <th class="px-3 py-2 text-center rounded-r-xl">Amallar</th>
+                <th class="px-3 py-2 text-left rounded-l-xl text-sm md:text-base">Mahsulot</th>
+                <th class="px-3 py-2 text-center text-sm md:text-base">Miqdori</th>
+                <th class="px-3 py-2 text-center text-sm md:text-base">Jami narxi</th>
+                <th class="px-3 py-2 text-center text-sm md:text-base rounded-r-xl">Amallar</th>
               </tr>
-            </thead>
-            <tbody class="bg-slate-100 divide-y-8 divide-white">
+              </thead>
+              <tbody class="bg-slate-100 divide-y-8 divide-white">
               <tr v-for="(product, idx) in selectedProducts" :key="idx">
                 <td class="px-3 py-2 whitespace-nowrap rounded-l-xl">
                   <div class="flex items-center space-x-3">
-                    <div class="flex items-center justify-center bg-slate-200 w-12 h-12 rounded-lg">
-                      <ImageIcon class="text-gray-500 w-8 h-8" />
+                    <div class="flex items-center justify-center bg-slate-200 md:w-12 md:h-12 w-8 h-8 rounded-lg">
+                      <ImageIcon class="text-gray-500 w-6 h-6" />
                     </div>
                     <div>
-                      <div class="text-base font-semibold text-gray-800">
+                      <div class="text-sm md:text-base font-semibold text-gray-800">
                         {{ product?.name + " - " + product?.packaging }}
                       </div>
-                      <div class="text-base font-medium text-gray-500">
+                      <div class="text-sm md:text-base font-medium text-gray-500">
                         Narxi:
-                        <span class="text-gray-700">
+                        <span class="text-gray-700 text-sm md:text-base">
                           {{ useMoneyFormatter(product?.price) }}
                         </span>
                         <div v-if="product.quantity <= 15">
                           Qolgan miqdori:
-                          <span class="text-red-500">
+                          <span class="text-red-500 text-sm md:text-base">
                           {{ product?.quantity - product?.amount }}
                         </span>
                         </div>
@@ -377,22 +378,22 @@ onMounted(() => {
                   <div class="flex justify-center">
                     <div class="flex items-center justify-between bg-slate-100 w-36 rounded-xl p-1">
                       <div @click="reduceCountOfProducts(product)" v-if="increaseCountChecking(product)"
-                        class="flex items-center justify-center w-8 h-8 bg-white text-blue-700 shadow-sm hover:bg-slate-200 cursor-pointer rounded-xl">
+                           class="flex items-center justify-center w-8 h-8 bg-white text-blue-700 shadow-sm hover:bg-slate-200 cursor-pointer rounded-xl">
                         <MinusIcon class="w-4 h-4" />
                       </div>
                       <div v-else
-                        class="flex items-center justify-center w-8 h-8 bg-white text-slate-700 cursor-default rounded-xl">
+                           class="flex items-center justify-center w-8 h-8 bg-white text-slate-700 cursor-default rounded-xl">
                         <MinusIcon class="w-4 h-4" />
                       </div>
                       <div class="flex items-center justify-center text-lg font-normal">
                         {{ product?.amount + " " + saleTypeShortTranslate(product?.saleType) }}
                       </div>
                       <div @click="increaseCountOfProducts(product)" v-if="product?.quantity > product?.amount"
-                        class="flex items-center justify-center w-8 h-8 bg-white text-blue-700 shadow-sm hover:bg-slate-200 cursor-pointer rounded-xl">
+                           class="flex items-center justify-center w-8 h-8 bg-white text-blue-700 shadow-sm hover:bg-slate-200 cursor-pointer rounded-xl">
                         <PlusIcon class="w-4 h-4" />
                       </div>
                       <div v-else
-                        class="flex items-center justify-center w-8 h-8 bg-white text-slate-700 cursor-default rounded-xl">
+                           class="flex items-center justify-center w-8 h-8 bg-white text-slate-700 cursor-default rounded-xl">
                         <PlusIcon class="w-4 h-4" />
                       </div>
                     </div>
@@ -404,12 +405,13 @@ onMounted(() => {
                 <td class="px-3 py-2 whitespace-nowrap rounded-r-2xl">
                   <div class="flex justify-center">
                     <TrashIcon @click="removeProductFromCart(product)"
-                      class="w-6 h-6 text-rose-500 cursor-pointer transform hover:scale-105" />
+                               class="w-6 h-6 text-rose-500 cursor-pointer transform hover:scale-105" />
                   </div>
                 </td>
               </tr>
-            </tbody>
-          </table>
+              </tbody>
+            </table>
+          </div>
         </div>
       </div>
       <div v-else class="flex flex-col items-center justify-center border-2 border-dashed h-96 rounded-3xl space-y-1">
@@ -422,7 +424,7 @@ onMounted(() => {
       </div>
     </div>
 
-    <div class="flex-auto w-1/3 border-l h-dvh py-8 px-8 space-y-4">
+    <div class="flex-auto md:w-1/3 w-full border-l h-dvh py-8 px-4 md:px-8 space-y-4">
       <!-- <div class="space-y-2">
         <div class="flex items-center justify-between">
           <h3 class="text-xl font-semibold">Mijoz</h3>

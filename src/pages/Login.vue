@@ -133,7 +133,7 @@ const login = () => {
         </p>
       </div>
       <div
-        class="-mx-4 z-[2] mt-10 flex-auto bg-white dark:bg-[#161B22] px-4 py-10 shadow-2xl shadow-gray-900/10 dark:shadow-gray-500/10 sm:mx-0 sm:flex-none sm:rounded-5xl sm:p-24 rounded-3xl">
+        class="-mx-2 z-[2] mt-10 flex-auto bg-white dark:bg-[#161B22] px-4 py-10 shadow-2xl shadow-gray-900/10 dark:shadow-gray-500/10 sm:mx-0 sm:flex-none sm:rounded-5xl sm:p-24 rounded-3xl">
         <div class="space-y-6">
           <div>
             <label for="login" class="mb-2 block text-base font-semibold text-gray-900 dark:text-[#e6edf3]">
