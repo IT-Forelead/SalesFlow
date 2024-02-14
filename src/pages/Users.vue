@@ -122,15 +122,12 @@ const openDeleteUserModal = (data) => {
 }
 
 const getUsers = () => {
-  console.log("aaaaaaaaaaaaa");
   isLoading.value = true
   UserService.getUsers()
     .then((res) => {
-      console.log("bbbbbbbbbbbb");
       useUserStore().clearStore()
       useUserStore().setUsers(res)
     }).finally(() => {
-      console.log("ccccccccccccccccccc");
       isLoading.value = false
     })
 }
