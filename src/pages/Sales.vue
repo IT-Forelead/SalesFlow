@@ -18,7 +18,7 @@ import ProductService from '../services/product.service';
 import OrderService from '../services/order.service';
 import { useProductStore } from '../store/product.store';
 import { computed, onMounted } from 'vue';
-import isBarcode from '../mixins/barcodeFormatter'
+import { isBarcode } from '../mixins/barcodeFormatter'
 
 const router = useRouter()
 
