@@ -13,6 +13,9 @@ class ProductService {
   async getBarcodes() {
     return AxiosService.get('/product/barcodes')
   }
+  async createProductBarcode(data) {
+    return AxiosService.post('/product/add-barcode', data)
+  }
   async updateProduct(data){
     return AxiosService.put('/product/update', data)
   }
@@ -22,6 +25,6 @@ class ProductService {
   async getBestSellerStats(data){
     return AxiosService.post('/product/best-seller/weekly-stats', data)
   }
-} 
+}
 
 export default new ProductService()

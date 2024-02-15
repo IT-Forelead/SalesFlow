@@ -36,10 +36,11 @@ const createMarket = () => {
       address: submitData.address,
     }).then(() => {
       toast.success("Do'kon muoffaqiyatli qo'shildi!")
-      MarketService.getMarkets().then((res) => {
-        useMarketStore().clearStore()
-        useMarketStore().setMarkets(res)
-      })
+      MarketService.getMarkets()
+        .then((res) => {
+          useMarketStore().clearStore()
+          useMarketStore().setMarkets(res)
+        })
       isLoading.value = false
       closeModal()
     }).catch((err) => {

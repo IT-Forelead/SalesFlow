@@ -3,21 +3,35 @@ import CModal from '../common/CModal.vue'
 import { reactive, ref } from 'vue'
 import { toast } from 'vue-sonner'
 import { useModalStore } from '../../store/modal.store'
+import { useProductStore } from '../../store/product.store'
 import CancelButton from '../buttons/CancelButton.vue'
 import Spinners270RingIcon from '../../assets/icons/Spinners270RingIcon.vue'
+import ProductService from '../../services/product.service'
+import { isBarcode, isBarcodeType } from '../../mixins/barcodeFormatter'
 
 const isLoading = ref(false)
+
 const submitData = reactive({
+  type: '',
+  subType: '',
+  name: '',
   trademark: '',
   packaging: '',
+  typeCode: '',
   barcode: '',
+  regNumber: 0,
   saleType: '',
 })
 
 const clearSubmitData = () => {
+  submitData.type = ''
+  submitData.subType = ''
+  submitData.name = ''
   submitData.trademark = ''
   submitData.packaging = ''
+  submitData.typeCode = ''
   submitData.barcode = ''
+  submitData.regNumber = 0
   submitData.saleType = ''
 }
 
@@ -33,13 +47,39 @@ const createProductBarcode = () => {
     toast.error("Qadoqini kiriting!")
   } else if (!submitData.barcode) {
     toast.error("Shtrix kodini kiriting!")
+  } else if (submitData.barcode && !isBarcode(submitData.barcode)) {
+    toast.error("Shtrix kod noto'g'ri!")
   } else if (!submitData.saleType) {
     toast.error("Sotuv turinini kiriting!")
   } else {
-
+    isLoading.value = true
+    ProductService.createProductBarcode({
+      type: submitData.type ? submitData.type : '-',
+      subType: submitData.subType ? submitData.subType : '-',
+      name: submitData.name ? submitData.name : '-',
+      trademark: submitData.trademark,
+      packaging: submitData.packaging,
+      typeCode: isBarcodeType(submitData.barcode),
+      barcode: submitData.barcode,
+      regNumber: submitData.regNumber,
+      saleType: submitData.saleType
+    }).then(() => {
+      toast.success("Shtrix kod muoffaqiyatli qo'shildi!")
+      ProductService.getBarcodes()
+        .then((res) => {
+          useProductStore().clearStore()
+          useProductStore().setProductBarcodes(res)
+        })
+      isLoading.value = false
+      closeModal()
+    }).catch((err) => {
+      toast.error("Shtrix kod qo'shishda xatolik yuz berdi!")
+      setTimeout(() => {
+        isLoading.value = false
+      }, 3000)
+    })
   }
 }
-
 </script>
 
 <template>
