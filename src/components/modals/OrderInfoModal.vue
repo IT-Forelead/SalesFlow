@@ -40,28 +40,28 @@ const closeModal = () => {
     </template>
     <template v-slot:body>
       <div class="space-y-4">
-        <div v-if="selectedOrder?.items" class="inline-block min-w-full align-middle">
+        <div v-if="selectedOrder?.items" class="inline-block md:min-w-full align-middle">
           <div class="overflow-hidden border-0">
-            <table class="min-w-full">
+            <table class="md:min-w-full">
               <thead>
-                <tr class="bg-slate-100 text-base font-medium text-gray-900">
-                  <th class="px-3 py-2 text-left rounded-l-xl">Mahsulot</th>
-                  <th class="px-3 py-2 text-center">Miqdori</th>
-                  <th class="px-3 py-2 text-center rounded-r-xl">Jami narxi</th>
+                <tr class="bg-slate-100 font-medium text-gray-900">
+                  <th class="px-3 py-2 text-left rounded-l-xl text-sm md:text-base">Mahsulot</th>
+                  <th class="px-3 py-2 text-sm md:text-base">Miqdori</th>
+                  <th class="px-3 py-2 text-sm md:text-base rounded-r-xl">Jami narxi</th>
                 </tr>
               </thead>
               <tbody class="divide-y divide-gray-100">
                 <tr v-for="(product, idx) in selectedOrder?.items" :key="idx">
                   <td class="px-3 py-2 whitespace-nowrap">
                     <div class="flex items-center space-x-3">
-                      <div class="flex items-center justify-center bg-slate-100 w-12 h-12 rounded-lg">
-                        <ImageIcon class="text-gray-500 w-8 h-8" />
+                      <div class="flex items-center justify-center bg-slate-100 md:w-12 md:h-12 w-8 h-8 rounded-lg">
+                        <ImageIcon class="text-gray-500 w-6 h-6" />
                       </div>
                       <div>
-                        <div class="text-base font-semibold text-gray-800">
+                        <div class="text-sm md:text-base font-semibold text-gray-800">
                           {{ product?.productName + " - " + product?.packaging }}
                         </div>
-                        <div class="text-base font-medium text-gray-500">
+                        <div class="text-sm md:text-base font-medium text-gray-500">
                           Narxi:
                           <span class="text-gray-700">
                             {{ useMoneyFormatter(product?.salePrice) }}

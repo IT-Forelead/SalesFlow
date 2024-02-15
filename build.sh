@@ -8,9 +8,9 @@ docker container rm workout-frontend
 echo '--------------------------------------------------------------------'
 echo 'Removing Frontend image...'
 echo '--------------------------------------------------------------------'
-docker rmi -f workout/frontend:latest
+docker rmi -f warehouse/frontend:latest
 echo '===================================================================='
 echo 'Building Frontend image...'
 echo '--------------------------------------------------------------------'
-docker build -t workout/frontend .
+docker build -t warehouse/frontend .
 echo '--------------------------------------------------------------------'

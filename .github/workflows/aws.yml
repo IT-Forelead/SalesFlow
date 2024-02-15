@@ -13,6 +13,9 @@ jobs:
 
       - name: "Building image 🏗"
         run: |
+          sudo n stable
+          npm -v
+          node --version
           docker build -t warehouse/frontend .
           docker save warehouse/frontend:latest > ./warehouse.tar.gz
 

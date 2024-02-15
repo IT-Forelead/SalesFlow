@@ -151,7 +151,7 @@ watch(
               <span class="text-red-500 mr-2">*</span>
             </label>
             <input id="firstname" type="text" v-model="submitData.firstname"
-              class="bg-slate-100 border-none text-slate-900 rounded-lg w-full py-2.5 placeholder-slate-400"
+              class="bg-slate-100 border-none text-sm md:text-base text-slate-900 rounded-lg w-full py-2.5 placeholder-slate-400"
               placeholder="Ismni kiriting" />
           </div>
           <div class="flex-1">
@@ -160,7 +160,7 @@ watch(
               <span class="text-red-500 mr-2">*</span>
             </label>
             <input id="lastname" type="text" v-model="submitData.lastname"
-              class="bg-slate-100 border-none text-slate-900 rounded-lg w-full py-2.5 placeholder-slate-400"
+              class="bg-slate-100 border-none text-sm md:text-base text-slate-900 rounded-lg w-full py-2.5 placeholder-slate-400"
               placeholder="Familiyani kiriting" />
           </div>
         </div>
@@ -171,7 +171,7 @@ watch(
               <span class="text-red-500 mr-2">*</span>
             </label>
             <input id="phone" type="text" v-model="submitData.phone" v-maska data-maska="+998(##) ###-##-##"
-              class="bg-slate-100 border-none text-slate-900 rounded-lg w-full py-2.5 placeholder-slate-400"
+              class="bg-slate-100 border-none text-sm md:text-base text-slate-900 rounded-lg w-full py-2.5 placeholder-slate-400"
               placeholder="+998(00) 000-00-00" />
           </div>
           <div class="flex-1">
@@ -181,7 +181,7 @@ watch(
             </label>
 
             <select id="role" v-model="submitData.privileges"
-              class="bg-slate-100 border-none text-slate-900 rounded-lg block w-full h-11">
+              class="bg-slate-100 border-none text-sm md:text-base text-slate-900 rounded-lg block w-full h-11">
               <option value="" selected>Tanlang</option>
               <option v-for="(priv, idx) in privileges" :key="idx" :value="priv?.code">
                 {{ priv?.name }}
