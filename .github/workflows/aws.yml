@@ -13,7 +13,7 @@ jobs:
 
       - name: "Building image 🏗"
         run: |
-          sudo n stable
+          sudo n 18.13.0
           npm -v
           node --version
           docker build -t warehouse/frontend .
