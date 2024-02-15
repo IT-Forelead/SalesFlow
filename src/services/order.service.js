@@ -10,6 +10,9 @@ class OrderService {
   async getOrdersStat() {
     return AxiosService.get('/order/stats/week')
   }
+  async getOrdersStatsFinal(data) {
+    return AxiosService.post('/order/stats/final', data)
+  }
   async getCashierStats() {
     return AxiosService.get('/order/cashier-stats/week')
   }

@@ -1,6 +1,6 @@
 <script setup>
 import moment from 'moment'
-import { computed, onMounted, ref } from 'vue'
+import { computed, onMounted, ref, watch } from 'vue'
 import StoreIcon from '../assets/icons/StoreIcon.vue'
 import MoneyIcon from '../assets/icons/MoneyIcon.vue'
 import ChartBarIcon from '../assets/icons/ChartBarIcon.vue'
@@ -13,6 +13,7 @@ import ProductService from '../services/product.service'
 import { shortenNumber } from '../mixins/utils'
 
 const isLoading = ref(false)
+const salesChartFilterData = ref(7)
 const cashiersStat = ref([])
 const ordersStat = ref([])
 const productStats = ref({})
@@ -22,8 +23,7 @@ const bestSellerProductStats = ref([])
 const salesChartSeries = computed(() => [
     {
         name: 'Kunlik savdo',
-        data: ordersStat.value?.map((item) => item.soldPrice),
-        // data: [1240000, 13000, 12700, 8900, 930000, 5001],
+        data: ordersStat.value?.map((item) => item.profit),
     }
 ])
 
@@ -129,11 +129,21 @@ const caishersChartOptions = computed(() => {
     }
 })
 
+const getOrdersStatsFinal = () => {
+    OrderService.getOrdersStatsFinal({
+        from: moment().subtract(salesChartFilterData.value, 'days').startOf('day').format().toString().slice(0, 10),
+        to: moment().startOf('day').format().toString().slice(0, 10),
+    }).then((res) => {
+        ordersStat.value = res
+    })
+}
+
 onMounted(() => {
-    OrderService.getOrdersStat()
-        .then((res) => {
-            ordersStat.value = res
-        })
+    getOrdersStatsFinal()
+    // OrderService.getOrdersStat()
+    //     .then((res) => {
+    //         ordersStat.value = res
+    //     })
     OrderService.getCashierStats()
         .then((res) => {
             cashiersStat.value = res
@@ -148,6 +158,15 @@ onMounted(() => {
         bestSellerProductStats.value = res
     })
 })
+
+watch(
+  () => salesChartFilterData.value,
+  (data) => {
+    if (data) {
+        getOrdersStatsFinal()
+    }
+  },
+)
 
 </script>
 
@@ -166,7 +185,8 @@ onMounted(() => {
                         </div>
                     </div>
                     <div class="divide-y divide-gray-100">
-                        <div v-for="(product, idx) in bestSellerProductStats" :key="idx" class="flex items-center justify-between py-1.5">
+                        <div v-for="(product, idx) in bestSellerProductStats" :key="idx"
+                            class="flex items-center justify-between py-1.5">
                             <div class="flex items-center space-x-3">
                                 <div class="flex items-center justify-center bg-blue-100 w-6 h-6 rounded-lg">
                                     <span class="text-base text-blue-600">
@@ -267,12 +287,19 @@ onMounted(() => {
                             Sotuvlar statistikasi
                         </div>
                         <div class="text-sm text-gray-600">
-                            So'ngi yetti kunlik statistika
+                            So'ngi {{ salesChartFilterData }} kunlik statistika
                         </div>
                     </div>
-                    <div class="flex items-center justify-center rounded-xl bg-blue-100 p-2">
-                        <ChartBarIcon class="w-8 h-8 text-blue-600" />
+                    <div>
+                        <select v-model="salesChartFilterData"
+                            class="bg-blue-100 border-none text-slate-900 rounded-lg text-base md:text-lg block w-full h-11">
+                            <option value="7">Haftalik statistika</option>
+                            <option value="30">Oylik statistika</option>
+                        </select>
                     </div>
+                    <!-- <div class="flex items-center justify-center rounded-xl bg-blue-100 p-2">
+                        <ChartBarIcon class="w-8 h-8 text-blue-600" />
+                    </div> -->
                 </div>
                 <apexchart type="bar" height="320" :options="salesChartChartOptions" :series="salesChartSeries">
                 </apexchart>
