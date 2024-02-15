@@ -3,8 +3,8 @@
 echo '--------------------------------------------------------------------'
 echo 'Stoppping & Removing Frontend container...'
 echo '--------------------------------------------------------------------'
-docker container stop workout-frontend
-docker container rm workout-frontend
+docker container stop warehouse-frontend
+docker container rm warehouse-frontend
 echo '--------------------------------------------------------------------'
 echo 'Removing Frontend image...'
 echo '--------------------------------------------------------------------'
