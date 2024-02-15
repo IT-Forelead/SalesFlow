@@ -83,7 +83,7 @@ const closeModal = () => {
         <div class="w-full mb-10">
           <div class="border-b border-gray-200 flex items-center justify-between">
             <p class="text-neutral-800 text-base font-normal">Mahsulot nomi</p>
-            <h1 class="text-2xl font-semibold text-neutral-800 mt-2">
+            <h1 class="md:text-2xl font-semibold text-neutral-800 mt-2">
               {{getProductName(selectedProductHistory?.productId)}} {{selectedProductHistory?.packaging}}
             </h1>
           </div>

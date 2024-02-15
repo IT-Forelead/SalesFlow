@@ -27,11 +27,11 @@ onUnmounted(() => {
 
 <template>
   <div class="fixed top-0 right-0 bottom-0 left-0 z-50 backdrop-blur-[2px] bg-gray-900/70"></div>
-  <div :class="[isOpen ? 'slide-in-right' : '' ]" class="overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 w-full h-full cursor-default">
-    <div class="absolute w-full max-w-md md:max-w-2xl lg:max-w-3xl xl:max-w-4xl right-0 top-1/2 -translate-y-1/2 mx-auto">
+  <div :class="[isOpen ? 'slide-in-right' : '' ]" class="overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 w-full min-h-screen cursor-default">
+    <div class="absolute w-full min-h-screen max-w-md md:max-w-2xl lg:max-w-3xl xl:max-w-4xl right-0 top-1/2 -translate-y-1/2 mx-auto">
       <!-- Modal content -->
       <div
-        class="relative bg-white md:rounded-l-2xl shadow-xl min-h-screen w-full md:w-auto">
+        class="relative bg-white md:rounded-l-2xl shadow-xl w-full min-h-screen md:w-auto">
         <!-- Modal header -->
         <div class="w-full flex items-center p-4 md:p-5  border-b rounded-t">
           <div class="pr-4">
@@ -50,13 +50,13 @@ onUnmounted(() => {
           </h3>
         </div>
         <!-- Modal body -->
-        <div class="p-4 md:p-5 w-full">
+        <div class="p-4 md:p-5 h-full w-full">
           <slot name="body">
             <!-- Your body content goes here -->
           </slot>
         </div>
         <!-- Modal footer -->
-        <div class="absolute bottom-0 w-full flex items-center justify-start p-4 md:p-5 rounded-b border-t border-gray-200">
+        <div class="absolute w-full md:bottom-0 flex items-center justify-start p-4 md:p-5 rounded-b border-t border-gray-200">
           <slot name="footer">
             <!-- Your footer content goes here -->
           </slot>
