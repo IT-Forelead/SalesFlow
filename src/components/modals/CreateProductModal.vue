@@ -10,7 +10,6 @@ import Spinners270RingIcon from '../../assets/icons/Spinners270RingIcon.vue'
 import ProductService from '../../services/product.service'
 import { reactive, ref, watch, watchEffect } from 'vue'
 
-
 const moneyConf = {
   thousands: ' ',
   suffix: ' UZS',
@@ -38,6 +37,16 @@ const clearSubmitData = () => {
   submitData.saleType = ''
   submitData.price = 0
   submitData.quantity = 0
+}
+
+const setQuantity = (number) => {
+  submitData.quantity = number
+}
+const setPrice = (number) => {
+  submitData.price = number
+}
+const formatNumber = (num) => {
+  return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ' ')
 }
 
 const closeModal = () => {
@@ -196,23 +205,36 @@ watch(
           </div>
         </div>
         <div class="flex items-center space-x-4">
-          <div class="flex-1 space-y-1">
-            <label for="quantity" class="text-base font-medium">
-              Miqdori
-              <span class="text-red-500 mr-2">*</span>
-            </label>
-            <input id="quantity" type="text" v-model="submitData.quantity"
-              class="bg-slate-100 border-none text-slate-900 rounded-lg w-full h-11 placeholder-slate-400"
-              placeholder="Mahsulot miqdorini kiriting">
+          <div class="flex-1 space-y-3">
+            <div class="space-y-1">
+              <label for="quantity" class="text-base font-medium">
+                Miqdori
+                <span class="text-red-500 mr-2">*</span>
+              </label>
+              <input id="quantity" type="text" v-model="submitData.quantity" class="bg-slate-100 border-none text-slate-900 rounded-lg w-full h-11 placeholder-slate-400" placeholder="Mahsulot miqdorini kiriting" />
+            </div>
+
+            <div class="flex space-x-4">
+              <button class="rounded-full border border-blue-600 text-sm px-5 py-1.5 cursor-default font-medium" @click="setQuantity(10)">10</button>
+              <button class="rounded-full border border-blue-600 text-sm px-5 py-1.5 cursor-default font-medium" @click="setQuantity(50)">50</button>
+              <button class="rounded-full border border-blue-600 text-sm px-5 py-1.5 cursor-default font-medium" @click="setQuantity(100)">100</button>
+              <button class="rounded-full border border-blue-600 text-sm px-5 py-1.5 cursor-default font-medium" @click="setQuantity(500)">500</button>
+            </div>
           </div>
-          <div class="flex-1 spaceSearchIcon-y-1">
-            <label for="price" class="text-base font-medium">
-              Narxi
-              <span class="text-red-500 mr-2">*</span>
-            </label>
-            <money3 v-model.number="submitData.price" v-bind="moneyConf" id="price"
-              class="border-none text-right text-gray-500 bg-slate-100 h-11 rounded-lg w-full text-lg">
-            </money3>
+          <div class="flex-1 space-y-3">
+            <div class="space-y-1">
+              <label for="price" class="text-base font-medium">
+                Narxi
+                <span class="text-red-500 mr-2">*</span>
+              </label>
+              <money3 v-model.number="submitData.price" v-bind="moneyConf" id="price" class="border-none text-right text-gray-500 bg-slate-100 h-11 rounded-lg w-full text-lg"> </money3>
+            </div>
+            <div class="flex mt-5 space-x-4">
+              <button class="rounded-full border border-blue-600 text-sm px-3 py-1.5 cursor-default font-medium" @click="setPrice(10000)">{{ formatNumber(25000) }}</button>
+              <button class="rounded-full border border-blue-600 text-sm px-3 py-1.5 cursor-default font-medium" @click="setPrice(25000)">{{ formatNumber(50000) }}</button>
+              <button class="rounded-full border border-blue-600 text-sm px-3 py-1.5 cursor-default font-medium" @click="setPrice(50000)">{{ formatNumber(100000) }}</button>
+              <button class="rounded-full border border-blue-600 text-sm px-3 py-1.5 cursor-default font-medium" @click="setPrice(100000)">{{ formatNumber(100000) }}</button>
+            </div>
           </div>
         </div>
       </div>
