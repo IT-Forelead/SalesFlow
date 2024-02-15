@@ -5,11 +5,11 @@ services:
     image: warehouse/frontend:latest
     hostname: warehouse-frontend
     container_name: warehouse-frontend
-    networks:
-      - external-net
+    # networks:
+      # - external-net
     ports:
       - "3003:80"
-networks:
-  external-net:
-    name: external-net
-    external: true
+# networks:
+#   external-net:
+#     name: external-net
+#     external: true

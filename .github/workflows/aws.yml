@@ -16,6 +16,8 @@ jobs:
           sudo n 18.13.0
           npm -v
           node --version
+          sudo rm -rf node_modules
+          npm i
           docker build -t warehouse/frontend .
           docker save warehouse/frontend:latest > ./warehouse.tar.gz
 
