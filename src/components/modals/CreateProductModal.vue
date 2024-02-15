@@ -231,10 +231,10 @@ watch(
               <money3 v-model.number="submitData.price" v-bind="moneyConf" id="price" class="border-none text-right text-gray-500 bg-slate-100 h-11 rounded-lg w-full text-lg"> </money3>
             </div>
             <div class="flex mt-5 space-x-4">
-              <button class="rounded-full border border-blue-600 text-sm px-3 py-1.5 cursor-default font-medium" @click="setPrice(10000)">{{ formatNumber(25000) }}</button>
-              <button class="rounded-full border border-blue-600 text-sm px-3 py-1.5 cursor-default font-medium" @click="setPrice(25000)">{{ formatNumber(50000) }}</button>
-              <button class="rounded-full border border-blue-600 text-sm px-3 py-1.5 cursor-default font-medium" @click="setPrice(50000)">{{ formatNumber(100000) }}</button>
+              <button class="rounded-full border border-blue-600 text-sm px-3 py-1.5 cursor-default font-medium" @click="setPrice(25000)">{{ formatNumber(25000) }}</button>
+              <button class="rounded-full border border-blue-600 text-sm px-3 py-1.5 cursor-default font-medium" @click="setPrice(50000)">{{ formatNumber(50000) }}</button>
               <button class="rounded-full border border-blue-600 text-sm px-3 py-1.5 cursor-default font-medium" @click="setPrice(100000)">{{ formatNumber(100000) }}</button>
+              <button class="rounded-full border border-blue-600 text-sm px-3 py-1.5 cursor-default font-medium" @click="setPrice(200000)">{{ formatNumber(200000) }}</button>
             </div>
           </div>
         </div>
