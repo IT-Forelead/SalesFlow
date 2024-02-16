@@ -19,7 +19,7 @@ const ordersStat = ref([])
 const productStats = ref({})
 const bestSellerProductStats = ref([])
 
-// Expenses Chart
+// Expenses Chart Data
 const salesChartSeries = computed(() => [
     {
         name: 'Kunlik savdo',
@@ -27,6 +27,7 @@ const salesChartSeries = computed(() => [
     }
 ])
 
+// Expenses Bar Chart
 const salesChartChartOptions = computed(() => {
     return {
         chart: {
@@ -104,6 +105,89 @@ const salesChartChartOptions = computed(() => {
     }
 })
 
+// Expenses Area  Chart
+const salesAreaChartChartOptions = computed(() => {
+    return {
+        legend: {
+            labels: {
+                colors: ['#8e8da4']
+            },
+        },
+        chart: {
+            height: 350,
+            type: 'area',
+            zoom: {
+                enabled: false,
+            },
+            toolbar: {
+                show: false,
+            },
+        },
+        dataLabels: {
+            enabled: false
+        },
+        stroke: {
+            curve: 'smooth'
+        },
+        xaxis: {
+            categories: ordersStat.value?.map((item) => item.date),
+            type: 'date',
+            labels: {
+                style: {
+                    fontSize: '12px',
+                    colors: '#8e8da4',
+                },
+                formatter: function (val) {
+                    return moment(val).format('D-MMM')
+                },
+            },
+            tooltip: {
+                enabled: true,
+            },
+            axisBorder: {
+                show: false,
+            },
+            axisTicks: {
+                show: false,
+            },
+        },
+        yaxis: {
+            tickAmount: 6,
+            floating: false,
+            labels: {
+                show: true,
+                formatter: function (val) {
+                    return useMoneyFormatter(val)
+                },
+                style: {
+                    colors: '#8e8da4',
+                },
+                offsetY: 0,
+                offsetX: 0,
+            },
+            axisBorder: {
+                show: false,
+            },
+            axisTicks: {
+                show: true,
+            },
+        },
+        fill: {
+            opacity: 0.5,
+        },
+        grid: {
+            yaxis: {
+                lines: {
+                    offsetX: -30,
+                },
+            },
+            padding: {
+                left: 20,
+            },
+        },
+    }
+})
+
 // Caisher Donut Chart
 const caishersChartSeries = computed(() => {
     return cashiersStat.value?.map((a) => a?.soldCount)
@@ -160,12 +244,12 @@ onMounted(() => {
 })
 
 watch(
-  () => salesChartFilterData.value,
-  (data) => {
-    if (data) {
-        getOrdersStatsFinal()
-    }
-  },
+    () => salesChartFilterData.value,
+    (data) => {
+        if (data) {
+            getOrdersStatsFinal()
+        }
+    },
 )
 
 </script>
@@ -301,8 +385,14 @@ watch(
                         <ChartBarIcon class="w-8 h-8 text-blue-600" />
                     </div> -->
                 </div>
-                <apexchart type="bar" height="320" :options="salesChartChartOptions" :series="salesChartSeries">
-                </apexchart>
+                <div v-if="salesChartFilterData == 7">
+                    <apexchart type="bar" height="320" :options="salesChartChartOptions" :series="salesChartSeries">
+                    </apexchart>
+                </div>
+                <div v-else>
+                    <apexchart type="area" height="320" :options="salesAreaChartChartOptions" :series="salesChartSeries">
+                    </apexchart>
+                </div>
             </div>
             <div class="flex-1 bg-slate-50 rounded-3xl p-5">
                 <div class="flex items-center justify-between px-2">
