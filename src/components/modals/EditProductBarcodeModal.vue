@@ -1,7 +1,7 @@
 <script setup>
 import CModal from '../common/CModal.vue'
 import {vMaska} from 'maska'
-import { reactive, ref } from 'vue'
+import { computed, reactive, ref, watch } from 'vue'
 import { toast } from 'vue-sonner'
 import { useModalStore } from '../../store/modal.store'
 import { useProductStore } from '../../store/product.store'
@@ -11,6 +11,10 @@ import ProductService from '../../services/product.service'
 import { isBarcode, isBarcodeType } from '../../mixins/barcodeFormatter'
 
 const isLoading = ref(false)
+const productStore = useProductStore()
+const selectedBarcodes = computed(() => {
+  return productStore.selectedBarcodes
+})
 
 const submitData = reactive({
   type: '',
@@ -20,7 +24,7 @@ const submitData = reactive({
   packaging: '',
   typeCode: '',
   barcode: '',
-  regNumber: 0,
+  reg_number: 0,
   saleType: '',
   year: '',
 })
@@ -33,17 +37,18 @@ const clearSubmitData = () => {
   submitData.packaging = ''
   submitData.typeCode = ''
   submitData.barcode = ''
-  submitData.regNumber = 0
+  submitData.reg_number = 0
   submitData.saleType = ''
   submitData.year = ''
 }
 
 const closeModal = () => {
-  useModalStore().closeCreateProductBarcodeModal()
+  useModalStore().closeEditProductBarcodeModal()
+  useProductStore().setSelectedBarcodes({})
   clearSubmitData()
 }
 
-const createProductBarcode = () => {
+const updateProductBarcode = () => {
   if (!submitData.trademark) {
     toast.error("Mahsulot nomini kiriting!")
   } else if (!submitData.packaging) {
@@ -58,7 +63,8 @@ const createProductBarcode = () => {
     toast.error("Iltimos barcode ro'yxatdan o'tgan yilini kiriting!")
   } else {
     isLoading.value = true
-    ProductService.createProductBarcode({
+    ProductService.updateProductBarcode({
+      id: submitData.id,
       type: submitData.type ? submitData.type : '-',
       subType: submitData.subType ? submitData.subType : '-',
       name: submitData.name ? submitData.name : '-',
@@ -66,15 +72,15 @@ const createProductBarcode = () => {
       packaging: submitData.packaging,
       typeCode: isBarcodeType(submitData.barcode),
       barcode: submitData.barcode,
-      regNumber: submitData.regNumber,
+      regNumber: submitData.reg_number,
       saleType: submitData.saleType,
       year: submitData.year
     }).then(() => {
-      toast.success("Shtrix kod muoffaqiyatli qo'shildi!")
-      ProductService.getBarcodes()
+      toast.success("Shtrix kod muvaffaqiyatli qo'shildi!")
+      ProductService.getBarcodes(30, )
         .then((res) => {
           useProductStore().clearStore()
-          useProductStore().setProductBarcodes(res)
+          useProductStore().setProductBarcodes(res.data)
         })
       isLoading.value = false
       closeModal()
@@ -86,12 +92,31 @@ const createProductBarcode = () => {
     })
   }
 }
+
+watch(
+  () => selectedBarcodes.value,
+  (data) => {
+    if (data) {
+      submitData.id = data?.id
+      submitData.subType = data?.subType
+      submitData.name = data?.name
+      submitData.trademark = data?.trademark
+      submitData.packaging = data?.packaging
+      submitData.typeCode = data?.typeCode
+      submitData.barcode = data?.barcode
+      submitData.reg_number = data?.reg_number
+      submitData.saleType = data?.saleType
+      submitData.year = data?.year
+    }
+  }
+)
+
 </script>
 
 <template>
-  <CModal :is-open="useModalStore().isOpenCreateProductBarcodeModal"
-    v-if="useModalStore().isOpenCreateProductBarcodeModal" @close="closeModal">
-    <template v-slot:header> Shtrix kod yaratish </template>
+  <CModal :is-open="useModalStore().isOpenEditProductBarcodeModal"
+    v-if="useModalStore().isOpenEditProductBarcodeModal" @close="closeModal">
+    <template v-slot:header>Mahsulot shtrix kodini tahrirlash</template>
     <template v-slot:body>
       <div class="space-y-4">
         <div class="flex items-center space-x-4">
@@ -149,20 +174,26 @@ const createProductBarcode = () => {
                    class="bg-slate-100 border-none text-slate-900 rounded-lg w-full py-2.5 placeholder-slate-400"
                    placeholder="Masalan: 2018" />
           </div>
-          <div class="flex-1"></div>
-
+          <div class="flex-1">
+            <label for="barcode" class="text-base font-medium">
+              Ro'yxatdan raqami
+            </label>
+            <input id="barcode" type="text" v-model="submitData.reg_number" v-maska data-maska="####"
+                   class="bg-slate-100 border-none text-slate-900 rounded-lg w-full py-2.5 placeholder-slate-400"
+                   placeholder="Masalan: 12345" />
+          </div>
         </div>
       </div>
     </template>
     <template v-slot:footer>
       <CancelButton @click="closeModal" />
-      <button v-if="isLoading" type="bSearchIconutton"
+      <button v-if="isLoading"
         class="inline-flex items-center justify-center ms-3 text-white bg-blue-600 focus:ring-4 focus:outline-none focus:ring-slate-300 rounded-xl border border-slate-200 text-sm font-medium px-5 py-2.5 focus:z-10 cursor-default">
         <Spinners270RingIcon
           class="mr-2 w-5 h-5 text-gray-200 animate-spin dark:text-gray-600 fill-gray-600 dark:fill-gray-300" />
         Yaratish
       </button>
-      <button v-else @click="createProductBarcode()" type="button"
+      <button v-else @click="updateProductBarcode()" type="button"
         class="ms-3 text-white bg-blue-500 hover:bg-blue-600 focus:ring-4 focus:outline-none focus:ring-slate-300 rounded-xl border border-slate-200 text-sm font-medium px-5 py-2.5 focus:z-10">Yaratish</button>
     </template>
   </CModal>

@@ -1,5 +1,5 @@
 <script setup>
-import { computed, ref, watch, watchEffect } from 'vue'
+import { computed, h, ref, watch, watchEffect } from 'vue'
 import ProductService from '../services/product.service.js'
 import { useModalStore } from '../store/modal.store'
 import SearchIcon from '../assets/icons/SearchIcon.vue'
@@ -10,6 +10,7 @@ import CaretRightIcon from '../assets/icons/CaretRightIcon.vue'
 import CaretDoubleLeftIcon from '../assets/icons/CaretDoubleLeftIcon.vue'
 import CaretLeftIcon from '../assets/icons/CaretLeftIcon.vue'
 import BarcodesTable from '../components/common/BarcodesTable.vue'
+import EditIcon from '../assets/icons/EditIcon.vue'
 
 const globalSearchFromTable = ref('')
 const isLoading = ref(false)
@@ -21,7 +22,10 @@ const productBarcodes = computed(() => {
   return productStore.productBarcodes
 })
 
-const emit = defineEmits(['next', 'prev'])
+const openEditProductBarcodeModal = (data) => {
+  useModalStore().openEditProductBarcodeModal()
+  useProductStore().setSelectedBarcodes(data)
+}
 
 const columns = [
   {
@@ -62,6 +66,16 @@ const columns = [
   {
     accessorKey: 'year',
     header: 'Yil',
+  },
+  {
+    accessorKey: 'actions',
+    header: 'Amallar',
+    cell: ({ row }) => h('div', { class: 'flex justify-center items-center space-x-2' }, [
+      h('button', { onClick: () => {openEditProductBarcodeModal(row.original)} }, [
+        h(EditIcon, {class: 'w-6 h-6 text-blue-600 hover:scale-105'})
+      ]),
+    ]),
+    enableSorting: false,
   },
 ]
 const total = ref(1)

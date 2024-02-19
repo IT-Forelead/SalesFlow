@@ -19,6 +19,9 @@ class ProductService {
   async updateProduct(data){
     return AxiosService.put('/product/update', data)
   }
+  async updateProductBarcode(data){
+    return AxiosService.post('/product/update-barcode', data)
+  }
   async getProductStats(){
     return AxiosService.get('/product/stats')
   }
