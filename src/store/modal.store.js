@@ -18,6 +18,7 @@ export const useModalStore = defineStore('modal', {
     isOpenCreateProductHistoryModal: false,
     isOpenDeleteProductHistoryModal: false,
     isOpenEditProductHistoryModal: false,
+    isOpenCameraScannerModal: false,
   }),
   actions: {
     openCreateProductBarcodeModal() {
@@ -103,6 +104,12 @@ export const useModalStore = defineStore('modal', {
     },
     closeEditProductHistoryModal() {
       this.isOpenEditProductHistoryModal = false
+    },
+    openCameraScannerModal() {
+      this.isOpenCameraScannerModal = true
+    },
+    closeCameraScannerModal() {
+      this.isOpenCameraScannerModal = false
     },
     toggleNotification() {
       this.isOpenNotification = !this.isOpenNotification

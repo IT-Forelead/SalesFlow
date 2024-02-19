@@ -7,6 +7,7 @@ import { useProductStore } from '../../store/product.store'
 import CancelButton from '../buttons/CancelButton.vue'
 import SearchIcon from '../../assets/icons/SearchIcon.vue'
 import Spinners270RingIcon from '../../assets/icons/Spinners270RingIcon.vue'
+import CameraIcon from '../../assets/icons/CameraIcon.vue'
 import ProductService from '../../services/product.service'
 import { reactive, ref, watch, watchEffect } from 'vue'
 
@@ -145,10 +146,16 @@ watch(
         <input type="search" v-model="searchBarcodeProduct" ref="onSearchFocus" v-on:keypress="whenPressEnter($event)"
           class="bg-slate-100 border-none text-slate-900 rounded-lg w-full h-12 pl-10 placeholder-slate-400 placeholder:text-sm md:placeholder:text-lg"
           placeholder="Mahsulotni shtrix kodi orqali izlash...">
-        <button type="button" @click="searchProductByBarcode()"
-          class="absolute inset-y-0 right-0 px-4 bg-[#0167F3] text-white rounded-lg text-base md:text-lg">
-          Izlash
-        </button>
+        <div class="absolute inset-y-0 right-0 flex items-center space-x-2">
+          <div @click="useModalStore().openCameraScannerModal()"
+            class="flex items-center justify-center w-8 h-8 rounded-lg hover:bg-white cursor-pointer">
+            <CameraIcon class="w-6 h-6 text-slate-400" />
+          </div>
+          <button type="button" @click="searchProductByBarcode()"
+            class="px-4 bg-[#0167F3] text-white rounded-lg text-base h-full md:text-lg cursor-pointer">
+            Izlash
+          </button>
+        </div>
       </div>
       <div class="space-y-4">
         <div class="flex items-center space-x-4">
