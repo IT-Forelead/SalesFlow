@@ -10,8 +10,8 @@ class ProductService {
   async getBarcodeProduct(barcode) {
     return AxiosService.get(`/product/barcode/${barcode}`)
   }
-  async getBarcodes() {
-    return AxiosService.get('/product/barcodes')
+  async getBarcodes(limit, page) {
+    return AxiosService.get(`/product/barcodes?limit=${limit}&page=${page}`)
   }
   async createProductBarcode(data) {
     return AxiosService.post('/product/add-barcode', data)
