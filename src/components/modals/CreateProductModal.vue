@@ -9,6 +9,7 @@ import CancelButton from '../buttons/CancelButton.vue'
 import SearchIcon from '../../assets/icons/SearchIcon.vue'
 import Spinners270RingIcon from '../../assets/icons/Spinners270RingIcon.vue'
 import CameraIcon from '../../assets/icons/CameraIcon.vue'
+import BarcodeIcon from '../../assets/icons/BarcodeIcon.vue'
 import ProductService from '../../services/product.service'
 import { reactive, ref, watch, watchEffect } from 'vue'
 
@@ -161,7 +162,7 @@ watch(
         <div class="absolute inset-y-0 right-0 flex items-center space-x-2">
           <div @click="useModalStore().openCameraScannerModal()"
             class="flex items-center justify-center w-8 h-8 rounded-lg hover:bg-white cursor-pointer">
-            <CameraIcon class="w-6 h-6 text-slate-400" />
+            <BarcodeIcon class="w-6 h-6 text-slate-900" />
           </div>
           <button type="button" @click="searchProductByBarcode()"
             class="px-4 bg-[#0167F3] text-white rounded-lg text-base h-full md:text-lg cursor-pointer">
