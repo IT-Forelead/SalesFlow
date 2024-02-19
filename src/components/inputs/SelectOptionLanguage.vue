@@ -34,7 +34,7 @@ const langTranslate = (lang) => {
   if (lang === 'ru') return 'Ру'
   else if (lang === 'uz') return "Uz"
   else if (lang === 'kr') return "Ўз"
-  else return "O'zbekcha"
+  else return "Uz"
 }
 
 const changeLang = (lang) => {
