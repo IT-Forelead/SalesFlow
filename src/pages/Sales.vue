@@ -3,21 +3,23 @@ import { reactive, ref, watch, watchEffect } from 'vue'
 import { toast } from 'vue-sonner'
 import { useRouter } from 'vue-router'
 import { cleanObjectEmptyFields, roundFloatToOneDecimal } from '../mixins/utils'
-import ImageIcon from '../assets/icons/ImageIcon.vue';
-import MinusIcon from '../assets/icons/MinusIcon.vue';
-import PlusIcon from '../assets/icons/PlusIcon.vue';
-import TrashIcon from '../assets/icons/TrashIcon.vue';
-import SearchIcon from '../assets/icons/SearchIcon.vue';
-import MoneyIcon from '../assets/icons/MoneyIcon.vue';
-import CreditCardIcon from '../assets/icons/CreditCardIcon.vue';
-import XIcon from '../assets/icons/XIcon.vue';
+import ImageIcon from '../assets/icons/ImageIcon.vue'
+import MinusIcon from '../assets/icons/MinusIcon.vue'
+import PlusIcon from '../assets/icons/PlusIcon.vue'
+import TrashIcon from '../assets/icons/TrashIcon.vue'
+import SearchIcon from '../assets/icons/SearchIcon.vue'
+import MoneyIcon from '../assets/icons/MoneyIcon.vue'
+import BarcodeIcon from '../assets/icons/BarcodeIcon.vue'
+import CreditCardIcon from '../assets/icons/CreditCardIcon.vue'
+import XIcon from '../assets/icons/XIcon.vue'
 import useMoneyFormatter from '../mixins/currencyFormatter.js'
-import ClockIcon from '../assets/icons/ClockIcon.vue';
-import ArrowsLeftRightIcon from '../assets/icons/ArrowsLeftRightIcon.vue';
-import ProductService from '../services/product.service';
-import OrderService from '../services/order.service';
-import { useProductStore } from '../store/product.store';
-import { computed, onMounted } from 'vue';
+import ClockIcon from '../assets/icons/ClockIcon.vue'
+import ProductService from '../services/product.service'
+import OrderService from '../services/order.service'
+import { useProductStore } from '../store/product.store'
+import { useModalStore } from '../store/modal.store'
+import { useBarcodeStore } from '../store/barcode.store'
+import { computed, onMounted } from 'vue'
 import { isBarcode } from '../mixins/barcodeFormatter'
 
 const router = useRouter()
@@ -113,7 +115,7 @@ const addProductToCart = (product) => {
       } else {
         return item
       }
-    });
+    })
   } else {
     if (product.quantity > 0) {
       if (product?.saleType == 'kg') {
@@ -268,6 +270,17 @@ const reFocus = () => {
   }
 }
 
+watch(
+  () => useBarcodeStore().decodedBarcode,
+  (data) => {
+    if (data) {
+      search.value = data
+      searchProducts()
+    }
+  },
+  { deep: true }
+)
+
 onMounted(() => {
   useProductStore().clearStore()
 })
@@ -324,8 +337,8 @@ onMounted(() => {
             </div>
           </div>
         </div>
-        <div class="hidden  md:flex items-center justify-center bg-slate-100 rounded-xl h-12 w-12">
-          <ArrowsLeftRightIcon class="w-5 h-5 text-blue-600" />
+        <div @click="useModalStore().openCameraScannerModal()" class="hidden  md:flex items-center justify-center bg-slate-100 rounded-xl h-12 w-12 cursor-pointer">
+          <BarcodeIcon class="w-6 h-6 text-blue-600" />
         </div>
         <div class="hidden  md:flex items-center justify-center bg-slate-100 rounded-xl h-12 w-12">
           <ClockIcon class="w-5 h-5 text-blue-600" />

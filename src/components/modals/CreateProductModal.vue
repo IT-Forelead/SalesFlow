@@ -12,7 +12,6 @@ import CameraIcon from '../../assets/icons/CameraIcon.vue'
 import ProductService from '../../services/product.service'
 import { reactive, ref, watch, watchEffect } from 'vue'
 
-
 const moneyConf = {
   thousands: ' ',
   suffix: ' UZS',
