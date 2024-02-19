@@ -157,6 +157,9 @@ watch(
           </button>
         </div>
       </div>
+      <div @click="useModalStore().openBarcodeScannerModal()">
+        aaaaaaaaaaaa
+      </div>
       <div class="space-y-4">
         <div class="flex items-center space-x-4">
           <div class="flex-1">

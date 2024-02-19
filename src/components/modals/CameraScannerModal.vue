@@ -53,7 +53,7 @@ const switchInputDevice = () => {
         deviceIndex.value = deviceIndex.value + 1 >= length ? 0 : deviceIndex.value + 1
     }
 }
-
+StreamBarcodeReader
 watch(
     () => videoDevices.value.selectedIndex,
     (data) => {
