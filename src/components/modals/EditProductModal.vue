@@ -97,7 +97,8 @@ watch(
       submitData.price = data?.price
       submitData.saleType = data?.saleType
     }
-  }
+  },
+  { deep: true }
 )
 </script>
 <template>

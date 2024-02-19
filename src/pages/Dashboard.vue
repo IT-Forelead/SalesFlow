@@ -250,6 +250,7 @@ watch(
             getOrdersStatsFinal()
         }
     },
+    { deep: true }
 )
 
 </script>

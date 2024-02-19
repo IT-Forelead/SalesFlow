@@ -41,7 +41,8 @@ watch(
       submitData.name = data?.name
       submitData.address = data?.address
     }
-  }
+  },
+  { deep: true }
 )
 </script>
 

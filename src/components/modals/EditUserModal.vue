@@ -136,7 +136,8 @@ watch(
       submitData.phone = data?.phone
       submitData.privileges = data?.privileges?.sort()
     }
-  }
+  },
+  { deep: true }
 )
 </script>
 <template>

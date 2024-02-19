@@ -1,5 +1,6 @@
 <script setup>
 import { useModalStore } from '../../store/modal.store'
+import { useBarcodeStore } from '../../store/barcode.store'
 import XIcon from '../../assets/icons/XIcon.vue'
 import CameraRotateIcon from '../../assets/icons/CameraRotateIcon.vue'
 import LightningIcon from '../../assets/icons/LightningIcon.vue'
@@ -18,12 +19,16 @@ const landscape = ref(false)
 const videoDevices = ref({})
 const deviceIndex = ref(null)
 
+const barcodeScannedAudio = new Audio('/audios/barcode-scanned.mp3')
 const isMobile = navigator?.userAgentData?.mobile || navigator?.platform === 'iPad' || navigator?.platform === 'iPhone'
 const isAndroid = navigator?.userAgentData?.platform === 'Android'
 const isChrome = navigator?.userAgentData?.brands.findIndex(brand => brand.brand === 'Google Chrome' || brand.brand === 'Chromium') !== -1
 
 const onDecode = (decodedText) => {
     console.log('Barcode scanned:', decodedText)
+    barcodeScannedAudio.play()
+    useBarcodeStore().setDecodedBarcode(decodedText)
+    useModalStore().closeCameraScannerModal()
 }
 
 const onLoaded = () => {
@@ -40,20 +45,17 @@ const lightning = () => {
 }
 
 const screenRotate = () => {
-    console.log('landscape 1: ' + landscape.value)
     landscape.value = !landscape.value
-    console.log('landscape 2: ' + landscape.value)
 }
 
 const switchInputDevice = () => {
-    console.log("cccccccccccccccccc");
     const length = videoDevices.value?.devices?.length
     if (deviceIndex.value >= 0 && length.value > 1) {
         loaded.value = false
         deviceIndex.value = deviceIndex.value + 1 >= length ? 0 : deviceIndex.value + 1
     }
 }
-StreamBarcodeReader
+
 watch(
     () => videoDevices.value.selectedIndex,
     (data) => {

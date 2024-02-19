@@ -46,7 +46,8 @@ watch(
       submitData.purchasePrice = data?.purchasePrice
       submitData.salePrice = data?.salePrice
     }
-  }
+  },
+  { deep: true }
 )
 const getHistoryType = (historyType) => {
   switch (historyType){

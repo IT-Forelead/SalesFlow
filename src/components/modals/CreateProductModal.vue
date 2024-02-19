@@ -4,6 +4,7 @@ import CModal from '../common/CModal.vue'
 import { toast } from 'vue-sonner'
 import { useModalStore } from '../../store/modal.store'
 import { useProductStore } from '../../store/product.store'
+import { useBarcodeStore } from '../../store/barcode.store'
 import CancelButton from '../buttons/CancelButton.vue'
 import SearchIcon from '../../assets/icons/SearchIcon.vue'
 import Spinners270RingIcon from '../../assets/icons/Spinners270RingIcon.vue'
@@ -93,6 +94,7 @@ const searchProductByBarcode = () => {
     isSearching.value = true
     ProductService.getBarcodeProduct(searchBarcodeProduct.value)
       .then((res) => {
+        useBarcodeStore().setDecodedBarcode('')
         barcodeProduct.value = res
         isSearching.value = false
         searchBarcodeProduct.value = ''
@@ -128,8 +130,19 @@ watch(
       submitData.packaging = data?.packaging
     }
   },
+  { deep: true }
 )
 
+watch(
+  () => useBarcodeStore().decodedBarcode,
+  (data) => {
+    if (data) {
+      searchBarcodeProduct.value = data
+      searchProductByBarcode()
+    }
+  },
+  { deep: true }
+)
 </script>
 
 <template>
@@ -157,9 +170,9 @@ watch(
           </button>
         </div>
       </div>
-      <div @click="useModalStore().openBarcodeScannerModal()">
+      <!-- <div @click="useModalStore().openBarcodeScannerModal()">
         aaaaaaaaaaaa
-      </div>
+      </div> -->
       <div class="space-y-4">
         <div class="flex items-center space-x-4">
           <div class="flex-1">
