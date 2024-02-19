@@ -337,10 +337,10 @@ onMounted(() => {
             </div>
           </div>
         </div>
-        <div @click="useModalStore().openCameraScannerModal()" class="hidden  md:flex items-center justify-center bg-slate-100 rounded-xl h-12 w-12 cursor-pointer">
+        <div @click="useModalStore().openCameraScannerModal()" class="flex items-center justify-center bg-slate-100 rounded-xl h-12 w-12 cursor-pointer">
           <BarcodeIcon class="w-6 h-6 text-blue-600" />
         </div>
-        <div class="hidden  md:flex items-center justify-center bg-slate-100 rounded-xl h-12 w-12">
+        <div class="hidden md:flex items-center justify-center bg-slate-100 rounded-xl h-12 w-12">
           <ClockIcon class="w-5 h-5 text-blue-600" />
         </div>
       </div>
