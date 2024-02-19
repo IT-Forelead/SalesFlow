@@ -4,7 +4,8 @@ export const useProductStore = defineStore('product', {
   state: () => ({
     products: [],
     productBarcodes: [],
-    selectedProduct: {}
+    selectedProduct: {},
+    selectedBarcodes:{},
   }),
   actions: {
     setProducts(data) {
@@ -15,6 +16,9 @@ export const useProductStore = defineStore('product', {
     },
     setSelectedProduct(data) {
       this.selectedProduct = data
+    },
+    setSelectedBarcodes(data) {
+      this.selectedBarcodes = data
     },
     clearStore() {
       this.products = []

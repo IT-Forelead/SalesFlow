@@ -18,6 +18,7 @@ import DeleteProductModal from './modals/DeleteProductModal.vue'
 import EditProductHistoryModal from './modals/EditProductHistoryModal.vue'
 import EditProductModal from './modals/EditProductModal.vue'
 import DeleteUserModal from './modals/DeleteUserModal.vue'
+import EditProductBarcodeModal from './modals/EditProductBarcodeModal.vue'
 import CameraScannerModal from './modals/CameraScannerModal.vue'
 import BarcodeScannerModal from './modals/BarcodeScannerModal.vue'
 
@@ -63,6 +64,7 @@ onClickOutside(notificationDropdown, () => {
   <EditProductHistoryModal/>
   <EditUserModal/>
   <DeleteUserModal/>
+  <EditProductBarcodeModal/>
   <CameraScannerModal/>
   <BarcodeScannerModal/>
 </template>
