@@ -7,5 +7,22 @@
   "sales": "Sales",
   "shops": "Shops",
   "users": "Users",
-  "barcodes": "Barcodes"
+  "barcodes": "Barcodes",
+  "password": "Password",
+  "signinToSystem": "Sign in to system",
+  "login": "Login",
+  "signin": "Kirish",
+  "enterYourLogin": "Enter your login",
+  "enterYourPassword": "Enter your password",
+  "user": "User",
+  "admin": "Admin",
+  "manager": "Manager",
+  "cashier": "Cashier",
+  "pleaseEnterYourLogin": "Please enter your login!",
+  "pleaseEnterYourPassword": "Please enter your password!",
+  "loginOrPasswordIncorrect": "Login or password incorrect. Please try again!",
+  "aaaaaaax": "User",
+  "aaaaaaaaaaaaa": "User",
+  "xxxxxxxxxxxxxxxx": "User",
+  "bbbbbbbbbbbbbb": "bbbbbbbbbb"
 }

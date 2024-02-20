@@ -7,5 +7,18 @@
   "sales": "Продажи",
   "shops": "Магазины",
   "users": "Пользователи",
-  "barcodes": "Штрих-коды"
+  "barcodes": "Штрих-коды",
+  "password": "Пароль",
+  "signinToSystem": "Войти в систему",
+  "login": "Логин",
+  "signin": "Войти",
+  "enterYourLogin": "Введите свой логин",
+  "enterYourPassword": "Введите свой пароль",
+  "user": "Пользователь",
+  "admin": "Администратор",
+  "manager": "Менеджер",
+  "cashier": "Кассир",
+  "pleaseEnterYourLogin": "Пожалуйста, введите свой логин!",
+  "pleaseEnterYourPassword": "Пожалуйста, введите свой пароль!",
+  "loginOrPasswordIncorrect": "Неверный логин или пароль. Повторите попытку!"
 }

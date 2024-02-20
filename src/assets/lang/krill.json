@@ -7,5 +7,18 @@
   "sales": "Сотувлар",
   "shops": "Дўконлар",
   "users": "Фойдаланувчилар",
-  "barcodes": "Штрих кодлар"
+  "barcodes": "Штрих кодлар",
+  "password": "Пароль",
+  "signinToSystem": "Тизимга киринг",
+  "login": "Логин",
+  "signin": "Кириш",
+  "enterYourLogin": "Логинингизни киритинг",
+  "enterYourPassword": "Паролингизни киритинг",
+  "user": "Фойдаланувчи",
+  "admin": "Админ",
+  "manager": "Менежер",
+  "cashier": "Кассир",
+  "pleaseEnterYourLogin": "Илтимос, логинингизни киритинг!",
+  "pleaseEnterYourPassword": "Илтимос, паролингизни киритинг!",
+  "loginOrPasswordIncorrect": "Логин ёки пароль нотўғри. Илтимос, қайта уриниб кўринг!"
 }

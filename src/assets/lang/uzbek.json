@@ -7,5 +7,18 @@
   "sales": "Sotuvlar",
   "shops": "Do'konlar",
   "users": "Foydalanuvchilar",
-  "barcodes": "Shtrix kodlar"
+  "barcodes": "Shtrix kodlar",
+  "password": "Parol",
+  "signinToSystem": "Tizimga kiring",
+  "login": "Login",
+  "signin": "Kirish",
+  "enterYourLogin": "Loginingizni kiriting",
+  "enterYourPassword": "Parolingizni kiriting",
+  "user": "Foydalanuvchi",
+  "admin": "Admin",
+  "manager": "Menejer",
+  "cashier": "Kassir",
+  "pleaseEnterYourLogin": "Iltimos, loginingizni kiriting!",
+  "pleaseEnterYourPassword": "Iltimos, parolingizni kiriting!",
+  "loginOrPasswordIncorrect": "Login yoki parol noto'g'ri. Iltimos, qayta urinib ko'ring!"
 }
