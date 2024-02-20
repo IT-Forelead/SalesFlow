@@ -94,14 +94,20 @@ const searchProductByBarcode = () => {
     isSearching.value = true
     ProductService.getBarcodeProduct(searchBarcodeProduct.value)
       .then((res) => {
-        useBarcodeStore().setDecodedBarcode('')
-        barcodeProduct.value = res
+        if (res) {
+          useBarcodeStore().setDecodedBarcode('')
+          barcodeProduct.value = res
+        } else {
+          toast.error('Bunday shtrix kodli mahsulot mavjud emas!')
+          clearSubmitData()
+          submitData.barcode = useBarcodeStore().decodedBarcode
+        }
         isSearching.value = false
         searchBarcodeProduct.value = ''
       }).catch((err) => {
-        toast.error('Bunday shtrix kodli mahsulot mavjud emas!')
+        toast.error('Mahsulotni olishda xatolik yuz berdi!')
         setTimeout(() => {
-          searchBarcodeProduct.value = false
+          isSearching.value = false
         }, 3000)
       })
   }
