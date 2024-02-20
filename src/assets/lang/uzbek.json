@@ -27,5 +27,6 @@
   "createdAt": "Yaratilgan vaqti",
   "actions": "Amallar",
   "n": "№",
-  "search": "Izlash"
+  "search": "Izlash",
+  "total": "Jami"
 }

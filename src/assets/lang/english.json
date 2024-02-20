@@ -27,5 +27,6 @@
   "createdAt": "Created at",
   "actions": "Actions",
   "n": "No",
-  "search": "Search"
+  "search": "Search",
+  "total": "Total"
 }

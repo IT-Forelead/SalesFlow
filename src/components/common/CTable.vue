@@ -12,6 +12,9 @@ import CaretDoubleLeftIcon from '../../assets/icons/CaretDoubleLeftIcon.vue';
 import CaretDoubleRightIcon from '../../assets/icons/CaretDoubleRightIcon.vue';
 import CaretLeftIcon from '../../assets/icons/CaretLeftIcon.vue';
 import CaretRightIcon from '../../assets/icons/CaretRightIcon.vue';
+import { useI18n } from 'vue-i18n'
+
+const { t } = useI18n()
 
 const props = defineProps({
   data: Array,
@@ -101,7 +104,7 @@ const displayedPageNumbers = computed(() => {
 
     <div class="flex items-center justify-between my-6">
       <div class="text-base text-slate-900 font-medium">
-        Jami:
+        {{ $t('total') }}:
         {{ table.getFilteredRowModel().rows.length }}
       </div>
       <div class="flex items-center space-x-2">
