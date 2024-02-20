@@ -20,5 +20,12 @@
   "cashier": "Кассир",
   "pleaseEnterYourLogin": "Пожалуйста, введите свой логин!",
   "pleaseEnterYourPassword": "Пожалуйста, введите свой пароль!",
-  "loginOrPasswordIncorrect": "Неверный логин или пароль. Повторите попытку!"
+  "loginOrPasswordIncorrect": "Неверный логин или пароль. Повторите попытку!",
+  "addUser": "Добавить пользователя",
+  "phoneNumber": "Номер телефона",
+  "role": "Роль",
+  "createdAt": "Время создания",
+  "actions": "Действия",
+  "n": "№",
+  "search": "Поиск"
 }

@@ -21,8 +21,11 @@
   "pleaseEnterYourLogin": "Please enter your login!",
   "pleaseEnterYourPassword": "Please enter your password!",
   "loginOrPasswordIncorrect": "Login or password incorrect. Please try again!",
-  "aaaaaaax": "User",
-  "aaaaaaaaaaaaa": "User",
-  "xxxxxxxxxxxxxxxx": "User",
-  "bbbbbbbbbbbbbb": "bbbbbbbbbb"
+  "addUser": "Add user",
+  "phoneNumber": "Phone number",
+  "role": "Role",
+  "createdAt": "Created at",
+  "actions": "Actions",
+  "n": "No",
+  "search": "Search"
 }

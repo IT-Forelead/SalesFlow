@@ -10,6 +10,9 @@ import CTable from '../components/common/CTable.vue'
 import UserService from '../services/user.service'
 import { useUserStore } from '../store/user.store.js'
 import { useModalStore } from '../store/modal.store.js'
+import { useI18n } from 'vue-i18n'
+
+const { t } = useI18n()
 
 const userStore = useUserStore()
 const globalSearchFromTable = ref('')
@@ -35,7 +38,7 @@ const getRole = (privileges) => {
       privileges.includes('view_orders') &&
       privileges.includes('view_products') &&
       privileges.includes('view_users'):
-      return 'Admin'
+      return t('admin')
     case
       privileges.includes('create_history') &&
       privileges.includes('create_order') &&
@@ -50,7 +53,7 @@ const getRole = (privileges) => {
       privileges.includes('view_orders') &&
       privileges.includes('view_products') &&
       privileges.includes('view_users'):
-      return 'Boshqaruvchi'
+      return t('manager')
     case
       privileges.includes('create_history') &&
       privileges.includes('create_order') &&
@@ -62,43 +65,43 @@ const getRole = (privileges) => {
       privileges.includes('view_histories') &&
       privileges.includes('view_orders') &&
       privileges.includes('view_products'):
-      return 'Kassir'
+      return t('cashier')
     default:
-      return 'Foydalanuvchi'
+      return t('user')
   }
 }
 
 const columns = [
   {
     accessorKey: 'id',
-    header: 'N',
+    header: t('n'),
     cell: ({ row }) => `${parseInt(row.id, 10) + 1}`,
   },
   {
     accessorKey: 'login',
-    header: 'Login',
+    header: t('login'),
   },
   {
     accessorFn: row => `${row.firstname} ${row.lastname}`,
-    header: 'Foydalanuvchi',
+    header: t('user'),
   },
   {
     accessorKey: 'phone',
-    header: 'Telefon raqami',
+    header: t('phoneNumber'),
   },
   {
     accessorKey: 'privileges',
-    header: 'Role',
+    header: t('role'),
     accessorFn: row => getRole(row.privileges),
   },
   {
     accessorKey: 'createdAt',
     accessorFn: row => moment(row.createdAt).format('DD/MM/YYYY H:mm'),
-    header: 'Yaratilgan vaqti',
+    header: t('createdAt'),
   },
   {
     accessorKey: 'edit',
-    header: 'Amallar',
+    header: t('actions'),
     cell: ({ row }) => h('div', { class: 'flex items-center space-x-2' }, [
       h('button', { onClick: () => { openEditUser(row.original) } }, [
         h(PhPencilIcon, { class: 'w-6 h-6 text-blue-600 hover:scale-105' })
@@ -139,7 +142,7 @@ getUsers()
 <template>
   <div class="p-4 md:p-8">
     <div class="text-slate-900 text-2xl md:text-3xl font-semibold mb-6">
-      Foydalanuvchilar
+      {{ $t('users') }}
     </div>
     <div class="flex flex-col md:flex-row items-center justify-between">
       <div class="relative w-full md:w-auto my-2 md:mb-0 order-2 md:order-1">
@@ -148,12 +151,12 @@ getUsers()
         </div>
         <input type="search" v-model="globalSearchFromTable"
           class="bg-slate-100 border-none w-full text-slate-900 text-base md:text-lg rounded-full block pl-10 py-2 placeholder-slate-400"
-          placeholder="Search everything...">
+          :placeholder="$t('search')">
       </div>
       <div class="w-full md:w-auto order-1 md:order-2">
         <button @click="useModalStore().openCreateUserModal()"
           class="w-full md:w-auto py-2 px-4 rounded-full text-white text-lg font-medium bg-blue-500 cursor-pointer hover:bg-blue-600">
-          Foydalanuvchi qo'shish
+          {{ $t('addUser') }}
         </button>
       </div>
     </div>

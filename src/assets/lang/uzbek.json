@@ -20,5 +20,12 @@
   "cashier": "Kassir",
   "pleaseEnterYourLogin": "Iltimos, loginingizni kiriting!",
   "pleaseEnterYourPassword": "Iltimos, parolingizni kiriting!",
-  "loginOrPasswordIncorrect": "Login yoki parol noto'g'ri. Iltimos, qayta urinib ko'ring!"
+  "loginOrPasswordIncorrect": "Login yoki parol noto'g'ri. Iltimos, qayta urinib ko'ring!",
+  "addUser": "Foydalanuvchi qo'shish",
+  "phoneNumber": "Telefon raqami",
+  "role": "Rol",
+  "createdAt": "Yaratilgan vaqti",
+  "actions": "Amallar",
+  "n": "№",
+  "search": "Izlash"
 }

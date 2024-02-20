@@ -20,5 +20,12 @@
   "cashier": "Кассир",
   "pleaseEnterYourLogin": "Илтимос, логинингизни киритинг!",
   "pleaseEnterYourPassword": "Илтимос, паролингизни киритинг!",
-  "loginOrPasswordIncorrect": "Логин ёки пароль нотўғри. Илтимос, қайта уриниб кўринг!"
+  "loginOrPasswordIncorrect": "Логин ёки пароль нотўғри. Илтимос, қайта уриниб кўринг!",
+  "addUser": "Фойдаланувчи қўшиш",
+  "phoneNumber": "Телефон рақами",
+  "role": "Роль",
+  "createdAt": "Яратилган вақти",
+  "actions": "Амаллар",
+  "n": "№",
+  "search": "Излаш"
 }
