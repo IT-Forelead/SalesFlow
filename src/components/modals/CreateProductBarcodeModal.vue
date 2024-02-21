@@ -93,7 +93,6 @@ watch(
   (data) => {
     if (data) {
       submitData.barcode = data
-      useBarcodeStore().setDecodedBarcode('')
     }
   },
   { deep: true }

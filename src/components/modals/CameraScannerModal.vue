@@ -26,8 +26,8 @@ const isChrome = navigator?.userAgentData?.brands.findIndex(brand => brand.brand
 
 const onDecode = (decodedText) => {
     console.log('Barcode scanned:', decodedText)
-    barcodeScannedAudio.play()
     useBarcodeStore().setDecodedBarcode(decodedText)
+    barcodeScannedAudio.play()
     useModalStore().closeCameraScannerModal()
 }
 

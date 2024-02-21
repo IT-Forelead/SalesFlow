@@ -149,9 +149,7 @@ watch(
 watch(
   () => decodedBarcode.value,
   (data) => {
-    console.log("bbbbbbbbbbbbbbbbb");
     if (data) {
-      console.log("aaaaaaaaaaaaa");
       searchBarcodeProduct.value = data
       searchProductByBarcode()
     }
