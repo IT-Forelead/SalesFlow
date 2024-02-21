@@ -119,7 +119,7 @@ watch(
     <div v-if="useModalStore().isOpenCameraScannerModal"
         class="fixed flex flex-col items-center space-y-4 justify-center top-0 left-0 bottom-0 right-0 bg-black w-full h-screen z-[1000]">
         <div class="absolute top-0 left-0 w-full flex items-center justify-between px-4 py-3">
-            <div class="text-white text-lg">Shtrix kod skanerlanmoqda...</div>
+            <div class="text-white text-lg">Shtrix kod skanerlash</div>
             <button @click="useModalStore().closeCameraScannerModal()"
                 class="text-gray-600 bg-gray-100 hover:bg-gray-800 hover:text-gray-300 transition-all duration-300 rounded-full text-sm p-1.5 ml-auto inline-flex items-center dark:hover:bg-gray-600 dark:hover:text-white">
                 <XIcon />
@@ -152,38 +152,70 @@ watch(
                 <SmartphoneRotateIcon class="w-7 h-7 text-white" />
             </div>
             <!-- lightning -->
-            <div v-if="!hasTorch" class="flex items-center justify-center bg-gray-950 w-12 h-12 rounded-full">
-                <LightningIcon class="w-7 h-7 text-gray-700" />
-            </div>
-            <div v-else-if="hasTorch && torch" @click="lightning()"
+            <div v-if="hasTorch && torch" @click="lightning()"
                 class="flex items-center justify-center bg-gray-950 w-12 h-12 rounded-full cursor-pointer">
                 <LightningIcon v-if="torch" class="w-7 h-7 text-white" />
                 <LightningSlashIcon v-else class="w-7 h-7 text-white" />
             </div>
+            <div v-else class="flex items-center justify-center bg-gray-950 w-12 h-12 rounded-full">
+                <LightningIcon class="w-7 h-7 text-gray-700" />
+            </div>
         </div>
-        <!-- <div class="text-white">
-            ss {{ videoDevices }} aa
-        </div> -->
-        <div class="flex items-center justify-center">
+        <div class="relative flex items-center justify-center">
             <StreamBarcodeReader v-model:videoDevices="videoDevices" v-model:hasFocusDistance="hasFocusDistance"
                 v-model:hasAutofocus="hasAutofocus" v-model:hasTorch="hasTorch" v-model:hasZoom="hasZoom"
                 v-model:cameraDetails="cameraDetails" :landscape="landscape" :torch="torch" :zoom="zoom"
                 :autofocus="autofocus" :focus-distance="focusDistance" :device-index="deviceIndex"
                 :ms-between-decoding="500" @decode="onDecode" @loaded="onLoaded" />
-        </div>
-        <div v-if="!autofocus && hasFocusDistance && loaded" class="focus-container">
-            <div class="text-white">Focus</div>
-            <input v-model="focusDistance" type="range" :min="hasFocusDistance.min || 0"
-                :max="Math.min(hasFocusDistance.max, 1) || 1" :step="hasFocusDistance.step || 0.1" />
-        </div>
-
-        <div v-if="hasZoom && loaded" class="zoom-container">
-            <div class="text-white">Zoom</div>
-            <input v-model="zoom" type="range" :min="hasZoom.min || 1" :max="hasZoom.max || 2"
-                :step="hasZoom.step || 0.1" />
+            <div v-if="!autofocus && hasFocusDistance && loaded" class="focus-container">
+                <span>Focus</span>
+                <input v-model="focusDistance" type="range" :min="hasFocusDistance.min || 0"
+                    :max="Math.min(hasFocusDistance.max, 1) || 1" :step="hasFocusDistance.step || 0.1" />
+            </div>
+            <div v-if="hasZoom && loaded" class="zoom-container">
+                <span>Zoom</span>
+                <input v-model="zoom" type="range" :min="hasZoom.min || 1" :max="hasZoom.max || 2"
+                    :step="hasZoom.step || 0.1" />
+            </div>
         </div>
 
     </div>
 </template>
 
-<style scoped></style>
+<style scoped>
+.zoom-container {
+    position: absolute;
+    z-index: 3;
+    top: 50px;
+    right: 0;
+    width: 55px;
+    color: white;
+}
+
+.focus-container {
+    position: absolute;
+    z-index: 3;
+    top: 50px;
+    left: 0;
+    width: 55px;
+    color: white;
+}
+
+.focus-container > span, .zoom-container > span {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    text-align: center;
+}
+
+.focus-container input[type="range"], .zoom-container input[type="range"] {
+    transform: rotate(270deg);
+    touch-action: none;
+    width: 200px;
+    height: 24px;
+    position: absolute;
+    left: -75px;
+    top: 120px;
+}
+</style>
