@@ -105,7 +105,7 @@ watch(
     v-if="useModalStore().isOpenCreateProductBarcodeModal" @close="closeModal">
     <template v-slot:header> Shtrix kod yaratish </template>
     <template v-slot:body>
-      <div class="space-y-4">
+      <div class="space-y-2 md:space-y-4">
         <div class="flex flex-col md:flex-row md:items-center space-y-2 md:space-y-0 md:space-x-4">
           <div class="flex-1">
             <label for="trademark" class="text-base font-medium">

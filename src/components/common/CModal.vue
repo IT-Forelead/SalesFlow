@@ -56,7 +56,7 @@ onUnmounted(() => {
           </slot>
         </div>
         <!-- Modal footer -->
-        <div class="absolute w-full md:bottom-0 flex items-center justify-start px-3 py-4 md:p-5 rounded-b border-t border-gray-200">
+        <div class="md:absolute w-full md:bottom-0 flex items-center justify-start px-3 py-4 md:p-5 rounded-b border-t border-gray-200">
           <slot name="footer">
             <!-- Your footer content goes here -->
           </slot>

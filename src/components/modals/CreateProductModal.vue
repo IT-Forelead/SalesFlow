@@ -164,7 +164,7 @@ watch(
         </div>
         <input type="search" v-model="searchBarcodeProduct" ref="onSearchFocus" v-on:keypress="whenPressEnter($event)"
           class="bg-slate-100 border-none text-slate-900 rounded-lg w-full h-12 pl-10 placeholder-slate-400 placeholder:text-sm md:placeholder:text-lg"
-          placeholder="Mahsulotni shtrix kodi orqali izlash...">
+          placeholder="Shtrix kodi orqali izlash...">
         <div class="absolute inset-y-0 right-0 flex items-center space-x-2">
           <div @click="useModalStore().openCameraScannerModal()"
             class="flex items-center justify-center w-8 h-8 rounded-lg hover:bg-white cursor-pointer">
@@ -176,8 +176,8 @@ watch(
           </button>
         </div>
       </div>
-      <div class="space-y-4">
-        <div class="flex items-center space-x-4">
+      <div class="space-y-2 md:space-y-4">
+        <div class="flex flex-col md:flex-row md:items-center space-y-2 md:space-y-0 md:space-x-4">
           <div class="flex-1">
             <label for="name" class="text-base md:text-lg font-medium">
               Mahsulot nomi
@@ -196,7 +196,7 @@ watch(
               placeholder="Shtrix kodini kiriting">
           </div>
         </div>
-        <div class="flex items-center space-x-4">
+        <div class="flex flex-col md:flex-row md:items-center space-y-2 md:space-y-0 md:space-x-4">
           <div class="flex-1 space-y-1">
             <label for="default-value" class="text-base md:text-lg font-medium">
               Qadoqi
@@ -221,7 +221,7 @@ watch(
             </select>
           </div>
         </div>
-        <div class="flex items-center space-x-4">
+        <div class="flex flex-col md:flex-row md:items-center space-y-2 md:space-y-0 md:space-x-4">
           <div class="flex-1 space-y-1">
             <label for="quantity" class="text-base md:text-lg font-medium">
               Miqdori
