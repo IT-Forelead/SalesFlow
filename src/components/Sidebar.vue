@@ -57,9 +57,9 @@ onMounted(() => {
       </div>
       <div class="space-y-8 py-4">
         <ProfileDropDown />
-        <div class="relative space-y-1 h-5/6 overflow-y-auto">
+        <div class="relative space-y-1">
           <router-link v-if="navigationGuard('dashboard')" to="/dashboard" @click="selectPage()" active-class="active"
-            class="relative h-10 flex items-center w-full hover:bg-blue-300/10 hover:text-blue-600 py-7 text-zinc-400 text-lg font-medium space-x-4 cursor-pointer transition-colors duration-300">
+            class="relative h-10 flex items-center w-full hover:bg-blue-300/10 hover:text-blue-600 py-5 text-zinc-400 text-lg font-medium space-x-4 cursor-pointer transition-colors duration-300">
             <div class="w-1.5 h-12 rounded-r-xl first-child-bg-color mr-2"></div>
             <div class="flex h-10 items-center justify-center rounded-xl w-10 second-child-bg-color">
               <HouseIcon class="w-6 h-6" />
@@ -69,7 +69,7 @@ onMounted(() => {
             </div>
           </router-link>
           <router-link v-if="navigationGuard('create_product')" to="/sales" @click="selectPage()" active-class="active"
-            class="relative h-10 flex items-center w-full hover:bg-blue-300/10 hover:text-blue-600 py-7 text-zinc-400 text-lg font-medium space-x-4 cursor-pointer transition-colors duration-300">
+            class="relative h-10 flex items-center w-full hover:bg-blue-300/10 hover:text-blue-600 py-5 text-zinc-400 text-lg font-medium space-x-4 cursor-pointer transition-colors duration-300">
             <div class="w-1.5 h-12 rounded-r-xl first-child-bg-color mr-2"></div>
             <div class="flex items-center justify-center rounded-xl w-10 h-10 second-child-bg-color">
               <MoneyIcon class="w-6 h-6" />
@@ -79,7 +79,7 @@ onMounted(() => {
             </div>
           </router-link>
           <router-link to="/products" @click="selectPage()" active-class="active"
-            class="relative h-10 flex items-center w-full hover:bg-blue-300/10 hover:text-blue-600 py-7 text-zinc-400 text-lg font-medium space-x-4 cursor-pointer transition-colors duration-300">
+            class="relative h-10 flex items-center w-full hover:bg-blue-300/10 hover:text-blue-600 py-5 text-zinc-400 text-lg font-medium space-x-4 cursor-pointer transition-colors duration-300">
             <div class="w-1.5 h-12 rounded-r-xl first-child-bg-color mr-2"></div>
             <div class="flex items-center justify-center rounded-xl w-10 h-10 second-child-bg-color">
               <PhShoppingCart class="w-6 h-6" />
@@ -89,7 +89,7 @@ onMounted(() => {
             </div>
           </router-link>
           <router-link to="/product-histories" @click="selectPage()" active-class="active"
-            class="relative h-10 flex items-center w-full hover:bg-blue-300/10 hover:text-blue-600 py-7 text-zinc-400 text-lg font-medium space-x-4 cursor-pointer transition-colors duration-300">
+            class="relative h-10 flex items-center w-full hover:bg-blue-300/10 hover:text-blue-600 py-5 text-zinc-400 text-lg font-medium space-x-4 cursor-pointer transition-colors duration-300">
             <div class="w-1.5 h-12 rounded-r-xl first-child-bg-color mr-2"></div>
             <div class="flex items-center justify-center rounded-xl w-10 h-10 second-child-bg-color">
               <PhShoppingCart class="w-6 h-6" />
@@ -99,7 +99,7 @@ onMounted(() => {
             </div>
           </router-link>
           <router-link to="/orders" @click="selectPage()" active-class="active"
-            class="relative h-10 flex items-center w-full hover:bg-blue-300/10 hover:text-blue-600 py-7 text-zinc-400 text-lg font-medium space-x-4 cursor-pointer transition-colors duration-300">
+            class="relative h-10 flex items-center w-full hover:bg-blue-300/10 hover:text-blue-600 py-5 text-zinc-400 text-lg font-medium space-x-4 cursor-pointer transition-colors duration-300">
             <div class="w-1.5 h-12 rounded-r-xl first-child-bg-color mr-2"></div>
             <div class="flex items-center justify-center rounded-xl w-10 h-10 second-child-bg-color">
               <PhShoppingCart class="w-6 h-6" />
@@ -109,7 +109,7 @@ onMounted(() => {
             </div>
           </router-link>
           <router-link v-if="navigationGuard('view_markets')" to="/markets" @click="selectPage()" active-class="active"
-            class="relative h-10 flex items-center w-full hover:bg-blue-300/10 hover:text-blue-600 py-7 text-zinc-400 text-lg font-medium space-x-4 cursor-pointer transition-colors duration-300">
+            class="relative h-10 flex items-center w-full hover:bg-blue-300/10 hover:text-blue-600 py-5 text-zinc-400 text-lg font-medium space-x-4 cursor-pointer transition-colors duration-300">
             <div class="w-1.5 h-12 rounded-r-xl first-child-bg-color mr-2"></div>
             <div class="flex items-center justify-center rounded-xl w-10 h-10 second-child-bg-color">
               <StoreIcon class="w-6 h-6" />
@@ -119,7 +119,7 @@ onMounted(() => {
             </div>
           </router-link>
           <router-link v-if="navigationGuard('view_users')" to="/users" @click="selectPage()" active-class="active"
-            class="relative h-10 flex items-center w-full hover:bg-blue-300/10 hover:text-blue-600 py-7 text-zinc-400 text-lg font-medium space-x-4 cursor-pointer transition-colors duration-300">
+            class="relative h-10 flex items-center w-full hover:bg-blue-300/10 hover:text-blue-600 py-5 text-zinc-400 text-lg font-medium space-x-4 cursor-pointer transition-colors duration-300">
             <div class="w-1.5 h-12 rounded-r-xl first-child-bg-color mr-2"></div>
             <div class="flex items-center justify-center rounded-xl w-10 h-10 second-child-bg-color">
               <UsersIcon class="w-6 h-6" />
@@ -130,7 +130,7 @@ onMounted(() => {
           </router-link>
           <router-link v-if="navigationGuard('view_barcodes')" to="/product-barcodes" @click="selectPage()"
             active-class="active"
-            class="relative h-10 flex items-center w-full hover:bg-blue-300/10 hover:text-blue-600 py-7 text-zinc-400 text-lg font-medium space-x-4 cursor-pointer transition-colors duration-300">
+            class="relative h-10 flex items-center w-full hover:bg-blue-300/10 hover:text-blue-600 py-5 text-zinc-400 text-lg font-medium space-x-4 cursor-pointer transition-colors duration-300">
             <div class="w-1.5 h-12 rounded-r-xl first-child-bg-color mr-2"></div>
             <div class="flex items-center justify-center rounded-xl w-10 h-10 second-child-bg-color">
               <PhBarcodeIcon class="w-6 h-6" />

@@ -12,6 +12,13 @@ import CameraIcon from '../../assets/icons/CameraIcon.vue'
 import BarcodeIcon from '../../assets/icons/BarcodeIcon.vue'
 import ProductService from '../../services/product.service'
 import { reactive, ref, watch, watchEffect } from 'vue'
+import { computed } from 'vue'
+
+const barcodeStore = useBarcodeStore()
+
+const decodedBarcode = computed(() => {
+  return barcodeStore.decodedBarcode
+})
 
 const moneyConf = {
   thousands: ' ',
@@ -140,9 +147,11 @@ watch(
 )
 
 watch(
-  () => useBarcodeStore().decodedBarcode,
+  () => decodedBarcode.value,
   (data) => {
+    console.log("bbbbbbbbbbbbbbbbb");
     if (data) {
+      console.log("aaaaaaaaaaaaa");
       searchBarcodeProduct.value = data
       searchProductByBarcode()
     }

@@ -256,14 +256,14 @@ watch(
 </script>
 
 <template>
-    <div class="p-8 space-y-6">
-        <div class="flex space-x-4">
+    <div class="p-4 md:p-8 space-y-6">
+        <div class="flex flex-col md:flex-row space-x-0 md:space-x-4 space-y-2 md:space-y-0">
             <div class="flex-1">
                 <div class="rounded-3xl bg-slate-50 p-5 space-y-4">
                     <div class="flex items-center justify-between">
                         <div class="space-y-0.5">
-                            <div class="text-xl font-semibold">Eng ko'p sotilgan mahsulotlar</div>
-                            <div class="text-base text-gray-600">So'ngi yetti kunlik statistika</div>
+                            <div class="text-base md:text-xl font-semibold">Eng ko'p sotilgan mahsulotlar</div>
+                            <div class="text-sm md:text-base text-gray-600">So'ngi yetti kunlik statistika</div>
                         </div>
                         <div class="flex items-center justify-center rounded-xl bg-blue-100 p-3">
                             <ShoppingCartIcon class="w-8 h-8 text-blue-600" />
@@ -290,7 +290,7 @@ watch(
                                     </div>
                                 </div>
                             </div>
-                            <div class="text-2xl font-bold">
+                            <div class="text-xl md:text-2xl font-bold">
                                 {{ product?.soldCount }}
                             </div>
                         </div>
@@ -298,9 +298,9 @@ watch(
                 </div>
             </div>
             <div class="flex-1 flex flex-col space-y-4">
-                <div class="flex items-center space-x-4">
+                <div class="flex flex-col md:flex-row md:items-center space-x-0 md:space-x-4 space-y-2 md:space-y-0">
                     <div class="flex-1 w-full space-y-4 rounded-3xl bg-slate-50 p-5">
-                        <div class="space-y-2">
+                        <div class="flex flex-row md:flex-col items-center md:items-start space-x-4 md:space-x-0 space-y-0 md:space-y-2">
                             <div class="inline-flex items-center justify-center rounded-xl bg-blue-100 p-3">
                                 <StoreIcon class="w-8 h-8 text-blue-600" />
                             </div>
@@ -308,46 +308,46 @@ watch(
                                 <div class="text-base text-gray-600">
                                     Mahsulot turlari
                                 </div>
-                                <div class="text-2xl font-semibold">
+                                <div class="text-xl md:text-2xl font-semibold">
                                     {{ productStats?.typeCount }} ta
                                 </div>
                             </div>
                         </div>
                     </div>
                     <div class="flex-1 w-full space-y-4 rounded-3xl bg-slate-50 p-5">
-                        <div class="space-y-2">
+                        <div class="flex flex-row md:flex-col items-center md:items-start space-x-4 md:space-x-0 space-y-0  md:space-y-2">
                             <div class="inline-flex items-center justify-center rounded-xl bg-blue-100 p-3">
                                 <StoreIcon class="w-8 h-8 text-blue-600" />
                             </div>
                             <div>
                                 <div class="text-base text-gray-600">
-                                    Barcha mahsulotlar soni
+                                    Mahsulotlar soni
                                 </div>
-                                <div class="text-2xl font-semibold">
+                                <div class="text-xl md:text-2xl font-semibold">
                                     {{ productStats?.quantity }} ta
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
-                <div class="flex items-center space-x-4">
+                <div class="flex flex-col md:flex-row md:items-center space-x-0 md:space-x-4 space-y-2 md:space-y-0">
                     <div class="flex-1 w-full space-y-4 rounded-3xl bg-slate-50 p-5">
-                        <div class="space-y-2">
+                        <div class="flex flex-row md:flex-col items-center md:items-start space-x-4 md:space-x-0 space-y-0 md:space-y-2">
                             <div class="inline-flex items-center justify-center rounded-xl bg-blue-100 p-3">
                                 <MoneyIcon class="w-8 h-8 text-blue-600" />
                             </div>
                             <div>
                                 <div class="text-base text-gray-600">
-                                    Barcha mahsulotlarning narxi
+                                    Mahsulotlar narxi
                                 </div>
-                                <div class="text-2xl font-semibold">
+                                <div class="text-xl md:text-2xl font-semibold">
                                     {{ useMoneyFormatter(productStats?.sum) }}
                                 </div>
                             </div>
                         </div>
                     </div>
                     <div class="flex-1 w-full space-y-4 rounded-3xl bg-slate-50 p-5">
-                        <div class="space-y-2">
+                        <div class="flex flex-row md:flex-col items-center md:items-start space-x-4 md:space-x-0 space-y-0 md:space-y-2">
                             <div class="inline-flex items-center justify-center rounded-xl bg-blue-100 p-3">
                                 <UsersIcon class="w-8 h-8 text-blue-600" />
                             </div>
@@ -355,7 +355,7 @@ watch(
                                 <div class="text-base text-gray-600">
                                     Xodimlar soni
                                 </div>
-                                <div class="text-2xl font-semibold">
+                                <div class="text-xl md:text-2xl font-semibold">
                                     {{ cashiersStat.length }} ta
                                 </div>
                             </div>
@@ -364,9 +364,9 @@ watch(
                 </div>
             </div>
         </div>
-        <div class="flex space-x-4">
+        <div class="flex flex-col md:flex-row space-x-0 md:space-x-4 space-y-2 md:space-y-0">
             <div class="flex-1 bg-slate-50 rounded-3xl p-5">
-                <div class="flex items-center justify-between px-2">
+                <div class="flex flex-col md:flex-row md:items-center md:justify-between px-2 space-y-3 md:space-y-0">
                     <div>
                         <div class="text-base font-bold text-gray-800">
                             Sotuvlar statistikasi
