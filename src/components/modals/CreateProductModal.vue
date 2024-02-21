@@ -2,6 +2,7 @@
 import { cleanObjectEmptyFields } from '../../mixins/utils'
 import CModal from '../common/CModal.vue'
 import { toast } from 'vue-sonner'
+import { useRouter } from 'vue-router'
 import { useModalStore } from '../../store/modal.store'
 import { useProductStore } from '../../store/product.store'
 import { useBarcodeStore } from '../../store/barcode.store'
@@ -14,6 +15,7 @@ import ProductService from '../../services/product.service'
 import { reactive, ref, watch, watchEffect } from 'vue'
 import { computed } from 'vue'
 
+const router = useRouter()
 const barcodeStore = useBarcodeStore()
 
 const decodedBarcode = computed(() => {
@@ -149,7 +151,7 @@ watch(
 watch(
   () => decodedBarcode.value,
   (data) => {
-    if (data) {
+    if (data && router?.currentRoute?.value?.path === '/products') {
       searchBarcodeProduct.value = data
       searchProductByBarcode()
     }

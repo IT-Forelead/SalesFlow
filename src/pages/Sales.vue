@@ -273,7 +273,7 @@ const reFocus = () => {
 watch(
   () => useBarcodeStore().decodedBarcode,
   (data) => {
-    if (data) {
+    if (data && router?.currentRoute?.value?.path === '/sales') {
       search.value = data
       searchProducts()
     }
