@@ -14,15 +14,59 @@ import { ref, watch } from 'vue';
 
 const loaded = ref(false)
 const torch = ref(false)
+const zoom = ref(1)
+const hasZoom = ref(false)
+const autofocus = ref(true)
+const focusDistance = ref(0)
 const hasTorch = ref(false)
 const landscape = ref(false)
+const hasAutofocus = ref(false)
+const hasFocusDistance = ref(false)
 const videoDevices = ref({})
 const deviceIndex = ref(null)
+const debounce = ref(false)
+const debounceTimeout = ref(null)
+const cameraDetails = ref({})
 
 const barcodeScannedAudio = new Audio('/audios/barcode-scanned.mp3')
 const isMobile = navigator?.userAgentData?.mobile || navigator?.platform === 'iPad' || navigator?.platform === 'iPhone'
 const isAndroid = navigator?.userAgentData?.platform === 'Android'
 const isChrome = navigator?.userAgentData?.brands.findIndex(brand => brand.brand === 'Google Chrome' || brand.brand === 'Chromium') !== -1
+
+watch(
+    () => hasAutofocus.value,
+    () => {
+        autofocus.value = hasAutofocus.value
+    },
+    { deep: true }
+)
+
+watch(
+    () => focusDistance.value,
+    () => {
+        sliderMovement()
+    },
+    { deep: true }
+)
+
+watch(
+    () => zoom.value,
+    () => {
+        sliderMovement()
+    },
+    { deep: true }
+)
+
+const sliderMovement = () => {
+    if (!debounce.value) {
+        debounce.value = true
+        window.navigator?.vibrate?.(10)
+        clearTimeout(debounceTimeout.value)
+        debounceTimeout.value = setTimeout(() => {
+            debounce.value = false
+        }, 10)
+    }
+}
 
 const onDecode = (decodedText) => {
     console.log('Barcode scanned:', decodedText)
@@ -33,6 +77,9 @@ const onDecode = (decodedText) => {
 
 const onLoaded = () => {
     loaded.value = true
+    if (!hasAutofocus.value) {
+        autofocus.value = false
+    }
     console.log('loaded')
 }
 
@@ -78,31 +125,38 @@ watch(
                 <XIcon />
             </button>
         </div>
-
         <div class="flex items-center justify-center space-x-4">
             <!-- camera rotate -->
-            <div v-if="videoDevices?.devices?.length < 2" class="flex items-center justify-center bg-gray-950 w-12 h-12 rounded-full">
+            <div v-if="videoDevices?.devices?.length < 2"
+                class="flex items-center justify-center bg-gray-950 w-12 h-12 rounded-full">
                 <CameraRotateIcon class="w-7 h-7 text-gray-700" />
             </div>
-            <div v-else @click="switchInputDevice()" class="flex items-center justify-center bg-gray-950 w-12 h-12 rounded-full cursor-pointer">
+            <div v-else @click="switchInputDevice()"
+                class="flex items-center justify-center bg-gray-950 w-12 h-12 rounded-full cursor-pointer">
                 <CameraRotateIcon class="w-7 h-7 text-white" />
             </div>
             <!-- focus -->
-            <div class="flex items-center justify-center bg-gray-950 w-12 h-12 rounded-full cursor-pointer">
+            <div v-if="hasAutofocus && autofocus" @click="autofocus = !autofocus"
+                class="flex items-center justify-center bg-gray-950 w-12 h-12 rounded-full cursor-pointer">
+                <CornersOutIcon class="w-7 h-7 text-white" />
+            </div>
+            <div v-else class="flex items-center justify-center bg-gray-950 w-12 h-12 rounded-full">
                 <CornersOutIcon class="w-7 h-7 text-gray-700" />
             </div>
             <!-- rotate -->
             <div v-if="!landscape" class="flex items-center justify-center bg-gray-950 w-12 h-12 rounded-full">
                 <SmartphoneRotateIcon class="w-7 h-7 text-gray-700" />
             </div>
-            <div v-else-if="landscape" @click="screenRotate()" class="flex items-center justify-center bg-gray-950 w-12 h-12 rounded-full cursor-pointer">
+            <div v-else-if="landscape" @click="screenRotate()"
+                class="flex items-center justify-center bg-gray-950 w-12 h-12 rounded-full cursor-pointer">
                 <SmartphoneRotateIcon class="w-7 h-7 text-white" />
             </div>
             <!-- lightning -->
             <div v-if="!hasTorch" class="flex items-center justify-center bg-gray-950 w-12 h-12 rounded-full">
                 <LightningIcon class="w-7 h-7 text-gray-700" />
             </div>
-            <div v-else-if="hasTorch && torch" @click="lightning()" class="flex items-center justify-center bg-gray-950 w-12 h-12 rounded-full cursor-pointer">
+            <div v-else-if="hasTorch && torch" @click="lightning()"
+                class="flex items-center justify-center bg-gray-950 w-12 h-12 rounded-full cursor-pointer">
                 <LightningIcon v-if="torch" class="w-7 h-7 text-white" />
                 <LightningSlashIcon v-else class="w-7 h-7 text-white" />
             </div>
@@ -111,7 +165,22 @@ watch(
             ss {{ videoDevices }} aa
         </div> -->
         <div class="flex items-center justify-center">
-            <StreamBarcodeReader v-model:videoDevices="videoDevices" v-model:hasTorch="hasTorch" :landscape="landscape" :torch="torch" @decode="onDecode" @loaded="onLoaded" />
+            <StreamBarcodeReader v-model:videoDevices="videoDevices" v-model:hasFocusDistance="hasFocusDistance"
+                v-model:hasAutofocus="hasAutofocus" v-model:hasTorch="hasTorch" v-model:hasZoom="hasZoom"
+                v-model:cameraDetails="cameraDetails" :landscape="landscape" :torch="torch" :zoom="zoom"
+                :autofocus="autofocus" :focus-distance="focusDistance" :device-index="deviceIndex"
+                :ms-between-decoding="500" @decode="onDecode" @loaded="onLoaded" />
+        </div>
+        <div v-if="!autofocus && hasFocusDistance && loaded" class="focus-container">
+            <div class="text-white">Focus</div>
+            <input v-model="focusDistance" type="range" :min="hasFocusDistance.min || 0"
+                :max="Math.min(hasFocusDistance.max, 1) || 1" :step="hasFocusDistance.step || 0.1" />
+        </div>
+
+        <div v-if="hasZoom && loaded" class="zoom-container">
+            <div class="text-white">Zoom</div>
+            <input v-model="zoom" type="range" :min="hasZoom.min || 1" :max="hasZoom.max || 2"
+                :step="hasZoom.step || 0.1" />
         </div>
 
     </div>
