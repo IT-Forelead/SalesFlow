@@ -1,6 +1,6 @@
 <script setup>
 import CModal from '../common/CModal.vue'
-import {vMaska} from 'maska'
+import { vMaska } from 'maska'
 import { reactive, ref } from 'vue'
 import { toast } from 'vue-sonner'
 import { useModalStore } from '../../store/modal.store'
@@ -9,6 +9,9 @@ import CancelButton from '../buttons/CancelButton.vue'
 import Spinners270RingIcon from '../../assets/icons/Spinners270RingIcon.vue'
 import ProductService from '../../services/product.service'
 import { isBarcode, isBarcodeType } from '../../mixins/barcodeFormatter'
+import BarcodeIcon from '../../assets/icons/BarcodeIcon.vue'
+import { useBarcodeStore } from '../../store/barcode.store'
+import { watch } from 'vue'
 
 const isLoading = ref(false)
 
@@ -54,8 +57,6 @@ const createProductBarcode = () => {
     toast.error("Shtrix kod noto'g'ri!")
   } else if (!submitData.saleType) {
     toast.error("Sotuv turinini kiriting!")
-  } else if (!submitData.year) {
-    toast.error("Iltimos barcode ro'yxatdan o'tgan yilini kiriting!")
   } else {
     isLoading.value = true
     ProductService.createProductBarcode({
@@ -68,7 +69,7 @@ const createProductBarcode = () => {
       barcode: submitData.barcode,
       regNumber: submitData.regNumber,
       saleType: submitData.saleType,
-      year: submitData.year
+      year: submitData.subType ? submitData.subType : 1948
     }).then(() => {
       toast.success("Shtrix kod muoffaqiyatli qo'shildi!")
       ProductService.getBarcodes()
@@ -86,6 +87,17 @@ const createProductBarcode = () => {
     })
   }
 }
+
+watch(
+  () => useBarcodeStore().decodedBarcode,
+  (data) => {
+    if (data) {
+      submitData.barcode = data
+      useBarcodeStore().setDecodedBarcode('')
+    }
+  },
+  { deep: true }
+)
 </script>
 
 <template>
@@ -94,7 +106,7 @@ const createProductBarcode = () => {
     <template v-slot:header> Shtrix kod yaratish </template>
     <template v-slot:body>
       <div class="space-y-4">
-        <div class="flex items-center space-x-4">
+        <div class="flex flex-col md:flex-row md:items-center space-y-2 md:space-y-0 md:space-x-4">
           <div class="flex-1">
             <label for="trademark" class="text-base font-medium">
               Mahsulot nomi
@@ -114,15 +126,21 @@ const createProductBarcode = () => {
               placeholder="Qadoqini kiriting" />
           </div>
         </div>
-        <div class="flex items-center space-x-4">
+        <div class="flex flex-col md:flex-row md:items-center space-y-2 md:space-y-0 md:space-x-4">
           <div class="flex-1">
             <label for="barcode" class="text-base font-medium">
               Shtrix kodi
               <span class="text-red-500 mr-2">*</span>
             </label>
-            <input id="barcode" type="text" v-model="submitData.barcode"
-              class="bg-slate-100 border-none text-slate-900 rounded-lg w-full py-2.5 placeholder-slate-400"
-              placeholder="Shtrix kodni kiriting" />
+            <div class="relative">
+              <input id="barcode" type="text" v-model="submitData.barcode"
+                class="bg-slate-100 border-none text-slate-900 rounded-lg w-full py-2.5 placeholder-slate-400"
+                placeholder="Shtrix kodni kiriting" />
+              <div @click="useModalStore().openCameraScannerModal()"
+                class="absolute top-1/2 -translate-y-1/2 right-1 flex items-center justify-center w-8 h-8 rounded-lg hover:bg-white cursor-pointer">
+                <BarcodeIcon class="w-6 h-6 text-slate-900" />
+              </div>
+            </div>
           </div>
           <div class="flex-1">
             <label for="sale-type" class="text-base font-medium">
@@ -139,18 +157,16 @@ const createProductBarcode = () => {
             </select>
           </div>
         </div>
-        <div class="flex items-center space-x-4">
+        <div class="flex flex-col md:flex-row md:items-center space-y-2 md:space-y-0 md:space-x-4">
           <div class="flex-1">
             <label for="barcode" class="text-base font-medium">
               Ro'yxatdan o'tgan yili
-              <span class="text-red-500 mr-2">*</span>
             </label>
             <input id="barcode" type="text" v-model="submitData.year" v-maska data-maska="####"
-                   class="bg-slate-100 border-none text-slate-900 rounded-lg w-full py-2.5 placeholder-slate-400"
-                   placeholder="Masalan: 2018" />
+              class="bg-slate-100 border-none text-slate-900 rounded-lg w-full py-2.5 placeholder-slate-400"
+              placeholder="Masalan: 2018" />
           </div>
           <div class="flex-1"></div>
-
         </div>
       </div>
     </template>
