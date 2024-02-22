@@ -14,6 +14,8 @@ import BarcodeIcon from '../../assets/icons/BarcodeIcon.vue'
 import ProductService from '../../services/product.service'
 import { reactive, ref, watch, watchEffect } from 'vue'
 import { computed } from 'vue'
+import { isBarcode } from '../../mixins/barcodeFormatter'
+import ImageIcon from '../../assets/icons/ImageIcon.vue'
 
 const router = useRouter()
 const barcodeStore = useBarcodeStore()
@@ -30,8 +32,9 @@ const moneyConf = {
 
 const isLoading = ref(false)
 const isSearching = ref(false)
-const searchBarcodeProduct = ref('')
-const barcodeProduct = ref({})
+const searchProductBarcode = ref('')
+const productBarcode = ref({})
+const productBarcodes = ref([])
 
 const submitData = reactive({
   name: '',
@@ -96,35 +99,60 @@ const createProduct = () => {
   }
 }
 
-const searchProductByBarcode = () => {
-  if (!searchBarcodeProduct.value) {
-    toast.error('Shtrix kodni kiriting!')
+const searchProductBarcodes = () => {
+  if (!searchProductBarcode.value) {
+    toast.error('Mahsulot nomi yoki shtrix kodini kiriting!')
   } else {
     isSearching.value = true
-    ProductService.getBarcodeProduct(searchBarcodeProduct.value)
-      .then((res) => {
-        if (res) {
-          useBarcodeStore().setDecodedBarcode('')
-          barcodeProduct.value = res
-        } else {
-          toast.error('Bunday shtrix kodli mahsulot mavjud emas!')
-          clearSubmitData()
-          submitData.barcode = useBarcodeStore().decodedBarcode
-        }
-        isSearching.value = false
-        searchBarcodeProduct.value = ''
-      }).catch((err) => {
-        toast.error('Mahsulotni olishda xatolik yuz berdi!')
-        setTimeout(() => {
+    if (isBarcode(searchProductBarcode.value)) {
+      ProductService.getBarcodeProduct(searchProductBarcode.value)
+        .then((res) => {
+          if (res) {
+            useBarcodeStore().setDecodedBarcode('')
+            productBarcode.value = res
+          } else {
+            toast.error('Bunday shtrix kodli mahsulot mavjud emas!')
+            clearSubmitData()
+            submitData.barcode = useBarcodeStore().decodedBarcode
+          }
           isSearching.value = false
-        }, 3000)
-      })
+          searchProductBarcode.value = ''
+        }).catch((err) => {
+          toast.error('Mahsulotni olishda xatolik yuz berdi!')
+          setTimeout(() => {
+            isSearching.value = false
+          }, 3000)
+        })
+    } else {
+      ProductService.getBarcodeProductByName(searchProductBarcode.value)
+        .then((res) => {
+          if (res) {
+            useBarcodeStore().setDecodedBarcode('')
+            productBarcodes.value = res
+          } else {
+            toast.error('Bunday nomli mahsulot mavjud emas!')
+            clearSubmitData()
+          }
+          isSearching.value = false
+          searchProductBarcode.value = ''
+        }).catch((err) => {
+          toast.error('Mahsulotni olishda xatolik yuz berdi!')
+          setTimeout(() => {
+            isSearching.value = false
+          }, 3000)
+        })
+    }
   }
+}
+
+const selectedProductBarcode = (product) => {
+  productBarcode.value = product
+  productBarcodes.value = []
 }
 
 const whenPressEnter = (e) => {
   if (e.keyCode === 13) {
-    searchProductByBarcode()
+    searchProductBarcodes()
   }
 }
 
@@ -137,12 +165,13 @@ watchEffect(() => {
 })
 
 watch(
-  () => barcodeProduct.value,
+  () => productBarcode.value,
   (data) => {
     if (data) {
       submitData.barcode = data?.barcode
       submitData.name = data?.trademark
       submitData.packaging = data?.packaging
+      submitData.saleType = data?.saleType
     }
   },
   { deep: true }
@@ -152,8 +181,8 @@ watch(
   () => decodedBarcode.value,
   (data) => {
     if (data && router?.currentRoute?.value?.path === '/products') {
-      searchBarcodeProduct.value = data
-      searchProductByBarcode()
+      searchProductBarcode.value = data
+      searchProductBarcodes()
     }
   },
   { deep: true }
@@ -171,7 +200,7 @@ watch(
         <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
           <SearchIcon class="w-5 h-5 text-slate-400" />
         </div>
-        <input type="search" v-model="searchBarcodeProduct" ref="onSearchFocus" v-on:keypress="whenPressEnter($event)"
+        <input type="search" v-model="searchProductBarcode" ref="onSearchFocus" v-on:keypress="whenPressEnter($event)"
           class="bg-slate-100 border-none text-slate-900 rounded-lg w-full h-12 pl-10 placeholder-slate-400 placeholder:text-sm md:placeholder:text-lg"
           placeholder="Shtrix kodi orqali izlash...">
         <div class="absolute inset-y-0 right-0 flex items-center space-x-2">
@@ -179,11 +208,31 @@ watch(
             class="flex items-center justify-center w-8 h-8 rounded-lg hover:bg-white cursor-pointer">
             <BarcodeIcon class="w-6 h-6 text-slate-900" />
           </div>
-          <button type="button" @click="searchProductByBarcode()"
+          <button type="button" @click="searchProductBarcodes()"
             class="px-4 bg-[#0167F3] text-white rounded-lg text-base h-full md:text-lg cursor-pointer">
             Izlash
           </button>
         </div>
+        <div v-if="productBarcodes.length > 0" class="absolute top-16 left-0 bg-transparent w-full space-y-2 z-[2000]">
+            <div v-for="(product, idx) in productBarcodes" :key="idx" @click="selectedProductBarcode(product)" class="flex items-center justify-between bg-white border shadow-sm rounded-xl px-3 py-2 w-full cursor-pointer hover:bg-slate-100">
+              <div class="flex items-center space-x-3">
+                <div class="flex items-center justify-center bg-slate-200 w-10 h-10 rounded-lg">
+                  <ImageIcon class="text-gray-500 w-8 h-8" />
+                </div>
+                <div>
+                  <div class="text-base font-semibold text-gray-800">
+                    {{ product?.trademark + " - " + product?.packaging }}
+                  </div>
+                  <div class="text-base font-medium text-gray-500">
+                    {{ product?.type_code }}
+                  </div>
+                </div>
+              </div>
+              <div class="text-base font-semibold text-gray-800">
+                {{ product?.barcode }}
+              </div>
+            </div>
+          </div>
       </div>
       <div class="space-y-2 md:space-y-4">
         <div class="flex flex-col md:flex-row md:items-center space-y-2 md:space-y-0 md:space-x-4">
