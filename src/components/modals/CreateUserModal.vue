@@ -30,9 +30,11 @@ const privileges = ref([
       'find_barcode',
       'find_order',
       'update_product',
+      'update_settings',
       'view_histories',
       'view_orders',
       'view_products',
+      'view_settings'
     ],
   },
   {
@@ -63,10 +65,12 @@ const privileges = ref([
       'find_barcode',
       'find_order',
       'update_product',
+      'update_settings',
       'view_histories',
       'view_markets',
       'view_orders',
       'view_products',
+      'view_settings',
       'view_users'
     ]
   },

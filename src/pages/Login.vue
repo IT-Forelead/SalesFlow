@@ -26,44 +26,48 @@ const togglePassword = () => (hidePassword.value = !hidePassword.value)
 const getRole = (privileges) => {
   switch (true) {
     case
-      privileges.includes('create_barcode') &&
-      privileges.includes('create_market') &&
-      privileges.includes('create_user') &&
-      privileges.includes('dashboard') &&
-      privileges.includes('update_barcode') &&
-      privileges.includes('view_barcodes') &&
-      privileges.includes('view_histories') &&
-      privileges.includes('view_markets') &&
-      privileges.includes('view_orders') &&
-      privileges.includes('view_products') &&
-      privileges.includes('view_users'):
+    privileges.includes('create_barcode') &&
+    privileges.includes('create_market') &&
+    privileges.includes('create_user') &&
+    privileges.includes('dashboard') &&
+    privileges.includes('update_barcode') &&
+    privileges.includes('view_barcodes') &&
+    privileges.includes('view_histories') &&
+    privileges.includes('view_markets') &&
+    privileges.includes('view_orders') &&
+    privileges.includes('view_products') &&
+    privileges.includes('view_users'):
       return t('admin')
     case
-      privileges.includes('create_order') &&
-      privileges.includes('create_product') &&
-      privileges.includes('create_history') &&
-      privileges.includes('create_order') &&
-      privileges.includes('dashboard') &&
-      privileges.includes('find_barcode') &&
-      privileges.includes('find_order') &&
-      privileges.includes('view_products') &&
-      privileges.includes('view_orders') &&
-      privileges.includes('view_users') &&
-      privileges.includes('view_histories') &&
-      privileges.includes('view_orders') &&
-      privileges.includes('view_markets') &&
-      privileges.includes('update_product'):
+    privileges.includes('create_history') &&
+    privileges.includes('create_order') &&
+    privileges.includes('create_product') &&
+    privileges.includes('create_user') &&
+    privileges.includes('dashboard') &&
+    privileges.includes('find_barcode') &&
+    privileges.includes('find_order') &&
+    privileges.includes('update_product') &&
+    privileges.includes('update_settings') &&
+    privileges.includes('view_histories') &&
+    privileges.includes('view_markets') &&
+    privileges.includes('view_orders') &&
+    privileges.includes('view_products') &&
+    privileges.includes('view_settings') &&
+    privileges.includes('view_users'):
       return t('manager')
     case
-      privileges.includes('create_product') &&
-      privileges.includes('create_history') &&
-      privileges.includes('create_order') &&
-      privileges.includes('find_barcode') &&
-      privileges.includes('find_order') &&
-      privileges.includes('view_histories') &&
-      privileges.includes('view_products') &&
-      privileges.includes('view_orders') &&
-      privileges.includes('update_product'):
+    privileges.includes('create_history') &&
+    privileges.includes('create_order') &&
+    privileges.includes('create_product') &&
+    privileges.includes('dashboard') &&
+    privileges.includes('find_barcode') &&
+    privileges.includes('find_order') &&
+    privileges.includes('update_product') &&
+    privileges.includes('update_settings') &&
+    privileges.includes('view_histories') &&
+    privileges.includes('view_orders') &&
+    privileges.includes('view_products')&&
+    privileges.includes('view_settings'):
       return t('cashier')
     default:
       return t('user')
