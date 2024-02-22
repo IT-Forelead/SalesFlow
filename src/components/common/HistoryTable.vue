@@ -7,11 +7,7 @@ import {
   getSortedRowModel,
   useVueTable,
 } from '@tanstack/vue-table';
-import { computed, ref, watch } from 'vue';
-import CaretDoubleLeftIcon from '../../assets/icons/CaretDoubleLeftIcon.vue';
-import CaretDoubleRightIcon from '../../assets/icons/CaretDoubleRightIcon.vue';
-import CaretLeftIcon from '../../assets/icons/CaretLeftIcon.vue';
-import CaretRightIcon from '../../assets/icons/CaretRightIcon.vue';
+import { ref, watch } from 'vue';
 import { useI18n } from 'vue-i18n'
 
 const { t } = useI18n()
