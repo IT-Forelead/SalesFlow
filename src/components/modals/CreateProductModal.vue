@@ -83,7 +83,8 @@ const createProduct = () => {
       ProductService.getProducts({})
         .then((res) => {
           useProductStore().clearStore()
-          useProductStore().setProducts(res.reverse())
+          useProductStore().total = res.total
+          useProductStore().setProducts(res.data.reverse())
         })
       isLoading.value = false
       closeModal()

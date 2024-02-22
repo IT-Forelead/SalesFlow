@@ -21,7 +21,9 @@ const productBarcodes = computed(() => {
   renderKey.value += 1
   return productStore.productBarcodes
 })
-
+const total = computed(() => {
+  return productStore.barcodesTotal
+})
 const openEditProductBarcodeModal = (data) => {
   useModalStore().openEditProductBarcodeModal()
   useProductStore().setSelectedBarcodes(data)
@@ -78,15 +80,14 @@ const columns = [
     enableSorting: false,
   },
 ]
-const total = ref(1)
 const page = ref(1)
 const pageSize = 30
 const getBarcodes = () => {
   isLoading.value = true
   ProductService.getBarcodes(pageSize, page.value)
     .then((response) => {
-      total.value = response.total
       useProductStore().clearStore()
+      useProductStore().barcodesTotal = response.total
       useProductStore().setProductBarcodes(response.data)
     }).finally(() => {
     isLoading.value = false
@@ -94,7 +95,7 @@ const getBarcodes = () => {
 }
 
 
-const totalPages = computed(() => Math.ceil(total.value / 30))
+const totalPages = computed(() => Math.ceil(total.value / pageSize))
 const displayedPageNumbers = computed(() => {
   const numPages = Math.min(4, totalPages.value)
   const startPage = Math.max(1, page.value - Math.floor(numPages / 2))
@@ -157,6 +158,7 @@ watch(page, () => {
       </div>
       <div class="flex items-center space-x-2">
         <button
+          :disabled="page === 1"
           @click="goToPage(1)"
           class="flex items-center justify-center px-3 py-2 text-base font-medium text-slate-900 rounded-lg select-none hover:bg-blue-200 disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
           type="button">
@@ -190,6 +192,7 @@ watch(page, () => {
           <CaretRightIcon class="w-5 h-5" />
         </button>
         <button
+          :disabled="page === totalPages"
           @click="goToPage(totalPages)"
           class="flex items-center gap-2 px-3 py-2 text-base font-medium text-slate-900 rounded-lg select-none hover:bg-blue-200 disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
           type="button">

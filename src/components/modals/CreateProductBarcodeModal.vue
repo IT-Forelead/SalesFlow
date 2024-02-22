@@ -75,7 +75,8 @@ const createProductBarcode = () => {
       ProductService.getBarcodes()
         .then((res) => {
           useProductStore().clearStore()
-          useProductStore().setProductBarcodes(res)
+          useProductStore().barcodesTotal = res.total
+          useProductStore().setProductBarcodes(res.data)
         })
       isLoading.value = false
       closeModal()

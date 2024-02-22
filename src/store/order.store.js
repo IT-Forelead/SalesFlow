@@ -3,6 +3,7 @@ import { defineStore } from 'pinia'
 export const useOrderStore = defineStore('order', {
   state: () => ({
     orders: [],
+    totalOrders:0,
     selectedOrder: {},
   }),
   actions: {

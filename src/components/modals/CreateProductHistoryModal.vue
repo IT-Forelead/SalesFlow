@@ -80,7 +80,7 @@ const getProducts = () => {
   ProductService.getProducts({})
     .then((res) => {
       useProductStore().clearStore()
-      useProductStore().setProducts(res)
+      useProductStore().setProducts(res.data)
     }).finally(() => {
     isLoading.value = false
   })
