@@ -4,8 +4,8 @@ class OrderService {
   async createOrder(data) {
     return AxiosService.post('/order/create', data)
   }
-  async getOrders() {
-    return AxiosService.get('/order')
+  async getOrders(limit, page) {
+    return AxiosService.get(`/order?limit=${limit}&page=${page}`)
   }
   async getOrdersStat() {
     return AxiosService.get('/order/stats/week')

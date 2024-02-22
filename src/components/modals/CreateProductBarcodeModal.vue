@@ -16,27 +16,17 @@ import { watch } from 'vue'
 const isLoading = ref(false)
 
 const submitData = reactive({
-  type: '',
-  subType: '',
-  name: '',
   trademark: '',
   packaging: '',
-  typeCode: '',
   barcode: '',
-  regNumber: 0,
-  saleType: '',
-  year: '',
+  saleType: null,
+  year: null,
 })
 
 const clearSubmitData = () => {
-  submitData.type = ''
-  submitData.subType = ''
-  submitData.name = ''
   submitData.trademark = ''
   submitData.packaging = ''
-  submitData.typeCode = ''
   submitData.barcode = ''
-  submitData.regNumber = 0
   submitData.saleType = ''
   submitData.year = ''
 }
@@ -53,29 +43,24 @@ const createProductBarcode = () => {
     toast.error("Qadoqini kiriting!")
   } else if (!submitData.barcode) {
     toast.error("Shtrix kodini kiriting!")
-  } else if (submitData.barcode && !isBarcode(submitData.barcode)) {
+  } else if (submitData.barcode.trim() && !isBarcode(submitData.barcode.trim())) {
     toast.error("Shtrix kod noto'g'ri!")
-  } else if (!submitData.saleType) {
-    toast.error("Sotuv turinini kiriting!")
   } else {
     isLoading.value = true
     ProductService.createProductBarcode({
-      type: submitData.type ? submitData.type : '-',
-      subType: submitData.subType ? submitData.subType : '-',
-      name: submitData.name ? submitData.name : '-',
       trademark: submitData.trademark,
       packaging: submitData.packaging,
-      typeCode: isBarcodeType(submitData.barcode),
-      barcode: submitData.barcode,
-      regNumber: submitData.regNumber,
+      typeCode: isBarcodeType(submitData.barcode.trim()),
+      barcode: submitData.barcode.trim(),
       saleType: submitData.saleType,
-      year: submitData.subType ? submitData.subType : 1948
+      year: submitData.year ? submitData.year : null
     }).then(() => {
       toast.success("Shtrix kod muoffaqiyatli qo'shildi!")
-      ProductService.getBarcodes()
+      ProductService.getBarcodes(30, 1)
         .then((res) => {
           useProductStore().clearStore()
-          useProductStore().setProductBarcodes(res)
+          useProductStore().barcodesTotal = res.total
+          useProductStore().setProductBarcodes(res.data)
         })
       isLoading.value = false
       closeModal()
@@ -144,7 +129,6 @@ watch(
           <div class="flex-1">
             <label for="sale-type" class="text-base font-medium">
               Sotuv turi
-              <span class="text-red-500 mr-2">*</span>
             </label>
             <select id="sale-type" v-model="submitData.saleType"
               class="bg-slate-100 border-none text-slate-900 rounded-lg block w-full h-11">
