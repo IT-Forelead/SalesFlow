@@ -22,6 +22,12 @@ import { useBarcodeStore } from '../store/barcode.store'
 import { computed, onMounted } from 'vue'
 import { isBarcode } from '../mixins/barcodeFormatter'
 
+const openCreateSaleModal = () => {
+  showSale.value = false
+  onSearchFocus.value = null
+  useModalStore().openCreateSaleModal()
+}
+
 const router = useRouter()
 
 const moneyConf = {
@@ -35,6 +41,8 @@ const submitData = reactive({
   paymentReceived: 0,
 })
 
+const boundarySale = ref(300000)
+const showSale = ref(false)
 const totalPrice = ref(0)
 // const totalPriceWithDiscount = ref(0)
 const search = ref('')
@@ -216,6 +224,7 @@ const clearSubmitData = () => {
 }
 
 const createOrder = () => {
+  console.log('dfsdfhgsdhfghsdgf');
   if (selectedProducts.value.length == 0) {
     toast.error("Tanlangan mahsulotlar mavjud emas!")
   } else {
@@ -228,6 +237,14 @@ const createOrder = () => {
       })
     ).then((res) => {
       toast.success("Sotuv muoffaqiyatli amalga oshirildi!")
+
+      if (totalPrice.value >= boundarySale.value) {
+      showSale.value = true
+    } else {
+      showSale.value = false
+    }
+
+
       isLoading.value = false
       clearSubmitData()
     })
@@ -240,6 +257,7 @@ watch(
     totalPrice.value = selectedProducts.value
       .map((product) => product?.price * product?.amount)
       .reduce((accumulator, currentValue) => accumulator + currentValue, 0);
+    
   },
   { deep: true }
 )
@@ -265,7 +283,7 @@ watchEffect(() => {
 })
 
 const reFocus = () => {
-  if (router?.currentRoute?.value?.path === '/sales') {
+  if (router?.currentRoute?.value?.path === '/sales' && onSearchFocus.value) {
     onSearchFocus.value.focus()
   }
 }
@@ -533,6 +551,12 @@ onMounted(() => {
         class="w-full py-3 px-4 rounded-full text-white text-lg font-medium bg-blue-500 cursor-pointer hover:bg-blue-600">
         To'lov
       </button>
+      <div>
+        <button v-if='showSale'  @click="openCreateSaleModal"
+        class="w-72 py-3 px-4 rounded-full text-white text-lg font-medium bg-blue-500 cursor-pointer hover:bg-blue-600">
+          Chegirma
+        </button>
+      </div>
     </div>
   </div>
 </template>

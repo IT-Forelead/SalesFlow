@@ -21,6 +21,7 @@ import DeleteUserModal from './modals/DeleteUserModal.vue'
 import EditProductBarcodeModal from './modals/EditProductBarcodeModal.vue'
 import CameraScannerModal from './modals/CameraScannerModal.vue'
 import BarcodeScannerModal from './modals/BarcodeScannerModal.vue'
+import CreateSaleModal from './modals/CreateSaleModal.vue'
 
 const notificationDropdown = ref(null)
 
@@ -49,7 +50,8 @@ onClickOutside(notificationDropdown, () => {
       </div>
     </div>
   </div>
-
+  
+  <CreateSaleModal/>
   <CreateProductBarcodeModal />
   <CreateMarketModal />
   <CreateProductModal />
@@ -67,6 +69,7 @@ onClickOutside(notificationDropdown, () => {
   <EditProductBarcodeModal/>
   <CameraScannerModal/>
   <BarcodeScannerModal/>
+  
 </template>
 
 <style scoped></style>

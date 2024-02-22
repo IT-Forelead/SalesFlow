@@ -72,6 +72,13 @@ const routes = [
     beforeEnter: navigationGuards('view_users'),
   },
   {
+    path: '/sale-settings',
+    name: 'Sale settings',
+    component: () => import('../pages/SaleSettings.vue'),
+    meta: { layout: 'dashboard' },
+    beforeEnter: navigationGuards('view_products'),
+  },
+  {
     path: '/notfound',
     name: 'Not-Found',
     component: () => import('../components/NotFound.vue'),
