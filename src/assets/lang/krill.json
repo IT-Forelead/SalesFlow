@@ -48,5 +48,13 @@
   "product": "Маҳсулот",
   "type": "Тури",
   "purchasePrice": "Сотиб олинган нархи",
-  "salePrice": "Сотув нархи"
+  "salePrice": "Сотув нархи",
+  "addProduct": "Маҳсулот қўшиш",
+  "typeOfSale": "Сотиш тури",
+  "barcode": "Штрих код",
+  "name": "Номи",
+  "package": "Қадоқи",
+  "litre": "Литр",
+  "kg": "Кг",
+  "g": "Г"
 }

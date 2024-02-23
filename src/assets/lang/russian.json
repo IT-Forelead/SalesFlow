@@ -48,5 +48,13 @@
   "product": "Продукт",
   "type": "Тип",
   "purchasePrice": "Цена покупки",
-  "salePrice": "Цена продажи"
+  "salePrice": "Цена продажи",
+  "addProduct": "Добавить товар",
+  "typeOfSale": "Тип продажи",
+  "barcode": "Штрих-код",
+  "name": "Имя",
+  "package": "Упаковка",
+  "litre": "Литр",
+  "kg": "Кг",
+  "g": "Г"
 }

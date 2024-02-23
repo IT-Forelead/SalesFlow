@@ -48,5 +48,13 @@
   "product": "Product",
   "type": "Type",
   "purchasePrice": "Purchase price",
-  "salePrice": "Sale price"
+  "salePrice": "Sale price",
+  "addProduct": "Add product",
+  "typeOfSale": "Type of sale",
+  "barcode": "Barcode",
+  "name": "Name",
+  "package": "Package",
+  "litre": "Litre",
+  "kg": "Kg",
+  "g": "G"
 }

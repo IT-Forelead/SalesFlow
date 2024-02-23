@@ -48,5 +48,13 @@
   "product": "Mahsulot",
   "type": "Turi",
   "purchasePrice": "Sotib olingan narxi",
-  "salePrice": "Sotuv narxi"
+  "salePrice": "Sotuv narxi",
+  "addProduct": "Mahsulot qo'shish",
+  "typeOfSale": "Sotish turi",
+  "barcode": "Shtrix kod",
+  "name": "Nomi",
+  "package": "Qadoqi",
+  "litre": "Litr",
+  "kg": "Kg",
+  "g": "G"
 }
