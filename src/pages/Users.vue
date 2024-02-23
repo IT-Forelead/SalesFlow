@@ -104,7 +104,7 @@ const columns = [
     header: t('createdAt'),
   },
   {
-    accessorKey: 'edit',
+    accessorKey: 'actions',
     header: t('actions'),
     cell: ({ row }) => h('div', { class: 'flex items-center space-x-2' }, [
       h('button', { onClick: () => { openEditUser(row.original) } }, [

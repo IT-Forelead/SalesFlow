@@ -28,5 +28,17 @@
   "actions": "Действия",
   "n": "№",
   "search": "Поиск",
-  "total": "Общий"
+  "total": "Общий",
+  "shop": "Магазин",
+  "addShop": "Добавить магазин",
+  "shopName": "Название магазина",
+  "address": "Адрес",
+  "price": "Цена",
+  "accepted": "Принято",
+  "discount": "Скидка",
+  "percent": "Процент",
+  "quantity": "Количество",
+  "discountAmount": "Сумма скидки",
+  "piece": "кусок",
+  "count": "Считать"
 }

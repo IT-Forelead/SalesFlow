@@ -11,6 +11,9 @@ import { useModalStore } from '../store/modal.store'
 import { useMarketStore } from '../store/market.store'
 import { useAuthStore } from '../store/auth.store.js'
 import decodeJwt, { parseJwt } from '../mixins/utils.js'
+import { useI18n } from 'vue-i18n'
+
+const { t } = useI18n()
 
 const globalSearchFromTable = ref('')
 const renderKey = ref(0)
@@ -25,26 +28,26 @@ const isLoading = ref(false)
 const columns = [
   {
     accessorKey: 'id',
-    header: 'N',
+    header: t('n'),
     cell: ({ row }) => `${parseInt(row.id, 10) + 1}`,
     enableSorting: false,
   },
   {
     accessorKey: 'name',
-    header: "Do'kon nomi",
+    header: t('shopName'),
   },
   {
     accessorKey: 'address',
-    header: 'Manzili',
+    header: t('address'),
   },
   {
     accessorKey: 'createdAt',
     accessorFn: row => moment(row.createdAt).format('DD/MM/YYYY H:mm'),
-    header: 'Yaratilgan vaqti',
+    header: t('createdAt'),
   },
   {
     accessorKey: 'actions',
-    header: 'Amallar',
+    header: t('actions'),
     cell: ({ row }) => h('div', { class: 'flex items-center space-x-2' }, [
       h('button', { onClick: () => { openEditMarketModal(row.original) } }, [
         h(EditIcon, { class: 'w-6 h-6 text-blue-600 hover:scale-105' })
@@ -93,7 +96,7 @@ onMounted(() => {
 <template>
   <div class="p-4 md:p-8">
     <div class="text-slate-900 text-2xl md:text-3xl font-semibold mb-6">
-      Do'konlar
+      {{ $t('shops') }}
     </div>
     <div class="flex flex-col md:flex-row items-center justify-between">
       <div class="relative w-full md:w-auto my-2 md:mb-0 order-2 md:order-1">
@@ -107,7 +110,7 @@ onMounted(() => {
       <div class="w-full md:w-auto order-1 md:order-2">
         <button v-if="navigationGuard('create_market')" @click="useModalStore().openCreateMarketModal()"
           class="w-full md:w-auto py-2 px-4 rounded-full text-white text-lg font-medium bg-blue-500 cursor-pointer hover:bg-blue-600">
-          Do'kon qo'shish
+          {{ $t('addShop') }}
         </button>
       </div>
     </div>

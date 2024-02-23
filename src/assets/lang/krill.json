@@ -28,5 +28,17 @@
   "actions": "Амаллар",
   "n": "№",
   "search": "Излаш",
-  "total": "Жами"
+  "total": "Жами",
+  "shop": "Дўкон",
+  "addShop": "Дўкон қўшиш",
+  "shopName": "Дўкон номи",
+  "address": "Манзили",
+  "price": "Нархи",
+  "accepted": "Қабул қилинган",
+  "discount": "Чегирма",
+  "percent": "Фоизи",
+  "quantity": "Миқдори",
+  "discountAmount": "Чегирма миқдори",
+  "piece": "та",
+  "count": "Сони"
 }

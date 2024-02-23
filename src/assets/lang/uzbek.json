@@ -28,5 +28,17 @@
   "actions": "Amallar",
   "n": "№",
   "search": "Izlash",
-  "total": "Jami"
+  "total": "Jami",
+  "shop": "Do'kon",
+  "addShop": "Do'kon qo'shish",
+  "shopName": "Do'kon nomi",
+  "address": "Manzili",
+  "price": "Narxi",
+  "accepted": "Qabul qilingan",
+  "discount": "Chegirma",
+  "percent": "Foizi",
+  "quantity": "Miqdori",
+  "discountAmount": "Chegirma miqdori",
+  "piece": "ta",
+  "count": "Soni"
 }

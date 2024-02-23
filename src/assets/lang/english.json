@@ -28,5 +28,17 @@
   "actions": "Actions",
   "n": "No",
   "search": "Search",
-  "total": "Total"
+  "total": "Total",
+  "shop": "Shop",
+  "addShop": "Add shop",
+  "shopName": "Shop name",
+  "address": "Address",
+  "price": "Price",
+  "accepted": "Accepted",
+  "discount": "Discount",
+  "percent": "Percent",
+  "quantity": "Quantity",
+  "discountAmount": "Discount amount",
+  "piece": "piece",
+  "count": "Count"
 }
