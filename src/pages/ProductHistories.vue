@@ -16,6 +16,9 @@ import CaretDoubleRightIcon from '../assets/icons/CaretDoubleRightIcon.vue'
 import CaretDoubleLeftIcon from '../assets/icons/CaretDoubleLeftIcon.vue'
 import CaretLeftIcon from '../assets/icons/CaretLeftIcon.vue'
 import CaretRightIcon from '../assets/icons/CaretRightIcon.vue'
+import { useI18n } from 'vue-i18n'
+
+const { t } = useI18n()
 
 const globalSearchFromTable = ref('')
 const isLoading = ref(false)
@@ -54,48 +57,48 @@ getProducts()
 const getHistoryType = (historyType) => {
   switch (historyType) {
     case 'purchased':
-      return 'Kirim'
+      return t('income')
     case 'returned':
-      return 'Qaytarilgan'
+      return t('returned')
     default:
-      return 'Turi yo\'q'
+      return t('unknown')
   }
 }
 
 const columns = [
   {
     accessorKey: 'id',
-    header: 'N',
+    header: t('n'),
     enableSorting: false,
     cell: ({ row }) => `${parseInt(row.id, 10) + 1}`,
   },
   {
     accessorKey: 'productId',
-    header: 'Mahsulot nomi',
+    header: t('product'),
     cell: ({ row }) => getProductName(row.getValue('productId')),
   },
   {
     accessorKey: 'quantity',
-    header: 'Miqdori',
+    header: t('quantity'),
   },
   {
     accessorKey: 'historyType',
-    header: 'Mahsulot tarixi turi',
+    header: t('type'),
     cell: ({ row }) => getHistoryType(row.original.historyType),
   },
   {
     accessorKey: 'purchasePrice',
-    header: 'Sotib olingan narxi',
+    header: t('purchasePrice'),
     cell: ({ row }) => useMoneyFormatter(row.original.purchasePrice),
   },
   {
     accessorKey: 'salePrice',
-    header: 'Sotish narxi',
+    header: t('salePrice'),
     cell: ({ row }) => useMoneyFormatter(row.original.salePrice),
   },
   {
     accessorKey: 'actions',
-    header: 'Amallar',
+    header: t('actions'),
     cell: ({ row }) => h('div', { class: 'flex items-center space-x-2' }, [
       h('button', {
         onClick: () => {
@@ -134,8 +137,8 @@ const getProductHistories = () => {
       useProductHistoryStore().totalHistories = res.total
       useProductHistoryStore().setProductHistories(res.data)
     }).finally(() => {
-    isLoading.value = false
-  })
+      isLoading.value = false
+    })
 }
 const totalPages = computed(() => Math.ceil(total.value / pageSize))
 const displayedPageNumbers = computed(() => {
@@ -172,7 +175,7 @@ watch(page, () => {
 <template>
   <div class="p-4 md:p-8">
     <div class="text-slate-900 text-2xl md:text-3xl font-semibold mb-6">
-      Mahsulot tarixlari
+      {{ $t('productsHistory') }}
     </div>
     <div class="flex md:flex-row flex-col items-center justify-between">
       <div class="relative w-full md:w-auto my-2 md:mb-0 order-2 md:order-1">
@@ -180,62 +183,49 @@ watch(page, () => {
           <SearchIcon class="w-5 h-5 text-slate-400" />
         </div>
         <input type="search" v-model="globalSearchFromTable"
-               class="bg-slate-100 border-none w-full text-slate-900 text-base md:text-lg rounded-full block pl-10 py-2 placeholder-slate-400"
-               placeholder="Search everything...">
+          class="bg-slate-100 border-none w-full text-slate-900 text-base md:text-lg rounded-full block pl-10 py-2 placeholder-slate-400"
+          placeholder="Search everything...">
       </div>
       <div class="w-full md:w-auto order-1 md:order-2">
         <button @click="useModalStore().openCreateProductHistoryModal()"
-                class="w-full md:w-auto py-2 px-4 rounded-full text-white text-lg font-medium bg-blue-500 cursor-pointer hover:bg-blue-600">
-          Mahsulot tarixi qo'shish
+          class="w-full md:w-auto py-2 px-4 rounded-full text-white text-lg font-medium bg-blue-500 cursor-pointer hover:bg-blue-600">
+          {{ $t('addProductHistory') }}
         </button>
-
       </div>
     </div>
     <div v-if="isLoading" class="flex items-center justify-center h-20">
       <Spinners270RingIcon class="w-6 h-6 text-gray-500 animate-spin" />
     </div>
     <HistoryTable v-else :data="productsHistories" :key="renderKey" :columns="columns" :filter="globalSearchFromTable" />
-
     <div class="flex items-center justify-between my-6">
       <div class="text-base text-slate-900 font-medium">
         {{ $t('total') }}:
         {{ total }}
       </div>
       <div class="flex items-center space-x-2">
-        <button
-          :disabled="page === 1"
-          @click="goToPage(1)"
+        <button :disabled="page === 1" @click="goToPage(1)"
           class="flex items-center justify-center px-3 py-2 text-base font-medium text-slate-900 rounded-lg select-none hover:bg-blue-200 disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
           type="button">
           <CaretDoubleLeftIcon class="w-5 h-5" />
         </button>
-        <button
-          @click="prevPage"
-          :disabled="page === 1"
+        <button @click="prevPage" :disabled="page === 1"
           class="flex items-center justify-center px-3 py-2 text-base font-medium text-slate-900 rounded-lg select-none hover:bg-blue-200 disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
           type="button">
           <CaretLeftIcon class="w-5 h-5" />
         </button>
         <div class="flex items-center space-x-2">
-          <button
-            v-for="pageNumber in displayedPageNumbers"
-            :key="pageNumber"
-            @click="goToPage(pageNumber)"
-            :class="{'bg-blue-600 text-white': pageNumber === page, 'hover:bg-blue-200': pageNumber !== page }"
+          <button v-for="pageNumber in displayedPageNumbers" :key="pageNumber" @click="goToPage(pageNumber)"
+            :class="{ 'bg-blue-600 text-white': pageNumber === page, 'hover:bg-blue-200': pageNumber !== page }"
             class="px-3 py-2 select-none rounded-lg text-slate-900 text-center text-base font-medium transition-all">
             {{ pageNumber }}
           </button>
         </div>
-        <button
-          @click="nextPage"
-          :disabled="page === totalPages"
+        <button @click="nextPage" :disabled="page === totalPages"
           class="flex items-center gap-2 px-3 py-2 text-base font-medium text-center text-slate-900 rounded-lg select-none hover:bg-blue-200 disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
           type="button">
           <CaretRightIcon class="w-5 h-5" />
         </button>
-        <button
-          :disabled="page === totalPages"
-          @click="goToPage(totalPages)"
+        <button :disabled="page === totalPages" @click="goToPage(totalPages)"
           class="flex items-center gap-2 px-3 py-2 text-base font-medium text-slate-900 rounded-lg select-none hover:bg-blue-200 disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
           type="button">
           <CaretDoubleRightIcon class="w-5 h-5" />

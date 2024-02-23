@@ -40,5 +40,13 @@
   "quantity": "Quantity",
   "discountAmount": "Discount amount",
   "piece": "piece",
-  "count": "Count"
+  "count": "Count",
+  "addProductHistory": "Add product history",
+  "income": "Income",
+  "returned": "Returned",
+  "unknown": "Unknown",
+  "product": "Product",
+  "type": "Type",
+  "purchasePrice": "Purchase price",
+  "salePrice": "Sale price"
 }

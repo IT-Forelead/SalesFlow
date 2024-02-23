@@ -39,6 +39,14 @@
   "percent": "Процент",
   "quantity": "Количество",
   "discountAmount": "Сумма скидки",
-  "piece": "кусок",
-  "count": "Считать"
+  "piece": "штук",
+  "count": "Считать",
+  "addProductHistory": "Добавить историю продукта",
+  "income": "Доход",
+  "returned": "Вернулся",
+  "unknown": "Неизвестно",
+  "product": "Продукт",
+  "type": "Тип",
+  "purchasePrice": "Цена покупки",
+  "salePrice": "Цена продажи"
 }

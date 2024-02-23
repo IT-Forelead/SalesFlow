@@ -40,5 +40,13 @@
   "quantity": "Миқдори",
   "discountAmount": "Чегирма миқдори",
   "piece": "та",
-  "count": "Сони"
+  "count": "Сони",
+  "addProductHistory": "Маҳсулот тарихини қўшиш",
+  "income": "Кирим",
+  "returned": "Қайтарилган",
+  "unknown": "Номаълум",
+  "product": "Маҳсулот",
+  "type": "Тури",
+  "purchasePrice": "Сотиб олинган нархи",
+  "salePrice": "Сотув нархи"
 }

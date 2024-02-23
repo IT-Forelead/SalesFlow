@@ -40,5 +40,13 @@
   "quantity": "Miqdori",
   "discountAmount": "Chegirma miqdori",
   "piece": "ta",
-  "count": "Soni"
+  "count": "Soni",
+  "addProductHistory": "Mahsulot tarixini qo'shish",
+  "income": "Kirim",
+  "returned": "Qaytarilgan",
+  "unknown": "Noma'lum",
+  "product": "Mahsulot",
+  "type": "Turi",
+  "purchasePrice": "Sotib olingan narxi",
+  "salePrice": "Sotuv narxi"
 }
