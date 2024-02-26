@@ -83,5 +83,8 @@
   "salesStatistics": "Сотувлар статистикаси",
   "cashierStatistics": "Кассирлар статистикаси",
   "weeklyStatistics": "Ҳафталик статистика",
-  "monthlyStatistics": "Ойлик статистика"
+  "monthlyStatistics": "Ойлик статистика",
+  "addBarcode": "Штрих-код қўшиш",
+  "barcodeType": "Штрих-код тури",
+  "year": "Йили"
 }

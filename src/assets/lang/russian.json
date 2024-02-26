@@ -83,5 +83,8 @@
   "salesStatistics": "Статистика продаж",
   "cashierStatistics": "Статистика кассира",
   "weeklyStatistics": "Еженедельная статистика",
-  "monthlyStatistics": "Ежемесячная статистика"
+  "monthlyStatistics": "Ежемесячная статистика",
+  "addBarcode": "Добавить штрих-код",
+  "barcodeType": "Тип штрих-кода",
+  "year": "Год"
 }

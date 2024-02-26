@@ -83,5 +83,8 @@
   "salesStatistics": "Sales statistics",
   "cashierStatistics": "Cashier statistics",
   "weeklyStatistics": "Weekly statistics",
-  "monthlyStatistics": "Monthly statistics"
+  "monthlyStatistics": "Monthly statistics",
+  "addBarcode": "Add barcode",
+  "barcodeType": "Barcode type",
+  "year": "Year"
 }

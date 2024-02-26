@@ -83,5 +83,8 @@
   "salesStatistics": "Sotuvlar statistikasi",
   "cashierStatistics": "Kassirlar statistikasi",
   "weeklyStatistics": "Haftalik statistika",
-  "monthlyStatistics": "Oylik statistika"
+  "monthlyStatistics": "Oylik statistika",
+  "addBarcode": "Shtrix-kod qo'shish",
+  "barcodeType": "Shtrix-kod turi",
+  "year": "Yili"
 }
