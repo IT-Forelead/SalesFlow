@@ -164,5 +164,16 @@
   "selectRole": "rolni tanlang",
   "selectStore": "Do'konni tanlang",
   "enterPassword": "Parolni kiriting",
-  "enterThePasswordAgain": "Parolni yana kiriting"
+  "enterThePasswordAgain": "Parolni yana kiriting",
+  "deleteStore": "Do'konni o'chirish",
+  "deleteProductHistory": "Mahsulot tarixini o'chirish",
+  "deleteProduct": "Mahsulotni o'chirish",
+  "deleteUser": "Foydalanuvchini o'chirish",
+  "storeInformation": "Do'kon ma'lumotlari",
+  "productHistoryInformation": "Mahsulot tarixi haqida ma'lumot",
+  "productInformation": "Mahsulot haqida ma'lumot",
+  "userInformation": "Foydalanuvchi haqida ma'lumot",
+  "storeName": "Do'kon nomi",
+  "areYouSureYouWantToDeleteThisInformation": "Haqiqatan ham bu ma'lumotni o'chirib tashlamoqchimisiz?",
+  "no": "Yo'q"
 }

@@ -164,5 +164,16 @@
   "selectRole": "Выберите роль",
   "selectStore": "Выбрать магазин",
   "enterPassword": "Введите пароль",
-  "enterThePasswordAgain": "Введите пароль еще раз"
+  "enterThePasswordAgain": "Введите пароль еще раз",
+  "deleteStore": "Удалить магазин",
+  "deleteProductHistory": "Удалить историю продукта",
+  "deleteProduct": "Удалить товар",
+  "deleteUser": "Удалить пользователя",
+  "storeInformation": "Информация о магазине",
+  "productHistoryInformation": "Информация об истории продукта",
+  "productInformation": "Информация о продукте",
+  "userInformation": "Информация о пользователе",
+  "storeName": "Название магазина",
+  "areYouSureYouWantToDeleteThisInformation": "Вы уверены, что хотите удалить эту информацию?",
+  "no": "Нет"
 }

@@ -6,12 +6,14 @@ import { useUserStore } from '../../store/user.store.js'
 import { computed } from 'vue'
 import moment from 'moment/moment.js'
 import WarningCircleBoldIcon from '../../assets/icons/WarningCircleBoldIcon.vue'
+import { useI18n } from 'vue-i18n'
+
+const { t } = useI18n()
 
 const userStore = useUserStore()
 const selectedUser = computed(() => {
   return userStore.selectedUser
 })
-
 
 const getRole = (privileges) => {
   switch (true) {
@@ -31,7 +33,7 @@ const getRole = (privileges) => {
     privileges.includes('view_orders') &&
     privileges.includes('create_market') &&
     privileges.includes('view_markets'):
-      return 'Admin'
+      return t('admin')
     case
     privileges.includes('dashboard') &&
     privileges.includes('view_users') &&
@@ -45,7 +47,7 @@ const getRole = (privileges) => {
     privileges.includes('find_order') &&
     privileges.includes('view_orders') &&
     privileges.includes('view_markets'):
-      return 'Boshqaruvchi'
+      return t('manager')
     case
     privileges.includes('dashboard') &&
     privileges.includes('create_order') &&
@@ -53,9 +55,9 @@ const getRole = (privileges) => {
     privileges.includes('view_orders') &&
     privileges.includes('find_barcode') &&
     privileges.includes('find_order'):
-      return 'Kassir'
+      return t('cashier')
     default:
-      return 'Foydalanuvchi'
+      return t('user')
   }
 }
 
@@ -73,18 +75,18 @@ const closeModal = () => {
       @close=closeModal
     >
       <template v-slot:header>
-        Foydalanuvchini o'chirish
+        {{ $t('deleteUser') }}
       </template>
       <template v-slot:body>
         <div class="space-y-16">
           <div class="space-y-2">
             <div class="bg-slate-100 px-3 text-center py-2 text-lg font-medium rounded-xl">
-              Foydalanuvchi ma'lumotlari
+              {{ $t('userInformation') }}
             </div>
             <ul class="divide-y divide-slate-100">
               <li class="flex items-center justify-between py-2 px-3">
                 <div class="text-base">
-                  Ism, Familiya:
+                  {{ $t('user') }}
                 </div>
                 <div class="text-base font-medium">
                   {{ selectedUser.firstname}} {{ selectedUser.lastname}}
@@ -92,7 +94,7 @@ const closeModal = () => {
               </li>
               <li class="flex items-center justify-between py-2 px-3">
                 <div class="text-base">
-                  Login:
+                  {{ $t('login') }}
                 </div>
                 <div class="text-base font-medium">
                   {{ selectedUser.login }}
@@ -100,7 +102,7 @@ const closeModal = () => {
               </li>
               <li class="flex items-center justify-between py-2 px-3">
                 <div class="text-base">
-                  Telefon raqami:
+                  {{ $t('phone') }}
                 </div>
                 <div class="text-base font-medium">
                   {{ selectedUser.phone }}
@@ -108,7 +110,7 @@ const closeModal = () => {
               </li>
               <li class="flex items-center justify-between py-2 px-3">
                 <div class="text-base">
-                  Rol
+                  {{ $t('role') }}
                 </div>
                 <div class="text-base font-medium">
                   {{ getRole(selectedUser.privileges) }}
@@ -116,7 +118,7 @@ const closeModal = () => {
               </li>
               <li class="flex items-center justify-between py-2 px-3">
                 <div class="text-base">
-                  Yaratilgan vaqti
+                  {{ $t('createdAt') }}
                 </div>
                 <div class="text-base font-medium">
                   {{ moment(selectedUser?.createdAt).format('DD/MM/YYYY H:mm') }}
@@ -129,16 +131,16 @@ const closeModal = () => {
               <div class="flex flex-col items-center space-y-4">
                 <WarningCircleBoldIcon class="text-slate-400 w-14 h-14" />
                 <h3 class="mb-5 text-lg md:text-xl text-center font-normal text-slate-500">
-                  Haqiqatdan ushbu foydalanuvchini o'chirmoqchimisiz?
+                  {{ $t('areYouSureYouWantToDeleteThisInformation') }}
                 </h3>
                 <div class="flex flex-col md:flex-row items-center justify-center md:justify-between space-y-4 md:space-y-0 md:space-x-4">
                   <button type="button" @click="closeModal()"
                           class="w-full md:w-auto py-2 px-4 rounded-xl text-gray-900 text-base font-medium bg-slate-50 cursor-pointer hover:bg-slate-200 border md:flex-1">
-                    Yo'q
+                          {{ $t('no') }}
                   </button>
                   <button
                     class="w-full md:w-auto py-2 px-4 rounded-xl text-white text-base font-medium bg-red-600 cursor-pointer hover:bg-red-700">
-                    Ha, albatta
+                    {{ $t('yesOfCourse') }}
                   </button>
                 </div>
               </div>
@@ -148,7 +150,4 @@ const closeModal = () => {
       </template>
     </CModal>
 </template>
-
-<style scoped>
-
-</style>
+<style scoped></style>

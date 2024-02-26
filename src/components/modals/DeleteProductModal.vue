@@ -5,6 +5,9 @@ import { useProductStore } from '../../store/product.store.js'
 import { computed } from 'vue'
 import WarningCircleBoldIcon from '../../assets/icons/WarningCircleBoldIcon.vue'
 import useMoneyFormatter from '../../mixins/currencyFormatter.js'
+import { useI18n } from 'vue-i18n'
+
+const { t } = useI18n()
 
 const productStore = useProductStore()
 const selectedProduct = computed(() => {
@@ -12,7 +15,7 @@ const selectedProduct = computed(() => {
 })
 
 const saleType = (type) => {
-  switch (type){
+  switch (type) {
     case 'amount':
       return 'Donali'
     case 'litre':
@@ -31,24 +34,21 @@ const closeModal = () => {
 </script>
 
 <template>
-  <CModal
-    :is-open="useModalStore().isOpenDeleteProductModal"
-    v-if="useModalStore().isOpenDeleteProductModal"
-    @close=closeModal
-  >
+  <CModal :is-open="useModalStore().isOpenDeleteProductModal" v-if="useModalStore().isOpenDeleteProductModal"
+    @close=closeModal>
     <template v-slot:header>
-      Mahsulotni o'chirish
+      {{ $t('deleteProduct') }}
     </template>
     <template v-slot:body>
       <div class="space-y-16">
         <div class="space-y-2">
           <div class="bg-slate-100 px-3 text-center py-2 text-lg font-medium rounded-xl">
-            Mahsulot ma'lumotlari
+            {{ $t('productInformation') }}
           </div>
           <ul class="divide-y divide-slate-100">
             <li class="flex items-center justify-between py-2 px-3">
               <div class="text-base">
-                Nomi
+                {{ $t('productName') }}
               </div>
               <div class="text-base font-medium">
                 {{ selectedProduct?.name }}
@@ -56,7 +56,7 @@ const closeModal = () => {
             </li>
             <li class="flex items-center justify-between py-2 px-3">
               <div class="text-base">
-                Qadoqi
+                {{ $t('package') }}
               </div>
               <div class="text-base font-medium">
                 {{ selectedProduct?.packaging }}
@@ -64,7 +64,7 @@ const closeModal = () => {
             </li>
             <li class="flex items-center justify-between py-2 px-3">
               <div class="text-base">
-                Barcode
+                {{ $t('barcode') }}
               </div>
               <div class="text-base font-medium">
                 {{ selectedProduct?.barcode }}
@@ -72,7 +72,7 @@ const closeModal = () => {
             </li>
             <li class="flex items-center justify-between py-2 px-3">
               <div class="text-base">
-                Miqdori
+                {{ $t('quantity') }}
               </div>
               <div class="text-base font-medium">
                 {{ selectedProduct?.quantity }}
@@ -80,7 +80,7 @@ const closeModal = () => {
             </li>
             <li class="flex items-center justify-between py-2 px-3">
               <div class="text-base">
-                Sotilish turi
+                {{ $t('saleType') }}
               </div>
               <div class="text-base font-medium">
                 {{ saleType(selectedProduct?.saleType) }}
@@ -88,10 +88,10 @@ const closeModal = () => {
             </li>
             <li class="flex items-center justify-between py-2 px-3">
               <div class="text-base">
-                Narxi
+                {{ $t('price') }}
               </div>
               <div class="text-base font-medium">
-               {{ useMoneyFormatter(selectedProduct?.price) }} 
+                {{ useMoneyFormatter(selectedProduct?.price) }}
               </div>
             </li>
           </ul>
@@ -101,22 +101,22 @@ const closeModal = () => {
             <div class="flex flex-col items-center space-y-4">
               <WarningCircleBoldIcon class="text-slate-400 w-14 h-14" />
               <h3 class="mb-5 text-lg md:text-xl text-center font-normal text-slate-500">
-                Haqiqatdan ushbu mahsulotni o'chirmoqchimisiz?
+                {{ $t('areYouSureYouWantToDeleteThisInformation') }}
               </h3>
-              <div class="flex py-4 flex-col md:flex-row items-center justify-center md:justify-between space-y-4 md:space-y-0 md:space-x-4">
+              <div
+                class="flex py-4 flex-col md:flex-row items-center justify-center md:justify-between space-y-4 md:space-y-0 md:space-x-4">
                 <button type="button" @click="closeModal()"
-                        class="w-full md:w-auto py-2 px-4 rounded-xl text-gray-900 text-base font-medium bg-slate-50 cursor-pointer hover:bg-slate-200 border md:flex-1">
-                  Yo'q
+                  class="w-full md:w-auto py-2 px-4 rounded-xl text-gray-900 text-base font-medium bg-slate-50 cursor-pointer hover:bg-slate-200 border md:flex-1">
+                  {{ $t('no') }}
                 </button>
                 <button
                   class="w-full md:w-auto py-2 px-4 rounded-xl text-white text-base font-medium bg-red-600 cursor-pointer hover:bg-red-700">
-                  Ha, albatta
+                  {{ $t('yesOfCourse') }}
                 </button>
               </div>
             </div>
           </div>
         </div>
-
       </div>
     </template>
   </CModal>

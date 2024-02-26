@@ -164,5 +164,16 @@
   "selectRole": "Select role",
   "selectStore": "Select store",
   "enterPassword": "Enter password",
-  "enterThePasswordAgain": "Enter the password again"
+  "enterThePasswordAgain": "Enter the password again",
+  "deleteStore": "Delete store",
+  "deleteProductHistory": "Delete product history",
+  "deleteProduct": "Delete product",
+  "deleteUser": "Delete user",
+  "storeInformation": "Store information",
+  "productHistoryInformation": "Product history information",
+  "productInformation": "Product information",
+  "userInformation": "User information",
+  "storeName": "Store name",
+  "areYouSureYouWantToDeleteThisInformation": "Are you sure you want to delete this information?",
+  "no": "No"
 }

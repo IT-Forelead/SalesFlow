@@ -164,5 +164,16 @@
   "selectRole": "ролни танланг",
   "selectStore": "Дўконни танланг",
   "enterPassword": "Паролни киритинг",
-  "enterThePasswordAgain": "Паролни яна киритинг"
+  "enterThePasswordAgain": "Паролни яна киритинг",
+  "deleteStore": "Дўконни ўчириш",
+  "deleteProductHistory": "Маҳсулот тарихини ўчириш",
+  "deleteProduct": "Маҳсулотни ўчириш",
+  "deleteUser": "Фойдаланувчини ўчириш",
+  "storeInformation": "Дўкон маълумотлари",
+  "productHistoryInformation": "Маҳсулот тарихи ҳақида маълумот",
+  "productInformation": "Маҳсулот ҳақида маълумот",
+  "userInformation": "Фойдаланувчи ҳақида маълумот",
+  "storeName": "Дўкон номи",
+  "areYouSureYouWantToDeleteThisInformation": "Ҳақиқатан ҳам бу маълумотни ўчириб ташламоқчимисиз?",
+  "no": "Йўқ"
 }
