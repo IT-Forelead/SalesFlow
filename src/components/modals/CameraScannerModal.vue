@@ -6,11 +6,12 @@ import CameraRotateIcon from '../../assets/icons/CameraRotateIcon.vue'
 import LightningIcon from '../../assets/icons/LightningIcon.vue'
 import LightningSlashIcon from '../../assets/icons/LightningSlashIcon.vue'
 import SmartphoneRotateIcon from '../../assets/icons/SmartphoneRotateIcon.vue'
-import CameraRotateLinearIcon from '../../assets/icons/CameraRotateLinearIcon.vue'
 import CornersOutIcon from '../../assets/icons/CornersOutIcon.vue'
-import ClockIcon from '../../assets/icons/ClockIcon.vue'
 import { StreamBarcodeReader } from '@teckel/vue-barcode-reader'
 import { ref, watch } from 'vue';
+import { useI18n } from 'vue-i18n'
+
+const { t } = useI18n()
 
 const loaded = ref(false)
 const torch = ref(false)
@@ -119,7 +120,9 @@ watch(
     <div v-if="useModalStore().isOpenCameraScannerModal"
         class="fixed flex flex-col items-center space-y-4 justify-center top-0 left-0 bottom-0 right-0 bg-black w-full h-screen z-[1000]">
         <div class="absolute top-0 left-0 w-full flex items-center justify-between px-4 py-3">
-            <div class="text-white text-lg">Shtrix kod skanerlash</div>
+            <div class="text-white text-lg">
+                {{ $t('barcodeScanning') }}
+            </div>
             <button @click="useModalStore().closeCameraScannerModal()"
                 class="text-gray-600 bg-gray-100 hover:bg-gray-800 hover:text-gray-300 transition-all duration-300 rounded-full text-sm p-1.5 ml-auto inline-flex items-center dark:hover:bg-gray-600 dark:hover:text-white">
                 <XIcon />
