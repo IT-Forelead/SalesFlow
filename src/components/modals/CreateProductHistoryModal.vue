@@ -12,6 +12,9 @@ import ProductHistoryService from '../../services/productHistory.service.js'
 import { useProductHistoryStore } from '../../store/productHistory.store.js'
 import SearchIcon from '../../assets/icons/SearchIcon.vue'
 import useMoneyFormatter from '../../mixins/currencyFormatter.js'
+import { useI18n } from 'vue-i18n'
+
+const { t } = useI18n()
 
 const isLoading = ref(false)
 const productStore = useProductStore()
@@ -42,12 +45,17 @@ const clearSubmitData = () => {
 }
 
 const createProductHistory = () => {
-  if (!selectedProduct.value?.id) return toast.warning('Iltimos mahsulot tanlang!')
-  if (!submitData.quantity) return toast.warning('Iltimos qiymatini kiriting')
-  if (!submitData.productHistoryType) return toast.warning('Iltimos mahsulot tarixi turini tanlang')
-  if (!submitData.purchasePrice === 0) return toast.warning('Iltimos sotib olingan narxini kiriting')
-  if (!submitData.salePrice === 0) return toast.warning('Iltimos sotish narxini kiriting')
-  else {
+  if (!selectedProduct.value?.id) {
+    toast.error(t('plsSelectProduct'))
+  } else if (!submitData.quantity) {
+    toast.error(t('plsEnterQuantity'))
+  } else if (!submitData.productHistoryType) {
+    toast.error(t('plsSelectProductHistoryType'))
+  } else if (submitData.purchasePrice === 0) {
+    toast.error(t('plsEnterThePurchasePrice'))
+  } else if (submitData.salePrice === 0) {
+    toast.error(t('plsEnterTheSellingPrice'))
+  } else {
     isLoading.value = true
     ProductHistoryService.createProductHistory({
       productId: selectedProduct.value?.id,
@@ -56,20 +64,17 @@ const createProductHistory = () => {
       purchasePrice: submitData.purchasePrice,
       salePrice: submitData.salePrice,
     }).then(() => {
-      toast.success('Mahsulot tarixi muvaffaqiyatli yaratildi!')
+      toast.success(t('productHistorySuccessfullyAdded'))
       isLoading.value = false
       ProductHistoryService.getProductHistories({})
         .then((res) => {
           useProductHistoryStore().clearStore()
           useProductHistoryStore().setProductHistories(res)
         })
-        .catch(() => {
-          toast.error('Mahsulot tarixini olishda xatolik yuz berdi!')
-        })
       closeModal()
     })
       .catch((err) => {
-        toast.error('Mahsulot tarixini yaratishda xatolik yuz berdi!')
+        toast.error(t('errorWhileCreatingProductHistory'))
         isLoading.value = false
       })
   }
@@ -82,8 +87,8 @@ const getProducts = () => {
       useProductStore().clearStore()
       useProductStore().setProducts(res.data)
     }).finally(() => {
-    isLoading.value = false
-  })
+      isLoading.value = false
+    })
 }
 
 watchEffect(() => {
@@ -119,32 +124,23 @@ const closeModal = () => {
 </script>
 
 <template>
-  <CModal :is-open="useModalStore().isOpenCreateProductHistoryModal" v-if="useModalStore().isOpenCreateProductHistoryModal"
-          @close=closeModal>
+  <CModal :is-open="useModalStore().isOpenCreateProductHistoryModal"
+    v-if="useModalStore().isOpenCreateProductHistoryModal" @close=closeModal>
     <template v-slot:header>
-      Mahsulot tarixi yaratish
+      {{ $t('createProductHistory') }}
     </template>
     <template v-slot:body>
       <div class="w-full relative mb-4">
         <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
           <SearchIcon class="w-5 h-5 text-slate-400" />
         </div>
-        <input
-          type="text"
-          v-model="search"
-          placeholder="Mahsulot nomi va shtrix kodini kiriting"
+        <input type="text" v-model="search" :placeholder="t('searchByProductNameOrBarcode')"
           class="bg-slate-100 border-none text-slate-900 rounded-lg w-full h-12 pl-10 placeholder-slate-400"
-          @input="isOpen = true"
-        >
-        <ul
-          v-if="searchResults.length && isOpen"
+          @input="isOpen = true">
+        <ul v-if="searchResults.length && isOpen"
           class="mt-1 w-full max-h-60 overflow-y-auto absolute z-10 bg-white border border-slate-200 rounded-xl shadow-md">
-          <li
-            class="px-4 py-3 border-b border-slate-200 cursor-pointer hover:bg-slate-100"
-            v-for="result in searchResults"
-            :key="result.id"
-            @click="setSelectedProduct(result)"
-          >
+          <li class="px-4 py-3 border-b border-slate-200 cursor-pointer hover:bg-slate-100"
+            v-for="result in searchResults" :key="result.id" @click="setSelectedProduct(result)">
             <span class="font-semibold">{{ result.name }}</span> - {{ result.packaging }}
           </li>
         </ul>
@@ -152,71 +148,88 @@ const closeModal = () => {
       <div v-if="selectedProduct" class="space-y-4">
         <div class="w-full mb-10">
           <div class="border-b border-gray-200 py-3">
-            <p class="text-neutral-800 text-base font-normal">Mahsulot nomi</p>
+            <p class="text-neutral-800 text-base font-normal">
+              {{ $t('productName') }}
+            </p>
             <h1 class="text-2xl font-semibold text-neutral-800 mt-2">
-              {{ selectedProduct.name }} {{ selectedProduct.packaging }}</h1>
+              {{ selectedProduct.name }} {{ selectedProduct.packaging }}
+            </h1>
           </div>
           <div class="py-4 border-b border-slate-200 flex items-center justify-between">
-            <p class="text-neutral-800 text-base font-normal">Shtrix kod</p>
-            <p class="text-sm leading-none text-gray-600">{{ selectedProduct.barcode }}</p>
+            <p class="text-neutral-800 text-base font-normal">
+              {{ $t('barcode') }}
+            </p>
+            <p class="text-sm leading-none text-gray-600">
+              {{ selectedProduct.barcode }}
+            </p>
           </div>
           <div class="py-4 border-b border-slate-200 flex items-center justify-between">
-            <p class="text-neutral-800 text-base font-normal">Miqdori</p>
-            <p class="text-sm leading-none text-gray-600 mr-3">{{ selectedProduct.quantity }}</p>
+            <p class="text-neutral-800 text-base font-normal">
+              {{ $t('quantity') }}
+            </p>
+            <p class="text-sm leading-none text-gray-600 mr-3">
+              {{ selectedProduct.quantity }}
+            </p>
           </div>
           <div class="py-4 border-b border-slate-200 flex items-center justify-between">
-            <p class="text-neutral-800 text-base font-normal">Narxi</p>
-            <p class="text-sm leading-none text-gray-600 mr-3">{{ useMoneyFormatter(selectedProduct.price) }}</p>
+            <p class="text-neutral-800 text-base font-normal">
+              {{ $t('price') }}
+            </p>
+            <p class="text-sm leading-none text-gray-600 mr-3">
+              {{ useMoneyFormatter(selectedProduct.price) }}
+            </p>
           </div>
         </div>
         <div class="flex items-center space-x-4">
           <div class="flex-1 space-y-1">
             <label for="default-value"
-                   class="block mb-2 text-neutral-800 text-base font-normal after:text-red-500 after:content-['*']">
-              Miqdori
+              class="block mb-2 text-neutral-800 text-base font-normal after:text-red-500 after:content-['*']">
+              {{ $t('quantity') }}
             </label>
             <input id="default-value" type="text" v-model="submitData.quantity"
-                   class="bg-slate-50 border border-slate-200 text-slate-900 text-base rounded-2xl focus:ring-green-400/40 focus:border-green-400/40 focus:ring-4 block w-full p-2.5"
-                   placeholder="Qiymatini kiriting">
+              class="bg-slate-50 border border-slate-200 text-slate-900 text-base rounded-2xl focus:ring-green-400/40 focus:border-green-400/40 focus:ring-4 block w-full p-2.5"
+              :placeholder="t('enterQuantity')">
           </div>
           <div class="flex-1 space-y-1">
             <label for="product-history-type"
-                   class="block mb-2 text-neutral-800 text-base font-normal after:text-red-500 after:content-['*']">
-              Mahsulot tarixi turi
+              class="block mb-2 text-neutral-800 text-base font-normal after:text-red-500 after:content-['*']">
+              {{ $t('productHistoryType') }}
             </label>
             <select id="product-history-type" v-model="submitData.productHistoryType"
-                    class="bg-slate-50 border border-slate-200 text-slate-900 text-base rounded-2xl focus:ring-green-400/40 focus:border-green-400/40 focus:ring-4 block w-full p-2.5">
-              <option selected>Turini tanlang</option>
-              <option value="purchased">Kirim</option>
-              <option value="returned">Qaytarilgan</option>
+              class="bg-slate-50 border border-slate-200 text-slate-900 text-base rounded-2xl focus:ring-green-400/40 focus:border-green-400/40 focus:ring-4 block w-full p-2.5">
+              <option selected>{{ $t('selectType') }}</option>
+              <option value="purchased">{{ $t('income') }}</option>
+              <option value="returned">{{ $t('returned') }}</option>
             </select>
           </div>
         </div>
         <div class="flex items-center justify-between space-x-4">
           <div class="flex-1 spaceSearchIcon-y-1">
-            <label for="price" class="block mb-2 text-neutral-800 text-base font-normal after:text-red-500 after:content-['*']">
-              Sotib olingan narxi
+            <label for="price"
+              class="block mb-2 text-neutral-800 text-base font-normal after:text-red-500 after:content-['*']">
+              {{ $t('purchasePrice') }}
             </label>
             <money3 id="price" v-bind="moneyConf" v-model.number="submitData.purchasePrice"
-                    class="bg-slate-50 text-right border border-slate-200 text-slate-900 text-base rounded-2xl focus:ring-green-400/40 focus:border-green-400/40 focus:ring-4 block w-full p-2.5">
+              class="bg-slate-50 text-right border border-slate-200 text-slate-900 text-base rounded-2xl focus:ring-green-400/40 focus:border-green-400/40 focus:ring-4 block w-full p-2.5">
             </money3>
           </div>
           <div class="flex-1 spaceSearchIcon-y-1">
-            <label for="price" class="block mb-2 text-neutral-800 text-base font-normal after:text-red-500 after:content-['*']">
-              Sotuv narxi
+            <label for="price"
+              class="block mb-2 text-neutral-800 text-base font-normal after:text-red-500 after:content-['*']">
+              {{ $t('salePrice') }}
             </label>
             <money3 id="price" v-bind="moneyConf" v-model.number="submitData.salePrice"
-                    class="bg-slate-50 text-right border border-slate-200 text-slate-900 text-base rounded-2xl focus:ring-green-400/40 focus:border-green-400/40 focus:ring-4 block w-full p-2.5">
+              class="bg-slate-50 text-right border border-slate-200 text-slate-900 text-base rounded-2xl focus:ring-green-400/40 focus:border-green-400/40 focus:ring-4 block w-full p-2.5">
             </money3>
           </div>
         </div>
       </div>
       <div v-else class="flex flex-col items-center justify-center border-2 border-dashed h-96 rounded-3xl space-y-1">
         <h4 class="text-slate-900 text-xl font-semibold">
-          Mahsulot topilmadi!
+          {{ $t('productNotFound') }}
         </h4>
         <div class="text-slate-600 text-base text-center">
-          Iltimos mahsulot tanlang!
+          {{ $t('plsSelectProduct') }}
         </div>
       </div>
     </template>

@@ -9,7 +9,9 @@ import UserIcon from '../assets/icons/UserIcon.vue'
 import LogoutIcon from './../assets/icons/LogoutIcon.vue'
 import SettingsIcon from '../assets/icons/SettingsIcon.vue'
 import DotsThreeVerticalBoldIcon from '../assets/icons/DotsThreeVerticalBoldIcon.vue'
+import { useI18n } from 'vue-i18n'
 
+const { t } = useI18n()
 const router = useRouter()
 const dropdown = ref(null)
 
@@ -55,18 +57,18 @@ const logout = () => {
         <li
           class="flex items-center text-slate-900 hover:bg-blue-100 hover:text-blue-600 rounded-lg cursor-pointer p-2 space-x-2">
           <UserIcon class="w-5 h-5" />
-          <span>Profile</span>
+          <span>{{ $t('profile') }}</span>
         </li>
         <li
           class="flex items-center text-slate-900 hover:bg-blue-100 hover:text-blue-600 rounded-lg cursor-pointer p-2 space-x-2">
           <SettingsIcon class="w-5 h-5" />
-          <span>Settings</span>
+          <span>{{ $t('settings') }}</span>
         </li>
       </ul>
       <div class="p-1.5">
         <div @click="logout" class="flex items-center text-slate-900 hover:text-blue-600 hover:bg-blue-100 rounded-lg cursor-pointer p-2 space-x-2">
           <LogoutIcon class="w-5 h-5" />
-          <span>Logout</span>
+          <span>{{ $t('logout') }}</span>
         </div>
       </div>
     </div>
