@@ -11,6 +11,9 @@ import useMoneyFormatter from '../mixins/currencyFormatter'
 import OrderService from '../services/order.service'
 import ProductService from '../services/product.service'
 import { shortenNumber } from '../mixins/utils'
+import { useI18n } from 'vue-i18n'
+
+const { t } = useI18n()
 
 const isLoading = ref(false)
 const salesChartFilterData = ref(7)
@@ -22,7 +25,7 @@ const bestSellerProductStats = ref([])
 // Expenses Chart Data
 const salesChartSeries = computed(() => [
     {
-        name: 'Kunlik savdo',
+        name: t('dailyTrading'),
         data: ordersStat.value?.map((item) => item.profit),
     }
 ])
@@ -262,8 +265,12 @@ watch(
                 <div class="rounded-3xl bg-slate-50 p-5 space-y-4">
                     <div class="flex items-center justify-between">
                         <div class="space-y-0.5">
-                            <div class="text-base md:text-xl font-semibold">Eng ko'p sotilgan mahsulotlar</div>
-                            <div class="text-sm md:text-base text-gray-600">So'ngi yetti kunlik statistika</div>
+                            <div class="text-base md:text-xl font-semibold">
+                                {{ $t('bestSellingProducts') }}
+                            </div>
+                            <div class="text-sm md:text-base text-gray-600">
+                                {{ $t('statisticsForTheLastSevenDays') }}
+                            </div>
                         </div>
                         <div class="flex items-center justify-center rounded-xl bg-blue-100 p-3">
                             <ShoppingCartIcon class="w-8 h-8 text-blue-600" />
@@ -283,7 +290,7 @@ watch(
                                         {{ product?.name + " - " + product?.packaging }}
                                     </div>
                                     <div class="text-sm text-gray-600">
-                                        Narxi:
+                                        {{ $t('price') }}:
                                         <span class="text-gray-900">
                                             {{ useMoneyFormatter(product?.price) }}
                                         </span>
@@ -306,10 +313,10 @@ watch(
                             </div>
                             <div>
                                 <div class="text-base text-gray-600">
-                                    Mahsulot turlari
+                                    {{ $t('productTypes') }}
                                 </div>
                                 <div class="text-xl md:text-2xl font-semibold">
-                                    {{ productStats?.typeCount }} ta
+                                    {{ productStats?.typeCount }}
                                 </div>
                             </div>
                         </div>
@@ -321,10 +328,10 @@ watch(
                             </div>
                             <div>
                                 <div class="text-base text-gray-600">
-                                    Mahsulotlar soni
+                                    {{ $t('numberOfProducts') }}
                                 </div>
                                 <div class="text-xl md:text-2xl font-semibold">
-                                    {{ productStats?.quantity }} ta
+                                    {{ productStats?.quantity }}
                                 </div>
                             </div>
                         </div>
@@ -338,7 +345,7 @@ watch(
                             </div>
                             <div>
                                 <div class="text-base text-gray-600">
-                                    Mahsulotlar narxi
+                                    {{ $t('productsPrice') }}
                                 </div>
                                 <div class="text-xl md:text-2xl font-semibold">
                                     {{ useMoneyFormatter(productStats?.sum) }}
@@ -353,10 +360,10 @@ watch(
                             </div>
                             <div>
                                 <div class="text-base text-gray-600">
-                                    Xodimlar soni
+                                    {{ $t('numberOfEmployees') }}
                                 </div>
                                 <div class="text-xl md:text-2xl font-semibold">
-                                    {{ cashiersStat.length }} ta
+                                    {{ cashiersStat.length }}
                                 </div>
                             </div>
                         </div>
@@ -369,22 +376,26 @@ watch(
                 <div class="flex flex-col md:flex-row md:items-center md:justify-between px-2 space-y-3 md:space-y-0">
                     <div>
                         <div class="text-base font-bold text-gray-800">
-                            Sotuvlar statistikasi
+                            {{ $t('salesStatistics') }}
                         </div>
-                        <div class="text-sm text-gray-600">
-                            So'ngi {{ salesChartFilterData }} kunlik statistika
+                        <div v-if="salesChartFilterData == 7" class="text-sm text-gray-600">
+                            {{ $t('statisticsForTheLastSevenDays') }}
+                        </div>
+                        <div v-else class="text-sm text-gray-600">
+                            {{ $t('statisticsForTheLastThirtyDays') }}
                         </div>
                     </div>
                     <div>
                         <select v-model="salesChartFilterData"
                             class="bg-blue-100 border-none text-slate-900 rounded-lg text-base md:text-lg block w-full h-11">
-                            <option value="7">Haftalik statistika</option>
-                            <option value="30">Oylik statistika</option>
+                            <option value="7">
+                                {{ $t('weeklyStatistics') }}
+                            </option>
+                            <option value="30">
+                                {{ $t('monthlyStatistics') }}
+                            </option>
                         </select>
                     </div>
-                    <!-- <div class="flex items-center justify-center rounded-xl bg-blue-100 p-2">
-                        <ChartBarIcon class="w-8 h-8 text-blue-600" />
-                    </div> -->
                 </div>
                 <div v-if="salesChartFilterData == 7">
                     <apexchart type="bar" height="320" :options="salesChartChartOptions" :series="salesChartSeries">
@@ -399,10 +410,10 @@ watch(
                 <div class="flex items-center justify-between px-2">
                     <div>
                         <div class="text-base font-bold text-gray-800">
-                            Kassirlar statistikasi
+                            {{ $t('cashierStatistics') }}
                         </div>
                         <div class="text-sm text-gray-600">
-                            So'ngi yetti kunlik statistika
+                            {{ $t('statisticsForTheLastSevenDays') }}
                         </div>
                     </div>
                     <div class="flex items-center justify-center rounded-xl bg-blue-100 p-2">

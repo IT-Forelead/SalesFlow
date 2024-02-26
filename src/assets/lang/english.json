@@ -71,5 +71,17 @@
   "paymentType": "Payment type",
   "withCash": "With cash",
   "withPlasticCard": "With plastic card",
-  "payment": "Payment"
+  "payment": "Payment",
+  "totalPrice": "Total price",
+  "dailyTrading": "Daily trading",
+  "bestSellingProducts": "Best selling products",
+  "statisticsForTheLastSevenDays": "Statistics for the last seven days",
+  "statisticsForTheLastThirtyDays": "Statistics for the last thirty days",
+  "productTypes": "Product types",
+  "productsPrice": "Products price",
+  "numberOfEmployees": "Number of employees",
+  "salesStatistics": "Sales statistics",
+  "cashierStatistics": "Cashier statistics",
+  "weeklyStatistics": "Weekly statistics",
+  "monthlyStatistics": "Monthly statistics"
 }

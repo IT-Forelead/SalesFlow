@@ -365,7 +365,9 @@ onMounted(() => {
                   <th class="px-3 py-2 text-center text-sm md:text-base">
                     {{ $t('quantity') }}
                   </th>
-                  <th class="px-3 py-2 text-center text-sm md:text-base">Jami narxi</th>
+                  <th class="px-3 py-2 text-center text-sm md:text-base">
+                    {{ $t('totalPrice') }}
+                  </th>
                   <th class="px-3 py-2 text-center text-sm md:text-base rounded-r-xl">
                     {{ $t('actions') }}
                   </th>
@@ -479,7 +481,7 @@ onMounted(() => {
               {{ $t('numberOfProducts') }}
             </div>
             <div class="text-base font-semibold text-gray-900">
-              {{ selectedProducts.length }} ta
+              {{ selectedProducts.length + " " + $t('piece') }}
             </div>
           </div>
           <div class="flex items-center justify-between">

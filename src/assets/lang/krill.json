@@ -71,5 +71,17 @@
   "paymentType": "Тўлов тури",
   "withCash": "Нақд пул орқали",
   "withPlasticCard": "Пластик карта орқали",
-  "payment": "Тўлов"
+  "payment": "Тўлов",
+  "totalPrice": "Жами нархи",
+  "dailyTrading": "Кундалик савдо",
+  "bestSellingProducts": "Энг кўп сотилган маҳсулотлар",
+  "statisticsForTheLastSevenDays": "Сўнгги етти кунлик статистика",
+  "statisticsForTheLastThirtyDays": "Сўнгги ўттиз кунлик статистика",
+  "productTypes": "Маҳсулот турлари",
+  "productsPrice": "Маҳсулотлар нархи",
+  "numberOfEmployees": "Ходимлар сони",
+  "salesStatistics": "Сотувлар статистикаси",
+  "cashierStatistics": "Кассирлар статистикаси",
+  "weeklyStatistics": "Ҳафталик статистика",
+  "monthlyStatistics": "Ойлик статистика"
 }

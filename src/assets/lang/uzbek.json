@@ -71,5 +71,17 @@
   "paymentType": "To'lov turi",
   "withCash": "Naqd pul orqali",
   "withPlasticCard": "Plastik karta orqali",
-  "payment": "To'lov"
+  "payment": "To'lov",
+  "totalPrice": "Jami narxi",
+  "dailyTrading": "Kundalik savdo",
+  "bestSellingProducts": "Eng ko'p sotilgan mahsulotlar",
+  "statisticsForTheLastSevenDays": "So'nggi yetti kunlik statistika",
+  "statisticsForTheLastThirtyDays": "So'nggi o'ttiz kunlik statistika",
+  "productTypes": "Mahsulot turlari",
+  "productsPrice": "Mahsulotlar narxi",
+  "numberOfEmployees": "Xodimlar soni",
+  "salesStatistics": "Sotuvlar statistikasi",
+  "cashierStatistics": "Kassirlar statistikasi",
+  "weeklyStatistics": "Haftalik statistika",
+  "monthlyStatistics": "Oylik statistika"
 }

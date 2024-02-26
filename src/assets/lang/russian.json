@@ -71,5 +71,17 @@
   "paymentType": "Тип платежа",
   "withCash": "Наличными",
   "withPlasticCard": "С пластиковой картой",
-  "payment": "Оплата"
+  "payment": "Оплата",
+  "totalPrice": "Общая цена",
+  "dailyTrading": "Ежедневная торговля",
+  "bestSellingProducts": "Самые продаваемые товары",
+  "statisticsForTheLastSevenDays": "Статистика за последние семь дней",
+  "statisticsForTheLastThirtyDays": "Статистика за последние тридцать дней",
+  "productTypes": "Типы продуктов",
+  "productsPrice": "Цена продукта",
+  "numberOfEmployees": "Количество сотрудников",
+  "salesStatistics": "Статистика продаж",
+  "cashierStatistics": "Статистика кассира",
+  "weeklyStatistics": "Еженедельная статистика",
+  "monthlyStatistics": "Ежемесячная статистика"
 }
