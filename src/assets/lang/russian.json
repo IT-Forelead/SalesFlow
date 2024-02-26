@@ -117,5 +117,16 @@
   "saleType": "Тип продажи",
   "selectType": "Выберите тип",
   "inYearOfRegistration": "В год регистрации",
-  "forExample2017": "Например: 2017"
+  "forExample2017": "Например: 2017",
+  "plsSelectProduct": "Пожалуйста, выберите товар!",
+  "plsEnterQuantity": "Пожалуйста, введите количество!",
+  "plsSelectProductHistoryType": "Пожалуйста, выберите тип истории продукта!",
+  "plsEnterThePurchasePrice": "Пожалуйста, введите цену покупки!",
+  "plsEnterTheSellingPrice": "Пожалуйста, введите цену продажи!",
+  "productHistorySuccessfulAdded": "История продукта успешно добавлена!",
+  "errorWhileCreatingProductHistory": "Ошибка при создании истории продукта",
+  "createProductHistory": "Создать историю продукта",
+  "enterQuantity": "Введите количество",
+  "productHistoryType": "Тип истории продукта",
+  "productNotFound": "Товар не найден!"
 }

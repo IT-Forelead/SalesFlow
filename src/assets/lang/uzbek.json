@@ -117,5 +117,16 @@
   "saleType": "Sotish turi",
   "selectType": "Turni tanlang",
   "inYearOfRegistration": "Ro'yxatdan o'tgan yili",
-  "forExample2017": "Masalan: 2017"
+  "forExample2017": "Masalan: 2017",
+  "plsSelectProduct": "Iltimos, mahsulotni tanlang!",
+  "plsEnterQuantity": "Iltimos, miqdorni kiriting!",
+  "plsSelectProductHistoryType": "Iltimos, mahsulot tarixi turini tanlang!",
+  "plsEnterThePurchasePrice": "Iltimos, xarid narxini kiriting!",
+  "plsEnterTheSellingPrice": "Iltimos, sotuv narxini kiriting!",
+  "productHistorySuccessfullyAdded": "Mahsulot tarixi muvaffaqiyatli qo'shildi!",
+  "errorWhileCreatingProductHistory": "Mahsulot tarixini yaratishda xatolik yuz berdi",
+  "createProductHistory": "Mahsulot tarixini yaratish",
+  "enterQuantity": "Miqdorni kiriting",
+  "productHistoryType": "Mahsulot tarixi turi",
+  "productNotFound": "Mahsulot topilmadi!"
 }

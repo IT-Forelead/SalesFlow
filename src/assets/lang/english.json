@@ -117,5 +117,16 @@
   "saleType": "Sale type",
   "selectType": "Select type",
   "inYearOfRegistration": "In the year of registration",
-  "forExample2017": "For example: 2017"
+  "forExample2017": "For example: 2017",
+  "plsSelectProduct": "Please select a product!",
+  "plsEnterQuantity": "Please enter quantity!",
+  "plsSelectProductHistoryType": "Please select a product history type!",
+  "plsEnterThePurchasePrice": "Please enter the purchase price!",
+  "plsEnterTheSellingPrice": "Please enter the selling price!",
+  "productHistorySuccessfullyAdded": "Product history successfully added!",
+  "errorWhileCreatingProductHistory": "Error while creating product history",
+  "createProductHistory": "Create product history",
+  "enterQuantity": "Enter quantity",
+  "productHistoryType": "Product history type",
+  "productNotFound": "Product not found!"
 }
