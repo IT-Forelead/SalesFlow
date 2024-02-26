@@ -50,7 +50,7 @@ onClickOutside(notificationDropdown, () => {
       </div>
     </div>
   </div>
-  
+
   <CreateSaleModal/>
   <CreateProductBarcodeModal />
   <CreateMarketModal />
@@ -69,7 +69,7 @@ onClickOutside(notificationDropdown, () => {
   <EditProductBarcodeModal/>
   <CameraScannerModal/>
   <BarcodeScannerModal/>
-  
+
 </template>
 
 <style scoped></style>

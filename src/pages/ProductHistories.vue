@@ -1,9 +1,9 @@
 <script setup>
-import { ref } from 'vue'
+import { ref, watch } from 'vue'
 import { computed, h } from 'vue'
 import SearchIcon from '../assets/icons/SearchIcon.vue'
 import Spinners270RingIcon from '../assets/icons/Spinners270RingIcon.vue'
-import CTable from '../components/common/CTable.vue'
+import HistoryTable from '../components/common/HistoryTable.vue'
 import { useModalStore } from '../store/modal.store'
 import { useProductHistoryStore } from '../store/productHistory.store.js'
 import ProductHistoryService from '../services/productHistory.service.js'
@@ -12,87 +12,107 @@ import useMoneyFormatter from '../mixins/currencyFormatter.js'
 import ProductService from '../services/product.service.js'
 import EditIcon from '../assets/icons/EditIcon.vue'
 import TrashIcon from '../assets/icons/TrashIcon.vue'
+import CaretDoubleRightIcon from '../assets/icons/CaretDoubleRightIcon.vue'
+import CaretDoubleLeftIcon from '../assets/icons/CaretDoubleLeftIcon.vue'
+import CaretLeftIcon from '../assets/icons/CaretLeftIcon.vue'
+import CaretRightIcon from '../assets/icons/CaretRightIcon.vue'
+import { useI18n } from 'vue-i18n'
+
+const { t } = useI18n()
 
 const globalSearchFromTable = ref('')
 const isLoading = ref(false)
 const productHistoryStore = useProductHistoryStore()
 const renderKey = ref(0)
+const page = ref(1)
+const pageSize = 30
 
 const productsHistories = computed(() => {
   renderKey.value += 1
   return productHistoryStore.productHistories
 })
 
+const total = computed(() => {
+  return productHistoryStore.totalHistories
+})
 const productStore = useProductStore()
 const getProductName = (productId) => {
-  const product = productStore.products.find(product => product.id === productId);
-  return product?.name + " - " + product?.packaging || 'Mahsulot nomi yo\'q';
-};
-
-const getProducts = () => {
-  ProductService.getProducts({})
-    .then((res) => {
-      useProductStore().clearStore();
-      useProductStore().setProducts(res);
-    })
-    .catch(() => {
-      toast.error('Failed to fetch products');
-    });
+  const product = productStore.products.find(product => product.id === productId)
+  return product?.name + ' - ' + product?.packaging || 'Mahsulot nomi yo\'q'
 }
 
-getProducts(); // Fetch product data
+const getProducts = () => {
+  ProductService.getProducts({ limit: 30, page: page.value })
+    .then((res) => {
+      useProductStore().clearStore()
+      useProductStore().setProducts(res.data)
+    })
+    .catch(() => {
+      toast.error('Failed to fetch products')
+    })
+}
+
+getProducts()
 
 const getHistoryType = (historyType) => {
-  switch (historyType){
+  switch (historyType) {
     case 'purchased':
-      return 'Kirim'
+      return t('income')
     case 'returned':
-      return 'Qaytarilgan'
+      return t('returned')
     default:
-      return "Turi yo'q"
+      return t('unknown')
   }
 }
 
 const columns = [
   {
     accessorKey: 'id',
-    header: 'N',
+    header: t('n'),
     enableSorting: false,
     cell: ({ row }) => `${parseInt(row.id, 10) + 1}`,
   },
   {
     accessorKey: 'productId',
-    header: 'Mahsulot nomi',
-    cell: ({row}) => getProductName(row.getValue('productId'))
+    header: t('product'),
+    cell: ({ row }) => getProductName(row.getValue('productId')),
   },
   {
     accessorKey: 'quantity',
-    header: 'Miqdori',
+    header: t('quantity'),
   },
   {
     accessorKey: 'historyType',
-    header: 'Mahsulot tarixi turi',
-    cell: ({row}) => getHistoryType(row.original.historyType)
+    header: t('type'),
+    cell: ({ row }) => getHistoryType(row.original.historyType),
   },
   {
     accessorKey: 'purchasePrice',
-    header: 'Sotib olingan narxi',
-    cell: ({row}) => useMoneyFormatter(row.original.purchasePrice)
+    header: t('purchasePrice'),
+    cell: ({ row }) => useMoneyFormatter(row.original.purchasePrice),
   },
   {
     accessorKey: 'salePrice',
-    header: 'Sotish narxi',
-    cell: ({row}) => useMoneyFormatter(row.original.salePrice)
+    header: t('salePrice'),
+    cell: ({ row }) => useMoneyFormatter(row.original.salePrice),
   },
   {
     accessorKey: 'actions',
-    header: 'Amallar',
+    header: t('actions'),
     cell: ({ row }) => h('div', { class: 'flex items-center space-x-2' }, [
-      h('button', { onClick: () => { openEditProductHistoryModal(row.original) } }, [
-        h(EditIcon, { class: 'w-6 h-6 text-blue-600 hover:scale-105' })
+      h('button', {
+        onClick: () => {
+          openEditProductHistoryModal(row.original)
+        },
+      }, [
+        h(EditIcon, { class: 'w-6 h-6 text-blue-600 hover:scale-105' }),
       ]),
-      h('button', { onClick: () => { openDeleteProductHistoryModal(row.original) } }, [
-        h(TrashIcon, { class: 'w-6 h-6 text-red-600 hover:scale-105' })
+      h('button', {
+        onClick: () => {
+          openDeleteProductHistoryModal(row.original)
+        },
+      }, [
+        h(TrashIcon, { class: 'w-6 h-6 text-red-600 hover:scale-105' }),
       ]),
     ]),
     enableSorting: false,
@@ -111,20 +131,51 @@ const openDeleteProductHistoryModal = (data) => {
 
 const getProductHistories = () => {
   isLoading.value = true
-  ProductHistoryService.getProductHistories({})
+  ProductHistoryService.getProductHistories({ limit: pageSize, page: page.value })
     .then((res) => {
       useProductHistoryStore().clearStore()
-      useProductHistoryStore().setProductHistories(res)
+      useProductHistoryStore().totalHistories = res.total
+      useProductHistoryStore().setProductHistories(res.data)
     }).finally(() => {
-    isLoading.value = false
-  })
+      isLoading.value = false
+    })
 }
+const totalPages = computed(() => Math.ceil(total.value / pageSize))
+const displayedPageNumbers = computed(() => {
+  const numPages = Math.min(4, totalPages.value)
+  const startPage = Math.max(1, page.value - Math.floor(numPages / 2))
+  const endPage = Math.min(totalPages.value, startPage + numPages - 1)
+  const pages = []
+  for (let i = startPage; i <= endPage; i++) {
+    pages.push(i)
+  }
+  return pages
+})
+
+const goToPage = (pageNumber) => {
+  if (pageNumber >= 1 && pageNumber <= totalPages.value) {
+    page.value = pageNumber
+  }
+}
+
+const prevPage = () => {
+  goToPage(page.value - 1)
+}
+const nextPage = () => {
+  goToPage(page.value + 1)
+}
+
 getProductHistories()
+
+watch(page, () => {
+  getProductHistories()
+  getProducts()
+})
 </script>
 <template>
   <div class="p-4 md:p-8">
     <div class="text-slate-900 text-2xl md:text-3xl font-semibold mb-6">
-      Mahsulot tarixlari
+      {{ $t('productsHistory') }}
     </div>
     <div class="flex md:flex-row flex-col items-center justify-between">
       <div class="relative w-full md:w-auto my-2 md:mb-0 order-2 md:order-1">
@@ -132,20 +183,54 @@ getProductHistories()
           <SearchIcon class="w-5 h-5 text-slate-400" />
         </div>
         <input type="search" v-model="globalSearchFromTable"
-               class="bg-slate-100 border-none w-full text-slate-900 text-base md:text-lg rounded-full block pl-10 py-2 placeholder-slate-400"
-               placeholder="Search everything...">
+          class="bg-slate-100 border-none w-full text-slate-900 text-base md:text-lg rounded-full block pl-10 py-2 placeholder-slate-400"
+          placeholder="Search everything...">
       </div>
       <div class="w-full md:w-auto order-1 md:order-2">
         <button @click="useModalStore().openCreateProductHistoryModal()"
-                class="w-full md:w-auto py-2 px-4 rounded-full text-white text-lg font-medium bg-blue-500 cursor-pointer hover:bg-blue-600">
-          Mahsulot tarixi qo'shish
+          class="w-full md:w-auto py-2 px-4 rounded-full text-white text-lg font-medium bg-blue-500 cursor-pointer hover:bg-blue-600">
+          {{ $t('addProductHistory') }}
         </button>
-
       </div>
     </div>
     <div v-if="isLoading" class="flex items-center justify-center h-20">
       <Spinners270RingIcon class="w-6 h-6 text-gray-500 animate-spin" />
     </div>
-    <CTable v-else :data="productsHistories" :key="renderKey" :columns="columns" :filter="globalSearchFromTable" />
+    <HistoryTable v-else :data="productsHistories" :key="renderKey" :columns="columns" :filter="globalSearchFromTable" />
+    <div class="flex items-center justify-between my-6">
+      <div class="text-base text-slate-900 font-medium">
+        {{ $t('total') }}:
+        {{ total }}
+      </div>
+      <div class="flex items-center space-x-2">
+        <button :disabled="page === 1" @click="goToPage(1)"
+          class="flex items-center justify-center px-3 py-2 text-base font-medium text-slate-900 rounded-lg select-none hover:bg-blue-200 disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
+          type="button">
+          <CaretDoubleLeftIcon class="w-5 h-5" />
+        </button>
+        <button @click="prevPage" :disabled="page === 1"
+          class="flex items-center justify-center px-3 py-2 text-base font-medium text-slate-900 rounded-lg select-none hover:bg-blue-200 disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
+          type="button">
+          <CaretLeftIcon class="w-5 h-5" />
+        </button>
+        <div class="flex items-center space-x-2">
+          <button v-for="pageNumber in displayedPageNumbers" :key="pageNumber" @click="goToPage(pageNumber)"
+            :class="{ 'bg-blue-600 text-white': pageNumber === page, 'hover:bg-blue-200': pageNumber !== page }"
+            class="px-3 py-2 select-none rounded-lg text-slate-900 text-center text-base font-medium transition-all">
+            {{ pageNumber }}
+          </button>
+        </div>
+        <button @click="nextPage" :disabled="page === totalPages"
+          class="flex items-center gap-2 px-3 py-2 text-base font-medium text-center text-slate-900 rounded-lg select-none hover:bg-blue-200 disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
+          type="button">
+          <CaretRightIcon class="w-5 h-5" />
+        </button>
+        <button :disabled="page === totalPages" @click="goToPage(totalPages)"
+          class="flex items-center gap-2 px-3 py-2 text-base font-medium text-slate-900 rounded-lg select-none hover:bg-blue-200 disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
+          type="button">
+          <CaretDoubleRightIcon class="w-5 h-5" />
+        </button>
+      </div>
+    </div>
   </div>
 </template>

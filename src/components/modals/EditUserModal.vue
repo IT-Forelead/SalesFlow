@@ -27,17 +27,21 @@ const privileges = ref([
       'find_barcode',
       'find_order',
       'update_product',
+      'update_settings',
       'view_histories',
       'view_orders',
       'view_products',
+      'view_settings'
     ],
   },
   {
     name: 'Admin',
     code: [
+      'create_barcode',
       'create_market',
       'create_user',
       'dashboard',
+      'update_barcode',
       'update_user',
       'view_barcodes',
       'view_histories',
@@ -58,10 +62,12 @@ const privileges = ref([
       'find_barcode',
       'find_order',
       'update_product',
+      'update_settings',
       'view_histories',
       'view_markets',
       'view_orders',
       'view_products',
+      'view_settings',
       'view_users'
     ]
   },

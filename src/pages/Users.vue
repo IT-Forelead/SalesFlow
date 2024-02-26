@@ -48,10 +48,12 @@ const getRole = (privileges) => {
       privileges.includes('find_barcode') &&
       privileges.includes('find_order') &&
       privileges.includes('update_product') &&
+      privileges.includes('update_settings') &&
       privileges.includes('view_histories') &&
       privileges.includes('view_markets') &&
       privileges.includes('view_orders') &&
       privileges.includes('view_products') &&
+      privileges.includes('view_settings') &&
       privileges.includes('view_users'):
       return t('manager')
     case
@@ -62,9 +64,11 @@ const getRole = (privileges) => {
       privileges.includes('find_barcode') &&
       privileges.includes('find_order') &&
       privileges.includes('update_product') &&
+      privileges.includes('update_settings') &&
       privileges.includes('view_histories') &&
       privileges.includes('view_orders') &&
-      privileges.includes('view_products'):
+      privileges.includes('view_products')&&
+      privileges.includes('view_settings'):
       return t('cashier')
     default:
       return t('user')
@@ -100,7 +104,7 @@ const columns = [
     header: t('createdAt'),
   },
   {
-    accessorKey: 'edit',
+    accessorKey: 'actions',
     header: t('actions'),
     cell: ({ row }) => h('div', { class: 'flex items-center space-x-2' }, [
       h('button', { onClick: () => { openEditUser(row.original) } }, [

@@ -33,8 +33,8 @@ onUnmounted(() => {
       <div
         class="relative bg-white md:rounded-l-2xl shadow-xl w-full min-h-screen md:w-auto">
         <!-- Modal header -->
-        <div class="w-full flex items-center p-4 md:p-5  border-b rounded-t">
-          <div class="pr-4">
+        <div class="w-full flex items-center justify-between md:justify-start p-4 md:p-5  border-b rounded-t">
+          <div class="md:pr-4 order-last md:order-none">
             <button
               @click="close"
               type="button"
@@ -43,20 +43,20 @@ onUnmounted(() => {
               <PhX class="w-5 h-5"/>
             </button>
           </div>
-          <h3 class="text-xl font-bold text-slate-900">
+          <h3 class="text-xl font-bold text-slate-900 order-first md:order-none">
             <slot name="header">
               This is the default title!
             </slot>
           </h3>
         </div>
         <!-- Modal body -->
-        <div class="p-4 md:p-5 h-full w-full">
+        <div class="px-3 py-4 md:p-5 h-full w-full">
           <slot name="body">
             <!-- Your body content goes here -->
           </slot>
         </div>
         <!-- Modal footer -->
-        <div class="absolute w-full md:bottom-0 flex items-center justify-start p-4 md:p-5 rounded-b border-t border-gray-200">
+        <div class="md:absolute w-full md:bottom-0 flex items-center justify-start px-3 py-4 md:p-5 rounded-b border-t border-gray-200">
           <slot name="footer">
             <!-- Your footer content goes here -->
           </slot>

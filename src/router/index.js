@@ -16,13 +16,6 @@ const routes = [
     beforeEnter: navigationGuards('dashboard'),
   },
   {
-    path: '/dashboard2',
-    name: 'Dashboard2',
-    component: () => import('../pages/Dashboard2.vue'),
-    meta: { layout: 'dashboard' },
-    beforeEnter: navigationGuards('dashboard'),
-  },
-  {
     path: '/products',
     name: 'Products',
     component: () => import('../pages/Products.vue'),
