@@ -95,11 +95,11 @@ const searchProducts = () => {
         })
       ).then((res) => {
         isLoading.value = false
-        if (res.data.length == 1) {
-          addProductToCart(res.data[0])
+        if (res.length == 1) {
+          addProductToCart(res[0])
         } else {
           useProductStore().clearStore()
-          useProductStore().setProducts(res.data)
+          useProductStore().setProducts(res)
         }
       })
     } else {
