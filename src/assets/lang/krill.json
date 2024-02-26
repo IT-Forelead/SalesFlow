@@ -56,5 +56,20 @@
   "package": "Қадоқи",
   "litre": "Литр",
   "kg": "Кг",
-  "g": "Г"
+  "g": "Г",
+  "plsEnterProductNameOrBarcode": "Илтимос маҳсулот номи ёки штрих кодини киритинг!",
+  "productIsOutOfStore": "Маҳсулот дўконда йўқ!",
+  "saleWasMadeSuccessfully": "Сотиш муваффақиятли амалга оширилди!",
+  "searchByProductNameOrBarcode": "Маҳсулот номи ёки штрих-код бўйича қидириш",
+  "shoppingCart": "Саватча",
+  "remainingAmount": "Қолган миқдор",
+  "cartIsCurrentlyEmpty": "Сават ҳозирча бўш",
+  "searchForProductsOrScanProducts": "Маҳсулотларни қидиринг ёки штрих-кодини сканерлаш",
+  "salesDetails": "Сотув тафсилотлари",
+  "numberOfProducts": "Маҳсулотлар сони",
+  "paymentReceived": "Қабул қилинган тўлов",
+  "paymentType": "Тўлов тури",
+  "withCash": "Нақд пул орқали",
+  "withPlasticCard": "Пластик карта орқали",
+  "payment": "Тўлов"
 }

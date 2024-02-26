@@ -56,5 +56,20 @@
   "package": "Упаковка",
   "litre": "Литр",
   "kg": "Кг",
-  "g": "Г"
+  "g": "Г",
+  "plsEnterProductNameOrBarcode": "Пожалуйста, введите название продукта или штрих-код!",
+  "productIsOutOfStore": "Товара нет в магазине!",
+  "saleWasMadeSuccessfully": "Продажа прошла успешно!",
+  "searchByProductNameOrBarcode": "Поиск по названию продукта или штрих-коду",
+  "shoppingCart": "Корзина",
+  "remainingAmount": "Оставшаяся сумма",
+  "cartIsCurrentlyEmpty": "Корзина в настоящее время пуста",
+  "searchForProductsOrScanProducts": "Искать продукты или сканировать продукты",
+  "salesDetails": "Подробности о продажах",
+  "numberOfProducts": "Количество товаров",
+  "paymentReceived": "Платеж получен",
+  "paymentType": "Тип платежа",
+  "withCash": "Наличными",
+  "withPlasticCard": "С пластиковой картой",
+  "payment": "Оплата"
 }

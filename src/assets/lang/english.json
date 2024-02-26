@@ -56,5 +56,20 @@
   "package": "Package",
   "litre": "Litre",
   "kg": "Kg",
-  "g": "G"
+  "g": "G",
+  "plsEnterProductNameOrBarcode": "Please enter product name or barcode!",
+  "productIsOutOfStore": "The product is out of store!",
+  "saleWasMadeSuccessfully": "The sale was made successfully!",
+  "searchByProductNameOrBarcode": "Search by product name or barcode",
+  "shoppingCart": "Shopping cart",
+  "remainingAmount": "Remaining amount",
+  "cartIsCurrentlyEmpty": "Cart is currently empty",
+  "searchForProductsOrScanProducts": "Search for products or scan products",
+  "salesDetails": "Sales details",
+  "numberOfProducts": "Number of products",
+  "paymentReceived": "Payment received",
+  "paymentType": "Payment type",
+  "withCash": "With cash",
+  "withPlasticCard": "With plastic card",
+  "payment": "Payment"
 }
