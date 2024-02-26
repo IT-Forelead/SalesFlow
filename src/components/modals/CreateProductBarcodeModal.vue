@@ -45,7 +45,7 @@ const createProductBarcode = () => {
   } else if (!submitData.packaging) {
     toast.error(t('plseEnterProductPackaging'))
   } else if (!submitData.barcode) {
-    toast.error(t('plsErnterProductBarcode'))
+    toast.error(t('plsEnterProductBarcode'))
   } else if (submitData.barcode.trim() && !isBarcode(submitData.barcode.trim())) {
     toast.error(t('barcodeIsInvalid'))
   } else {
@@ -124,7 +124,7 @@ watch(
             <div class="relative">
               <input id="barcode" type="text" v-model="submitData.barcode"
                 class="bg-slate-100 border-none text-slate-900 rounded-lg w-full py-2.5 placeholder-slate-400"
-                :placeholder="t('ernterProductBarcode')" />
+                :placeholder="t('enterProductBarcode')" />
               <div @click="useModalStore().openCameraScannerModal()"
                 class="absolute top-1/2 -translate-y-1/2 right-1 flex items-center justify-center w-8 h-8 rounded-lg hover:bg-white cursor-pointer">
                 <BarcodeIcon class="w-6 h-6 text-slate-900" />
