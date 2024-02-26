@@ -106,7 +106,7 @@
   "enterProductPackaging": "Маҳсулот қадоқини киритинг",
   "enterProductBarcode": "Маҳсулот штрих кодини киритинг",
   "plsEnterProductName": "Маҳсулот номини киритинг!",
-  "plseEnterProductPackaging": "Маҳсулот ўрамини киритинг!",
+  "plsEnterProductPackaging": "Маҳсулот ўрамини киритинг!",
   "plsEnterProductBarcode": "Маҳсулот штрих кодини киритинг!",
   "barcodeIsInvalid": "Штрих-код яроқсиз!",
   "barcodeAddedSuccessfully": "Штрих код муваффақиятли қўшилди!",
@@ -176,5 +176,9 @@
   "storeName": "Дўкон номи",
   "areYouSureYouWantToDeleteThisInformation": "Ҳақиқатан ҳам бу маълумотни ўчириб ташламоқчимисиз?",
   "no": "Йўқ",
-  "totalPayment": "Жами тўлов"
+  "totalPayment": "Жами тўлов",
+  "editStore": "Дўконни таҳрирлаш",
+  "productBarcodeEditedSuccessfully": "Маҳсулот штрих-коди муваффақиятли таҳрирланди!",
+  "errorWhileEditingProductBarcode": "Маҳсулот штрих кодини таҳрирлашда хатолик юз берди",
+  "editProductBarcode": "Маҳсулот штрих кодини таҳрирлаш"
 }

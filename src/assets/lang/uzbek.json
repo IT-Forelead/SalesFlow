@@ -87,7 +87,7 @@
   "addBarcode": "Shtrix-kod qo'shish",
   "barcodeType": "Shtrix-kod turi",
   "year": "Yili",
-  "orqaga": "Orqaga",
+  "back": "Orqaga",
   "yesOfCourse": "Ha, albatta",
   "save": "Saqlash",
   "profile": "Profil",
@@ -106,7 +106,7 @@
   "enterProductPackaging": "Mahsulot qadoqini kiriting",
   "enterProductBarcode": "Mahsulot shtrix kodini kiriting",
   "plsEnterProductName": "Mahsulot nomini kiriting!",
-  "plseEnterProductPackaging": "Mahsulot o'ramini kiriting!",
+  "plsEnterProductPackaging": "Mahsulot o'ramini kiriting!",
   "plsEnterProductBarcode": "Mahsulot shtrix kodini kiriting!",
   "barcodeIsInvalid": "Shtrix-kod yaroqsiz!",
   "barcodeAddedSuccessfully": "Shtrix kod muvaffaqiyatli qo'shildi!",
@@ -176,5 +176,9 @@
   "storeName": "Do'kon nomi",
   "areYouSureYouWantToDeleteThisInformation": "Haqiqatan ham bu ma'lumotni o'chirib tashlamoqchimisiz?",
   "no": "Yo'q",
-  "totalPayment": "Jami to'lov"
+  "totalPayment": "Jami to'lov",
+  "editStore": "Do'konni tahrirlash",
+  "productBarcodeEditedSuccessfully": "Mahsulot shtrix-kodi muvaffaqiyatli tahrirlandi!",
+  "errorWhileEditingProductBarcode": "Mahsulot shtrix kodini tahrirlashda xatolik yuz berdi",
+  "editProductBarcode": "Mahsulot shtrix kodini tahrirlash"
 }

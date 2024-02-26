@@ -65,7 +65,7 @@ const createProduct = () => {
   if (!submitData.name) {
     toast.error(t('plsEnterProductName'))
   } else if (!submitData.packaging) {
-    toast.error(t('plseEnterProductPackaging'))
+    toast.error(t('plsEnterProductPackaging'))
   } else if (!submitData.saleType) {
     toast.error(t('plsSelectSaleType'))
   } else if (submitData.price === 0) {

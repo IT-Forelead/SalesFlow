@@ -1,6 +1,6 @@
 <script setup>
 import CModal from '../common/CModal.vue'
-import {vMaska} from 'maska'
+import { vMaska } from 'maska'
 import { computed, reactive, ref, watch } from 'vue'
 import { toast } from 'vue-sonner'
 import { useModalStore } from '../../store/modal.store'
@@ -9,6 +9,10 @@ import CancelButton from '../buttons/CancelButton.vue'
 import Spinners270RingIcon from '../../assets/icons/Spinners270RingIcon.vue'
 import ProductService from '../../services/product.service'
 import { isBarcode, isBarcodeType } from '../../mixins/barcodeFormatter'
+import { useI18n } from 'vue-i18n'
+import { cleanObjectEmptyFields } from '../../mixins/utils'
+
+const { t } = useI18n()
 
 const isLoading = ref(false)
 const productStore = useProductStore()
@@ -50,34 +54,34 @@ const closeModal = () => {
 
 const updateProductBarcode = () => {
   if (!submitData.trademark) {
-    toast.error("Mahsulot nomini kiriting!")
+    toast.error(t('plsEnterProductName'))
   } else if (!submitData.packaging) {
-    toast.error("Qadoqini kiriting!")
+    toast.error(t('plsEnterProductPackaging'))
   } else if (!submitData.barcode) {
-    toast.error("Shtrix kodini kiriting!")
+    toast.error(t('plsEnterProductBarcode'))
   } else if (submitData.barcode && !isBarcode(submitData.barcode)) {
-    toast.error("Shtrix kod noto'g'ri!")
+    toast.error(t('barcodeIsInvalid'))
   } else if (!submitData.saleType) {
-    toast.error("Sotuv turinini kiriting!")
-  } else if (!submitData.year) {
-    toast.error("Iltimos barcode ro'yxatdan o'tgan yilini kiriting!")
+    toast.error(t('plsSelectSaleType'))
   } else {
     isLoading.value = true
-    ProductService.updateProductBarcode({
-      id: submitData.id,
-      type: submitData.type ? submitData.type : '-',
-      subType: submitData.subType ? submitData.subType : '-',
-      name: submitData.name ? submitData.name : '-',
-      trademark: submitData.trademark,
-      packaging: submitData.packaging,
-      typeCode: isBarcodeType(submitData.barcode),
-      barcode: submitData.barcode,
-      regNumber: submitData.reg_number,
-      saleType: submitData.saleType,
-      year: submitData.year
-    }).then(() => {
-      toast.success("Shtrix kod muvaffaqiyatli qo'shildi!")
-      ProductService.getBarcodes(30, )
+    ProductService.updateProductBarcode(
+      cleanObjectEmptyFields({
+        id: submitData.id,
+        type: submitData.type,
+        subType: submitData.subType,
+        name: submitData.name,
+        trademark: submitData.trademark,
+        packaging: submitData.packaging,
+        typeCode: isBarcodeType(submitData.barcode),
+        barcode: submitData.barcode,
+        regNumber: submitData.reg_number,
+        saleType: submitData.saleType,
+        year: submitData.year
+      })
+    ).then(() => {
+      toast.success(t('productBarcodeEditedSuccessfully'))
+      ProductService.getBarcodes(30,)
         .then((res) => {
           useProductStore().clearStore()
           useProductStore().setProductBarcodes(res.data)
@@ -85,7 +89,7 @@ const updateProductBarcode = () => {
       isLoading.value = false
       closeModal()
     }).catch((err) => {
-      toast.error("Shtrix kod qo'shishda xatolik yuz berdi!")
+      toast.success(t('errorWhileEditingProductBarcode'))
       setTimeout(() => {
         isLoading.value = false
       }, 3000)
@@ -110,53 +114,54 @@ watch(
     }
   }
 )
-
 </script>
 
 <template>
-  <CModal :is-open="useModalStore().isOpenEditProductBarcodeModal"
-    v-if="useModalStore().isOpenEditProductBarcodeModal" @close="closeModal">
-    <template v-slot:header>Mahsulot shtrix kodini tahrirlash</template>
+  <CModal :is-open="useModalStore().isOpenEditProductBarcodeModal" v-if="useModalStore().isOpenEditProductBarcodeModal"
+    @close="closeModal">
+    <template v-slot:header>
+      {{ $t('editProductBarcode') }}
+    </template>
     <template v-slot:body>
       <div class="space-y-4">
         <div class="flex items-center space-x-4">
           <div class="flex-1">
             <label for="trademark" class="text-base font-medium">
-              Mahsulot nomi
+              {{ $t('productName') }}
               <span class="text-red-500 mr-2">*</span>
             </label>
             <input id="trademark" type="text" v-model="submitData.trademark"
               class="bg-slate-100 border-none text-slate-900 rounded-lg w-full py-2.5 placeholder-slate-400"
-              placeholder="Savdo belgisini kiriting" />
+              :placeholder="t('enterProductName')" />
           </div>
           <div class="flex-1">
             <label for="packaging" class="text-base font-medium">
-              Qadoqi
+              {{ $t('packaging') }}
               <span class="text-red-500 mr-2">*</span>
             </label>
             <input id="packaging" type="text" v-model="submitData.packaging"
               class="bg-slate-100 border-none text-slate-900 rounded-lg w-full py-2.5 placeholder-slate-400"
-              placeholder="Qadoqini kiriting" />
+              :placeholder="t('enterProductPackaging')" />
           </div>
         </div>
         <div class="flex items-center space-x-4">
           <div class="flex-1">
             <label for="barcode" class="text-base font-medium">
-              Shtrix kodi
+              {{ $t('barcode') }}
               <span class="text-red-500 mr-2">*</span>
             </label>
             <input id="barcode" type="text" v-model="submitData.barcode"
               class="bg-slate-100 border-none text-slate-900 rounded-lg w-full py-2.5 placeholder-slate-400"
-              placeholder="Shtrix kodni kiriting" />
+              :placeholder="t('enterProductBarcode')" />
           </div>
           <div class="flex-1">
             <label for="sale-type" class="text-base font-medium">
-              Sotuv turi
+              {{ $t('saleType') }}
               <span class="text-red-500 mr-2">*</span>
             </label>
             <select id="sale-type" v-model="submitData.saleType"
               class="bg-slate-100 border-none text-slate-900 rounded-lg block w-full h-11">
-              <option value="" selected>Turini tanlang</option>
+              <option value="" selected>{{ $t('selectType') }}</option>
               <option value="amount">Donali</option>
               <option value="kg">Kilogrammli</option>
               <option value="g">Gramli</option>
@@ -167,21 +172,14 @@ watch(
         <div class="flex items-center space-x-4">
           <div class="flex-1">
             <label for="barcode" class="text-base font-medium">
-              Ro'yxatdan o'tgan yili
+              {{ $t('inYearOfRegistration') }}
               <span class="text-red-500 mr-2">*</span>
             </label>
             <input id="barcode" type="text" v-model="submitData.year" v-maska data-maska="####"
-                   class="bg-slate-100 border-none text-slate-900 rounded-lg w-full py-2.5 placeholder-slate-400"
-                   placeholder="Masalan: 2018" />
+              class="bg-slate-100 border-none text-slate-900 rounded-lg w-full py-2.5 placeholder-slate-400"
+              :placeholder="t('forExample2017')" />
           </div>
-          <div class="flex-1">
-            <label for="barcode" class="text-base font-medium">
-              Ro'yxatdan raqami
-            </label>
-            <input id="barcode" type="text" v-model="submitData.reg_number" v-maska data-maska="####"
-                   class="bg-slate-100 border-none text-slate-900 rounded-lg w-full py-2.5 placeholder-slate-400"
-                   placeholder="Masalan: 12345" />
-          </div>
+          <div class="flex-1"></div>
         </div>
       </div>
     </template>
@@ -191,12 +189,13 @@ watch(
         class="inline-flex items-center justify-center ms-3 text-white bg-blue-600 focus:ring-4 focus:outline-none focus:ring-slate-300 rounded-xl border border-slate-200 text-sm font-medium px-5 py-2.5 focus:z-10 cursor-default">
         <Spinners270RingIcon
           class="mr-2 w-5 h-5 text-gray-200 animate-spin dark:text-gray-600 fill-gray-600 dark:fill-gray-300" />
-        Yaratish
+        {{ $t('save') }}
       </button>
       <button v-else @click="updateProductBarcode()" type="button"
-        class="ms-3 text-white bg-blue-500 hover:bg-blue-600 focus:ring-4 focus:outline-none focus:ring-slate-300 rounded-xl border border-slate-200 text-sm font-medium px-5 py-2.5 focus:z-10">Yaratish</button>
+        class="ms-3 text-white bg-blue-500 hover:bg-blue-600 focus:ring-4 focus:outline-none focus:ring-slate-300 rounded-xl border border-slate-200 text-sm font-medium px-5 py-2.5 focus:z-10">
+        {{ $t('save') }}
+      </button>
     </template>
   </CModal>
 </template>
-
 <style scoped></style>

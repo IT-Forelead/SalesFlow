@@ -106,7 +106,7 @@
   "enterProductPackaging": "Введите упаковку продукта",
   "enterProductBarcode": "Введите штрих-код продукта",
   "plsEnterProductName": "Пожалуйста, введите название продукта!",
-  "plseEnterProductPackaging": "Укажите упаковку продукта!",
+  "plsEnterProductPackaging": "Укажите упаковку продукта!",
   "plsEnterProductBarcode": "Пожалуйста, введите штрих-код продукта!",
   "barcodeIsInvalid": "Штрих-код недействителен!",
   "barcodeAddedSuccessful": "Штрих-код успешно добавлен!",
@@ -176,5 +176,9 @@
   "storeName": "Название магазина",
   "areYouSureYouWantToDeleteThisInformation": "Вы уверены, что хотите удалить эту информацию?",
   "no": "Нет",
-  "totalPayment": "Общая сумма платежа"
+  "totalPayment": "Общая сумма платежа",
+  "editStore": "Редактировать магазин",
+  "productBarcodeEditedSuccessful": "Штрих-код продукта успешно отредактирован!",
+  "errorWhileEditingProductBarcode": "Ошибка при редактировании штрих-кода продукта",
+  "editProductBarcode": "Редактировать штрих-код продукта"
 }
