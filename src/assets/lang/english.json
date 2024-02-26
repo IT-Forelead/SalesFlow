@@ -175,5 +175,6 @@
   "userInformation": "User information",
   "storeName": "Store name",
   "areYouSureYouWantToDeleteThisInformation": "Are you sure you want to delete this information?",
-  "no": "No"
+  "no": "No",
+  "totalPayment": "Total payment"
 }

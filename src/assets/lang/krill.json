@@ -175,5 +175,6 @@
   "userInformation": "Фойдаланувчи ҳақида маълумот",
   "storeName": "Дўкон номи",
   "areYouSureYouWantToDeleteThisInformation": "Ҳақиқатан ҳам бу маълумотни ўчириб ташламоқчимисиз?",
-  "no": "Йўқ"
+  "no": "Йўқ",
+  "totalPayment": "Жами тўлов"
 }

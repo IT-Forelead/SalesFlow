@@ -175,5 +175,6 @@
   "userInformation": "Foydalanuvchi haqida ma'lumot",
   "storeName": "Do'kon nomi",
   "areYouSureYouWantToDeleteThisInformation": "Haqiqatan ham bu ma'lumotni o'chirib tashlamoqchimisiz?",
-  "no": "Yo'q"
+  "no": "Yo'q",
+  "totalPayment": "Jami to'lov"
 }

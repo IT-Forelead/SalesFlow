@@ -175,5 +175,6 @@
   "userInformation": "Информация о пользователе",
   "storeName": "Название магазина",
   "areYouSureYouWantToDeleteThisInformation": "Вы уверены, что хотите удалить эту информацию?",
-  "no": "Нет"
+  "no": "Нет",
+  "totalPayment": "Общая сумма платежа"
 }
