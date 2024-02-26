@@ -23,6 +23,18 @@ import { computed, onMounted } from 'vue'
 import { isBarcode } from '../mixins/barcodeFormatter'
 import { useI18n } from 'vue-i18n'
 
+
+// onMounted(() => {
+//   SettingsService.getSettings().then((res) => {
+//     isLoading.value = true
+//     submitData.boundaryPrice = res.boundaryPrice
+//   }).catch((err) => {
+//     toast.error("Get Settiings xato!")
+//   })
+// });
+
+
+
 const openCreateSaleModal = () => {
   showSale.value = false
   onSearchFocus.value = null
@@ -83,11 +95,11 @@ const searchProducts = () => {
         })
       ).then((res) => {
         isLoading.value = false
-        if (res.length == 1) {
-          addProductToCart(res[0])
+        if (res.data.length == 1) {
+          addProductToCart(res.data[0])
         } else {
           useProductStore().clearStore()
-          useProductStore().setProducts(res)
+          useProductStore().setProducts(res.data)
         }
       })
     } else {
@@ -240,6 +252,7 @@ const createOrder = () => {
     ).then((res) => {
       toast.success(t('saleWasMadeSuccessfully'))
 
+      console.log(totalPrice.value);
       if (totalPrice.value >= boundaryPrice.value) {
       showSale.value = true
     } else {

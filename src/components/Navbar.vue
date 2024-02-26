@@ -20,7 +20,6 @@ import EditProductModal from './modals/EditProductModal.vue'
 import DeleteUserModal from './modals/DeleteUserModal.vue'
 import EditProductBarcodeModal from './modals/EditProductBarcodeModal.vue'
 import CameraScannerModal from './modals/CameraScannerModal.vue'
-import BarcodeScannerModal from './modals/BarcodeScannerModal.vue'
 import CreateSaleModal from './modals/CreateSaleModal.vue'
 
 const notificationDropdown = ref(null)
