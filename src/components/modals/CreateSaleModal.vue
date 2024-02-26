@@ -3,10 +3,10 @@ import CModal from '../common/CModal.vue'
 import { reactive, ref } from 'vue'
 import { toast } from 'vue-sonner'
 import { useModalStore } from '../../store/modal.store'
-import { useSaleStore } from '../../store/sale.store'
+// import { useSaleStore } from '../../store/settings.store'
 import CancelButton from '../buttons/CancelButton.vue'
 import Spinners270RingIcon from '../../assets/icons/Spinners270RingIcon.vue'
-import SaleService from '../../services/sale.service'
+// import SaleService from '../../services/settings.service'
 
 const isLoading = ref(false)
 const submitData = reactive({

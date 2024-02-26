@@ -41,7 +41,7 @@ const submitData = reactive({
   paymentReceived: 0,
 })
 
-const boundarySale = ref(300000)
+const boundaryPrice = ref(300000)
 const showSale = ref(false)
 const totalPrice = ref(0)
 // const totalPriceWithDiscount = ref(0)
@@ -238,7 +238,7 @@ const createOrder = () => {
     ).then((res) => {
       toast.success("Sotuv muoffaqiyatli amalga oshirildi!")
 
-      if (totalPrice.value >= boundarySale.value) {
+      if (totalPrice.value >= boundaryPrice.value) {
       showSale.value = true
     } else {
       showSale.value = false
