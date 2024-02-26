@@ -70,7 +70,7 @@ const editProduct = () => {
       ProductService.getProducts({})
         .then((res) => {
           productStore.clearStore()
-          productStore.setProducts(res)
+          productStore.setProducts(res.data)
         })
         .catch((err) => {
           toast.error(err.message)
