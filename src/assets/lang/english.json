@@ -180,5 +180,12 @@
   "editStore": "Edit store",
   "productBarcodeEditedSuccessfully": "Product barcode edited successfully!",
   "errorWhileEditingProductBarcode": "Error while editing product barcode",
-  "editProductBarcode": "Edit product barcode"
+  "editProductBarcode": "Edit product barcode",
+  "editProductHistory": "Edit product history",
+  "editProduct": "Edit product",
+  "editUser": "Edit user",
+  "productEditedSuccessfully": "Product edited successfully!",
+  "userEditedSuccessfully": "User edited successfully!",
+  "errorWhileEditingProduct": "Error while editing product",
+  "errorWhileEditingUser": "Error while editing user"
 }

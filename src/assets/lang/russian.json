@@ -180,5 +180,12 @@
   "editStore": "Редактировать магазин",
   "productBarcodeEditedSuccessful": "Штрих-код продукта успешно отредактирован!",
   "errorWhileEditingProductBarcode": "Ошибка при редактировании штрих-кода продукта",
-  "editProductBarcode": "Редактировать штрих-код продукта"
+  "editProductBarcode": "Редактировать штрих-код продукта",
+  "editProductHistory": "Редактировать историю продукта",
+  "editProduct": "Редактировать товар",
+  "editUser": "Изменить пользователя",
+  "productEditedSuccessful": "Товар успешно отредактирован!",
+  "userEditedSuccessful": "Пользователь успешно отредактировал!",
+  "errorWhileEditingProduct": "Ошибка при редактировании продукта",
+  "errorWhileEditingUser": "Ошибка при редактировании пользователя"
 }

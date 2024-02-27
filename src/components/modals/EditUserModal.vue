@@ -8,6 +8,9 @@ import { useModalStore } from '../../store/modal.store.js'
 import { useUserStore } from '../../store/user.store.js'
 import CancelButton from '../buttons/CancelButton.vue'
 import CModal from '../common/CModal.vue'
+import { useI18n } from 'vue-i18n'
+
+const { t } = useI18n()
 
 const isLoading = ref(false)
 const userStore = useUserStore()
@@ -18,7 +21,7 @@ const selectedUser = computed(() => {
 
 const privileges = ref([
   {
-    name: 'Kassir',
+    name: t('cashier'),
     code: [
       'create_history',
       'create_order',
@@ -35,7 +38,7 @@ const privileges = ref([
     ],
   },
   {
-    name: 'Admin',
+    name: t('admin'),
     code: [
       'create_barcode',
       'create_market',
@@ -52,7 +55,7 @@ const privileges = ref([
     ],
   },
   {
-    name: 'Boshqaruvchi',
+    name: t('manager'),
     code: [
       'create_history',
       'create_order',
@@ -97,13 +100,13 @@ const closeModal = () => {
 
 const editUser = () => {
   if (!submitData.firstname) {
-    toast.warning('Foydolanuvchini ismini kiriting!')
+    toast.warning(t('plsEnterFirstname'))
   } else if (!submitData.lastname) {
-    toast.warning('Foydolanuvchini familiyasini kiriting!')
+    toast.warning(t('plsEnterlastname'))
   } else if (!submitData.phone) {
-    toast.warning('Foydolanuvchini telefon raqamini kiriting!')
+    toast.warning(t('plsEnterPhoneNumber'))
   } else if (!submitData.privileges) {
-    toast.warning('Foydolanuvchini rolini tanlang!')
+    toast.warning(t('plsSelectRole'))
   } else {
     isLoading.value = true
     UserService.updateUser({
@@ -113,7 +116,7 @@ const editUser = () => {
       privileges: submitData.privileges,
       phone: submitData.phone.replace(/([() -])/g, ''),
     }).then(() => {
-      toast.success('Mahsulot muvaffaqiyatli tahrirlandi!')
+      toast.warning(t('userEditedSuccessfully'))
       UserService.getUsers()
         .then((res) => {
           userStore.clearStore()
@@ -125,7 +128,7 @@ const editUser = () => {
       isLoading.value = false
       closeModal()
     }).catch((err) => {
-      toast.error(err.message)
+      toast.warning(t('errorWhileEditingUser'))
       isLoading.value = false
       closeModal()
     })
@@ -148,33 +151,35 @@ watch(
 </script>
 <template>
   <CModal :is-open="useModalStore().isOpenEditUserModal" v-if="useModalStore().isOpenEditUserModal" @close="closeModal">
-    <template v-slot:header> Foydalanuvchini tahrirlash </template>
+    <template v-slot:header>
+      {{ $t('editUser') }}
+    </template>
     <template v-slot:body>
       <div class="space-y-4">
         <div class="flex items-center space-x-4">
           <div class="flex-1">
             <label for="firstname" class="text-base font-medium">
-              Ism
+              {{ $t('firstname') }}
               <span class="text-red-500 mr-2">*</span>
             </label>
             <input id="firstname" type="text" v-model="submitData.firstname"
               class="bg-slate-100 border-none text-sm md:text-base text-slate-900 rounded-lg w-full py-2.5 placeholder-slate-400"
-              placeholder="Ismni kiriting" />
+              :placeholder="t('enterFirstname')" />
           </div>
           <div class="flex-1">
             <label for="lastname" class="text-base font-medium">
-              Familiya
+              {{ $t('lastname') }}
               <span class="text-red-500 mr-2">*</span>
             </label>
             <input id="lastname" type="text" v-model="submitData.lastname"
               class="bg-slate-100 border-none text-sm md:text-base text-slate-900 rounded-lg w-full py-2.5 placeholder-slate-400"
-              placeholder="Familiyani kiriting" />
+              :placeholder="t('lastname')" />
           </div>
         </div>
         <div class="flex items-center space-x-4">
           <div class="flex-1">
             <label for="phone" class="text-base font-medium">
-              Telefon raqam:
+              {{ $t('phone') }}
               <span class="text-red-500 mr-2">*</span>
             </label>
             <input id="phone" type="text" v-model="submitData.phone" v-maska data-maska="+998(##) ###-##-##"
@@ -183,13 +188,12 @@ watch(
           </div>
           <div class="flex-1">
             <label for="role" class="text-base text-left font-medium">
-              Rol:
+              {{ $t('role') }}
               <span class="text-red-500 mr-2">*</span>
             </label>
-
             <select id="role" v-model="submitData.privileges"
               class="bg-slate-100 border-none text-sm md:text-base text-slate-900 rounded-lg block w-full h-11">
-              <option value="" selected>Tanlang</option>
+              <option value="" selected>{{ $t('selectRole') }}</option>
               <option v-for="(priv, idx) in privileges" :key="idx" :value="priv?.code">
                 {{ priv?.name }}
               </option>
@@ -204,11 +208,11 @@ watch(
         class="inline-flex items-center justify-center ms-3 text-white bg-blue-600 focus:ring-4 focus:outline-none focus:ring-slate-300 rounded-xl border border-slate-200 text-sm font-medium px-5 py-2.5 focus:z-10 cursor-default">
         <Spinners270RingIcon
           class="mr-2 w-5 h-5 text-gray-200 animate-spin dark:text-gray-600 fill-gray-600 dark:fill-gray-300" />
-        Saqlash
+          {{ $t('save') }}
       </button>
       <button v-else @click="editUser()" type="button"
         class="ms-3 text-white bg-blue-500 hover:bg-blue-600 focus:ring-4 focus:outline-none focus:ring-slate-300 rounded-xl border border-slate-200 text-sm font-medium px-5 py-2.5 focus:z-10">
-        Saqlash
+        {{ $t('save') }}
       </button>
     </template>
   </CModal>

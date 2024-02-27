@@ -152,8 +152,8 @@
   "userSuccessfullyAdded": "Foydalanuvchi muvaffaqiyatli qo'shildi!",
   "errorWhileCreatingUser": "Foydalanuvchi yaratishda xatolik yuz berdi",
   "createUser": "Foydalanuvchi yaratish",
-  "firmname": "Ism",
-  "lastname": "familiya",
+  "firstname": "Ism",
+  "lastname": "Familiya",
   "phone": "Telefon",
   "store": "Do'kon",
   "confirmPassword": "Parolni tasdiqlang",
@@ -180,5 +180,12 @@
   "editStore": "Do'konni tahrirlash",
   "productBarcodeEditedSuccessfully": "Mahsulot shtrix-kodi muvaffaqiyatli tahrirlandi!",
   "errorWhileEditingProductBarcode": "Mahsulot shtrix kodini tahrirlashda xatolik yuz berdi",
-  "editProductBarcode": "Mahsulot shtrix kodini tahrirlash"
+  "editProductBarcode": "Mahsulot shtrix kodini tahrirlash",
+  "editProductHistory": "Mahsulot tarixini tahrirlash",
+  "editProduct": "Mahsulotni tahrirlash",
+  "editUser": "Foydalanuvchini tahrirlash",
+  "productEditedSuccessfully": "Mahsulot muvaffaqiyatli tahrir qilindi!",
+  "userEditedSuccessfully": "Foydalanuvchi muvaffaqiyatli tahrir qildi!",
+  "errorWhileEditingProduct": "Mahsulotni tahrirlashda xatolik yuz berdi",
+  "errorWhileEditingUser": "Foydalanuvchini tahrirlashda xatolik yuz berdi"
 }

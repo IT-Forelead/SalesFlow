@@ -152,8 +152,8 @@
   "userSuccessfullyAdded": "Фойдаланувчи муваффақиятли қўшилди!",
   "errorWhileCreatingUser": "Фойдаланувчи яратишда хатолик юз берди",
   "createUser": "Фойдаланувчи яратиш",
-  "firmname": "Исм",
-  "lastname": "фамилия",
+  "firstname": "Исм",
+  "lastname": "Фамилия",
   "phone": "Телефон",
   "store": "Дўкон",
   "confirmPassword": "Паролни тасдиқланг",
@@ -161,7 +161,7 @@
   "enterLastname": "Фамилияни киритинг",
   "enterLogin": "Кириш",
   "enterPhone": "Телефонни киритинг",
-  "selectRole": "ролни танланг",
+  "selectRole": "Ролни танланг",
   "selectStore": "Дўконни танланг",
   "enterPassword": "Паролни киритинг",
   "enterThePasswordAgain": "Паролни яна киритинг",
@@ -180,5 +180,12 @@
   "editStore": "Дўконни таҳрирлаш",
   "productBarcodeEditedSuccessfully": "Маҳсулот штрих-коди муваффақиятли таҳрирланди!",
   "errorWhileEditingProductBarcode": "Маҳсулот штрих кодини таҳрирлашда хатолик юз берди",
-  "editProductBarcode": "Маҳсулот штрих кодини таҳрирлаш"
+  "editProductBarcode": "Маҳсулот штрих кодини таҳрирлаш",
+  "editProductHistory": "Маҳсулот тарихини таҳрирлаш",
+  "editProduct": "Маҳсулотни таҳрирлаш",
+  "editUser": "Фойдаланувчини таҳрирлаш",
+  "productEditedSuccessfully": "Маҳсулот муваффақиятли таҳрир қилинди!",
+  "userEditedSuccessfully": "Фойдаланувчи муваффақиятли таҳрир қилди!",
+  "errorWhileEditingProduct": "Маҳсулотни таҳрирлашда хатолик юз берди",
+  "errorWhileEditingUser": "Фойдаланувчини таҳрирлашда хатолик юз берди"
 }
