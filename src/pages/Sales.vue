@@ -140,7 +140,7 @@ const addProductToCart = (product) => {
           price: product?.price,
           quantity: product?.quantity,
           saleType: product?.saleType,
-          amount: 0.1,
+          amount: 0.1
         })
       } else if (product?.saleType == 'litre') {
         selectedProducts.value.push({
@@ -150,7 +150,7 @@ const addProductToCart = (product) => {
           price: product?.price,
           quantity: product?.quantity,
           saleType: product?.saleType,
-          amount: 0.5,
+          amount: 0.5
         })
       } else {
         selectedProducts.value.push({
@@ -160,7 +160,7 @@ const addProductToCart = (product) => {
           price: product?.price,
           quantity: product?.quantity,
           saleType: product?.saleType,
-          amount: 1,
+          amount: 1
         })
       }
     } else {
@@ -199,7 +199,7 @@ const increaseCountOfProducts = (product) => {
       }
     } else item
     return item
-  })
+  });
 }
 
 const reduceCountOfProducts = (product) => {
@@ -215,7 +215,7 @@ const reduceCountOfProducts = (product) => {
       }
     } else item
     return item
-  })
+  });
 }
 
 const clearSearchInput = () => {
@@ -231,7 +231,7 @@ const clearSubmitData = () => {
 
 const createOrder = () => {
   if (selectedProducts.value.length == 0) {
-    toast.error('Tanlangan mahsulotlar mavjud emas!')
+    toast.error("Tanlangan mahsulotlar mavjud emas!")
   } else {
     isLoading.value = true
     OrderService.createOrder(
@@ -258,7 +258,9 @@ const createOrder = () => {
 watch(
   () => selectedProducts.value,
   () => {
-    totalPrice.value = selectedProducts.value.map((product) => product?.price * product?.amount).reduce((accumulator, currentValue) => accumulator + currentValue, 0)
+    totalPrice.value = selectedProducts.value
+      .map((product) => product?.price * product?.amount)
+      .reduce((accumulator, currentValue) => accumulator + currentValue, 0);
   },
   { deep: true }
 )
@@ -346,30 +348,37 @@ const createSale = () => {
 </script>
 
 <template>
-  <div v-if="products.length > 0" class="fixed top-0 right-0 bottom-0 left-0 z-50 backdrop-blur-[2px] bg-gray-900/70"></div>
+  <div v-if="products.length > 0" class="fixed top-0 right-0 bottom-0 left-0 z-50 backdrop-blur-[2px] bg-gray-900/70">
+  </div>
   <div class="flex flex-col md:flex-row">
     <div class="flex-auto md:w-2/3 w-full space-y-4 py-8 px-4 md:px-8">
       <div class="flex items-center space-x-2 pb-2">
-        <div class="relative flex-auto">
+        <div class="relative flex-auto z-50">
           <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
             <SearchIcon class="w-5 h-5 text-slate-400" />
           </div>
-          <input v-model="search" v-on:keypress="whenPressEnter($event)" type="search" ref="onSearchF ocus" @blur="reFocus()" class="bg-slate-100 border-none text-slate-900 text-base md:text-lg rounded-xl block w-full h-12 pl-10 py-2 placeholder-slate-400 placeholder:text-sm md:placeholder:text-lg" :placeholder="t('searchByProductNameOrBarcode')" />
-          <div v-if="search" @click="clearSearchInput()" class="absolute inset-y-0 right-20 p-1 flex items-center cursor-pointer">
+          <input v-model="search" v-on:keypress="whenPressEnter($event)" type="search" ref="onSearchFocus"
+            @blur="reFocus()"
+            class="bg-slate-100 border-none text-slate-900 text-base md:text-lg rounded-xl block w-full h-12 pl-10 py-2 placeholder-slate-400 placeholder:text-sm md:placeholder:text-lg"
+            :placeholder="t('searchByProductNameOrBarcode')">
+          <div v-if="search" @click="clearSearchInput()"
+            class="absolute inset-y-0 right-20 p-1 flex items-center cursor-pointer">
             <XIcon class="w-5 h-5 text-slate-600" />
           </div>
-          <button @click="searchProducts()" type="button" class="absolute inset-y-0 right-0 px-4 bg-[#0167F3] text-white rounded-r-xl">
+          <button @click="searchProducts()" type="button"
+            class="absolute inset-y-0 right-0 px-4 bg-[#0167F3] text-white rounded-r-xl">
             {{ $t('search') }}
           </button>
-          <div v-if="products.length > 0" class="absolute top-16 left-0 bg-transparent w-full space-y-2 z-50">
-            <div v-for="(product, idx) in products" :key="idx" @click="addProductToCart(product)" class="flex items-center justify-between bg-white border shadow-sm rounded-xl px-3 py-2 w-full cursor-pointer hover:bg-slate-100">
+          <div v-if="products.length > 0" class="absolute top-16 left-0 bg-transparent w-full space-y-2">
+            <div v-for="(product, idx) in products" :key="idx" @click="addProductToCart(product)"
+              class="flex items-center justify-between bg-white border shadow-sm rounded-xl px-3 py-2 w-full cursor-pointer hover:bg-slate-100">
               <div class="flex items-center space-x-3">
                 <div class="flex items-center justify-center bg-slate-200 w-10 h-10 rounded-lg">
                   <ImageIcon class="text-gray-500 w-8 h-8" />
                 </div>
                 <div>
                   <div class="text-base font-semibold text-gray-800">
-                    {{ product?.name + ' - ' + product?.packaging }}
+                    {{ product?.name + " - " + product?.packaging }}
                   </div>
                   <div class="text-base font-medium text-gray-500">
                     {{ product?.barcode }}
@@ -390,7 +399,8 @@ const createSale = () => {
             </div>
           </div>
         </div>
-        <div @click="useModalStore().openCameraScannerModal()" class="flex items-center justify-center bg-slate-100 rounded-xl h-12 w-12 cursor-pointer">
+        <div @click="useModalStore().openCameraScannerModal()"
+          class="flex items-center justify-center bg-slate-100 rounded-xl h-12 w-12 cursor-pointer">
           <BarcodeIcon class="w-6 h-6 text-blue-600" />
         </div>
         <div class="hidden md:flex items-center justify-center bg-slate-100 rounded-xl h-12 w-12">
@@ -407,7 +417,7 @@ const createSale = () => {
           <div class="min-w-full">
             <table class="md:min-w-full divide-y-8 divide-white">
               <thead>
-                <tr class="bg-slate-100 text-base font-semibold text-gray-900 h-12">
+                <tr class="bg-slate-100 text-base font-semibold text-gray-900  h-12">
                   <th class="px-3 py-2 text-left rounded-l-xl text-sm md:text-base">
                     {{ $t('product') }}
                   </th>
@@ -431,7 +441,7 @@ const createSale = () => {
                       </div>
                       <div>
                         <div class="text-sm md:text-base font-semibold text-gray-800">
-                          {{ product?.name + ' - ' + product?.packaging }}
+                          {{ product?.name + " - " + product?.packaging }}
                         </div>
                         <div class="text-sm md:text-base font-medium text-gray-500">
                           {{ $t('price') }}:
@@ -451,19 +461,23 @@ const createSale = () => {
                   <td class="px-3 py-2 text-center whitespace-nowrap">
                     <div class="flex justify-center">
                       <div class="flex items-center justify-between bg-slate-100 w-36 rounded-xl p-1">
-                        <div @click="reduceCountOfProducts(product)" v-if="increaseCountChecking(product)" class="flex items-center justify-center w-8 h-8 bg-white text-blue-700 shadow-sm hover:bg-slate-200 cursor-pointer rounded-xl">
+                        <div @click="reduceCountOfProducts(product)" v-if="increaseCountChecking(product)"
+                          class="flex items-center justify-center w-8 h-8 bg-white text-blue-700 shadow-sm hover:bg-slate-200 cursor-pointer rounded-xl">
                           <MinusIcon class="w-4 h-4" />
                         </div>
-                        <div v-else class="flex items-center justify-center w-8 h-8 bg-white text-slate-700 cursor-default rounded-xl">
+                        <div v-else
+                          class="flex items-center justify-center w-8 h-8 bg-white text-slate-700 cursor-default rounded-xl">
                           <MinusIcon class="w-4 h-4" />
                         </div>
                         <div class="flex items-center justify-center text-lg font-normal">
-                          {{ product?.amount + ' ' + saleTypeShortTranslate(product?.saleType) }}
+                          {{ product?.amount + " " + saleTypeShortTranslate(product?.saleType) }}
                         </div>
-                        <div @click="increaseCountOfProducts(product)" v-if="product?.quantity > product?.amount" class="flex items-center justify-center w-8 h-8 bg-white text-blue-700 shadow-sm hover:bg-slate-200 cursor-pointer rounded-xl">
+                        <div @click="increaseCountOfProducts(product)" v-if="product?.quantity > product?.amount"
+                          class="flex items-center justify-center w-8 h-8 bg-white text-blue-700 shadow-sm hover:bg-slate-200 cursor-pointer rounded-xl">
                           <PlusIcon class="w-4 h-4" />
                         </div>
-                        <div v-else class="flex items-center justify-center w-8 h-8 bg-white text-slate-700 cursor-default rounded-xl">
+                        <div v-else
+                          class="flex items-center justify-center w-8 h-8 bg-white text-slate-700 cursor-default rounded-xl">
                           <PlusIcon class="w-4 h-4" />
                         </div>
                       </div>
@@ -474,7 +488,8 @@ const createSale = () => {
                   </td>
                   <td class="px-3 py-2 whitespace-nowrap rounded-r-2xl">
                     <div class="flex justify-center">
-                      <TrashIcon @click="removeProductFromCart(product)" class="w-6 h-6 text-rose-500 cursor-pointer transform hover:scale-105" />
+                      <TrashIcon @click="removeProductFromCart(product)"
+                        class="w-6 h-6 text-rose-500 cursor-pointer transform hover:scale-105" />
                     </div>
                   </td>
                 </tr>
@@ -515,10 +530,6 @@ const createSale = () => {
           placeholder="Mijozni tanlang">
       </div> -->
 
-      <!-- <div class="space-y-2">
-        <div></div>
-        <div></div>
-      </div> -->
       <div class="space-y-2">
         <h3 class="text-xl font-semibold">
           {{ $t('salesDetails') }}
@@ -529,7 +540,7 @@ const createSale = () => {
               {{ $t('numberOfProducts') }}
             </div>
             <div class="text-base font-semibold text-gray-900">
-              {{ selectedProducts.length + ' ' + $t('piece') }}
+              {{ selectedProducts.length + " " + $t('piece') }}
             </div>
           </div>
           <div class="flex items-center justify-between">
@@ -544,13 +555,17 @@ const createSale = () => {
             <div class="text-base text-gray-600">
               {{ $t('discount') }}
             </div>
-            <div class="text-base font-semibold text-gray-900">{{ submitData.discountPercent }} %</div>
+            <div class="text-base font-semibold text-gray-900">
+              {{ submitData.discountPercent }} %
+            </div>
           </div>
           <div class="flex items-center justify-between">
             <div class="text-base text-gray-600">
               {{ $t('discountAmount') }}
             </div>
-            <div class="text-base font-semibold text-red-500">-{{ useMoneyFormatter(0) }}</div>
+            <div class="text-base font-semibold text-red-500">
+              -{{ useMoneyFormatter(0) }}
+            </div>
           </div>
         </div>
         <div class="flex items-center justify-between mt-2 pt-3 border-t border-dashed">
@@ -567,7 +582,9 @@ const createSale = () => {
         <label class="text-base font-medium">
           {{ $t('paymentReceived') }}
         </label>
-        <money3 v-model="submitData.paymentReceived" v-bind="moneyConf" id="price" class="border-none text-right text-gray-500 bg-slate-100 rounded-lg w-full text-lg" disabled> </money3>
+        <money3 v-model="submitData.paymentReceived" v-bind="moneyConf" id="price"
+          class="border-none text-right text-gray-500 bg-slate-100 rounded-lg w-full text-lg" disabled>
+        </money3>
       </div>
       <div class="py-3 space-y-1">
         <div class="text-base font-medium">
