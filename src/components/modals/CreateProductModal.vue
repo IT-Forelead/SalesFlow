@@ -9,13 +9,15 @@ import { useBarcodeStore } from '../../store/barcode.store'
 import CancelButton from '../buttons/CancelButton.vue'
 import SearchIcon from '../../assets/icons/SearchIcon.vue'
 import Spinners270RingIcon from '../../assets/icons/Spinners270RingIcon.vue'
-import CameraIcon from '../../assets/icons/CameraIcon.vue'
 import BarcodeIcon from '../../assets/icons/BarcodeIcon.vue'
 import ProductService from '../../services/product.service'
 import { reactive, ref, watch, watchEffect } from 'vue'
 import { computed } from 'vue'
 import { isBarcode } from '../../mixins/barcodeFormatter'
 import ImageIcon from '../../assets/icons/ImageIcon.vue'
+import { useI18n } from 'vue-i18n'
+
+const { t } = useI18n()
 
 const router = useRouter()
 const barcodeStore = useBarcodeStore()
@@ -61,15 +63,15 @@ const closeModal = () => {
 
 const createProduct = () => {
   if (!submitData.name) {
-    toast.error('Mahsulot nomini kiriting!')
+    toast.error(t('plsEnterProductName'))
   } else if (!submitData.packaging) {
-    toast.error('Mahsulot qadoqi haqida ma\'lumot kiriting!')
+    toast.error(t('plsEnterProductPackaging'))
   } else if (!submitData.saleType) {
-    toast.error('Mahsulot Sotuv turini tanlang!')
+    toast.error(t('plsSelectSaleType'))
   } else if (submitData.price === 0) {
-    toast.error('Mahsulot narxini kiriting!')
+    toast.error(t('plsEnterProductPrice'))
   } else if (submitData.quantity === 0) {
-    toast.error('Mahsulot miqdorini kiriting!')
+    toast.error(t('plsEnterProductQuantity'))
   } else {
     isLoading.value = true
     ProductService.createProduct(
@@ -82,7 +84,7 @@ const createProduct = () => {
         quantity: submitData.quantity,
       })
     ).then(() => {
-      toast.success('Mahsulot muoffaqiyatli qo\'shildi!')
+      toast.success(t('productAddedSuccessfully'))
       ProductService.getProducts({})
         .then((res) => {
           useProductStore().clearStore()
@@ -92,7 +94,7 @@ const createProduct = () => {
       isLoading.value = false
       closeModal()
     }).catch((err) => {
-      toast.error('Mahsulot yaratishda xatolik yuz berdi!')
+      toast.error(t('errorWhileCreatingProduct'))
       setTimeout(() => {
         isLoading.value = false
       }, 3000)
@@ -102,7 +104,7 @@ const createProduct = () => {
 
 const searchProductBarcodes = () => {
   if (!searchProductBarcode.value) {
-    toast.error('Mahsulot nomi yoki shtrix kodini kiriting!')
+    toast.error(t('plsEnterProductNameOrBarcode'))
   } else {
     isSearching.value = true
     if (isBarcode(searchProductBarcode.value)) {
@@ -112,14 +114,14 @@ const searchProductBarcodes = () => {
             useBarcodeStore().setDecodedBarcode('')
             productBarcode.value = res
           } else {
-            toast.error('Bunday shtrix kodli mahsulot mavjud emas!')
+            toast.error(t('thereIsNoSuchBarcodeProduct'))
             clearSubmitData()
             submitData.barcode = useBarcodeStore().decodedBarcode
           }
           isSearching.value = false
           searchProductBarcode.value = ''
         }).catch((err) => {
-          toast.error('Mahsulotni olishda xatolik yuz berdi!')
+          toast.error(t('errorGettingProduct'))
           setTimeout(() => {
             isSearching.value = false
           }, 3000)
@@ -131,13 +133,13 @@ const searchProductBarcodes = () => {
             useBarcodeStore().setDecodedBarcode('')
             productBarcodes.value = res
           } else {
-            toast.error('Bunday nomli mahsulot mavjud emas!')
+            toast.error(t('productWithThisNameDoesNotExist'))
             clearSubmitData()
           }
           isSearching.value = false
           searchProductBarcode.value = ''
         }).catch((err) => {
-          toast.error('Mahsulotni olishda xatolik yuz berdi!')
+          toast.error(t('errorGettingProduct'))
           setTimeout(() => {
             isSearching.value = false
           }, 3000)
@@ -194,7 +196,7 @@ watch(
   <CModal :is-open="useModalStore().isOpenCreateProductModal" v-if="useModalStore().isOpenCreateProductModal"
     @close=closeModal>
     <template v-slot:header>
-      Mahsulot yaratish
+      {{ $t('createProduct') }}
     </template>
     <template v-slot:body>
       <div class="relative mb-8">
@@ -203,7 +205,7 @@ watch(
         </div>
         <input type="search" v-model="searchProductBarcode" ref="onSearchFocus" v-on:keypress="whenPressEnter($event)"
           class="bg-slate-100 border-none text-slate-900 rounded-lg w-full h-12 pl-10 placeholder-slate-400 placeholder:text-sm md:placeholder:text-lg"
-          placeholder="Shtrix kodi orqali izlash...">
+          :placeholder="t('searchByProductNameOrBarcode')">
         <div class="absolute inset-y-0 right-0 flex items-center space-x-2">
           <div @click="useModalStore().openCameraScannerModal()"
             class="flex items-center justify-center w-8 h-8 rounded-lg hover:bg-white cursor-pointer">
@@ -211,7 +213,7 @@ watch(
           </div>
           <button type="button" @click="searchProductBarcodes()"
             class="px-4 bg-[#0167F3] text-white rounded-lg text-base h-full md:text-lg cursor-pointer">
-            Izlash
+            {{ $t('search') }}
           </button>
         </div>
         <div v-if="productBarcodes.length > 0" class="absolute top-16 left-0 bg-transparent w-full space-y-2 z-[2000]">
@@ -239,40 +241,40 @@ watch(
         <div class="flex flex-col md:flex-row md:items-center space-y-2 md:space-y-0 md:space-x-4">
           <div class="flex-1">
             <label for="name" class="text-base md:text-lg font-medium">
-              Mahsulot nomi
+              {{ $t('productName') }}
               <span class="text-red-500 mr-2">*</span>
             </label>
             <input id="name" type="text" v-model="submitData.name"
               class="bg-slate-100 border-none text-slate-900 rounded-lg w-full py-2.5 placeholder-slate-400 placeholder:text-sm md:placeholder:text-lg"
-              placeholder="Mahsulot nomini kiriting">
+              :placeholder="t('enterProductName')">
           </div>
           <div class="flex-1">
             <label for="barcode" class="text-base md:text-lg font-medium">
-              Shtrix kodi
+              {{ $t('barcode') }}
             </label>
             <input id="barcode" type="text" v-model="submitData.barcode"
               class="bg-slate-100 border-none text-slate-900 rounded-lg w-full py-2.5 placeholder-slate-400 placeholder:text-sm md:placeholder:text-lg"
-              placeholder="Shtrix kodini kiriting">
+              :placeholder="t('enterProductBarcode')">
           </div>
         </div>
         <div class="flex flex-col md:flex-row md:items-center space-y-2 md:space-y-0 md:space-x-4">
           <div class="flex-1 space-y-1">
             <label for="default-value" class="text-base md:text-lg font-medium">
-              Qadoqi
+              {{ $t('packaging') }}
               <span class="text-red-500 mr-2">*</span>
             </label>
             <input id="default-value" type="text" v-model="submitData.packaging"
               class="bg-slate-100 border-none text-slate-900 rounded-lg w-full h-11 placeholder-slate-400 placeholder:text-sm md:placeholder:text-lg"
-              placeholder="Qadoqi haqida ma'lumot kiriting">
+              :placeholder="t('enterProductPackaging')">
           </div>
           <div class="flex-1 space-y-1">
             <label for="default-type" class="text-base md:text-lg font-medium">
-              Sotuv turi
+              {{ $t('saleType') }}
               <span class="text-red-500 mr-2">*</span>
             </label>
             <select id="default-type" v-model="submitData.saleType"
               class="bg-slate-100 border-none text-slate-900 rounded-lg text-base md:text-lg block w-full h-11">
-              <option value="" selected>Turini tanlang</option>
+              <option value="" selected>{{ $t('selectType') }}</option>
               <option value="amount">Donali</option>
               <option value="kg">Kilogrammli</option>
               <option value="g">Gramli</option>
@@ -283,16 +285,16 @@ watch(
         <div class="flex flex-col md:flex-row md:items-center space-y-2 md:space-y-0 md:space-x-4">
           <div class="flex-1 space-y-1">
             <label for="quantity" class="text-base md:text-lg font-medium">
-              Miqdori
+              {{ $t('quantity') }}
               <span class="text-red-500 mr-2">*</span>
             </label>
             <input id="quantity" type="text" v-model="submitData.quantity"
               class="bg-slate-100 border-none text-slate-900 rounded-lg w-full h-11 placeholder-slate-400 placeholder:text-sm md:placeholder:text-lg"
-              placeholder="Mahsulot miqdorini kiriting">
+              :placeholder="t('enterProductQuantity')">
           </div>
           <div class="flex-1 spaceSearchIcon-y-1">
             <label for="price" class="text-base md:text-lg font-medium">
-              Narxi
+              {{ $t('price') }}
               <span class="text-red-500 mr-2">*</span>
             </label>
             <money3 v-model.number="submitData.price" v-bind="moneyConf" id="price"
@@ -308,11 +310,11 @@ watch(
         class="inline-flex items-center justify-center ms-3 text-white bg-blue-600 focus:ring-4 focus:outline-none focus:ring-slate-300 rounded-xl border border-slate-200 text-sm font-medium px-5 py-2.5 focus:z-10 cursor-default">
         <Spinners270RingIcon
           class="mr-2 w-5 h-5 text-gray-200 animate-spin dark:text-gray-600 fill-gray-600 dark:fill-gray-300" />
-        Yaratish
+        {{ $t('create') }}
       </button>
       <button v-else @click="createProduct()" type="button"
         class="ms-3 text-white bg-blue-500 hover:bg-blue-600 focus:ring-4 focus:outline-none focus:ring-slate-300 rounded-xl border border-slate-200 text-sm font-medium px-5 py-2.5 focus:z-10">
-        Yaratish
+        {{ $t('create') }}
       </button>
     </template>
   </CModal>

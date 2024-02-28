@@ -7,53 +7,54 @@ import { computed } from 'vue'
 import WarningCircleBoldIcon from '../../assets/icons/WarningCircleBoldIcon.vue'
 import useMoneyFormatter from '../../mixins/currencyFormatter.js'
 import { useProductStore } from '../../store/product.store.js'
+import { useI18n } from 'vue-i18n'
+
+const { t } = useI18n()
 
 const productStore = useProductStore()
 const productHistoryStore = useProductHistoryStore()
 const selectedProductHistory = computed(() => {
   return productHistoryStore.selectedProductHistory
 })
+
 const getHistoryType = (historyType) => {
-  switch (historyType){
+  switch (historyType) {
     case 'purchased':
-      return 'Sotib olingan'
+      return t('income')
     case 'returned':
-      return 'Qaytarilgan'
+      return t('returned')
     default:
-      return "Turi yo'q"
+      return t('unknown')
   }
 }
+
 const getProductName = (productId) => {
   const product = productStore.products.find(product => product.id === productId);
-  return product?.name + " - " + product?.packaging || 'Mahsulot nomi yo\'q';
-};
+  return product?.name + " - " + product?.packaging
+}
 
 const closeModal = () => {
   useModalStore().closeDeleteProductHistoryModal()
   useProductHistoryStore().setSelectedProductHistory({})
-
 }
 </script>
 
 <template>
-  <CModal
-    :is-open="useModalStore().isOpenDeleteProductHistoryModal"
-    v-if="useModalStore().isOpenDeleteProductHistoryModal"
-    @close=closeModal
-  >
+  <CModal :is-open="useModalStore().isOpenDeleteProductHistoryModal"
+    v-if="useModalStore().isOpenDeleteProductHistoryModal" @close=closeModal>
     <template v-slot:header>
-      Mahsulot tarixini o'chirish
+      {{ $t('deleteProductHistory') }}
     </template>
     <template v-slot:body>
       <div class="space-y-16">
         <div class="space-y-2">
           <div class="bg-slate-100 px-3 text-center py-2 text-lg font-medium rounded-xl">
-            Mahsulot tarixi ma'lumotlari
+            {{ $t('productHistoryInformation') }}
           </div>
           <ul class="divide-y divide-slate-100">
             <li class="flex items-center justify-between py-2 px-3">
               <div class="text-base">
-                Nomi
+                {{ $t('productName') }}
               </div>
               <div class="text-base font-medium">
                 {{ getProductName(selectedProductHistory?.productId) }}
@@ -61,7 +62,7 @@ const closeModal = () => {
             </li>
             <li class="flex items-center justify-between py-2 px-3">
               <div class="text-base">
-                Miqdori
+                {{ $t('quantity') }}
               </div>
               <div class="text-base font-medium">
                 {{ selectedProductHistory?.quantity }}
@@ -69,7 +70,7 @@ const closeModal = () => {
             </li>
             <li class="flex items-center justify-between py-2 px-3">
               <div class="text-base">
-                Mahsulot tarixi turi
+                {{ $t('productHistoryType') }}
               </div>
               <div class="text-base font-medium">
                 {{ getHistoryType(selectedProductHistory?.historyType) }}
@@ -77,7 +78,7 @@ const closeModal = () => {
             </li>
             <li class="flex items-center justify-between py-2 px-3">
               <div class="text-base">
-                Sotib olingan narxi
+                {{ $t('purchasePrice') }}
               </div>
               <div class="text-base font-medium">
                 {{ useMoneyFormatter(selectedProductHistory?.purchasePrice) }}
@@ -85,7 +86,7 @@ const closeModal = () => {
             </li>
             <li class="flex items-center justify-between py-2 px-3">
               <div class="text-base">
-                Sotish narxi
+                {{ $t('salePrice') }}
               </div>
               <div class="text-base font-medium">
                 {{ useMoneyFormatter(selectedProductHistory?.salePrice) }}
@@ -93,7 +94,7 @@ const closeModal = () => {
             </li>
             <li class="flex items-center justify-between py-2 px-3">
               <div class="text-base">
-                Yaratilgan vaqti
+                {{ $t('createdAt') }}
               </div>
               <div class="text-base font-medium">
                 {{ moment(selectedProductHistory?.createdAt).format('DD/MM/YYYY H:mm') }}
@@ -106,16 +107,17 @@ const closeModal = () => {
             <div class="flex flex-col items-center space-y-4">
               <WarningCircleBoldIcon class="text-slate-400 w-14 h-14" />
               <h3 class="mb-5 text-lg md:text-xl text-center font-normal text-slate-500">
-                Haqiqatdan ushbu do'konni o'chirmoqchimisiz?
+                {{ $t('areYouSureYouWantToDeleteThisInformation') }}
               </h3>
-              <div class="flex flex-col md:flex-row items-center justify-center md:justify-between space-y-4 md:space-y-0 md:space-x-4">
+              <div
+                class="flex flex-col md:flex-row items-center justify-center md:justify-between space-y-4 md:space-y-0 md:space-x-4">
                 <button type="button" @click="closeModal()"
-                        class="w-full md:w-auto py-2 px-4 rounded-xl text-gray-900 text-base font-medium bg-slate-50 cursor-pointer hover:bg-slate-200 border md:flex-1">
-                  Yo'q
+                  class="w-full md:w-auto py-2 px-4 rounded-xl text-gray-900 text-base font-medium bg-slate-50 cursor-pointer hover:bg-slate-200 border md:flex-1">
+                  {{ $t('no') }}
                 </button>
                 <button
                   class="w-full md:w-auto py-2 px-4 rounded-xl text-white text-base font-medium bg-red-600 cursor-pointer hover:bg-red-700">
-                  Ha, albatta
+                  {{ $t('yesOfCourse') }}
                 </button>
               </div>
             </div>

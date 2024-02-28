@@ -13,6 +13,7 @@ import BarcodeIcon from '../../assets/icons/BarcodeIcon.vue'
 import { useBarcodeStore } from '../../store/barcode.store'
 import { watch } from 'vue'
 import { useI18n } from 'vue-i18n'
+import { cleanObjectEmptyFields } from '../../mixins/utils'
 
 const { t } = useI18n()
 
@@ -22,8 +23,8 @@ const submitData = reactive({
   trademark: '',
   packaging: '',
   barcode: '',
-  saleType: null,
-  year: null,
+  saleType: '',
+  year: '',
 })
 
 const clearSubmitData = () => {
@@ -43,21 +44,23 @@ const createProductBarcode = () => {
   if (!submitData.trademark) {
     toast.error(t('plsEnterProductName'))
   } else if (!submitData.packaging) {
-    toast.error(t('plseEnterProductPackaging'))
+    toast.error(t('plsEnterProductPackaging'))
   } else if (!submitData.barcode) {
-    toast.error(t('plsErnterProductBarcode'))
+    toast.error(t('plsEnterProductBarcode'))
   } else if (submitData.barcode.trim() && !isBarcode(submitData.barcode.trim())) {
     toast.error(t('barcodeIsInvalid'))
   } else {
     isLoading.value = true
-    ProductService.createProductBarcode({
-      trademark: submitData.trademark,
-      packaging: submitData.packaging,
-      typeCode: isBarcodeType(submitData.barcode.trim()),
-      barcode: submitData.barcode.trim(),
-      saleType: submitData.saleType,
-      year: submitData.year ? submitData.year : null
-    }).then(() => {
+    ProductService.createProductBarcode(
+      cleanObjectEmptyFields({
+        trademark: submitData.trademark,
+        packaging: submitData.packaging,
+        typeCode: isBarcodeType(submitData.barcode.trim()),
+        barcode: submitData.barcode.trim(),
+        saleType: submitData.saleType,
+        year: submitData.year
+      })
+    ).then(() => {
       toast.success(t('barcodeAddedSuccessfully'))
       ProductService.getBarcodes(30, 1)
         .then((res) => {
@@ -124,7 +127,7 @@ watch(
             <div class="relative">
               <input id="barcode" type="text" v-model="submitData.barcode"
                 class="bg-slate-100 border-none text-slate-900 rounded-lg w-full py-2.5 placeholder-slate-400"
-                :placeholder="t('ernterProductBarcode')" />
+                :placeholder="t('enterProductBarcode')" />
               <div @click="useModalStore().openCameraScannerModal()"
                 class="absolute top-1/2 -translate-y-1/2 right-1 flex items-center justify-center w-8 h-8 rounded-lg hover:bg-white cursor-pointer">
                 <BarcodeIcon class="w-6 h-6 text-slate-900" />
@@ -164,7 +167,7 @@ watch(
         class="inline-flex items-center justify-center ms-3 text-white bg-blue-600 focus:ring-4 focus:outline-none focus:ring-slate-300 rounded-xl border border-slate-200 text-sm font-medium px-5 py-2.5 focus:z-10 cursor-default">
         <Spinners270RingIcon
           class="mr-2 w-5 h-5 text-gray-200 animate-spin dark:text-gray-600 fill-gray-600 dark:fill-gray-300" />
-          {{ $t('create') }}
+        {{ $t('create') }}
       </button>
       <button v-else @click="createProductBarcode()" type="button"
         class="ms-3 text-white bg-blue-500 hover:bg-blue-600 focus:ring-4 focus:outline-none focus:ring-slate-300 rounded-xl border border-slate-200 text-sm font-medium px-5 py-2.5 focus:z-10">

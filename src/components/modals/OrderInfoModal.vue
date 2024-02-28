@@ -7,6 +7,9 @@ import { useOrderStore } from '../../store/order.store';
 import { computed } from 'vue';
 import useMoneyFormatter from '../../mixins/currencyFormatter';
 import moment from 'moment'
+import { useI18n } from 'vue-i18n'
+
+const { t } = useI18n()
 
 const orderStore = useOrderStore()
 
@@ -17,13 +20,13 @@ const selectedOrder = computed(() => {
 const saleTypeShortTranslate = (type) => {
   switch (type){
     case 'amount':
-      return 'ta'
+      return t('piece')
     case 'litre':
-      return 'litr'
+      return t('litr')
     case 'kg':
-      return 'kg'
+      return t('kg')
     case 'g':
-      return 'g'
+      return t('g')
   }
 }
 
@@ -36,7 +39,7 @@ const closeModal = () => {
 <template>
   <CModal :is-open="useModalStore().isOpenOrderInfoModal" v-if="useModalStore().isOpenOrderInfoModal" @close=closeModal>
     <template v-slot:header>
-      Sotuv tafsilotlari
+      {{ $t('salesDetails') }}
     </template>
     <template v-slot:body>
       <div class="space-y-4">
@@ -45,9 +48,9 @@ const closeModal = () => {
             <table class="md:min-w-full">
               <thead>
                 <tr class="bg-slate-100 font-medium text-gray-900">
-                  <th class="px-3 py-2 text-left rounded-l-xl text-sm md:text-base">Mahsulot</th>
-                  <th class="px-3 py-2 text-sm md:text-base">Miqdori</th>
-                  <th class="px-3 py-2 text-sm md:text-base rounded-r-xl">Jami narxi</th>
+                  <th class="px-3 py-2 text-left rounded-l-xl text-sm md:text-base">{{ $t('product') }}</th>
+                  <th class="px-3 py-2 text-sm md:text-base">{{ $t('quantity') }}</th>
+                  <th class="px-3 py-2 text-sm md:text-base rounded-r-xl">{{ $t('totalPrice') }}</th>
                 </tr>
               </thead>
               <tbody class="divide-y divide-gray-100">
@@ -62,7 +65,7 @@ const closeModal = () => {
                           {{ product?.productName + " - " + product?.packaging }}
                         </div>
                         <div class="text-sm md:text-base font-medium text-gray-500">
-                          Narxi:
+                          {{ $t('price') }}:
                           <span class="text-gray-700">
                             {{ useMoneyFormatter(product?.salePrice) }}
                           </span>
@@ -84,15 +87,15 @@ const closeModal = () => {
         <ul class="divide-y divide-slate-100">
           <li class="flex items-center justify-between py-2">
             <div class="text-base">
-              Mahsulotlar soni
+              {{ $t('numberOfProducts') }}
             </div>
             <div class="text-base font-medium">
-              {{ selectedOrder?.items.length }} ta
+              {{ selectedOrder?.items.length + " " + $t('piece') }}
             </div>
           </li>
           <li class="flex items-center justify-between py-2">
             <div class="text-base">
-              Narxi
+              {{ $t('price') }}
             </div>
             <div class="text-base font-medium">
               {{ useMoneyFormatter(selectedOrder?.initialPrice) }}
@@ -100,7 +103,7 @@ const closeModal = () => {
           </li>
           <li class="flex items-center justify-between py-2">
             <div class="text-base">
-              Chegirma
+              {{ $t('discount') }}
             </div>
             <div class="text-base font-medium">
               {{ selectedOrder?.discountPercent ?? 0 }} %
@@ -108,7 +111,7 @@ const closeModal = () => {
           </li>
           <li class="flex items-center justify-between py-2">
             <div class="text-base">
-              Chegirma miqdori
+              {{ $t('discountAmount') }}
             </div>
             <div class="text-base font-medium text-red-600">
               -{{ useMoneyFormatter(selectedOrder?.discountPrice) }}
@@ -116,7 +119,7 @@ const closeModal = () => {
           </li>
           <li class="flex items-center justify-between py-2">
             <div class="text-base">
-              Vaqti
+              {{ $t('createdAt') }}
             </div>
             <div class="text-base font-medium">
               {{ moment(selectedOrder?.createdAt).format('DD/MM/YYYY H:mm') }}
@@ -124,7 +127,7 @@ const closeModal = () => {
           </li>
           <li class="flex items-center justify-between py-2">
             <div class="text-base">
-              Kassir
+              {{ $t('cashier') }}
             </div>
             <div class="text-base font-medium">
               {{ selectedOrder?.cashierFirstName + " " + selectedOrder?.cashierLastName }}
@@ -132,7 +135,7 @@ const closeModal = () => {
           </li>
           <li class="flex items-center justify-between py-2">
             <div class="text-lg font-semibold text-gray-900">
-              Umumiy to'lov
+              {{ $t('totalPayment') }}
             </div>
             <div class="text-xl font-semibold text-gray-900">
               {{ useMoneyFormatter(selectedOrder?.totalPrice) }}
@@ -140,7 +143,7 @@ const closeModal = () => {
           </li>
           <li class="flex items-center justify-between py-2">
             <div class="text-lg font-semibold text-gray-900">
-              Qabul qilingan to'lov
+              {{ $t('paymentReceived') }}
             </div>
             <div class="text-xl font-semibold text-gray-900">
               {{ useMoneyFormatter(selectedOrder?.paymentReceived) }}

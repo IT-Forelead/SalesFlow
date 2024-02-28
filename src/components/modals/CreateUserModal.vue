@@ -13,6 +13,9 @@ import { useModalStore } from '../../store/modal.store.js'
 import { useUserStore } from '../../store/user.store.js'
 import CancelButton from '../buttons/CancelButton.vue'
 import CModal from '../common/CModal.vue'
+import { useI18n } from 'vue-i18n'
+
+const { t } = useI18n()
 
 const isLoading = ref(false)
 const hidePassword = ref(true)
@@ -21,7 +24,7 @@ const markets = ref([])
 
 const privileges = ref([
   {
-    name: 'Kassir',
+    name: t('cashier'),
     code: [
       'create_history',
       'create_order',
@@ -38,7 +41,7 @@ const privileges = ref([
     ],
   },
   {
-    name: 'Admin',
+    name: t('admin'),
     code: [
       'create_barcode',
       'create_market',
@@ -55,7 +58,7 @@ const privileges = ref([
     ],
   },
   {
-    name: 'Boshqaruvchi',
+    name: t('manager'),
     code: [
       'create_history',
       'create_order',
@@ -115,23 +118,23 @@ const closeModal = () => {
 const createUser = () => {
   submitForm.privileges = selectedRole.value.flatMap(role => role.code)
   if (!submitForm.firstname) {
-    toast.warning('Iltimos ismni kiriting')
+    toast.warning(t('plsEnterFirstname'))
   } else if (!submitForm.lastname) {
-    toast.warning('Iltimos familiyani kiriting')
+    toast.warning(t('plsEnterlastname'))
   } else if (!submitForm.login) {
-    toast.warning('Iltimos loginni kiriting')
+    toast.warning(t('plsEnterlogin'))
   } else if (!submitForm.phone) {
-    toast.warning('Iltimos telefon raqamni kiriting')
+    toast.warning(t('plsEnterPhoneNumber'))
   } else if (!submitForm.marketId) {
-    toast.warning("Iltimos do'konni tanlang!")
+    toast.warning(t('plsSelectStore'))
   } else if (submitForm.privileges.length === 0) {
-    toast.warning('Iltimos rol tanlang')
+    toast.warning(t('plsSelectRole'))
   } else if (!submitForm.password) {
-    toast.warning('Iltimos parolni kiriting')
+    toast.warning(t('plsEnterPassword'))
   } else if (!submitForm.confirmPassword) {
-    toast.warning('Iltimos parolni qayta takrorlang')
+    toast.warning(t('plsRepeatThePassword'))
   } else if (submitForm.password !== submitForm.confirmPassword) {
-    toast.warning('Parollar mos kelmadi')
+    toast.warning(t('passwordsDidNotMatch'))
   } else {
     isLoading.value = true
     UserService.createUser(
@@ -145,7 +148,7 @@ const createUser = () => {
         password: submitForm.password,
       })
     ).then(() => {
-      toast.success('Foydalanuvchi muvaffaqiyatli yaratildi!')
+      toast.success(t('userSuccessfullyAdded'))
       isLoading.value = false
       useUserStore().privileges = submitForm.privileges
       UserService.getUsers()
@@ -154,7 +157,7 @@ const createUser = () => {
           useUserStore().setUsers(res)
         })
     }).catch((err) => {
-      toast.error('Foydalanuvchi yaratishda xatolik!')
+      toast.error(t('errorWhileCreatingUser'))
       isLoading.value = false
     })
     closeModal()
@@ -176,44 +179,43 @@ watch(
     <CModal :is-open="useModalStore().isOpenCreateUserModal" v-if="useModalStore().isOpenCreateUserModal"
       @close=closeModal>
       <template v-slot:header>
-        Foydalanuvchi qo'shish
+        {{ $t('createUser') }}
       </template>
       <template v-slot:body>
-
         <div class="space-y-4">
           <div class="flex items-center space-x-4">
             <div class="flex-1">
               <label for="firstname" class="text-base font-medium">
-                Ism
+                {{ $t('firstname') }}
                 <span class="text-red-500 mr-2">*</span>
               </label>
               <input id="firstname" type="text" v-model="submitForm.firstname"
                 class="bg-slate-100 border-none text-slate-900 rounded-lg w-full py-2.5 placeholder-slate-400"
-                placeholder="Ismni kiriting">
+                :placeholder="t('enterFirstname')">
             </div>
             <div class="flex-1">
               <label for="lastname" class="text-base font-medium">
-                Familiya
+                {{ $t('lastname') }}
                 <span class="text-red-500 mr-2">*</span>
               </label>
               <input id="lastname" type="text" v-model="submitForm.lastname"
                 class="bg-slate-100 border-none text-slate-900 rounded-lg w-full py-2.5 placeholder-slate-400"
-                placeholder="Familiyani kiriting">
+                :placeholder="t('lastname')">
             </div>
           </div>
           <div class="flex items-center space-x-4">
             <div class="flex-1">
               <label for="login" class="text-base font-medium">
-                Login
+                {{ $t('login') }}
                 <span class="text-red-500 mr-2">*</span>
               </label>
               <input id="login" type="text" v-model="submitForm.login"
                 class="bg-slate-100 border-none text-slate-900 rounded-lg w-full py-2.5 placeholder-slate-400"
-                placeholder="Loginni kiriting">
+                :placeholder="t('enterLogin')">
             </div>
             <div class="flex-1">
               <label for="phone" class="text-base font-medium">
-                Telefon raqam:
+                {{ $t('phone') }}
                 <span class="text-red-500 mr-2">*</span>
               </label>
               <input id="phone" type="text" v-model="submitForm.phone" v-maska data-maska="+998(##) ###-##-##"
@@ -224,12 +226,12 @@ watch(
           <div class="flex items-center space-x-4">
             <div class="flex-1 space-y-1">
               <label for="market" class="text-base font-medium">
-                Do'kon
+                {{ $t('store') }}
                 <span class="text-red-500 mr-2">*</span>
               </label>
               <select id="market" v-model="submitForm.marketId"
                 class="bg-slate-100 border-none text-slate-900 rounded-lg block w-full h-11">
-                <option value="" selected>Do'konni tanlang</option>
+                <option value="" selected>{{ $t('selectStore') }}</option>
                 <option v-for="(market, idx) in markets" :key="idx" :value="market?.id">
                   {{ market?.name }}
                 </option>
@@ -237,25 +239,25 @@ watch(
             </div>
             <div class="flex-1">
               <label for="role" class="text-base font-medium">
-                Rol:
+                {{ $t('role') }}
                 <span class="text-red-500 mr-2">*</span>
               </label>
               <MultiSelect :show-toggle-all="false" :display="'chip'" :select-all="false"
                 panel-class="bg-slate-100 rounded-2xl" v-model="selectedRole" :options="privileges" optionLabel="name"
-                placeholder="Tanlang" :maxSelectedLabels="1" :selection-limit="1"
+                :placeholder="t('selectRole')" :maxSelectedLabels="1" :selection-limit="1"
                 class="bg-slate-100 border-none text-slate-900 rounded-lg w-full placeholder-slate-400" />
             </div>
           </div>
           <div class="flex items-center space-x-4">
             <div class="flex-1">
               <label for="password" class="text-base font-medium">
-                Parol
+                {{ $t('password') }}
                 <span class="text-red-500 mr-2">*</span>
               </label>
               <div class="relative">
                 <input v-model="submitForm.password" id="password" :type="hidePassword ? 'password' : 'text'"
                   class="bg-slate-100 border-none text-slate-900 rounded-lg w-full py-2.5 placeholder-slate-400"
-                  placeholder="Parolni kiriting">
+                  :placeholder="t('enterPassword')">
                 <EyeIcon v-if="hidePassword" @click="togglePassword()"
                   class="text-gray-500 dark:text-gray-500 absolute z-10 top-1/2 -translate-y-1/2 right-3 w-5 h-5 cursor-pointer" />
                 <EyeSlashIcon v-else @click="togglePassword()"
@@ -264,14 +266,14 @@ watch(
             </div>
             <div class="flex-1">
               <label for="confirm-password" class="text-base font-medium">
-                Parolni takrorlang
+                {{ $t('confirmPassword') }}
                 <span class="text-red-500 mr-2">*</span>
               </label>
               <div class="relative">
                 <input v-model="submitForm.confirmPassword" id="confirm-password"
                   :type="hidePassword ? 'password' : 'text'"
                   class="bg-slate-100 border-none text-slate-900 rounded-lg w-full py-2.5 placeholder-slate-400"
-                  placeholder="Parolni qayta kiriting">
+                  :placeholder="t('enterThePasswordAgain')">
                 <EyeIcon v-if="hidePassword" @click="togglePassword()"
                   class="text-gray-500 dark:text-gray-500 absolute z-10 top-1/2 -translate-y-1/2 right-3 w-5 h-5 cursor-pointer" />
                 <EyeSlashIcon v-else @click="togglePassword()"
@@ -287,11 +289,11 @@ watch(
           class="inline-flex items-center justify-center ms-3 text-white bg-blue-600 focus:ring-4 focus:outline-none focus:ring-slate-300 rounded-xl border border-slate-200 text-sm font-medium px-5 py-2.5 focus:z-10 cursor-default">
           <Spinners270RingIcon
             class="mr-2 w-5 h-5 text-gray-200 animate-spin dark:text-gray-600 fill-gray-600 dark:fill-gray-300" />
-          Yaratish
+          {{ $t('create') }}
         </button>
         <button v-else @click="createUser()" type="button"
           class="ms-3 text-white bg-blue-500 hover:bg-blue-600 focus:ring-4 focus:outline-none focus:ring-slate-300 rounded-xl border border-slate-200 text-sm font-medium px-5 py-2.5 focus:z-10">
-          Yaratish
+          {{ $t('create') }}
         </button>
       </template>
     </CModal>
