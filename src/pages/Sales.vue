@@ -13,7 +13,6 @@ import BarcodeIcon from '../assets/icons/BarcodeIcon.vue'
 import CreditCardIcon from '../assets/icons/CreditCardIcon.vue'
 import XIcon from '../assets/icons/XIcon.vue'
 import useMoneyFormatter from '../mixins/currencyFormatter.js'
-import ClockIcon from '../assets/icons/ClockIcon.vue'
 import ProductService from '../services/product.service'
 import OrderService from '../services/order.service'
 import { useProductStore } from '../store/product.store'
@@ -22,6 +21,8 @@ import { useBarcodeStore } from '../store/barcode.store'
 import { computed, onMounted } from 'vue'
 import { isBarcode } from '../mixins/barcodeFormatter'
 import { useI18n } from 'vue-i18n'
+import BasketIcon from '../assets/icons/BasketIcon.vue'
+import BroomIcon from '../assets/icons/BroomIcon.vue'
 
 const { t } = useI18n()
 const router = useRouter()
@@ -345,13 +346,48 @@ onMounted(() => {
           <BarcodeIcon class="w-6 h-6 text-blue-600" />
         </div>
         <div class="hidden md:flex items-center justify-center bg-slate-100 rounded-xl h-12 w-12">
-          <ClockIcon class="w-5 h-5 text-blue-600" />
+          <BroomIcon class="w-5 h-5 text-blue-600" />
         </div>
       </div>
 
-      <div class="text-slate-900 text-2xl md:text-3xl font-semibold">
-        {{ $t('shoppingCart') }}
+      <div class="flex items-center justify-between">
+        <div class="text-slate-900 text-2xl md:text-3xl font-semibold">
+          {{ $t('shoppingCart') }}
+        </div>
+        <div class="flex flex-wrap space-x-2">
+          <div
+            class="px-6 py-2 bg-slate-100 inline-flex items-center leading-none border-b-2 border-blue-500 text-blue-500 rounded-xl">
+            <BasketIcon class="text-blue-500 w-6 h-6 mr-2" />
+            <span>Birinchi savat</span>
+          </div>
+          <div
+            class="px-6 py-2 bg-slate-50 inline-flex items-center leading-none border-b-2 border-slate-200 text-gray-900 rounded-xl cursor-pointer">
+            <BasketIcon class="text-gray-500 w-6 h-6 mr-2" />
+            <span>Ikkinchi savat</span>
+          </div>
+          <div
+            class="px-6 py-2 bg-slate-50 inline-flex items-center leading-none border-b-2 border-slate-200 text-gray-900 rounded-xl cursor-pointer">
+            <BasketIcon class="text-gray-500 w-6 h-6 mr-2" />
+            <span>Uchinchi savat</span>
+          </div>
+          <!-- <a
+            class="px-6 py-2 w-1/2 sm:w-auto justify-center sm:justify-start border-b-2 font-medium bg-slate-100 inline-flex items-center leading-none border-indigo-500 text-indigo-500 tracking-wider rounded-xl">
+            <BasketIcon class="text-blue-500 w-6 h-6 mr-3" />
+            <span>Birinchi savat</span>
+          </a>
+          <a
+            class="sm:px-6 py-2 w-1/2 sm:w-auto justify-center sm:justify-start border-b-2 font-medium inline-flex items-center leading-none border-gray-200 hover:text-gray-900 tracking-wider rounded-xl">
+            <BasketIcon class="text-gray-500 w-6 h-6 mr-3" />
+            <span>Ikkinchi savat</span>
+          </a>
+          <a
+            class="sm:px-6 py-2 w-1/2 sm:w-auto justify-center sm:justify-start border-b-2 font-medium inline-flex items-center leading-none border-gray-200 hover:text-gray-900 tracking-wider rounded-xl">
+            <BasketIcon class="text-gray-500 w-6 h-6 mr-3" />
+            <span>Uchinchi savat</span>
+          </a> -->
+        </div>
       </div>
+
 
       <div v-if="selectedProducts.length > 0" class="inline-block md:min-w-full py-2 align-middle">
         <div class="overflow-x-auto overflow-y-auto border border-white">
@@ -549,10 +585,9 @@ onMounted(() => {
 
       <button @click="createOrder()"
         class="w-full py-3 px-4 rounded-full text-white text-lg font-medium bg-blue-500 cursor-pointer hover:bg-blue-600">
-        {{ $t('payment') }}
-      </button>
-    </div>
+      {{ $t('payment') }}
+    </button>
   </div>
-</template>
+</div></template>
 
 <style scoped></style>
