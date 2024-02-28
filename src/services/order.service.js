@@ -7,6 +7,9 @@ class OrderService {
   async getOrders(limit, page) {
     return AxiosService.get(`/order?limit=${limit}&page=${page}`)
   }
+  async isOrderExists(orderId) {
+    return AxiosService.get(`/order/exist/${orderId}`)
+  }
   async getOrdersStat() {
     return AxiosService.get('/order/stats/week')
   }

@@ -3,19 +3,18 @@ import CModal from '../common/CModal.vue'
 import { reactive, ref } from 'vue'
 import { toast } from 'vue-sonner'
 import { useModalStore } from '../../store/modal.store'
-// import { useSaleStore } from '../../store/settings.store'
 import CancelButton from '../buttons/CancelButton.vue'
 import Spinners270RingIcon from '../../assets/icons/Spinners270RingIcon.vue'
-// import SaleService from '../../services/settings.service'
+import CustomerService from '../../services/customer.service'
 
 const isLoading = ref(false)
 const submitData = reactive({
-  fullname: '',
+  fullName: '',
   phone: '',
 })
 
 const clearSubmitData = () => {
-  submitData.fullname = ''
+  submitData.fullName = ''
   submitData.phone = ''
 }
 
@@ -25,30 +24,20 @@ const closeModal = () => {
 }
 
 const createSale = () => {
-  if (!submitData.fullname) {
+  if (!submitData.fullName) {
     toast.error("Famliya va ismini kiriting!")
   } else if (!submitData.phone) {
     toast.error("Telefon raqamni kiriting!")
   } else {
-    // isLoading.value = true
-    // SaleService.createSale({
-    //   fullname: submitData.fullname,
-    //   phone: submitData.phone,
-    // }).then(() => {
-    toast.success("Chegirma qo'shildi!")
-    //   SaleService.getSales()
-    //     .then((res) => {
-    //       useSaleStore().clearStore()
-    //       useSaleStore().setSales(res)
-    //     })
-    //   isLoading.value = false
-    closeModal()
-    // }).catch((err) => {
-    //   toast.error("Chegirma yaratishda xatolik yuz berdi!")
-    //   setTimeout(() => {
-    //     isLoading.value = false
-    //   }, 3000)
-    // })
+    CustomerService.createCustomer({
+      fullName: submitData.fullName,
+      phone: submitData.phone,
+    }).then(() => {
+      toast.success("Chegirma yaratildi!")
+    }).catch((err) => {
+      toast.error("Chegirma yaratishda xatolik yuz berdi!")
+     
+    })
   }
 }
 </script>
@@ -61,11 +50,11 @@ const createSale = () => {
       <div class="space-y-4">
         <div class="flex items-center space-x-4">
           <div class="flex-1">
-            <label for="fullname" class="text-base font-medium">
+            <label for="fullName" class="text-base font-medium">
               Familiya va Ismi
               <span class="text-red-500 mr-2">*</span>
             </label>
-            <input id="fullname" type="text" v-model="submitData.fullname"
+            <input id="fullName" type="text" v-model="submitData.fullName"
               class="bg-slate-100 border-none text-slate-900 rounded-lg w-full py-2.5 placeholder-slate-400"
               placeholder="Famliya va ismini kiriting" />
           </div>
