@@ -4,14 +4,11 @@ import { computed, h } from 'vue'
 import SearchIcon from '../assets/icons/SearchIcon.vue'
 import Spinners270RingIcon from '../assets/icons/Spinners270RingIcon.vue'
 import HistoryTable from '../components/common/HistoryTable.vue'
-import { useModalStore } from '../store/modal.store'
 import { useProductHistoryStore } from '../store/productHistory.store.js'
 import ProductHistoryService from '../services/productHistory.service.js'
 import { useProductStore } from '../store/product.store.js'
 import useMoneyFormatter from '../mixins/currencyFormatter.js'
 import ProductService from '../services/product.service.js'
-import EditIcon from '../assets/icons/EditIcon.vue'
-import TrashIcon from '../assets/icons/TrashIcon.vue'
 import CaretDoubleRightIcon from '../assets/icons/CaretDoubleRightIcon.vue'
 import CaretDoubleLeftIcon from '../assets/icons/CaretDoubleLeftIcon.vue'
 import CaretLeftIcon from '../assets/icons/CaretLeftIcon.vue'
@@ -96,38 +93,7 @@ const columns = [
     header: t('salePrice'),
     cell: ({ row }) => useMoneyFormatter(row.original.salePrice),
   },
-  {
-    accessorKey: 'actions',
-    header: t('actions'),
-    cell: ({ row }) => h('div', { class: 'flex items-center space-x-2' }, [
-      h('button', {
-        onClick: () => {
-          openEditProductHistoryModal(row.original)
-        },
-      }, [
-        h(EditIcon, { class: 'w-6 h-6 text-blue-600 hover:scale-105' }),
-      ]),
-      h('button', {
-        onClick: () => {
-          openDeleteProductHistoryModal(row.original)
-        },
-      }, [
-        h(TrashIcon, { class: 'w-6 h-6 text-red-600 hover:scale-105' }),
-      ]),
-    ]),
-    enableSorting: false,
-  },
 ]
-
-const openEditProductHistoryModal = (data) => {
-  useModalStore().openEditProductHistoryModal()
-  useProductHistoryStore().setSelectedProductHistory(data)
-}
-
-const openDeleteProductHistoryModal = (data) => {
-  useModalStore().openDeleteProductHistoryModal()
-  useProductHistoryStore().setSelectedProductHistory(data)
-}
 
 const getProductHistories = () => {
   isLoading.value = true
@@ -185,12 +151,6 @@ watch(page, () => {
         <input type="search" v-model="globalSearchFromTable"
           class="bg-slate-100 border-none w-full text-slate-900 text-base md:text-lg rounded-full block pl-10 py-2 placeholder-slate-400"
           placeholder="Search everything...">
-      </div>
-      <div class="w-full md:w-auto order-1 md:order-2">
-        <button @click="useModalStore().openCreateProductHistoryModal()"
-          class="w-full md:w-auto py-2 px-4 rounded-full text-white text-lg font-medium bg-blue-500 cursor-pointer hover:bg-blue-600">
-          {{ $t('addProductHistory') }}
-        </button>
       </div>
     </div>
     <div v-if="isLoading" class="flex items-center justify-center h-20">

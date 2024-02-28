@@ -294,7 +294,7 @@ onMounted(() => {
   <div class="flex flex-col md:flex-row">
     <div class="flex-auto md:w-2/3 w-full space-y-4 py-8 px-4 md:px-8">
       <div class="flex items-center space-x-2 pb-2">
-        <div class="relative flex-auto">
+        <div class="relative flex-auto z-50">
           <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
             <SearchIcon class="w-5 h-5 text-slate-400" />
           </div>
@@ -310,7 +310,7 @@ onMounted(() => {
             class="absolute inset-y-0 right-0 px-4 bg-[#0167F3] text-white rounded-r-xl">
             {{ $t('search') }}
           </button>
-          <div v-if="products.length > 0" class="absolute top-16 left-0 bg-transparent w-full space-y-2 z-50">
+          <div v-if="products.length > 0" class="absolute top-16 left-0 bg-transparent w-full space-y-2">
             <div v-for="(product, idx) in products" :key="idx" @click="addProductToCart(product)"
               class="flex items-center justify-between bg-white border shadow-sm rounded-xl px-3 py-2 w-full cursor-pointer hover:bg-slate-100">
               <div class="flex items-center space-x-3">
@@ -358,7 +358,7 @@ onMounted(() => {
           <div class="min-w-full">
             <table class="md:min-w-full divide-y-8 divide-white">
               <thead>
-                <tr class="bg-slate-100 text-base font-semibold text-gray-900  h-12">
+                <tr class="bg-slate-100 text-base font-semibold text-gray-900 h-12">
                   <th class="px-3 py-2 text-left rounded-l-xl text-sm md:text-base">
                     {{ $t('product') }}
                   </th>
