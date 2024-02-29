@@ -187,5 +187,8 @@
   "productEditedSuccessfully": "Product edited successfully!",
   "userEditedSuccessfully": "User edited successfully!",
   "errorWhileEditingProduct": "Error while editing product",
-  "errorWhileEditingUser": "Error while editing user"
+  "errorWhileEditingUser": "Error while editing user",
+  "firstBasket": "First basket",
+  "secondBasket": "Second basket",
+  "thirdBasket": "Third basket"
 }

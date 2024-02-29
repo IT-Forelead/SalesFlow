@@ -14,7 +14,6 @@ import BarcodeIcon from '../assets/icons/BarcodeIcon.vue'
 import CreditCardIcon from '../assets/icons/CreditCardIcon.vue'
 import XIcon from '../assets/icons/XIcon.vue'
 import useMoneyFormatter from '../mixins/currencyFormatter.js'
-import ClockIcon from '../assets/icons/ClockIcon.vue'
 import ProductService from '../services/product.service'
 import OrderService from '../services/order.service'
 import CustomerService from '../services/customer.service'
@@ -24,6 +23,8 @@ import { useBarcodeStore } from '../store/barcode.store'
 import { computed, onMounted } from 'vue'
 import { isBarcode } from '../mixins/barcodeFormatter'
 import { useI18n } from 'vue-i18n'
+import BasketIcon from '../assets/icons/BasketIcon.vue'
+import BroomIcon from '../assets/icons/BroomIcon.vue'
 import CancelButton from '../components/buttons/CancelButton.vue'
 import Spinners270RingIcon from '../assets/icons/Spinners270RingIcon.vue'
 
@@ -55,6 +56,26 @@ const search = ref('')
 const onSearchFocus = ref(null)
 const isLoading = ref(false)
 const selectedProducts = ref([])
+const activeBasketStatus = ref('firstBasket')
+const activeBasket = ref([])
+const firstBasket = ref([])
+const secondBasket = ref([])
+const thirdBasket = ref([])
+
+const baskets = [
+  {
+    id: 'firstBasket',
+    name: t('firstBasket')
+  },
+  {
+    id: 'secondBasket',
+    name: t('secondBasket')
+  },
+  {
+    id: 'thirdBasket',
+    name: t('thirdBasket')
+  },
+]
 
 const productStore = useProductStore()
 
@@ -113,8 +134,8 @@ const searchProducts = () => {
 }
 
 const addProductToCart = (product) => {
-  if (selectedProducts.value.find((p) => p?.productId == product?.id)) {
-    selectedProducts.value = selectedProducts.value.map((item) => {
+  if (activeBasket.value.find((p) => p?.productId == product?.id)) {
+    activeBasket.value = activeBasket.value.map((item) => {
       if (item.productId === product.id && product?.quantity > item.amount) {
         if (item.saleType == 'kg') {
           return { ...item, amount: roundFloatToOneDecimal(item.amount + 0.1) }
@@ -133,7 +154,7 @@ const addProductToCart = (product) => {
   } else {
     if (product.quantity > 0) {
       if (product?.saleType == 'kg') {
-        selectedProducts.value.push({
+        activeBasket.value.push({
           productId: product?.id,
           name: product?.name,
           packaging: product?.packaging,
@@ -143,7 +164,7 @@ const addProductToCart = (product) => {
           amount: 0.1
         })
       } else if (product?.saleType == 'litre') {
-        selectedProducts.value.push({
+        activeBasket.value.push({
           productId: product?.id,
           name: product?.name,
           packaging: product?.packaging,
@@ -153,7 +174,7 @@ const addProductToCart = (product) => {
           amount: 0.5
         })
       } else {
-        selectedProducts.value.push({
+        activeBasket.value.push({
           productId: product?.id,
           name: product?.name,
           packaging: product?.packaging,
@@ -171,7 +192,11 @@ const addProductToCart = (product) => {
 }
 
 const removeProductFromCart = (product) => {
-  selectedProducts.value = selectedProducts.value.filter((p) => p.productId !== product.productId)
+  activeBasket.value = activeBasket.value.filter((p) => p.productId !== product.productId)
+}
+
+const changeBasketStatus = (status) => {
+  activeBasketStatus.value = status
 }
 
 const increaseCountChecking = (product) => {
@@ -187,7 +212,7 @@ const increaseCountChecking = (product) => {
 }
 
 const increaseCountOfProducts = (product) => {
-  selectedProducts.value = selectedProducts.value.map((item) => {
+  activeBasket.value = activeBasket.value.map((item) => {
     if (item.productId === product.productId) {
       // return { ...item, amount: item.amount + 1 }
       if (item.saleType == 'kg') {
@@ -203,7 +228,7 @@ const increaseCountOfProducts = (product) => {
 }
 
 const reduceCountOfProducts = (product) => {
-  selectedProducts.value = selectedProducts.value.map((item) => {
+  activeBasket.value = activeBasket.value.map((item) => {
     if (item.productId === product.productId) {
       // return { ...item, amount: item.amount - 1 }
       if (item.saleType == 'kg') {
@@ -226,11 +251,18 @@ const clearSearchInput = () => {
 const clearSubmitData = () => {
   submitData.discountPercent = ''
   submitData.paymentReceived = ''
-  selectedProducts.value = []
+  activeBasket.value = []
+  if (activeBasketStatus.value == 'firstBasket') {
+    firstBasket.value = []
+  } else if (activeBasketStatus.value == 'secondBasket') {
+    secondBasket.value = []
+  } else if (activeBasketStatus.value == 'thirdBasket') {
+    thirdBasket.value = []
+  }
 }
 
 const createOrder = () => {
-  if (selectedProducts.value.length == 0) {
+  if (activeBasket.value.length == 0) {
     toast.error("Tanlangan mahsulotlar mavjud emas!")
   } else {
     isLoading.value = true
@@ -238,7 +270,7 @@ const createOrder = () => {
       cleanObjectEmptyFields({
         discountPercent: submitData.discountPercent,
         paymentReceived: submitData.paymentReceived,
-        items: selectedProducts.value,
+        items: activeBasket.value,
       })
     ).then((res) => {
       toast.success(t('saleWasMadeSuccessfully'))
@@ -256,9 +288,9 @@ const createOrder = () => {
 }
 
 watch(
-  () => selectedProducts.value,
+  () => activeBasket.value,
   () => {
-    totalPrice.value = selectedProducts.value
+    totalPrice.value = activeBasket.value
       .map((product) => product?.price * product?.amount)
       .reduce((accumulator, currentValue) => accumulator + currentValue, 0);
   },
@@ -297,6 +329,34 @@ watch(
     if (data && router?.currentRoute?.value?.path === '/sales') {
       search.value = data
       searchProducts()
+    }
+  },
+  { deep: true }
+)
+
+watch(
+  () => activeBasketStatus.value,
+  (data) => {
+    if (data == 'firstBasket') {
+      activeBasket.value = firstBasket.value
+    } else if (data == 'secondBasket') {
+      activeBasket.value = secondBasket.value
+    } else if (data == 'thirdBasket') {
+      activeBasket.value = thirdBasket.value
+    }
+  },
+  { deep: true }
+)
+
+watch(
+  () => activeBasket.value,
+  () => {
+    if (activeBasketStatus.value == 'firstBasket') {
+      firstBasket.value = activeBasket.value
+    } else if (activeBasketStatus.value == 'secondBasket') {
+      secondBasket.value = activeBasket.value
+    } else if (activeBasketStatus.value == 'thirdBasket') {
+      thirdBasket.value = activeBasket.value
     }
   },
   { deep: true }
@@ -403,16 +463,29 @@ const createSale = () => {
           class="flex items-center justify-center bg-slate-100 rounded-xl h-12 w-12 cursor-pointer">
           <BarcodeIcon class="w-6 h-6 text-blue-600" />
         </div>
-        <div class="hidden md:flex items-center justify-center bg-slate-100 rounded-xl h-12 w-12">
-          <ClockIcon class="w-5 h-5 text-blue-600" />
+        <div @click="clearSubmitData()" class="hidden md:flex items-center justify-center bg-slate-100 rounded-xl h-12 w-12 cursor-pointer">
+          <BroomIcon class="w-5 h-5 text-blue-600" />
         </div>
       </div>
 
-      <div class="text-slate-900 text-2xl md:text-3xl font-semibold">
-        {{ $t('shoppingCart') }}
+      <div class="flex items-center justify-between">
+        <div class="text-slate-900 text-2xl md:text-3xl font-semibold">
+          {{ $t('shoppingCart') }}
+        </div>
+        <div class="flex flex-wrap space-x-2">
+          <div v-for="(basket, idx) in baskets" :key="idx" @click="changeBasketStatus(basket.id)"
+            class="px-6 py-2 inline-flex items-center leading-none border-b-2 rounded-xl"
+            :class="activeBasketStatus == basket.id ? 'bg-slate-100 border-blue-500' : 'bg-slate-50 border-slate-200 cursor-pointer'">
+            <BasketIcon class="w-6 h-6 mr-2"
+              :class="activeBasketStatus == basket.id ? 'text-blue-500' : 'text-gray-500'" />
+            <span :class="activeBasketStatus == basket.id ? 'text-blue-500' : 'text-gray-900'">
+              {{ basket.name }}
+            </span>
+          </div>
+        </div>
       </div>
 
-      <div v-if="selectedProducts.length > 0" class="inline-block md:min-w-full py-2 align-middle">
+      <div v-if="activeBasket.length > 0" class="inline-block md:min-w-full py-2 align-middle">
         <div class="overflow-x-auto overflow-y-auto border border-white">
           <div class="min-w-full">
             <table class="md:min-w-full divide-y-8 divide-white">
@@ -433,7 +506,7 @@ const createSale = () => {
                 </tr>
               </thead>
               <tbody class="bg-slate-100 divide-y-8 divide-white">
-                <tr v-for="(product, idx) in selectedProducts" :key="idx">
+                <tr v-for="(product, idx) in activeBasket" :key="idx">
                   <td class="px-3 py-2 whitespace-nowrap rounded-l-xl">
                     <div class="flex items-center space-x-3">
                       <div class="flex items-center justify-center bg-slate-200 md:w-12 md:h-12 w-8 h-8 rounded-lg">
@@ -540,7 +613,7 @@ const createSale = () => {
               {{ $t('numberOfProducts') }}
             </div>
             <div class="text-base font-semibold text-gray-900">
-              {{ selectedProducts.length + " " + $t('piece') }}
+              {{ activeBasket.length + " " + $t('piece') }}
             </div>
           </div>
           <div class="flex items-center justify-between">
