@@ -260,6 +260,7 @@ const createOrder = () => {
         paymentReceived: submitData.paymentReceived,
         items: activeBasket.value,
       })
+
     ).then((res) => {
       toast.success(t('saleWasMadeSuccessfully'))
       isLoading.value = false
