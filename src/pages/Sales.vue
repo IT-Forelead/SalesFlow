@@ -44,6 +44,26 @@ const search = ref('')
 const onSearchFocus = ref(null)
 const isLoading = ref(false)
 const selectedProducts = ref([])
+const activeBasketStatus = ref('firstBasket')
+const activeBasket = ref([])
+const firstBasket = ref([])
+const secondBasket = ref([])
+const thirdBasket = ref([])
+
+const baskets = [
+  {
+    id: 'firstBasket',
+    name: t('firstBasket')
+  },
+  {
+    id: 'secondBasket',
+    name: t('secondBasket')
+  },
+  {
+    id: 'thirdBasket',
+    name: t('thirdBasket')
+  },
+]
 
 const productStore = useProductStore()
 
@@ -102,8 +122,8 @@ const searchProducts = () => {
 }
 
 const addProductToCart = (product) => {
-  if (selectedProducts.value.find((p) => p?.productId == product?.id)) {
-    selectedProducts.value = selectedProducts.value.map((item) => {
+  if (activeBasket.value.find((p) => p?.productId == product?.id)) {
+    activeBasket.value = activeBasket.value.map((item) => {
       if (item.productId === product.id && product?.quantity > item.amount) {
         if (item.saleType == 'kg') {
           return { ...item, amount: roundFloatToOneDecimal(item.amount + 0.1) }
@@ -122,7 +142,7 @@ const addProductToCart = (product) => {
   } else {
     if (product.quantity > 0) {
       if (product?.saleType == 'kg') {
-        selectedProducts.value.push({
+        activeBasket.value.push({
           productId: product?.id,
           name: product?.name,
           packaging: product?.packaging,
@@ -132,7 +152,7 @@ const addProductToCart = (product) => {
           amount: 0.1
         })
       } else if (product?.saleType == 'litre') {
-        selectedProducts.value.push({
+        activeBasket.value.push({
           productId: product?.id,
           name: product?.name,
           packaging: product?.packaging,
@@ -142,7 +162,7 @@ const addProductToCart = (product) => {
           amount: 0.5
         })
       } else {
-        selectedProducts.value.push({
+        activeBasket.value.push({
           productId: product?.id,
           name: product?.name,
           packaging: product?.packaging,
@@ -160,7 +180,11 @@ const addProductToCart = (product) => {
 }
 
 const removeProductFromCart = (product) => {
-  selectedProducts.value = selectedProducts.value.filter((p) => p.productId !== product.productId)
+  activeBasket.value = activeBasket.value.filter((p) => p.productId !== product.productId)
+}
+
+const changeBasketStatus = (status) => {
+  activeBasketStatus.value = status
 }
 
 const increaseCountChecking = (product) => {
@@ -176,7 +200,7 @@ const increaseCountChecking = (product) => {
 }
 
 const increaseCountOfProducts = (product) => {
-  selectedProducts.value = selectedProducts.value.map((item) => {
+  activeBasket.value = activeBasket.value.map((item) => {
     if (item.productId === product.productId) {
       // return { ...item, amount: item.amount + 1 }
       if (item.saleType == 'kg') {
@@ -192,7 +216,7 @@ const increaseCountOfProducts = (product) => {
 }
 
 const reduceCountOfProducts = (product) => {
-  selectedProducts.value = selectedProducts.value.map((item) => {
+  activeBasket.value = activeBasket.value.map((item) => {
     if (item.productId === product.productId) {
       // return { ...item, amount: item.amount - 1 }
       if (item.saleType == 'kg') {
@@ -215,11 +239,18 @@ const clearSearchInput = () => {
 const clearSubmitData = () => {
   submitData.discountPercent = ''
   submitData.paymentReceived = ''
-  selectedProducts.value = []
+  activeBasket.value = []
+  if (activeBasketStatus.value == 'firstBasket') {
+    firstBasket.value = []
+  } else if (activeBasketStatus.value == 'secondBasket') {
+    secondBasket.value = []
+  } else if (activeBasketStatus.value == 'thirdBasket') {
+    thirdBasket.value = []
+  }
 }
 
 const createOrder = () => {
-  if (selectedProducts.value.length == 0) {
+  if (activeBasket.value.length == 0) {
     toast.error("Tanlangan mahsulotlar mavjud emas!")
   } else {
     isLoading.value = true
@@ -227,7 +258,7 @@ const createOrder = () => {
       cleanObjectEmptyFields({
         discountPercent: submitData.discountPercent,
         paymentReceived: submitData.paymentReceived,
-        items: selectedProducts.value,
+        items: activeBasket.value,
       })
     ).then((res) => {
       toast.success(t('saleWasMadeSuccessfully'))
@@ -238,9 +269,9 @@ const createOrder = () => {
 }
 
 watch(
-  () => selectedProducts.value,
+  () => activeBasket.value,
   () => {
-    totalPrice.value = selectedProducts.value
+    totalPrice.value = activeBasket.value
       .map((product) => product?.price * product?.amount)
       .reduce((accumulator, currentValue) => accumulator + currentValue, 0);
   },
@@ -279,6 +310,34 @@ watch(
     if (data && router?.currentRoute?.value?.path === '/sales') {
       search.value = data
       searchProducts()
+    }
+  },
+  { deep: true }
+)
+
+watch(
+  () => activeBasketStatus.value,
+  (data) => {
+    if (data == 'firstBasket') {
+      activeBasket.value = firstBasket.value
+    } else if (data == 'secondBasket') {
+      activeBasket.value = secondBasket.value
+    } else if (data == 'thirdBasket') {
+      activeBasket.value = thirdBasket.value
+    }
+  },
+  { deep: true }
+)
+
+watch(
+  () => activeBasket.value,
+  () => {
+    if (activeBasketStatus.value == 'firstBasket') {
+      firstBasket.value = activeBasket.value
+    } else if (activeBasketStatus.value == 'secondBasket') {
+      secondBasket.value = activeBasket.value
+    } else if (activeBasketStatus.value == 'thirdBasket') {
+      thirdBasket.value = activeBasket.value
     }
   },
   { deep: true }
@@ -345,7 +404,7 @@ onMounted(() => {
           class="flex items-center justify-center bg-slate-100 rounded-xl h-12 w-12 cursor-pointer">
           <BarcodeIcon class="w-6 h-6 text-blue-600" />
         </div>
-        <div class="hidden md:flex items-center justify-center bg-slate-100 rounded-xl h-12 w-12">
+        <div @click="clearSubmitData()" class="hidden md:flex items-center justify-center bg-slate-100 rounded-xl h-12 w-12 cursor-pointer">
           <BroomIcon class="w-5 h-5 text-blue-600" />
         </div>
       </div>
@@ -355,41 +414,19 @@ onMounted(() => {
           {{ $t('shoppingCart') }}
         </div>
         <div class="flex flex-wrap space-x-2">
-          <div
-            class="px-6 py-2 bg-slate-100 inline-flex items-center leading-none border-b-2 border-blue-500 text-blue-500 rounded-xl">
-            <BasketIcon class="text-blue-500 w-6 h-6 mr-2" />
-            <span>Birinchi savat</span>
+          <div v-for="(basket, idx) in baskets" :key="idx" @click="changeBasketStatus(basket.id)"
+            class="px-6 py-2 inline-flex items-center leading-none border-b-2 rounded-xl"
+            :class="activeBasketStatus == basket.id ? 'bg-slate-100 border-blue-500' : 'bg-slate-50 border-slate-200 cursor-pointer'">
+            <BasketIcon class="w-6 h-6 mr-2"
+              :class="activeBasketStatus == basket.id ? 'text-blue-500' : 'text-gray-500'" />
+            <span :class="activeBasketStatus == basket.id ? 'text-blue-500' : 'text-gray-900'">
+              {{ basket.name }}
+            </span>
           </div>
-          <div
-            class="px-6 py-2 bg-slate-50 inline-flex items-center leading-none border-b-2 border-slate-200 text-gray-900 rounded-xl cursor-pointer">
-            <BasketIcon class="text-gray-500 w-6 h-6 mr-2" />
-            <span>Ikkinchi savat</span>
-          </div>
-          <div
-            class="px-6 py-2 bg-slate-50 inline-flex items-center leading-none border-b-2 border-slate-200 text-gray-900 rounded-xl cursor-pointer">
-            <BasketIcon class="text-gray-500 w-6 h-6 mr-2" />
-            <span>Uchinchi savat</span>
-          </div>
-          <!-- <a
-            class="px-6 py-2 w-1/2 sm:w-auto justify-center sm:justify-start border-b-2 font-medium bg-slate-100 inline-flex items-center leading-none border-indigo-500 text-indigo-500 tracking-wider rounded-xl">
-            <BasketIcon class="text-blue-500 w-6 h-6 mr-3" />
-            <span>Birinchi savat</span>
-          </a>
-          <a
-            class="sm:px-6 py-2 w-1/2 sm:w-auto justify-center sm:justify-start border-b-2 font-medium inline-flex items-center leading-none border-gray-200 hover:text-gray-900 tracking-wider rounded-xl">
-            <BasketIcon class="text-gray-500 w-6 h-6 mr-3" />
-            <span>Ikkinchi savat</span>
-          </a>
-          <a
-            class="sm:px-6 py-2 w-1/2 sm:w-auto justify-center sm:justify-start border-b-2 font-medium inline-flex items-center leading-none border-gray-200 hover:text-gray-900 tracking-wider rounded-xl">
-            <BasketIcon class="text-gray-500 w-6 h-6 mr-3" />
-            <span>Uchinchi savat</span>
-          </a> -->
         </div>
       </div>
 
-
-      <div v-if="selectedProducts.length > 0" class="inline-block md:min-w-full py-2 align-middle">
+      <div v-if="activeBasket.length > 0" class="inline-block md:min-w-full py-2 align-middle">
         <div class="overflow-x-auto overflow-y-auto border border-white">
           <div class="min-w-full">
             <table class="md:min-w-full divide-y-8 divide-white">
@@ -410,7 +447,7 @@ onMounted(() => {
                 </tr>
               </thead>
               <tbody class="bg-slate-100 divide-y-8 divide-white">
-                <tr v-for="(product, idx) in selectedProducts" :key="idx">
+                <tr v-for="(product, idx) in activeBasket" :key="idx">
                   <td class="px-3 py-2 whitespace-nowrap rounded-l-xl">
                     <div class="flex items-center space-x-3">
                       <div class="flex items-center justify-center bg-slate-200 md:w-12 md:h-12 w-8 h-8 rounded-lg">
@@ -517,7 +554,7 @@ onMounted(() => {
               {{ $t('numberOfProducts') }}
             </div>
             <div class="text-base font-semibold text-gray-900">
-              {{ selectedProducts.length + " " + $t('piece') }}
+              {{ activeBasket.length + " " + $t('piece') }}
             </div>
           </div>
           <div class="flex items-center justify-between">
@@ -585,9 +622,10 @@ onMounted(() => {
 
       <button @click="createOrder()"
         class="w-full py-3 px-4 rounded-full text-white text-lg font-medium bg-blue-500 cursor-pointer hover:bg-blue-600">
-      {{ $t('payment') }}
-    </button>
+        {{ $t('payment') }}
+      </button>
+    </div>
   </div>
-</div></template>
+</template>
 
 <style scoped></style>

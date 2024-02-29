@@ -187,5 +187,8 @@
   "productEditedSuccessfully": "Маҳсулот муваффақиятли таҳрир қилинди!",
   "userEditedSuccessfully": "Фойдаланувчи муваффақиятли таҳрир қилди!",
   "errorWhileEditingProduct": "Маҳсулотни таҳрирлашда хатолик юз берди",
-  "errorWhileEditingUser": "Фойдаланувчини таҳрирлашда хатолик юз берди"
+  "errorWhileEditingUser": "Фойдаланувчини таҳрирлашда хатолик юз берди",
+  "firstBasket": "Биринчи сават",
+  "secondBasket": "Иккинчи сават",
+  "thirdBasket": "Учинчи сават"
 }

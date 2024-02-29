@@ -187,5 +187,8 @@
   "productEditedSuccessful": "Товар успешно отредактирован!",
   "userEditedSuccessful": "Пользователь успешно отредактировал!",
   "errorWhileEditingProduct": "Ошибка при редактировании продукта",
-  "errorWhileEditingUser": "Ошибка при редактировании пользователя"
+  "errorWhileEditingUser": "Ошибка при редактировании пользователя",
+  "firstBasket": "Первая корзина",
+  "secondBasket": "Вторая корзина",
+  "thirdBasket": "Третья корзина"
 }
