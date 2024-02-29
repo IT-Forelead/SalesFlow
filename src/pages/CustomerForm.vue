@@ -11,8 +11,7 @@ import { useI18n } from 'vue-i18n'
 const { t } = useI18n()
 
 const route = useRoute()
-//const orderId = ref(route.params.orderId)
-const orderId = ref("f5ab3819-c5ff-4645-a9ef-aa1455d22165")
+const orderId = ref(route.params.orderId)
 
 const isLoading = ref(false)
 const isOrderExists = ref(false)
@@ -21,16 +20,17 @@ const isOrderAlreadyUsed = ref(false)
 
 
 onMounted(() => {
-  // isOrderExists.value = false
-  // OrderService.isOrderExists(orderId.value).then((isExists) => {
-  // if (isExists) {
-  //   isOrderExists.value = true
-  // } else {
-  //   isOrderNotExists.value = true
-  //   }
-  
-  // })
-  isOrderExists.value = true
+  isOrderExists.value = false
+  OrderService.isOrderExists(orderId.value).then((isExists) => {
+    if (isExists) {
+      isOrderExists.value = true
+    } else {
+      isOrderNotExists.value = true
+    }
+  }).catch((err) => {
+     isOrderExists.value = true
+     
+    })
 })
 
 const submitData = reactive({
@@ -54,19 +54,22 @@ const createSale = () => {
     CustomerService.createCustomer({
       orderId: orderId.value,
       fullName: submitData.fullName,
-      phone: submitData.phone.replace(/([() -])/g, '')
-    }).then(() => {
-      toast.success("Chegirma qo'shildi!")
-      isLoading.value = false
-      clearSubmitData()
-    }).catch((err) => {
-      if (err.message.contains("already")) {
-        isOrderAlreadyUsed.value = true
-      }
-      setTimeout(() => {
-        isLoading.value = false
-      }, 3000)
+      phone: submitData.phone.replace(/([() -])/g, ''),
     })
+      .then(() => {
+        toast.success("Chegirma qo'shildi!")
+        isLoading.value = false
+        clearSubmitData()
+      })
+      .catch((err) => {
+        if (err.response.data.includes('exist')) {
+          isOrderExists.value = false
+          isOrderAlreadyUsed.value = true
+        }
+        setTimeout(() => {
+          isLoading.value = false
+        }, 3000)
+      })
   }
 }
 </script>
@@ -98,7 +101,7 @@ const createSale = () => {
         </div>
       </div>
     </div>
-    <div class="mx-auto flex w-full max-w-2xl flex-col px-4 sm:px-6" v-if="isOrderExists">
+    <div class="mx-auto flex w-full max-w-2xl flex-col px-4 sm:px-6" v-if="isOrderExists ">
       <div class="relative mt-12 sm:mt-16 z-[1]">
         <svg viewBox="0 0 1090 1090" aria-hidden="true" fill="none" preserveAspectRatio="none" width="1090" height="1090" class="absolute -top-7 left-1/2 -z-10 h-[788px] -translate-x-1/2 stroke-gray-300/30 dark:stroke-gray-600/30 [mask-image:linear-gradient(to_bottom,white_20%,transparent_75%)] sm:-top-9 sm:h-auto"></svg>
         <div class="mt-3 text-center text-lg text-gray-600 dark:text-[#e6edf3]">
@@ -115,7 +118,6 @@ const createSale = () => {
             <label for="phone" class="mb-2 block text-base font-semibold text-gray-900 dark:text-[#e6edf3]"> Telefon raqam </label>
             <div class="relative">
               <input v-model="submitData.phone" id="phone" v-maska data-maska="+998(##) ###-##-##" class="border appearance-none text-sm rounded-lg block w-full p-2.5 bg-white dark:bg-[#0D1117] border-gray-200 dark:border-[#30363D] placeholder-gray-400 text-gray-900 dark:text-white focus:outline-none focus:ring-blue-500 focus:border-blue-500" placeholder="+998(00) 000-00-00" />
-              
             </div>
           </div>
         </div>
