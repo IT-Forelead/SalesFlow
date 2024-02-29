@@ -260,6 +260,7 @@ const createOrder = () => {
         paymentReceived: submitData.paymentReceived,
         items: activeBasket.value,
       })
+
     ).then((res) => {
       toast.success(t('saleWasMadeSuccessfully'))
       isLoading.value = false
@@ -409,13 +410,13 @@ onMounted(() => {
         </div>
       </div>
 
-      <div class="flex items-center justify-between">
+      <div class="flex items-center justify-between space-x-2">
         <div class="text-slate-900 text-2xl md:text-3xl font-semibold">
           {{ $t('shoppingCart') }}
         </div>
-        <div class="flex flex-wrap space-x-2">
+        <div class="flex space-x-2">
           <div v-for="(basket, idx) in baskets" :key="idx" @click="changeBasketStatus(basket.id)"
-            class="px-6 py-2 inline-flex items-center leading-none border-b-2 rounded-xl"
+            class="px-4 py-2 inline-flex lg:flex-col xl:flex-row items-center leading-none border-b-2 rounded-xl"
             :class="activeBasketStatus == basket.id ? 'bg-slate-100 border-blue-500' : 'bg-slate-50 border-slate-200 cursor-pointer'">
             <BasketIcon class="w-6 h-6 mr-2"
               :class="activeBasketStatus == basket.id ? 'text-blue-500' : 'text-gray-500'" />
@@ -600,12 +601,12 @@ onMounted(() => {
           class="border-none text-right text-gray-500 bg-slate-100 rounded-lg w-full text-lg" disabled>
         </money3>
       </div>
-      <div class="py-3 space-y-1">
+      <div class="py-3 lg:py-0 space-y-1">
         <div class="text-base font-medium">
           {{ $t('paymentType') }}
         </div>
-        <div class="flex items-center space-x-4">
-          <div class="flex-1 flex flex-col items-center justify-center bg-blue-50 border border-blue-300 rounded-lg py-4">
+        <div class="flex w-full space-x-2 lg:space-x-0 xl:space-x-4 xl:space-y-0 lg:space-y-2 lg:flex-col xl:flex-row">
+          <div class="flex-1 flex flex-col w-full items-center justify-center bg-blue-50 border border-blue-300 rounded-lg py-4">
             <MoneyIcon class="w-6 h-6 text-blue-500" />
             <div class="text-lg font-medium text-blue-500">
               {{ $t('withCash') }}
@@ -621,7 +622,7 @@ onMounted(() => {
       </div>
 
       <button @click="createOrder()"
-        class="w-full py-3 px-4 rounded-full text-white text-lg font-medium bg-blue-500 cursor-pointer hover:bg-blue-600">
+        class="w-full xl:py-3 px-4 lg:py-2 py-3 rounded-full text-white text-lg font-medium bg-blue-500 cursor-pointer hover:bg-blue-600">
         {{ $t('payment') }}
       </button>
     </div>
