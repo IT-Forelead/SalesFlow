@@ -108,42 +108,49 @@ const searchProductBarcodes = () => {
   } else {
     isSearching.value = true
     if (isBarcode(searchProductBarcode.value)) {
-      ProductService.getBarcodeProduct(searchProductBarcode.value)
-        .then((res) => {
-          if (res) {
-            useBarcodeStore().setDecodedBarcode('')
-            productBarcode.value = res
-          } else {
-            toast.error(t('thereIsNoSuchBarcodeProduct'))
-            clearSubmitData()
-            submitData.barcode = useBarcodeStore().decodedBarcode
-          }
-          isSearching.value = false
-          searchProductBarcode.value = ''
-        }).catch((err) => {
-          toast.error(t('errorGettingProduct'))
-          setTimeout(() => {
-            isSearching.value = false
-          }, 3000)
+      ProductService.getBarcodeProductByFilter(
+        cleanObjectEmptyFields({
+          barcode: searchProductBarcode.value
         })
+      ).then((res) => {
+        if (res) {
+          useBarcodeStore().setDecodedBarcode('')
+          productBarcodes.value = res
+        } else {
+          toast.error(t('thereIsNoSuchBarcodeProduct'))
+          clearSubmitData()
+          submitData.barcode = useBarcodeStore().decodedBarcode
+        }
+        isSearching.value = false
+        searchProductBarcode.value = ''
+      }).catch((err) => {
+        toast.error(t('errorGettingProduct'))
+        setTimeout(() => {
+          isSearching.value = false
+        }, 3000)
+      })
     } else {
-      ProductService.getBarcodeProductByName(searchProductBarcode.value)
-        .then((res) => {
-          if (res) {
-            useBarcodeStore().setDecodedBarcode('')
-            productBarcodes.value = res
-          } else {
-            toast.error(t('productWithThisNameDoesNotExist'))
-            clearSubmitData()
-          }
-          isSearching.value = false
-          searchProductBarcode.value = ''
-        }).catch((err) => {
-          toast.error(t('errorGettingProduct'))
-          setTimeout(() => {
-            isSearching.value = false
-          }, 3000)
+      ProductService.getBarcodeProductByFilter(
+        cleanObjectEmptyFields({
+          name: searchProductBarcode.value
         })
+      ).then((res) => {
+        if (res) {
+          useBarcodeStore().setDecodedBarcode('')
+          productBarcodes.value = res
+        } else {
+          toast.error(t('thereIsNoSuchBarcodeProduct'))
+          clearSubmitData()
+          submitData.barcode = useBarcodeStore().decodedBarcode
+        }
+        isSearching.value = false
+        searchProductBarcode.value = ''
+      }).catch((err) => {
+        toast.error(t('errorGettingProduct'))
+        setTimeout(() => {
+          isSearching.value = false
+        }, 3000)
+      })
     }
   }
 }
@@ -217,25 +224,26 @@ watch(
           </button>
         </div>
         <div v-if="productBarcodes.length > 0" class="absolute top-16 left-0 bg-transparent w-full space-y-2 z-[2000]">
-            <div v-for="(product, idx) in productBarcodes" :key="idx" @click="selectedProductBarcode(product)" class="flex items-center justify-between bg-white border shadow-sm rounded-xl px-3 py-2 w-full cursor-pointer hover:bg-slate-100">
-              <div class="flex items-center space-x-3">
-                <div class="flex items-center justify-center bg-slate-200 w-10 h-10 rounded-lg">
-                  <ImageIcon class="text-gray-500 w-8 h-8" />
-                </div>
-                <div>
-                  <div class="text-base font-semibold text-gray-800">
-                    {{ product?.trademark + " - " + product?.packaging }}
-                  </div>
-                  <div class="text-base font-medium text-gray-500">
-                    {{ product?.type_code }}
-                  </div>
-                </div>
+          <div v-for="(product, idx) in productBarcodes" :key="idx" @click="selectedProductBarcode(product)"
+            class="flex items-center justify-between bg-white border shadow-sm rounded-xl px-3 py-2 w-full cursor-pointer hover:bg-slate-100">
+            <div class="flex items-center space-x-3">
+              <div class="flex items-center justify-center bg-slate-200 w-10 h-10 rounded-lg">
+                <ImageIcon class="text-gray-500 w-8 h-8" />
               </div>
-              <div class="text-base font-semibold text-gray-800">
-                {{ product?.barcode }}
+              <div>
+                <div class="text-base font-semibold text-gray-800">
+                  {{ product?.trademark + " - " + product?.packaging }}
+                </div>
+                <div class="text-base font-medium text-gray-500">
+                  {{ product?.type_code }}
+                </div>
               </div>
             </div>
+            <div class="text-base font-semibold text-gray-800">
+              {{ product?.barcode }}
+            </div>
           </div>
+        </div>
       </div>
       <div class="space-y-2 md:space-y-4">
         <div class="flex flex-col md:flex-row md:items-center space-y-2 md:space-y-0 md:space-x-4">

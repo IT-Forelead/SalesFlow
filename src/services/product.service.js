@@ -7,11 +7,8 @@ class ProductService {
   async getProducts(filter) {
     return AxiosService.post('/product', filter)
   }
-  async getBarcodeProduct(barcode) {
-    return AxiosService.get(`/product/barcode/${barcode}`)
-  }
-  async getBarcodeProductByName(str) {
-    return AxiosService.get(`/product/barcode-by-name/${str}`)
+  async getBarcodeProductByFilter(filter) {
+    return AxiosService.post('/product/barcodes', filter)
   }
   async getBarcodes(limit, page) {
     return AxiosService.get(`/product/barcodes?limit=${limit}&page=${page}`)
