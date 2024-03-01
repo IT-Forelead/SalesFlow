@@ -355,7 +355,7 @@ onMounted(() => {
   <div class="flex flex-col md:flex-row">
     <div class="flex-auto md:w-2/3 w-full space-y-4 py-8 px-4 md:px-8">
       <div class="flex items-center space-x-2 pb-2">
-        <div class="relative flex-auto z-50">
+        <div class="relative flex-auto z-0">
           <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
             <SearchIcon class="w-5 h-5 text-slate-400" />
           </div>
@@ -416,11 +416,11 @@ onMounted(() => {
         </div>
         <div class="flex space-x-2">
           <div v-for="(basket, idx) in baskets" :key="idx" @click="changeBasketStatus(basket.id)"
-            class="px-4 py-2 inline-flex lg:flex-col xl:flex-row items-center leading-none border-b-2 rounded-xl"
-            :class="activeBasketStatus == basket.id ? 'bg-slate-100 border-blue-500' : 'bg-slate-50 border-slate-200 cursor-pointer'">
+            class="px-4 py-2 inline-flex flex-col xl:flex-row sm:flex items-center leading-none border-b-2 rounded-xl"
+            :class="activeBasketStatus === basket.id ? 'bg-slate-100 border-blue-500' : 'bg-slate-50 border-slate-200 cursor-pointer'">
             <BasketIcon class="w-6 h-6 mr-2"
-              :class="activeBasketStatus == basket.id ? 'text-blue-500' : 'text-gray-500'" />
-            <span :class="activeBasketStatus == basket.id ? 'text-blue-500' : 'text-gray-900'">
+              :class="activeBasketStatus === basket.id ? 'text-blue-500 text-sm' : 'text-gray-500 text-sm'" />
+            <span :class="activeBasketStatus === basket.id ? 'text-blue-500 text-sm' : 'text-gray-900 text-sm'">
               {{ basket.name }}
             </span>
           </div>
