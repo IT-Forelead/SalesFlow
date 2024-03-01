@@ -396,7 +396,7 @@ onMounted(() => {
           </div>
           <input v-model="search" v-on:keypress="whenPressEnter($event)" type="search" ref="onSearchFocus"
             @blur="reFocus()"
-            class="bg-slate-100 border-none text-slate-900 text-base md:text-lg rounded-xl block w-full h-12 pl-10 py-2 placeholder-slate-400 placeholder:text-sm md:placeholder:text-lg"
+            class="bg-slate-100 border-none text-slate-900 text-base md:text-lg rounded-xl block w-full h-12 pl-10 py-2 placeholder-slate-400 placeholder:text-sm md:placeholder:text-lg lg:placeholder:text-base"
             :placeholder="t('searchByProductNameOrBarcode')">
           <div v-if="search" @click="clearSearchInput()"
             class="absolute inset-y-0 right-20 p-1 flex items-center cursor-pointer">

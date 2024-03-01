@@ -29,21 +29,31 @@ onClickOutside(notificationDropdown, () => {
   }
 })
 let isMobile = window.innerWidth <= 1024;
+let isDesktop = window.innerWidth > 1024;
+
 const closeSidebar = () => {
   if (isMobile) {
-    useSidebarStore().toggleSidebar = true
+    useSidebarStore().toggleSidebar = true;
   }
-  useSidebarStore().isOpenSidebar = true
+  useSidebarStore().isOpenSidebar = true;
 }
+
 const openSidebar = () => {
   if (isMobile) {
-    useSidebarStore().toggleSidebar = false
+    useSidebarStore().toggleSidebar = false;
   }
-  useSidebarStore().isOpenSidebar = false
+  useSidebarStore().isOpenSidebar = false;
 }
+
 const handleResize = () => {
   isMobile = window.innerWidth <= 1024;
+  isDesktop = window.innerWidth > 1024;
+
+  if (isDesktop) {
+    useSidebarStore().isOpenSidebar = true;
+  }
 }
+
 onMounted(() => {
   window.addEventListener('resize', handleResize);
 });
@@ -55,7 +65,7 @@ onUnmounted(() => {
 
 <template>
   <div
-    class="sticky top-0 z-[900] flex items-center w-full px-6 py-4 bg-white border-b border-gray-200 shadow-7xl lg:block">
+    class="sticky top-0  flex items-center w-full px-6 py-4 bg-white border-b border-gray-200 shadow-7xl lg:block">
     <div class="flex space-x-4 items-center">
       <div v-if="!useSidebarStore().isOpenSidebar" @click="closeSidebar"
         class="flex lg:block xl:hidden sm:block items-center justify-center w-8 h-8 rounded-lg cursor-pointer hover:bg-gray-100">
