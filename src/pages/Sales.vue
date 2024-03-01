@@ -23,6 +23,10 @@ import { isBarcode } from '../mixins/barcodeFormatter'
 import { useI18n } from 'vue-i18n'
 import BasketIcon from '../assets/icons/BasketIcon.vue'
 import BroomIcon from '../assets/icons/BroomIcon.vue'
+import axios from 'axios'
+import moment from 'moment'
+
+const API_URL = import.meta.env.VITE_CHEQUE_API_URL;
 
 const { t } = useI18n()
 const router = useRouter()
@@ -260,13 +264,44 @@ const createOrder = () => {
         paymentReceived: submitData.paymentReceived,
         items: activeBasket.value,
       })
-
     ).then((res) => {
       toast.success(t('saleWasMadeSuccessfully'))
       isLoading.value = false
       clearSubmitData()
+      OrderService.getOrderById(res)
+        .then((res) => {
+          printChaque(
+            {
+              "cashier": res?.cashierFirstName + " " + res.cashierLastName,
+              "discount": res?.discountPercent ?? 0,
+              "discount_amount": res?.discountPrice ?? 0,
+              "final_price": res?.totalPrice,
+              "market": res?.marketName,
+              "paid": res?.paymentReceived,
+              "price": res?.initialPrice,
+              "products": res?.items.map((item) => {
+                return {
+                  "count": item?.amount,
+                  "name": item?.productName,
+                  "packaging": item?.packaging,
+                  "price": item?.salePrice,
+                  "total": item?.price,
+                }
+              }),
+              "time": moment(res?.createdAt).format('DD/MM/YYYY H:mm')
+            })
+        })
     })
   }
+}
+
+async function printChaque(data) {
+  await axios.post(API_URL + '/print', data)
+    .then(async (res) => {
+      console.log("Chaque printed");
+    }).catch((err) => {
+      console.log("Chaque not printed");
+    })
 }
 
 watch(
@@ -405,7 +440,8 @@ onMounted(() => {
           class="flex items-center justify-center bg-slate-100 rounded-xl h-12 w-12 cursor-pointer">
           <BarcodeIcon class="w-6 h-6 text-blue-600" />
         </div>
-        <div @click="clearSubmitData()" class="hidden md:flex items-center justify-center bg-slate-100 rounded-xl h-12 w-12 cursor-pointer">
+        <div @click="clearSubmitData()"
+          class="hidden md:flex items-center justify-center bg-slate-100 rounded-xl h-12 w-12 cursor-pointer">
           <BroomIcon class="w-5 h-5 text-blue-600" />
         </div>
       </div>
@@ -606,7 +642,8 @@ onMounted(() => {
           {{ $t('paymentType') }}
         </div>
         <div class="flex w-full space-x-2 lg:space-x-0 xl:space-x-4 xl:space-y-0 lg:space-y-2 lg:flex-col xl:flex-row">
-          <div class="flex-1 flex flex-col w-full items-center justify-center bg-blue-50 border border-blue-300 rounded-lg py-4">
+          <div
+            class="flex-1 flex flex-col w-full items-center justify-center bg-blue-50 border border-blue-300 rounded-lg py-4">
             <MoneyIcon class="w-6 h-6 text-blue-500" />
             <div class="text-lg font-medium text-blue-500">
               {{ $t('withCash') }}
