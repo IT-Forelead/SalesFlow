@@ -80,7 +80,7 @@ const saleTypeShortTranslate = (type) => {
     case 'amount':
       return t('piece')
     case 'litre':
-      return t('litr')
+      return t('litre')
     case 'kg':
       return t('kg')
     case 'g':

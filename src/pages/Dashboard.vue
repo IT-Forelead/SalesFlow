@@ -21,11 +21,12 @@ const cashiersStat = ref([])
 const ordersStat = ref([])
 const productStats = ref({})
 const bestSellerProductStats = ref([])
+const dailyTrading = t('dailyTrading')
 
 // Expenses Chart Data
 const salesChartSeries = computed(() => [
     {
-        name: t('dailyTrading'),
+        name: dailyTrading,
         data: ordersStat.value?.map((item) => item.profit),
     }
 ])
@@ -227,10 +228,6 @@ const getOrdersStatsFinal = () => {
 
 onMounted(() => {
     getOrdersStatsFinal()
-    // OrderService.getOrdersStat()
-    //     .then((res) => {
-    //         ordersStat.value = res
-    //     })
     OrderService.getCashierStats()
         .then((res) => {
             cashiersStat.value = res
