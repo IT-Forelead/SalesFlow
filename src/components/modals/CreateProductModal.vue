@@ -113,13 +113,16 @@ const searchProductBarcodes = () => {
           barcode: searchProductBarcode.value
         })
       ).then((res) => {
-        if (res) {
-          useBarcodeStore().setDecodedBarcode('')
-          productBarcodes.value = res
-        } else {
+        if (res.length == 0) {
           toast.error(t('thereIsNoSuchBarcodeProduct'))
           clearSubmitData()
-          submitData.barcode = useBarcodeStore().decodedBarcode
+          submitData.barcode = searchProductBarcode.value
+        } else if (res.length == 1) {
+          useBarcodeStore().setDecodedBarcode('')
+          productBarcode.value = res[0]
+        } else {
+          useBarcodeStore().setDecodedBarcode('')
+          productBarcodes.value = res
         }
         isSearching.value = false
         searchProductBarcode.value = ''
@@ -135,13 +138,13 @@ const searchProductBarcodes = () => {
           name: searchProductBarcode.value
         })
       ).then((res) => {
-        if (res) {
-          useBarcodeStore().setDecodedBarcode('')
-          productBarcodes.value = res
-        } else {
+        if (res.length == 0) {
           toast.error(t('thereIsNoSuchBarcodeProduct'))
           clearSubmitData()
-          submitData.barcode = useBarcodeStore().decodedBarcode
+        } else if (res.length == 1) {
+          productBarcode.value = res[0]
+        } else {
+          productBarcodes.value = res
         }
         isSearching.value = false
         searchProductBarcode.value = ''
