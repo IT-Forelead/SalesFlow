@@ -6,9 +6,7 @@ import Spinners270RingIcon from '../assets/icons/Spinners270RingIcon.vue'
 import HistoryTable from '../components/common/HistoryTable.vue'
 import { useProductHistoryStore } from '../store/productHistory.store.js'
 import ProductHistoryService from '../services/productHistory.service.js'
-import { useProductStore } from '../store/product.store.js'
 import useMoneyFormatter from '../mixins/currencyFormatter.js'
-import ProductService from '../services/product.service.js'
 import CaretDoubleRightIcon from '../assets/icons/CaretDoubleRightIcon.vue'
 import CaretDoubleLeftIcon from '../assets/icons/CaretDoubleLeftIcon.vue'
 import CaretLeftIcon from '../assets/icons/CaretLeftIcon.vue'
@@ -32,7 +30,6 @@ const productsHistories = computed(() => {
 const total = computed(() => {
   return productHistoryStore.totalHistories
 })
-
 
 const getHistoryType = (historyType) => {
   switch (historyType) {
