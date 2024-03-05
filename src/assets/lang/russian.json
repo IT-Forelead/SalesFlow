@@ -192,5 +192,6 @@
   "firstBasket": "Первая корзина",
   "secondBasket": "Вторая корзина",
   "thirdBasket": "Третья корзина",
-  "errorWhileCreatingOrder": "Ошибка при создании заказа"
+  "errorWhileCreatingOrder": "Ошибка при создании заказа",
+  "clearTheBasket": "Очистить корзину"
 }

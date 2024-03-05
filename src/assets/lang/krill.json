@@ -192,5 +192,6 @@
   "firstBasket": "Биринчи сават",
   "secondBasket": "Иккинчи сават",
   "thirdBasket": "Учинчи сават",
-  "errorWhileCreatingOrder": "Буюртма яратишда хатолик юз берди"
+  "errorWhileCreatingOrder": "Буюртма яратишда хатолик юз берди",
+  "clearTheBasket": "Саватни тозалаш"
 }
