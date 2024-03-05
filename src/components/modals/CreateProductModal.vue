@@ -64,14 +64,16 @@ const closeModal = () => {
 const createProduct = () => {
   if (!submitData.name) {
     toast.error(t('plsEnterProductName'))
+  } else if (!isBarcode(submitData.barcode)) {
+    toast.error(t('barcodeIsInvalid'))
   } else if (!submitData.packaging) {
     toast.error(t('plsEnterProductPackaging'))
   } else if (!submitData.saleType) {
     toast.error(t('plsSelectSaleType'))
-  } else if (submitData.price === 0) {
-    toast.error(t('plsEnterProductPrice'))
-  } else if (submitData.quantity === 0) {
+  } else if (submitData.quantity <= 0) {
     toast.error(t('plsEnterProductQuantity'))
+  } else if (submitData.price <= 0) {
+    toast.error(t('plsEnterProductPrice'))
   } else {
     isLoading.value = true
     ProductService.createProduct(
