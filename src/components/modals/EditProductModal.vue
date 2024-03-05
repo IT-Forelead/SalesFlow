@@ -55,7 +55,7 @@ const editProduct = () => {
     toast.error(t('plsEnterProductPackaging'))
   } else if (submitData.price === 0) {
     toast.error(t('plsEnterProductPrice'))
-  } else if (submitData.saleType) {
+  } else if (!submitData.saleType) {
     toast.error(t('plsSelectSaleType'))
   } else {
     isLoading.value = true
@@ -67,7 +67,7 @@ const editProduct = () => {
       price: submitData.price,
       saleType: submitData.saleType,
     }).then(() => {
-      toast.error(t('productEditedSuccessfully'))
+      toast.success(t('productEditedSuccessfully'))
       ProductService.getProducts({})
         .then((res) => {
           productStore.clearStore()
@@ -148,6 +148,7 @@ watch(
               class="bg-slate-100 border-none text-slate-900 rounded-lg block w-full h-11">
               <option value="" selected>{{ $t('selectType') }}</option>
               <option value="amount">Donali</option>
+              <option value="kg">Kilogrammli</option>
               <option value="g">Gramli</option>
               <option value="litre">Litrli</option>
             </select>
