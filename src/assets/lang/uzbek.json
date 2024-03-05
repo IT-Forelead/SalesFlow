@@ -144,7 +144,7 @@
   "plsEnterlastname": "Iltimos, familiyani kiriting!",
   "plsEnterlogin": "Iltimos, loginni kiriting!",
   "plsEnterPhoneNumber": "Iltimos, telefon raqamini kiriting!",
-  "plsEnterМфдшвPhoneNumber": "Iltimos, to'g'ri telefon raqamini kiriting!",
+  "plsEnterValidPhoneNumber": "Iltimos, to'g'ri telefon raqamini kiriting!",
   "plsSelectStore": "Iltimos, do'kon tanlang!",
   "plsSelectRole": "Iltimos, rol tanlang!",
   "plsEnterPassword": "Iltimos, parolni kiriting!",
