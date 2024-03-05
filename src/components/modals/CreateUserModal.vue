@@ -106,8 +106,9 @@ const clearForm = () => {
   submitForm.login = ''
   submitForm.phone = ''
   submitForm.marketId = ''
-  submitForm.privileges = ''
+  submitForm.privileges = []
   submitForm.password = ''
+  submitForm.confirmPassword = ''
 }
 
 const closeModal = () => {
