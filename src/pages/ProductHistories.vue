@@ -6,9 +6,7 @@ import Spinners270RingIcon from '../assets/icons/Spinners270RingIcon.vue'
 import HistoryTable from '../components/common/HistoryTable.vue'
 import { useProductHistoryStore } from '../store/productHistory.store.js'
 import ProductHistoryService from '../services/productHistory.service.js'
-import { useProductStore } from '../store/product.store.js'
 import useMoneyFormatter from '../mixins/currencyFormatter.js'
-import ProductService from '../services/product.service.js'
 import CaretDoubleRightIcon from '../assets/icons/CaretDoubleRightIcon.vue'
 import CaretDoubleLeftIcon from '../assets/icons/CaretDoubleLeftIcon.vue'
 import CaretLeftIcon from '../assets/icons/CaretLeftIcon.vue'
@@ -32,24 +30,6 @@ const productsHistories = computed(() => {
 const total = computed(() => {
   return productHistoryStore.totalHistories
 })
-const productStore = useProductStore()
-const getProductName = (productId) => {
-  const product = productStore.products.find(product => product.id === productId)
-  return product?.name + ' - ' + product?.packaging || 'Mahsulot nomi yo\'q'
-}
-
-const getProducts = () => {
-  ProductService.getProducts({ limit: 30, page: page.value })
-    .then((res) => {
-      useProductStore().clearStore()
-      useProductStore().setProducts(res.data)
-    })
-    .catch(() => {
-      toast.error('Failed to fetch products')
-    })
-}
-
-getProducts()
 
 const getHistoryType = (historyType) => {
   switch (historyType) {
@@ -70,9 +50,9 @@ const columns = [
     cell: ({ row }) => `${parseInt(row.id, 10) + 1}`,
   },
   {
-    accessorKey: 'productId',
+    accessorKey: 'productName',
     header: t('product'),
-    cell: ({ row }) => getProductName(row.getValue('productId')),
+    cell: ({ row }) => `${row.original.productName} - (${row.original.packaging})`,
   },
   {
     accessorKey: 'quantity',
@@ -135,7 +115,6 @@ getProductHistories()
 
 watch(page, () => {
   getProductHistories()
-  getProducts()
 })
 </script>
 <template>

@@ -1,5 +1,5 @@
 <script setup>
-import { computed, h, ref, watch } from 'vue'
+import { computed, h, onMounted, ref, watch } from 'vue'
 import SearchIcon from '../assets/icons/SearchIcon.vue'
 import Spinners270RingIcon from '../assets/icons/Spinners270RingIcon.vue'
 import ProductsTable from '../components/common/ProductsTable.vue'
@@ -14,13 +14,15 @@ import CaretLeftIcon from '../assets/icons/CaretLeftIcon.vue'
 import CaretDoubleLeftIcon from '../assets/icons/CaretDoubleLeftIcon.vue'
 import CaretDoubleRightIcon from '../assets/icons/CaretDoubleRightIcon.vue'
 import { useI18n } from 'vue-i18n'
+import { useAuthStore } from '../store/auth.store.js'
+import decodeJwt, { parseJwt } from '../mixins/utils.js'
 
 const { t } = useI18n()
 const globalSearchFromTable = ref('')
 const isLoading = ref(false)
 const renderKey = ref(0)
 const productStore = useProductStore()
-
+const payload = ref({})
 const products = computed(() => {
   renderKey.value += 1
   return productStore.products
@@ -47,7 +49,7 @@ const saleTypeShortTranslate = (type) => {
     case 'amount':
       return t('piece')
     case 'litre':
-      return t('litr')
+      return t('litre')
     case 'kg':
       return t('kg')
     case 'g':
@@ -165,6 +167,15 @@ getProducts()
 watch(page, () => {
   getProducts()
 })
+
+const navigationGuard = (access) => {
+  return payload.value?.privileges?.includes(access)
+}
+
+onMounted(() => {
+  useAuthStore().setUser(decodeJwt(JSON.parse(localStorage.getItem('session'))?.accessToken))
+  payload.value = parseJwt()
+})
 </script>
 
 <template>
@@ -182,7 +193,7 @@ watch(page, () => {
           placeholder="Search everything...">
       </div>
       <div class="w-full md:w-auto order-1 md:order-2">
-        <button @click="useModalStore().openCreateProductModal()"
+        <button v-if="navigationGuard('create_product')" @click="useModalStore().openCreateProductModal()"
           class="w-full md:w-auto py-2 px-4 rounded-full text-white text-lg font-medium bg-blue-500 cursor-pointer hover:bg-blue-600">
           {{ $t('addProduct') }}
         </button>

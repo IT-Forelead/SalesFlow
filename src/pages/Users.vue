@@ -99,6 +99,11 @@ const columns = [
     accessorFn: row => getRole(row.privileges),
   },
   {
+    accessorKey: 'marketName',
+    header: t('shop'),
+    accessorFn: row => row.marketName
+  },
+  {
     accessorKey: 'createdAt',
     accessorFn: row => moment(row.createdAt).format('DD/MM/YYYY H:mm'),
     header: t('createdAt'),

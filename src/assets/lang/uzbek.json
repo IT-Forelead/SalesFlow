@@ -144,7 +144,7 @@
   "createProduct": "Mahsulot yaratish",
   "productAddedSuccessfully": "Mahsulot muvaffaqiyatli qo'shildi!",
   "errorWhileCreatingProduct": "Mahsulot yaratishda xatolik yuz berdi",
-  "therIsNoSuchBarcodeProduct": "Bunday shtrix-kodli mahsulot mavjud emas!",
+  "thereIsNoSuchBarcodeProduct": "Bunday shtrix-kodli mahsulot mavjud emas!",
   "productWithThisNameDoesNotExist": "Bu nomdagi mahsulot mavjud emas!",
   "errorGettingProduct": "Mahsulotni olishda xatolik yuz berdi!",
   "errorGettingProducts": "Mahsulotlarni olishda xatolik yuz berdi!",

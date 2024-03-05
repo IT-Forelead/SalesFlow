@@ -144,7 +144,7 @@
   "createProduct": "Маҳсулот яратиш",
   "productAddedSuccessfully": "Маҳсулот муваффақиятли қўшилди!",
   "errorWhileCreatingProduct": "Маҳсулот яратишда хатолик юз берди",
-  "therIsNoSuchBarcodeProduct": "Бундай штрих-кодли маҳсулот мавжуд эмас!",
+  "thereIsNoSuchBarcodeProduct": "Бундай штрих-кодли маҳсулот мавжуд эмас!",
   "productWithThisNameDoesNotExist": "Бу номдаги маҳсулот мавжуд эмас!",
   "errorGettingProduct": "Маҳсулотни олишда хатолик юз берди!",
   "errorGettingProducts": "Маҳсулотларни олишда хатолик юз берди!",

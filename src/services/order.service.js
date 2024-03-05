@@ -19,6 +19,9 @@ class OrderService {
   async getCashierStats() {
     return AxiosService.get('/order/cashier-stats/week')
   }
+  async getOrderById(orderId) {
+    return AxiosService.get(`/order/${orderId}`)
+  }
 }
 
 export default new OrderService()
