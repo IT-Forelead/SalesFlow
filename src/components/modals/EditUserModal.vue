@@ -106,7 +106,7 @@ const editUser = () => {
   } else if (!submitData.phone) {
     toast.warning(t('plsEnterPhoneNumber'))
   } else if (submitData.phone.length !== 18) {
-    toast.warning(t('plsEnterPhoneNumber'))
+    toast.warning(t('plsEnterValidPhoneNumber'))
   } else if (!submitData.privileges) {
     toast.warning(t('plsSelectRole'))
   } else {
