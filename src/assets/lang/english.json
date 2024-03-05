@@ -192,5 +192,6 @@
   "firstBasket": "First basket",
   "secondBasket": "Second basket",
   "thirdBasket": "Third basket",
-  "errorWhileCreatingOrder": "Error while creating order"
+  "errorWhileCreatingOrder": "Error while creating order",
+  "clearTheBasket": "Clear the basket"
 }

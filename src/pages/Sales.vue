@@ -435,11 +435,11 @@ onMounted(() => {
             </div>
           </div>
         </div>
-        <div @click="useModalStore().openCameraScannerModal()"
+        <div @click="useModalStore().openCameraScannerModal()" :title="t('barcodeScanning')"
           class="flex items-center justify-center bg-slate-100 rounded-xl h-12 w-12 cursor-pointer">
           <BarcodeIcon class="w-6 h-6 text-blue-600" />
         </div>
-        <div @click="clearSubmitData()"
+        <div @click="clearSubmitData()" :title="t('clearTheBasket')"
           class="hidden md:flex items-center justify-center bg-slate-100 rounded-xl h-12 w-12 cursor-pointer">
           <BroomIcon class="w-5 h-5 text-blue-600" />
         </div>

@@ -192,5 +192,6 @@
   "firstBasket": "Birinchi savat",
   "secondBasket": "Ikkinchi savat",
   "thirdBasket": "Uchinchi savat",
-  "errorWhileCreatingOrder": "Buyurtma yaratishda xatolik yuz berdi"
+  "errorWhileCreatingOrder": "Buyurtma yaratishda xatolik yuz berdi",
+  "clearTheBasket": "Savatni tozalash"
 }
