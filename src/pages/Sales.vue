@@ -287,6 +287,9 @@ const createOrder = () => {
               "time": moment(res?.createdAt).format('DD/MM/YYYY H:mm')
             })
         })
+    }).catch((err) => {
+      toast.error(t('errorWhileCreatingOrder'))
+      isLoading.value = false
     })
   }
 }

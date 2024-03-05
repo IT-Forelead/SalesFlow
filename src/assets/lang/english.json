@@ -191,5 +191,6 @@
   "errorWhileEditingUser": "Error while editing user",
   "firstBasket": "First basket",
   "secondBasket": "Second basket",
-  "thirdBasket": "Third basket"
+  "thirdBasket": "Third basket",
+  "errorWhileCreatingOrder": "Error while creating order"
 }

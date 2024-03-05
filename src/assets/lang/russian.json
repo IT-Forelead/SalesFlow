@@ -191,5 +191,6 @@
   "errorWhileEditingUser": "Ошибка при редактировании пользователя",
   "firstBasket": "Первая корзина",
   "secondBasket": "Вторая корзина",
-  "thirdBasket": "Третья корзина"
+  "thirdBasket": "Третья корзина",
+  "errorWhileCreatingOrder": "Ошибка при создании заказа"
 }

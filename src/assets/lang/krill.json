@@ -191,5 +191,6 @@
   "errorWhileEditingUser": "Фойдаланувчини таҳрирлашда хатолик юз берди",
   "firstBasket": "Биринчи сават",
   "secondBasket": "Иккинчи сават",
-  "thirdBasket": "Учинчи сават"
+  "thirdBasket": "Учинчи сават",
+  "errorWhileCreatingOrder": "Буюртма яратишда хатолик юз берди"
 }

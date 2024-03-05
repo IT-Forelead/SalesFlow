@@ -191,5 +191,6 @@
   "errorWhileEditingUser": "Foydalanuvchini tahrirlashda xatolik yuz berdi",
   "firstBasket": "Birinchi savat",
   "secondBasket": "Ikkinchi savat",
-  "thirdBasket": "Uchinchi savat"
+  "thirdBasket": "Uchinchi savat",
+  "errorWhileCreatingOrder": "Buyurtma yaratishda xatolik yuz berdi"
 }
