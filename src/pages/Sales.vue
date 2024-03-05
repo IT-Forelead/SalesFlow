@@ -28,11 +28,7 @@ import BroomIcon from '../assets/icons/BroomIcon.vue'
 import CancelButton from '../components/buttons/CancelButton.vue'
 import Spinners270RingIcon from '../assets/icons/Spinners270RingIcon.vue'
 
-const openCreateSaleModal = () => {
-  showSale.value = false
-  onSearchFocus.value = null
-  useModalStore().openCreateSaleModal()
-}
+
 
 const { t } = useI18n()
 const router = useRouter()
@@ -54,6 +50,8 @@ const totalPrice = ref(0)
 // const totalPriceWithDiscount = ref(0)
 const search = ref('')
 const onSearchFocus = ref(null)
+const onFullNameFocus = ref(null)
+const onPhoneFocus = ref(null)
 const isLoading = ref(false)
 const selectedProducts = ref([])
 const activeBasketStatus = ref('firstBasket')
@@ -61,6 +59,8 @@ const activeBasket = ref([])
 const firstBasket = ref([])
 const secondBasket = ref([])
 const thirdBasket = ref([])
+
+
 
 const baskets = [
   {
@@ -283,6 +283,13 @@ const createOrder = () => {
 
       isLoading.value = false
       clearSubmitData()
+      if (showSale.value) {
+        setTimeout(() => {
+          onSearchFocus.value = null
+          onFullNameFocus.value.focus()
+          
+        }, 1000)
+      }    
     })
   }
 }
@@ -314,12 +321,35 @@ const whenPressEnter = (e) => {
 watchEffect(() => {
   if (onSearchFocus.value) {
     onSearchFocus.value.focus()
+    onFullNameFocus.value = null
+    onPhoneFocus.value = null
+  } else if (onFullNameFocus.value) {
+    onFullNameFocus.value.focus()
+    onSearchFocus.value = null
+  } else if (onPhoneFocus.value) {
+    onPhoneFocus.value.focus()
+    onSearchFocus.value = null
   }
 })
 
 const reFocus = () => {
   if (router?.currentRoute?.value?.path === '/sales' && onSearchFocus.value) {
     onSearchFocus.value.focus()
+  }
+}
+
+const fullNameFocus = () => {
+  onSearchFocus.value = null
+  if (router?.currentRoute?.value?.path === '/sales' && onFullNameFocus.value) {
+    onFullNameFocus.value.focus()
+    
+  }
+}
+
+const phoneFocus = () => {
+  onSearchFocus.value = null
+  if (router?.currentRoute?.value?.path === '/sales' && onPhoneFocus.value) {
+    onPhoneFocus.value.focus()
   }
 }
 
@@ -384,9 +414,9 @@ const closeForm = () => {
 
 const createSale = () => {
   if (!customerForm.fullName) {
-    toast.error('Famliya va ismini kiriting!')
+    toast.error(t('enterFullName'))
   } else if (!customerForm.phone) {
-    toast.error('Telefon raqamni kiriting!')
+    toast.error(t('enterPhone'))
   } else {
     isLoadingCustomerForm.value = true
     CustomerService.createCustomer({
@@ -397,11 +427,11 @@ const createSale = () => {
       .then(() => {
         isLoadingCustomerForm.value = false
         closeForm()
-        toast.success('Chegirma yaratildi!')
+        toast.success(t('customerAddedSuccessfully'))
       })
       .catch((err) => {
         isLoadingCustomerForm.value = false
-        toast.error('Chegirma yaratishda xatolik yuz berdi!')
+        toast.error(t('errorWhileCreatingCustomer'))
       })
   }
 }
@@ -683,23 +713,25 @@ const createSale = () => {
           {{ $t('payment') }}
         </button>
         <div v-if="showSale" class="flex flex-col space-y-8">
-          <h3 class="text-xl font-semibold">Chegirma yaratish</h3>
+          <h3 class="text-xl font-semibold">{{ $t('addCustomer') }}</h3>
 
           <div>
             <div class="flex items-center space-x-4">
               <div class="flex-1">
                 <label for="fullName" class="text-base font-medium">
-                  Familiya va Ismi
+                  {{ $t('fullName') }}
                   <span class="text-red-500 mr-2">*</span>
                 </label>
-                <input id="fullName" type="text" v-model="customerForm.fullName" class="bg-slate-100 border-none text-slate-900 rounded-lg w-full py-2.5 placeholder-slate-400" placeholder="Famliya va ismini kiriting" />
+                <input ref="onFullNameFocus"
+            @blur="fullNameFocus()" id="fullName" type="text" v-model="customerForm.fullName" class="bg-slate-100 border-none text-slate-900 rounded-lg w-full py-2.5 placeholder-slate-400" :placeholder="t('enterFullName')" />
               </div>
               <div class="flex-1">
                 <label for="phone" class="text-base font-medium">
-                  Telefon raqam
+                  {{ $t('phone') }}
                   <span class="text-red-500 mr-2">*</span>
                 </label>
-                <input id="phone" type="text" v-model="customerForm.phone" v-maska data-maska="+998(##) ###-##-##" class="bg-slate-100 border-none text-slate-900 rounded-lg w-full py-2.5 placeholder-slate-400" placeholder="+998(00) 000-00-00" />
+                <input ref="onPhoneFocus"
+            @blur="phoneFocus()" id="phone" type="text" v-model="customerForm.phone" v-maska data-maska="+998(##) ###-##-##" class="bg-slate-100 border-none text-slate-900 rounded-lg w-full py-2.5 placeholder-slate-400" placeholder="+998(00) 000-00-00" />
               </div>
             </div>
           </div>

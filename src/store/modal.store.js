@@ -21,15 +21,8 @@ export const useModalStore = defineStore('modal', {
     isOpenEditProductBarcodeModal: false,
     isOpenCameraScannerModal: false,
     isOpenBarcodeScannerModal: false,
-    isOpenCreateSaleModal:false
   }),
   actions: {
-    openCreateSaleModal() {
-      this.isOpenCreateSaleModal = true
-    },
-    closeCreateSaleModal() {
-      this.isOpenCreateSaleModal = false
-    },
     openCreateProductBarcodeModal() {
       this.isOpenCreateProductBarcodeModal = true
     },

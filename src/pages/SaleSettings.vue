@@ -9,7 +9,9 @@ const isLoading = ref(false)
 onMounted(() => {
   SettingsService.getSettings().then((res) => {
     isLoading.value = true
-    submitData.boundaryPrice = res.boundaryPrice
+    if (res) {
+      submitData.boundaryPrice = res.boundaryPrice
+    }
   }).catch((err) => {
     toast.error("Get Settiings xato!")
   })
@@ -58,14 +60,14 @@ const createSaleSettings = () => {
       <div class="flex relative items-center space-x-4" v-if="isLoading">
         <div class="flex-1 spaceSearchIcon-y-1">
             <label for="price" class="text-base md:text-lg font-medium">
-              Boundary price
+              {{ $t('boundaryPrice')}}
             </label>
             <money3  v-bind="moneyConf" id="price" v-model="submitData.boundaryPrice"
               class="border-none text-right text-gray-500 bg-slate-100 h-11 rounded-lg w-full text-lg">
             </money3>
           </div>
         <div class="flex-1">
-          <button @click="createSaleSettings" class="text-white text-base flex items-center rounded-xl px-4 py-2.5 bg-blue-500 hover:bg-blue-600 absolute bottom-0">Save</button>
+          <button @click="createSaleSettings" class="text-white text-base flex items-center rounded-xl px-4 py-2.5 bg-blue-500 hover:bg-blue-600 absolute bottom-0">{{ $t('save')}}</button>
         </div>
       </div>
     </div>

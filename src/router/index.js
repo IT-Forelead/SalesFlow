@@ -69,7 +69,7 @@ const routes = [
     name: 'Sale settings',
     component: () => import('../pages/SaleSettings.vue'),
     meta: { layout: 'dashboard' },
-    beforeEnter: navigationGuards('view_products'),
+    beforeEnter: navigationGuards('view_settings'),
   },
   {
     path: '/customer-form/:orderId',

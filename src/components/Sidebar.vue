@@ -140,7 +140,7 @@ onMounted(() => {
               {{ $t('barcodes') }}
             </div>
           </router-link>
-          <router-link v-if="navigationGuard('view_products')" to="/sale-settings" @click="selectPage()"
+          <router-link v-if="navigationGuard('view_settings')" to="/sale-settings" @click="selectPage()"
             active-class="active"
             class="relative h-10 flex items-center w-full hover:bg-blue-300/10 hover:text-blue-600 py-7 text-zinc-400 text-lg font-medium space-x-4 cursor-pointer transition-colors duration-300">
             <div class="w-1.5 h-12 rounded-r-xl first-child-bg-color mr-2"></div>
