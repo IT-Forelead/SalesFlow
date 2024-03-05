@@ -25,6 +25,7 @@ import BasketIcon from '../assets/icons/BasketIcon.vue'
 import BroomIcon from '../assets/icons/BroomIcon.vue'
 import axios from 'axios'
 import moment from 'moment'
+import { onClickOutside } from '@vueuse/core'
 
 const API_URL = import.meta.env.VITE_CHEQUE_API_URL;
 
@@ -42,6 +43,7 @@ const submitData = reactive({
   paymentReceived: 0,
 })
 
+const searchProductDropdown = ref(null)
 const totalPrice = ref(0)
 // const totalPriceWithDiscount = ref(0)
 const search = ref('')
@@ -87,6 +89,10 @@ const saleTypeShortTranslate = (type) => {
       return t('g')
   }
 }
+
+onClickOutside(searchProductDropdown, () => {
+  clearSearchInput()
+})
 
 const searchProducts = () => {
   if (!search.value) {
@@ -405,7 +411,7 @@ onMounted(() => {
             class="absolute inset-y-0 right-0 px-4 bg-[#0167F3] text-white rounded-r-xl">
             {{ $t('search') }}
           </button>
-          <div v-if="products.length > 0" class="absolute top-16 left-0 bg-transparent w-full space-y-2">
+          <div v-if="products.length > 0" ref="searchProductDropdown" class="absolute top-16 left-0 bg-transparent w-full space-y-2">
             <div v-for="(product, idx) in products" :key="idx" @click="addProductToCart(product)"
               class="flex items-center justify-between bg-white border shadow-sm rounded-xl px-3 py-2 w-full cursor-pointer hover:bg-slate-100">
               <div class="flex items-center space-x-3">
