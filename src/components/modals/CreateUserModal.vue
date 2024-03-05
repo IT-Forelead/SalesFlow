@@ -232,7 +232,6 @@ watch(
                 <option value="" selected>{{ $t('selectRole') }}</option>
                 <option :value="role.code" v-for="(role, idx) in privileges" :key="idx">{{ role.name }}</option>
               </select>
-              {{selectedRole}}
             </div>
           </div>
           <div class="flex items-center space-x-4">
