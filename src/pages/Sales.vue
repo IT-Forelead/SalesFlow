@@ -279,6 +279,13 @@ const createOrder = () => {
 
       isLoading.value = false
       clearSubmitData()
+      if (showSale.value) {
+        setTimeout(() => {
+          onSearchFocus.value = null
+          onFullNameFocus.value.focus()
+          
+        }, 1000)
+      }
       OrderService.getOrderById(res)
         .then((res) => {
           printChaque(
@@ -731,11 +738,45 @@ const createSale = () => {
           </div>
         </div>
       </div>
-
-      <button @click="createOrder()"
+      <div class="space-y-12">
+        <button @click="createOrder()"
         class="w-full xl:py-3 px-4 lg:py-2 py-3 rounded-full text-white text-lg font-medium bg-blue-500 cursor-pointer hover:bg-blue-600">
         {{ $t('payment') }}
       </button>
+        <div v-if="showSale" class="flex flex-col space-y-8">
+          <h3 class="text-xl font-semibold">{{ $t('addCustomer') }}</h3>
+
+          <div>
+            <div class="flex items-center space-x-4">
+              <div class="flex-1">
+                <label for="fullName" class="text-base font-medium">
+                  {{ $t('fullName') }}
+                  <span class="text-red-500 mr-2">*</span>
+                </label>
+                <input ref="onFullNameFocus"
+            @blur="fullNameFocus()" id="fullName" type="text" v-model="customerForm.fullName" class="bg-slate-100 border-none text-slate-900 rounded-lg w-full py-2.5 placeholder-slate-400" :placeholder="t('enterFullName')" />
+              </div>
+              <div class="flex-1">
+                <label for="phone" class="text-base font-medium">
+                  {{ $t('phone') }}
+                  <span class="text-red-500 mr-2">*</span>
+                </label>
+                <input ref="onPhoneFocus"
+            @blur="phoneFocus()" id="phone" type="text" v-model="customerForm.phone" v-maska data-maska="+998(##) ###-##-##" class="bg-slate-100 border-none text-slate-900 rounded-lg w-full py-2.5 placeholder-slate-400" placeholder="+998(00) 000-00-00" />
+              </div>
+            </div>
+          </div>
+
+          <div>
+            <CancelButton @click="closeForm" />
+            <button v-if="isLoadingCustomerForm" type="bSearchIconutton" class="inline-flex items-center justify-center ms-3 text-white bg-blue-600 focus:ring-4 focus:outline-none focus:ring-slate-300 rounded-xl border border-slate-200 text-sm font-medium px-5 py-2.5 focus:z-10 cursor-default">
+              <Spinners270RingIcon class="mr-2 w-5 h-5 text-gray-200 animate-spin dark:text-gray-600 fill-gray-600 dark:fill-gray-300" />
+              {{ $t('create') }}
+            </button>
+            <button v-else @click="createSale()" type="button" class="ms-3 text-white bg-blue-500 hover:bg-blue-600 focus:ring-4 focus:outline-none focus:ring-slate-300 rounded-xl border border-slate-200 text-sm font-medium px-5 py-2.5 focus:z-10">{{ $t('create') }}</button>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </template>
