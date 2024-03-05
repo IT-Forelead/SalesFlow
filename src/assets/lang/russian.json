@@ -144,6 +144,7 @@
   "plsEnterlastname": "Пожалуйста, введите фамилию!",
   "plsEnterlogin": "Пожалуйста, введите логин!",
   "plsEnterPhoneNumber": "Пожалуйста, введите номер телефона!",
+  "plsEnterValidPhoneNumber": "Пожалуйста, введите правильный номер телефона!",
   "plsSelectStore": "Пожалуйста, выберите магазин!",
   "plsSelectRole": "Пожалуйста, выберите роль!",
   "plsEnterPassword": "Пожалуйста, введите пароль!",
