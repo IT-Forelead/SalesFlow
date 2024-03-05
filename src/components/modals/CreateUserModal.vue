@@ -126,6 +126,8 @@ const createUser = () => {
     toast.warning(t('plsEnterlogin'))
   } else if (!submitForm.phone) {
     toast.warning(t('plsEnterPhoneNumber'))
+  } else if (submitForm.phone.length !== 18) {
+    toast.warning(t('plsEnterPhoneNumber'))
   } else if (!submitForm.marketId) {
     toast.warning(t('plsSelectStore'))
   } else if (submitForm.privileges.length === 0) {
