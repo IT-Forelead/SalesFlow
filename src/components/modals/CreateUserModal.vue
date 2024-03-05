@@ -16,6 +16,7 @@ import CModal from '../common/CModal.vue'
 import { useI18n } from 'vue-i18n'
 
 const { t } = useI18n()
+const phoneRegex = /\+998[1-9][\d]{8}/;
 
 const isLoading = ref(false)
 const hidePassword = ref(true)
@@ -126,6 +127,8 @@ const createUser = () => {
     toast.warning(t('plsEnterlogin'))
   } else if (!submitForm.phone) {
     toast.warning(t('plsEnterPhoneNumber'))
+  } else if (submitForm.phone && !phoneRegex.test(submitForm.phone.replace(/([() -])/g, ''))) {
+    toast.warning(t('plsEnterValidPhoneNumber'))
   } else if (!submitForm.marketId) {
     toast.warning(t('plsSelectStore'))
   } else if (submitForm.privileges.length === 0) {

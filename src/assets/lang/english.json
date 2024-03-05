@@ -144,6 +144,7 @@
   "plsEnterlastname": "Please enter last name!",
   "plsEnterlogin": "Please enter login!",
   "plsEnterPhoneNumber": "Please enter a phone number!",
+  "plsEnterValidPhoneNumber": "Please enter a valid phone number!",
   "plsSelectStore": "Please select a store!",
   "plsSelectRole": "Please select a role!",
   "plsEnterPassword": "Please enter password!",
