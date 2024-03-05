@@ -64,7 +64,7 @@ const closeModal = () => {
 const createProduct = () => {
   if (!submitData.name) {
     toast.error(t('plsEnterProductName'))
-  } else if (!isBarcode(submitData.barcode)) {
+  } else if (submitData.barcode && !isBarcode(submitData.barcode)) {
     toast.error(t('barcodeIsInvalid'))
   } else if (!submitData.packaging) {
     toast.error(t('plsEnterProductPackaging'))
