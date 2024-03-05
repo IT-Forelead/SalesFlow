@@ -53,7 +53,7 @@ const columns = [
         h(EditIcon, { class: 'w-6 h-6 text-blue-600 hover:scale-105' })
       ]),
       h('button', { onClick: () => { openDeleteMarketModal(row.original) } }, [
-        h(TrashIcon, { class: 'w-6 h-6 text-red-600 hover:scale-105' })
+        // h(TrashIcon, { class: 'w-6 h-6 text-red-600 hover:scale-105' })
       ]),
     ]),
     enableSorting: false,
