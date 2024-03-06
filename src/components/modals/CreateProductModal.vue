@@ -32,6 +32,7 @@ const moneyConf = {
   precision: 0,
 }
 
+const onSearchFocus = ref(null)
 const isLoading = ref(false)
 const isSearching = ref(false)
 const searchProductBarcode = ref('')
@@ -109,54 +110,28 @@ const searchProductBarcodes = () => {
     toast.error(t('plsEnterProductNameOrBarcode'))
   } else {
     isSearching.value = true
-    if (isBarcode(searchProductBarcode.value)) {
-      ProductService.getBarcodeProductByFilter(
-        cleanObjectEmptyFields({
-          barcode: searchProductBarcode.value
-        })
-      ).then((res) => {
-        if (res.length == 0) {
-          toast.error(t('thereIsNoSuchBarcodeProduct'))
-          clearSubmitData()
-          submitData.barcode = searchProductBarcode.value
-        } else if (res.length == 1) {
-          useBarcodeStore().setDecodedBarcode('')
-          productBarcode.value = res[0]
-        } else {
-          useBarcodeStore().setDecodedBarcode('')
-          productBarcodes.value = res
-        }
+    ProductService.searchProductBarcodeByParams({
+      search: searchProductBarcode.value
+    }).then((res) => {
+      if (res.length == 0) {
+        toast.error(t('thereIsNoSuchBarcodeProduct'))
+        clearSubmitData()
+        submitData.barcode = searchProductBarcode.value
+      } else if (res.length == 1) {
+        useBarcodeStore().setDecodedBarcode('')
+        productBarcode.value = res[0]
+      } else {
+        useBarcodeStore().setDecodedBarcode('')
+        productBarcodes.value = res
+      }
+      isSearching.value = false
+      searchProductBarcode.value = ''
+    }).catch((err) => {
+      toast.error(t('errorGettingProduct'))
+      setTimeout(() => {
         isSearching.value = false
-        searchProductBarcode.value = ''
-      }).catch((err) => {
-        toast.error(t('errorGettingProduct'))
-        setTimeout(() => {
-          isSearching.value = false
-        }, 3000)
-      })
-    } else {
-      ProductService.getBarcodeProductByFilter(
-        cleanObjectEmptyFields({
-          name: searchProductBarcode.value
-        })
-      ).then((res) => {
-        if (res.length == 0) {
-          toast.error(t('thereIsNoSuchBarcodeProduct'))
-          clearSubmitData()
-        } else if (res.length == 1) {
-          productBarcode.value = res[0]
-        } else {
-          productBarcodes.value = res
-        }
-        isSearching.value = false
-        searchProductBarcode.value = ''
-      }).catch((err) => {
-        toast.error(t('errorGettingProduct'))
-        setTimeout(() => {
-          isSearching.value = false
-        }, 3000)
-      })
-    }
+      }, 3000)
+    })
   }
 }
 
@@ -170,8 +145,6 @@ const whenPressEnter = (e) => {
     searchProductBarcodes()
   }
 }
-
-const onSearchFocus = ref(null)
 
 watchEffect(() => {
   if (onSearchFocus.value) {

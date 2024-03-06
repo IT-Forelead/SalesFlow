@@ -28,6 +28,9 @@ class ProductService {
   async getBestSellerStats(data){
     return AxiosService.post('/product/best-seller/weekly-stats', data)
   }
+  async searchProductBarcodeByParams(data){
+    return AxiosService.post('/product/barcode-search', data)
+  }
 }
 
 export default new ProductService()
