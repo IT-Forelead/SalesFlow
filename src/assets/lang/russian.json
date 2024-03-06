@@ -152,6 +152,7 @@
   "plsEnterlastname": "Пожалуйста, введите фамилию!",
   "plsEnterlogin": "Пожалуйста, введите логин!",
   "plsEnterPhoneNumber": "Пожалуйста, введите номер телефона!",
+  "plsEnterValidPhoneNumber": "Пожалуйста, введите правильный номер телефона!",
   "plsSelectStore": "Пожалуйста, выберите магазин!",
   "plsSelectRole": "Пожалуйста, выберите роль!",
   "plsEnterPassword": "Пожалуйста, введите пароль!",
@@ -198,5 +199,7 @@
   "errorWhileEditingUser": "Ошибка при редактировании пользователя",
   "firstBasket": "Первая корзина",
   "secondBasket": "Вторая корзина",
-  "thirdBasket": "Третья корзина"
+  "thirdBasket": "Третья корзина",
+  "errorWhileCreatingOrder": "Ошибка при создании заказа",
+  "clearTheBasket": "Очистить корзину"
 }

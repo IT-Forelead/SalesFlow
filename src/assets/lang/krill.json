@@ -152,6 +152,7 @@
   "plsEnterlastname": "Илтимос, фамилияни киритинг!",
   "plsEnterlogin": "Илтимос, логинни киритинг!",
   "plsEnterPhoneNumber": "Илтимос, телефон рақамини киритинг!",
+  "plsEnterValidPhoneNumber": "Илтимос, тўғри телефон рақамини киритинг!",
   "plsSelectStore": "Илтимос, дўкон танланг!",
   "plsSelectRole": "Илтимос, роль танланг!",
   "plsEnterPassword": "Илтимос, паролни киритинг!",
@@ -198,5 +199,7 @@
   "errorWhileEditingUser": "Фойдаланувчини таҳрирлашда хатолик юз берди",
   "firstBasket": "Биринчи сават",
   "secondBasket": "Иккинчи сават",
-  "thirdBasket": "Учинчи сават"
+  "thirdBasket": "Учинчи сават",
+  "errorWhileCreatingOrder": "Буюртма яратишда хатолик юз берди",
+  "clearTheBasket": "Саватни тозалаш"
 }

@@ -152,6 +152,7 @@
   "plsEnterlastname": "Iltimos, familiyani kiriting!",
   "plsEnterlogin": "Iltimos, loginni kiriting!",
   "plsEnterPhoneNumber": "Iltimos, telefon raqamini kiriting!",
+  "plsEnterValidPhoneNumber": "Iltimos, to'g'ri telefon raqamini kiriting!",
   "plsSelectStore": "Iltimos, do'kon tanlang!",
   "plsSelectRole": "Iltimos, rol tanlang!",
   "plsEnterPassword": "Iltimos, parolni kiriting!",
@@ -167,9 +168,9 @@
   "confirmPassword": "Parolni tasdiqlang",
   "enterFirstname": "Ismni kiriting",
   "enterLastname": "Familiyani kiriting",
-  "enterLogin": "Kirish",
+  "enterLogin": "Login kiriting",
   "enterPhone": "Telefonni kiriting",
-  "selectRole": "rolni tanlang",
+  "selectRole": "Rolni tanlang",
   "selectStore": "Do'konni tanlang",
   "enterPassword": "Parolni kiriting",
   "enterThePasswordAgain": "Parolni yana kiriting",
@@ -198,5 +199,7 @@
   "errorWhileEditingUser": "Foydalanuvchini tahrirlashda xatolik yuz berdi",
   "firstBasket": "Birinchi savat",
   "secondBasket": "Ikkinchi savat",
-  "thirdBasket": "Uchinchi savat"
+  "thirdBasket": "Uchinchi savat",
+  "errorWhileCreatingOrder": "Buyurtma yaratishda xatolik yuz berdi",
+  "clearTheBasket": "Savatni tozalash"
 }

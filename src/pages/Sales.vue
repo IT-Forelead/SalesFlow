@@ -27,6 +27,7 @@ import BasketIcon from '../assets/icons/BasketIcon.vue'
 import BroomIcon from '../assets/icons/BroomIcon.vue'
 import axios from 'axios'
 import moment from 'moment'
+import { onClickOutside } from '@vueuse/core'
 
 const API_URL = import.meta.env.VITE_CHEQUE_API_URL;
 
@@ -43,9 +44,8 @@ const submitData = reactive({
   discountPercent: 0,
   paymentReceived: 0,
 })
-const orderId = ref()
-const boundaryPrice = ref(300000)
-const showSale = ref(false)
+
+const searchProductDropdown = ref(null)
 const totalPrice = ref(0)
 // const totalPriceWithDiscount = ref(0)
 const search = ref('')
@@ -95,6 +95,10 @@ const saleTypeShortTranslate = (type) => {
       return t('g')
   }
 }
+
+onClickOutside(searchProductDropdown, () => {
+  clearSearchInput()
+})
 
 const searchProducts = () => {
   if (!search.value) {
@@ -283,7 +287,7 @@ const createOrder = () => {
         setTimeout(() => {
           onSearchFocus.value = null
           onFullNameFocus.value.focus()
-          
+
         }, 1000)
       }
       OrderService.getOrderById(res)
@@ -309,6 +313,9 @@ const createOrder = () => {
               "time": moment(res?.createdAt).format('DD/MM/YYYY H:mm')
             })
         })
+    }).catch((err) => {
+      toast.error(t('errorWhileCreatingOrder'))
+      isLoading.value = false
     })
   }
 }
@@ -487,7 +494,7 @@ const createSale = () => {
             class="absolute inset-y-0 right-0 px-4 bg-[#0167F3] text-white rounded-r-xl">
             {{ $t('search') }}
           </button>
-          <div v-if="products.length > 0" class="absolute top-16 left-0 bg-transparent w-full space-y-2">
+          <div v-if="products.length > 0" ref="searchProductDropdown" class="absolute top-16 left-0 bg-transparent w-full space-y-2">
             <div v-for="(product, idx) in products" :key="idx" @click="addProductToCart(product)"
               class="flex items-center justify-between bg-white border shadow-sm rounded-xl px-3 py-2 w-full cursor-pointer hover:bg-slate-100">
               <div class="flex items-center space-x-3">
@@ -517,11 +524,11 @@ const createSale = () => {
             </div>
           </div>
         </div>
-        <div @click="useModalStore().openCameraScannerModal()"
+        <div @click="useModalStore().openCameraScannerModal()" :title="t('barcodeScanning')"
           class="flex items-center justify-center bg-slate-100 rounded-xl h-12 w-12 cursor-pointer">
           <BarcodeIcon class="w-6 h-6 text-blue-600" />
         </div>
-        <div @click="clearSubmitData()"
+        <div @click="clearSubmitData()" :title="t('clearTheBasket')"
           class="hidden md:flex items-center justify-center bg-slate-100 rounded-xl h-12 w-12 cursor-pointer">
           <BroomIcon class="w-5 h-5 text-blue-600" />
         </div>

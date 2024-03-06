@@ -16,11 +16,12 @@ import CModal from '../common/CModal.vue'
 import { useI18n } from 'vue-i18n'
 
 const { t } = useI18n()
+const phoneRegex = /\+998[1-9][\d]{8}/;
 
 const isLoading = ref(false)
 const hidePassword = ref(true)
-const selectedRole = ref([])
 const markets = ref([])
+const selectedRole = ref('')
 
 const privileges = ref([
   {
@@ -38,23 +39,6 @@ const privileges = ref([
       'view_orders',
       'view_products',
       'view_settings'
-    ],
-  },
-  {
-    name: t('admin'),
-    code: [
-      'create_barcode',
-      'create_market',
-      'create_user',
-      'dashboard',
-      'update_barcode',
-      'update_user',
-      'view_barcodes',
-      'view_histories',
-      'view_markets',
-      'view_orders',
-      'view_products',
-      'view_users'
     ],
   },
   {
@@ -106,8 +90,9 @@ const clearForm = () => {
   submitForm.login = ''
   submitForm.phone = ''
   submitForm.marketId = ''
-  submitForm.privileges = ''
+  submitForm.privileges = []
   submitForm.password = ''
+  submitForm.confirmPassword = ''
 }
 
 const closeModal = () => {
@@ -116,7 +101,6 @@ const closeModal = () => {
 }
 
 const createUser = () => {
-  submitForm.privileges = selectedRole.value.flatMap(role => role.code)
   if (!submitForm.firstname) {
     toast.warning(t('plsEnterFirstname'))
   } else if (!submitForm.lastname) {
@@ -125,9 +109,11 @@ const createUser = () => {
     toast.warning(t('plsEnterlogin'))
   } else if (!submitForm.phone) {
     toast.warning(t('plsEnterPhoneNumber'))
+  } else if (submitForm.phone && !phoneRegex.test(submitForm.phone.replace(/([() -])/g, ''))) {
+    toast.warning(t('plsEnterValidPhoneNumber'))
   } else if (!submitForm.marketId) {
     toast.warning(t('plsSelectStore'))
-  } else if (submitForm.privileges.length === 0) {
+  } else if (!selectedRole.value.length) {
     toast.warning(t('plsSelectRole'))
   } else if (!submitForm.password) {
     toast.warning(t('plsEnterPassword'))
@@ -144,7 +130,7 @@ const createUser = () => {
         login: submitForm.login,
         phone: submitForm.phone.replace(/([() -])/g, ''),
         marketId: submitForm.marketId,
-        privileges: submitForm.privileges,
+        privileges: selectedRole.value,
         password: submitForm.password,
       })
     ).then(() => {
@@ -230,7 +216,7 @@ watch(
                 <span class="text-red-500 mr-2">*</span>
               </label>
               <select id="market" v-model="submitForm.marketId"
-                class="bg-slate-100 border-none text-slate-900 rounded-lg block w-full h-11">
+                class="bg-slate-100 border-none text-slate-900 rounded-lg block w-full">
                 <option value="" selected>{{ $t('selectStore') }}</option>
                 <option v-for="(market, idx) in markets" :key="idx" :value="market?.id">
                   {{ market?.name }}
@@ -242,10 +228,10 @@ watch(
                 {{ $t('role') }}
                 <span class="text-red-500 mr-2">*</span>
               </label>
-              <MultiSelect :show-toggle-all="false" :display="'chip'" :select-all="false"
-                panel-class="bg-slate-100 rounded-2xl" v-model="selectedRole" :options="privileges" optionLabel="name"
-                :placeholder="t('selectRole')" :maxSelectedLabels="1" :selection-limit="1"
-                class="bg-slate-100 border-none text-slate-900 rounded-lg w-full placeholder-slate-400" />
+              <select id="role" v-model="selectedRole" class="bg-slate-100 border-none text-slate-900 rounded-lg w-full placeholder-slate-400">
+                <option value="" selected>{{ $t('selectRole') }}</option>
+                <option :value="role.code" v-for="(role, idx) in privileges" :key="idx">{{ role.name }}</option>
+              </select>
             </div>
           </div>
           <div class="flex items-center space-x-4">

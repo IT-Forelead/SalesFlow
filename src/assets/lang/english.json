@@ -151,6 +151,7 @@
   "plsEnterlastname": "Please enter last name!",
   "plsEnterlogin": "Please enter login!",
   "plsEnterPhoneNumber": "Please enter a phone number!",
+  "plsEnterValidPhoneNumber": "Please enter valid a phone number!",
   "plsSelectStore": "Please select a store!",
   "plsSelectRole": "Please select a role!",
   "plsEnterPassword": "Please enter password!",
@@ -197,5 +198,7 @@
   "errorWhileEditingUser": "Error while editing user",
   "firstBasket": "First basket",
   "secondBasket": "Second basket",
-  "thirdBasket": "Third basket"
+  "thirdBasket": "Third basket",
+  "errorWhileCreatingOrder": "Error while creating order",
+  "clearTheBasket": "Clear the basket"
 }
