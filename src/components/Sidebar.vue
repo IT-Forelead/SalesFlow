@@ -6,6 +6,7 @@ import PhShoppingCart from '../assets/icons/ShoppingCartIcon.vue'
 import PhBarcodeIcon from '../assets/icons/BarcodeIcon.vue'
 import UsersIcon from '../assets/icons/UsersIcon.vue'
 import StoreIcon from '../assets/icons/StoreIcon.vue'
+import SunIcon from '../assets/icons/SunIcon.vue'
 import { useRouter } from 'vue-router'
 import { useI18n } from 'vue-i18n'
 import decodeJwt, { parseJwt } from '../mixins/utils';
@@ -146,7 +147,7 @@ onMounted(() => {
           <SelectOptionLanguage />
           <div class="flex-1 flex items-center justify-between rounded-lg bg-white p-2 cursor-pointer hover:bg-gray-100">
             <div class="flex items-center space-x-1">
-              <GlobeIcon class="w-5 h-5 text-gray-500" />
+              <SunIcon class="w-5 h-5 text-gray-500" />
               <span>Light</span>
             </div>
             <CaretDownIcon class="w-3 h-3" />
