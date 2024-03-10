@@ -1,5 +1,5 @@
 <script setup>
-import { reactive, ref } from 'vue'
+import { onMounted, reactive, ref } from 'vue'
 import { useRouter } from 'vue-router'
 import { toast } from 'vue-sonner'
 import EyeIcon from '../assets/icons/EyeIcon.vue'
@@ -9,6 +9,7 @@ import AuthService from '../services/auth.service'
 import decodeJwt from '../mixins/utils'
 import { useAuthStore } from '../store/auth.store'
 import { useI18n } from 'vue-i18n'
+import { parseJwt } from '../mixins/utils.js'
 
 const { t } = useI18n()
 
@@ -26,48 +27,48 @@ const togglePassword = () => (hidePassword.value = !hidePassword.value)
 const getRole = (privileges) => {
   switch (true) {
     case
-    privileges.includes('create_barcode') &&
-    privileges.includes('create_market') &&
-    privileges.includes('create_user') &&
-    privileges.includes('dashboard') &&
-    privileges.includes('update_barcode') &&
-    privileges.includes('view_barcodes') &&
-    privileges.includes('view_histories') &&
-    privileges.includes('view_markets') &&
-    privileges.includes('view_orders') &&
-    privileges.includes('view_products') &&
-    privileges.includes('view_users'):
+      privileges.includes('create_barcode') &&
+      privileges.includes('create_market') &&
+      privileges.includes('create_user') &&
+      privileges.includes('dashboard') &&
+      privileges.includes('update_barcode') &&
+      privileges.includes('view_barcodes') &&
+      privileges.includes('view_histories') &&
+      privileges.includes('view_markets') &&
+      privileges.includes('view_orders') &&
+      privileges.includes('view_products') &&
+      privileges.includes('view_users'):
       return t('admin')
     case
-    privileges.includes('create_history') &&
-    privileges.includes('create_order') &&
-    privileges.includes('create_product') &&
-    privileges.includes('create_user') &&
-    privileges.includes('dashboard') &&
-    privileges.includes('find_barcode') &&
-    privileges.includes('find_order') &&
-    privileges.includes('update_product') &&
-    privileges.includes('update_settings') &&
-    privileges.includes('view_histories') &&
-    privileges.includes('view_markets') &&
-    privileges.includes('view_orders') &&
-    privileges.includes('view_products') &&
-    privileges.includes('view_settings') &&
-    privileges.includes('view_users'):
+      privileges.includes('create_history') &&
+      privileges.includes('create_order') &&
+      privileges.includes('create_product') &&
+      privileges.includes('create_user') &&
+      privileges.includes('dashboard') &&
+      privileges.includes('find_barcode') &&
+      privileges.includes('find_order') &&
+      privileges.includes('update_product') &&
+      privileges.includes('update_settings') &&
+      privileges.includes('view_histories') &&
+      privileges.includes('view_markets') &&
+      privileges.includes('view_orders') &&
+      privileges.includes('view_products') &&
+      privileges.includes('view_settings') &&
+      privileges.includes('view_users'):
       return t('manager')
     case
-    privileges.includes('create_history') &&
-    privileges.includes('create_order') &&
-    privileges.includes('create_product') &&
-    privileges.includes('dashboard') &&
-    privileges.includes('find_barcode') &&
-    privileges.includes('find_order') &&
-    privileges.includes('update_product') &&
-    privileges.includes('update_settings') &&
-    privileges.includes('view_histories') &&
-    privileges.includes('view_orders') &&
-    privileges.includes('view_products')&&
-    privileges.includes('view_settings'):
+      privileges.includes('create_history') &&
+      privileges.includes('create_order') &&
+      privileges.includes('create_product') &&
+      privileges.includes('dashboard') &&
+      privileges.includes('find_barcode') &&
+      privileges.includes('find_order') &&
+      privileges.includes('update_product') &&
+      privileges.includes('update_settings') &&
+      privileges.includes('view_histories') &&
+      privileges.includes('view_orders') &&
+      privileges.includes('view_products') &&
+      privileges.includes('view_settings'):
       return t('cashier')
     default:
       return t('user')
@@ -108,6 +109,16 @@ const login = () => {
     })
   }
 }
+
+onMounted(() => {
+  if (localStorage.getItem('session')) {
+    if (getRole(parseJwt()?.privileges) === t('cashier')) {
+      router.push('/sales')
+    } else {
+      router.push('/dashboard')
+    }
+  }
+})
 </script>
 
 <template>
