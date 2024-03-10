@@ -28,9 +28,8 @@ onMounted(() => {
       isOrderNotExists.value = true
     }
   }).catch((err) => {
-     isOrderExists.value = true
-     
-    })
+    isOrderNotExists.value = true
+  })
 })
 
 const submitData = reactive({

@@ -17,6 +17,7 @@ import useMoneyFormatter from '../mixins/currencyFormatter.js'
 import ProductService from '../services/product.service'
 import OrderService from '../services/order.service'
 import CustomerService from '../services/customer.service'
+import SettingsService from '../services/settings.service'
 import { useProductStore } from '../store/product.store'
 import { useModalStore } from '../store/modal.store'
 import { useBarcodeStore } from '../store/barcode.store'
@@ -25,11 +26,18 @@ import { isBarcode } from '../mixins/barcodeFormatter'
 import { useI18n } from 'vue-i18n'
 import BasketIcon from '../assets/icons/BasketIcon.vue'
 import BroomIcon from '../assets/icons/BroomIcon.vue'
-import axios from 'axios'
-import moment from 'moment'
-import { onClickOutside } from '@vueuse/core'
+import CancelButton from '../components/buttons/CancelButton.vue'
+import Spinners270RingIcon from '../assets/icons/Spinners270RingIcon.vue'
 
-const API_URL = import.meta.env.VITE_CHEQUE_API_URL;
+const boundaryPrice = ref(0)
+onMounted(() => {
+  SettingsService.getSettings().then((res) => {
+    isLoading.value = true
+    boundaryPrice.value = res.boundaryPrice
+  }).catch((err) => {
+    toast.error("Get Settiings xato!")
+  })
+});
 
 const { t } = useI18n()
 const router = useRouter()
@@ -44,8 +52,8 @@ const submitData = reactive({
   discountPercent: 0,
   paymentReceived: 0,
 })
-
-const searchProductDropdown = ref(null)
+const orderId = ref()
+const showSale = ref(false)
 const totalPrice = ref(0)
 // const totalPriceWithDiscount = ref(0)
 const search = ref('')
@@ -59,8 +67,6 @@ const activeBasket = ref([])
 const firstBasket = ref([])
 const secondBasket = ref([])
 const thirdBasket = ref([])
-
-
 
 const baskets = [
   {
@@ -88,17 +94,13 @@ const saleTypeShortTranslate = (type) => {
     case 'amount':
       return t('piece')
     case 'litre':
-      return t('litre')
+      return t('litr')
     case 'kg':
       return t('kg')
     case 'g':
       return t('g')
   }
 }
-
-onClickOutside(searchProductDropdown, () => {
-  clearSearchInput()
-})
 
 const searchProducts = () => {
   if (!search.value) {
@@ -126,8 +128,12 @@ const searchProducts = () => {
         })
       ).then((res) => {
         isLoading.value = false
-        useProductStore().clearStore()
-        useProductStore().setProducts(res.data)
+        if (res.data.length == 1) {
+          addProductToCart(res.data[0])
+        } else {
+          useProductStore().clearStore()
+          useProductStore().setProducts(res.data)
+        }
       })
     }
   }
@@ -277,6 +283,7 @@ const createOrder = () => {
       if (totalPrice.value >= boundaryPrice.value) {
         orderId.value = res
         showSale.value = true
+        onSearchFocus.value = null
       } else {
         showSale.value = false
       }
@@ -286,47 +293,10 @@ const createOrder = () => {
       if (showSale.value) {
         setTimeout(() => {
           onSearchFocus.value = null
-          onFullNameFocus.value.focus()
-
-        }, 1000)
-      }
-      OrderService.getOrderById(res)
-        .then((res) => {
-          printChaque(
-            {
-              "cashier": res?.cashierFirstName + " " + res.cashierLastName,
-              "discount": res?.discountPercent ?? 0,
-              "discount_amount": res?.discountPrice ?? 0,
-              "final_price": res?.totalPrice,
-              "market": res?.marketName,
-              "paid": res?.paymentReceived,
-              "price": res?.initialPrice,
-              "products": res?.items.map((item) => {
-                return {
-                  "count": item?.amount,
-                  "name": item?.productName,
-                  "packaging": item?.packaging,
-                  "price": item?.salePrice,
-                  "total": item?.price,
-                }
-              }),
-              "time": moment(res?.createdAt).format('DD/MM/YYYY H:mm')
-            })
-        })
-    }).catch((err) => {
-      toast.error(t('errorWhileCreatingOrder'))
-      isLoading.value = false
+        }, 3000)
+      }    
     })
   }
-}
-
-async function printChaque(data) {
-  await axios.post(API_URL + '/print', data)
-    .then(async (res) => {
-      console.log("Chaque printed");
-    }).catch((err) => {
-      console.log("Chaque not printed");
-    })
 }
 
 watch(
@@ -354,37 +324,47 @@ const whenPressEnter = (e) => {
 }
 
 watchEffect(() => {
+  
   if (onSearchFocus.value) {
     onSearchFocus.value.focus()
     onFullNameFocus.value = null
     onPhoneFocus.value = null
-  } else if (onFullNameFocus.value) {
+  }
+})
+watchEffect(() => {
+  if (onFullNameFocus.value) {
     onFullNameFocus.value.focus()
     onSearchFocus.value = null
-  } else if (onPhoneFocus.value) {
+    onPhoneFocus.value = null
+  }
+})
+watchEffect(() => {
+  if (onPhoneFocus.value) {
     onPhoneFocus.value.focus()
     onSearchFocus.value = null
+    onFullNameFocus.value = null
   }
 })
 
-const reFocus = () => {
+const reFocus = () => {  
   if (router?.currentRoute?.value?.path === '/sales' && onSearchFocus.value) {
     onSearchFocus.value.focus()
   }
 }
 
-const fullNameFocus = () => {
-  onSearchFocus.value = null
+const fullNameFocus = () => { 
   if (router?.currentRoute?.value?.path === '/sales' && onFullNameFocus.value) {
     onFullNameFocus.value.focus()
-
+    onSearchFocus.value = null
+    onPhoneFocus.value = null
   }
 }
 
 const phoneFocus = () => {
-  onSearchFocus.value = null
   if (router?.currentRoute?.value?.path === '/sales' && onPhoneFocus.value) {
     onPhoneFocus.value.focus()
+    onSearchFocus.value = null
+    onFullNameFocus.value = null
   }
 }
 
@@ -462,18 +442,18 @@ const createSale = () => {
       .then(() => {
         isLoadingCustomerForm.value = false
         closeForm()
-        toast.success(t('customerAddedSuccessfully'))
+        toast.success('Chegirma yaratildi!')
       })
       .catch((err) => {
         isLoadingCustomerForm.value = false
-        toast.error(t('errorWhileCreatingCustomer'))
+        toast.error('Chegirma yaratishda xatolik yuz berdi!')
       })
   }
 }
 </script>
 
 <template>
-  <div v-if="products.length > 0" class="fixed top-0 right-0 bottom-0 left-0 z-40 backdrop-blur-[2px] bg-gray-900/70">
+  <div v-if="products.length > 0" class="fixed top-0 right-0 bottom-0 left-0 z-50 backdrop-blur-[2px] bg-gray-900/70">
   </div>
   <div class="flex flex-col md:flex-row">
     <div class="flex-auto md:w-2/3 w-full space-y-4 py-8 px-4 md:px-8">
@@ -484,7 +464,7 @@ const createSale = () => {
           </div>
           <input v-model="search" v-on:keypress="whenPressEnter($event)" type="search" ref="onSearchFocus"
             @blur="reFocus()"
-            class="bg-slate-100 border-none text-slate-900 text-base md:text-lg rounded-xl block w-full h-12 pl-10 py-2 placeholder-slate-400 placeholder:text-sm md:placeholder:text-lg lg:placeholder:text-base"
+            class="bg-slate-100 border-none text-slate-900 text-base md:text-lg rounded-xl block w-full h-12 pl-10 py-2 placeholder-slate-400 placeholder:text-sm md:placeholder:text-lg"
             :placeholder="t('searchByProductNameOrBarcode')">
           <div v-if="search" @click="clearSearchInput()"
             class="absolute inset-y-0 right-20 p-1 flex items-center cursor-pointer">
@@ -494,7 +474,7 @@ const createSale = () => {
             class="absolute inset-y-0 right-0 px-4 bg-[#0167F3] text-white rounded-r-xl">
             {{ $t('search') }}
           </button>
-          <div v-if="products.length > 0" ref="searchProductDropdown" class="absolute top-16 left-0 bg-transparent w-full space-y-2">
+          <div v-if="products.length > 0" class="absolute top-16 left-0 bg-transparent w-full space-y-2">
             <div v-for="(product, idx) in products" :key="idx" @click="addProductToCart(product)"
               class="flex items-center justify-between bg-white border shadow-sm rounded-xl px-3 py-2 w-full cursor-pointer hover:bg-slate-100">
               <div class="flex items-center space-x-3">
@@ -524,27 +504,26 @@ const createSale = () => {
             </div>
           </div>
         </div>
-        <div @click="useModalStore().openCameraScannerModal()" :title="t('barcodeScanning')"
+        <div @click="useModalStore().openCameraScannerModal()"
           class="flex items-center justify-center bg-slate-100 rounded-xl h-12 w-12 cursor-pointer">
           <BarcodeIcon class="w-6 h-6 text-blue-600" />
         </div>
-        <div @click="clearSubmitData()" :title="t('clearTheBasket')"
-          class="hidden md:flex items-center justify-center bg-slate-100 rounded-xl h-12 w-12 cursor-pointer">
+        <div @click="clearSubmitData()" class="hidden md:flex items-center justify-center bg-slate-100 rounded-xl h-12 w-12 cursor-pointer">
           <BroomIcon class="w-5 h-5 text-blue-600" />
         </div>
       </div>
 
-      <div class="flex items-center justify-between space-x-2">
+      <div class="flex items-center justify-between">
         <div class="text-slate-900 text-2xl md:text-3xl font-semibold">
           {{ $t('shoppingCart') }}
         </div>
-        <div class="flex space-x-2">
+        <div class="flex flex-wrap space-x-2">
           <div v-for="(basket, idx) in baskets" :key="idx" @click="changeBasketStatus(basket.id)"
-            class="px-4 py-2 inline-flex flex-col xl:flex-row sm:flex items-center leading-none border-b-2 rounded-xl"
-            :class="activeBasketStatus === basket.id ? 'bg-slate-100 border-blue-500' : 'bg-slate-50 border-slate-200 cursor-pointer'">
+            class="px-6 py-2 inline-flex items-center leading-none border-b-2 rounded-xl"
+            :class="activeBasketStatus == basket.id ? 'bg-slate-100 border-blue-500' : 'bg-slate-50 border-slate-200 cursor-pointer'">
             <BasketIcon class="w-6 h-6 mr-2"
-              :class="activeBasketStatus === basket.id ? 'text-blue-500 text-sm' : 'text-gray-500 text-sm'" />
-            <span :class="activeBasketStatus === basket.id ? 'text-blue-500 text-sm' : 'text-gray-900 text-sm'">
+              :class="activeBasketStatus == basket.id ? 'text-blue-500' : 'text-gray-500'" />
+            <span :class="activeBasketStatus == basket.id ? 'text-blue-500' : 'text-gray-900'">
               {{ basket.name }}
             </span>
           </div>
@@ -725,13 +704,12 @@ const createSale = () => {
           class="border-none text-right text-gray-500 bg-slate-100 rounded-lg w-full text-lg" disabled>
         </money3>
       </div>
-      <div class="py-3 lg:py-0 space-y-1">
+      <div class="py-3 space-y-1">
         <div class="text-base font-medium">
           {{ $t('paymentType') }}
         </div>
-        <div class="flex w-full space-x-2 lg:space-x-0 xl:space-x-4 xl:space-y-0 lg:space-y-2 lg:flex-col xl:flex-row">
-          <div
-            class="flex-1 flex flex-col w-full items-center justify-center bg-blue-50 border border-blue-300 rounded-lg py-4">
+        <div class="flex items-center space-x-4">
+          <div class="flex-1 flex flex-col items-center justify-center bg-blue-50 border border-blue-300 rounded-lg py-4">
             <MoneyIcon class="w-6 h-6 text-blue-500" />
             <div class="text-lg font-medium text-blue-500">
               {{ $t('withCash') }}
@@ -746,10 +724,9 @@ const createSale = () => {
         </div>
       </div>
       <div class="space-y-12">
-        <button @click="createOrder()"
-        class="w-full xl:py-3 px-4 lg:py-2 py-3 rounded-full text-white text-lg font-medium bg-blue-500 cursor-pointer hover:bg-blue-600">
-        {{ $t('payment') }}
-      </button>
+        <button @click="createOrder()" class="w-full py-3 px-4 rounded-full text-white text-lg font-medium bg-blue-500 cursor-pointer hover:bg-blue-600">
+          {{ $t('payment') }}
+        </button>
         <div v-if="showSale" class="flex flex-col space-y-8">
           <h3 class="text-xl font-semibold">{{ $t('addCustomer') }}</h3>
 

@@ -35,7 +35,7 @@ const submitData = reactive({
 
 
 const createSaleSettings = () => {
-  if (submitData.boundaryPrice == 0) {
+  if (submitData.boundaryPrice < 0) {
     toast.error("Chegirmani kiriting!")
   } else {
     SettingsService.updateSettings({
