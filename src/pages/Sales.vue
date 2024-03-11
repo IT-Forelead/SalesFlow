@@ -272,6 +272,7 @@ const createOrder = () => {
       clearSubmitData()
       OrderService.getOrderById(res)
         .then((res) => {
+          console.log("11")
           printChaque(
             {
               "cashier": res?.cashierFirstName + " " + res.cashierLastName,
