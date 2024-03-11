@@ -291,10 +291,36 @@ const createOrder = () => {
       isLoading.value = false
       clearSubmitData()
       if (showSale.value) {
-        setTimeout(() => {
-          onSearchFocus.value = null
-        }, 3000)
-      }    
+              setTimeout(() => {
+                onSearchFocus.value = null
+              }, 3000)
+            }
+      OrderService.getOrderById(res)
+        .then((res) => {
+          printChaque(
+            {
+              "cashier": res?.cashierFirstName + " " + res.cashierLastName,
+              "discount": res?.discountPercent ?? 0,
+              "discount_amount": res?.discountPrice ?? 0,
+              "final_price": res?.totalPrice,
+              "market": res?.marketName,
+              "paid": res?.paymentReceived,
+              "price": res?.initialPrice,
+              "products": res?.items.map((item) => {
+                return {
+                  "count": item?.amount,
+                  "name": item?.productName,
+                  "packaging": item?.packaging,
+                  "price": item?.salePrice,
+                  "total": item?.price,
+                }
+              }),
+              "time": moment(res?.createdAt).format('DD/MM/YYYY H:mm')
+            })
+        })
+    }).catch((err) => {
+      toast.error(t('errorWhileCreatingOrder'))
+      isLoading.value = false
     })
   }
 }
@@ -324,7 +350,7 @@ const whenPressEnter = (e) => {
 }
 
 watchEffect(() => {
-  
+
   if (onSearchFocus.value) {
     onSearchFocus.value.focus()
     onFullNameFocus.value = null
@@ -346,13 +372,13 @@ watchEffect(() => {
   }
 })
 
-const reFocus = () => {  
+const reFocus = () => {
   if (router?.currentRoute?.value?.path === '/sales' && onSearchFocus.value) {
     onSearchFocus.value.focus()
   }
 }
 
-const fullNameFocus = () => { 
+const fullNameFocus = () => {
   if (router?.currentRoute?.value?.path === '/sales' && onFullNameFocus.value) {
     onFullNameFocus.value.focus()
     onSearchFocus.value = null
