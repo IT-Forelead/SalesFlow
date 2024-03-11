@@ -52,7 +52,11 @@ const columns = [
   {
     accessorKey: 'productName',
     header: t('product'),
-    cell: ({ row }) => `${row.original.productName} - (${row.original.packaging})`,
+    cell: ({ row }) => {
+      const productName = `${row.original.productName} - (${row.original.packaging})`;
+      const lendBadge = row.original.toLend ? h('span', { class: 'bg-red-600 mx-2 text-white rounded-lg px-2 py-1 text-sm' }, t('toLend')) : null;
+      return h('div', {}, [productName, lendBadge]);
+    },
   },
   {
     accessorKey: 'quantity',

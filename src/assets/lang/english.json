@@ -193,5 +193,6 @@
   "secondBasket": "Second basket",
   "thirdBasket": "Third basket",
   "errorWhileCreatingOrder": "Error while creating order",
-  "clearTheBasket": "Clear the basket"
+  "clearTheBasket": "Clear the basket",
+  "toLend": "To lend"
 }

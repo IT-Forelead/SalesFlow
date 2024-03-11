@@ -193,5 +193,6 @@
   "secondBasket": "Ikkinchi savat",
   "thirdBasket": "Uchinchi savat",
   "errorWhileCreatingOrder": "Buyurtma yaratishda xatolik yuz berdi",
-  "clearTheBasket": "Savatni tozalash"
+  "clearTheBasket": "Savatni tozalash",
+  "toLend": "Nasiya"
 }

@@ -6,7 +6,7 @@ export default function decodeJwt(token) {
 
 export function cleanObjectEmptyFields(obj) {
   for (let propName in obj) {
-    if (!obj[propName]) {
+    if (obj[propName] === undefined || obj[propName] === null || obj[propName] === '') {
       delete obj[propName]
     }
   }
