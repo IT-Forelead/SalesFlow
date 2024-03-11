@@ -1,5 +1,24 @@
 <script setup>
+import { onMounted, ref } from 'vue';
+import axios from 'axios'
 import AndroidIcon from '../assets/icons/AndroidIcon.vue'
+
+const browserDownloadUrl = ref('')
+
+async function getSeleases() {
+    await axios.get('https://api.github.com/repos/IT-Forelead/SalesFlowMobile/releases/latest')
+        .then(async (res) => {
+            browserDownloadUrl.value = res?.data?.assets[0]?.browser_download_url
+            console.log("Chaque printed");
+        }).catch((err) => {
+            console.log("Chaque not printed");
+        })
+}
+
+onMounted(() => {
+    getSeleases()
+})
+
 </script>
 <template>
     <div class="overflow-hidden py-10 sm:py-32 lg:pb-32 xl:pb-36">
@@ -14,13 +33,13 @@ import AndroidIcon from '../assets/icons/AndroidIcon.vue'
                         </div>
                     </div>
                     <p class="mt-6 text-lg text-gray-600">
-                        Ushbu dastur yordamida mobil telefoninggiz orqali 
+                        Ushbu dastur yordamida mobil telefoninggiz orqali
                         market.iflead.uz tizimidagi ko'plab funksiyalardan foydalanishingiz mumkun.
                         Hozirda mobil dasturimiz faqat Android foydalanuvchilari uchgun mavjud.
                     </p>
                     <div class="mt-8 flex flex-wrap gap-x-6 gap-y-4">
                         <a class="flex items-center px-6 py-3 space-x-3 rounded-lg transition-colors bg-gray-800 text-white hover:bg-gray-900"
-                            href="#">
+                            :href="browserDownloadUrl">
                             <AndroidIcon class="w-12 h-12" />
                             <div>
                                 <span class="block text-xs">
