@@ -1,5 +1,5 @@
 <script setup>
-import GooglePlayIcon from '../assets/icons/GooglePlayIcon.vue'
+import AndroidIcon from '../assets/icons/AndroidIcon.vue'
 </script>
 <template>
     <div class="overflow-hidden py-10 sm:py-32 lg:pb-32 xl:pb-36">
@@ -19,9 +19,9 @@ import GooglePlayIcon from '../assets/icons/GooglePlayIcon.vue'
                         Hozirda mobil dasturimiz faqat Android foydalanuvchilari uchgun mavjud.
                     </p>
                     <div class="mt-8 flex flex-wrap gap-x-6 gap-y-4">
-                        <a class="flex items-center px-6 py-3 space-x-2 rounded-lg transition-colors bg-gray-800 text-white hover:bg-gray-900"
+                        <a class="flex items-center px-6 py-3 space-x-3 rounded-lg transition-colors bg-gray-800 text-white hover:bg-gray-900"
                             href="#">
-                            <GooglePlayIcon class="w-12 h-12" />
+                            <AndroidIcon class="w-12 h-12" />
                             <div>
                                 <span class="block text-xs">
                                     Download for
