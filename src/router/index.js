@@ -71,6 +71,18 @@ const routes = [
     beforeEnter: navigationGuards('view_users'),
   },
   {
+    path: '/sale-settings',
+    name: 'Sale settings',
+    component: () => import('../pages/SaleSettings.vue'),
+    meta: { layout: 'dashboard' },
+    beforeEnter: navigationGuards('view_settings'),
+  },
+  {
+    path: '/customer-form/:orderId',
+    name: 'Customer form',
+    component: () => import('../pages/CustomerForm.vue'),
+  },
+  {
     path: '/notfound',
     name: 'Not-Found',
     component: () => import('../components/NotFound.vue'),
@@ -88,7 +100,7 @@ const router = createRouter({
 })
 
 router.beforeEach((to, from, next) => {
-  const publicPages = ['/', '/login', '/app']
+  const publicPages = ['/', '/login', '/app', '/customer-form']
   const authNotRequired = !publicPages.includes(to.path)
   const notLoggedIn = localStorage.getItem('session')
   if ((authNotRequired && notLoggedIn) || publicPages.includes(`/${to.path.split('/')[1]}`)) {
