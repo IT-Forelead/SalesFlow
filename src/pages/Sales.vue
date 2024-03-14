@@ -28,16 +28,13 @@ import BasketIcon from '../assets/icons/BasketIcon.vue'
 import BroomIcon from '../assets/icons/BroomIcon.vue'
 import CancelButton from '../components/buttons/CancelButton.vue'
 import Spinners270RingIcon from '../assets/icons/Spinners270RingIcon.vue'
+import axios from 'axios'
+import moment from 'moment'
+import { onClickOutside } from '@vueuse/core'
 
-const boundaryPrice = ref(0)
-onMounted(() => {
-  SettingsService.getSettings().then((res) => {
-    isLoading.value = true
-    boundaryPrice.value = res.boundaryPrice
-  }).catch((err) => {
-    toast.error("Get Settiings xato!")
-  })
-});
+
+
+const API_URL = import.meta.env.VITE_CHEQUE_API_URL;
 
 const { t } = useI18n()
 const router = useRouter()
@@ -52,6 +49,19 @@ const submitData = reactive({
   discountPercent: 0,
   paymentReceived: 0,
 })
+
+const boundaryPrice = ref(0)
+
+onMounted(() => {
+  SettingsService.getSettings().then((res) => {
+    isLoading.value = true
+    boundaryPrice.value = res.boundaryPrice
+  }).catch((err) => {
+    toast.error("Get Settiings xato!")
+  })
+});
+
+const searchProductDropdown = ref(null)
 const orderId = ref()
 const showSale = ref(false)
 const totalPrice = ref(0)
@@ -67,6 +77,8 @@ const activeBasket = ref([])
 const firstBasket = ref([])
 const secondBasket = ref([])
 const thirdBasket = ref([])
+const qrcode = ref()
+const phoneRegex = /\+998[1-9][\d]{8}/;
 
 const baskets = [
   {
@@ -94,13 +106,17 @@ const saleTypeShortTranslate = (type) => {
     case 'amount':
       return t('piece')
     case 'litre':
-      return t('litr')
+      return t('litre')
     case 'kg':
       return t('kg')
     case 'g':
       return t('g')
   }
 }
+
+onClickOutside(searchProductDropdown, () => {
+  clearSearchInput()
+})
 
 const searchProducts = () => {
   if (!search.value) {
@@ -117,8 +133,12 @@ const searchProducts = () => {
         if (res.data.length == 1) {
           addProductToCart(res.data[0])
         } else {
+          if (res.data.length == 1) {
+          addProductToCart(res.data[0])
+        } else {
           useProductStore().clearStore()
           useProductStore().setProducts(res.data)
+        }
         }
       })
     } else {
@@ -128,12 +148,8 @@ const searchProducts = () => {
         })
       ).then((res) => {
         isLoading.value = false
-        if (res.data.length == 1) {
-          addProductToCart(res.data[0])
-        } else {
-          useProductStore().clearStore()
-          useProductStore().setProducts(res.data)
-        }
+        useProductStore().clearStore()
+        useProductStore().setProducts(res.data)
       })
     }
   }
@@ -284,17 +300,19 @@ const createOrder = () => {
         orderId.value = res
         showSale.value = true
         onSearchFocus.value = null
+        qrcode.value = API_URL + `/customer-form/${res}`
       } else {
         showSale.value = false
+        qrcode.value = null
       }
 
       isLoading.value = false
       clearSubmitData()
       if (showSale.value) {
-              setTimeout(() => {
-                onSearchFocus.value = null
-              }, 3000)
-            }
+        setTimeout(() => {
+          onSearchFocus.value = null
+        }, 3000)
+      }
       OrderService.getOrderById(res)
         .then((res) => {
           printChaque(
@@ -315,7 +333,8 @@ const createOrder = () => {
                   "total": item?.price,
                 }
               }),
-              "time": moment(res?.createdAt).format('DD/MM/YYYY H:mm')
+              "time": moment(res?.createdAt).format('DD/MM/YYYY H:mm'),
+              "qrcode": qrcode.value
             })
         })
     }).catch((err) => {
@@ -323,6 +342,15 @@ const createOrder = () => {
       isLoading.value = false
     })
   }
+}
+
+async function printChaque(data) {
+  await axios.post(API_URL + '/print', data)
+    .then(async (res) => {
+      console.log("Chaque printed");
+    }).catch((err) => {
+      console.log("Chaque not printed");
+    })
 }
 
 watch(
@@ -350,7 +378,6 @@ const whenPressEnter = (e) => {
 }
 
 watchEffect(() => {
-
   if (onSearchFocus.value) {
     onSearchFocus.value.focus()
     onFullNameFocus.value = null
@@ -378,7 +405,7 @@ const reFocus = () => {
   }
 }
 
-const fullNameFocus = () => {
+const fullNameReFocus = () => {
   if (router?.currentRoute?.value?.path === '/sales' && onFullNameFocus.value) {
     onFullNameFocus.value.focus()
     onSearchFocus.value = null
@@ -386,7 +413,7 @@ const fullNameFocus = () => {
   }
 }
 
-const phoneFocus = () => {
+const phoneReFocus = () => {
   if (router?.currentRoute?.value?.path === '/sales' && onPhoneFocus.value) {
     onPhoneFocus.value.focus()
     onSearchFocus.value = null
@@ -458,6 +485,8 @@ const createSale = () => {
     toast.error(t('enterFullName'))
   } else if (!customerForm.phone) {
     toast.error(t('enterPhone'))
+  } else if (customerForm.phone && !phoneRegex.test(customerForm.phone.replace(/([() -])/g, ''))) {
+    toast.warning(t('plsEnterValidPhoneNumber'))
   } else {
     isLoadingCustomerForm.value = true
     CustomerService.createCustomer({
@@ -479,7 +508,7 @@ const createSale = () => {
 </script>
 
 <template>
-  <div v-if="products.length > 0" class="fixed top-0 right-0 bottom-0 left-0 z-50 backdrop-blur-[2px] bg-gray-900/70">
+  <div v-if="products.length > 0" class="fixed top-0 right-0 bottom-0 left-0 z-40 backdrop-blur-[2px] bg-gray-900/70">
   </div>
   <div class="flex flex-col md:flex-row">
     <div class="flex-auto md:w-2/3 w-full space-y-4 py-8 px-4 md:px-8">
@@ -490,7 +519,7 @@ const createSale = () => {
           </div>
           <input v-model="search" v-on:keypress="whenPressEnter($event)" type="search" ref="onSearchFocus"
             @blur="reFocus()"
-            class="bg-slate-100 border-none text-slate-900 text-base md:text-lg rounded-xl block w-full h-12 pl-10 py-2 placeholder-slate-400 placeholder:text-sm md:placeholder:text-lg"
+            class="bg-slate-100 border-none text-slate-900 text-base md:text-lg rounded-xl block w-full h-12 pl-10 py-2 placeholder-slate-400 placeholder:text-sm md:placeholder:text-lg lg:placeholder:text-base"
             :placeholder="t('searchByProductNameOrBarcode')">
           <div v-if="search" @click="clearSearchInput()"
             class="absolute inset-y-0 right-20 p-1 flex items-center cursor-pointer">
@@ -500,7 +529,7 @@ const createSale = () => {
             class="absolute inset-y-0 right-0 px-4 bg-[#0167F3] text-white rounded-r-xl">
             {{ $t('search') }}
           </button>
-          <div v-if="products.length > 0" class="absolute top-16 left-0 bg-transparent w-full space-y-2">
+          <div v-if="products.length > 0" ref="searchProductDropdown" class="absolute top-16 left-0 bg-transparent w-full space-y-2">
             <div v-for="(product, idx) in products" :key="idx" @click="addProductToCart(product)"
               class="flex items-center justify-between bg-white border shadow-sm rounded-xl px-3 py-2 w-full cursor-pointer hover:bg-slate-100">
               <div class="flex items-center space-x-3">
@@ -530,26 +559,27 @@ const createSale = () => {
             </div>
           </div>
         </div>
-        <div @click="useModalStore().openCameraScannerModal()"
+        <div @click="useModalStore().openCameraScannerModal()" :title="t('barcodeScanning')"
           class="flex items-center justify-center bg-slate-100 rounded-xl h-12 w-12 cursor-pointer">
           <BarcodeIcon class="w-6 h-6 text-blue-600" />
         </div>
-        <div @click="clearSubmitData()" class="hidden md:flex items-center justify-center bg-slate-100 rounded-xl h-12 w-12 cursor-pointer">
+        <div @click="clearSubmitData()" :title="t('clearTheBasket')"
+          class="hidden md:flex items-center justify-center bg-slate-100 rounded-xl h-12 w-12 cursor-pointer">
           <BroomIcon class="w-5 h-5 text-blue-600" />
         </div>
       </div>
 
-      <div class="flex items-center justify-between">
+      <div class="flex items-center justify-between space-x-2">
         <div class="text-slate-900 text-2xl md:text-3xl font-semibold">
           {{ $t('shoppingCart') }}
         </div>
-        <div class="flex flex-wrap space-x-2">
+        <div class="flex space-x-2">
           <div v-for="(basket, idx) in baskets" :key="idx" @click="changeBasketStatus(basket.id)"
-            class="px-6 py-2 inline-flex items-center leading-none border-b-2 rounded-xl"
-            :class="activeBasketStatus == basket.id ? 'bg-slate-100 border-blue-500' : 'bg-slate-50 border-slate-200 cursor-pointer'">
+            class="px-4 py-2 inline-flex flex-col xl:flex-row sm:flex items-center leading-none border-b-2 rounded-xl"
+            :class="activeBasketStatus === basket.id ? 'bg-slate-100 border-blue-500' : 'bg-slate-50 border-slate-200 cursor-pointer'">
             <BasketIcon class="w-6 h-6 mr-2"
-              :class="activeBasketStatus == basket.id ? 'text-blue-500' : 'text-gray-500'" />
-            <span :class="activeBasketStatus == basket.id ? 'text-blue-500' : 'text-gray-900'">
+              :class="activeBasketStatus === basket.id ? 'text-blue-500 text-sm' : 'text-gray-500 text-sm'" />
+            <span :class="activeBasketStatus === basket.id ? 'text-blue-500 text-sm' : 'text-gray-900 text-sm'">
               {{ basket.name }}
             </span>
           </div>
@@ -561,7 +591,7 @@ const createSale = () => {
           <div class="min-w-full">
             <table class="md:min-w-full divide-y-8 divide-white">
               <thead>
-                <tr class="bg-slate-100 text-base font-semibold text-gray-900  h-12">
+                <tr class="bg-slate-100 text-base font-semibold text-gray-900 h-12">
                   <th class="px-3 py-2 text-left rounded-l-xl text-sm md:text-base">
                     {{ $t('product') }}
                   </th>
@@ -730,12 +760,13 @@ const createSale = () => {
           class="border-none text-right text-gray-500 bg-slate-100 rounded-lg w-full text-lg" disabled>
         </money3>
       </div>
-      <div class="py-3 space-y-1">
+      <div class="py-3 lg:py-0 space-y-1">
         <div class="text-base font-medium">
           {{ $t('paymentType') }}
         </div>
-        <div class="flex items-center space-x-4">
-          <div class="flex-1 flex flex-col items-center justify-center bg-blue-50 border border-blue-300 rounded-lg py-4">
+        <div class="flex w-full space-x-2 lg:space-x-0 xl:space-x-4 xl:space-y-0 lg:space-y-2 lg:flex-col xl:flex-row">
+          <div
+            class="flex-1 flex flex-col w-full items-center justify-center bg-blue-50 border border-blue-300 rounded-lg py-4">
             <MoneyIcon class="w-6 h-6 text-blue-500" />
             <div class="text-lg font-medium text-blue-500">
               {{ $t('withCash') }}
@@ -749,11 +780,12 @@ const createSale = () => {
           </div>
         </div>
       </div>
-      <div class="space-y-12">
-        <button @click="createOrder()" class="w-full py-3 px-4 rounded-full text-white text-lg font-medium bg-blue-500 cursor-pointer hover:bg-blue-600">
-          {{ $t('payment') }}
-        </button>
-        <div v-if="showSale" class="flex flex-col space-y-8">
+      <div class="space-y-12">        
+      <button @click="createOrder()"
+        class="w-full xl:py-3 px-4 lg:py-2 py-3 rounded-full text-white text-lg font-medium bg-blue-500 cursor-pointer hover:bg-blue-600">
+        {{ $t('payment') }}
+      </button>
+      <div v-if="showSale" class="flex flex-col space-y-8">
           <h3 class="text-xl font-semibold">{{ $t('addCustomer') }}</h3>
 
           <div>
@@ -764,7 +796,7 @@ const createSale = () => {
                   <span class="text-red-500 mr-2">*</span>
                 </label>
                 <input ref="onFullNameFocus"
-            @blur="fullNameFocus()" id="fullName" type="text" v-model="customerForm.fullName" class="bg-slate-100 border-none text-slate-900 rounded-lg w-full py-2.5 placeholder-slate-400" :placeholder="t('enterFullName')" />
+            @blur="fullNameReFocus()" id="fullName" type="text" v-model="customerForm.fullName" class="bg-slate-100 border-none text-slate-900 rounded-lg w-full py-2.5 placeholder-slate-400" :placeholder="t('enterFullName')" />
               </div>
               <div class="flex-1">
                 <label for="phone" class="text-base font-medium">
@@ -772,7 +804,7 @@ const createSale = () => {
                   <span class="text-red-500 mr-2">*</span>
                 </label>
                 <input ref="onPhoneFocus"
-            @blur="phoneFocus()" id="phone" type="text" v-model="customerForm.phone" v-maska data-maska="+998(##) ###-##-##" class="bg-slate-100 border-none text-slate-900 rounded-lg w-full py-2.5 placeholder-slate-400" placeholder="+998(00) 000-00-00" />
+            @blur="phoneReFocus()" id="phone" type="text" v-model="customerForm.phone" v-maska data-maska="+998(##) ###-##-##" class="bg-slate-100 border-none text-slate-900 rounded-lg w-full py-2.5 placeholder-slate-400" placeholder="+998(00) 000-00-00" />
               </div>
             </div>
           </div>

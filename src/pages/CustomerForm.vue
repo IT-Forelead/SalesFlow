@@ -9,6 +9,7 @@ import CustomerService from '../services/customer.service'
 import { useI18n } from 'vue-i18n'
 
 const { t } = useI18n()
+const phoneRegex = /\+998[1-9][\d]{8}/;
 
 const route = useRoute()
 const orderId = ref(route.params.orderId)
@@ -48,6 +49,8 @@ const createSale = () => {
     toast.error(t('enterFullName'))
   } else if (!submitData.phone) {
     toast.error(t('enterPhone'))
+  } else if (submitData.phone && !phoneRegex.test(submitData.phone.replace(/([() -])/g, ''))) {
+    toast.warning(t('plsEnterValidPhoneNumber'))
   } else {
     isLoading.value = true
     CustomerService.createCustomer({
