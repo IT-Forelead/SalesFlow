@@ -56,8 +56,6 @@ onMounted(() => {
   SettingsService.getSettings().then((res) => {
     isLoading.value = true
     boundaryPrice.value = res.boundaryPrice
-  }).catch((err) => {
-    toast.error("Get Settiings xato!")
   })
 });
 
