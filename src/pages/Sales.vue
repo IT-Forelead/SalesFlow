@@ -11,6 +11,8 @@ import SearchIcon from '../assets/icons/SearchIcon.vue'
 import MoneyIcon from '../assets/icons/MoneyIcon.vue'
 import BarcodeIcon from '../assets/icons/BarcodeIcon.vue'
 import CreditCardIcon from '../assets/icons/CreditCardIcon.vue'
+import OnlinePaymentIcon from '../assets/icons/OnlinePaymentIcon.vue'
+import DebtIcon from '../assets/icons/DebtIcon.vue'
 import XIcon from '../assets/icons/XIcon.vue'
 import useMoneyFormatter from '../mixins/currencyFormatter.js'
 import ProductService from '../services/product.service'
@@ -39,7 +41,7 @@ const moneyConf = {
 }
 
 const submitData = reactive({
-  discountPercent: 0,
+  discountPercent: null,
   paymentReceived: 0,
 })
 
@@ -656,8 +658,23 @@ onMounted(() => {
           </div>
           <div class="flex-1 flex flex-col items-center justify-center border rounded-lg py-4">
             <CreditCardIcon class="w-6 h-6 text-gray-500" />
-            <div class="text-lg font-medium">
+            <div class="text-lg font-medium text-center">
               {{ $t('withPlasticCard') }}
+            </div>
+          </div>
+        </div>
+        <div class="flex w-full space-x-2 lg:space-x-0 xl:space-x-4 xl:space-y-0 lg:space-y-2 lg:flex-col xl:flex-row">
+          <div
+            class="flex-1 flex flex-col w-full items-center justify-center border rounded-lg py-4">
+            <OnlinePaymentIcon class="w-6 h-6" />
+            <div class="text-lg font-medium">
+              {{ $t('withClick') }}
+            </div>
+          </div>
+          <div class="flex-1 flex flex-col hover:border-blue-300 hover:bg-blue-50 hover:cursor-pointer items-center justify-center border rounded-lg py-4">
+            <DebtIcon class="w-6 h-6 text-gray-500" />
+            <div class="text-lg font-medium">
+              Qarzga
             </div>
           </div>
         </div>

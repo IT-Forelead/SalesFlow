@@ -194,5 +194,6 @@
   "thirdBasket": "Третья корзина",
   "errorWhileCreatingOrder": "Ошибка при создании заказа",
   "clearTheBasket": "Очистить корзину",
-  "toLend": "Рассрочка"
+  "toLend": "Рассрочка",
+  "withClick": "С Click"
 }
