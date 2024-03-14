@@ -294,7 +294,7 @@ const createOrder = () => {
       })
     ).then((res) => {
       toast.success(t('saleWasMadeSuccessfully'))
-      if (totalPrice.value >= boundaryPrice.value) {
+      if (boundaryPrice.value != 0 && totalPrice.value >= boundaryPrice.value) {
         orderId.value = res
         showSale.value = true
         onSearchFocus.value = null
