@@ -9,6 +9,12 @@ const routes = [
     meta: { layout: 'login' },
   },
   {
+    path: '/app',
+    name: 'App',
+    component: () => import('../pages/App.vue'),
+    meta: { layout: 'login' },
+  },
+  {
     path: '/dashboard',
     name: 'Dashboard',
     component: () => import('../pages/Dashboard.vue'),
@@ -94,7 +100,7 @@ const router = createRouter({
 })
 
 router.beforeEach((to, from, next) => {
-  const publicPages = ['/', '/login', '/customer-form']
+  const publicPages = ['/', '/login', '/app', '/customer-form']
   const authNotRequired = !publicPages.includes(to.path)
   const notLoggedIn = localStorage.getItem('session')
   if ((authNotRequired && notLoggedIn) || publicPages.includes(`/${to.path.split('/')[1]}`)) {
