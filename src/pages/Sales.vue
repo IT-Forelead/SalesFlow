@@ -39,7 +39,7 @@ const moneyConf = {
 }
 
 const submitData = reactive({
-  discountPercent: 0,
+  discountPercent: null,
   paymentReceived: 0,
 })
 
