@@ -101,6 +101,8 @@ onUnmounted(() => {
   <DeleteUserModal/>
   <EditProductBarcodeModal/>
   <CameraScannerModal/>
+  <BarcodeScannerModal/>
+
 </template>
 
 <style scoped></style>

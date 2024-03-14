@@ -1,5 +1,6 @@
 <script setup>
 import { reactive, ref, watch, watchEffect } from 'vue'
+import { vMaska } from 'maska'
 import { toast } from 'vue-sonner'
 import { useRouter } from 'vue-router'
 import { cleanObjectEmptyFields, roundFloatToOneDecimal } from '../mixins/utils'
@@ -17,6 +18,8 @@ import XIcon from '../assets/icons/XIcon.vue'
 import useMoneyFormatter from '../mixins/currencyFormatter.js'
 import ProductService from '../services/product.service'
 import OrderService from '../services/order.service'
+import CustomerService from '../services/customer.service'
+import SettingsService from '../services/settings.service'
 import { useProductStore } from '../store/product.store'
 import { useModalStore } from '../store/modal.store'
 import { useBarcodeStore } from '../store/barcode.store'
@@ -25,9 +28,13 @@ import { isBarcode } from '../mixins/barcodeFormatter'
 import { useI18n } from 'vue-i18n'
 import BasketIcon from '../assets/icons/BasketIcon.vue'
 import BroomIcon from '../assets/icons/BroomIcon.vue'
+import CancelButton from '../components/buttons/CancelButton.vue'
+import Spinners270RingIcon from '../assets/icons/Spinners270RingIcon.vue'
 import axios from 'axios'
 import moment from 'moment'
 import { onClickOutside } from '@vueuse/core'
+
+
 
 const API_URL = import.meta.env.VITE_CHEQUE_API_URL;
 
@@ -45,11 +52,24 @@ const submitData = reactive({
   paymentReceived: 0,
 })
 
+const boundaryPrice = ref(0)
+
+onMounted(() => {
+  SettingsService.getSettings().then((res) => {
+    isLoading.value = true
+    boundaryPrice.value = res.boundaryPrice
+  })
+});
+
 const searchProductDropdown = ref(null)
+const orderId = ref()
+const showSale = ref(false)
 const totalPrice = ref(0)
 // const totalPriceWithDiscount = ref(0)
 const search = ref('')
 const onSearchFocus = ref(null)
+const onFullNameFocus = ref(null)
+const onPhoneFocus = ref(null)
 const isLoading = ref(false)
 const selectedProducts = ref([])
 const activeBasketStatus = ref('firstBasket')
@@ -57,6 +77,8 @@ const activeBasket = ref([])
 const firstBasket = ref([])
 const secondBasket = ref([])
 const thirdBasket = ref([])
+const qrcode = ref()
+const phoneRegex = /\+998[1-9][\d]{8}/;
 
 const baskets = [
   {
@@ -111,8 +133,12 @@ const searchProducts = () => {
         if (res.data.length == 1) {
           addProductToCart(res.data[0])
         } else {
+          if (res.data.length == 1) {
+          addProductToCart(res.data[0])
+        } else {
           useProductStore().clearStore()
           useProductStore().setProducts(res.data)
+        }
         }
       })
     } else {
@@ -270,8 +296,23 @@ const createOrder = () => {
       })
     ).then((res) => {
       toast.success(t('saleWasMadeSuccessfully'))
+      if (boundaryPrice.value != 0 && totalPrice.value >= boundaryPrice.value) {
+        orderId.value = res
+        showSale.value = true
+        onSearchFocus.value = null
+        qrcode.value = API_URL + `/customer-form/${res}`
+      } else {
+        showSale.value = false
+        qrcode.value = null
+      }
+
       isLoading.value = false
       clearSubmitData()
+      if (showSale.value) {
+        setTimeout(() => {
+          onSearchFocus.value = null
+        }, 3000)
+      }
       OrderService.getOrderById(res)
         .then((res) => {
           printChaque(
@@ -292,7 +333,8 @@ const createOrder = () => {
                   "total": item?.price,
                 }
               }),
-              "time": moment(res?.createdAt).format('DD/MM/YYYY H:mm')
+              "time": moment(res?.createdAt).format('DD/MM/YYYY H:mm'),
+              "qrcode": qrcode.value
             })
         })
     }).catch((err) => {
@@ -338,12 +380,44 @@ const whenPressEnter = (e) => {
 watchEffect(() => {
   if (onSearchFocus.value) {
     onSearchFocus.value.focus()
+    onFullNameFocus.value = null
+    onPhoneFocus.value = null
+  }
+})
+watchEffect(() => {
+  if (onFullNameFocus.value) {
+    onFullNameFocus.value.focus()
+    onSearchFocus.value = null
+    onPhoneFocus.value = null
+  }
+})
+watchEffect(() => {
+  if (onPhoneFocus.value) {
+    onPhoneFocus.value.focus()
+    onSearchFocus.value = null
+    onFullNameFocus.value = null
   }
 })
 
 const reFocus = () => {
-  if (router?.currentRoute?.value?.path === '/sales') {
+  if (router?.currentRoute?.value?.path === '/sales' && onSearchFocus.value) {
     onSearchFocus.value.focus()
+  }
+}
+
+const fullNameReFocus = () => {
+  if (router?.currentRoute?.value?.path === '/sales' && onFullNameFocus.value) {
+    onFullNameFocus.value.focus()
+    onSearchFocus.value = null
+    onPhoneFocus.value = null
+  }
+}
+
+const phoneReFocus = () => {
+  if (router?.currentRoute?.value?.path === '/sales' && onPhoneFocus.value) {
+    onPhoneFocus.value.focus()
+    onSearchFocus.value = null
+    onFullNameFocus.value = null
   }
 }
 
@@ -389,6 +463,48 @@ watch(
 onMounted(() => {
   useProductStore().clearStore()
 })
+
+const isLoadingCustomerForm = ref(false)
+const customerForm = reactive({
+  fullName: '',
+  phone: '',
+})
+
+const clearCustomerForm = () => {
+  customerForm.fullName = ''
+  customerForm.phone = ''
+}
+
+const closeForm = () => {
+  showSale.value = false
+  clearCustomerForm()
+}
+
+const createSale = () => {
+  if (!customerForm.fullName) {
+    toast.error(t('enterFullName'))
+  } else if (!customerForm.phone) {
+    toast.error(t('enterPhone'))
+  } else if (customerForm.phone && !phoneRegex.test(customerForm.phone.replace(/([() -])/g, ''))) {
+    toast.warning(t('plsEnterValidPhoneNumber'))
+  } else {
+    isLoadingCustomerForm.value = true
+    CustomerService.createCustomer({
+      orderId: orderId.value,
+      fullName: customerForm.fullName,
+      phone: customerForm.phone.replace(/([() -])/g, ''),
+    })
+      .then(() => {
+        isLoadingCustomerForm.value = false
+        closeForm()
+        toast.success('Chegirma yaratildi!')
+      })
+      .catch((err) => {
+        isLoadingCustomerForm.value = false
+        toast.error('Chegirma yaratishda xatolik yuz berdi!')
+      })
+  }
+}
 </script>
 
 <template>
@@ -679,11 +795,45 @@ onMounted(() => {
           </div>
         </div>
       </div>
-
+      <div class="space-y-12">        
       <button @click="createOrder()"
         class="w-full xl:py-3 px-4 lg:py-2 py-3 rounded-full text-white text-lg font-medium bg-blue-500 cursor-pointer hover:bg-blue-600">
         {{ $t('payment') }}
       </button>
+      <div v-if="showSale" class="flex flex-col space-y-8">
+          <h3 class="text-xl font-semibold">{{ $t('addCustomer') }}</h3>
+
+          <div>
+            <div class="flex items-center space-x-4">
+              <div class="flex-1">
+                <label for="fullName" class="text-base font-medium">
+                  {{ $t('fullName') }}
+                  <span class="text-red-500 mr-2">*</span>
+                </label>
+                <input ref="onFullNameFocus"
+            @blur="fullNameReFocus()" id="fullName" type="text" v-model="customerForm.fullName" class="bg-slate-100 border-none text-slate-900 rounded-lg w-full py-2.5 placeholder-slate-400" :placeholder="t('enterFullName')" />
+              </div>
+              <div class="flex-1">
+                <label for="phone" class="text-base font-medium">
+                  {{ $t('phone') }}
+                  <span class="text-red-500 mr-2">*</span>
+                </label>
+                <input ref="onPhoneFocus"
+            @blur="phoneReFocus()" id="phone" type="text" v-model="customerForm.phone" v-maska data-maska="+998(##) ###-##-##" class="bg-slate-100 border-none text-slate-900 rounded-lg w-full py-2.5 placeholder-slate-400" placeholder="+998(00) 000-00-00" />
+              </div>
+            </div>
+          </div>
+
+          <div>
+            <CancelButton @click="closeForm" />
+            <button v-if="isLoadingCustomerForm" type="bSearchIconutton" class="inline-flex items-center justify-center ms-3 text-white bg-blue-600 focus:ring-4 focus:outline-none focus:ring-slate-300 rounded-xl border border-slate-200 text-sm font-medium px-5 py-2.5 focus:z-10 cursor-default">
+              <Spinners270RingIcon class="mr-2 w-5 h-5 text-gray-200 animate-spin dark:text-gray-600 fill-gray-600 dark:fill-gray-300" />
+              {{ $t('create') }}
+            </button>
+            <button v-else @click="createSale()" type="button" class="ms-3 text-white bg-blue-500 hover:bg-blue-600 focus:ring-4 focus:outline-none focus:ring-slate-300 rounded-xl border border-slate-200 text-sm font-medium px-5 py-2.5 focus:z-10">{{ $t('create') }}</button>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </template>

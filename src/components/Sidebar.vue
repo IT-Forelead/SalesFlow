@@ -14,6 +14,7 @@ import { useSidebarStore } from '../store/sidebar.store'
 import ProfileDropDown from './ProfileDropDown.vue'
 import { useAuthStore } from '../store/auth.store'
 import GlobeIcon from '../assets/icons/GlobeIcon.vue'
+import SettingsIcon from '../assets/icons/SettingsIcon.vue'
 import CaretDownIcon from '../assets/icons/CaretDownIcon.vue'
 import SelectOptionLanguage from './inputs/SelectOptionLanguage.vue'
 
@@ -138,6 +139,17 @@ onMounted(() => {
             </div>
             <div>
               {{ $t('barcodes') }}
+            </div>
+          </router-link>
+          <router-link v-if="navigationGuard('view_settings')" to="/sale-settings" @click="selectPage()"
+            active-class="active"
+            class="relative h-10 flex items-center w-full hover:bg-blue-300/10 hover:text-blue-600 py-7 text-zinc-400 text-lg font-medium space-x-4 cursor-pointer transition-colors duration-300">
+            <div class="w-1.5 h-12 rounded-r-xl first-child-bg-color mr-2"></div>
+            <div class="flex items-center justify-center rounded-xl w-10 h-10 second-child-bg-color">
+              <SettingsIcon class="w-6 h-6" />
+            </div>
+            <div>
+              {{ $t('saleSettings') }}
             </div>
           </router-link>
         </div>
