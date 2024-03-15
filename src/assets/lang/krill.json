@@ -206,5 +206,6 @@
   "withClick": "Клик орқали",
    "intoDebt": "Қарзга бериш",
    "debtCreatedSuccessfully": "Қарздорлик муваффақиятли яратилди!",
-   "errorWhileCreatingDebt": "Қарздорлик яратишда хатолик юз берди"
+   "errorWhileCreatingDebt": "Қарздорлик яратишда хатолик юз берди",
+   "debtors": "Қарздорлар"
 }

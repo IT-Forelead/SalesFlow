@@ -206,5 +206,6 @@
   "withClick": "С Click",
   "intoDebt": "В долг",
   "debtCreatedSuccessfully": "Долг успешно создан!",
-  "errorWhileCreatingDebt": "Ошибка при создании долга"
+  "errorWhileCreatingDebt": "Ошибка при создании долга",
+  "debtors": "Должники"
 }

@@ -78,6 +78,13 @@ const routes = [
     beforeEnter: navigationGuards('view_settings'),
   },
   {
+    path: '/debtors',
+    name: 'Debtors',
+    component: () => import('../pages/Debtors.vue'),
+    meta: { layout: 'dashboard' },
+    beforeEnter: navigationGuards('view_settings'),
+  },
+  {
     path: '/customer-form/:orderId',
     name: 'Customer form',
     component: () => import('../pages/CustomerForm.vue'),

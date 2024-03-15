@@ -206,5 +206,6 @@
   "withClick": "Click orqali",
   "intoDebt": "Qarzga berish",
   "debtCreatedSuccessfully": "Qarzdorlik muvaffaqiyatli yaratildi!",
-  "errorWhileCreatingDebt": "Qarzdorlik yaratishda xatolik yuz berdi!"
+  "errorWhileCreatingDebt": "Qarzdorlik yaratishda xatolik yuz berdi!",
+  "debtors": "Qarzdorlar"
 }
