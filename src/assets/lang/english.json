@@ -202,5 +202,8 @@
   "errorWhileCreatingOrder": "Error while creating order",
   "clearTheBasket": "Clear the basket",
   "toLend": "To lend",
-  "withClick": "With click"
+  "withClick": "With click",
+  "intoDebt": "Into debt",
+  "debtCreatedSuccessfully": "Debt created!",
+  "errorWhileCreatingDebt": "Error while creating debt!"
 }

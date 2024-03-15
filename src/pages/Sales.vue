@@ -34,8 +34,6 @@ import axios from 'axios'
 import moment from 'moment'
 import { onClickOutside } from '@vueuse/core'
 
-
-
 const API_URL = import.meta.env.VITE_CHEQUE_API_URL;
 
 const { t } = useI18n()
@@ -61,6 +59,7 @@ onMounted(() => {
   })
 });
 
+const showDebtForm = ref(false)
 const searchProductDropdown = ref(null)
 const orderId = ref()
 const showSale = ref(false)
@@ -295,6 +294,7 @@ const createOrder = () => {
         items: activeBasket.value,
       })
     ).then((res) => {
+      orderId.value = res
       toast.success(t('saleWasMadeSuccessfully'))
       if (boundaryPrice.value != 0 && totalPrice.value >= boundaryPrice.value) {
         orderId.value = res
@@ -465,6 +465,7 @@ onMounted(() => {
 })
 
 const isLoadingCustomerForm = ref(false)
+const isLoadingDebtForm = ref(false)
 const customerForm = reactive({
   fullName: '',
   phone: '',
@@ -503,6 +504,40 @@ const createSale = () => {
         isLoadingCustomerForm.value = false
         toast.error('Chegirma yaratishda xatolik yuz berdi!')
       })
+  }
+}
+
+const closeDebtForm = () => {
+  showDebtForm.value = false
+  clearCustomerForm()
+}
+const createDebt = () => {
+  if (!customerForm.fullName) {
+    toast.error(t('enterFullName'))
+  }
+  else if (!customerForm.phone) {
+    toast.error(t('enterPhone'))
+  }
+  else if (customerForm.phone && !phoneRegex.test(customerForm.phone.replace(/([() -])/g, ''))) {
+    toast.warning(t('plsEnterValidPhoneNumber'))
+  }
+  else {
+    isLoadingDebtForm.value = true
+    CustomerService.createDebt({
+      orderId: orderId.value,
+      fullName: customerForm.fullName,
+      phone: customerForm.phone.replace(/([() -])/g, ''),
+    })
+      .then(() => {
+        isLoadingDebtForm.value = false
+        closeDebtForm()
+        toast.success(t('debtCreatedSuccessfully'))
+      })
+      .catch((err) => {
+        isLoadingDebtForm.value = false
+        toast.error(t('errorWhileCreatingDebt'))
+      })
+
   }
 }
 </script>
@@ -787,22 +822,51 @@ const createSale = () => {
               {{ $t('withClick') }}
             </div>
           </div>
-          <div class="flex-1 flex flex-col hover:border-blue-300 hover:bg-blue-50 hover:cursor-pointer items-center justify-center border rounded-lg py-4">
+          <div @click="showDebtForm = !showDebtForm" :class="showDebtForm ? 'border-blue-300 bg-blue-50' : ''" class="flex-1 flex flex-col hover:border-blue-300 hover:bg-blue-50 hover:cursor-pointer items-center justify-center border rounded-lg py-4">
             <DebtIcon class="w-6 h-6 text-gray-500" />
             <div class="text-lg font-medium">
-              Qarzga
+              {{ $t('intoDebt') }}
             </div>
           </div>
         </div>
       </div>
-      <div class="space-y-12">        
+      <div class="space-y-6">
       <button @click="createOrder()"
         class="w-full xl:py-3 px-4 lg:py-2 py-3 rounded-full text-white text-lg font-medium bg-blue-500 cursor-pointer hover:bg-blue-600">
         {{ $t('payment') }}
       </button>
-      <div v-if="showSale" class="flex flex-col space-y-8">
-          <h3 class="text-xl font-semibold">{{ $t('addCustomer') }}</h3>
+        <div v-if="showDebtForm" class="flex flex-col space-y-4">
+          <div>
+            <div class="flex flex-col items-center space-y-4">
+              <div class="w-full">
+                <label for="fullName" class="text-base font-medium">
+                  {{ $t('fullName') }}
+                  <span class="text-red-500 mr-2">*</span>
+                </label>
+                <input ref="onFullNameFocus"
+                       @blur="fullNameReFocus()" id="fullName" type="text" v-model="customerForm.fullName" class="bg-slate-100 border-none text-slate-900 rounded-lg w-full py-2.5 placeholder-slate-400" :placeholder="t('enterFullName')" />
+              </div>
+              <div class="w-full">
+                <label for="phone" class="text-base font-medium">
+                  {{ $t('phone') }}
+                  <span class="text-red-500 mr-2">*</span>
+                </label>
+                <input ref="onPhoneFocus"
+                       @blur="phoneReFocus()" id="phone" type="text" v-model="customerForm.phone" v-maska data-maska="+998(##) ###-##-##" class="bg-slate-100 border-none w-full text-slate-900 rounded-lg py-2.5 placeholder-slate-400" placeholder="+998(00) 000-00-00" />
+              </div>
+            </div>
+          </div>
+          <div class="space-y-2">
+            <CancelButton class="w-full" @click="closeDebtForm" />
+            <button @click="createDebt" class="w-full xl:py-3 px-4 lg:py-2 py-3 rounded-full text-white flex items-center justify-center text-lg font-medium bg-blue-500 cursor-pointer hover:bg-blue-600">
+              <Spinners270RingIcon v-if="isLoadingDebtForm" class="mr-2 w-5 h-5 text-gray-200 animate-spin dark:text-gray-600 fill-gray-600 dark:fill-gray-300" />
+              {{ $t('intoDebt') }}
+            </button>
+          </div>
+        </div>
 
+        <div v-if="showSale" class="flex flex-col space-y-8">
+          <h3 class="text-xl font-semibold">{{ $t('addCustomer') }}</h3>
           <div>
             <div class="flex items-center space-x-4">
               <div class="flex-1">
@@ -823,10 +887,9 @@ const createSale = () => {
               </div>
             </div>
           </div>
-
           <div>
             <CancelButton @click="closeForm" />
-            <button v-if="isLoadingCustomerForm" type="bSearchIconutton" class="inline-flex items-center justify-center ms-3 text-white bg-blue-600 focus:ring-4 focus:outline-none focus:ring-slate-300 rounded-xl border border-slate-200 text-sm font-medium px-5 py-2.5 focus:z-10 cursor-default">
+            <button v-if="isLoadingCustomerForm" class="inline-flex items-center justify-center ms-3 text-white bg-blue-600 focus:ring-4 focus:outline-none focus:ring-slate-300 rounded-xl border border-slate-200 text-sm font-medium px-5 py-2.5 focus:z-10 cursor-default">
               <Spinners270RingIcon class="mr-2 w-5 h-5 text-gray-200 animate-spin dark:text-gray-600 fill-gray-600 dark:fill-gray-300" />
               {{ $t('create') }}
             </button>

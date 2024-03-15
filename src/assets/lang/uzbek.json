@@ -72,7 +72,7 @@
   "shoppingCart": "Savatcha",
   "remainingAmount": "Qolgan miqdor",
   "cartIsCurrentlyEmpty": "Savat hozircha bo'sh",
-  "searchForProductsOrScanProducts": "Mahsulotlarni qidiring yoki shtrix-kodini skanerlash",
+  "searchForProductsOrScanProducts": "Mahsulotlarni qidiring yoki shtrix-kodni skanerlang",
   "salesDetails": "Sotuv tafsilotlari",
   "numberOfProducts": "Mahsulotlar soni",
   "paymentReceived": "Qabul qilingan to'lov",
@@ -203,5 +203,8 @@
   "errorWhileCreatingOrder": "Buyurtma yaratishda xatolik yuz berdi",
   "clearTheBasket": "Savatni tozalash",
   "toLend": "Nasiya",
-  "withClick": "Click orqali"
+  "withClick": "Click orqali",
+  "intoDebt": "Qarzga berish",
+  "debtCreatedSuccessfully": "Qarzdorlik muvaffaqiyatli yaratildi!",
+  "errorWhileCreatingDebt": "Qarzdorlik yaratishda xatolik yuz berdi!"
 }

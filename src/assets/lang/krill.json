@@ -32,7 +32,7 @@
   "saleSettings": "Сотув созлама",
   "addCustomer": "Харидорни қўшиш",
   "fullName": "Фамилия ва исм",
-  "enterFullName": "Фамилия ва исмни киринг",
+  "enterFullName": "Фамилия ва исмни киритинг",
   "boundaryPrice": "Минимал нархи",
   "errorWhileCreatingCustomer": "Чегирма яратишда хатолик юз берди!",
   "customerAddedSuccessfully": "Чегирма яратилди!",
@@ -72,7 +72,7 @@
   "shoppingCart": "Саватча",
   "remainingAmount": "Қолган миқдор",
   "cartIsCurrentlyEmpty": "Сават ҳозирча бўш",
-  "searchForProductsOrScanProducts": "Маҳсулотларни қидиринг ёки штрих-кодини сканерлаш",
+  "searchForProductsOrScanProducts": "Маҳсулотларни қидиринг ёки штрих-кодни сканерланг",
   "salesDetails": "Сотув тафсилотлари",
   "numberOfProducts": "Маҳсулотлар сони",
   "paymentReceived": "Қабул қилинган тўлов",
@@ -203,5 +203,8 @@
   "errorWhileCreatingOrder": "Буюртма яратишда хатолик юз берди",
   "clearTheBasket": "Саватни тозалаш",
    "toLend": "Насия",
-  "withClick": "Клик орқали"
+  "withClick": "Клик орқали",
+   "intoDebt": "Қарзга бериш",
+   "debtCreatedSuccessfully": "Қарздорлик муваффақиятли яратилди!",
+   "errorWhileCreatingDebt": "Қарздорлик яратишда хатолик юз берди"
 }

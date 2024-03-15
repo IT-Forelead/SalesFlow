@@ -203,5 +203,8 @@
   "errorWhileCreatingOrder": "Ошибка при создании заказа",
   "clearTheBasket": "Очистить корзину",
   "toLend": "Рассрочка",
-  "withClick": "С Click"
+  "withClick": "С Click",
+  "intoDebt": "В долг",
+  "debtCreatedSuccessfully": "Долг успешно создан!",
+  "errorWhileCreatingDebt": "Ошибка при создании долга"
 }
