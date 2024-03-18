@@ -207,5 +207,9 @@
    "intoDebt": "Қарзга бериш",
    "debtCreatedSuccessfully": "Қарздорлик муваффақиятли яратилди!",
    "errorWhileCreatingDebt": "Қарздорлик яратишда хатолик юз берди",
-   "debtors": "Қарздорлар"
+   "debtors": "Қарздорлар",
+   "deleteDebtor": "Қарздорликни ўчириш",
+   "debtDeletedSuccessfully": "Қарздорлик муваффақиятли ўчирилди!",
+   "errorWhileDeletingDebt": "Қарздорликни ўчиришда хатолик юз берди",
+   "debtInformation": "Қарздорлик ҳақида маълумот"
 }

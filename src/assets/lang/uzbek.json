@@ -207,5 +207,9 @@
   "intoDebt": "Qarzga berish",
   "debtCreatedSuccessfully": "Qarzdorlik muvaffaqiyatli yaratildi!",
   "errorWhileCreatingDebt": "Qarzdorlik yaratishda xatolik yuz berdi!",
-  "debtors": "Qarzdorlar"
+  "debtors": "Qarzdorlar",
+  "deleteDebt": "Qarzdorlikni o'chirish",
+  "debtInformation": "Qarzdorlik haqida ma'lumot",
+  "debtDeletedSuccessfully": "Qarzdorlik muvaffaqiyatli o'chirildi!",
+  "errorWhileDeletingDebt": "Qarzdorlikni o'chirishda xatolik yuz berdi!"
 }

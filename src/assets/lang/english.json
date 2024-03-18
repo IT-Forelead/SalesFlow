@@ -206,5 +206,9 @@
   "intoDebt": "Into debt",
   "debtCreatedSuccessfully": "Debt created!",
   "errorWhileCreatingDebt": "Error while creating debt!",
-  "debtors": "Debtors"
+  "debtors": "Debtors",
+  "deleteDebtor": "Delete debt",
+  "debtDeletedSuccessfully": "Debt deleted successfully!",
+  "errorWhileDeletingDebt": "Error while deleting debt!",
+  "debtInformation": "Debt information"
 }
