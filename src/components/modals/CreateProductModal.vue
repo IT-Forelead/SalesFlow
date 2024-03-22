@@ -97,8 +97,8 @@ const createProduct = () => {
           useProductStore().total = res.total
           useProductStore().setProducts(res.data)
         })
+      clearSubmitData()
       isLoading.value = false
-      closeModal()
     }).catch((err) => {
       toast.error(t('errorWhileCreatingProduct'))
       setTimeout(() => {
