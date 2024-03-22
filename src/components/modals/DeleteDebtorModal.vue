@@ -66,15 +66,15 @@ const deleteDebtor = () => {
                                 {{ $t('fullName') }}
                             </div>
                             <div class="text-base font-medium">
-                                {{ selectedDebtor?.id }}
+                                {{ selectedDebtor?.fullName }}
                             </div>
                         </li>
                         <li class="flex items-center justify-between py-2 px-3">
                             <div class="text-base">
-                                {{ $t('address') }}
+                                {{ $t('phoneNumber') }}
                             </div>
                             <div class="text-base font-medium">
-
+                              {{selectedDebtor?.phone}}
                             </div>
                         </li>
                         <li class="flex items-center justify-between py-2 px-3">

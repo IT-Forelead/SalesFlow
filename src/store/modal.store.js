@@ -21,7 +21,8 @@ export const useModalStore = defineStore('modal', {
     isOpenEditProductBarcodeModal: false,
     isOpenCameraScannerModal: false,
     isOpenBarcodeScannerModal: false,
-    isOpenDeleteDebtorModal: false
+    isOpenDeleteDebtorModal: false,
+    isOpenDebtInfoModal: false,
   }),
   actions: {
     openCreateProductBarcodeModal() {
@@ -125,6 +126,12 @@ export const useModalStore = defineStore('modal', {
     },
     closeDeleteDebtorModal() {
       this.isOpenDeleteDebtorModal = false
+    },
+    openDebtInfoModal() {
+      this.isOpenDebtInfoModal = true
+    },
+    closeDebtInfoModal() {
+      this.isOpenDebtInfoModal = false
     },
     toggleNotification() {
       this.isOpenNotification = !this.isOpenNotification

@@ -58,9 +58,9 @@ const columns = [
     accessorKey: 'actions',
     header: t('actions'),
     cell: ({ row }) => h('div', { class: 'flex items-center space-x-2' }, [
-      h('button', { onClick: () => { openDebtInfo(row.original) } }, [
-        h(EyeIcon, { class: 'w-6 h-6 text-blue-600 hover:scale-105' })
-      ]),
+      // h('button', { onClick: () => { openDebtInfo(row.original) } }, [
+      //   h(EyeIcon, { class: 'w-6 h-6 text-blue-600 hover:scale-105' })
+      // ]),
       h('button', { onClick: () => { openDeleteDebtorModal(row.original) } }, [
         h(TrashIcon, { class: 'w-6 h-6 text-red-600 hover:scale-105' })
       ]),
@@ -71,7 +71,7 @@ const columns = [
 
 const openDebtInfo = (data) => {
   useModalStore().openDebtInfoModal()
-  useMarketStore().setSelectedMarket(data)
+  useDebtorStore().setSelectedDebtor(data)
 }
 
 const openDeleteDebtorModal = (data) => {

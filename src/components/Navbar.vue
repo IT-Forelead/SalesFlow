@@ -21,6 +21,7 @@ import DeleteUserModal from './modals/DeleteUserModal.vue'
 import EditProductBarcodeModal from './modals/EditProductBarcodeModal.vue'
 import CameraScannerModal from './modals/CameraScannerModal.vue'
 import DeleteDebtorModal from './modals/DeleteDebtorModal.vue'
+import DebtInfoModal from './modals/DebtInfoModal.vue'
 
 const notificationDropdown = ref(null)
 
@@ -104,6 +105,7 @@ onUnmounted(() => {
   <CameraScannerModal/>
   <BarcodeScannerModal/>
   <DeleteDebtorModal/>
+  <DebtInfoModal/>
 
 </template>
 
