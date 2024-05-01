@@ -1,0 +1,53 @@
+name: Deploy to timeweb
+on:
+  push:
+    branches:
+      - production
+
+env:
+  AWS_ECR_REPOSITORY: "${{ vars.AWS_ACCOUNT_ID }}.dkr.ecr.${{ vars.AWS_REGION }}.amazonaws.com"
+
+jobs:
+  build:
+    name: Build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: "${{ vars.AWS_REGION }}"
+
+      - name: Login to Amazon ECR
+        id: login-ecr
+        uses: aws-actions/amazon-ecr-login@v1
+
+      - name: "Building image 🏗"
+        id: build-image
+        run: |
+          export CI_SHORT_COMMIT_ID=$(echo "$GITHUB_SHA" | cut -c1-8)
+          echo "::set-output name=tag::$CI_SHORT_COMMIT_ID"
+          docker build -t ${{ env.AWS_ECR_REPOSITORY }}/warehouse/frontend:$CI_SHORT_COMMIT_ID .
+      - name: "Publish image"
+        run: |
+          docker images
+          docker push ${{ env.AWS_ECR_REPOSITORY }}/warehouse/frontend:${{ steps.build-image.outputs.tag }}
+
+      - name: Install SSH key of timeweb
+        uses: appleboy/ssh-action@master
+        env:
+          IMAGE_TAG: ${{ steps.build-image.outputs.tag }}
+        with:
+          host: ${{ secrets.PROD_HOST }}
+          username: ${{ secrets.USERNAME }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          script: |
+            cd warehouse/warehouse-frontend
+            aws ecr get-login-password --region ${{ vars.AWS_REGION }} | docker login --username AWS --password-stdin ${{ env.AWS_ECR_REPOSITORY }}
+            export IMAGE_TAG=${{ env.IMAGE_TAG }}
+            bash run 
+            docker restart nginx
