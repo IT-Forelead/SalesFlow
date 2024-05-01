@@ -211,5 +211,6 @@
    "deleteDebtor": "Қарздорликни ўчириш",
    "debtDeletedSuccessfully": "Қарздорлик муваффақиятли ўчирилди!",
    "errorWhileDeletingDebt": "Қарздорликни ўчиришда хатолик юз берди",
-   "debtInformation": "Қарздорлик ҳақида маълумот"
+   "debtInformation": "Қарздорлик ҳақида маълумот",
+   "serialId": "Маҳсулот рақами"
 }

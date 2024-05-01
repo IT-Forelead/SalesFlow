@@ -210,5 +210,6 @@
   "deleteDebtor": "Delete debt",
   "debtDeletedSuccessfully": "Debt deleted successfully!",
   "errorWhileDeletingDebt": "Error while deleting debt!",
-  "debtInformation": "Debt information"
+  "debtInformation": "Debt information",
+  "serialId": "Product number"
 }

@@ -140,6 +140,16 @@ const searchProducts = () => {
         }
         }
       })
+    } else if (!isNaN(search.value) && Number.isInteger(+search.value)) {
+      ProductService.getProducts(
+          cleanObjectEmptyFields({
+            serialId: +search.value,
+          })
+      ).then((res) => {
+        isLoading.value = false
+        useProductStore().clearStore()
+        useProductStore().setProducts(res.data)
+      })
     } else {
       ProductService.getProducts(
         cleanObjectEmptyFields({
@@ -182,7 +192,8 @@ const addProductToCart = (product) => {
           price: product?.price,
           quantity: product?.quantity,
           saleType: product?.saleType,
-          amount: 0.1
+          amount: 0.1,
+          serialId: product?.serialId,
         })
       } else if (product?.saleType == 'litre') {
         activeBasket.value.push({
@@ -202,7 +213,8 @@ const addProductToCart = (product) => {
           price: product?.price,
           quantity: product?.quantity,
           saleType: product?.saleType,
-          amount: 1
+          amount: 1,
+          serialId: product?.serialId,
         })
       }
     } else {
@@ -630,6 +642,9 @@ const createDebt = () => {
                   <th class="px-3 py-2 text-left rounded-l-xl text-sm md:text-base">
                     {{ $t('product') }}
                   </th>
+                  <th class="px-3 py-2 text-left rounded-l-xl text-sm md:text-base">
+                    {{ $t('serialId') }}
+                  </th>
                   <th class="px-3 py-2 text-center text-sm md:text-base">
                     {{ $t('quantity') }}
                   </th>
@@ -666,6 +681,9 @@ const createDebt = () => {
                         </div>
                       </div>
                     </div>
+                  </td>
+                  <td class="px-3 py-2 text-center whitespace-nowrap">
+                    {{ product?.serialId }}
                   </td>
                   <td class="px-3 py-2 text-center whitespace-nowrap">
                     <div class="flex justify-center">

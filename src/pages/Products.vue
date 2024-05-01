@@ -73,6 +73,10 @@ const columns = [
     header: t('package'),
   },
   {
+    accessorKey: 'serialId',
+    header: t('serialId'),
+  },
+  {
     accessorKey: 'barcode',
     header: t('barcode'),
   },

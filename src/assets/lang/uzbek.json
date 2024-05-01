@@ -211,5 +211,6 @@
   "deleteDebt": "Qarzdorlikni o'chirish",
   "debtInformation": "Qarzdorlik haqida ma'lumot",
   "debtDeletedSuccessfully": "Qarzdorlik muvaffaqiyatli o'chirildi!",
-  "errorWhileDeletingDebt": "Qarzdorlikni o'chirishda xatolik yuz berdi!"
+  "errorWhileDeletingDebt": "Qarzdorlikni o'chirishda xatolik yuz berdi!",
+  "serialId": "Mahsulot raqami"
 }
