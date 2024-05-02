@@ -283,14 +283,6 @@ watch(
                    class="bg-slate-100 border-none text-slate-900 rounded-lg w-full h-11 placeholder-slate-400 placeholder:text-sm md:placeholder:text-lg"
                    :placeholder="t('enterProductQuantity')">
           </div>
-<!--          <div class="flex-1 spaceSearchIcon-y-1">-->
-<!--            <label for="price" class="text-base md:text-lg font-medium">-->
-<!--              {{ $t('purchasePrice') }}-->
-<!--            </label>-->
-<!--            <money3 v-model.number="submitData.purchasePrice" v-bind="moneyConf" id="price"-->
-<!--                    class="border-none text-right text-gray-500 bg-slate-100 h-11 rounded-lg w-full text-lg">-->
-<!--            </money3>-->
-<!--          </div>-->
           <div class="flex-1 spaceSearchIcon-y-1">
             <label for="price" class="text-base md:text-lg font-medium">
               {{ $t('price') }}
