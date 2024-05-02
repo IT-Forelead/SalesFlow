@@ -27,7 +27,9 @@ jobs:
         uses: aws-actions/amazon-ecr-login@v1
 
       - name: Write .env file
-        run: echo "VITE_BASE_URL='https://pro-market.uz/api/v1'" > .env
+        run: |
+          echo "VITE_BASE_URL='https://pro-market.uz/api/v1'" > .env
+          echo "VITE_CHEQUE_API_URL='http://localhost:19351'" >> .env
 
       - name: "Building image 🏗"
         id: build-image
