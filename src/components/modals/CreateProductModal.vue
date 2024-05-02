@@ -47,6 +47,9 @@ const submitData = reactive({
   price: 0,
   toLend: false,
   quantity: 0,
+  purchasePrice: 0,
+  productionDate: '',
+  expirationDate: '',
 })
 
 const clearSubmitData = () => {
@@ -55,6 +58,9 @@ const clearSubmitData = () => {
   submitData.packaging = ''
   submitData.saleType = ''
   submitData.price = 0
+  submitData.purchasePrice = 0
+  submitData.productionDate = ''
+  submitData.expirationDate = ''
   submitData.toLend = false
   submitData.quantity = 0
 }
@@ -86,6 +92,9 @@ const createProduct = () => {
         packaging: submitData.packaging,
         saleType: submitData.saleType,
         price: submitData.price,
+        purchasePrice: submitData.purchasePrice,
+        expirationDate: submitData.expirationDate,
+        productionDate: submitData.productionDate,
         quantity: submitData.quantity,
         toLend: submitData.toLend,
       }),
@@ -114,7 +123,7 @@ const searchProductBarcodes = () => {
   } else {
     isSearching.value = true
     ProductService.searchProductBarcodeByParams({
-      search: searchProductBarcode.value
+      search: searchProductBarcode.value,
     }).then((res) => {
       if (res.length == 0) {
         toast.error(t('thereIsNoSuchBarcodeProduct'))
@@ -291,13 +300,43 @@ watch(
             </money3>
           </div>
         </div>
-        <div class="flex flex-col md:flex-row md:items-center">
-          <div class="flex flex-1 items-center px-4 border border-gray-200 bg-slate-50 rounded-lg mt-1 lg:mt-0 md:mt-0">
-            <input v-model="submitData.toLend" id="debt" type="checkbox"
-                   class="w-5 h-5 text-blue-600 border-slate-300 rounded focus:ring-blue-500 focus:ring-2">
-            <label for="debt" class="w-full py-2 mx-4 text-base font-medium">{{ $t('toLend') }}</label>
+        <div class="flex flex-col md:flex-row md:items-center space-y-2 md:space-y-0 md:space-x-4">
+          <div class="flex-1 space-y-1">
+            <label for="quantity" class="text-base md:text-lg font-medium">
+              {{ $t('productionDate') }}
+            </label>
+            <input id="quantity" type="date" v-model="submitData.productionDate"
+                   class="bg-slate-100 border-none text-slate-900 rounded-lg w-full h-11 placeholder-slate-400 placeholder:text-sm md:placeholder:text-lg"
+                   :placeholder="t('enterProductQuantity')">
           </div>
-          <div class="flex flex-1 px-6"></div>
+          <div class="flex-1 spaceSearchIcon-y-1">
+            <label for="price" class="text-base md:text-lg font-medium">
+              {{ $t('expirationDate') }}
+            </label>
+            <input id="quantity" type="date" v-model="submitData.expirationDate"
+                   class="bg-slate-100 border-none text-slate-900 rounded-lg w-full h-11 placeholder-slate-400 placeholder:text-sm md:placeholder:text-lg"
+                   :placeholder="t('enterProductQuantity')">
+          </div>
+        </div>
+        <div class="flex flex-col md:flex-row md:items-center space-y-2 md:space-y-0 md:space-x-4">
+          <div class="flex-1 space-y-1">
+            <label for="toLend" class="text-base md:text-lg font-medium">
+              {{ $t('toLend') }}
+            </label>
+            <div class="flex items-center px-4 border border-gray-200 bg-slate-50 rounded-lg mt-2 lg:mt-0 md:mt-0">
+              <input v-model="submitData.toLend" id="toLend" type="checkbox"
+                     class="w-5 h-5 text-blue-600 border-slate-300 rounded focus:ring-blue-500 focus:ring-2 mr-2">
+              <label for="toLend" class="py-2 text-base font-medium">{{ $t('toLend') }}</label>
+            </div>
+          </div>
+          <div class="flex-1 space-y-1">
+            <label for="purchasePrice" class="text-base md:text-lg font-medium">
+              {{ $t('purchasePrice') }}
+            </label>
+            <money3 v-model.number="submitData.purchasePrice" v-bind="moneyConf" id="purchasePrice"
+                    class="border-none text-right text-gray-500 bg-slate-100 h-11 rounded-lg w-full text-lg">
+            </money3>
+          </div>
         </div>
       </div>
     </template>

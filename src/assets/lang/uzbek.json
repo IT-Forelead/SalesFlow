@@ -29,7 +29,7 @@
   "n": "№",
   "search": "Izlash",
   "saleSettings": "Sotuv sozlama",
-  "addCustomer" : "Xaridorni qo'shish",
+  "addCustomer": "Xaridorni qo'shish",
   "boundaryPrice": "Minimal narxi",
   "fullName": "Familiya va ism",
   "enterFullName": "Familiya va ismni kiriting",
@@ -212,5 +212,8 @@
   "debtInformation": "Qarzdorlik haqida ma'lumot",
   "debtDeletedSuccessfully": "Qarzdorlik muvaffaqiyatli o'chirildi!",
   "errorWhileDeletingDebt": "Qarzdorlikni o'chirishda xatolik yuz berdi!",
-  "serialId": "Mahsulot raqami"
+  "serialId": "Mahsulot raqami",
+  "purchasePrice": "Boshlang'ich narxi",
+  "productionDate":"Ishlab chiqarilgan sanasi",
+  "expirationDate": "Tugash muddati"
 }

@@ -77,6 +77,14 @@ const columns = [
     header: t('salePrice'),
     cell: ({ row }) => useMoneyFormatter(row.original.salePrice),
   },
+  {
+    accessorKey: 'productionDate',
+    header: t('productionDate'),
+  },
+  {
+    accessorKey: 'expirationDate',
+    header: t('expirationDate'),
+  },
 ]
 
 const getProductHistories = () => {
