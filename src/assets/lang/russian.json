@@ -213,5 +213,7 @@
   "debtDeletedSuccessfully": "Должник успешно удален!",
   "debtInformation": "Информация о долге",
   "serialId": "Номер продукта",
-  "purchasePrice": "Начальная цена"
+  "purchasePrice": "Начальная цена",
+  "productionDate":"Дата производства ",
+  "expirationDate": "Дата окончания срока"
 }

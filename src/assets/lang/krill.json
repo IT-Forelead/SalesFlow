@@ -213,5 +213,7 @@
   "errorWhileDeletingDebt": "Қарздорликни ўчиришда хатолик юз берди",
   "debtInformation": "Қарздорлик ҳақида маълумот",
   "serialId": "Маҳсулот рақами",
-  "purchasePrice": "Бошлангич нархи"
+  "purchasePrice": "Бошлангич нархи",
+  "productionDate":"Ишлаб чикарилган сана",
+  "expirationDate": "Тугаш муддати"
 }

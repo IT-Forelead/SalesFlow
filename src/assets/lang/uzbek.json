@@ -213,5 +213,7 @@
   "debtDeletedSuccessfully": "Qarzdorlik muvaffaqiyatli o'chirildi!",
   "errorWhileDeletingDebt": "Qarzdorlikni o'chirishda xatolik yuz berdi!",
   "serialId": "Mahsulot raqami",
-  "purchasePrice": "Boshlang'ich narxi"
+  "purchasePrice": "Boshlang'ich narxi",
+  "productionDate":"Ishlab chiqarilgan sanasi",
+  "expirationDate": "Tugash muddati"
 }

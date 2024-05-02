@@ -212,5 +212,7 @@
   "errorWhileDeletingDebt": "Error while deleting debt!",
   "debtInformation": "Debt information",
   "serialId": "Product number",
-  "purchasePrice": "Initial prices"
+  "purchasePrice": "Initial price",
+  "productionDate":"Production Date",
+  "expirationDate": "Expiration Date"
 }
