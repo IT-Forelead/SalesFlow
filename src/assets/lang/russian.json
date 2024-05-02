@@ -212,5 +212,6 @@
   "errorWhileDeletingDebt": "Ошибка при удалении должника",
   "debtDeletedSuccessfully": "Должник успешно удален!",
   "debtInformation": "Информация о долге",
-  "serialId": "Номер продукта"
+  "serialId": "Номер продукта",
+  "purchasePrice": "Начальная цена"
 }

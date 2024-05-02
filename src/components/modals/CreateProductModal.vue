@@ -55,6 +55,7 @@ const clearSubmitData = () => {
   submitData.packaging = ''
   submitData.saleType = ''
   submitData.price = 0
+  submitData.purchasePrice = 0
   submitData.toLend = false
   submitData.quantity = 0
 }
@@ -86,6 +87,7 @@ const createProduct = () => {
         packaging: submitData.packaging,
         saleType: submitData.saleType,
         price: submitData.price,
+        prices: submitData.purchasePrice,
         quantity: submitData.quantity,
         toLend: submitData.toLend,
       }),
@@ -114,7 +116,7 @@ const searchProductBarcodes = () => {
   } else {
     isSearching.value = true
     ProductService.searchProductBarcodeByParams({
-      search: searchProductBarcode.value
+      search: searchProductBarcode.value,
     }).then((res) => {
       if (res.length == 0) {
         toast.error(t('thereIsNoSuchBarcodeProduct'))
@@ -281,6 +283,14 @@ watch(
                    class="bg-slate-100 border-none text-slate-900 rounded-lg w-full h-11 placeholder-slate-400 placeholder:text-sm md:placeholder:text-lg"
                    :placeholder="t('enterProductQuantity')">
           </div>
+<!--          <div class="flex-1 spaceSearchIcon-y-1">-->
+<!--            <label for="price" class="text-base md:text-lg font-medium">-->
+<!--              {{ $t('purchasePrice') }}-->
+<!--            </label>-->
+<!--            <money3 v-model.number="submitData.purchasePrice" v-bind="moneyConf" id="price"-->
+<!--                    class="border-none text-right text-gray-500 bg-slate-100 h-11 rounded-lg w-full text-lg">-->
+<!--            </money3>-->
+<!--          </div>-->
           <div class="flex-1 spaceSearchIcon-y-1">
             <label for="price" class="text-base md:text-lg font-medium">
               {{ $t('price') }}
@@ -298,6 +308,14 @@ watch(
             <label for="debt" class="w-full py-2 mx-4 text-base font-medium">{{ $t('toLend') }}</label>
           </div>
           <div class="flex flex-1 px-6"></div>
+          <div class="flex-1 spaceSearchIcon-y-1">
+            <label for="price" class="text-base md:text-lg font-medium">
+              {{ $t('purchasePrice') }}
+            </label>
+            <money3 v-model.number="submitData.purchasePrice" v-bind="moneyConf" id="price"
+                    class="border-none text-right text-gray-500 bg-slate-100 h-11 rounded-lg w-full text-lg">
+            </money3>
+          </div>
         </div>
       </div>
     </template>
