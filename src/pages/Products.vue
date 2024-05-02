@@ -138,8 +138,8 @@ const getProducts = () => {
       useProductStore().total = res.total
       useProductStore().setProducts(res.data)
     }).finally(() => {
-      isLoading.value = false
-    })
+    isLoading.value = false
+  })
 }
 const totalPages = computed(() => Math.ceil(total.value / pageSize))
 const displayedPageNumbers = computed(() => {
@@ -193,12 +193,12 @@ onMounted(() => {
           <SearchIcon class="w-5 h-5 text-slate-400" />
         </div>
         <input type="search" v-model="globalSearchFromTable"
-          class="bg-slate-100 border-none w-full text-slate-900 text-base md:text-lg rounded-full block pl-10 py-2 placeholder-slate-400"
-          placeholder="Search everything...">
+               class="bg-slate-100 border-none w-full text-slate-900 text-base md:text-lg rounded-full block pl-10 py-2 placeholder-slate-400"
+               placeholder="Search everything...">
       </div>
       <div class="w-full md:w-auto order-1 md:order-2">
         <button v-if="navigationGuard('create_product')" @click="useModalStore().openCreateProductModal()"
-          class="w-full md:w-auto py-2 px-4 rounded-full text-white text-lg font-medium bg-blue-500 cursor-pointer hover:bg-blue-600">
+                class="w-full md:w-auto py-2 px-4 rounded-full text-white text-lg font-medium bg-blue-500 cursor-pointer hover:bg-blue-600">
           {{ $t('addProduct') }}
         </button>
       </div>
@@ -216,30 +216,30 @@ onMounted(() => {
       </div>
       <div class="flex items-center space-x-2">
         <button :disabled="page === 1" @click="goToPage(1)"
-          class="flex items-center justify-center px-3 py-2 text-base font-medium text-slate-900 rounded-lg select-none hover:bg-blue-200 disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
-          type="button">
+                class="flex items-center justify-center px-3 py-2 text-base font-medium text-slate-900 rounded-lg select-none hover:bg-blue-200 disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
+                type="button">
           <CaretDoubleLeftIcon class="w-5 h-5" />
         </button>
         <button @click="prevPage" :disabled="page === 1"
-          class="flex items-center justify-center px-3 py-2 text-base font-medium text-slate-900 rounded-lg select-none hover:bg-blue-200 disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
-          type="button">
+                class="flex items-center justify-center px-3 py-2 text-base font-medium text-slate-900 rounded-lg select-none hover:bg-blue-200 disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
+                type="button">
           <CaretLeftIcon class="w-5 h-5" />
         </button>
         <div class="flex items-center space-x-2">
           <button v-for="pageNumber in displayedPageNumbers" :key="pageNumber" @click="goToPage(pageNumber)"
-            :class="{ 'bg-blue-600 text-white': pageNumber === page, 'hover:bg-blue-200': pageNumber !== page }"
-            class="px-3 py-2 select-none rounded-lg text-slate-900 text-center text-base font-medium transition-all">
+                  :class="{ 'bg-blue-600 text-white': pageNumber === page, 'hover:bg-blue-200': pageNumber !== page }"
+                  class="px-3 py-2 select-none rounded-lg text-slate-900 text-center text-base font-medium transition-all">
             {{ pageNumber }}
           </button>
         </div>
         <button @click="nextPage" :disabled="page === totalPages"
-          class="flex items-center gap-2 px-3 py-2 text-base font-medium text-center text-slate-900 rounded-lg select-none hover:bg-blue-200 disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
-          type="button">
+                class="flex items-center gap-2 px-3 py-2 text-base font-medium text-center text-slate-900 rounded-lg select-none hover:bg-blue-200 disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
+                type="button">
           <CaretRightIcon class="w-5 h-5" />
         </button>
         <button :disabled="page === totalPages" @click="goToPage(totalPages)"
-          class="flex items-center gap-2 px-3 py-2 text-base font-medium text-slate-900 rounded-lg select-none hover:bg-blue-200 disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
-          type="button">
+                class="flex items-center gap-2 px-3 py-2 text-base font-medium text-slate-900 rounded-lg select-none hover:bg-blue-200 disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
+                type="button">
           <CaretDoubleRightIcon class="w-5 h-5" />
         </button>
       </div>
