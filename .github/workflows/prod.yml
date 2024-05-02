@@ -34,6 +34,11 @@ jobs:
       - name: "Building image 🏗"
         id: build-image
         run: |
+          sudo n 18.13.0
+          npm -v
+          node --version
+          sudo rm -rf node_modules
+          npm i
           export CI_SHORT_COMMIT_ID=$(echo "$GITHUB_SHA" | cut -c1-8)
           echo "::set-output name=tag::$CI_SHORT_COMMIT_ID"
           docker build -t ${{ env.AWS_ECR_REPOSITORY }}/warehouse/frontend:$CI_SHORT_COMMIT_ID .
