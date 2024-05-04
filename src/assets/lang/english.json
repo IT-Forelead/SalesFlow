@@ -211,5 +211,8 @@
   "debtDeletedSuccessfully": "Debt deleted successfully!",
   "errorWhileDeletingDebt": "Error while deleting debt!",
   "debtInformation": "Debt information",
-  "serialId": "Product number"
+  "serialId": "Product number",
+  "purchasePrice": "Initial price",
+  "productionDate":"Production Date",
+  "expirationDate": "Expiration Date"
 }

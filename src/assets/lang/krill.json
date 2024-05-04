@@ -1,4 +1,4 @@
- {
+{
   "title": "SalesFlow",
   "dashboard": "Бош саҳифа",
   "products": "Маҳсулотлар",
@@ -202,15 +202,18 @@
   "thirdBasket": "Учинчи сават",
   "errorWhileCreatingOrder": "Буюртма яратишда хатолик юз берди",
   "clearTheBasket": "Саватни тозалаш",
-   "toLend": "Насия",
+  "toLend": "Насия",
   "withClick": "Клик орқали",
-   "intoDebt": "Қарзга бериш",
-   "debtCreatedSuccessfully": "Қарздорлик муваффақиятли яратилди!",
-   "errorWhileCreatingDebt": "Қарздорлик яратишда хатолик юз берди",
-   "debtors": "Қарздорлар",
-   "deleteDebtor": "Қарздорликни ўчириш",
-   "debtDeletedSuccessfully": "Қарздорлик муваффақиятли ўчирилди!",
-   "errorWhileDeletingDebt": "Қарздорликни ўчиришда хатолик юз берди",
-   "debtInformation": "Қарздорлик ҳақида маълумот",
-   "serialId": "Маҳсулот рақами"
+  "intoDebt": "Қарзга бериш",
+  "debtCreatedSuccessfully": "Қарздорлик муваффақиятли яратилди!",
+  "errorWhileCreatingDebt": "Қарздорлик яратишда хатолик юз берди",
+  "debtors": "Қарздорлар",
+  "deleteDebtor": "Қарздорликни ўчириш",
+  "debtDeletedSuccessfully": "Қарздорлик муваффақиятли ўчирилди!",
+  "errorWhileDeletingDebt": "Қарздорликни ўчиришда хатолик юз берди",
+  "debtInformation": "Қарздорлик ҳақида маълумот",
+  "serialId": "Маҳсулот рақами",
+  "purchasePrice": "Бошлангич нархи",
+  "productionDate":"Ишлаб чикарилган сана",
+  "expirationDate": "Тугаш муддати"
 }
