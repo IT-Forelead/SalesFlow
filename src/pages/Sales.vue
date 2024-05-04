@@ -34,7 +34,7 @@ import axios from 'axios'
 import moment from 'moment'
 import { onClickOutside } from '@vueuse/core'
 
-const API_URL = import.meta.env.VITE_CHEQUE_API_URL;
+const API_URL = import.meta.env.VITE_CHEQUE_API_URL
 
 const { t } = useI18n()
 const router = useRouter()
@@ -57,7 +57,7 @@ onMounted(() => {
     isLoading.value = true
     boundaryPrice.value = res.boundaryPrice
   })
-});
+})
 
 const showDebtForm = ref(false)
 const searchProductDropdown = ref(null)
@@ -77,20 +77,20 @@ const firstBasket = ref([])
 const secondBasket = ref([])
 const thirdBasket = ref([])
 const qrcode = ref()
-const phoneRegex = /\+998[1-9][\d]{8}/;
+const phoneRegex = /\+998[1-9][\d]{8}/
 
 const baskets = [
   {
     id: 'firstBasket',
-    name: t('firstBasket')
+    name: t('firstBasket'),
   },
   {
     id: 'secondBasket',
-    name: t('secondBasket')
+    name: t('secondBasket'),
   },
   {
     id: 'thirdBasket',
-    name: t('thirdBasket')
+    name: t('thirdBasket'),
   },
 ]
 
@@ -123,6 +123,7 @@ const searchProducts = () => {
   } else {
     isLoading.value = true
     if (isBarcode(search.value)) {
+      const amount = String(search.value).startsWith('9') ? Number.parseInt(String(search.value).substring(8, 13)) : null
       ProductService.getProducts(
         cleanObjectEmptyFields({
           barcode: search.value,
@@ -130,21 +131,17 @@ const searchProducts = () => {
       ).then((res) => {
         isLoading.value = false
         if (res.data.length == 1) {
-          addProductToCart(res.data[0])
-        } else {
-          if (res.data.length == 1) {
-          addProductToCart(res.data[0])
+          addProductToCart(res.data[0], amount)
         } else {
           useProductStore().clearStore()
           useProductStore().setProducts(res.data)
         }
-        }
       })
     } else if (!isNaN(search.value) && Number.isInteger(+search.value)) {
       ProductService.getProducts(
-          cleanObjectEmptyFields({
-            serialId: +search.value,
-          })
+        cleanObjectEmptyFields({
+          serialId: +search.value,
+        })
       ).then((res) => {
         isLoading.value = false
         useProductStore().clearStore()
@@ -164,11 +161,13 @@ const searchProducts = () => {
   }
 }
 
-const addProductToCart = (product) => {
+const addProductToCart = (product, amount) => {
   if (activeBasket.value.find((p) => p?.productId == product?.id)) {
     activeBasket.value = activeBasket.value.map((item) => {
       if (item.productId === product.id && product?.quantity > item.amount) {
-        if (item.saleType == 'kg') {
+        if (amount) {
+          return { ...item, amount: item.amount + amount }
+        } else if (item.saleType == 'kg') {
           return { ...item, amount: roundFloatToOneDecimal(item.amount + 0.1) }
         } else if (item.saleType == 'litre') {
           return { ...item, amount: roundFloatToOneDecimal(item.amount + 0.5) }
@@ -184,7 +183,18 @@ const addProductToCart = (product) => {
     })
   } else {
     if (product.quantity > 0) {
-      if (product?.saleType == 'kg') {
+      if (amount) {
+        activeBasket.value.push({
+          productId: product?.id,
+          name: product?.name,
+          packaging: product?.packaging,
+          price: product?.price,
+          quantity: product?.quantity,
+          saleType: product?.saleType,
+          amount: amount,
+          serialId: product?.serialId,
+        })
+      } else if (product?.saleType == 'kg') {
         activeBasket.value.push({
           productId: product?.id,
           name: product?.name,
@@ -203,7 +213,7 @@ const addProductToCart = (product) => {
           price: product?.price,
           quantity: product?.quantity,
           saleType: product?.saleType,
-          amount: 0.5
+          amount: 0.5,
         })
       } else {
         activeBasket.value.push({
@@ -257,7 +267,7 @@ const increaseCountOfProducts = (product) => {
       }
     } else item
     return item
-  });
+  })
 }
 
 const reduceCountOfProducts = (product) => {
@@ -273,7 +283,7 @@ const reduceCountOfProducts = (product) => {
       }
     } else item
     return item
-  });
+  })
 }
 
 const clearSearchInput = () => {
@@ -296,7 +306,7 @@ const clearSubmitData = () => {
 
 const createOrder = () => {
   if (activeBasket.value.length == 0) {
-    toast.error("Tanlangan mahsulotlar mavjud emas!")
+    toast.error('Tanlangan mahsulotlar mavjud emas!')
   } else {
     isLoading.value = true
     OrderService.createOrder(
@@ -305,72 +315,72 @@ const createOrder = () => {
         paymentReceived: submitData.paymentReceived,
         items: activeBasket.value,
       })
-    ).then((res) => {
-      orderId.value = res
-      toast.success(t('saleWasMadeSuccessfully'))
-      if (boundaryPrice.value != 0 && totalPrice.value >= boundaryPrice.value) {
+    )
+      .then((res) => {
         orderId.value = res
-        showSale.value = true
-        onSearchFocus.value = null
-        qrcode.value = API_URL + `/customer-form/${res}`
-      } else {
-        showSale.value = false
-        qrcode.value = null
-      }
-
-      isLoading.value = false
-      clearSubmitData()
-      if (showSale.value) {
-        setTimeout(() => {
+        toast.success(t('saleWasMadeSuccessfully'))
+        if (boundaryPrice.value != 0 && totalPrice.value >= boundaryPrice.value) {
+          orderId.value = res
+          showSale.value = true
           onSearchFocus.value = null
-        }, 3000)
-      }
-      OrderService.getOrderById(res)
-        .then((res) => {
-          printChaque(
-            {
-              "cashier": res?.cashierFirstName + " " + res.cashierLastName,
-              "discount": res?.discountPercent ?? 0,
-              "discount_amount": res?.discountPrice ?? 0,
-              "final_price": res?.totalPrice,
-              "market": res?.marketName,
-              "paid": res?.paymentReceived,
-              "price": res?.initialPrice,
-              "products": res?.items.map((item) => {
-                return {
-                  "count": item?.amount,
-                  "name": item?.productName,
-                  "packaging": item?.packaging,
-                  "price": item?.salePrice,
-                  "total": item?.price,
-                }
-              }),
-              "time": moment(res?.createdAt).format('DD/MM/YYYY H:mm'),
-              "qrcode": qrcode.value
-            })
+          qrcode.value = API_URL + `/customer-form/${res}`
+        } else {
+          showSale.value = false
+          qrcode.value = null
+        }
+
+        isLoading.value = false
+        clearSubmitData()
+        if (showSale.value) {
+          setTimeout(() => {
+            onSearchFocus.value = null
+          }, 3000)
+        }
+        OrderService.getOrderById(res).then((res) => {
+          printChaque({
+            cashier: res?.cashierFirstName + ' ' + res.cashierLastName,
+            discount: res?.discountPercent ?? 0,
+            discount_amount: res?.discountPrice ?? 0,
+            final_price: res?.totalPrice,
+            market: res?.marketName,
+            paid: res?.paymentReceived,
+            price: res?.initialPrice,
+            products: res?.items.map((item) => {
+              return {
+                count: item?.amount,
+                name: item?.productName,
+                packaging: item?.packaging,
+                price: item?.salePrice,
+                total: item?.price,
+              }
+            }),
+            time: moment(res?.createdAt).format('DD/MM/YYYY H:mm'),
+            qrcode: qrcode.value,
+          })
         })
-    }).catch((err) => {
-      toast.error(t('errorWhileCreatingOrder'))
-      isLoading.value = false
-    })
+      })
+      .catch((err) => {
+        toast.error(t('errorWhileCreatingOrder'))
+        isLoading.value = false
+      })
   }
 }
 
 async function printChaque(data) {
-  await axios.post(API_URL + '/print', data)
+  await axios
+    .post(API_URL + '/print', data)
     .then(async (res) => {
-      console.log("Chaque printed");
-    }).catch((err) => {
-      console.log("Chaque not printed");
+      console.log('Chaque printed')
+    })
+    .catch((err) => {
+      console.log('Chaque not printed')
     })
 }
 
 watch(
   () => activeBasket.value,
   () => {
-    totalPrice.value = activeBasket.value
-      .map((product) => product?.price * product?.amount)
-      .reduce((accumulator, currentValue) => accumulator + currentValue, 0);
+    totalPrice.value = activeBasket.value.map((product) => product?.price * product?.amount).reduce((accumulator, currentValue) => accumulator + currentValue, 0)
   },
   { deep: true }
 )
@@ -526,14 +536,11 @@ const closeDebtForm = () => {
 const createDebt = () => {
   if (!customerForm.fullName) {
     toast.error(t('enterFullName'))
-  }
-  else if (!customerForm.phone) {
+  } else if (!customerForm.phone) {
     toast.error(t('enterPhone'))
-  }
-  else if (customerForm.phone && !phoneRegex.test(customerForm.phone.replace(/([() -])/g, ''))) {
+  } else if (customerForm.phone && !phoneRegex.test(customerForm.phone.replace(/([() -])/g, ''))) {
     toast.warning(t('plsEnterValidPhoneNumber'))
-  }
-  else {
+  } else {
     isLoadingDebtForm.value = true
     CustomerService.createDebt({
       orderId: orderId.value,
@@ -549,14 +556,12 @@ const createDebt = () => {
         isLoadingDebtForm.value = false
         toast.error(t('errorWhileCreatingDebt'))
       })
-
   }
 }
 </script>
 
 <template>
-  <div v-if="products.length > 0" class="fixed top-0 right-0 bottom-0 left-0 z-40 backdrop-blur-[2px] bg-gray-900/70">
-  </div>
+  <div v-if="products.length > 0" class="fixed top-0 right-0 bottom-0 left-0 z-40 backdrop-blur-[2px] bg-gray-900/70"></div>
   <div class="flex flex-col md:flex-row">
     <div class="flex-auto md:w-2/3 w-full space-y-4 py-8 px-4 md:px-8">
       <div class="flex items-center space-x-2 pb-2">
@@ -564,28 +569,22 @@ const createDebt = () => {
           <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
             <SearchIcon class="w-5 h-5 text-slate-400" />
           </div>
-          <input v-model="search" v-on:keypress="whenPressEnter($event)" type="search" ref="onSearchFocus"
-            @blur="reFocus()"
-            class="bg-slate-100 border-none text-slate-900 text-base md:text-lg rounded-xl block w-full h-12 pl-10 py-2 placeholder-slate-400 placeholder:text-sm md:placeholder:text-lg lg:placeholder:text-base"
-            :placeholder="t('searchByProductNameOrBarcode')">
-          <div v-if="search" @click="clearSearchInput()"
-            class="absolute inset-y-0 right-20 p-1 flex items-center cursor-pointer">
+          <input v-model="search" v-on:keypress="whenPressEnter($event)" type="search" ref="onSearchFocus" @blur="reFocus()" class="bg-slate-100 border-none text-slate-900 text-base md:text-lg rounded-xl block w-full h-12 pl-10 py-2 placeholder-slate-400 placeholder:text-sm md:placeholder:text-lg lg:placeholder:text-base" :placeholder="t('searchByProductNameOrBarcode')" />
+          <div v-if="search" @click="clearSearchInput()" class="absolute inset-y-0 right-20 p-1 flex items-center cursor-pointer">
             <XIcon class="w-5 h-5 text-slate-600" />
           </div>
-          <button @click="searchProducts()" type="button"
-            class="absolute inset-y-0 right-0 px-4 bg-[#0167F3] text-white rounded-r-xl">
+          <button @click="searchProducts()" type="button" class="absolute inset-y-0 right-0 px-4 bg-[#0167F3] text-white rounded-r-xl">
             {{ $t('search') }}
           </button>
           <div v-if="products.length > 0" ref="searchProductDropdown" class="absolute top-16 left-0 bg-transparent w-full space-y-2">
-            <div v-for="(product, idx) in products" :key="idx" @click="addProductToCart(product)"
-              class="flex items-center justify-between bg-white border shadow-sm rounded-xl px-3 py-2 w-full cursor-pointer hover:bg-slate-100">
+            <div v-for="(product, idx) in products" :key="idx" @click="addProductToCart(product)" class="flex items-center justify-between bg-white border shadow-sm rounded-xl px-3 py-2 w-full cursor-pointer hover:bg-slate-100">
               <div class="flex items-center space-x-3">
                 <div class="flex items-center justify-center bg-slate-200 w-10 h-10 rounded-lg">
                   <ImageIcon class="text-gray-500 w-8 h-8" />
                 </div>
                 <div>
                   <div class="text-base font-semibold text-gray-800">
-                    {{ product?.name + " - " + product?.packaging }}
+                    {{ product?.name + ' - ' + product?.packaging }}
                   </div>
                   <div class="text-base font-medium text-gray-500">
                     {{ product?.barcode }}
@@ -606,12 +605,10 @@ const createDebt = () => {
             </div>
           </div>
         </div>
-        <div @click="useModalStore().openCameraScannerModal()" :title="t('barcodeScanning')"
-          class="flex items-center justify-center bg-slate-100 rounded-xl h-12 w-12 cursor-pointer">
+        <div @click="useModalStore().openCameraScannerModal()" :title="t('barcodeScanning')" class="flex items-center justify-center bg-slate-100 rounded-xl h-12 w-12 cursor-pointer">
           <BarcodeIcon class="w-6 h-6 text-blue-600" />
         </div>
-        <div @click="clearSubmitData()" :title="t('clearTheBasket')"
-          class="hidden md:flex items-center justify-center bg-slate-100 rounded-xl h-12 w-12 cursor-pointer">
+        <div @click="clearSubmitData()" :title="t('clearTheBasket')" class="hidden md:flex items-center justify-center bg-slate-100 rounded-xl h-12 w-12 cursor-pointer">
           <BroomIcon class="w-5 h-5 text-blue-600" />
         </div>
       </div>
@@ -621,11 +618,8 @@ const createDebt = () => {
           {{ $t('shoppingCart') }}
         </div>
         <div class="flex space-x-2">
-          <div v-for="(basket, idx) in baskets" :key="idx" @click="changeBasketStatus(basket.id)"
-            class="px-4 py-2 inline-flex flex-col xl:flex-row sm:flex items-center leading-none border-b-2 rounded-xl"
-            :class="activeBasketStatus === basket.id ? 'bg-slate-100 border-blue-500' : 'bg-slate-50 border-slate-200 cursor-pointer'">
-            <BasketIcon class="w-6 h-6 mr-2"
-              :class="activeBasketStatus === basket.id ? 'text-blue-500 text-sm' : 'text-gray-500 text-sm'" />
+          <div v-for="(basket, idx) in baskets" :key="idx" @click="changeBasketStatus(basket.id)" class="px-4 py-2 inline-flex flex-col xl:flex-row sm:flex items-center leading-none border-b-2 rounded-xl" :class="activeBasketStatus === basket.id ? 'bg-slate-100 border-blue-500' : 'bg-slate-50 border-slate-200 cursor-pointer'">
+            <BasketIcon class="w-6 h-6 mr-2" :class="activeBasketStatus === basket.id ? 'text-blue-500 text-sm' : 'text-gray-500 text-sm'" />
             <span :class="activeBasketStatus === basket.id ? 'text-blue-500 text-sm' : 'text-gray-900 text-sm'">
               {{ basket.name }}
             </span>
@@ -665,7 +659,7 @@ const createDebt = () => {
                       </div>
                       <div>
                         <div class="text-sm md:text-base font-semibold text-gray-800">
-                          {{ product?.name + " - " + product?.packaging }}
+                          {{ product?.name + ' - ' + product?.packaging }}
                         </div>
                         <div class="text-sm md:text-base font-medium text-gray-500">
                           {{ $t('price') }}:
@@ -688,23 +682,19 @@ const createDebt = () => {
                   <td class="px-3 py-2 text-center whitespace-nowrap">
                     <div class="flex justify-center">
                       <div class="flex items-center justify-between bg-slate-100 w-36 rounded-xl p-1">
-                        <div @click="reduceCountOfProducts(product)" v-if="increaseCountChecking(product)"
-                          class="flex items-center justify-center w-8 h-8 bg-white text-blue-700 shadow-sm hover:bg-slate-200 cursor-pointer rounded-xl">
+                        <div @click="reduceCountOfProducts(product)" v-if="increaseCountChecking(product)" class="flex items-center justify-center w-8 h-8 bg-white text-blue-700 shadow-sm hover:bg-slate-200 cursor-pointer rounded-xl">
                           <MinusIcon class="w-4 h-4" />
                         </div>
-                        <div v-else
-                          class="flex items-center justify-center w-8 h-8 bg-white text-slate-700 cursor-default rounded-xl">
+                        <div v-else class="flex items-center justify-center w-8 h-8 bg-white text-slate-700 cursor-default rounded-xl">
                           <MinusIcon class="w-4 h-4" />
                         </div>
                         <div class="flex items-center justify-center text-lg font-normal">
-                          {{ product?.amount + " " + saleTypeShortTranslate(product?.saleType) }}
+                          {{ product?.amount + ' ' + saleTypeShortTranslate(product?.saleType) }}
                         </div>
-                        <div @click="increaseCountOfProducts(product)" v-if="product?.quantity > product?.amount"
-                          class="flex items-center justify-center w-8 h-8 bg-white text-blue-700 shadow-sm hover:bg-slate-200 cursor-pointer rounded-xl">
+                        <div @click="increaseCountOfProducts(product)" v-if="product?.quantity > product?.amount" class="flex items-center justify-center w-8 h-8 bg-white text-blue-700 shadow-sm hover:bg-slate-200 cursor-pointer rounded-xl">
                           <PlusIcon class="w-4 h-4" />
                         </div>
-                        <div v-else
-                          class="flex items-center justify-center w-8 h-8 bg-white text-slate-700 cursor-default rounded-xl">
+                        <div v-else class="flex items-center justify-center w-8 h-8 bg-white text-slate-700 cursor-default rounded-xl">
                           <PlusIcon class="w-4 h-4" />
                         </div>
                       </div>
@@ -715,8 +705,7 @@ const createDebt = () => {
                   </td>
                   <td class="px-3 py-2 whitespace-nowrap rounded-r-2xl">
                     <div class="flex justify-center">
-                      <TrashIcon @click="removeProductFromCart(product)"
-                        class="w-6 h-6 text-rose-500 cursor-pointer transform hover:scale-105" />
+                      <TrashIcon @click="removeProductFromCart(product)" class="w-6 h-6 text-rose-500 cursor-pointer transform hover:scale-105" />
                     </div>
                   </td>
                 </tr>
@@ -767,7 +756,7 @@ const createDebt = () => {
               {{ $t('numberOfProducts') }}
             </div>
             <div class="text-base font-semibold text-gray-900">
-              {{ activeBasket.length + " " + $t('piece') }}
+              {{ activeBasket.length + ' ' + $t('piece') }}
             </div>
           </div>
           <div class="flex items-center justify-between">
@@ -782,17 +771,13 @@ const createDebt = () => {
             <div class="text-base text-gray-600">
               {{ $t('discount') }}
             </div>
-            <div class="text-base font-semibold text-gray-900">
-              {{ submitData.discountPercent }} %
-            </div>
+            <div class="text-base font-semibold text-gray-900">{{ submitData.discountPercent }} %</div>
           </div>
           <div class="flex items-center justify-between">
             <div class="text-base text-gray-600">
               {{ $t('discountAmount') }}
             </div>
-            <div class="text-base font-semibold text-red-500">
-              -{{ useMoneyFormatter(0) }}
-            </div>
+            <div class="text-base font-semibold text-red-500">-{{ useMoneyFormatter(0) }}</div>
           </div>
         </div>
         <div class="flex items-center justify-between mt-2 pt-3 border-t border-dashed">
@@ -809,17 +794,14 @@ const createDebt = () => {
         <label class="text-base font-medium">
           {{ $t('paymentReceived') }}
         </label>
-        <money3 v-model="submitData.paymentReceived" v-bind="moneyConf" id="price"
-          class="border-none text-right text-gray-500 bg-slate-100 rounded-lg w-full text-lg" disabled>
-        </money3>
+        <money3 v-model="submitData.paymentReceived" v-bind="moneyConf" id="price" class="border-none text-right text-gray-500 bg-slate-100 rounded-lg w-full text-lg" disabled> </money3>
       </div>
       <div class="py-3 lg:py-0 space-y-1">
         <div class="text-base font-medium">
           {{ $t('paymentType') }}
         </div>
         <div class="flex w-full space-x-2 lg:space-x-0 xl:space-x-4 xl:space-y-0 lg:space-y-2 lg:flex-col xl:flex-row">
-          <div
-            class="flex-1 flex flex-col w-full items-center justify-center bg-blue-50 border border-blue-300 rounded-lg py-4">
+          <div class="flex-1 flex flex-col w-full items-center justify-center bg-blue-50 border border-blue-300 rounded-lg py-4">
             <MoneyIcon class="w-6 h-6 text-blue-500" />
             <div class="text-lg font-medium text-blue-500">
               {{ $t('withCash') }}
@@ -833,8 +815,7 @@ const createDebt = () => {
           </div>
         </div>
         <div class="flex w-full space-x-2 lg:space-x-0 xl:space-x-4 xl:space-y-0 lg:space-y-2 lg:flex-col xl:flex-row">
-          <div
-            class="flex-1 flex flex-col w-full items-center justify-center border rounded-lg py-4">
+          <div class="flex-1 flex flex-col w-full items-center justify-center border rounded-lg py-4">
             <OnlinePaymentIcon class="w-6 h-6" />
             <div class="text-lg font-medium">
               {{ $t('withClick') }}
@@ -849,10 +830,9 @@ const createDebt = () => {
         </div>
       </div>
       <div class="space-y-6">
-      <button @click="createOrder()"
-        class="w-full xl:py-3 px-4 lg:py-2 py-3 rounded-full text-white text-lg font-medium bg-blue-500 cursor-pointer hover:bg-blue-600">
-        {{ $t('payment') }}
-      </button>
+        <button @click="createOrder()" class="w-full xl:py-3 px-4 lg:py-2 py-3 rounded-full text-white text-lg font-medium bg-blue-500 cursor-pointer hover:bg-blue-600">
+          {{ $t('payment') }}
+        </button>
         <div v-if="showDebtForm" class="flex flex-col space-y-4">
           <div>
             <div class="flex flex-col items-center space-y-4">
@@ -861,16 +841,14 @@ const createDebt = () => {
                   {{ $t('fullName') }}
                   <span class="text-red-500 mr-2">*</span>
                 </label>
-                <input ref="onFullNameFocus"
-                       @blur="fullNameReFocus()" id="fullName" type="text" v-model="customerForm.fullName" class="bg-slate-100 border-none text-slate-900 rounded-lg w-full py-2.5 placeholder-slate-400" :placeholder="t('enterFullName')" />
+                <input ref="onFullNameFocus" @blur="fullNameReFocus()" id="fullName" type="text" v-model="customerForm.fullName" class="bg-slate-100 border-none text-slate-900 rounded-lg w-full py-2.5 placeholder-slate-400" :placeholder="t('enterFullName')" />
               </div>
               <div class="w-full">
                 <label for="phone" class="text-base font-medium">
                   {{ $t('phone') }}
                   <span class="text-red-500 mr-2">*</span>
                 </label>
-                <input ref="onPhoneFocus"
-                       @blur="phoneReFocus()" id="phone" type="text" v-model="customerForm.phone" v-maska data-maska="+998(##) ###-##-##" class="bg-slate-100 border-none w-full text-slate-900 rounded-lg py-2.5 placeholder-slate-400" placeholder="+998(00) 000-00-00" />
+                <input ref="onPhoneFocus" @blur="phoneReFocus()" id="phone" type="text" v-model="customerForm.phone" v-maska data-maska="+998(##) ###-##-##" class="bg-slate-100 border-none w-full text-slate-900 rounded-lg py-2.5 placeholder-slate-400" placeholder="+998(00) 000-00-00" />
               </div>
             </div>
           </div>
@@ -892,16 +870,14 @@ const createDebt = () => {
                   {{ $t('fullName') }}
                   <span class="text-red-500 mr-2">*</span>
                 </label>
-                <input ref="onFullNameFocus"
-            @blur="fullNameReFocus()" id="fullName" type="text" v-model="customerForm.fullName" class="bg-slate-100 border-none text-slate-900 rounded-lg w-full py-2.5 placeholder-slate-400" :placeholder="t('enterFullName')" />
+                <input ref="onFullNameFocus" @blur="fullNameReFocus()" id="fullName" type="text" v-model="customerForm.fullName" class="bg-slate-100 border-none text-slate-900 rounded-lg w-full py-2.5 placeholder-slate-400" :placeholder="t('enterFullName')" />
               </div>
               <div class="flex-1">
                 <label for="phone" class="text-base font-medium">
                   {{ $t('phone') }}
                   <span class="text-red-500 mr-2">*</span>
                 </label>
-                <input ref="onPhoneFocus"
-            @blur="phoneReFocus()" id="phone" type="text" v-model="customerForm.phone" v-maska data-maska="+998(##) ###-##-##" class="bg-slate-100 border-none text-slate-900 rounded-lg w-full py-2.5 placeholder-slate-400" placeholder="+998(00) 000-00-00" />
+                <input ref="onPhoneFocus" @blur="phoneReFocus()" id="phone" type="text" v-model="customerForm.phone" v-maska data-maska="+998(##) ###-##-##" class="bg-slate-100 border-none text-slate-900 rounded-lg w-full py-2.5 placeholder-slate-400" placeholder="+998(00) 000-00-00" />
               </div>
             </div>
           </div>
