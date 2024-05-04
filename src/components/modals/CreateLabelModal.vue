@@ -17,12 +17,6 @@ import { useI18n } from 'vue-i18n'
 
 const { t } = useI18n()
 
-const productStore = useProductStore()
-
-const products = computed(() => {
-  return productStore.products
-})
-
 const onSearchFocus = ref(null)
 const isLoading = ref(false)
 const isSearching = ref(false)
@@ -34,12 +28,14 @@ const submitData = reactive({
   name: '',
   barcode: '',
   quantity: 0,
+  count: 0,
 })
 
 const clearSubmitData = () => {
   submitData.name = ''
   submitData.barcode = ''
   submitData.quantity = 0
+  submitData.count = 0
 }
 
 const closeModal = () => {
@@ -59,6 +55,7 @@ const createLabel = () => {
         name: submitData.name,
         barcode: submitData.barcode,
         quantity: submitData.quantity,
+        count: submitData.count,
       }),
     ).then(() => {
       toast.success(t('labelCreatedSuccessfully'))
@@ -205,6 +202,15 @@ watch(
           <div class="flex-1 space-y-1">
             <label for="quantity" class="text-base md:text-lg font-medium">
               {{ $t('quantity') }}
+              <span class="text-red-500 mr-2">*</span>
+            </label>
+            <input id="quantity" type="text" v-model="submitData.quantity"
+                   class="bg-slate-100 border-none text-slate-900 rounded-lg w-full h-11 placeholder-slate-400 placeholder:text-sm md:placeholder:text-lg"
+                   :placeholder="t('enterProductQuantity')">
+          </div>
+          <div class="flex-1 space-y-1">
+            <label for="quantity" class="text-base md:text-lg font-medium">
+              {{ $t('count') }}
               <span class="text-red-500 mr-2">*</span>
             </label>
             <input id="quantity" type="text" v-model="submitData.quantity"
