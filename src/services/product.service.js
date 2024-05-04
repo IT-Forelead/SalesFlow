@@ -4,6 +4,9 @@ class ProductService {
   async createProduct(data) {
     return AxiosService.post('/product/add', data)
   }
+  async createLabel(data) {
+    return AxiosService.post('/product/label/create', data)
+  }
   async getProducts(filter) {
     return AxiosService.post('/product', filter)
   }
