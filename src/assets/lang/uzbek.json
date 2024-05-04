@@ -215,5 +215,6 @@
   "serialId": "Mahsulot raqami",
   "purchasePrice": "Boshlang'ich narxi",
   "productionDate":"Ishlab chiqarilgan sanasi",
-  "expirationDate": "Tugash muddati"
+  "expirationDate": "Tugash muddati",
+  "createLabel": "Yorliq yaratish"
 }

@@ -215,5 +215,6 @@
   "serialId": "Номер продукта",
   "purchasePrice": "Начальная цена",
   "productionDate":"Дата производства ",
-  "expirationDate": "Дата окончания срока"
+  "expirationDate": "Дата окончания срока",
+  "createLabel": "Создать метку"
 }

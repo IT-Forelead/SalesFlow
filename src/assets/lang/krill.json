@@ -215,5 +215,6 @@
   "serialId": "Маҳсулот рақами",
   "purchasePrice": "Бошлангич нархи",
   "productionDate":"Ишлаб чикарилган сана",
-  "expirationDate": "Тугаш муддати"
+  "expirationDate": "Тугаш муддати",
+  "createLabel": "Ёрлиқ яратиш"
 }
