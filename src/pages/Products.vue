@@ -196,7 +196,11 @@ onMounted(() => {
                class="bg-slate-100 border-none w-full text-slate-900 text-base md:text-lg rounded-full block pl-10 py-2 placeholder-slate-400"
                placeholder="Search everything...">
       </div>
-      <div class="w-full md:w-auto order-1 md:order-2">
+      <div class="w-full md:w-auto order-1 md:order-2 flex space-x-2">
+        <button v-if="navigationGuard('create_product')" @click="useModalStore().openCreateLabelModal()"
+                class="w-full md:w-auto py-2 px-4 rounded-full text-white text-lg font-medium bg-green-500 cursor-pointer hover:bg-green-600">
+          {{ $t('createLabel') }}
+        </button>
         <button v-if="navigationGuard('create_product')" @click="useModalStore().openCreateProductModal()"
                 class="w-full md:w-auto py-2 px-4 rounded-full text-white text-lg font-medium bg-blue-500 cursor-pointer hover:bg-blue-600">
           {{ $t('addProduct') }}
