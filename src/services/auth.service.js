@@ -12,9 +12,10 @@ class AuthService {
     return JSON.parse(localStorage.getItem('session'))
   }
   
-  async logout() {
+  async logout(action) {
     await AxiosService.get('/auth/logout').then(() => {
       localStorage.clear()
+      action()
     })
     localStorage.clear()
   }
