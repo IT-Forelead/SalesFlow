@@ -3,7 +3,7 @@ import moment from 'moment'
 import { computed, onMounted, ref, watch } from 'vue'
 import StoreIcon from '../assets/icons/StoreIcon.vue'
 import MoneyIcon from '../assets/icons/MoneyIcon.vue'
-import ChartBarIcon from '../assets/icons/ChartBarIcon.vue'
+import DollarIcon from '../assets/icons/DollarIcon.vue'
 import ChartDonutIcon from '../assets/icons/ChartDonutIcon.vue'
 import UsersIcon from '../assets/icons/UsersIcon.vue'
 import ShoppingCartIcon from '../assets/icons/ShoppingCartIcon.vue'
@@ -346,7 +346,7 @@ watch(
             <div
               class="flex flex-row md:flex-col items-center md:items-start space-x-4 md:space-x-0 space-y-0 md:space-y-2">
               <div class="inline-flex items-center justify-center rounded-xl bg-blue-100 p-3">
-                <MoneyIcon class="w-8 h-8 text-blue-600" />
+                <DollarIcon class="w-8 h-8 text-blue-600" />
               </div>
               <div>
                 <div class="text-base text-gray-600">

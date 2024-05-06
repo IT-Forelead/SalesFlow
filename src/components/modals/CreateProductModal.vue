@@ -44,10 +44,10 @@ const submitData = reactive({
   barcode: '',
   packaging: '',
   saleType: '',
-  price: 0,
+  price: null,
   toLend: false,
-  quantity: 0,
-  purchasePrice: 0,
+  quantity: null,
+  purchasePrice: null,
   productionDate: '',
   expirationDate: '',
 })
@@ -57,12 +57,12 @@ const clearSubmitData = () => {
   submitData.barcode = ''
   submitData.packaging = ''
   submitData.saleType = ''
-  submitData.price = 0
-  submitData.purchasePrice = 0
+  submitData.price = null
+  submitData.purchasePrice = null
   submitData.productionDate = ''
   submitData.expirationDate = ''
   submitData.toLend = false
-  submitData.quantity = 0
+  submitData.quantity = null
 }
 
 const closeModal = () => {
@@ -108,7 +108,7 @@ const createProduct = () => {
         })
       clearSubmitData()
       isLoading.value = false
-    }).catch((err) => {
+    }).catch(() => {
       toast.error(t('errorWhileCreatingProduct'))
       setTimeout(() => {
         isLoading.value = false
@@ -125,11 +125,11 @@ const searchProductBarcodes = () => {
     ProductService.searchProductBarcodeByParams({
       search: searchProductBarcode.value,
     }).then((res) => {
-      if (res.length == 0) {
+      if (res.length === 0) {
         toast.error(t('thereIsNoSuchBarcodeProduct'))
         clearSubmitData()
         submitData.barcode = searchProductBarcode.value
-      } else if (res.length == 1) {
+      } else if (res.length === 1) {
         useBarcodeStore().setDecodedBarcode('')
         productBarcode.value = res[0]
       } else {
@@ -138,7 +138,7 @@ const searchProductBarcodes = () => {
       }
       isSearching.value = false
       searchProductBarcode.value = ''
-    }).catch((err) => {
+    }).catch(() => {
       toast.error(t('errorGettingProduct'))
       setTimeout(() => {
         isSearching.value = false

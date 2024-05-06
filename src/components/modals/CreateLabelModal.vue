@@ -36,15 +36,16 @@ const productBarcodes = ref([])
 const submitData = reactive({
   name: '',
   barcode: '',
-  quantity: 0,
-  count: 0,
+  quantity: null,
+  count: null,
 })
 
 const clearSubmitData = () => {
   submitData.name = ''
   submitData.barcode = ''
-  submitData.quantity = 0
-  submitData.count = 0
+  submitData.quantity = null
+  submitData.count = null
+  search.value = ''
 }
 
 const closeModal = () => {
@@ -196,13 +197,13 @@ watch(
               {{ $t('productName') }}
               <span class="text-red-500 mr-2">*</span>
             </label>
-            <input id="name" disabled type="text" v-model="submitData.name" class="bg-slate-100 border-none text-slate-900 rounded-lg w-full py-2.5 placeholder-slate-400 placeholder:text-sm md:placeholder:text-lg" :placeholder="t('enterProductName')" />
+            <input id="name" disabled type="text" v-model="submitData.name" class="bg-slate-100 border-none text-slate-900 rounded-lg w-full py-2.5 placeholder-slate-400 placeholder:text-sm md:placeholder:text-lg" :placeholder="t('productName')" />
           </div>
           <div class="flex-1">
             <label for="barcode" class="text-base md:text-lg font-medium">
               {{ $t('barcode') }}
             </label>
-            <input id="barcode" disabled type="text" v-model="submitData.barcode" class="bg-slate-100 border-none text-slate-900 rounded-lg w-full py-2.5 placeholder-slate-400 placeholder:text-sm md:placeholder:text-lg" :placeholder="t('enterProductBarcode')" />
+            <input id="barcode" disabled type="text" v-model="submitData.barcode" class="bg-slate-100 border-none text-slate-900 rounded-lg w-full py-2.5 placeholder-slate-400 placeholder:text-sm md:placeholder:text-lg" :placeholder="t('barcode')" />
           </div>
         </div>
         <div class="flex flex-col md:flex-row md:items-center space-y-2 md:space-y-0 md:space-x-4">
