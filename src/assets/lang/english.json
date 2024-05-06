@@ -214,5 +214,6 @@
   "serialId": "Product number",
   "productionDate":"Production Date",
   "expirationDate": "Expiration Date",
-  "createLabel": "Create Label"
+  "createLabel": "Create Label",
+  "soldProductsPrice": "Sold products prices"
 }
