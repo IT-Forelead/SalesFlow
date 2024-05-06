@@ -22,8 +22,8 @@ onClickOutside(dropdown, () => {
 })
 
 const logout = () => {
-  AuthService.logout()
-  router.push('/')
+  AuthService.logout(() => router.push('/'))
+
   if (useModalStore().isOpenProfileDropDown) {
     useModalStore().toggleProfile()
   }
@@ -34,7 +34,7 @@ const logout = () => {
     <div class="flex items-center justify-between px-3">
       <div class="inline-flex items-center space-x-2">
         <div class="relative flex items-center justify-center w-9 h-9 lg:w-10 lg:h-10 bg-[#0167f3] text-white text-base md:text-lg font-medium rounded-full">
-          <span>            
+          <span>
             {{ useAuthStore().user?.firstname?.at(0) + useAuthStore().user?.lastname?.at(0) }}
           </span>
           <div class="absolute bottom-0 right-0 w-3 h-3 rounded-full bg-green-400 border border-white"></div>
@@ -54,13 +54,11 @@ const logout = () => {
     </div>
     <div v-if="useModalStore().isOpenProfileDropDown" class="absolute z-50 top-11 md:top-0 right-2 md:-right-[200px] w-52 bg-white border border-gray-200 shadow rounded-lg divide-y divide-gray-200">
       <ul class="p-1.5 relative">
-        <li
-          class="flex items-center text-slate-900 hover:bg-blue-100 hover:text-blue-600 rounded-lg cursor-pointer p-2 space-x-2">
+        <li class="flex items-center text-slate-900 hover:bg-blue-100 hover:text-blue-600 rounded-lg cursor-pointer p-2 space-x-2">
           <UserIcon class="w-5 h-5" />
           <span>{{ $t('profile') }}</span>
         </li>
-        <li
-          class="flex items-center text-slate-900 hover:bg-blue-100 hover:text-blue-600 rounded-lg cursor-pointer p-2 space-x-2">
+        <li class="flex items-center text-slate-900 hover:bg-blue-100 hover:text-blue-600 rounded-lg cursor-pointer p-2 space-x-2">
           <SettingsIcon class="w-5 h-5" />
           <span>{{ $t('settings') }}</span>
         </li>
