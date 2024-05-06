@@ -216,5 +216,6 @@
   "purchasePrice": "Бошлангич нархи",
   "productionDate":"Ишлаб чикарилган сана",
   "expirationDate": "Тугаш муддати",
-  "createLabel": "Ёрлиқ яратиш"
+  "createLabel": "Ёрлиқ яратиш",
+  "soldProductsPrice": "Сотилган маҳсулотлар нархи"
 }

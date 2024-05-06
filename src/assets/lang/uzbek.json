@@ -216,5 +216,6 @@
   "purchasePrice": "Boshlang'ich narxi",
   "productionDate":"Ishlab chiqarilgan sanasi",
   "expirationDate": "Tugash muddati",
-  "createLabel": "Yorliq yaratish"
+  "createLabel": "Yorliq yaratish",
+  "soldProductsPrice": "Sotilgan mahsulotlar narxi"
 }
