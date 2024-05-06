@@ -44,7 +44,7 @@ const closeModal = () => {
     <template v-slot:body>
       <div class="space-y-4">
         <div v-if="selectedOrder?.items" class="inline-block md:min-w-full align-middle">
-          <div class="overflow-hidden border-0">
+          <div class="overflow-hidden overflow-y-scroll h-96 border-0">
             <table class="md:min-w-full">
               <thead>
                 <tr class="bg-slate-100 font-medium text-gray-900">
@@ -90,7 +90,7 @@ const closeModal = () => {
               {{ $t('numberOfProducts') }}
             </div>
             <div class="text-base font-medium">
-              {{ selectedOrder?.items.length + " " + $t('piece') }}
+              {{ selectedOrder?.items.reduce((acc, cur) => acc + cur.amount, 0) + " " + $t('piece') }}
             </div>
           </li>
           <li class="flex items-center justify-between py-2">

@@ -215,5 +215,6 @@
   "productionDate":"Production Date",
   "expirationDate": "Expiration Date",
   "createLabel": "Create Label",
-  "soldProductsPrice": "Sold products prices"
+  "soldProductsPrice": "Sold products prices",
+  "soldProducts": "Sold products"
 }

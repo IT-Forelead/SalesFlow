@@ -217,5 +217,6 @@
   "productionDate":"Дата производства ",
   "expirationDate": "Дата окончания срока",
   "createLabel": "Создать метку",
-  "soldProductsPrice": "Продукты проданные"
+  "soldProductsPrice": "Продукты проданные",
+  "soldProducts": "Продукты проданные"
 }

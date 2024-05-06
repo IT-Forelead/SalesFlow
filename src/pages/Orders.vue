@@ -45,7 +45,7 @@ const columns = [
       h('div', { class: 'space-y-1' }, [
         h('div', { class: 'flex items-center space-x-1' }, [
           h('div', { class: 'text-sm text-gray-500' }, t('count') + ': '),
-          h('div', { class: 'text-base text-gray-900' }, row.original.items.length + " " + t('piece')),
+          h('div', { class: 'text-base text-gray-900' }, row.original.items.reduce((acc, cur) => acc + cur.amount, 0) + t('piece')),
         ]),
         h('div', { class: 'flex items-center space-x-1' }, [
           h('div', { class: 'text-sm text-gray-500' }, t('price') + ': '),
@@ -62,14 +62,14 @@ const columns = [
           h('div', { class: 'space-y-1' }, [
             h('div', { class: 'flex items-center space-x-1' }, [
               h('div', { class: 'text-sm text-gray-500' }, t('percent') + ': '),
-              h('div', { class: 'text-base text-gray-900' }, row.original.discountPercent + "%"),
+              h('div', { class: 'text-base text-gray-900' }, row.original.discountPercent + '%'),
             ]),
             h('div', { class: 'flex items-center space-x-1' }, [
               h('div', { class: 'text-sm text-gray-500' }, t('discountAmount') + ': '),
               h('div', { class: 'text-base text-gray-900' }, useMoneyFormatter(row.original.discountPrice)),
             ]),
           ])
-          : h('span', '-')
+          : h('span', '-'),
       ]),
   },
   {
@@ -88,11 +88,31 @@ const columns = [
       ]),
   },
   {
+    accessorKey: 'products',
+    header: t('soldProducts'),
+    cell: ({ row }) =>
+      h('div', { class: 'w-full flex flex-col' }, [
+        row.original.items.slice(0, 3).map((item, index) => {
+          const productName = item.productName;
+          const packagingWords = item.packaging.split(' ');
+          const truncatedPackaging = packagingWords.slice(0, 3).join(' ') + (packagingWords.length > 2 ? '...' : '');
+          return h('div', { key: index, class: 'flex items-center space-x-1' }, [
+            h('p', { class: 'text-base text-gray-900' }, productName),
+            h('p', { class: 'text-sm text-gray-600' }, truncatedPackaging),
+          ]);
+        }),
+      ]),
+  },
+  {
     accessorKey: 'actions',
     header: t('actions'),
     cell: ({ row }) => h('div', { class: 'flex items-center space-x-2' }, [
-      h('button', { onClick: () => { openOrderInfo(row.original) } }, [
-        h(EyeIcon, { class: 'w-6 h-6 text-blue-600 hover:scale-105' })
+      h('button', {
+        onClick: () => {
+          openOrderInfo(row.original)
+        },
+      }, [
+        h(EyeIcon, { class: 'w-6 h-6 text-blue-600 hover:scale-105' }),
       ]),
     ]),
     enableSorting: false,
@@ -114,8 +134,8 @@ const getOrders = () => {
       total.value = res.total
       orders.value = res.data
     }).finally(() => {
-      isLoading.value = false
-    })
+    isLoading.value = false
+  })
 }
 const totalPages = computed(() => Math.ceil(total.value / pageSize))
 const displayedPageNumbers = computed(() => {
@@ -160,8 +180,8 @@ watch(page, () => {
           <SearchIcon class="w-5 h-5 text-slate-400" />
         </div>
         <input type="search" v-model="globalSearchFromTable"
-          class="bg-slate-100 border-none w-full text-slate-900 text-base md:text-lg rounded-full block pl-10 py-2 placeholder-slate-400"
-          placeholder="Search everything...">
+               class="bg-slate-100 border-none w-full text-slate-900 text-base md:text-lg rounded-full block pl-10 py-2 placeholder-slate-400"
+               placeholder="Search everything...">
       </div>
     </div>
     <div v-if="isLoading" class="flex items-center justify-center h-20">
@@ -175,30 +195,30 @@ watch(page, () => {
       </div>
       <div class="flex items-center space-x-2">
         <button :disabled="page === 1" @click="goToPage(1)"
-          class="flex items-center justify-center px-3 py-2 text-base font-medium text-slate-900 rounded-lg select-none hover:bg-blue-200 disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
-          type="button">
+                class="flex items-center justify-center px-3 py-2 text-base font-medium text-slate-900 rounded-lg select-none hover:bg-blue-200 disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
+                type="button">
           <CaretDoubleLeftIcon class="w-5 h-5" />
         </button>
         <button @click="prevPage" :disabled="page === 1"
-          class="flex items-center justify-center px-3 py-2 text-base font-medium text-slate-900 rounded-lg select-none hover:bg-blue-200 disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
-          type="button">
+                class="flex items-center justify-center px-3 py-2 text-base font-medium text-slate-900 rounded-lg select-none hover:bg-blue-200 disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
+                type="button">
           <CaretLeftIcon class="w-5 h-5" />
         </button>
         <div class="flex items-center space-x-2">
           <button v-for="pageNumber in displayedPageNumbers" :key="pageNumber" @click="goToPage(pageNumber)"
-            :class="{ 'bg-blue-600 text-white': pageNumber === page, 'hover:bg-blue-200': pageNumber !== page }"
-            class="px-3 py-2 select-none rounded-lg text-slate-900 text-center text-base font-medium transition-all">
+                  :class="{ 'bg-blue-600 text-white': pageNumber === page, 'hover:bg-blue-200': pageNumber !== page }"
+                  class="px-3 py-2 select-none rounded-lg text-slate-900 text-center text-base font-medium transition-all">
             {{ pageNumber }}
           </button>
         </div>
         <button @click="nextPage" :disabled="page === totalPages"
-          class="flex items-center gap-2 px-3 py-2 text-base font-medium text-center text-slate-900 rounded-lg select-none hover:bg-blue-200 disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
-          type="button">
+                class="flex items-center gap-2 px-3 py-2 text-base font-medium text-center text-slate-900 rounded-lg select-none hover:bg-blue-200 disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
+                type="button">
           <CaretRightIcon class="w-5 h-5" />
         </button>
         <button :disabled="page === totalPages" @click="goToPage(totalPages)"
-          class="flex items-center gap-2 px-3 py-2 text-base font-medium text-slate-900 rounded-lg select-none hover:bg-blue-200 disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
-          type="button">
+                class="flex items-center gap-2 px-3 py-2 text-base font-medium text-slate-900 rounded-lg select-none hover:bg-blue-200 disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
+                type="button">
           <CaretDoubleRightIcon class="w-5 h-5" />
         </button>
       </div>
