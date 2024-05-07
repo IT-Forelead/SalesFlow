@@ -72,6 +72,8 @@ const createLabel = () => {
           quantity: Number.parseInt(submitData.quantity),
           count: Number.parseInt(submitData.count),
           saleType: product.saleType,
+          packaging: product.packaging,
+          serialId: product.serialId,
           price: product.price,
         })
       )
