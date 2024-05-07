@@ -123,7 +123,6 @@ const searchProducts = () => {
   } else {
     isLoading.value = true
     if (isBarcode(search.value)) {
-      const amount = String(search.value).startsWith('9') ? Number.parseInt(String(search.value).substring(8, 13)) : null
       ProductService.getProducts(
         cleanObjectEmptyFields({
           barcode: search.value,
@@ -131,7 +130,13 @@ const searchProducts = () => {
       ).then((res) => {
         isLoading.value = false
         if (res.data.length == 1) {
-          addProductToCart(res.data[0], amount)
+          const product = res.data[0]
+          var amount = null
+          if (String(search.value).startsWith('9')) {
+            const quantity = Number.parseInt(String(search.value).substring(8, 13))
+            amount = product.saleType.includes('kg') ? quantity / 1000 : quantity
+          }
+          addProductToCart(product, amount)
         } else {
           useProductStore().clearStore()
           useProductStore().setProducts(res.data)

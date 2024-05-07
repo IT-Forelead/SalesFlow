@@ -217,5 +217,6 @@
   "productionDate":"Ishlab chiqarilgan sanasi",
   "expirationDate": "Tugash muddati",
   "createLabel": "Yorliq yaratish",
-  "soldProductsPrice": "Sotilgan mahsulotlar narxi"
+  "soldProductsPrice": "Sotilgan mahsulotlar narxi",
+  "soldProducts": "Sotilgan mahsulotlar"
 }

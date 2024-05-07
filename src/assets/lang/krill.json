@@ -217,5 +217,6 @@
   "productionDate":"Ишлаб чикарилган сана",
   "expirationDate": "Тугаш муддати",
   "createLabel": "Ёрлиқ яратиш",
-  "soldProductsPrice": "Сотилган маҳсулотлар нархи"
+  "soldProductsPrice": "Сотилган маҳсулотлар нархи",
+  "soldProducts": "Сотилган маҳсулотлар"
 }

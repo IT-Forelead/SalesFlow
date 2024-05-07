@@ -36,15 +36,16 @@ const productBarcodes = ref([])
 const submitData = reactive({
   name: '',
   barcode: '',
-  quantity: 0,
-  count: 0,
+  quantity: null,
+  count: null,
 })
 
 const clearSubmitData = () => {
   submitData.name = ''
   submitData.barcode = ''
-  submitData.quantity = 0
-  submitData.count = 0
+  submitData.quantity = null
+  submitData.count = null
+  search.value = ''
 }
 
 const closeModal = () => {
@@ -59,10 +60,9 @@ const createLabel = () => {
     toast.error(t('plsEnterProductQuantity'))
   } else {
     isLoading.value = true
-    console.log(productBarcode.value)
     const product = productBarcode.value
-
-    const barcode = String(product.barcode).startsWith('999') ? `9${String(product.serialId).padStart(6, '0')}${String(submitData.quantity).padStart(6, '0')}1` : submitData.barcode
+    const quantity = product.saleType.includes('kg') ? Number.parseFloat(submitData.quantity) * 1000 : submitData.quantity
+    const barcode = !product.barcode ? `9${String(product.serialId).padStart(6, '0')}${String(quantity).padStart(6, '0')}1` : submitData.barcode
     axios
       .post(
         API_URL + '/print-label',
@@ -196,13 +196,13 @@ watch(
               {{ $t('productName') }}
               <span class="text-red-500 mr-2">*</span>
             </label>
-            <input id="name" disabled type="text" v-model="submitData.name" class="bg-slate-100 border-none text-slate-900 rounded-lg w-full py-2.5 placeholder-slate-400 placeholder:text-sm md:placeholder:text-lg" :placeholder="t('enterProductName')" />
+            <input id="name" disabled type="text" v-model="submitData.name" class="bg-slate-100 border-none text-slate-900 rounded-lg w-full py-2.5 placeholder-slate-400 placeholder:text-sm md:placeholder:text-lg" :placeholder="t('productName')" />
           </div>
           <div class="flex-1">
             <label for="barcode" class="text-base md:text-lg font-medium">
               {{ $t('barcode') }}
             </label>
-            <input id="barcode" disabled type="text" v-model="submitData.barcode" class="bg-slate-100 border-none text-slate-900 rounded-lg w-full py-2.5 placeholder-slate-400 placeholder:text-sm md:placeholder:text-lg" :placeholder="t('enterProductBarcode')" />
+            <input id="barcode" disabled type="text" v-model="submitData.barcode" class="bg-slate-100 border-none text-slate-900 rounded-lg w-full py-2.5 placeholder-slate-400 placeholder:text-sm md:placeholder:text-lg" :placeholder="t('barcode')" />
           </div>
         </div>
         <div class="flex flex-col md:flex-row md:items-center space-y-2 md:space-y-0 md:space-x-4">
