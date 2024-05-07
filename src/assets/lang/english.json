@@ -231,5 +231,7 @@
   "errorWhileEditingAgent": "Error while editing agent!",
   "createAgent": "Create agent",
   "agentAddedSuccessfully": "Agent added successfully!",
-  "errorWhileCreatingAgent": "Error while creating agent!"
+  "errorWhileCreatingAgent": "Error while creating agent!",
+  "selectAgent": "Select agent",
+  "plsSelectAgent": "Please select agent!"
 }

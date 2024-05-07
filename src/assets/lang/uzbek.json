@@ -232,5 +232,7 @@
   "errorWhileEditingAgent": "Agentni tahrirlashda xatolik yuz berdi!",
   "createAgent": "Agent yaratish",
   "agentAddedSuccessfully": "Agent muvaffaqiyatli qo'shildi!",
-  "errorWhileCreatingAgent": "Agent yaratishda xatolik yuz berdi!"
+  "errorWhileCreatingAgent": "Agent yaratishda xatolik yuz berdi!",
+  "selectAgent": "Agentni tanlang",
+  "plsSelectAgent": "Agentni tanlang!"
 }

@@ -232,6 +232,8 @@
   "errorWhileEditingAgent": "Агентни таҳрирлашда хатолик юз берди",
   "createAgent": "Агент яратиш",
   "agentAddedSuccessfully": "Агент муваффақиятли қўшилди!",
-  "errorWhileCreatingAgent": "Агент яратишда хатолик юз берди"
+  "errorWhileCreatingAgent": "Агент яратишда хатолик юз берди",
+  "selectAgent": "Агентни танланг",
+  "plsSelectAgent": "Агентни танланг!"
 
 }

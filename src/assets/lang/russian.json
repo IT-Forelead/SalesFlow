@@ -232,5 +232,7 @@
   "errorWhileEditingAgent": "Ошибка при редактировании агента!",
   "createAgent": "Создать агент",
   "agentAddedSuccessfully": "Агент успешно добавлен!",
-  "errorWhileCreatingAgent": "Ошибка при создании агента!"
+  "errorWhileCreatingAgent": "Ошибка при создании агента!",
+  "selectAgent": "Выберите агент",
+  "plsSelectAgent": "Пожалуйста, выберите агент!"
 }
