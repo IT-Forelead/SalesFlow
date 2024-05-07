@@ -23,6 +23,8 @@ import CameraScannerModal from './modals/CameraScannerModal.vue'
 import DeleteDebtorModal from './modals/DeleteDebtorModal.vue'
 import DebtInfoModal from './modals/DebtInfoModal.vue'
 import CreateLabelModal from './modals/CreateLabelModal.vue'
+import CreateAgentModal from './modals/CreateAgentModal.vue'
+import EditAgentModal from './modals/EditAgentModal.vue'
 
 const notificationDropdown = ref(null)
 
@@ -108,6 +110,9 @@ onUnmounted(() => {
   <DeleteDebtorModal/>
   <DebtInfoModal/>
   <CreateLabelModal/>
+  <CreateAgentModal/>
+  <EditAgentModal/>
+
 </template>
 
 <style scoped></style>

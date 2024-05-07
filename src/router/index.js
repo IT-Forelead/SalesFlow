@@ -50,6 +50,13 @@ const routes = [
     beforeEnter: navigationGuards('view_orders'),
   },
   {
+    path: '/agents',
+    name: 'Agents',
+    component: () => import('../pages/Agents.vue'),
+    meta: { layout: 'dashboard' },
+    beforeEnter: navigationGuards('view_orders'),
+  },
+  {
     path: '/markets',
     name: 'Markets',
     component: () => import('../pages/Markets.vue'),

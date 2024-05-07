@@ -216,5 +216,20 @@
   "expirationDate": "Expiration Date",
   "createLabel": "Create Label",
   "soldProductsPrice": "Sold products prices",
-  "soldProducts": "Sold products"
+  "soldProducts": "Sold products",
+  "agents": "Agents",
+  "deleteAgent": "Delete agent",
+  "agentDeletedSuccessfully": "Agent deleted successfully!",
+  "errorWhileDeletingAgent": "Error while deleting agent!",
+  "addAgent": "Add agent",
+  "plsEnterFullName": "Please enter full name!",
+  "plsEnterCompany": "Please enter company!",
+  "company": "Company",
+  "enterCompany": "Enter company",
+  "editAgent": "Edit agent",
+  "agentEditedSuccessfully": "Agent edited successfully!",
+  "errorWhileEditingAgent": "Error while editing agent!",
+  "createAgent": "Create agent",
+  "agentAddedSuccessfully": "Agent added successfully!",
+  "errorWhileCreatingAgent": "Error while creating agent!"
 }

@@ -44,8 +44,8 @@ const closeModal = () => {
     <template v-slot:body>
       <div class="space-y-4">
         <div v-if="selectedOrder?.items" class="inline-block md:min-w-full mb-1 align-middle">
-          <div class="overflow-hidden overflow-y-scroll h-[320px] border-0">
-            <table class="md:min-w-full">
+          <div class="overflow-hidden overflow-y-scroll h-[300px] border-0">
+            <table class="md:min-w-full text-sm">
               <thead>
                 <tr class="bg-slate-100 font-medium text-gray-900">
                   <th class="px-3 py-2 text-left rounded-l-xl text-sm md:text-base">{{ $t('product') }}</th>
@@ -134,18 +134,18 @@ const closeModal = () => {
             </div>
           </li>
           <li class="flex items-center justify-between py-2">
-            <div class="text-lg font-semibold text-gray-900">
+            <div class="text-base font-semibold text-gray-900">
               {{ $t('totalPayment') }}
             </div>
-            <div class="text-xl font-semibold text-gray-900">
+            <div class="text-lg font-semibold text-gray-900">
               {{ useMoneyFormatter(selectedOrder?.totalPrice) }}
             </div>
           </li>
           <li class="flex items-center justify-between py-2">
-            <div class="text-lg font-semibold text-gray-900">
+            <div class="text-base font-semibold text-gray-900">
               {{ $t('paymentReceived') }}
             </div>
-            <div class="text-xl font-semibold text-gray-900">
+            <div class="text-lg font-semibold text-gray-900">
               {{ useMoneyFormatter(selectedOrder?.paymentReceived) }}
             </div>
           </li>
