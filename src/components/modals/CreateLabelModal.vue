@@ -62,7 +62,7 @@ const createLabel = () => {
     isLoading.value = true
     const product = productBarcode.value
     const quantity = product.saleType.includes('kg') ? Number.parseFloat(submitData.quantity) * 1000 : submitData.quantity
-    const barcode = !product.barcode ? `9${String(product.serialId).padStart(6, '0')}${String(quantity).padStart(6, '0')}1` : submitData.barcode
+    const barcode = !product.barcode ? `9${String(product.serialId).padStart(6, '0')}${String(quantity).padStart(5, '0')}1` : submitData.barcode
     axios
       .post(
         API_URL + '/print-label',
