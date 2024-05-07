@@ -133,7 +133,7 @@ const searchProducts = () => {
           const product = res.data[0]
           var amount = null
           if (String(search.value).startsWith('9')) {
-            const quantity = Number.parseInt(String(search.value).substring(8, 13))
+            const quantity = Number.parseInt(String(search.value).substring(8, 12))
             amount = product.saleType.includes('kg') ? quantity / 1000 : quantity
           }
           addProductToCart(product, amount)
