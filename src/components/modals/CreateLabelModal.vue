@@ -63,7 +63,7 @@ const createLabel = () => {
     console.log(productBarcode.value)
     const product = productBarcode.value
 
-    const barcode = String(product.barcode).startsWith('999') ? `9${String(product.serialId).padStart(6, '0')}${String(submitData.quantity).padStart(6, '0')}1` : submitData.barcode
+    const barcode = !product.barcode ? `9${String(product.serialId).padStart(6, '0')}${String(submitData.quantity).padStart(6, '0')}1` : submitData.barcode
     axios
       .post(
         API_URL + '/print-label',
