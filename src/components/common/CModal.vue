@@ -33,7 +33,7 @@ onUnmounted(() => {
       <div
         class="relative bg-white md:rounded-l-2xl shadow-xl w-full min-h-screen md:w-auto">
         <!-- Modal header -->
-        <div class="w-full flex items-center justify-between md:justify-start p-4 md:p-5  border-b rounded-t">
+        <div class="w-full flex items-center justify-between md:justify-start p-3 md:p-3  border-b rounded-t">
           <div class="md:pr-4 order-last md:order-none">
             <button
               @click="close"
@@ -56,7 +56,7 @@ onUnmounted(() => {
           </slot>
         </div>
         <!-- Modal footer -->
-        <div class="md:absolute w-full md:bottom-0 lg:bottom-6 flex items-center justify-start px-3 py-4 md:p-5 rounded-b border-t border-gray-200">
+        <div class="md:absolute w-full md:bottom-0 lg:bottom-6 flex items-center justify-start px-3 py-4 md:p-3 rounded-b border-t border-gray-200">
           <slot name="footer">
             <!-- Your footer content goes here -->
           </slot>

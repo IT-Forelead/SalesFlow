@@ -1,6 +1,5 @@
 <script setup>
 import { vMaska } from 'maska'
-import MultiSelect from 'primevue/multiselect'
 import { reactive, ref, watch } from 'vue'
 import { toast } from 'vue-sonner'
 import EyeIcon from '../../assets/icons/EyeIcon.vue'
@@ -35,7 +34,7 @@ const privileges = ref([
       'find_order',
       'update_product',
       'update_settings',
-      'view_histories',
+      'view_agents',
       'view_orders',
       'view_products',
       'view_settings'
@@ -44,6 +43,7 @@ const privileges = ref([
   {
     name: t('manager'),
     code: [
+      'create_agent',
       'create_history',
       'create_order',
       'create_product',
@@ -51,8 +51,10 @@ const privileges = ref([
       'dashboard',
       'find_barcode',
       'find_order',
+      'update_agent',
       'update_product',
       'update_settings',
+      'view_agents',
       'view_histories',
       'view_markets',
       'view_orders',
@@ -228,7 +230,8 @@ watch(
                 {{ $t('role') }}
                 <span class="text-red-500 mr-2">*</span>
               </label>
-              <select id="role" v-model="selectedRole" class="bg-slate-100 border-none text-slate-900 rounded-lg w-full placeholder-slate-400">
+              <select id="role" v-model="selectedRole"
+                class="bg-slate-100 border-none text-slate-900 rounded-lg w-full placeholder-slate-400">
                 <option value="" selected>{{ $t('selectRole') }}</option>
                 <option :value="role.code" v-for="(role, idx) in privileges" :key="idx">{{ role.name }}</option>
               </select>

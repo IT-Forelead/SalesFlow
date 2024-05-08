@@ -2,23 +2,30 @@
 import CModal from '../common/CModal.vue'
 import { useModalStore } from '../../store/modal.store'
 import ImageIcon from '../../assets/icons/ImageIcon.vue'
+import PrinterIcon from '../../assets/icons/PrinterIcon.vue'
+import Spinners270RingIcon from '../../assets/icons/Spinners270RingIcon.vue'
 import CancelButton from '../buttons/CancelButton.vue'
 import { useOrderStore } from '../../store/order.store';
-import { computed } from 'vue';
+import OrderService from '../../services/order.service'
+import { computed, ref } from 'vue';
 import useMoneyFormatter from '../../mixins/currencyFormatter';
 import moment from 'moment'
+import axios from 'axios'
 import { useI18n } from 'vue-i18n'
+
+const API_URL = import.meta.env.VITE_CHEQUE_API_URL
 
 const { t } = useI18n()
 
 const orderStore = useOrderStore()
+const qrcode = ref()
 
 const selectedOrder = computed(() => {
   return orderStore.selectedOrder
 })
 
 const saleTypeShortTranslate = (type) => {
-  switch (type){
+  switch (type) {
     case 'amount':
       return t('piece')
     case 'litre':
@@ -28,6 +35,42 @@ const saleTypeShortTranslate = (type) => {
     case 'g':
       return t('g')
   }
+}
+
+async function printChaque(data) {
+  await axios
+    .post(API_URL + '/print', data)
+    .then(async () => {
+      console.log('Chaque printed')
+    })
+    .catch(() => {
+      console.log('Chaque not printed')
+    })
+}
+
+const printChaqueFunc = (id) => {
+  OrderService.getOrderById(id).then((res) => {
+    printChaque({
+      cashier: res?.cashierFirstName + ' ' + res.cashierLastName,
+      discount: res?.discountPercent ?? 0,
+      discount_amount: res?.discountPrice ?? 0,
+      final_price: res?.totalPrice,
+      market: res?.marketName,
+      paid: res?.paymentReceived,
+      price: res?.initialPrice,
+      products: res?.items.map((item) => {
+        return {
+          count: item?.amount,
+          name: item?.productName,
+          packaging: item?.packaging,
+          price: item?.salePrice,
+          total: item?.price,
+        }
+      }),
+      time: moment(res?.createdAt).format('DD/MM/YYYY H:mm'),
+      qrcode: qrcode.value,
+    })
+  })
 }
 
 const closeModal = () => {
@@ -44,8 +87,8 @@ const closeModal = () => {
     <template v-slot:body>
       <div class="space-y-4">
         <div v-if="selectedOrder?.items" class="inline-block md:min-w-full mb-1 align-middle">
-          <div class="overflow-hidden overflow-y-scroll h-[320px] border-0">
-            <table class="md:min-w-full">
+          <div class="overflow-hidden overflow-y-scroll h-[300px] border-0">
+            <table class="md:min-w-full text-sm">
               <thead>
                 <tr class="bg-slate-100 font-medium text-gray-900">
                   <th class="px-3 py-2 text-left rounded-l-xl text-sm md:text-base">{{ $t('product') }}</th>
@@ -134,18 +177,18 @@ const closeModal = () => {
             </div>
           </li>
           <li class="flex items-center justify-between py-2">
-            <div class="text-lg font-semibold text-gray-900">
+            <div class="text-base font-semibold text-gray-900">
               {{ $t('totalPayment') }}
             </div>
-            <div class="text-xl font-semibold text-gray-900">
+            <div class="text-lg font-semibold text-gray-900">
               {{ useMoneyFormatter(selectedOrder?.totalPrice) }}
             </div>
           </li>
           <li class="flex items-center justify-between py-2">
-            <div class="text-lg font-semibold text-gray-900">
+            <div class="text-base font-semibold text-gray-900">
               {{ $t('paymentReceived') }}
             </div>
-            <div class="text-xl font-semibold text-gray-900">
+            <div class="text-lg font-semibold text-gray-900">
               {{ useMoneyFormatter(selectedOrder?.paymentReceived) }}
             </div>
           </li>
@@ -154,6 +197,17 @@ const closeModal = () => {
     </template>
     <template v-slot:footer>
       <CancelButton @click="closeModal" />
+      <button v-if="isLoading" type="button"
+        class="inline-flex items-center justify-center ms-3 text-white bg-blue-500 hover:bg-blue-600 focus:ring-4 focus:outline-none focus:ring-slate-300 rounded-xl border border-slate-200 text-sm font-medium px-5 py-2.5 focus:z-10">
+        <Spinners270RingIcon
+          class="mr-2 w-5 h-5 text-gray-200 animate-spin dark:text-gray-600 fill-gray-600 dark:fill-gray-300" />
+        <span>{{ $t('printOut') }}</span>
+      </button>
+      <button v-else @click="printChaqueFunc(selectedOrder?.id)" type="button"
+        class="inline-flex items-center justify-center ms-3 text-white bg-blue-500 hover:bg-blue-600 focus:ring-4 focus:outline-none focus:ring-slate-300 rounded-xl border border-slate-200 text-sm font-medium px-5 py-2.5 focus:z-10">
+        <PrinterIcon class="mr-2 w-5 h-5 text-gray-200 dark:text-gray-600 fill-gray-600 dark:fill-gray-300" />
+        <span>{{ $t('printOut') }}</span>
+      </button>
     </template>
   </CModal>
 </template>

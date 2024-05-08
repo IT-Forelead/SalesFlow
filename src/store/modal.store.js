@@ -8,7 +8,9 @@ export const useModalStore = defineStore('modal', {
     isOpenDeleteProductModal: false,
     isOpenCreateProductBarcodeModal: false,
     isOpenCreateUserModal: false,
+    isOpenCreateAgentModal: false,
     isOpenEditUserModal: false,
+    isOpenEditAgentModal: false,
     isOpenDeleteUserModal: false,
     isOpenOrderInfoModal: false,
     isOpenCreateMarketModal: false,
@@ -38,11 +40,23 @@ export const useModalStore = defineStore('modal', {
     closeCreateUserModal() {
       this.isOpenCreateUserModal = false
     },
+    openCreateAgentModal() {
+      this.isOpenCreateAgentModal = true
+    },
+    closeCreateAgentModal() {
+      this.isOpenCreateAgentModal = false
+    },
     openEditUserModal() {
       this.isOpenEditUserModal = true
     },
     closeEditUserModal() {
       this.isOpenEditUserModal = false
+    },
+    openEditAgentModal() {
+      this.isOpenEditAgentModal = true
+    },
+    closeEditAgentModal() {
+      this.isOpenEditAgentModal = false
     },
     openDeleteUserModal() {
       this.isOpenDeleteUserModal = true

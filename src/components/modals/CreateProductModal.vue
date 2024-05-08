@@ -16,16 +16,20 @@ import { computed } from 'vue'
 import { isBarcode } from '../../mixins/barcodeFormatter'
 import ImageIcon from '../../assets/icons/ImageIcon.vue'
 import { useI18n } from 'vue-i18n'
+import AgentService from '../../services/agent.service.js'
+import { useAgentStore } from '../../store/agent.store.js'
 
 const { t } = useI18n()
 
 const router = useRouter()
 const barcodeStore = useBarcodeStore()
-
+const agentStore = useAgentStore()
 const decodedBarcode = computed(() => {
   return barcodeStore.decodedBarcode
 })
-
+const agents = computed(() => {
+  return agentStore.agents
+})
 const moneyConf = {
   thousands: ' ',
   suffix: ' UZS',
@@ -50,6 +54,7 @@ const submitData = reactive({
   purchasePrice: null,
   productionDate: '',
   expirationDate: '',
+  agentId: '',
 })
 
 const clearSubmitData = () => {
@@ -63,6 +68,7 @@ const clearSubmitData = () => {
   submitData.expirationDate = ''
   submitData.toLend = false
   submitData.quantity = null
+  submitData.agentId = ''
 }
 
 const closeModal = () => {
@@ -81,6 +87,8 @@ const createProduct = () => {
     toast.error(t('plsSelectSaleType'))
   } else if (submitData.quantity <= 0) {
     toast.error(t('plsEnterProductQuantity'))
+  } else if (!submitData.agentId) {
+    toast.error(t('plsSelectAgent'))
   } else if (submitData.price <= 0) {
     toast.error(t('plsEnterProductPrice'))
   } else {
@@ -97,6 +105,7 @@ const createProduct = () => {
         productionDate: submitData.productionDate,
         quantity: submitData.quantity,
         toLend: submitData.toLend,
+        agentId: submitData.agentId,
       }),
     ).then(() => {
       toast.success(t('productAddedSuccessfully'))
@@ -126,7 +135,7 @@ const searchProductBarcodes = () => {
       search: searchProductBarcode.value,
     }).then((res) => {
       if (res.length === 0) {
-        toast.error(t('thereIsNoSuchBarcodeProduct'))
+        toast.info(t('thereIsNoSuchBarcodeProduct'))
         clearSubmitData()
         submitData.barcode = searchProductBarcode.value
       } else if (res.length === 1) {
@@ -187,6 +196,19 @@ watch(
   },
   { deep: true },
 )
+
+const getAgents = () => {
+  isLoading.value = true
+  AgentService.getAgents()
+    .then((res) => {
+      useAgentStore().clearStore()
+      useAgentStore().setAgents(res)
+    }).finally(() => {
+    isLoading.value = false
+  })
+}
+
+getAgents()
 </script>
 
 <template>
@@ -286,7 +308,7 @@ watch(
               {{ $t('quantity') }}
               <span class="text-red-500 mr-2">*</span>
             </label>
-            <input id="quantity" type="text" v-model="submitData.quantity"
+            <input id="quantity" type="number" v-model="submitData.quantity"
                    class="bg-slate-100 border-none text-slate-900 rounded-lg w-full h-11 placeholder-slate-400 placeholder:text-sm md:placeholder:text-lg"
                    :placeholder="t('enterProductQuantity')">
           </div>
@@ -328,6 +350,17 @@ watch(
                      class="w-5 h-5 text-blue-600 border-slate-300 rounded focus:ring-blue-500 focus:ring-2 mr-2">
               <label for="toLend" class="py-2 text-base font-medium">{{ $t('toLend') }}</label>
             </div>
+          </div>
+          <div class="flex-1 space-y-1">
+            <label for="agents" class="text-base md:text-lg font-medium">
+              {{ $t('agents') }}
+              <span class="text-red-500 mr-2">*</span>
+            </label>
+            <select id="agents" v-model="submitData.agentId"
+                    class="bg-slate-100 border-none text-slate-900 rounded-lg text-base md:text-lg block w-full h-11">
+              <option value="" selected>{{ $t('selectAgent') }}</option>
+              <option :value="agent.id" v-for="(agent, idx) in agents" :key="idx">{{ agent.fullName }}</option>
+            </select>
           </div>
           <div class="flex-1 space-y-1">
             <label for="purchasePrice" class="text-base md:text-lg font-medium">
