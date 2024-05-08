@@ -213,14 +213,14 @@ watch(
               {{ $t('quantity') }} {{ productBarcode.saleType && `(${productBarcode.saleType})` }}
               <span class="text-red-500 mr-2">*</span>
             </label>
-            <input id="quantity" type="text" v-model="submitData.quantity" class="bg-slate-100 border-none text-slate-900 rounded-lg w-full h-11 placeholder-slate-400 placeholder:text-sm md:placeholder:text-lg" :placeholder="t('enterProductQuantity')" />
+            <input pattern="\d{1,5}(\.\d{0,1})?"  id="quantity" type="number" v-model="submitData.quantity" class="bg-slate-100 border-none text-slate-900 rounded-lg w-full h-11 placeholder-slate-400 placeholder:text-sm md:placeholder:text-lg" :placeholder="t('enterProductQuantity')" />
           </div>
           <div class="flex-1 space-y-1">
             <label for="count" class="text-base md:text-lg font-medium">
-              {{ $t('count') }}
+              {{ $t('countOfLabel') }}
               <span class="text-red-500 mr-2">*</span>
             </label>
-            <input id="count" type="text" v-model="submitData.count" class="bg-slate-100 border-none text-slate-900 rounded-lg w-full h-11 placeholder-slate-400 placeholder:text-sm md:placeholder:text-lg" :placeholder="t('enterProductQuantity')" />
+            <input id="count" type="number" v-model="submitData.count" class="bg-slate-100 border-none text-slate-900 rounded-lg w-full h-11 placeholder-slate-400 placeholder:text-sm md:placeholder:text-lg" :placeholder="t('enterProductQuantity')" />
           </div>
         </div>
       </div>

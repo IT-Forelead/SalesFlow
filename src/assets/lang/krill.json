@@ -234,6 +234,9 @@
   "agentAddedSuccessfully": "Агент муваффақиятли қўшилди!",
   "errorWhileCreatingAgent": "Агент яратишда хатолик юз берди",
   "selectAgent": "Агентни танланг",
-  "plsSelectAgent": "Агентни танланг!"
+  "plsSelectAgent": "Агентни танланг!",
+  "labelCreatedSuccessfully": "Ёрлиқ муваффақиятли қўшилди!",
+  "errorWhileCreatingLabel": "Ёрлиқ яратишда хатолик юз берди",
+  "countOfLabel": "Ёрлиқлар сони"
 
 }
