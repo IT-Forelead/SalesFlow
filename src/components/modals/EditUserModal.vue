@@ -31,7 +31,6 @@ const privileges = ref([
       'find_order',
       'update_product',
       'update_settings',
-      'view_histories',
       'view_orders',
       'view_products',
       'view_settings'
