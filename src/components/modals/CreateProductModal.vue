@@ -135,7 +135,7 @@ const searchProductBarcodes = () => {
       search: searchProductBarcode.value,
     }).then((res) => {
       if (res.length === 0) {
-        toast.error(t('thereIsNoSuchBarcodeProduct'))
+        toast.info(t('thereIsNoSuchBarcodeProduct'))
         clearSubmitData()
         submitData.barcode = searchProductBarcode.value
       } else if (res.length === 1) {
