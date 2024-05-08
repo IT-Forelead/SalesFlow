@@ -238,6 +238,5 @@
   "labelCreatedSuccessfully": "Метка успешно создана!",
   "errorWhileCreatingLabel": "Ошибка при создании метки!",
   "countOfLabel": "Количество меток",
-  "plsSelectAgent": "Пожалуйста, выберите агент!",
   "printOut": "Распечатать"
 }
