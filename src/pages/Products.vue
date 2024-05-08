@@ -4,7 +4,9 @@ import SearchIcon from '../assets/icons/SearchIcon.vue'
 import Spinners270RingIcon from '../assets/icons/Spinners270RingIcon.vue'
 import ProductsTable from '../components/common/ProductsTable.vue'
 import ProductService from '../services/product.service'
+import { cleanObjectEmptyFields } from '../mixins/utils'
 import EditIcon from '../assets/icons/EditIcon.vue'
+import PrinterIcon from '../assets/icons/PrinterIcon.vue'
 import TrashIcon from '../assets/icons/TrashIcon.vue'
 import { useModalStore } from '../store/modal.store'
 import { useProductStore } from '../store/product.store'
@@ -16,6 +18,10 @@ import CaretDoubleRightIcon from '../assets/icons/CaretDoubleRightIcon.vue'
 import { useI18n } from 'vue-i18n'
 import { useAuthStore } from '../store/auth.store.js'
 import decodeJwt, { parseJwt } from '../mixins/utils.js'
+import axios from 'axios'
+import { toast } from 'vue-sonner'
+
+const API_URL = import.meta.env.VITE_CHEQUE_API_URL
 
 const { t } = useI18n()
 const searchFilter = ref('')
@@ -23,6 +29,8 @@ const isLoading = ref(false)
 const renderKey = ref(0)
 const productStore = useProductStore()
 const payload = ref({})
+const globalSearchFromTable = ref('')
+
 const products = computed(() => {
   renderKey.value += 1
   return productStore.products
@@ -101,6 +109,13 @@ const columns = [
     cell: ({ row }) => h('div', { class: 'flex items-center space-x-2' }, [
       h('button', {
         onClick: () => {
+          printLabel(row.original)
+        },
+      }, [
+        h(PrinterIcon, { class: 'w-6 h-6 text-blue-600 hover:scale-105' }),
+      ]),
+      h('button', {
+        onClick: () => {
           openEditProductModal(row.original)
         },
       }, [
@@ -118,6 +133,31 @@ const columns = [
   },
 ]
 
+const printLabel = (product) => {
+  const quantity = product.saleType.includes('kg') ? Number.parseFloat(product.quantity) * 1000 : product.quantity
+  const barcode = !product.barcode ? `9${String(product.serialId).padStart(6, '0')}${String(quantity).padStart(5, '0')}1` : product.barcode
+  axios
+    .post(
+      API_URL + '/print-label',
+      cleanObjectEmptyFields({
+        name: product.name,
+        barcode: barcode,
+        quantity: 1,
+        count: 1,
+        saleType: product.saleType,
+        packaging: product.packaging,
+        serialId: product.serialId,
+        price: product.price,
+      })
+    )
+    .then(async () => {
+      toast.success(t('labelCreatedSuccessfully'))
+    })
+    .catch((err) => {
+      toast.error(t('errorWhileCreatingLabel'))
+    })
+}
+
 const openEditProductModal = (data) => {
   useModalStore().openEditProductModal()
   useProductStore().setSelectedProduct(data)
@@ -130,7 +170,7 @@ const openDeleteProductModal = (data) => {
 
 const page = ref(1)
 const pageSize = 30
-const getProducts = (filters={}) => {
+const getProducts = (filters = {}) => {
   isLoading.value = true
   ProductService.getProducts({ limit: pageSize, page: page.value, ...filters })
     .then((res) => {
@@ -138,8 +178,8 @@ const getProducts = (filters={}) => {
       useProductStore().total = res.total
       useProductStore().setProducts(res.data)
     }).finally(() => {
-    isLoading.value = false
-  })
+      isLoading.value = false
+    })
 }
 
 const debounce = (fn, delay) => {
@@ -156,7 +196,7 @@ const debounce = (fn, delay) => {
 
 const searchProducts = debounce(() => {
   if (searchFilter.value.trim() === '') {
-    getProducts({limit: pageSize, page: page.value});
+    getProducts({ limit: pageSize, page: page.value });
   } else {
     getProducts({ name: searchFilter.value });
   }
@@ -217,16 +257,16 @@ onMounted(() => {
           <SearchIcon class="w-5 h-5 text-slate-400" />
         </div>
         <input type="search" v-model="searchFilter"
-               class="bg-slate-100 border-none w-full text-slate-900 text-base md:text-lg rounded-full block pl-10 py-2 placeholder-slate-400"
-               placeholder="Search everything...">
+          class="bg-slate-100 border-none w-full text-slate-900 text-base md:text-lg rounded-full block pl-10 py-2 placeholder-slate-400"
+          placeholder="Search everything...">
       </div>
       <div class="w-full md:w-auto order-1 md:order-2 flex space-x-2">
         <button v-if="navigationGuard('create_product')" @click="useModalStore().openCreateLabelModal()"
-                class="w-full md:w-auto py-2 px-4 rounded-full text-white text-lg font-medium bg-green-500 cursor-pointer hover:bg-green-600">
+          class="w-full md:w-auto py-2 px-4 rounded-full text-white text-lg font-medium bg-green-500 cursor-pointer hover:bg-green-600">
           {{ $t('createLabel') }}
         </button>
         <button v-if="navigationGuard('create_product')" @click="useModalStore().openCreateProductModal()"
-                class="w-full md:w-auto py-2 px-4 rounded-full text-white text-lg font-medium bg-blue-500 cursor-pointer hover:bg-blue-600">
+          class="w-full md:w-auto py-2 px-4 rounded-full text-white text-lg font-medium bg-blue-500 cursor-pointer hover:bg-blue-600">
           {{ $t('addProduct') }}
         </button>
       </div>
@@ -244,30 +284,30 @@ onMounted(() => {
       </div>
       <div class="flex items-center space-x-2">
         <button :disabled="page === 1" @click="goToPage(1)"
-                class="flex items-center justify-center px-3 py-2 text-base font-medium text-slate-900 rounded-lg select-none hover:bg-blue-200 disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
-                type="button">
+          class="flex items-center justify-center px-3 py-2 text-base font-medium text-slate-900 rounded-lg select-none hover:bg-blue-200 disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
+          type="button">
           <CaretDoubleLeftIcon class="w-5 h-5" />
         </button>
         <button @click="prevPage" :disabled="page === 1"
-                class="flex items-center justify-center px-3 py-2 text-base font-medium text-slate-900 rounded-lg select-none hover:bg-blue-200 disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
-                type="button">
+          class="flex items-center justify-center px-3 py-2 text-base font-medium text-slate-900 rounded-lg select-none hover:bg-blue-200 disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
+          type="button">
           <CaretLeftIcon class="w-5 h-5" />
         </button>
         <div class="flex items-center space-x-2">
           <button v-for="pageNumber in displayedPageNumbers" :key="pageNumber" @click="goToPage(pageNumber)"
-                  :class="{ 'bg-blue-600 text-white': pageNumber === page, 'hover:bg-blue-200': pageNumber !== page }"
-                  class="px-3 py-2 select-none rounded-lg text-slate-900 text-center text-base font-medium transition-all">
+            :class="{ 'bg-blue-600 text-white': pageNumber === page, 'hover:bg-blue-200': pageNumber !== page }"
+            class="px-3 py-2 select-none rounded-lg text-slate-900 text-center text-base font-medium transition-all">
             {{ pageNumber }}
           </button>
         </div>
         <button @click="nextPage" :disabled="page === totalPages"
-                class="flex items-center gap-2 px-3 py-2 text-base font-medium text-center text-slate-900 rounded-lg select-none hover:bg-blue-200 disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
-                type="button">
+          class="flex items-center gap-2 px-3 py-2 text-base font-medium text-center text-slate-900 rounded-lg select-none hover:bg-blue-200 disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
+          type="button">
           <CaretRightIcon class="w-5 h-5" />
         </button>
         <button :disabled="page === totalPages" @click="goToPage(totalPages)"
-                class="flex items-center gap-2 px-3 py-2 text-base font-medium text-slate-900 rounded-lg select-none hover:bg-blue-200 disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
-                type="button">
+          class="flex items-center gap-2 px-3 py-2 text-base font-medium text-slate-900 rounded-lg select-none hover:bg-blue-200 disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
+          type="button">
           <CaretDoubleRightIcon class="w-5 h-5" />
         </button>
       </div>
