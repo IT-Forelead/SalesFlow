@@ -234,5 +234,6 @@
   "agentAddedSuccessfully": "Агент успешно добавлен!",
   "errorWhileCreatingAgent": "Ошибка при создании агента!",
   "selectAgent": "Выберите агент",
-  "plsSelectAgent": "Пожалуйста, выберите агент!"
+  "plsSelectAgent": "Пожалуйста, выберите агент!",
+  "printOut": "Распечатать"
 }

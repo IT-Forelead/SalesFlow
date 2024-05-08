@@ -233,5 +233,6 @@
   "agentAddedSuccessfully": "Agent added successfully!",
   "errorWhileCreatingAgent": "Error while creating agent!",
   "selectAgent": "Select agent",
-  "plsSelectAgent": "Please select agent!"
+  "plsSelectAgent": "Please select agent!",
+  "printOut": "Print out"
 }

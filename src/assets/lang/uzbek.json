@@ -234,5 +234,6 @@
   "agentAddedSuccessfully": "Agent muvaffaqiyatli qo'shildi!",
   "errorWhileCreatingAgent": "Agent yaratishda xatolik yuz berdi!",
   "selectAgent": "Agentni tanlang",
-  "plsSelectAgent": "Agentni tanlang!"
+  "plsSelectAgent": "Agentni tanlang!",
+  "printOut": "Chop etish"
 }

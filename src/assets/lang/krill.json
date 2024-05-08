@@ -234,6 +234,6 @@
   "agentAddedSuccessfully": "Агент муваффақиятли қўшилди!",
   "errorWhileCreatingAgent": "Агент яратишда хатолик юз берди",
   "selectAgent": "Агентни танланг",
-  "plsSelectAgent": "Агентни танланг!"
-
+  "plsSelectAgent": "Агентни танланг!",
+  "printOut": "Чоп этиш"
 }
