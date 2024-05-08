@@ -730,7 +730,7 @@ const createDebt = () => {
     </div>
 
     <div class="flex-auto md:w-1/3 w-full border-l h-dvh py-8 px-4 md:px-8 space-y-4">
-      <!-- <div class="space-y-2">
+      <div class="space-y-2">
         <div class="flex items-center justify-between">
           <h3 class="text-xl font-semibold">Mijoz</h3>
           <h3 class="text-balance font-semibold text-blue-600">Yaratish</h3>
@@ -749,7 +749,7 @@ const createDebt = () => {
         <input type="text"
           class="bg-slate-100 border-none text-slate-700 text-base rounded-xl h-10 block w-full placeholder-slate-400"
           placeholder="Mijozni tanlang">
-      </div> -->
+      </div>
 
       <div class="space-y-2">
         <h3 class="text-xl font-semibold">

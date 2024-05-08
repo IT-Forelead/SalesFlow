@@ -237,5 +237,7 @@
   "plsSelectAgent": "Пожалуйста, выберите агент!",
   "labelCreatedSuccessfully": "Метка успешно создана!",
   "errorWhileCreatingLabel": "Ошибка при создании метки!",
-  "countOfLabel": "Количество меток"
+  "countOfLabel": "Количество меток",
+  "plsSelectAgent": "Пожалуйста, выберите агент!",
+  "printOut": "Распечатать"
 }

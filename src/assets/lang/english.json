@@ -236,5 +236,7 @@
   "plsSelectAgent": "Please select agent!",
   "labelCreatedSuccessfully": "Label created successfully!",
   "errorWhileCreatingLabel": "Error while creating label!",
-  "countOfLabel": "Count of label"
+  "countOfLabel": "Count of label",
+  "plsSelectAgent": "Please select agent!",
+  "printOut": "Print out"
 }
