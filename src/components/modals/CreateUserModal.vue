@@ -34,6 +34,7 @@ const privileges = ref([
       'find_order',
       'update_product',
       'update_settings',
+      'view_agents',
       'view_orders',
       'view_products',
       'view_settings'
@@ -42,6 +43,7 @@ const privileges = ref([
   {
     name: t('manager'),
     code: [
+      'create_agent',
       'create_history',
       'create_order',
       'create_product',
@@ -49,8 +51,10 @@ const privileges = ref([
       'dashboard',
       'find_barcode',
       'find_order',
+      'update_agent',
       'update_product',
       'update_settings',
+      'view_agents',
       'view_histories',
       'view_markets',
       'view_orders',

@@ -164,7 +164,7 @@ onMounted(() => {
               {{ $t('debtors') }}
             </div>
           </router-link>
-          <router-link to="/agents" @click="selectPage()"
+          <router-link v-if="navigationGuard('view_agents')" to="/agents" @click="selectPage()"
                        active-class="active"
                        class="relative h-10 flex items-center w-full hover:bg-blue-300/10 hover:text-blue-600 py-7 text-zinc-400 text-lg font-medium space-x-4 cursor-pointer transition-colors duration-300">
             <div class="w-1.5 h-12 rounded-r-xl first-child-bg-color mr-2"></div>

@@ -235,5 +235,8 @@
   "errorWhileCreatingAgent": "Agent yaratishda xatolik yuz berdi!",
   "selectAgent": "Agentni tanlang",
   "plsSelectAgent": "Agentni tanlang!",
-  "printOut": "Chop etish"
+  "printOut": "Chop etish",
+  "labelCreatedSuccessfully": "Yorliq muvaffaqiyatli qo'shildi!",
+  "errorWhileCreatingLabel": "Yorliq yaratishda xatolik yuz berdi!",
+  "countOfLabel": "Yorliqlar soni"
 }

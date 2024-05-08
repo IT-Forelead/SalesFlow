@@ -308,7 +308,7 @@ getAgents()
               {{ $t('quantity') }}
               <span class="text-red-500 mr-2">*</span>
             </label>
-            <input id="quantity" type="text" v-model="submitData.quantity"
+            <input id="quantity" type="number" v-model="submitData.quantity"
                    class="bg-slate-100 border-none text-slate-900 rounded-lg w-full h-11 placeholder-slate-400 placeholder:text-sm md:placeholder:text-lg"
                    :placeholder="t('enterProductQuantity')">
           </div>

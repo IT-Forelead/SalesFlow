@@ -18,7 +18,7 @@ import { useAuthStore } from '../store/auth.store.js'
 import decodeJwt, { parseJwt } from '../mixins/utils.js'
 
 const { t } = useI18n()
-const globalSearchFromTable = ref('')
+const searchFilter = ref('')
 const isLoading = ref(false)
 const renderKey = ref(0)
 const productStore = useProductStore()
@@ -130,9 +130,9 @@ const openDeleteProductModal = (data) => {
 
 const page = ref(1)
 const pageSize = 30
-const getProducts = () => {
+const getProducts = (filters={}) => {
   isLoading.value = true
-  ProductService.getProducts({ limit: pageSize, page: page.value })
+  ProductService.getProducts({ limit: pageSize, page: page.value, ...filters })
     .then((res) => {
       useProductStore().clearStore()
       useProductStore().total = res.total
@@ -141,6 +141,28 @@ const getProducts = () => {
     isLoading.value = false
   })
 }
+
+const debounce = (fn, delay) => {
+  let timerId
+  return (...args) => {
+    if (timerId) {
+      clearTimeout(timerId)
+    }
+    timerId = setTimeout(() => {
+      fn(...args)
+    }, delay)
+  }
+}
+
+const searchProducts = debounce(() => {
+  if (searchFilter.value.trim() === '') {
+    getProducts({limit: pageSize, page: page.value});
+  } else {
+    getProducts({ name: searchFilter.value });
+  }
+}, 300);
+
+
 const totalPages = computed(() => Math.ceil(total.value / pageSize))
 const displayedPageNumbers = computed(() => {
   const numPages = Math.min(4, totalPages.value)
@@ -172,6 +194,8 @@ watch(page, () => {
   getProducts()
 })
 
+watch(searchFilter, searchProducts)
+
 const navigationGuard = (access) => {
   return payload.value?.privileges?.includes(access)
 }
@@ -192,7 +216,7 @@ onMounted(() => {
         <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
           <SearchIcon class="w-5 h-5 text-slate-400" />
         </div>
-        <input type="search" v-model="globalSearchFromTable"
+        <input type="search" v-model="searchFilter"
                class="bg-slate-100 border-none w-full text-slate-900 text-base md:text-lg rounded-full block pl-10 py-2 placeholder-slate-400"
                placeholder="Search everything...">
       </div>
