@@ -4,6 +4,7 @@ export const useProductStore = defineStore('product', {
   state: () => ({
     products: [],
     total:0,
+    currentPage: 1,
     barcodesTotal:0,
     productBarcodes: [],
     selectedProduct: {},
