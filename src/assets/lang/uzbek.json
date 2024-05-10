@@ -238,5 +238,9 @@
   "printOut": "Chop etish",
   "labelCreatedSuccessfully": "Yorliq muvaffaqiyatli qo'shildi!",
   "errorWhileCreatingLabel": "Yorliq yaratishda xatolik yuz berdi!",
-  "countOfLabel": "Yorliqlar soni"
+  "countOfLabel": "Yorliqlar soni",
+  "plsEnterPurchasePrice": "Xarid narxlarini kiriting",
+  "plsEnterQuantity": "Maxsulot miqdorni kiriting",
+  "plsEnterProductionDate": "Ishlab chiqarilgan sanasini kiriting",
+  "plsEnterExpirationDate": "Yaroqlilik muddatini kiriting"
 }

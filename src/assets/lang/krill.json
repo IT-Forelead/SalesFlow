@@ -238,5 +238,9 @@
   "labelCreatedSuccessfully": "Ёрлиқ муваффақиятли қўшилди!",
   "errorWhileCreatingLabel": "Ёрлиқ яратишда хатолик юз берди",
   "countOfLabel": "Ёрлиқлар сони",
-  "printOut": "Чоп этиш"
+  "printOut": "Чоп этиш",
+  "plsEnterPurchasePrice": "Харид нархларини киритинг",
+  "plsEnterQuantity": "Махсулот миқдорни киритинг",
+  "plsEnterProductionDate": "Ишлаб чиқарилган санасини киритинг",
+  "plsEnterExpirationDate": "Яроқлилик муддатини киритин"
 }
