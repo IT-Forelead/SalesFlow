@@ -18,6 +18,10 @@ const selectedProduct = computed(() => {
   return productStore.selectedProduct
 })
 
+const currentPage = computed(() => {
+  return productStore.currentPage
+})
+
 const moneyConf = {
   thousands: ' ',
   suffix: ' UZS',
@@ -68,7 +72,7 @@ const editProduct = () => {
       saleType: submitData.saleType,
     }).then(() => {
       toast.success(t('productEditedSuccessfully'))
-      ProductService.getProducts({})
+      ProductService.getProducts({limit:30, page:currentPage.value})
         .then((res) => {
           productStore.clearStore()
           productStore.setProducts(res.data)
@@ -79,7 +83,7 @@ const editProduct = () => {
       isLoading.value = false
       closeModal()
     })
-      .catch((err) => {
+      .catch(() => {
         toast.error(t('errorWhileEditingProduct'))
         isLoading.value = false
         closeModal()
@@ -101,6 +105,7 @@ watch(
   },
   { deep: true }
 )
+
 </script>
 <template>
   <CModal :is-open="useModalStore().isOpenEditProductModal" v-if="useModalStore().isOpenEditProductModal"

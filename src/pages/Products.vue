@@ -30,13 +30,16 @@ const renderKey = ref(0)
 const productStore = useProductStore()
 const payload = ref({})
 const globalSearchFromTable = ref('')
-
 const products = computed(() => {
   renderKey.value += 1
   return productStore.products
 })
+
 const total = computed(() => {
   return productStore.total
+})
+const currentPage = computed(() => {
+  return productStore.currentPage
 })
 
 const saleTypeTranslate = (type) => {
@@ -121,13 +124,14 @@ const columns = [
       }, [
         h(EditIcon, { class: 'w-6 h-6 text-blue-600 hover:scale-105' }),
       ]),
-      h('button', {
-        onClick: () => {
-          openDeleteProductModal(row.original)
-        },
-      }, [
-        // h(TrashIcon, { class: 'w-6 h-6 text-red-600 hover:scale-105' }),
-      ]),
+      h('div', [navigationGuard('delete_product') ?
+        h('button', {
+          onClick: () => {
+            openDeleteProductModal(row.original)
+          },
+        }, [
+          h(TrashIcon, { class: 'w-6 h-6 text-red-600 hover:scale-105' }),
+        ]) : h('span')]),
     ]),
     enableSorting: false,
   },
@@ -176,6 +180,7 @@ const getProducts = (filters = {}) => {
     .then((res) => {
       useProductStore().clearStore()
       useProductStore().total = res.total
+      useProductStore().currentPage = page.value
       useProductStore().setProducts(res.data)
     }).finally(() => {
       isLoading.value = false
@@ -196,7 +201,7 @@ const debounce = (fn, delay) => {
 
 const searchProducts = debounce(() => {
   if (searchFilter.value.trim() === '') {
-    getProducts({ limit: pageSize, page: page.value });
+    getProducts({ limit: pageSize, page: currentPage.value });
   } else {
     getProducts({ name: searchFilter.value });
   }
@@ -218,6 +223,7 @@ const displayedPageNumbers = computed(() => {
 const goToPage = (pageNumber) => {
   if (pageNumber >= 1 && pageNumber <= totalPages.value) {
     page.value = pageNumber
+    currentPage.value = page.value
   }
 }
 
@@ -235,7 +241,6 @@ watch(page, () => {
 })
 
 watch(searchFilter, searchProducts)
-
 const navigationGuard = (access) => {
   return payload.value?.privileges?.includes(access)
 }
@@ -244,6 +249,7 @@ onMounted(() => {
   useAuthStore().setUser(decodeJwt(JSON.parse(localStorage.getItem('session'))?.accessToken))
   payload.value = parseJwt()
 })
+
 </script>
 
 <template>

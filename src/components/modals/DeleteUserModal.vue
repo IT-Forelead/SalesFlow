@@ -38,6 +38,7 @@ const getRole = (privileges) => {
     privileges.includes('dashboard') &&
     privileges.includes('view_users') &&
     privileges.includes('create_product') &&
+    privileges.includes('delete_product') &&
     privileges.includes('update_product') &&
     privileges.includes('view_products') &&
     privileges.includes('create_history') &&

@@ -12,6 +12,8 @@ import CaretDoubleLeftIcon from '../assets/icons/CaretDoubleLeftIcon.vue'
 import CaretLeftIcon from '../assets/icons/CaretLeftIcon.vue'
 import CaretRightIcon from '../assets/icons/CaretRightIcon.vue'
 import { useI18n } from 'vue-i18n'
+import EditIcon from '../assets/icons/EditIcon.vue'
+import { useModalStore } from '../store/modal.store.js'
 
 const { t } = useI18n()
 
@@ -22,6 +24,9 @@ const renderKey = ref(0)
 const page = ref(1)
 const pageSize = 30
 
+const currentPage = computed(() => {
+  return productHistoryStore.currentPage
+})
 const productsHistories = computed(() => {
   renderKey.value += 1
   return productHistoryStore.productHistories
@@ -53,9 +58,9 @@ const columns = [
     accessorKey: 'productName',
     header: t('product'),
     cell: ({ row }) => {
-      const productName = `${row.original.productName} - (${row.original.packaging})`;
-      const lendBadge = row.original.toLend ? h('span', { class: 'bg-red-600 mx-2 text-white rounded-lg px-2 py-1 text-sm' }, t('toLend')) : null;
-      return h('div', {}, [productName, lendBadge]);
+      const productName = `${row.original.productName} - (${row.original.packaging})`
+      const lendBadge = row.original.toLend ? h('span', { class: 'bg-red-600 mx-2 text-white rounded-lg px-2 py-1 text-sm' }, t('toLend')) : null
+      return h('div', {}, [productName, lendBadge])
     },
   },
   {
@@ -85,7 +90,33 @@ const columns = [
     accessorKey: 'expirationDate',
     header: t('expirationDate'),
   },
+  {
+    accessorKey: 'actions',
+    header: t('actions'),
+    cell: ({ row }) => h('div', { class: 'flex items-center space-x-2' }, [
+      h('button', {
+        onClick: () => {
+          openEditProductModalHistory(row.original)
+        },
+      }, [
+        h(EditIcon, { class: 'w-6 h-6 text-blue-600 hover:scale-105' }),
+      ]),
+      h('button', {
+        onClick: () => {
+          openDeleteProductModal(row.original)
+        },
+      }, [
+        // h(TrashIcon, { class: 'w-6 h-6 text-red-600 hover:scale-105' }),
+      ]),
+    ]),
+    enableSorting: false,
+  },
 ]
+
+const openEditProductModalHistory = (data) => {
+  useModalStore().openEditProductHistoryModal()
+  useProductHistoryStore().setSelectedProductHistory(data)
+}
 
 const getProductHistories = () => {
   isLoading.value = true
@@ -94,9 +125,10 @@ const getProductHistories = () => {
       useProductHistoryStore().clearStore()
       useProductHistoryStore().totalHistories = res.total
       useProductHistoryStore().setProductHistories(res.data)
+      useProductHistoryStore().currentPage = page.value
     }).finally(() => {
-      isLoading.value = false
-    })
+    isLoading.value = false
+  })
 }
 const totalPages = computed(() => Math.ceil(total.value / pageSize))
 const displayedPageNumbers = computed(() => {
@@ -113,6 +145,7 @@ const displayedPageNumbers = computed(() => {
 const goToPage = (pageNumber) => {
   if (pageNumber >= 1 && pageNumber <= totalPages.value) {
     page.value = pageNumber
+    currentPage.value = page.value
   }
 }
 
@@ -140,14 +173,15 @@ watch(page, () => {
           <SearchIcon class="w-5 h-5 text-slate-400" />
         </div>
         <input type="search" v-model="globalSearchFromTable"
-          class="bg-slate-100 border-none w-full text-slate-900 text-base md:text-lg rounded-full block pl-10 py-2 placeholder-slate-400"
-          placeholder="Search everything...">
+               class="bg-slate-100 border-none w-full text-slate-900 text-base md:text-lg rounded-full block pl-10 py-2 placeholder-slate-400"
+               placeholder="Search everything...">
       </div>
     </div>
     <div v-if="isLoading" class="flex items-center justify-center h-20">
       <Spinners270RingIcon class="w-6 h-6 text-gray-500 animate-spin" />
     </div>
-    <HistoryTable v-else :data="productsHistories" :key="renderKey" :columns="columns" :filter="globalSearchFromTable" />
+    <HistoryTable v-else :data="productsHistories" :key="renderKey" :columns="columns"
+                  :filter="globalSearchFromTable" />
     <div class="flex items-center justify-between my-6">
       <div class="text-base text-slate-900 font-medium">
         {{ $t('total') }}:
@@ -155,30 +189,30 @@ watch(page, () => {
       </div>
       <div class="flex items-center space-x-2">
         <button :disabled="page === 1" @click="goToPage(1)"
-          class="flex items-center justify-center px-3 py-2 text-base font-medium text-slate-900 rounded-lg select-none hover:bg-blue-200 disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
-          type="button">
+                class="flex items-center justify-center px-3 py-2 text-base font-medium text-slate-900 rounded-lg select-none hover:bg-blue-200 disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
+                type="button">
           <CaretDoubleLeftIcon class="w-5 h-5" />
         </button>
         <button @click="prevPage" :disabled="page === 1"
-          class="flex items-center justify-center px-3 py-2 text-base font-medium text-slate-900 rounded-lg select-none hover:bg-blue-200 disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
-          type="button">
+                class="flex items-center justify-center px-3 py-2 text-base font-medium text-slate-900 rounded-lg select-none hover:bg-blue-200 disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
+                type="button">
           <CaretLeftIcon class="w-5 h-5" />
         </button>
         <div class="flex items-center space-x-2">
           <button v-for="pageNumber in displayedPageNumbers" :key="pageNumber" @click="goToPage(pageNumber)"
-            :class="{ 'bg-blue-600 text-white': pageNumber === page, 'hover:bg-blue-200': pageNumber !== page }"
-            class="px-3 py-2 select-none rounded-lg text-slate-900 text-center text-base font-medium transition-all">
+                  :class="{ 'bg-blue-600 text-white': pageNumber === page, 'hover:bg-blue-200': pageNumber !== page }"
+                  class="px-3 py-2 select-none rounded-lg text-slate-900 text-center text-base font-medium transition-all">
             {{ pageNumber }}
           </button>
         </div>
         <button @click="nextPage" :disabled="page === totalPages"
-          class="flex items-center gap-2 px-3 py-2 text-base font-medium text-center text-slate-900 rounded-lg select-none hover:bg-blue-200 disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
-          type="button">
+                class="flex items-center gap-2 px-3 py-2 text-base font-medium text-center text-slate-900 rounded-lg select-none hover:bg-blue-200 disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
+                type="button">
           <CaretRightIcon class="w-5 h-5" />
         </button>
         <button :disabled="page === totalPages" @click="goToPage(totalPages)"
-          class="flex items-center gap-2 px-3 py-2 text-base font-medium text-slate-900 rounded-lg select-none hover:bg-blue-200 disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
-          type="button">
+                class="flex items-center gap-2 px-3 py-2 text-base font-medium text-slate-900 rounded-lg select-none hover:bg-blue-200 disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
+                type="button">
           <CaretDoubleRightIcon class="w-5 h-5" />
         </button>
       </div>

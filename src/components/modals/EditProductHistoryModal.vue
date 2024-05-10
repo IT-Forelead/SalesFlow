@@ -2,19 +2,21 @@
 import CModal from '../common/CModal.vue'
 import { useModalStore } from '../../store/modal.store.js'
 import CancelButton from '../buttons/CancelButton.vue'
-import SaveButton from '../buttons/SaveButton.vue'
 import { computed, reactive, ref, watch } from 'vue'
 import { useProductHistoryStore } from '../../store/productHistory.store.js'
-import { useProductStore } from '../../store/product.store.js'
-import useMoneyFormatter from '../../mixins/currencyFormatter.js'
 import { useI18n } from 'vue-i18n'
+import Spinners270RingIcon from '../../assets/icons/Spinners270RingIcon.vue'
+import { toast } from 'vue-sonner'
+import ProductHistoryService from '../../services/productHistory.service.js'
 
 const { t } = useI18n()
-
-const productStore = useProductStore()
+const isLoading = ref(false)
 const productHistoryStore = useProductHistoryStore()
 const selectedProductHistory = computed(() => {
   return productHistoryStore.selectedProductHistory
+})
+const currentPage = computed(() => {
+  return productHistoryStore.currentPage
 })
 
 const moneyConf = {
@@ -26,49 +28,68 @@ const moneyConf = {
 const submitData = reactive({
   id: '',
   quantity: 0,
-  productHistoryType: '',
   purchasePrice: 0,
-  salePrice: 0,
+  productionDate: '',
+  expirationDate: '',
 })
 
 const clearSubmitData = () => {
   submitData.id = ''
-  submitData.productHistoryType = ''
   submitData.purchasePrice = 0
-  submitData.salePrice = 0
   submitData.quantity = 0
+  submitData.productionDate = ''
+  submitData.expirationDate = ''
 }
-
+const editProductHistory = () => {
+  if (!submitData.purchasePrice) {
+    toast.error(t('plsEnterPurchasePrice'))
+  } else if (!submitData.quantity) {
+    toast.error(t('plsEnterQuantity'))
+  } else if (!submitData.productionDate) {
+    toast.error(t('plsEnterProductionDate'))
+  } else if (!submitData.expirationDate) {
+    toast.error(t('plsEnterExpirationDate'))
+  } else {
+    isLoading.value = true
+    ProductHistoryService.updateProductHistory({
+      id: submitData.id,
+      purchasePrice: submitData.purchasePrice,
+      quantity: submitData.quantity,
+      productionDate: submitData.productionDate,
+      expirationDate: submitData.expirationDate,
+    }).then(() => {
+      toast.success(t('productEditedSuccessfully'))
+      ProductHistoryService.getProductHistories({ limit: 30, page: currentPage.value })
+        .then((res) => {
+          productHistoryStore.clearStore()
+          productHistoryStore.setProductHistories(res.data)
+        })
+        .catch((err) => {
+          toast.error(err.message)
+        })
+      isLoading.value = false
+      closeModal()
+    })
+      .catch(() => {
+        toast.error(t('errorWhileEditingProduct'))
+        isLoading.value = false
+        closeModal()
+      })
+  }
+}
 watch(
   () => selectedProductHistory.value,
   (data) => {
     if (data) {
       submitData.id = data?.id
       submitData.quantity = data?.quantity
-      submitData.productHistoryType = data?.historyType
       submitData.purchasePrice = data?.purchasePrice
-      submitData.salePrice = data?.salePrice
+      submitData.productionDate = data?.productionDate
+      submitData.expirationDate = data?.expirationDate
     }
   },
-  { deep: true }
+  { deep: true },
 )
-
-const getHistoryType = (historyType) => {
-  switch (historyType) {
-    case 'purchased':
-      return t('income')
-    case 'returned':
-      return t('returned')
-    default:
-      return t('unknown')
-  }
-}
-
-const getProductName = (productId) => {
-  const product = productStore.products.find(product => product.id === productId);
-  return product?.name + " - " + product?.packaging
-}
-
 const closeModal = () => {
   useModalStore().closeEditProductHistoryModal()
   useProductHistoryStore().setSelectedProductHistory({})
@@ -78,101 +99,64 @@ const closeModal = () => {
 
 <template>
   <CModal :is-open="useModalStore().isOpenEditProductHistoryModal" v-if="useModalStore().isOpenEditProductHistoryModal"
-    @close=closeModal>
+          @close=closeModal>
     <template v-slot:header>
       {{ $t('editProductHistory') }}
     </template>
     <template v-slot:body>
       <div class="space-y-4">
-        <div class="w-full mb-10">
-          <div class="border-b border-gray-200 flex items-center justify-between">
-            <p class="text-neutral-800 text-base font-normal">
-              {{ $t('productName') }}
-            </p>
-            <h1 class="md:text-2xl font-semibold text-neutral-800 mt-2">
-              {{ getProductName(selectedProductHistory?.productId) }} {{ selectedProductHistory?.packaging }}
-            </h1>
-          </div>
-          <div class="py-4 border-b border-slate-200 flex items-center justify-between">
-            <p class="text-neutral-800 text-base font-normal">
-              {{ $t('productHistoryType') }}
-            </p>
-            <p class="text-sm leading-none text-gray-600 mr-3">
-              {{ getHistoryType(selectedProductHistory?.historyType) }}
-            </p>
-          </div>
-          <div class="py-4 border-b border-slate-200 flex items-center justify-between">
-            <p class="text-neutral-800 text-base font-normal">
-              {{ $t('quantity') }}
-            </p>
-            <p class="text-sm leading-none text-gray-600 mr-3">
-              {{ selectedProductHistory?.quantity }}
-            </p>
-          </div>
-          <div class="py-4 border-b border-slate-200 flex items-center justify-between">
-            <p class="text-neutral-800 text-base font-normal">
-              {{ $t('purchasePrice') }}
-            </p>
-            <p class="text-sm leading-none text-gray-600 mr-3">
-              {{ useMoneyFormatter(selectedProductHistory?.purchasePrice) }}
-            </p>
-          </div>
-          <div class="py-4 border-b border-slate-200 flex items-center justify-between">
-            <p class="text-neutral-800 text-base font-normal">
-              {{ $t('salePrice') }}
-            </p>
-            <p class="text-sm leading-none text-gray-600 mr-3">
-              {{ useMoneyFormatter(selectedProductHistory?.salePrice) }}
-            </p>
-          </div>
-        </div>
         <div class="flex items-center space-x-4">
-          <div class="flex-1 space-y-1">
-            <label for="default-value"
-              class="block text-left mb-2 text-neutral-800 text-base font-normal after:text-red-500 after:content-['*']">
-              {{ $t('quantity') }}
-            </label>
-            <input id="default-value" type="text" v-model="submitData.quantity"
-              class="bg-slate-50 border border-slate-200 text-slate-900 text-base rounded-2xl focus:ring-green-400/40 focus:border-green-400/40 focus:ring-4 block w-full p-2.5"
-              :placeholder="t('enterQuantity')">
-          </div>
-          <div class="flex-1 space-y-1">
-            <label for="product-history-type"
-              class="block text-left mb-2 text-neutral-800 text-base font-normal after:text-red-500 after:content-['*']">
-              {{ $t('productHistoryType') }}
-            </label>
-            <select id="product-history-type" v-model="submitData.productHistoryType"
-              class="bg-slate-50 border border-slate-200 text-slate-900 text-base rounded-2xl focus:ring-green-400/40 focus:border-green-400/40 focus:ring-4 block w-full p-2.5">
-              <option selected>{{ $t('selectType') }}</option>
-              <option value="purchased">{{ $t('income') }}</option>
-              <option value="returned">{{ $t('returned') }}</option>
-            </select>
-          </div>
         </div>
         <div class="flex items-center justify-between space-x-4">
           <div class="flex-1 spaceSearchIcon-y-1">
             <label for="price"
-              class="block text-left mb-2 text-neutral-800 text-base font-normal after:text-red-500 after:content-['*']">
+                   class="block text-left mb-2 text-slate-900 text-base font-medium after:text-red-500 ">
               {{ $t('purchasePrice') }}
             </label>
             <money3 id="price" v-bind="moneyConf" v-model.number="submitData.purchasePrice"
-              class="bg-slate-50 text-right border border-slate-200 text-slate-900 text-base rounded-2xl focus:ring-green-400/40 focus:border-green-400/40 focus:ring-4 block w-full p-2.5">
+                    class="bg-slate-50 text-right border border-slate-200 text-slate-900 text-base rounded-2xl focus:ring-green-400/40 focus:border-green-400/40 focus:ring-4 block w-full p-2.5">
             </money3>
           </div>
-          <div class="flex-1 spaceSearchIcon-y-1">
-            <label for="price"
-              class="block text-left mb-2 text-neutral-800 text-base font-normal after:text-red-500 after:content-['*']">
-              {{ $t('salePrice') }}
+          <div class="flex-1 space-y-1">
+            <label for="quantity" class="text-base md:text-lg font-medium">
+              {{ $t('quantity') }}
             </label>
-            <money3 id="price" v-bind="moneyConf" v-model.number="submitData.salePrice"
-              class="bg-slate-50 text-right border border-slate-200 text-slate-900 text-base rounded-2xl focus:ring-green-400/40 focus:border-green-400/40 focus:ring-4 block w-full p-2.5">
-            </money3>
+            <input id="quantity" type="text" v-model="submitData.quantity"
+                   class="bg-slate-100 border-none text-slate-900 rounded-lg w-full h-11 placeholder-slate-400 placeholder:text-sm md:placeholder:text-lg"
+                   :placeholder="t('enterProductQuantity')">
+          </div>
+        </div>
+        <div class="flex items-center justify-between space-x-4">
+          <div class="flex-1 spaceSearchIcon-y-1">
+            <label for="price" class="text-base md:text-lg font-medium">
+              {{ $t('productionDate') }}
+            </label>
+            <input id="quantity" type="date" v-model="submitData.productionDate"
+                   class="bg-slate-100 border-none text-slate-900 rounded-lg w-full h-11 placeholder-slate-400 placeholder:text-sm md:placeholder:text-lg"
+                   :placeholder="t('enterProductQuantity')">
+          </div>
+          <div class="flex-1 spaceSearchIcon-y-1">
+            <label for="price" class="text-base md:text-lg font-medium">
+              {{ $t('expirationDate') }}
+            </label>
+            <input id="quantity" type="date" v-model="submitData.expirationDate"
+                   class="bg-slate-100 border-none text-slate-900 rounded-lg w-full h-11 placeholder-slate-400 placeholder:text-sm md:placeholder:text-lg"
+                   :placeholder="t('enterProductQuantity')">
           </div>
         </div>
       </div>
     </template>
     <template v-slot:footer>
-      <SaveButton />
+      <button v-if="isLoading" type="button"
+              class="inline-flex items-center justify-center ms-3 text-white bg-blue-600 focus:ring-4 focus:outline-none focus:ring-slate-300 rounded-xl border border-slate-200 text-sm font-medium px-5 py-2.5 focus:z-10 cursor-default">
+        <Spinners270RingIcon
+          class="mr-2 w-5 h-5 text-gray-200 animate-spin dark:text-gray-600 fill-gray-600 dark:fill-gray-300" />
+        {{ $t('save') }}
+      </button>
+      <button v-else @click="editProductHistory()" type="button"
+              class="ms-3 text-white bg-blue-500 hover:bg-blue-600 focus:ring-4 focus:outline-none focus:ring-slate-300 rounded-xl border border-slate-200 text-sm font-medium px-5 py-2.5 focus:z-10 mx-5">
+        {{ $t('save') }}
+      </button>
       <CancelButton @click="closeModal" />
     </template>
   </CModal>
