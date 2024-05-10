@@ -3,7 +3,7 @@ import { defineStore } from 'pinia'
 export const useProductHistoryStore = defineStore('productHistory', {
   state: () => ({
     productHistories: [],
-    totalHistories:0,
+    totalHistories: 0,
     selectedProductHistory: {},
   }),
   actions: {
