@@ -31,6 +31,7 @@ const closeModal = () => {
   useModalStore().closeDeleteProductModal()
   useProductStore().setSelectedProduct({})
 }
+
 </script>
 
 <template>
