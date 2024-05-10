@@ -63,6 +63,7 @@ const privileges = ref([
       'create_product',
       'create_user',
       'dashboard',
+      'delete_product',
       'find_barcode',
       'find_order',
       'update_agent',

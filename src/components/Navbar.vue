@@ -106,13 +106,11 @@ onUnmounted(() => {
   <DeleteUserModal/>
   <EditProductBarcodeModal/>
   <CameraScannerModal/>
-  <BarcodeScannerModal/>
   <DeleteDebtorModal/>
   <DebtInfoModal/>
   <CreateLabelModal/>
   <CreateAgentModal/>
   <EditAgentModal/>
-
 </template>
 
 <style scoped></style>

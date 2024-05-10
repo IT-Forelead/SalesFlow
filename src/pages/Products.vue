@@ -34,6 +34,7 @@ const products = computed(() => {
   renderKey.value += 1
   return productStore.products
 })
+
 const total = computed(() => {
   return productStore.total
 })
@@ -123,13 +124,14 @@ const columns = [
       }, [
         h(EditIcon, { class: 'w-6 h-6 text-blue-600 hover:scale-105' }),
       ]),
-      h('button', {
-        onClick: () => {
-          openDeleteProductModal(row.original)
-        },
-      }, [
-        // h(TrashIcon, { class: 'w-6 h-6 text-red-600 hover:scale-105' }),
-      ]),
+      h('div', [navigationGuard('delete_product') ?
+        h('button', {
+          onClick: () => {
+            openDeleteProductModal(row.original)
+          },
+        }, [
+          h(TrashIcon, { class: 'w-6 h-6 text-red-600 hover:scale-105' }),
+        ]) : h('span')]),
     ]),
     enableSorting: false,
   },

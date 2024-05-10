@@ -44,6 +44,7 @@ const getRole = (privileges) => {
       privileges.includes('create_history') &&
       privileges.includes('create_order') &&
       privileges.includes('create_product') &&
+      privileges.includes('delete_product') &&
       privileges.includes('create_user') &&
       privileges.includes('dashboard') &&
       privileges.includes('find_barcode') &&
