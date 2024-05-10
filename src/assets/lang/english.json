@@ -212,7 +212,7 @@
   "errorWhileDeletingDebt": "Error while deleting debt!",
   "debtInformation": "Debt information",
   "serialId": "Product number",
-  "productionDate":"Production Date",
+  "productionDate": "Production Date",
   "expirationDate": "Expiration Date",
   "createLabel": "Create Label",
   "soldProductsPrice": "Sold products prices",
@@ -237,5 +237,9 @@
   "labelCreatedSuccessfully": "Label created successfully!",
   "errorWhileCreatingLabel": "Error while creating label!",
   "countOfLabel": "Count of label",
-  "printOut": "Print out"
+  "printOut": "Print out",
+  "plsEnterPurchasePrice": "Enter purchase price",
+  "plsEnterQuantity": "Enter quantity",
+  "plsEnterProductionDate": "Enter production date",
+  "plsEnterExpirationDate": "Enter expiration date"
 }

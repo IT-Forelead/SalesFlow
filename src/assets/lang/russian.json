@@ -238,5 +238,9 @@
   "labelCreatedSuccessfully": "Метка успешно создана!",
   "errorWhileCreatingLabel": "Ошибка при создании метки!",
   "countOfLabel": "Количество меток",
-  "printOut": "Распечатать"
+  "printOut": "Распечатать",
+  "plsEnterPurchasePrice": "Введите закупочные цены",
+  "plsEnterQuantity": "введите количество",
+  "plsEnterProductionDate": "Введите дату производства",
+  "plsEnterExpirationDate": "Введите срок годности"
 }
