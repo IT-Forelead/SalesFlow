@@ -4,6 +4,7 @@ export const useProductHistoryStore = defineStore('productHistory', {
   state: () => ({
     productHistories: [],
     totalHistories: 0,
+    currentPage: 1,
     selectedProductHistory: {},
   }),
   actions: {

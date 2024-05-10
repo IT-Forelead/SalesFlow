@@ -11,11 +11,12 @@ import ProductHistoryService from '../../services/productHistory.service.js'
 
 const { t } = useI18n()
 const isLoading = ref(false)
-const page = ref(1)
-const pageSize = 30
 const productHistoryStore = useProductHistoryStore()
 const selectedProductHistory = computed(() => {
   return productHistoryStore.selectedProductHistory
+})
+const currentPage = computed(() => {
+  return productHistoryStore.currentPage
 })
 
 const moneyConf = {
@@ -58,7 +59,7 @@ const editProductHistory = () => {
       expirationDate: submitData.expirationDate,
     }).then(() => {
       toast.success(t('productEditedSuccessfully'))
-      ProductHistoryService.getProductHistories({ limit: pageSize, page: page.value })
+      ProductHistoryService.getProductHistories({ limit: 30, page: currentPage.value })
         .then((res) => {
           productHistoryStore.clearStore()
           productHistoryStore.setProductHistories(res.data)
@@ -153,7 +154,7 @@ const closeModal = () => {
         {{ $t('save') }}
       </button>
       <button v-else @click="editProductHistory()" type="button"
-              class="ms-3 text-white bg-blue-500 hover:bg-blue-600 focus:ring-4 focus:outline-none focus:ring-slate-300 rounded-xl border border-slate-200 text-sm font-medium px-5 py-2.5 focus:z-10">
+              class="ms-3 text-white bg-blue-500 hover:bg-blue-600 focus:ring-4 focus:outline-none focus:ring-slate-300 rounded-xl border border-slate-200 text-sm font-medium px-5 py-2.5 focus:z-10 mx-5">
         {{ $t('save') }}
       </button>
       <CancelButton @click="closeModal" />

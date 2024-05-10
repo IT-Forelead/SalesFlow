@@ -14,8 +14,6 @@ import CaretRightIcon from '../assets/icons/CaretRightIcon.vue'
 import { useI18n } from 'vue-i18n'
 import EditIcon from '../assets/icons/EditIcon.vue'
 import { useModalStore } from '../store/modal.store.js'
-import { useProductStore } from '../store/product.store.js'
-
 
 const { t } = useI18n()
 
@@ -26,6 +24,9 @@ const renderKey = ref(0)
 const page = ref(1)
 const pageSize = 30
 
+const currentPage = computed(() => {
+  return productHistoryStore.currentPage
+})
 const productsHistories = computed(() => {
   renderKey.value += 1
   return productHistoryStore.productHistories
@@ -124,6 +125,7 @@ const getProductHistories = () => {
       useProductHistoryStore().clearStore()
       useProductHistoryStore().totalHistories = res.total
       useProductHistoryStore().setProductHistories(res.data)
+      useProductHistoryStore().currentPage = page.value
     }).finally(() => {
     isLoading.value = false
   })
@@ -143,6 +145,7 @@ const displayedPageNumbers = computed(() => {
 const goToPage = (pageNumber) => {
   if (pageNumber >= 1 && pageNumber <= totalPages.value) {
     page.value = pageNumber
+    currentPage.value = page.value
   }
 }
 
