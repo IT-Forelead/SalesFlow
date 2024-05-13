@@ -45,7 +45,7 @@ const columns = [
       h('div', { class: 'space-y-1' }, [
         h('div', { class: 'flex items-center space-x-1' }, [
           h('div', { class: 'text-sm text-gray-500' }, t('count') + ': '),
-          h('div', { class: 'text-base text-gray-900' }, row.original.items.reduce((acc, cur) => acc + cur.amount, 0) + t('piece')),
+          h('div', { class: 'text-base text-gray-900' }, row.original.items.reduce((acc, cur) => acc + (cur.saleType == "amount" ? cur.amount : 1), 0) + " " + t('piece')),
         ]),
         h('div', { class: 'flex items-center space-x-1' }, [
           h('div', { class: 'text-sm text-gray-500' }, t('price') + ': '),
