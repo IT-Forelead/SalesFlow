@@ -675,7 +675,7 @@ const createDebt = () => {
                           <div v-if="product.quantity <= 15">
                             {{ $t('remainingAmount') }}:
                             <span class="text-red-500 text-sm md:text-base">
-                              {{ product?.quantity - product?.amount }}
+                              {{ roundFloatToOneDecimal(product?.quantity - product?.amount) }}
                             </span>
                           </div>
                         </div>
