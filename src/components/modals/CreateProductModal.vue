@@ -30,11 +30,6 @@ const decodedBarcode = computed(() => {
 const agents = computed(() => {
   return agentStore.agents
 })
-const moneyConf = {
-  thousands: ' ',
-  suffix: ' UZS',
-  precision: 0,
-}
 
 const onSearchFocus = ref(null)
 const isLoading = ref(false)
@@ -48,10 +43,10 @@ const submitData = reactive({
   barcode: '',
   packaging: '',
   saleType: '',
-  price: null,
+  price: '',
   toLend: false,
   quantity: null,
-  purchasePrice: null,
+  purchasePrice: '',
   productionDate: '',
   expirationDate: '',
   agentId: '',
@@ -62,8 +57,8 @@ const clearSubmitData = () => {
   submitData.barcode = ''
   submitData.packaging = ''
   submitData.saleType = ''
-  submitData.price = null
-  submitData.purchasePrice = null
+  submitData.price = ''
+  submitData.purchasePrice = ''
   submitData.productionDate = ''
   submitData.expirationDate = ''
   submitData.toLend = false
@@ -78,43 +73,36 @@ const closeModal = () => {
 
 const createProduct = () => {
   if (!submitData.name) {
-    toast.warning(t('plsEnterProductName'))
+    toast.error(t('plsEnterProductName'))
   } else if (submitData.barcode && !isBarcode(submitData.barcode)) {
-    toast.warning(t('barcodeIsInvalid'))
+    toast.error(t('barcodeIsInvalid'))
   } else if (!submitData.packaging) {
-    toast.warning(t('plsEnterProductPackaging'))
+    toast.error(t('plsEnterProductPackaging'))
   } else if (!submitData.saleType) {
-    toast.warning(t('plsSelectSaleType'))
+    toast.error(t('plsSelectSaleType'))
   } else if (submitData.quantity <= 0) {
-    toast.warning(t('plsEnterProductQuantity'))
+    toast.error(t('plsEnterProductQuantity'))
   } else if (!submitData.agentId) {
-    toast.warning(t('plsSelectAgent'))
+    toast.error(t('plsSelectAgent'))
   } else if (submitData.price <= 0) {
-    toast.warning(t('plsEnterProductPrice'))
+    toast.error(t('plsEnterProductPrice'))
   } else {
     isLoading.value = true
+    const formattedSubmitData = {
+      ...submitData,
+      price: parseFloat(submitData.price.replace(/\D/g, '')),
+      purchasePrice: parseFloat(submitData.purchasePrice.replace(/\D/g, '')),
+    }
+
     ProductService.createProduct(
-      cleanObjectEmptyFields({
-        name: submitData.name,
-        barcode: submitData.barcode,
-        packaging: submitData.packaging,
-        saleType: submitData.saleType,
-        price: submitData.price,
-        purchasePrice: submitData.purchasePrice,
-        expirationDate: submitData.expirationDate,
-        productionDate: submitData.productionDate,
-        quantity: submitData.quantity,
-        toLend: submitData.toLend,
-        agentId: submitData.agentId,
-      }),
+      cleanObjectEmptyFields(formattedSubmitData),
     ).then(() => {
       toast.success(t('productAddedSuccessfully'))
-      ProductService.getProducts({})
-        .then((res) => {
-          useProductStore().clearStore()
-          useProductStore().total = res.total
-          useProductStore().setProducts(res.data)
-        })
+      ProductService.getProducts({}).then((res) => {
+        useProductStore().clearStore()
+        useProductStore().total = res.total
+        useProductStore().setProducts(res.data)
+      })
       clearSubmitData()
       isLoading.value = false
     }).catch(() => {
@@ -124,6 +112,38 @@ const createProduct = () => {
       }, 3000)
     })
   }
+}
+
+const formatPriceInput = (event) => {
+  const input = event.target
+  let value = input.value.replace(/\D/g, '')
+  const formattedValue = numberFormat(value, 0, '.', ' ')
+  if (formattedValue === '' || isNaN(parseFloat(formattedValue.replace(/\D/g, '')))) {
+    submitData.price = ''
+  } else {
+    submitData.price = formattedValue
+  }
+}
+
+const formatPurchasePriceInput = (event) => {
+  const input = event.target
+  let value = input.value.replace(/\D/g, '')
+  const formattedValue = numberFormat(value, 0, '.', ' ')
+  if (formattedValue === '' || isNaN(parseFloat(formattedValue.replace(/\D/g, '')))) {
+    submitData.purchasePrice = ''
+  } else {
+    submitData.purchasePrice = formattedValue
+  }
+}
+
+
+function numberFormat(number, dec, dsep, tsep) {
+  number = parseFloat(number).toFixed(~~dec)
+  tsep = typeof tsep === 'string' ? tsep : ','
+  const parts = number.split('.'),
+    fnums = parts[0],
+    decimals = parts[1] ? (dsep || '.') + parts[1] : ''
+  return fnums.replace(/(\d)(?=(?:\d{3})+$)/g, '$1' + tsep) + decimals
 }
 
 const searchProductBarcodes = () => {
@@ -317,9 +337,14 @@ getAgents()
               {{ $t('price') }}
               <span class="text-red-500 mr-2">*</span>
             </label>
-            <money3 v-model.number="submitData.price" v-bind="moneyConf" id="price"
-                    class="border-none text-right text-gray-500 bg-slate-100 h-11 rounded-lg w-full text-lg">
-            </money3>
+            <input
+              id="price"
+              type="text"
+              v-model="submitData.price"
+              @input="formatPriceInput"
+              class="bg-slate-100 border-none text-slate-900 rounded-lg w-full h-11 placeholder-slate-400 placeholder:text-sm md:placeholder:text-lg"
+              placeholder="0"
+            >
           </div>
         </div>
         <div class="flex flex-col md:flex-row md:items-center space-y-2 md:space-y-0 md:space-x-4">
@@ -342,16 +367,6 @@ getAgents()
         </div>
         <div class="flex flex-col md:flex-row md:items-center space-y-2 md:space-y-0 md:space-x-4">
           <div class="flex-1 space-y-1">
-            <label for="toLend" class="text-base md:text-lg font-medium">
-              {{ $t('toLend') }}
-            </label>
-            <div class="flex items-center px-4 border border-gray-200 bg-slate-50 rounded-lg mt-2 lg:mt-0 md:mt-0">
-              <input v-model="submitData.toLend" id="toLend" type="checkbox"
-                     class="w-5 h-5 text-blue-600 border-slate-300 rounded focus:ring-blue-500 focus:ring-2 mr-2">
-              <label for="toLend" class="py-2 text-base font-medium">{{ $t('toLend') }}</label>
-            </div>
-          </div>
-          <div class="flex-1 space-y-1">
             <label for="agents" class="text-base md:text-lg font-medium">
               {{ $t('agents') }}
               <span class="text-red-500 mr-2">*</span>
@@ -366,9 +381,24 @@ getAgents()
             <label for="purchasePrice" class="text-base md:text-lg font-medium">
               {{ $t('purchasePrice') }}
             </label>
-            <money3 v-model.number="submitData.purchasePrice" v-bind="moneyConf" id="purchasePrice"
-                    class="border-none text-right text-gray-500 bg-slate-100 h-11 rounded-lg w-full text-lg">
-            </money3>
+            <input
+              id="purchasePrice"
+              type="text"
+              v-model="submitData.purchasePrice"
+              @input="formatPurchasePriceInput"
+              class="bg-slate-100 border-none text-slate-900 rounded-lg w-full h-11 placeholder-slate-400 placeholder:text-sm md:placeholder:text-lg"
+              placeholder="0"
+            >
+          </div>
+        </div>
+        <div class="w-1/2 space-y-1">
+          <label for="toLend" class="text-base md:text-lg font-medium">
+            {{ $t('toLend') }}
+          </label>
+          <div class="flex items-center px-4 border border-gray-200 bg-slate-50 rounded-lg mt-2 lg:mt-0 md:mt-0">
+            <input v-model="submitData.toLend" id="toLend" type="checkbox"
+                   class="w-5 h-5 text-blue-600 border-slate-300 rounded focus:ring-blue-500 focus:ring-2 mr-2">
+            <label for="toLend" class="py-2 text-base font-medium">{{ $t('toLend') }}</label>
           </div>
         </div>
       </div>
