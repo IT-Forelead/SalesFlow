@@ -1,5 +1,5 @@
 <script setup>
-import { computed, ref, watch } from 'vue'
+import { computed, ref, watch, watchEffect } from 'vue'
 import { h } from 'vue'
 import moment from 'moment'
 import SearchIcon from '../assets/icons/SearchIcon.vue'
@@ -15,11 +15,21 @@ import CaretDoubleLeftIcon from '../assets/icons/CaretDoubleLeftIcon.vue'
 import CaretLeftIcon from '../assets/icons/CaretLeftIcon.vue'
 import CaretRightIcon from '../assets/icons/CaretRightIcon.vue'
 import { useI18n } from 'vue-i18n'
+import Calendar from 'primevue/calendar'
 
 const { t } = useI18n()
 const globalSearchFromTable = ref('')
-const orders = ref([])
 const isLoading = ref(false)
+const renderKey = ref(0)
+const orderStore = useOrderStore()
+const orders = computed(() => {
+  renderKey.value += 1
+  return orderStore.orders
+})
+const total = computed(() => {
+  return orderStore.totalOrders
+})
+const dateFrom = ref('')
 
 const columns = [
   {
@@ -126,20 +136,65 @@ const openOrderInfo = (data) => {
 
 const page = ref(1)
 const pageSize = 30
-const total = ref(0)
-const getOrders = () => {
+const getOrders = (params = {}) => {
   isLoading.value = true
-  OrderService.getOrders({
-    limit: pageSize,
-    page: page.value
+  OrderService.getOrders( page.value , pageSize , {
+   ...params
   })
     .then((res) => {
-      total.value = res.total
-      orders.value = res.data
+      useOrderStore().clearStore()
+      useOrderStore().totalOrders = res.total
+      useOrderStore().setOrders(res.data)
     }).finally(() => {
       isLoading.value = false
     })
 }
+
+const debounce = (func, wait) => {
+  let timeout
+  return (...args) => {
+    const later = () => {
+      timeout = null
+      func(...args)
+    }
+    clearTimeout(timeout)
+    timeout = setTimeout(later, wait)
+  }
+}
+
+const debouncedSearch = debounce(() => {
+  let formattedDate = null;
+
+  if (moment(dateFrom.value, 'DD/MM/YYYY', true).isValid()) {
+    formattedDate = moment(dateFrom.value, 'DD/MM/YYYY').format('YYYY-MM-DD');
+  }
+
+  let searchParams = {
+    limit: pageSize,
+    page: page.value,
+    createdAt: formattedDate,
+  };
+
+  if (globalSearchFromTable.value.trim() !== '') {
+    searchParams = {
+      ...searchParams,
+      cashierName: globalSearchFromTable.value.trim(),
+    };
+  } else {
+    searchParams = {
+      ...searchParams,
+      cashierName: null,
+    };
+  }
+
+  getOrders(searchParams);
+}, 300);
+
+
+watch(globalSearchFromTable, debouncedSearch)
+watch(dateFrom, debouncedSearch)
+
+
 const totalPages = computed(() => Math.ceil(total.value / pageSize))
 const displayedPageNumbers = computed(() => {
   const numPages = Math.min(4, totalPages.value)
@@ -178,19 +233,20 @@ watch(page, () => {
       {{ $t('sales') }}
     </div>
     <div class="flex items-center justify-between my-2">
-      <div class="relative w-full md:w-auto mb-2 md:mb-0">
-        <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+      <div class="relative w-full md:w-auto mb-2 md:mb-0 flex items-center space-x-2">
+        <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
           <SearchIcon class="w-5 h-5 text-slate-400" />
         </div>
         <input type="search" v-model="globalSearchFromTable"
           class="bg-slate-100 border-none w-full text-slate-900 text-base md:text-lg rounded-full block pl-10 py-2 placeholder-slate-400"
           placeholder="Search everything...">
+        <Calendar v-model="dateFrom" :date-format="'dd/mm/yy'" showIcon iconDisplay="input" :input-class="'rounded-2xl border-none bg-slate-100 text-slate-900 text-base md:text-lg'" placeholder="Select date" />
       </div>
     </div>
     <div v-if="isLoading" class="flex items-center justify-center h-20">
       <Spinners270RingIcon class="w-6 h-6 text-gray-500 animate-spin" />
     </div>
-    <OrdersTable v-else :data="orders" :columns="columns" :filter="globalSearchFromTable" />
+    <OrdersTable v-else :data="orders" :key="renderKey" :columns="columns" />
     <div class="flex items-center justify-between my-6">
       <div class="text-base text-slate-900 font-medium">
         {{ $t('total') }}:
