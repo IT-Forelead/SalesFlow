@@ -122,7 +122,7 @@ const editUser = () => {
       privileges: submitData.privileges,
       phone: submitData.phone.replace(/([() -])/g, ''),
     }).then(() => {
-      toast.warning(t('userEditedSuccessfully'))
+      toast.success(t('userEditedSuccessfully'))
       UserService.getUsers()
         .then((res) => {
           userStore.clearStore()
@@ -134,7 +134,7 @@ const editUser = () => {
       isLoading.value = false
       closeModal()
     }).catch((err) => {
-      toast.warning(t('errorWhileEditingUser'))
+      toast.error(t('errorWhileEditingUser'))
       isLoading.value = false
       closeModal()
     })

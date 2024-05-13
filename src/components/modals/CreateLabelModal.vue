@@ -55,9 +55,9 @@ const closeModal = () => {
 
 const createLabel = () => {
   if (!submitData.name) {
-    toast.error(t('plsEnterProductName'))
+    toast.warning(t('plsEnterProductName'))
   } else if (submitData.quantity <= 0) {
-    toast.error(t('plsEnterProductQuantity'))
+    toast.warning(t('plsEnterProductQuantity'))
   } else {
     isLoading.value = true
     const product = productBarcode.value
@@ -79,7 +79,6 @@ const createLabel = () => {
       )
       .then(async () => {
         toast.success(t('labelCreatedSuccessfully'))
-
         clearSubmitData()
         isLoading.value = false
       })
@@ -94,7 +93,7 @@ const createLabel = () => {
 
 const searchProducts = () => {
   if (!search.value) {
-    toast.error(t('plsEnterProductNameOrBarcode'))
+    toast.warning(t('plsEnterProductNameOrBarcode'))
   } else {
     isLoading.value = true
     if (isBarcode(search.value)) {

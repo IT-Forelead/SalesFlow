@@ -42,13 +42,13 @@ const clearSubmitData = () => {
 }
 const editProductHistory = () => {
   if (!submitData.purchasePrice) {
-    toast.error(t('plsEnterPurchasePrice'))
+    toast.warning(t('plsEnterPurchasePrice'))
   } else if (!submitData.quantity) {
-    toast.error(t('plsEnterQuantity'))
+    toast.warning(t('plsEnterQuantity'))
   } else if (!submitData.productionDate) {
-    toast.error(t('plsEnterProductionDate'))
+    toast.warning(t('plsEnterProductionDate'))
   } else if (!submitData.expirationDate) {
-    toast.error(t('plsEnterExpirationDate'))
+    toast.warning(t('plsEnterExpirationDate'))
   } else {
     isLoading.value = true
     ProductHistoryService.updateProductHistory({

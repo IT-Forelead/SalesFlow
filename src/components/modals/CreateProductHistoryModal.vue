@@ -46,15 +46,15 @@ const clearSubmitData = () => {
 
 const createProductHistory = () => {
   if (!selectedProduct.value?.id) {
-    toast.error(t('plsSelectProduct'))
+    toast.warning(t('plsSelectProduct'))
   } else if (!submitData.quantity) {
-    toast.error(t('plsEnterQuantity'))
+    toast.warning(t('plsEnterQuantity'))
   } else if (!submitData.productHistoryType) {
-    toast.error(t('plsSelectProductHistoryType'))
+    toast.warning(t('plsSelectProductHistoryType'))
   } else if (submitData.purchasePrice === 0) {
-    toast.error(t('plsEnterThePurchasePrice'))
+    toast.warning(t('plsEnterThePurchasePrice'))
   } else if (submitData.salePrice === 0) {
-    toast.error(t('plsEnterTheSellingPrice'))
+    toast.warning(t('plsEnterTheSellingPrice'))
   } else {
     isLoading.value = true
     ProductHistoryService.createProductHistory({

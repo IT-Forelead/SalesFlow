@@ -78,19 +78,19 @@ const closeModal = () => {
 
 const createProduct = () => {
   if (!submitData.name) {
-    toast.error(t('plsEnterProductName'))
+    toast.warning(t('plsEnterProductName'))
   } else if (submitData.barcode && !isBarcode(submitData.barcode)) {
-    toast.error(t('barcodeIsInvalid'))
+    toast.warning(t('barcodeIsInvalid'))
   } else if (!submitData.packaging) {
-    toast.error(t('plsEnterProductPackaging'))
+    toast.warning(t('plsEnterProductPackaging'))
   } else if (!submitData.saleType) {
-    toast.error(t('plsSelectSaleType'))
+    toast.warning(t('plsSelectSaleType'))
   } else if (submitData.quantity <= 0) {
-    toast.error(t('plsEnterProductQuantity'))
+    toast.warning(t('plsEnterProductQuantity'))
   } else if (!submitData.agentId) {
-    toast.error(t('plsSelectAgent'))
+    toast.warning(t('plsSelectAgent'))
   } else if (submitData.price <= 0) {
-    toast.error(t('plsEnterProductPrice'))
+    toast.warning(t('plsEnterProductPrice'))
   } else {
     isLoading.value = true
     ProductService.createProduct(

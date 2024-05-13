@@ -120,7 +120,7 @@ onClickOutside(searchProductDropdown, () => {
 
 const searchProducts = () => {
   if (!search.value) {
-    toast.error(t('plsEnterProductNameOrBarcode'))
+    toast.warning(t('plsEnterProductNameOrBarcode'))
   } else {
     isLoading.value = true
     if (isBarcode(search.value)) {
@@ -511,9 +511,9 @@ const closeForm = () => {
 
 const createSale = () => {
   if (!customerForm.fullName) {
-    toast.error(t('enterFullName'))
+    toast.warning(t('enterFullName'))
   } else if (!customerForm.phone) {
-    toast.error(t('enterPhone'))
+    toast.warning(t('enterPhone'))
   } else if (customerForm.phone && !phoneRegex.test(customerForm.phone.replace(/([() -])/g, ''))) {
     toast.warning(t('plsEnterValidPhoneNumber'))
   } else {
@@ -541,9 +541,9 @@ const closeDebtForm = () => {
 }
 const createDebt = () => {
   if (!customerForm.fullName) {
-    toast.error(t('enterFullName'))
+    toast.warning(t('enterFullName'))
   } else if (!customerForm.phone) {
-    toast.error(t('enterPhone'))
+    toast.warning(t('enterPhone'))
   } else if (customerForm.phone && !phoneRegex.test(customerForm.phone.replace(/([() -])/g, ''))) {
     toast.warning(t('plsEnterValidPhoneNumber'))
   } else {

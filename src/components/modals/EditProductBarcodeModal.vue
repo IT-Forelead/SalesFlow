@@ -54,15 +54,15 @@ const closeModal = () => {
 
 const updateProductBarcode = () => {
   if (!submitData.trademark) {
-    toast.error(t('plsEnterProductName'))
+    toast.warning(t('plsEnterProductName'))
   } else if (!submitData.packaging) {
-    toast.error(t('plsEnterProductPackaging'))
+    toast.warning(t('plsEnterProductPackaging'))
   } else if (!submitData.barcode) {
-    toast.error(t('plsEnterProductBarcode'))
+    toast.warning(t('plsEnterProductBarcode'))
   } else if (submitData.barcode && !isBarcode(submitData.barcode)) {
-    toast.error(t('barcodeIsInvalid'))
+    toast.warning(t('barcodeIsInvalid'))
   } else if (!submitData.saleType) {
-    toast.error(t('plsSelectSaleType'))
+    toast.warning(t('plsSelectSaleType'))
   } else {
     isLoading.value = true
     ProductService.updateProductBarcode(

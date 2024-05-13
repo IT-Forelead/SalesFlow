@@ -54,13 +54,13 @@ const closeModal = () => {
 
 const editProduct = () => {
   if (!submitData.name) {
-    toast.error(t('plsEnterProductName'))
+    toast.warning(t('plsEnterProductName'))
   } else if (!submitData.packaging) {
-    toast.error(t('plsEnterProductPackaging'))
+    toast.warning(t('plsEnterProductPackaging'))
   } else if (submitData.price === 0) {
-    toast.error(t('plsEnterProductPrice'))
+    toast.warning(t('plsEnterProductPrice'))
   } else if (!submitData.saleType) {
-    toast.error(t('plsSelectSaleType'))
+    toast.warning(t('plsSelectSaleType'))
   } else {
     isLoading.value = true
     ProductService.updateProduct({

@@ -42,13 +42,13 @@ const closeModal = () => {
 
 const createProductBarcode = () => {
   if (!submitData.trademark) {
-    toast.error(t('plsEnterProductName'))
+    toast.warning(t('plsEnterProductName'))
   } else if (!submitData.packaging) {
-    toast.error(t('plsEnterProductPackaging'))
+    toast.warning(t('plsEnterProductPackaging'))
   } else if (!submitData.barcode) {
-    toast.error(t('plsEnterProductBarcode'))
+    toast.warning(t('plsEnterProductBarcode'))
   } else if (submitData.barcode.trim() && !isBarcode(submitData.barcode.trim())) {
-    toast.error(t('barcodeIsInvalid'))
+    toast.warning(t('barcodeIsInvalid'))
   } else {
     isLoading.value = true
     ProductService.createProductBarcode(
