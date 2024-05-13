@@ -11,8 +11,7 @@ import SearchIcon from '../../assets/icons/SearchIcon.vue'
 import Spinners270RingIcon from '../../assets/icons/Spinners270RingIcon.vue'
 import BarcodeIcon from '../../assets/icons/BarcodeIcon.vue'
 import ProductService from '../../services/product.service'
-import { reactive, ref, watch, watchEffect } from 'vue'
-import { computed } from 'vue'
+import { computed, reactive, ref, watch, watchEffect } from 'vue'
 import { isBarcode } from '../../mixins/barcodeFormatter'
 import ImageIcon from '../../assets/icons/ImageIcon.vue'
 import { useI18n } from 'vue-i18n'
@@ -30,6 +29,7 @@ const decodedBarcode = computed(() => {
 const agents = computed(() => {
   return agentStore.agents
 })
+const boxPrice = ref(null)
 const moneyConf = {
   thousands: ' ',
   suffix: ' UZS',
@@ -74,6 +74,7 @@ const clearSubmitData = () => {
 const closeModal = () => {
   useModalStore().closeCreateProductModal()
   clearSubmitData()
+  boxPrice.value = null
 }
 
 const createProduct = () => {
@@ -207,8 +208,21 @@ const getAgents = () => {
     isLoading.value = false
   })
 }
+watch(
+  () => useModalStore().isOpenCreateProductModal,
+  (data) => {
+    if (data) {
+      getAgents()
+    }
+  },
+  { deep: true }
+)
 
-getAgents()
+watch([boxPrice, () => submitData.quantity], ([newBoxPrice, newQuantity]) => {
+  if (newBoxPrice !== null && newQuantity !== null && newQuantity > 0) {
+    submitData.purchasePrice = Math.round(newBoxPrice / newQuantity)
+  }
+})
 </script>
 
 <template>
@@ -312,6 +326,24 @@ getAgents()
                    class="bg-slate-100 border-none text-slate-900 rounded-lg w-full h-11 placeholder-slate-400 placeholder:text-sm md:placeholder:text-lg"
                    :placeholder="t('enterProductQuantity')">
           </div>
+          <div class="flex-1 space-y-1">
+            <label for="boxPrice" class="text-base md:text-lg font-medium">
+              {{ $t('fullPrice') }}
+            </label>
+            <money3 v-model.number="boxPrice" v-bind="moneyConf" id="boxPrice"
+                    class="border-none text-right text-gray-500 bg-slate-100 h-11 rounded-lg w-full text-lg">
+            </money3>
+          </div>
+        </div>
+        <div class="flex flex-col md:flex-row md:items-center space-y-2 md:space-y-0 md:space-x-4">
+          <div class="flex-1 space-y-1">
+            <label for="purchasePrice" class="text-base md:text-lg font-medium">
+              {{ $t('purchasePrice') }}
+            </label>
+            <money3 v-model.number="submitData.purchasePrice" v-bind="moneyConf" id="purchasePrice"
+                    class="border-none text-right text-gray-500 bg-slate-100 h-11 rounded-lg w-full text-lg">
+            </money3>
+          </div>
           <div class="flex-1 spaceSearchIcon-y-1">
             <label for="price" class="text-base md:text-lg font-medium">
               {{ $t('price') }}
@@ -342,16 +374,6 @@ getAgents()
         </div>
         <div class="flex flex-col md:flex-row md:items-center space-y-2 md:space-y-0 md:space-x-4">
           <div class="flex-1 space-y-1">
-            <label for="toLend" class="text-base md:text-lg font-medium">
-              {{ $t('toLend') }}
-            </label>
-            <div class="flex items-center px-4 border border-gray-200 bg-slate-50 rounded-lg mt-2 lg:mt-0 md:mt-0">
-              <input v-model="submitData.toLend" id="toLend" type="checkbox"
-                     class="w-5 h-5 text-blue-600 border-slate-300 rounded focus:ring-blue-500 focus:ring-2 mr-2">
-              <label for="toLend" class="py-2 text-base font-medium">{{ $t('toLend') }}</label>
-            </div>
-          </div>
-          <div class="flex-1 space-y-1">
             <label for="agents" class="text-base md:text-lg font-medium">
               {{ $t('agents') }}
               <span class="text-red-500 mr-2">*</span>
@@ -363,12 +385,14 @@ getAgents()
             </select>
           </div>
           <div class="flex-1 space-y-1">
-            <label for="purchasePrice" class="text-base md:text-lg font-medium">
-              {{ $t('purchasePrice') }}
+            <label for="toLend" class="text-base md:text-lg font-medium">
+              {{ $t('toLend') }}
             </label>
-            <money3 v-model.number="submitData.purchasePrice" v-bind="moneyConf" id="purchasePrice"
-                    class="border-none text-right text-gray-500 bg-slate-100 h-11 rounded-lg w-full text-lg">
-            </money3>
+            <div class="flex items-center px-4 border border-gray-200 bg-slate-50 rounded-lg mt-2 lg:mt-0 md:mt-0">
+              <input v-model="submitData.toLend" id="toLend" type="checkbox"
+                     class="w-5 h-5 text-blue-600 border-slate-300 rounded focus:ring-blue-500 focus:ring-2 mr-2">
+              <label for="toLend" class="py-2 text-base font-medium">{{ $t('toLend') }}</label>
+            </div>
           </div>
         </div>
       </div>
