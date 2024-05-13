@@ -240,7 +240,8 @@
   "countOfLabel": "Количество меток",
   "printOut": "Распечатать",
   "plsEnterPurchasePrice": "Введите закупочные цены",
-  "plsEnterQuantity": "введите количество",
   "plsEnterProductionDate": "Введите дату производства",
-  "plsEnterExpirationDate": "Введите срок годности"
+  "plsEnterExpirationDate": "Введите срок годности",
+  "productDeletedSuccessful": "Товар успешно удален!",
+  "errorWhileDeletingProduct": "Ошибка при удалении продукта!"
 }

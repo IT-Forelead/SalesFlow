@@ -240,7 +240,8 @@
   "countOfLabel": "Ёрлиқлар сони",
   "printOut": "Чоп этиш",
   "plsEnterPurchasePrice": "Харид нархларини киритинг",
-  "plsEnterQuantity": "Махсулот миқдорни киритинг",
   "plsEnterProductionDate": "Ишлаб чиқарилган санасини киритинг",
-  "plsEnterExpirationDate": "Яроқлилик муддатини киритин"
+  "plsEnterExpirationDate": "Яроқлилик муддатини киритин",
+  "productDeletedSuccessfully": "Маҳсулот муваффақиятли ўчирилди!",
+  "errorWhileDeletingProduct": "Маҳсулотни ўчиришда хатолик юз берди!"
 }
