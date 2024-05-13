@@ -348,15 +348,15 @@ watch(
               <span class="text-red-500 mr-2">*</span>
             </label>
             <input id="quantity" type="number" v-model="submitData.quantity"
-                   class="bg-slate-100 border-none text-slate-900 rounded-lg w-full h-11 placeholder-slate-400 placeholder:text-sm md:placeholder:text-lg"
-                   :placeholder="t('enterProductQuantity')">
+              class="bg-slate-100 border-none text-slate-900 rounded-lg w-full h-11 placeholder-slate-400 placeholder:text-sm md:placeholder:text-lg"
+              :placeholder="t('enterProductQuantity')">
           </div>
           <div class="flex-1 space-y-1">
             <label for="boxPrice" class="text-base md:text-lg font-medium">
               {{ $t('fullPrice') }}
             </label>
             <money3 v-model.number="boxPrice" v-bind="moneyConf" id="boxPrice"
-                    class="border-none text-right text-gray-500 bg-slate-100 h-11 rounded-lg w-full text-lg">
+              class="border-none text-right text-gray-500 bg-slate-100 h-11 rounded-lg w-full text-lg">
             </money3>
           </div>
         </div>
@@ -366,7 +366,7 @@ watch(
               {{ $t('purchasePrice') }}
             </label>
             <money3 v-model.number="submitData.purchasePrice" v-bind="moneyConf" id="purchasePrice"
-                    class="border-none text-right text-gray-500 bg-slate-100 h-11 rounded-lg w-full text-lg">
+              class="border-none text-right text-gray-500 bg-slate-100 h-11 rounded-lg w-full text-lg">
             </money3>
           </div>
           <div class="flex-1 spaceSearchIcon-y-1">
@@ -415,7 +415,7 @@ watch(
             </label>
             <div class="flex items-center px-4 border border-gray-200 bg-slate-50 rounded-lg mt-2 lg:mt-0 md:mt-0">
               <input v-model="submitData.toLend" id="toLend" type="checkbox"
-                     class="w-5 h-5 text-blue-600 border-slate-300 rounded focus:ring-blue-500 focus:ring-2 mr-2">
+                class="w-5 h-5 text-blue-600 border-slate-300 rounded focus:ring-blue-500 focus:ring-2 mr-2">
               <label for="toLend" class="py-2 text-base font-medium">{{ $t('toLend') }}</label>
             </div>
           </div>
