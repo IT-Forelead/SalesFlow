@@ -1,17 +1,25 @@
 <script setup>
-import { useModalStore } from '../../store/modal.store.js'
-import CModal from '../common/CModal.vue'
-import { useProductStore } from '../../store/product.store.js'
-import { computed } from 'vue'
+import { computed, ref } from 'vue'
+import { useI18n } from 'vue-i18n'
+import { toast } from 'vue-sonner'
 import WarningCircleBoldIcon from '../../assets/icons/WarningCircleBoldIcon.vue'
 import useMoneyFormatter from '../../mixins/currencyFormatter.js'
-import { useI18n } from 'vue-i18n'
+import ProductService from '../../services/product.service'
+import { useModalStore } from '../../store/modal.store.js'
+import { useProductStore } from '../../store/product.store.js'
+import CModal from '../common/CModal.vue'
 
 const { t } = useI18n()
+const isLoading = ref(false)
 
 const productStore = useProductStore()
+
 const selectedProduct = computed(() => {
   return productStore.selectedProduct
+})
+
+const currentPage = computed(() => {
+  return productStore.currentPage
 })
 
 const saleType = (type) => {
@@ -32,6 +40,33 @@ const closeModal = () => {
   useProductStore().setSelectedProduct({})
 }
 
+const deleteProduct = () => {
+  isLoading.value = true
+  if (!selectedProduct.value?.id) {
+    toast.error(t('productNotFound'))
+  } else {
+    ProductService.deleteProduct(selectedProduct.value.id)
+      .then(() => {
+        toast.success(t('productDeletedSuccessfully'))
+        ProductService.getProducts({
+          limit: 30,
+          page: currentPage.value
+        }).then((res) => {
+          productStore.clearStore()
+          productStore.setProducts(res.data)
+        })
+        isLoading.value = false
+        closeModal()
+      })
+      .catch((err) => {
+        toast.error(t('errorWhileDeletingProduct'))
+        isLoading.value = false
+      })
+      .finally(() => {
+        isLoading.value = false
+      })
+  }
+}
 </script>
 
 <template>
@@ -110,7 +145,7 @@ const closeModal = () => {
                   class="w-full md:w-auto py-2 px-4 rounded-xl text-gray-900 text-base font-medium bg-slate-50 cursor-pointer hover:bg-slate-200 border md:flex-1">
                   {{ $t('no') }}
                 </button>
-                <button
+                <button @click="deleteProduct()"
                   class="w-full md:w-auto py-2 px-4 rounded-xl text-white text-base font-medium bg-red-600 cursor-pointer hover:bg-red-700">
                   {{ $t('yesOfCourse') }}
                 </button>

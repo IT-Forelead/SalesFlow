@@ -239,7 +239,8 @@
   "countOfLabel": "Count of label",
   "printOut": "Print out",
   "plsEnterPurchasePrice": "Enter purchase price",
-  "plsEnterQuantity": "Enter quantity",
   "plsEnterProductionDate": "Enter production date",
-  "plsEnterExpirationDate": "Enter expiration date"
+  "plsEnterExpirationDate": "Enter expiration date",
+  "productDeletedSuccessfully": "Product deleted successfully!",
+  "errorWhileDeletingProduct": "Error while deleting product!"
 }

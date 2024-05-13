@@ -240,7 +240,8 @@
   "errorWhileCreatingLabel": "Yorliq yaratishda xatolik yuz berdi!",
   "countOfLabel": "Yorliqlar soni",
   "plsEnterPurchasePrice": "Xarid narxlarini kiriting",
-  "plsEnterQuantity": "Maxsulot miqdorni kiriting",
   "plsEnterProductionDate": "Ishlab chiqarilgan sanasini kiriting",
-  "plsEnterExpirationDate": "Yaroqlilik muddatini kiriting"
+  "plsEnterExpirationDate": "Yaroqlilik muddatini kiriting",
+  "productDeletedSuccessfully": "Mahsulot muvaffaqiyatli o'chirildi!",
+  "errorWhileDeletingProduct": "Mahsulotni o'chirishda xatolik yuz berdi!"
 }

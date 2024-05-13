@@ -11,7 +11,7 @@ const layout = computed(() => `${currentRoute.value.meta.layout || defaultLayout
 </script>
 
 <template>
-  <Toaster position="bottom-center" richColors closeButton />
+  <Toaster position="bottom-left" richColors closeButton />
   <component :is="layout">
     <router-view />
   </component>
