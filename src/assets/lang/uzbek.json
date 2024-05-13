@@ -41,7 +41,7 @@
   "addShop": "Do'kon qo'shish",
   "shopName": "Do'kon nomi",
   "address": "Manzili",
-  "price": "Narxi",
+  "price": "Sotuv narxi",
   "accepted": "Qabul qilingan",
   "discount": "Chegirma",
   "percent": "Foizi",
@@ -243,5 +243,6 @@
   "plsEnterProductionDate": "Ishlab chiqarilgan sanasini kiriting",
   "plsEnterExpirationDate": "Yaroqlilik muddatini kiriting",
   "productDeletedSuccessfully": "Mahsulot muvaffaqiyatli o'chirildi!",
-  "errorWhileDeletingProduct": "Mahsulotni o'chirishda xatolik yuz berdi!"
+  "errorWhileDeletingProduct": "Mahsulotni o'chirishda xatolik yuz berdi!",
+  "fullPrice": "To'liq narxi"
 }
