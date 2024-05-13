@@ -41,7 +41,7 @@
   "addShop": "Дўкон қўшиш",
   "shopName": "Дўкон номи",
   "address": "Манзили",
-  "price": "Нархи",
+  "price": "Сотув нархи",
   "accepted": "Қабул қилинган",
   "discount": "Чегирма",
   "percent": "Фоизи",
@@ -243,5 +243,6 @@
   "plsEnterProductionDate": "Ишлаб чиқарилган санасини киритинг",
   "plsEnterExpirationDate": "Яроқлилик муддатини киритин",
   "productDeletedSuccessfully": "Маҳсулот муваффақиятли ўчирилди!",
-  "errorWhileDeletingProduct": "Маҳсулотни ўчиришда хатолик юз берди!"
+  "errorWhileDeletingProduct": "Маҳсулотни ўчиришда хатолик юз берди!",
+  "fullPrice": "Тўлик нархи"
 }
