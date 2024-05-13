@@ -70,7 +70,7 @@ const editAgent = () => {
       isLoading.value = false
       closeModal()
     }).catch(() => {
-      toast.warning(t('errorWhileEditingAgent'))
+      toast.error(t('errorWhileEditingAgent'))
       isLoading.value = false
       closeModal()
     })

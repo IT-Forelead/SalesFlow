@@ -242,5 +242,6 @@
   "plsEnterProductionDate": "Enter production date",
   "plsEnterExpirationDate": "Enter expiration date",
   "productDeletedSuccessfully": "Product deleted successfully!",
-  "errorWhileDeletingProduct": "Error while deleting product!"
+  "errorWhileDeletingProduct": "Error while deleting product!",
+  "fullPrice": "Full price"
 }

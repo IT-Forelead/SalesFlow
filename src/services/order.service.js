@@ -4,8 +4,8 @@ class OrderService {
   async createOrder(data) {
     return AxiosService.post('/order/create', data)
   }
-  async getOrders(data) {
-    return AxiosService.post(`/order?limit=${data.limit}&page=${data.page}`, data)
+  async getOrders(page, limit, data) {
+    return AxiosService.post(`/order?limit=${limit}&page=${page}`, data)
   }
   async isOrderExists(orderId) {
     return AxiosService.get(`/order/exist/${orderId}`)

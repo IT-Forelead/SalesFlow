@@ -41,7 +41,7 @@
   "addShop": "Добавить магазин",
   "shopName": "Название магазина",
   "address": "Адрес",
-  "price": "Цена",
+  "price": "Цена продажи",
   "accepted": "Принято",
   "discount": "Скидка",
   "percent": "Процент",
@@ -243,5 +243,6 @@
   "plsEnterProductionDate": "Введите дату производства",
   "plsEnterExpirationDate": "Введите срок годности",
   "productDeletedSuccessful": "Товар успешно удален!",
-  "errorWhileDeletingProduct": "Ошибка при удалении продукта!"
+  "errorWhileDeletingProduct": "Ошибка при удалении продукта!",
+  "fullPrice": "Полная стоимость"
 }

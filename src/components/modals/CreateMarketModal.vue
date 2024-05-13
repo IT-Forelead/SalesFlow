@@ -29,9 +29,9 @@ const closeModal = () => {
 
 const createMarket = () => {
   if (!submitData.name) {
-    toast.error(t('plsEnterStoreName'))
+    toast.warning(t('plsEnterStoreName'))
   } else if (!submitData.address) {
-    toast.error(t('plsEnterStoreAddress'))
+    toast.warning(t('plsEnterStoreAddress'))
   } else {
     isLoading.value = true
     MarketService.createMarket({

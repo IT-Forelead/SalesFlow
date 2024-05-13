@@ -2,6 +2,7 @@
 import { computed, h, onMounted, ref, watch } from 'vue'
 import SearchIcon from '../assets/icons/SearchIcon.vue'
 import Spinners270RingIcon from '../assets/icons/Spinners270RingIcon.vue'
+import CopyIcon from '../assets/icons/CopyIcon.vue'
 import ProductsTable from '../components/common/ProductsTable.vue'
 import ProductService from '../services/product.service'
 import { cleanObjectEmptyFields } from '../mixins/utils'
@@ -119,6 +120,13 @@ const columns = [
       ]),
       h('button', {
         onClick: () => {
+          createDuplicateProductModal(row.original)
+        },
+      }, [
+        h(CopyIcon, { class: 'w-6 h-6 text-blue-600 hover:scale-105' }),
+      ]),
+      h('button', {
+        onClick: () => {
           openEditProductModal(row.original)
         },
       }, [
@@ -164,6 +172,11 @@ const printLabel = (product) => {
 
 const openEditProductModal = (data) => {
   useModalStore().openEditProductModal()
+  useProductStore().setSelectedProduct(data)
+}
+
+const createDuplicateProductModal = (data) => {
+  useModalStore().openCreateProductModal()
   useProductStore().setSelectedProduct(data)
 }
 
@@ -249,7 +262,6 @@ onMounted(() => {
   useAuthStore().setUser(decodeJwt(JSON.parse(localStorage.getItem('session'))?.accessToken))
   payload.value = parseJwt()
 })
-
 </script>
 
 <template>

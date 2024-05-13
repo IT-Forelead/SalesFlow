@@ -46,9 +46,9 @@ const clearSubmitData = () => {
 const createSale = () => {
   isOrderAlreadyUsed.value = false
   if (!submitData.fullName) {
-    toast.error(t('enterFullName'))
+    toast.warning(t('enterFullName'))
   } else if (!submitData.phone) {
-    toast.error(t('enterPhone'))
+    toast.warning(t('enterPhone'))
   } else if (submitData.phone && !phoneRegex.test(submitData.phone.replace(/([() -])/g, ''))) {
     toast.warning(t('plsEnterValidPhoneNumber'))
   } else {
