@@ -244,5 +244,6 @@
   "plsEnterExpirationDate": "Введите срок годности",
   "productDeletedSuccessful": "Товар успешно удален!",
   "errorWhileDeletingProduct": "Ошибка при удалении продукта!",
-  "fullPrice": "Полная стоимость"
+  "fullPrice": "Полная стоимость",
+  "agentNotFound": "Агенты не найдены!"
 }

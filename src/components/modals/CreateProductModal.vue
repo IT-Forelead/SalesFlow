@@ -17,6 +17,8 @@ import ImageIcon from '../../assets/icons/ImageIcon.vue'
 import { useI18n } from 'vue-i18n'
 import AgentService from '../../services/agent.service.js'
 import { useAgentStore } from '../../store/agent.store.js'
+import SelectOptionAgent from '../inputs/SelectOptionAgent.vue'
+import { useDropdownStore } from '../../store/dropdown.store'
 
 const { t } = useI18n()
 
@@ -31,6 +33,10 @@ const decodedBarcode = computed(() => {
 
 const agents = computed(() => {
   return agentStore.agents
+})
+
+const selectedAgent = computed(() => {
+  return useDropdownStore().selectOptionAgent
 })
 
 const selectedProduct = computed(() => {
@@ -62,10 +68,10 @@ const submitData = reactive({
   purchasePrice: null,
   productionDate: '',
   expirationDate: '',
-  agentId: '',
 })
 
 const clearSubmitData = () => {
+  useDropdownStore().setSelectOptionAgent('')
   submitData.name = ''
   submitData.barcode = ''
   submitData.packaging = ''
@@ -76,7 +82,6 @@ const clearSubmitData = () => {
   submitData.expirationDate = ''
   submitData.toLend = false
   submitData.quantity = null
-  submitData.agentId = ''
 }
 
 const closeModal = () => {
@@ -97,7 +102,7 @@ const createProduct = () => {
     toast.warning(t('plsSelectSaleType'))
   } else if (submitData.quantity <= 0) {
     toast.warning(t('plsEnterProductQuantity'))
-  } else if (!submitData.agentId) {
+  } else if (!selectedAgent.value?.id) {
     toast.warning(t('plsSelectAgent'))
   } else if (submitData.price <= 0) {
     toast.warning(t('plsEnterProductPrice'))
@@ -115,7 +120,7 @@ const createProduct = () => {
         productionDate: submitData.productionDate,
         quantity: submitData.quantity,
         toLend: submitData.toLend,
-        agentId: submitData.agentId,
+        agentId: selectedAgent.value?.id,
       }),
     ).then(() => {
       toast.success(t('productAddedSuccessfully'))
@@ -243,7 +248,6 @@ watch(
       submitData.saleType = data?.saleType
       submitData.price = data?.price
       submitData.quantity = data?.quantity
-      submitData.agentId = data?.agentId
     }
   },
   { deep: true }
@@ -403,11 +407,7 @@ watch(
               {{ $t('agents') }}
               <span class="text-red-500 mr-2">*</span>
             </label>
-            <select id="agents" v-model="submitData.agentId"
-              class="bg-slate-100 border-none text-slate-900 rounded-lg text-base md:text-lg block w-full h-11">
-              <option value="" selected>{{ $t('selectAgent') }}</option>
-              <option :value="agent.id" v-for="(agent, idx) in agents" :key="idx">{{ agent.fullName }}</option>
-            </select>
+            <SelectOptionAgent :options="agents" />
           </div>
           <div class="flex-1 space-y-1">
             <label for="toLend" class="text-base md:text-lg font-medium">

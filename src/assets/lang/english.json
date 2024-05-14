@@ -243,5 +243,6 @@
   "plsEnterExpirationDate": "Enter expiration date",
   "productDeletedSuccessfully": "Product deleted successfully!",
   "errorWhileDeletingProduct": "Error while deleting product!",
-  "fullPrice": "Full price"
+  "fullPrice": "Full price",
+  "agentNotFound": "Agents not found!"
 }
