@@ -22,7 +22,7 @@ const isLoading = ref(false)
 const productHistoryStore = useProductHistoryStore()
 const renderKey = ref(0)
 const page = ref(1)
-const pageSize = 30
+const pageSize = 50
 
 const currentPage = computed(() => {
   return productHistoryStore.currentPage

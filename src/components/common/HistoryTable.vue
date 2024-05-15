@@ -51,7 +51,7 @@ const table = useVueTable({
   },
   initialState: {
     pagination: {
-      pageSize: 30,
+      pageSize: 50,
     },
   },
 })
