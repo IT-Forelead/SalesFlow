@@ -1,13 +1,19 @@
 <script setup>
 import PhX from '../../assets/icons/XIcon.vue'
-import { onMounted, onUnmounted } from 'vue'
+import { onMounted, onUnmounted, ref, watch } from 'vue'
+import { onClickOutside } from '@vueuse/core'
 
 const emit = defineEmits(['close'])
 const close = () => {
-  emit('close')
+  isClosing.value = true
+  setTimeout(() => {
+    emit('close')
+    isClosing.value = false
+  }, 300)
 }
+
 const props = defineProps({
-  isOpen:Boolean
+  isOpen: Boolean
 })
 
 const whenPressEsc = (event) => {
@@ -16,6 +22,15 @@ const whenPressEsc = (event) => {
   }
 }
 
+const modal = ref(null)
+const isClosing = ref(false)
+
+onClickOutside(modal, () => {
+  if (props.isOpen) {
+    close()
+  }
+})
+
 onMounted(() => {
   window.addEventListener('keydown', whenPressEsc)
 })
@@ -23,23 +38,27 @@ onMounted(() => {
 onUnmounted(() => {
   window.removeEventListener('keydown', whenPressEsc)
 })
+
+watch(() => props.isOpen, (newValue) => {
+  if (newValue) {
+    document.body.style.overflow = 'hidden'
+  } else {
+    document.body.style.overflow = ''
+  }
+})
 </script>
 
+
 <template>
-  <div class="fixed top-0 right-0 bottom-0 left-0 z-50 backdrop-blur-[2px] bg-gray-900/70"></div>
-  <div :class="[isOpen ? 'slide-in-right' : '' ]" class="overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 w-full min-h-screen cursor-default">
+  <div ref="modal" class="fixed top-0 right-0 bottom-0 left-0 z-50 backdrop-blur-[2px] bg-gray-900/70"></div>
+  <div :class="[{ 'slide-in-right': isOpen && !isClosing, 'slide-out-right': isClosing }, 'overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 w-full min-h-screen cursor-default']">
     <div class="absolute w-full min-h-screen max-w-md md:max-w-2xl lg:max-w-3xl xl:max-w-4xl right-0 top-1/2 -translate-y-1/2 mx-auto">
       <!-- Modal content -->
-      <div
-        class="relative bg-white md:rounded-l-2xl shadow-xl w-full min-h-screen md:w-auto">
+      <div class="relative bg-white md:rounded-l-2xl shadow-xl w-full min-h-screen md:w-auto">
         <!-- Modal header -->
         <div class="w-full flex items-center justify-between md:justify-start p-3 md:p-3  border-b rounded-t">
           <div class="md:pr-4 order-last md:order-none">
-            <button
-              @click="close"
-              type="button"
-              class="text-slate-400 bg-transparent hover:bg-red-100 transition duration-100 hover:text-red-500 rounded-full w-8 h-8 ms-auto inline-flex justify-center items-center"
-            >
+            <button @click="close" type="button" class="text-slate-400 bg-transparent hover:bg-red-100 transition duration-100 hover:text-red-500 rounded-full w-8 h-8 ms-auto inline-flex justify-center items-center">
               <PhX class="w-5 h-5"/>
             </button>
           </div>
@@ -66,6 +85,7 @@ onUnmounted(() => {
   </div>
 </template>
 
+
 <style scoped>
 @keyframes slideInRight {
   from {
@@ -75,8 +95,21 @@ onUnmounted(() => {
     transform: translateX(0);
   }
 }
+
+@keyframes slideOutRight {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(100%);
+  }
+}
+
 .slide-in-right {
   animation: slideInRight 0.3s ease-in-out;
 }
 
+.slide-out-right {
+  animation: slideOutRight 0.3s ease-in-out;
+}
 </style>
