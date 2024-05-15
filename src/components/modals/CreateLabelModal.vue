@@ -97,7 +97,7 @@ const searchProducts = () => {
   } else {
     isLoading.value = true
     if (isBarcode(search.value)) {
-      ProductService.getProducts(
+      ProductService.getProductsDetails(
         cleanObjectEmptyFields({
           barcode: search.value,
         })
@@ -106,7 +106,7 @@ const searchProducts = () => {
         productBarcodes.value = res.data
       })
     } else if (!isNaN(search.value) && Number.isInteger(+search.value)) {
-      ProductService.getProducts(
+      ProductService.getProductsDetails(
         cleanObjectEmptyFields({
           serialId: +search.value,
         })
@@ -115,9 +115,9 @@ const searchProducts = () => {
         productBarcodes.value = res.data
       })
     } else {
-      ProductService.getProducts(
+      ProductService.getProductsDetails(
         cleanObjectEmptyFields({
-          name: '%' + search.value + '%',
+          name: search.value,
         })
       ).then((res) => {
         isLoading.value = false
