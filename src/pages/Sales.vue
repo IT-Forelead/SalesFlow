@@ -660,7 +660,7 @@ const createDebt = () => {
                     <th class="px-3 py-2 text-left rounded-l-xl text-sm md:text-base">
                       {{ $t('product') }}
                     </th>
-                    <th class="px-3 py-2 text-left rounded-l-xl text-sm md:text-base">
+                    <th class="px-3 py-2 text-center text-sm md:text-base">
                       {{ $t('serialId') }}
                     </th>
                     <th class="px-3 py-2 text-center text-sm md:text-base">
@@ -683,7 +683,7 @@ const createDebt = () => {
                           <ImageIcon class="text-gray-500 w-6 h-6" />
                         </div>
                         <div>
-                          <div class="text-sm md:text-base font-semibold text-gray-800 max-w-[220px] whitespace-break-spaces">
+                          <div class="text-sm md:text-base font-semibold text-gray-800 max-w-full whitespace-break-spaces">
                             {{ product?.name + ' - ' + product?.packaging }}
                           </div>
                           <div class="text-sm md:text-base font-medium text-gray-500">
