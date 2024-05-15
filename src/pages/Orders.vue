@@ -135,7 +135,7 @@ const openOrderInfo = (data) => {
 }
 
 const page = ref(1)
-const pageSize = 30
+const pageSize = 50
 const getOrders = (params = {}) => {
   isLoading.value = true
   OrderService.getOrders( page.value , pageSize , {

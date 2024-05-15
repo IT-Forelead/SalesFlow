@@ -182,7 +182,7 @@ const openDeleteProductModal = (data) => {
 }
 
 const page = ref(1)
-const pageSize = 30
+const pageSize = 50
 const getProducts = (filters = {}) => {
   isLoading.value = true
   ProductService.getProducts({ limit: pageSize, page: page.value, ...filters })
