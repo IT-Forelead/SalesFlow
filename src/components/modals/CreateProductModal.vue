@@ -19,6 +19,7 @@ import AgentService from '../../services/agent.service.js'
 import { useAgentStore } from '../../store/agent.store.js'
 import SelectOptionAgent from '../inputs/SelectOptionAgent.vue'
 import { useDropdownStore } from '../../store/dropdown.store'
+import ScrollPanel from 'primevue/scrollpanel'
 
 const { t } = useI18n()
 
@@ -279,6 +280,7 @@ watch(
           </button>
         </div>
         <div v-if="productBarcodes.length > 0" class="absolute top-16 left-0 bg-transparent w-full space-y-2 z-[2000]">
+          <ScrollPanel style="height: 600px;">
           <div v-for="(product, idx) in productBarcodes" :key="idx" @click="selectedProductBarcode(product)"
             class="flex items-center justify-between bg-white border shadow-sm rounded-xl px-3 py-2 w-full cursor-pointer hover:bg-slate-100">
             <div class="flex items-center space-x-3">
@@ -298,6 +300,7 @@ watch(
               {{ product?.barcode }}
             </div>
           </div>
+          </ScrollPanel>
         </div>
       </div>
       <div class="space-y-2 md:space-y-4">
