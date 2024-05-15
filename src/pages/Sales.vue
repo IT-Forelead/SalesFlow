@@ -683,7 +683,7 @@ const createDebt = () => {
                           <ImageIcon class="text-gray-500 w-6 h-6" />
                         </div>
                         <div>
-                          <div class="text-sm md:text-base font-semibold text-gray-800 max-w-[220px]">
+                          <div class="text-sm md:text-base font-semibold text-gray-800 max-w-[220px] whitespace-break-spaces">
                             {{ product?.name + ' - ' + product?.packaging }}
                           </div>
                           <div class="text-sm md:text-base font-medium text-gray-500">
