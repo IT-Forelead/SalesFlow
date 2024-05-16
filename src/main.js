@@ -15,12 +15,14 @@ import LoginLayout from './layouts/LoginLayout.vue'
 import router from './router'
 import './style.css'
 import PrimeVue from 'primevue/config'
-import 'primevue/resources/themes/lara-light-green/theme.css'
+import 'primevue/resources/themes/lara-light-blue/theme.css'
 
 const pinia = createPinia()
 const app = createApp(App)
 app.use(pinia)
-app.use(PrimeVue)
+app.use(PrimeVue, {
+  ripple: true,
+})
 app.use(router)
 app.use(money)
 app.use(i18n)

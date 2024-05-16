@@ -245,5 +245,8 @@
   "productDeletedSuccessfully": "Маҳсулот муваффақиятли ўчирилди!",
   "errorWhileDeletingProduct": "Маҳсулотни ўчиришда хатолик юз берди!",
   "fullPrice": "Тўлик нархи",
-  "agentNotFound": "Агентлар мавжуд эмас!"
+  "agentNotFound": "Агентлар мавжуд эмас!",
+  "percentage": "Фоиз",
+  "errorWhileGettingSaleSettings": "Сотув созламаларни олишда хатолик юз берди!",
+  "enterPercentage": "Фоиз киритинг"
 }

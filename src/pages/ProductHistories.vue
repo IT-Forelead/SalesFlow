@@ -17,7 +17,7 @@ import { useModalStore } from '../store/modal.store.js'
 
 const { t } = useI18n()
 
-const globalSearchFromTable = ref('')
+const searchFilter = ref('')
 const isLoading = ref(false)
 const productHistoryStore = useProductHistoryStore()
 const renderKey = ref(0)
@@ -101,13 +101,13 @@ const columns = [
       }, [
         h(EditIcon, { class: 'w-6 h-6 text-blue-600 hover:scale-105' }),
       ]),
-      h('button', {
-        onClick: () => {
-          openDeleteProductModal(row.original)
-        },
-      }, [
-        // h(TrashIcon, { class: 'w-6 h-6 text-red-600 hover:scale-105' }),
-      ]),
+      // h('button', {
+      //   onClick: () => {
+      //     openDeleteProductModal(row.original)
+      //   },
+      // }, [
+      //   // h(TrashIcon, { class: 'w-6 h-6 text-red-600 hover:scale-105' }),
+      // ]),
     ]),
     enableSorting: false,
   },
@@ -118,9 +118,9 @@ const openEditProductModalHistory = (data) => {
   useProductHistoryStore().setSelectedProductHistory(data)
 }
 
-const getProductHistories = () => {
+const getProductHistories = (filters = {}) => {
   isLoading.value = true
-  ProductHistoryService.getProductHistories({ limit: pageSize, page: page.value })
+  ProductHistoryService.getProductHistories({ limit: pageSize, page: page.value, ...filters })
     .then((res) => {
       useProductHistoryStore().clearStore()
       useProductHistoryStore().totalHistories = res.total
@@ -130,6 +130,29 @@ const getProductHistories = () => {
     isLoading.value = false
   })
 }
+
+const debounce = (fn, delay) => {
+  let timerId
+  return (...args) => {
+    if (timerId) {
+      clearTimeout(timerId)
+    }
+    timerId = setTimeout(() => {
+      fn(...args)
+    }, delay)
+  }
+}
+
+const searchProducts = debounce(() => {
+  if (searchFilter.value.trim() === '') {
+    getProductHistories({ limit: pageSize, page: currentPage.value });
+  } else {
+    getProductHistories({ productName: searchFilter.value });
+  }
+}, 300);
+
+
+
 const totalPages = computed(() => Math.ceil(total.value / pageSize))
 const displayedPageNumbers = computed(() => {
   const numPages = Math.min(4, totalPages.value)
@@ -161,6 +184,7 @@ getProductHistories()
 watch(page, () => {
   getProductHistories()
 })
+watch(searchFilter, searchProducts)
 </script>
 <template>
   <div class="p-4 md:p-8">
@@ -172,7 +196,7 @@ watch(page, () => {
         <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
           <SearchIcon class="w-5 h-5 text-slate-400" />
         </div>
-        <input type="search" v-model="globalSearchFromTable"
+        <input type="search" v-model="searchFilter"
                class="bg-slate-100 border-none w-full text-slate-900 text-base md:text-lg rounded-full block pl-10 py-2 placeholder-slate-400"
                placeholder="Search everything...">
       </div>
@@ -180,8 +204,7 @@ watch(page, () => {
     <div v-if="isLoading" class="flex items-center justify-center h-20">
       <Spinners270RingIcon class="w-6 h-6 text-gray-500 animate-spin" />
     </div>
-    <HistoryTable v-else :data="productsHistories" :key="renderKey" :columns="columns"
-                  :filter="globalSearchFromTable" />
+    <HistoryTable v-else :data="productsHistories" :key="renderKey" :columns="columns" />
     <div class="flex items-center justify-between my-6">
       <div class="text-base text-slate-900 font-medium">
         {{ $t('total') }}:

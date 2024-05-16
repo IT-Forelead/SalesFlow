@@ -245,5 +245,8 @@
   "productDeletedSuccessfully": "Mahsulot muvaffaqiyatli o'chirildi!",
   "errorWhileDeletingProduct": "Mahsulotni o'chirishda xatolik yuz berdi!",
   "fullPrice": "To'liq narxi",
-  "agentNotFound": "Agentlar mavjud emas!"
+  "agentNotFound": "Agentlar mavjud emas!",
+  "percentage": "Foiz",
+  "errorWhileGettingSaleSettings": "Sotuv sozlamalarni olishda xatolik yuz berdi!",
+  "enterPercentage": "Foiz kiriting"
 }

@@ -51,6 +51,7 @@ const clearSubmitData = () => {
 const closeModal = () => {
   useModalStore().closeCreateLabelModal()
   clearSubmitData()
+  productBarcodes.value = []
 }
 
 const createLabel = () => {
