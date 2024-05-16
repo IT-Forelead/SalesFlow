@@ -34,6 +34,7 @@ import Spinners270RingIcon from '../assets/icons/Spinners270RingIcon.vue'
 import axios from 'axios'
 import moment from 'moment'
 import { onClickOutside } from '@vueuse/core'
+import ScrollPanel from 'primevue/scrollpanel';
 
 const API_URL = import.meta.env.VITE_CHEQUE_API_URL
 
@@ -56,7 +57,9 @@ const boundaryPrice = ref(0)
 onMounted(() => {
   SettingsService.getSettings().then((res) => {
     isLoading.value = true
-    boundaryPrice.value = res.boundaryPrice
+    if (res) {
+      boundaryPrice.value = res.boundaryPrice
+    }
   })
 })
 
@@ -124,7 +127,7 @@ const searchProducts = () => {
   } else {
     isLoading.value = true
     if (isBarcode(search.value)) {
-      ProductService.getProducts(
+      ProductService.getProductsDetails(
         cleanObjectEmptyFields({
           barcode: search.value,
         })
@@ -144,7 +147,7 @@ const searchProducts = () => {
         }
       })
     } else if (!isNaN(search.value) && Number.isInteger(+search.value)) {
-      ProductService.getProducts(
+      ProductService.getProductsDetails(
         cleanObjectEmptyFields({
           serialId: +search.value,
         })
@@ -154,9 +157,9 @@ const searchProducts = () => {
         useProductStore().setProducts(res.data)
       })
     } else {
-      ProductService.getProducts(
+      ProductService.getProductsDetails(
         cleanObjectEmptyFields({
-          name: '%' + search.value + '%',
+          name: search.value,
         })
       ).then((res) => {
         isLoading.value = false
@@ -567,7 +570,8 @@ const createDebt = () => {
 </script>
 
 <template>
-  <div v-if="products.length > 0" class="fixed top-0 right-0 bottom-0 left-0 z-40 backdrop-blur-[2px] bg-gray-900/70"></div>
+  <div v-if="products.length > 0" class="fixed top-0 right-0 bottom-0 left-0 z-40 backdrop-blur-[2px] bg-gray-900/70">
+  </div>
   <div class="flex flex-col md:flex-row">
     <div class="flex-auto md:w-2/3 w-full space-y-4 py-8 px-4 md:px-8">
       <div class="flex items-center space-x-2 pb-2">
@@ -575,15 +579,22 @@ const createDebt = () => {
           <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
             <SearchIcon class="w-5 h-5 text-slate-400" />
           </div>
-          <input v-model="search" v-on:keypress="whenPressEnter($event)" type="search" ref="onSearchFocus" @blur="reFocus()" class="bg-slate-100 border-none text-slate-900 text-base md:text-lg rounded-xl block w-full h-12 pl-10 py-2 placeholder-slate-400 placeholder:text-sm md:placeholder:text-lg lg:placeholder:text-base" :placeholder="t('searchByProductNameOrBarcode')" />
-          <div v-if="search" @click="clearSearchInput()" class="absolute inset-y-0 right-20 p-1 flex items-center cursor-pointer">
+          <input v-model="search" v-on:keypress="whenPressEnter($event)" type="search" ref="onSearchFocus"
+            @blur="reFocus()"
+            class="bg-slate-100 border-none text-slate-900 text-base md:text-lg rounded-xl block w-full h-12 pl-10 py-2 placeholder-slate-400 placeholder:text-sm md:placeholder:text-lg lg:placeholder:text-base"
+            :placeholder="t('searchByProductNameOrBarcode')" />
+          <div v-if="search" @click="clearSearchInput()"
+            class="absolute inset-y-0 right-20 p-1 flex items-center cursor-pointer">
             <XIcon class="w-5 h-5 text-slate-600" />
           </div>
-          <button @click="searchProducts()" type="button" class="absolute inset-y-0 right-0 px-4 bg-[#0167F3] text-white rounded-r-xl">
+          <button @click="searchProducts()" type="button"
+            class="absolute inset-y-0 right-0 px-4 bg-[#0167F3] text-white rounded-r-xl">
             {{ $t('search') }}
           </button>
-          <div v-if="products.length > 0" ref="searchProductDropdown" class="absolute top-16 left-0 bg-transparent w-full space-y-2">
-            <div v-for="(product, idx) in products" :key="idx" @click="addProductToCart(product)" class="flex items-center justify-between bg-white border shadow-sm rounded-xl px-3 py-2 w-full cursor-pointer hover:bg-slate-100">
+          <ScrollPanel v-if="products.length > 0" ref="searchProductDropdown"
+            class="h-[500px] flex flex-row absolute top-16 left-0 bg-transparent w-full space-y-2 ">
+            <div v-for="(product, idx) in products" :key="idx" @click="addProductToCart(product)"
+              class="flex items-center justify-between bg-white border shadow-sm rounded-xl px-3 py-2 my-2 w-full cursor-pointer hover:bg-slate-100">
               <div class="flex items-center space-x-3">
                 <div class="flex items-center justify-center bg-slate-200 w-10 h-10 rounded-lg">
                   <ImageIcon class="text-gray-500 w-8 h-8" />
@@ -609,12 +620,15 @@ const createDebt = () => {
                 </div>
               </div>
             </div>
-          </div>
+          </ScrollPanel>
         </div>
-        <div @click="useModalStore().openCameraScannerModal()" :title="t('barcodeScanning')" class="flex items-center justify-center bg-slate-100 rounded-xl h-12 w-12 cursor-pointer">
+
+        <div @click="useModalStore().openCameraScannerModal()" :title="t('barcodeScanning')"
+          class="flex items-center justify-center bg-slate-100 rounded-xl h-12 w-12 cursor-pointer">
           <BarcodeIcon class="w-6 h-6 text-blue-600" />
         </div>
-        <div @click="clearSubmitData()" :title="t('clearTheBasket')" class="hidden md:flex items-center justify-center bg-slate-100 rounded-xl h-12 w-12 cursor-pointer">
+        <div @click="clearSubmitData()" :title="t('clearTheBasket')"
+          class="hidden md:flex items-center justify-center bg-slate-100 rounded-xl h-12 w-12 cursor-pointer">
           <BroomIcon class="w-5 h-5 text-blue-600" />
         </div>
       </div>
@@ -624,8 +638,11 @@ const createDebt = () => {
           {{ $t('shoppingCart') }}
         </div>
         <div class="flex space-x-2">
-          <div v-for="(basket, idx) in baskets" :key="idx" @click="changeBasketStatus(basket.id)" class="px-4 py-2 inline-flex flex-col xl:flex-row sm:flex items-center leading-none border-b-2 rounded-xl" :class="activeBasketStatus === basket.id ? 'bg-slate-100 border-blue-500' : 'bg-slate-50 border-slate-200 cursor-pointer'">
-            <BasketIcon class="w-6 h-6 mr-2" :class="activeBasketStatus === basket.id ? 'text-blue-500 text-sm' : 'text-gray-500 text-sm'" />
+          <div v-for="(basket, idx) in baskets" :key="idx" @click="changeBasketStatus(basket.id)"
+            class="px-4 py-2 inline-flex flex-col xl:flex-row sm:flex items-center leading-none border-b-2 rounded-xl"
+            :class="activeBasketStatus === basket.id ? 'bg-slate-100 border-blue-500' : 'bg-slate-50 border-slate-200 cursor-pointer'">
+            <BasketIcon class="w-6 h-6 mr-2"
+              :class="activeBasketStatus === basket.id ? 'text-blue-500 text-sm' : 'text-gray-500 text-sm'" />
             <span :class="activeBasketStatus === basket.id ? 'text-blue-500 text-sm' : 'text-gray-900 text-sm'">
               {{ basket.name }}
             </span>
@@ -633,91 +650,97 @@ const createDebt = () => {
         </div>
       </div>
 
-      <div v-if="activeBasket.length > 0" class="inline-block md:min-w-full py-2 align-middle">
-        <div class="overflow-x-auto overflow-y-auto border border-white">
+      <div v-if="activeBasket.length > 0" class="py-2 align-middle">
           <div class="min-w-full">
-            <table class="md:min-w-full divide-y-8 divide-white">
-              <thead>
-                <tr class="bg-slate-100 text-base font-semibold text-gray-900 h-12">
-                  <th class="px-3 py-2 text-left rounded-l-xl text-sm md:text-base">
-                    {{ $t('product') }}
-                  </th>
-                  <th class="px-3 py-2 text-left rounded-l-xl text-sm md:text-base">
-                    {{ $t('serialId') }}
-                  </th>
-                  <th class="px-3 py-2 text-center text-sm md:text-base">
-                    {{ $t('quantity') }}
-                  </th>
-                  <th class="px-3 py-2 text-center text-sm md:text-base">
-                    {{ $t('totalPrice') }}
-                  </th>
-                  <th class="px-3 py-2 text-center text-sm md:text-base rounded-r-xl">
-                    {{ $t('actions') }}
-                  </th>
-                </tr>
-              </thead>
-              <tbody class="bg-slate-100 divide-y-8 divide-white">
-                <tr v-for="(product, idx) in activeBasket" :key="idx">
-                  <td class="px-3 py-2 whitespace-nowrap rounded-l-xl">
-                    <div class="flex items-center space-x-3">
-                      <div class="flex items-center justify-center bg-slate-200 md:w-12 md:h-12 w-8 h-8 rounded-lg">
-                        <ImageIcon class="text-gray-500 w-6 h-6" />
-                      </div>
-                      <div>
-                        <div class="text-sm md:text-base font-semibold text-gray-800">
-                          {{ product?.name + ' - ' + product?.packaging }}
+            <ScrollPanel class="w-full h-[550px] rounded-xl">
+              <table class="md:min-w-full divide-y-8 divide-white">
+                <thead>
+                  <tr class="bg-slate-100 text-base font-semibold text-gray-900 h-12">
+                    <th class="px-3 py-2 text-left rounded-l-xl text-sm md:text-base">
+                      {{ $t('product') }}
+                    </th>
+                    <th class="px-3 py-2 text-center text-sm md:text-base">
+                      {{ $t('serialId') }}
+                    </th>
+                    <th class="px-3 py-2 text-center text-sm md:text-base">
+                      {{ $t('quantity') }}
+                    </th>
+                    <th class="px-3 py-2 text-center text-sm md:text-base">
+                      {{ $t('totalPrice') }}
+                    </th>
+                    <th class="px-3 py-2 text-center text-sm md:text-base rounded-r-xl">
+                      {{ $t('actions') }}
+                    </th>
+                  </tr>
+                </thead>
+
+                <tbody class="bg-slate-100 divide-y-8 divide-white">
+                  <tr v-for="(product, idx) in activeBasket" :key="idx" class="overflow-x-auto overflow-y-auto">
+                    <td class="px-3 py-2 whitespace-nowrap rounded-l-xl">
+                      <div class="flex items-center space-x-3">
+                        <div class="flex items-center justify-center bg-slate-200 md:w-12 md:h-12 w-8 h-8 rounded-lg">
+                          <ImageIcon class="text-gray-500 w-6 h-6" />
                         </div>
-                        <div class="text-sm md:text-base font-medium text-gray-500">
-                          {{ $t('price') }}:
-                          <span class="text-gray-700 text-sm md:text-base">
-                            {{ useMoneyFormatter(product?.price) }}
-                          </span>
-                          <div v-if="product.quantity <= 15">
-                            {{ $t('remainingAmount') }}:
-                            <span class="text-red-500 text-sm md:text-base">
-                              {{ roundFloatToOneDecimal(product?.quantity - product?.amount) }}
+                        <div>
+                          <div class="text-sm md:text-base font-semibold text-gray-800 max-w-full whitespace-break-spaces">
+                            {{ product?.name + ' - ' + product?.packaging }}
+                          </div>
+                          <div class="text-sm md:text-base font-medium text-gray-500">
+                            {{ $t('price') }}:
+                            <span class="text-gray-700 text-sm md:text-base">
+                              {{ useMoneyFormatter(product?.price) }}
                             </span>
+                            <div v-if="product.quantity <= 15">
+                              {{ $t('remainingAmount') }}:
+                              <span class="text-red-500 text-sm md:text-base">
+                                {{ roundFloatToOneDecimal(product?.quantity - product?.amount) }}
+                              </span>
+                            </div>
                           </div>
                         </div>
                       </div>
-                    </div>
-                  </td>
-                  <td class="px-3 py-2 text-center whitespace-nowrap">
-                    {{ product?.serialId }}
-                  </td>
-                  <td class="px-3 py-2 text-center whitespace-nowrap">
-                    <div class="flex justify-center">
-                      <div class="flex items-center justify-between bg-slate-100 w-36 rounded-xl p-1">
-                        <div @click="reduceCountOfProducts(product)" v-if="increaseCountChecking(product)" class="flex items-center justify-center w-8 h-8 bg-white text-blue-700 shadow-sm hover:bg-slate-200 cursor-pointer rounded-xl">
-                          <MinusIcon class="w-4 h-4" />
-                        </div>
-                        <div v-else class="flex items-center justify-center w-8 h-8 bg-white text-slate-700 cursor-default rounded-xl">
-                          <MinusIcon class="w-4 h-4" />
-                        </div>
-                        <div class="flex items-center justify-center text-lg font-normal">
-                          {{ product?.amount + ' ' + saleTypeShortTranslate(product?.saleType) }}
-                        </div>
-                        <div @click="increaseCountOfProducts(product)" v-if="product?.quantity > product?.amount" class="flex items-center justify-center w-8 h-8 bg-white text-blue-700 shadow-sm hover:bg-slate-200 cursor-pointer rounded-xl">
-                          <PlusIcon class="w-4 h-4" />
-                        </div>
-                        <div v-else class="flex items-center justify-center w-8 h-8 bg-white text-slate-700 cursor-default rounded-xl">
-                          <PlusIcon class="w-4 h-4" />
+                    </td>
+                    <td class="px-3 py-2 text-center whitespace-nowrap">
+                      {{ product?.serialId }}
+                    </td>
+                    <td class="px-3 py-2 text-center whitespace-nowrap">
+                      <div class="flex justify-center">
+                        <div class="flex items-center justify-between bg-slate-100 w-36 rounded-xl p-1">
+                          <div @click="reduceCountOfProducts(product)" v-if="increaseCountChecking(product)"
+                            class="flex items-center justify-center w-8 h-8 bg-white text-blue-700 shadow-sm hover:bg-slate-200 cursor-pointer rounded-xl">
+                            <MinusIcon class="w-4 h-4" />
+                          </div>
+                          <div v-else
+                            class="flex items-center justify-center w-8 h-8 bg-white text-slate-700 cursor-default rounded-xl">
+                            <MinusIcon class="w-4 h-4" />
+                          </div>
+                          <div class="flex items-center justify-center text-lg font-normal">
+                            {{ product?.amount + ' ' + saleTypeShortTranslate(product?.saleType) }}
+                          </div>
+                          <div @click="increaseCountOfProducts(product)" v-if="product?.quantity > product?.amount"
+                            class="flex items-center justify-center w-8 h-8 bg-white text-blue-700 shadow-sm hover:bg-slate-200 cursor-pointer rounded-xl">
+                            <PlusIcon class="w-4 h-4" />
+                          </div>
+                          <div v-else
+                            class="flex items-center justify-center w-8 h-8 bg-white text-slate-700 cursor-default rounded-xl">
+                            <PlusIcon class="w-4 h-4" />
+                          </div>
                         </div>
                       </div>
-                    </div>
-                  </td>
-                  <td class="px-3 py-2 text-center whitespace-nowrap">
-                    {{ useMoneyFormatter(product?.price * product?.amount) }}
-                  </td>
-                  <td class="px-3 py-2 whitespace-nowrap rounded-r-2xl">
-                    <div class="flex justify-center">
-                      <TrashIcon @click="removeProductFromCart(product)" class="w-6 h-6 text-rose-500 cursor-pointer transform hover:scale-105" />
-                    </div>
-                  </td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
+                    </td>
+                    <td class="px-3 py-2 text-center whitespace-nowrap">
+                      {{ useMoneyFormatter(product?.price * product?.amount) }}
+                    </td>
+                    <td class="px-3 py-2 whitespace-nowrap rounded-r-2xl">
+                      <div class="flex justify-center">
+                        <TrashIcon @click="removeProductFromCart(product)"
+                          class="w-6 h-6 text-rose-500 cursor-pointer transform hover:scale-105" />
+                      </div>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </ScrollPanel>
         </div>
       </div>
       <div v-else class="flex flex-col items-center justify-center border-2 border-dashed h-96 rounded-3xl space-y-1">
@@ -731,27 +754,6 @@ const createDebt = () => {
     </div>
 
     <div class="flex-auto md:w-1/3 w-full border-l h-dvh py-8 px-4 md:px-8 space-y-4">
-      <div class="space-y-2">
-        <div class="flex items-center justify-between">
-          <h3 class="text-xl font-semibold">Mijoz</h3>
-          <h3 class="text-balance font-semibold text-blue-600">Yaratish</h3>
-        </div>
-        <div class="relative">
-          <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-            <UserIcon cluseMoneyFormatterass="w-5 h-5 text-slate-400" />
-          </div>
-          <input type="text"
-            class="bg-slate-100 border-none text-slate-700 text-base rounded-xl block w-full pl-10 placeholder-slate-400"
-            placeholder="Mijozni tanlang">
-        </div>
-      </div>
-      <div class="space-y-2">
-        <h3 class="text-xl font-semibold">Chegirma</h3>
-        <input type="text"
-          class="bg-slate-100 border-none text-slate-700 text-base rounded-xl h-10 block w-full placeholder-slate-400"
-          placeholder="Mijozni tanlang">
-      </div>
-
       <div class="space-y-2">
         <h3 class="text-xl font-semibold">
           {{ $t('salesDetails') }}
@@ -800,14 +802,16 @@ const createDebt = () => {
         <label class="text-base font-medium">
           {{ $t('paymentReceived') }}
         </label>
-        <money3 v-model="submitData.paymentReceived" v-bind="moneyConf" id="price" class="border-none text-right text-gray-500 bg-slate-100 rounded-lg w-full text-lg" disabled> </money3>
+        <money3 v-model="submitData.paymentReceived" v-bind="moneyConf" id="price"
+          class="border-none text-right text-gray-500 bg-slate-100 rounded-lg w-full text-lg" disabled> </money3>
       </div>
       <div class="py-3 lg:py-0 space-y-1">
         <div class="text-base font-medium">
           {{ $t('paymentType') }}
         </div>
         <div class="flex w-full space-x-2 lg:space-x-0 xl:space-x-4 xl:space-y-0 lg:space-y-2 lg:flex-col xl:flex-row">
-          <div class="flex-1 flex flex-col w-full items-center justify-center bg-blue-50 border border-blue-300 rounded-lg py-4">
+          <div
+            class="flex-1 flex flex-col w-full items-center justify-center bg-blue-50 border border-blue-300 rounded-lg py-4">
             <MoneyIcon class="w-6 h-6 text-blue-500" />
             <div class="text-lg font-medium text-blue-500">
               {{ $t('withCash') }}
@@ -827,7 +831,8 @@ const createDebt = () => {
               {{ $t('withClick') }}
             </div>
           </div>
-          <div @click="showDebtForm = !showDebtForm" :class="showDebtForm ? 'border-blue-300 bg-blue-50' : ''" class="flex-1 flex flex-col hover:border-blue-300 hover:bg-blue-50 hover:cursor-pointer items-center justify-center border rounded-lg py-4">
+          <div @click="showDebtForm = !showDebtForm" :class="showDebtForm ? 'border-blue-300 bg-blue-50' : ''"
+            class="flex-1 flex flex-col hover:border-blue-300 hover:bg-blue-50 hover:cursor-pointer items-center justify-center border rounded-lg py-4">
             <DebtIcon class="w-6 h-6 text-gray-500" />
             <div class="text-lg font-medium">
               {{ $t('intoDebt') }}
@@ -836,7 +841,8 @@ const createDebt = () => {
         </div>
       </div>
       <div class="space-y-6">
-        <button @click="createOrder()" class="w-full xl:py-3 px-4 lg:py-2 py-3 rounded-full text-white text-lg font-medium bg-blue-500 cursor-pointer hover:bg-blue-600">
+        <button @click="createOrder()"
+          class="w-full xl:py-3 px-4 lg:py-2 py-3 rounded-full text-white text-lg font-medium bg-blue-500 cursor-pointer hover:bg-blue-600">
           {{ $t('payment') }}
         </button>
         <div v-if="showDebtForm" class="flex flex-col space-y-4">
@@ -847,21 +853,29 @@ const createDebt = () => {
                   {{ $t('fullName') }}
                   <span class="text-red-500 mr-2">*</span>
                 </label>
-                <input ref="onFullNameFocus" @blur="fullNameReFocus()" id="fullName" type="text" v-model="customerForm.fullName" class="bg-slate-100 border-none text-slate-900 rounded-lg w-full py-2.5 placeholder-slate-400" :placeholder="t('enterFullName')" />
+                <input ref="onFullNameFocus" @blur="fullNameReFocus()" id="fullName" type="text"
+                  v-model="customerForm.fullName"
+                  class="bg-slate-100 border-none text-slate-900 rounded-lg w-full py-2.5 placeholder-slate-400"
+                  :placeholder="t('enterFullName')" />
               </div>
               <div class="w-full">
                 <label for="phone" class="text-base font-medium">
                   {{ $t('phone') }}
                   <span class="text-red-500 mr-2">*</span>
                 </label>
-                <input ref="onPhoneFocus" @blur="phoneReFocus()" id="phone" type="text" v-model="customerForm.phone" v-maska data-maska="+998(##) ###-##-##" class="bg-slate-100 border-none w-full text-slate-900 rounded-lg py-2.5 placeholder-slate-400" placeholder="+998(00) 000-00-00" />
+                <input ref="onPhoneFocus" @blur="phoneReFocus()" id="phone" type="text" v-model="customerForm.phone"
+                  v-maska data-maska="+998(##) ###-##-##"
+                  class="bg-slate-100 border-none w-full text-slate-900 rounded-lg py-2.5 placeholder-slate-400"
+                  placeholder="+998(00) 000-00-00" />
               </div>
             </div>
           </div>
           <div class="space-y-2">
             <CancelButton class="w-full" @click="closeDebtForm" />
-            <button @click="createDebt" class="w-full xl:py-3 px-4 lg:py-2 py-3 rounded-full text-white flex items-center justify-center text-lg font-medium bg-blue-500 cursor-pointer hover:bg-blue-600">
-              <Spinners270RingIcon v-if="isLoadingDebtForm" class="mr-2 w-5 h-5 text-gray-200 animate-spin dark:text-gray-600 fill-gray-600 dark:fill-gray-300" />
+            <button @click="createDebt"
+              class="w-full xl:py-3 px-4 lg:py-2 py-3 rounded-full text-white flex items-center justify-center text-lg font-medium bg-blue-500 cursor-pointer hover:bg-blue-600">
+              <Spinners270RingIcon v-if="isLoadingDebtForm"
+                class="mr-2 w-5 h-5 text-gray-200 animate-spin dark:text-gray-600 fill-gray-600 dark:fill-gray-300" />
               {{ $t('intoDebt') }}
             </button>
           </div>
@@ -876,24 +890,34 @@ const createDebt = () => {
                   {{ $t('fullName') }}
                   <span class="text-red-500 mr-2">*</span>
                 </label>
-                <input ref="onFullNameFocus" @blur="fullNameReFocus()" id="fullName" type="text" v-model="customerForm.fullName" class="bg-slate-100 border-none text-slate-900 rounded-lg w-full py-2.5 placeholder-slate-400" :placeholder="t('enterFullName')" />
+                <input ref="onFullNameFocus" @blur="fullNameReFocus()" id="fullName" type="text"
+                  v-model="customerForm.fullName"
+                  class="bg-slate-100 border-none text-slate-900 rounded-lg w-full py-2.5 placeholder-slate-400"
+                  :placeholder="t('enterFullName')" />
               </div>
               <div class="flex-1">
                 <label for="phone" class="text-base font-medium">
                   {{ $t('phone') }}
                   <span class="text-red-500 mr-2">*</span>
                 </label>
-                <input ref="onPhoneFocus" @blur="phoneReFocus()" id="phone" type="text" v-model="customerForm.phone" v-maska data-maska="+998(##) ###-##-##" class="bg-slate-100 border-none text-slate-900 rounded-lg w-full py-2.5 placeholder-slate-400" placeholder="+998(00) 000-00-00" />
+                <input ref="onPhoneFocus" @blur="phoneReFocus()" id="phone" type="text" v-model="customerForm.phone"
+                  v-maska data-maska="+998(##) ###-##-##"
+                  class="bg-slate-100 border-none text-slate-900 rounded-lg w-full py-2.5 placeholder-slate-400"
+                  placeholder="+998(00) 000-00-00" />
               </div>
             </div>
           </div>
           <div>
             <CancelButton @click="closeForm" />
-            <button v-if="isLoadingCustomerForm" class="inline-flex items-center justify-center ms-3 text-white bg-blue-600 focus:ring-4 focus:outline-none focus:ring-slate-300 rounded-xl border border-slate-200 text-sm font-medium px-5 py-2.5 focus:z-10 cursor-default">
-              <Spinners270RingIcon class="mr-2 w-5 h-5 text-gray-200 animate-spin dark:text-gray-600 fill-gray-600 dark:fill-gray-300" />
+            <button v-if="isLoadingCustomerForm"
+              class="inline-flex items-center justify-center ms-3 text-white bg-blue-600 focus:ring-4 focus:outline-none focus:ring-slate-300 rounded-xl border border-slate-200 text-sm font-medium px-5 py-2.5 focus:z-10 cursor-default">
+              <Spinners270RingIcon
+                class="mr-2 w-5 h-5 text-gray-200 animate-spin dark:text-gray-600 fill-gray-600 dark:fill-gray-300" />
               {{ $t('create') }}
             </button>
-            <button v-else @click="createSale()" type="button" class="ms-3 text-white bg-blue-500 hover:bg-blue-600 focus:ring-4 focus:outline-none focus:ring-slate-300 rounded-xl border border-slate-200 text-sm font-medium px-5 py-2.5 focus:z-10">{{ $t('create') }}</button>
+            <button v-else @click="createSale()" type="button"
+              class="ms-3 text-white bg-blue-500 hover:bg-blue-600 focus:ring-4 focus:outline-none focus:ring-slate-300 rounded-xl border border-slate-200 text-sm font-medium px-5 py-2.5 focus:z-10">{{
+                $t('create') }}</button>
           </div>
         </div>
       </div>

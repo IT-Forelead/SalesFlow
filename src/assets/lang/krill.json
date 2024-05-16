@@ -244,5 +244,6 @@
   "plsEnterExpirationDate": "Яроқлилик муддатини киритин",
   "productDeletedSuccessfully": "Маҳсулот муваффақиятли ўчирилди!",
   "errorWhileDeletingProduct": "Маҳсулотни ўчиришда хатолик юз берди!",
-  "fullPrice": "Тўлик нархи"
+  "fullPrice": "Тўлик нархи",
+  "agentNotFound": "Агентлар мавжуд эмас!"
 }

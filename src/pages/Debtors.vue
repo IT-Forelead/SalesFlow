@@ -31,7 +31,7 @@ const debtors = computed(() => {
 
 const isLoading = ref(false)
 const page = ref(1)
-const pageSize = 30
+const pageSize = 50
 const total = ref(0)
 
 const columns = [

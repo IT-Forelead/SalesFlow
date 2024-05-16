@@ -45,10 +45,6 @@ const editProductHistory = () => {
     toast.warning(t('plsEnterPurchasePrice'))
   } else if (!submitData.quantity) {
     toast.warning(t('plsEnterQuantity'))
-  } else if (!submitData.productionDate) {
-    toast.warning(t('plsEnterProductionDate'))
-  } else if (!submitData.expirationDate) {
-    toast.warning(t('plsEnterExpirationDate'))
   } else {
     isLoading.value = true
     ProductHistoryService.updateProductHistory({
