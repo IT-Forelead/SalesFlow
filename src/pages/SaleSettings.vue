@@ -4,6 +4,7 @@ import { toast } from 'vue-sonner'
 import SettingsService from '../services/settings.service'
 import TabView from 'primevue/tabview'
 import TabPanel from 'primevue/tabpanel'
+import { Money3 } from 'v-money3'
 
 
 const isLoading = ref(false)
@@ -13,9 +14,10 @@ onMounted(() => {
     isLoading.value = true
     if (res) {
       submitData.boundaryPrice = res.boundaryPrice
+      submitData.percentage = res.percentage
     }
-  }).catch((err) => {
-    toast.error("Get Settiings xato!")
+  }).catch(() => {
+    toast.error($t('errorWhileGettingSaleSettings'))
   })
 });
 
@@ -28,7 +30,7 @@ const moneyConf = {
 
 const submitData = reactive({
   boundaryPrice: 0,
-  percentage: 0
+  percentage: null
   
 })
 
@@ -45,7 +47,7 @@ const createSaleSettings = () => {
       boundaryPrice: submitData.boundaryPrice,
     }).then(() => {
       toast.success("Chegirma yaratildi!")
-    }).catch((err) => {
+    }).catch(() => {
       toast.error("Chegirma yaratishda xatolik yuz berdi!")
      
     })
@@ -83,7 +85,7 @@ const createPercentageSettings = () => {
               <label for="percentage" class="text-base md:text-lg font-medium">
                 {{ $t('percentage')}}
               </label>
-              <input type="number" id="percentage" v-model="submitData.percentage"
+              <input type="number" id="percentage" v-model="submitData.percentage" :placeholder="$t('enterPercentage')"
                      class="border-none text-right text-gray-500 bg-slate-100 h-11 rounded-lg w-full text-lg" />
             </div>
             <div class="flex-1">
@@ -104,7 +106,7 @@ const createPercentageSettings = () => {
               <label for="price" class="text-base md:text-lg font-medium">
                 {{ $t('boundaryPrice')}}
               </label>
-              <money3  v-bind="moneyConf" id="price" v-model="submitData.boundaryPrice"
+              <money3 v-bind="moneyConf" id="price" v-model="submitData.boundaryPrice"
                        class="border-none text-right text-gray-500 bg-slate-100 h-11 rounded-lg w-full text-lg">
               </money3>
             </div>
