@@ -161,7 +161,7 @@ const printLabel = (product) => {
     .then(async () => {
       toast.success(t('labelCreatedSuccessfully'))
     })
-    .catch((err) => {
+    .catch(() => {
       toast.error(t('errorWhileCreatingLabel'))
     })
 }
@@ -183,6 +183,7 @@ const openDeleteProductModal = (data) => {
 
 const page = ref(1)
 const pageSize = 50
+
 const getProducts = (filters = {}) => {
   isLoading.value = true
   ProductService.getProducts({ limit: pageSize, page: page.value, ...filters })

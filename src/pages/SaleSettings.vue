@@ -6,8 +6,19 @@ import TabView from 'primevue/tabview'
 import TabPanel from 'primevue/tabpanel'
 import { Money3 } from 'v-money3'
 
-
 const isLoading = ref(false)
+
+const moneyConf = {
+  thousands: ' ',
+  suffix: ' UZS',
+  precision: 0,
+}
+
+const submitData = reactive({
+  boundaryPrice: 0,
+  percentage: null
+
+})
 
 onMounted(() => {
   SettingsService.getSettings().then((res) => {
@@ -20,24 +31,6 @@ onMounted(() => {
     toast.error($t('errorWhileGettingSaleSettings'))
   })
 });
-
-const moneyConf = {
-  thousands: ' ',
-  suffix: ' UZS',
-  precision: 0,
-}
-
-
-const submitData = reactive({
-  boundaryPrice: 0,
-  percentage: null
-  
-})
-
-// const clearSubmitData = () => {
-//   submitData.boundaryPrice = 0
-// }
-
 
 const createSaleSettings = () => {
   if (submitData.boundaryPrice < 0) {
