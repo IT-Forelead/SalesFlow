@@ -34,6 +34,7 @@ import Spinners270RingIcon from '../assets/icons/Spinners270RingIcon.vue'
 import axios from 'axios'
 import moment from 'moment'
 import { onClickOutside } from '@vueuse/core'
+import ScrollPanel from 'primevue/scrollpanel';
 
 const API_URL = import.meta.env.VITE_CHEQUE_API_URL
 
@@ -56,7 +57,9 @@ const boundaryPrice = ref(0)
 onMounted(() => {
   SettingsService.getSettings().then((res) => {
     isLoading.value = true
-    boundaryPrice.value = res.boundaryPrice
+    if (res) {
+      boundaryPrice.value = res.boundaryPrice
+    }
   })
 })
 
@@ -588,10 +591,10 @@ const createDebt = () => {
             class="absolute inset-y-0 right-0 px-4 bg-[#0167F3] text-white rounded-r-xl">
             {{ $t('search') }}
           </button>
-          <div v-if="products.length > 0" ref="searchProductDropdown"
-            class="absolute top-16 left-0 bg-transparent w-full space-y-2">
+          <ScrollPanel v-if="products.length > 0" ref="searchProductDropdown"
+            class="h-[500px] flex flex-row absolute top-16 left-0 bg-transparent w-full space-y-2 ">
             <div v-for="(product, idx) in products" :key="idx" @click="addProductToCart(product)"
-              class="flex items-center justify-between bg-white border shadow-sm rounded-xl px-3 py-2 w-full cursor-pointer hover:bg-slate-100">
+              class="flex items-center justify-between bg-white border shadow-sm rounded-xl px-3 py-2 my-2 w-full cursor-pointer hover:bg-slate-100">
               <div class="flex items-center space-x-3">
                 <div class="flex items-center justify-center bg-slate-200 w-10 h-10 rounded-lg">
                   <ImageIcon class="text-gray-500 w-8 h-8" />
@@ -617,8 +620,9 @@ const createDebt = () => {
                 </div>
               </div>
             </div>
-          </div>
+          </ScrollPanel>
         </div>
+
         <div @click="useModalStore().openCameraScannerModal()" :title="t('barcodeScanning')"
           class="flex items-center justify-center bg-slate-100 rounded-xl h-12 w-12 cursor-pointer">
           <BarcodeIcon class="w-6 h-6 text-blue-600" />
@@ -646,96 +650,97 @@ const createDebt = () => {
         </div>
       </div>
 
-      <div v-if="activeBasket.length > 0" class="inline-block md:min-w-full py-2 align-middle">
-        <div class="overflow-x-auto overflow-y-auto border border-white">
+      <div v-if="activeBasket.length > 0" class="py-2 align-middle">
           <div class="min-w-full">
-            <table class="md:min-w-full divide-y-8 divide-white">
-              <thead>
-                <tr class="bg-slate-100 text-base font-semibold text-gray-900 h-12">
-                  <th class="px-3 py-2 text-left rounded-l-xl text-sm md:text-base">
-                    {{ $t('product') }}
-                  </th>
-                  <th class="px-3 py-2 text-left rounded-l-xl text-sm md:text-base">
-                    {{ $t('serialId') }}
-                  </th>
-                  <th class="px-3 py-2 text-center text-sm md:text-base">
-                    {{ $t('quantity') }}
-                  </th>
-                  <th class="px-3 py-2 text-center text-sm md:text-base">
-                    {{ $t('totalPrice') }}
-                  </th>
-                  <th class="px-3 py-2 text-center text-sm md:text-base rounded-r-xl">
-                    {{ $t('actions') }}
-                  </th>
-                </tr>
-              </thead>
-              <tbody class="bg-slate-100 divide-y-8 divide-white">
-                <tr v-for="(product, idx) in activeBasket" :key="idx">
-                  <td class="px-3 py-2 whitespace-nowrap rounded-l-xl">
-                    <div class="flex items-center space-x-3">
-                      <div class="flex items-center justify-center bg-slate-200 md:w-12 md:h-12 w-8 h-8 rounded-lg">
-                        <ImageIcon class="text-gray-500 w-6 h-6" />
-                      </div>
-                      <div>
-                        <div class="text-sm md:text-base font-semibold text-gray-800">
-                          {{ product?.name + ' - ' + product?.packaging }}
+            <ScrollPanel class="w-full h-[550px] rounded-xl">
+              <table class="md:min-w-full divide-y-8 divide-white">
+                <thead>
+                  <tr class="bg-slate-100 text-base font-semibold text-gray-900 h-12">
+                    <th class="px-3 py-2 text-left rounded-l-xl text-sm md:text-base">
+                      {{ $t('product') }}
+                    </th>
+                    <th class="px-3 py-2 text-center text-sm md:text-base">
+                      {{ $t('serialId') }}
+                    </th>
+                    <th class="px-3 py-2 text-center text-sm md:text-base">
+                      {{ $t('quantity') }}
+                    </th>
+                    <th class="px-3 py-2 text-center text-sm md:text-base">
+                      {{ $t('totalPrice') }}
+                    </th>
+                    <th class="px-3 py-2 text-center text-sm md:text-base rounded-r-xl">
+                      {{ $t('actions') }}
+                    </th>
+                  </tr>
+                </thead>
+
+                <tbody class="bg-slate-100 divide-y-8 divide-white">
+                  <tr v-for="(product, idx) in activeBasket" :key="idx" class="overflow-x-auto overflow-y-auto">
+                    <td class="px-3 py-2 whitespace-nowrap rounded-l-xl">
+                      <div class="flex items-center space-x-3">
+                        <div class="flex items-center justify-center bg-slate-200 md:w-12 md:h-12 w-8 h-8 rounded-lg">
+                          <ImageIcon class="text-gray-500 w-6 h-6" />
                         </div>
-                        <div class="text-sm md:text-base font-medium text-gray-500">
-                          {{ $t('price') }}:
-                          <span class="text-gray-700 text-sm md:text-base">
-                            {{ useMoneyFormatter(product?.price) }}
-                          </span>
-                          <div v-if="product.quantity <= 15">
-                            {{ $t('remainingAmount') }}:
-                            <span class="text-red-500 text-sm md:text-base">
-                              {{ roundFloatToOneDecimal(product?.quantity - product?.amount) }}
+                        <div>
+                          <div class="text-sm md:text-base font-semibold text-gray-800 max-w-full whitespace-break-spaces">
+                            {{ product?.name + ' - ' + product?.packaging }}
+                          </div>
+                          <div class="text-sm md:text-base font-medium text-gray-500">
+                            {{ $t('price') }}:
+                            <span class="text-gray-700 text-sm md:text-base">
+                              {{ useMoneyFormatter(product?.price) }}
                             </span>
+                            <div v-if="product.quantity <= 15">
+                              {{ $t('remainingAmount') }}:
+                              <span class="text-red-500 text-sm md:text-base">
+                                {{ roundFloatToOneDecimal(product?.quantity - product?.amount) }}
+                              </span>
+                            </div>
                           </div>
                         </div>
                       </div>
-                    </div>
-                  </td>
-                  <td class="px-3 py-2 text-center whitespace-nowrap">
-                    {{ product?.serialId }}
-                  </td>
-                  <td class="px-3 py-2 text-center whitespace-nowrap">
-                    <div class="flex justify-center">
-                      <div class="flex items-center justify-between bg-slate-100 w-36 rounded-xl p-1">
-                        <div @click="reduceCountOfProducts(product)" v-if="increaseCountChecking(product)"
-                          class="flex items-center justify-center w-8 h-8 bg-white text-blue-700 shadow-sm hover:bg-slate-200 cursor-pointer rounded-xl">
-                          <MinusIcon class="w-4 h-4" />
-                        </div>
-                        <div v-else
-                          class="flex items-center justify-center w-8 h-8 bg-white text-slate-700 cursor-default rounded-xl">
-                          <MinusIcon class="w-4 h-4" />
-                        </div>
-                        <div class="flex items-center justify-center text-lg font-normal">
-                          {{ product?.amount + ' ' + saleTypeShortTranslate(product?.saleType) }}
-                        </div>
-                        <div @click="increaseCountOfProducts(product)" v-if="product?.quantity > product?.amount"
-                          class="flex items-center justify-center w-8 h-8 bg-white text-blue-700 shadow-sm hover:bg-slate-200 cursor-pointer rounded-xl">
-                          <PlusIcon class="w-4 h-4" />
-                        </div>
-                        <div v-else
-                          class="flex items-center justify-center w-8 h-8 bg-white text-slate-700 cursor-default rounded-xl">
-                          <PlusIcon class="w-4 h-4" />
+                    </td>
+                    <td class="px-3 py-2 text-center whitespace-nowrap">
+                      {{ product?.serialId }}
+                    </td>
+                    <td class="px-3 py-2 text-center whitespace-nowrap">
+                      <div class="flex justify-center">
+                        <div class="flex items-center justify-between bg-slate-100 w-36 rounded-xl p-1">
+                          <div @click="reduceCountOfProducts(product)" v-if="increaseCountChecking(product)"
+                            class="flex items-center justify-center w-8 h-8 bg-white text-blue-700 shadow-sm hover:bg-slate-200 cursor-pointer rounded-xl">
+                            <MinusIcon class="w-4 h-4" />
+                          </div>
+                          <div v-else
+                            class="flex items-center justify-center w-8 h-8 bg-white text-slate-700 cursor-default rounded-xl">
+                            <MinusIcon class="w-4 h-4" />
+                          </div>
+                          <div class="flex items-center justify-center text-lg font-normal">
+                            {{ product?.amount + ' ' + saleTypeShortTranslate(product?.saleType) }}
+                          </div>
+                          <div @click="increaseCountOfProducts(product)" v-if="product?.quantity > product?.amount"
+                            class="flex items-center justify-center w-8 h-8 bg-white text-blue-700 shadow-sm hover:bg-slate-200 cursor-pointer rounded-xl">
+                            <PlusIcon class="w-4 h-4" />
+                          </div>
+                          <div v-else
+                            class="flex items-center justify-center w-8 h-8 bg-white text-slate-700 cursor-default rounded-xl">
+                            <PlusIcon class="w-4 h-4" />
+                          </div>
                         </div>
                       </div>
-                    </div>
-                  </td>
-                  <td class="px-3 py-2 text-center whitespace-nowrap">
-                    {{ useMoneyFormatter(product?.price * product?.amount) }}
-                  </td>
-                  <td class="px-3 py-2 whitespace-nowrap rounded-r-2xl">
-                    <div class="flex justify-center">
-                      <TrashIcon @click="removeProductFromCart(product)"
-                        class="w-6 h-6 text-rose-500 cursor-pointer transform hover:scale-105" />
-                    </div>
-                  </td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
+                    </td>
+                    <td class="px-3 py-2 text-center whitespace-nowrap">
+                      {{ useMoneyFormatter(product?.price * product?.amount) }}
+                    </td>
+                    <td class="px-3 py-2 whitespace-nowrap rounded-r-2xl">
+                      <div class="flex justify-center">
+                        <TrashIcon @click="removeProductFromCart(product)"
+                          class="w-6 h-6 text-rose-500 cursor-pointer transform hover:scale-105" />
+                      </div>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </ScrollPanel>
         </div>
       </div>
       <div v-else class="flex flex-col items-center justify-center border-2 border-dashed h-96 rounded-3xl space-y-1">
