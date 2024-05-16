@@ -13,6 +13,9 @@ class ProductService {
   async getProducts(filter) {
     return AxiosService.post('/product', filter)
   }
+  async getProductsDetails(filter) {
+    return AxiosService.post('/product/details', filter)
+  }
   async getBarcodeProductByFilter(filter) {
     return AxiosService.post('/product/barcodes', filter)
   }
