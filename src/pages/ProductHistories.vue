@@ -1,11 +1,9 @@
 <script setup>
-import { ref, watch } from 'vue'
-import { computed, h } from 'vue'
+import { computed, h, onMounted, ref, watch } from 'vue'
 import SearchIcon from '../assets/icons/SearchIcon.vue'
 import Spinners270RingIcon from '../assets/icons/Spinners270RingIcon.vue'
 import HistoryTable from '../components/common/HistoryTable.vue'
 import { useProductHistoryStore } from '../store/productHistory.store.js'
-import ProductHistoryService from '../services/productHistory.service.js'
 import useMoneyFormatter from '../mixins/currencyFormatter.js'
 import CaretDoubleRightIcon from '../assets/icons/CaretDoubleRightIcon.vue'
 import CaretDoubleLeftIcon from '../assets/icons/CaretDoubleLeftIcon.vue'
@@ -14,15 +12,22 @@ import CaretRightIcon from '../assets/icons/CaretRightIcon.vue'
 import { useI18n } from 'vue-i18n'
 import EditIcon from '../assets/icons/EditIcon.vue'
 import { useModalStore } from '../store/modal.store.js'
+import { useAuthStore } from '../store/auth.store.js'
+import decodeJwt, { cleanObjectEmptyFields, parseJwt } from '../mixins/utils.js'
+import PrinterIcon from '../assets/icons/PrinterIcon.vue'
+import axios from 'axios'
+import { toast } from 'vue-sonner'
+import ProductService from '../services/product.service.js'
 
 const { t } = useI18n()
-
+const API_URL = import.meta.env.VITE_CHEQUE_API_URL
 const searchFilter = ref('')
 const isLoading = ref(false)
 const productHistoryStore = useProductHistoryStore()
 const renderKey = ref(0)
 const page = ref(1)
 const pageSize = 50
+const payload = ref({})
 
 const currentPage = computed(() => {
   return productHistoryStore.currentPage
@@ -55,10 +60,10 @@ const columns = [
     cell: ({ row }) => `${parseInt(row.id, 10) + 1}`,
   },
   {
-    accessorKey: 'productName',
+    accessorKey: 'name',
     header: t('product'),
     cell: ({ row }) => {
-      const productName = `${row.original.productName} - (${row.original.packaging})`
+      const productName = `${row.original.name} - (${row.original.packaging})`
       const lendBadge = row.original.toLend ? h('span', { class: 'bg-red-600 mx-2 text-white rounded-lg px-2 py-1 text-sm' }, t('toLend')) : null
       return h('div', {}, [productName, lendBadge])
     },
@@ -80,7 +85,11 @@ const columns = [
   {
     accessorKey: 'salePrice',
     header: t('salePrice'),
-    cell: ({ row }) => useMoneyFormatter(row.original.salePrice),
+    cell: ({ row }) => useMoneyFormatter(row.original.price),
+  },
+  {
+    accessorKey: 'serialId',
+    header: t('serialId'),
   },
   {
     accessorKey: 'productionDate',
@@ -101,6 +110,13 @@ const columns = [
       }, [
         h(EditIcon, { class: 'w-6 h-6 text-blue-600 hover:scale-105' }),
       ]),
+      h('button', {
+        onClick: () => {
+          printLabel(row.original)
+        },
+      }, [
+        h(PrinterIcon, { class: 'w-6 h-6 text-blue-600 hover:scale-105' }),
+      ]),
       // h('button', {
       //   onClick: () => {
       //     openDeleteProductModal(row.original)
@@ -113,6 +129,31 @@ const columns = [
   },
 ]
 
+const printLabel = (product) => {
+  const quantity = product.saleType.includes('kg') ? Number.parseFloat(product.quantity) * 1000 : product.quantity
+  const barcode = !product.barcode ? `9${String(product.serialId).padStart(6, '0')}${String(quantity).padStart(5, '0')}1` : product.barcode
+  axios
+    .post(
+      API_URL + '/print-label',
+      cleanObjectEmptyFields({
+        name: product.name,
+        barcode: barcode,
+        quantity: 1,
+        count: 1,
+        saleType: product.saleType,
+        packaging: product.packaging,
+        serialId: product.serialId,
+        price: product.price,
+      })
+    )
+    .then(async () => {
+      toast.success(t('labelCreatedSuccessfully'))
+    })
+    .catch(() => {
+      toast.error(t('errorWhileCreatingLabel'))
+    })
+}
+
 const openEditProductModalHistory = (data) => {
   useModalStore().openEditProductHistoryModal()
   useProductHistoryStore().setSelectedProductHistory(data)
@@ -120,7 +161,7 @@ const openEditProductModalHistory = (data) => {
 
 const getProductHistories = (filters = {}) => {
   isLoading.value = true
-  ProductHistoryService.getProductHistories({ limit: pageSize, page: page.value, ...filters })
+  ProductService.getProductsDetails({ limit: pageSize, page: page.value, ...filters })
     .then((res) => {
       useProductHistoryStore().clearStore()
       useProductHistoryStore().totalHistories = res.total
@@ -147,10 +188,9 @@ const searchProducts = debounce(() => {
   if (searchFilter.value.trim() === '') {
     getProductHistories({ limit: pageSize, page: currentPage.value });
   } else {
-    getProductHistories({ productName: searchFilter.value });
+    getProductHistories({ name: searchFilter.value });
   }
 }, 300);
-
 
 
 const totalPages = computed(() => Math.ceil(total.value / pageSize))
@@ -185,6 +225,15 @@ watch(page, () => {
   getProductHistories()
 })
 watch(searchFilter, searchProducts)
+
+const navigationGuard = (access) => {
+  return payload.value?.privileges?.includes(access)
+}
+
+onMounted(() => {
+  useAuthStore().setUser(decodeJwt(JSON.parse(localStorage.getItem('session'))?.accessToken))
+  payload.value = parseJwt()
+})
 </script>
 <template>
   <div class="p-4 md:p-8">
@@ -199,6 +248,12 @@ watch(searchFilter, searchProducts)
         <input type="search" v-model="searchFilter"
                class="bg-slate-100 border-none w-full text-slate-900 text-base md:text-lg rounded-full block pl-10 py-2 placeholder-slate-400"
                placeholder="Search everything...">
+      </div>
+      <div class="w-full md:w-auto order-1 md:order-2 flex space-x-2">
+        <button v-if="navigationGuard('create_product')" @click="useModalStore().openCreateLabelModal()"
+                class="w-full md:w-auto py-2 px-4 rounded-full text-white text-lg font-medium bg-green-500 cursor-pointer hover:bg-green-600">
+          {{ $t('createLabel') }}
+        </button>
       </div>
     </div>
     <div v-if="isLoading" class="flex items-center justify-center h-20">
