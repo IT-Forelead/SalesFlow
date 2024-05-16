@@ -650,10 +650,9 @@ const createDebt = () => {
         </div>
       </div>
 
-      <div v-if="activeBasket.length > 0" class="inline-block md:min-w-full py-2 align-middle">
-        <div class="overflow-x-auto overflow-y-auto border border-white">
+      <div v-if="activeBasket.length > 0" class="py-2 align-middle">
           <div class="min-w-full">
-            <ScrollPanel class="w-[750px] h-[500px] rounded-xl">
+            <ScrollPanel class="w-full h-[550px] rounded-xl">
               <table class="md:min-w-full divide-y-8 divide-white">
                 <thead>
                   <tr class="bg-slate-100 text-base font-semibold text-gray-900 h-12">
@@ -742,7 +741,6 @@ const createDebt = () => {
                 </tbody>
               </table>
             </ScrollPanel>
-          </div>
         </div>
       </div>
       <div v-else class="flex flex-col items-center justify-center border-2 border-dashed h-96 rounded-3xl space-y-1">
