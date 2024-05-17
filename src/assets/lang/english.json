@@ -252,7 +252,6 @@
   "plsFillInAtLeastOneField":"Please fill in at least one field",
   "plsEnterStartDate":"Please enter a start date",
   "plsEnterEndDate":"Please enter a end date",
-  "agentNotFound": "Agents not found!",
   "percentage": "Percentage",
   "errorWhileGettingSaleSettings": "Error while getting sale settings!",
   "enterPercentage": "Enter percentage"
