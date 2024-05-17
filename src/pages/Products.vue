@@ -5,7 +5,6 @@ import Spinners270RingIcon from '../assets/icons/Spinners270RingIcon.vue'
 import CopyIcon from '../assets/icons/CopyIcon.vue'
 import ProductsTable from '../components/common/ProductsTable.vue'
 import ProductService from '../services/product.service'
-import { cleanObjectEmptyFields } from '../mixins/utils'
 import EditIcon from '../assets/icons/EditIcon.vue'
 import TrashIcon from '../assets/icons/TrashIcon.vue'
 import { useModalStore } from '../store/modal.store'
@@ -18,8 +17,7 @@ import CaretDoubleRightIcon from '../assets/icons/CaretDoubleRightIcon.vue'
 import { useI18n } from 'vue-i18n'
 import { useAuthStore } from '../store/auth.store.js'
 import decodeJwt, { parseJwt } from '../mixins/utils.js'
-import axios from 'axios'
-import { toast } from 'vue-sonner'
+import { useRoute, useRouter } from 'vue-router'
 
 const API_URL = import.meta.env.VITE_CHEQUE_API_URL
 
@@ -34,6 +32,8 @@ const products = computed(() => {
   renderKey.value += 1
   return productStore.products
 })
+const route = useRoute();
+const router = useRouter();
 
 const total = computed(() => {
   return productStore.total
@@ -133,31 +133,6 @@ const columns = [
   },
 ]
 
-const printLabel = (product) => {
-  const quantity = product.saleType.includes('kg') ? Number.parseFloat(product.quantity) * 1000 : product.quantity
-  const barcode = !product.barcode ? `9${String(product.serialId).padStart(6, '0')}${String(quantity).padStart(5, '0')}1` : product.barcode
-  axios
-    .post(
-      API_URL + '/print-label',
-      cleanObjectEmptyFields({
-        name: product.name,
-        barcode: barcode,
-        quantity: 1,
-        count: 1,
-        saleType: product.saleType,
-        packaging: product.packaging,
-        serialId: product.serialId,
-        price: product.price,
-      })
-    )
-    .then(async () => {
-      toast.success(t('labelCreatedSuccessfully'))
-    })
-    .catch(() => {
-      toast.error(t('errorWhileCreatingLabel'))
-    })
-}
-
 const openEditProductModal = (data) => {
   useModalStore().openEditProductModal()
   useProductStore().setSelectedProduct(data)
@@ -201,7 +176,17 @@ const debounce = (fn, delay) => {
   }
 }
 
+// const searchProducts = debounce(() => {
+//   if (searchFilter.value.trim() === '') {
+//     getProducts({ limit: pageSize, page: currentPage.value });
+//   } else {
+//     getProducts({ name: searchFilter.value });
+//   }
+// }, 300);
+
 const searchProducts = debounce(() => {
+  const query = searchFilter.value.trim() ? { search: searchFilter.value } : {};
+  router.push({ query });
   if (searchFilter.value.trim() === '') {
     getProducts({ limit: pageSize, page: currentPage.value });
   } else {
@@ -250,7 +235,21 @@ const navigationGuard = (access) => {
 onMounted(() => {
   useAuthStore().setUser(decodeJwt(JSON.parse(localStorage.getItem('session'))?.accessToken))
   payload.value = parseJwt()
+  if (route.query.search) {
+    searchFilter.value = route.query.search;
+  }
+  getProducts();
 })
+
+watch(route, (newRoute) => {
+  if (newRoute.query.search) {
+    searchFilter.value = newRoute.query.search;
+    searchProducts();
+  } else {
+    searchFilter.value = '';
+    getProducts();
+  }
+});
 </script>
 
 <template>

@@ -6,11 +6,12 @@ import { useProductStore } from '../../store/product.store.js'
 import CancelButton from '../buttons/CancelButton.vue'
 import Spinners270RingIcon from '../../assets/icons/Spinners270RingIcon.vue'
 import ProductService from '../../services/product.service.js'
-import { computed, reactive, ref, toRefs, watch } from 'vue'
+import { computed, reactive, ref, watch } from 'vue'
 import { useI18n } from 'vue-i18n'
+import { useRoute } from 'vue-router'
 
 const { t } = useI18n()
-
+const route = useRoute()
 const isLoading = ref(false)
 const productStore = useProductStore()
 
@@ -33,7 +34,6 @@ const submitData = reactive({
   name: '',
   barcode: 0,
   packaging: '',
-  price: 0,
   saleType: 0,
 })
 
@@ -42,7 +42,6 @@ const clearSubmitData = () => {
   submitData.name = ''
   submitData.barcode = 0
   submitData.packaging = ''
-  submitData.price = 0
   submitData.saleType = 0
 }
 
@@ -68,11 +67,10 @@ const editProduct = () => {
       name: submitData.name,
       barcode: submitData.barcode,
       packaging: submitData.packaging,
-      price: submitData.price,
       saleType: submitData.saleType,
     }).then(() => {
       toast.success(t('productEditedSuccessfully'))
-      ProductService.getProducts({limit:30, page:currentPage.value})
+      ProductService.getProducts({limit:30, page:currentPage.value, name: route.query.search})
         .then((res) => {
           productStore.clearStore()
           productStore.setProducts(res.data)
@@ -99,7 +97,6 @@ watch(
       submitData.name = data?.name
       submitData.barcode = data?.barcode
       submitData.packaging = data?.packaging
-      submitData.price = data?.price
       submitData.saleType = data?.saleType
     }
   },
@@ -158,17 +155,6 @@ watch(
               <option value="litre">Litrli</option>
             </select>
           </div>
-        </div>
-        <div class="flex items-center space-x-4">
-          <div class="flex-1">
-            <label for="price" class="text-base md:text-lg font-medium">
-              {{ $t('price') }}
-              <span class="text-red-500 mr-2">*</span>
-            </label>
-            <money3 v-model.number="submitData.price" v-bind="moneyConf" id="price"
-              class="border-none text-right text-gray-500 bg-slate-100 h-11 rounded-lg w-full text-lg"> </money3>
-          </div>
-          <div class="flex-1"></div>
         </div>
       </div>
     </template>
