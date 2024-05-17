@@ -90,6 +90,7 @@ const closeModal = () => {
   useProductStore().setSelectedProduct({})
   clearSubmitData()
   boxPrice.value = null
+  productBarcodes.value = []
 }
 
 const createProduct = () => {

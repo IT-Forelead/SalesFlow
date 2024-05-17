@@ -54,7 +54,7 @@ const getSearchResult = (options) => {
     <label ref="dropdown" class="flex items-center w-full relative">
       <div v-if="selectedOption && !useDropdownStore().isOpenAgentDropdown"
         class="border-none focus:ring-0 outline-0 bg-gray-100 w-full text-lg rounded-lg pl-2 py-2"
-        v-text="selectedOption?.fullName"></div>
+        >{{ selectedOption?.fullName }} - <span class="font-light">{{ selectedOption?.company }}</span></div>
       <input type="text" v-model="search" v-if="useDropdownStore().isOpenAgentDropdown"
         v-on:keyup="getSearchResult(options)"
         class="relative w-full foucus:ring-0 focus:outline-none border-none rounded-lg bg-gray-100"
@@ -71,7 +71,7 @@ const getSearchResult = (options) => {
         class="absolute shadow p-2 z-20 top-12 max-h-56 overflow-auto w-full bg-gray-100 rounded-lg divide-y">
         <div class="hover:bg-gray-200 cursor-pointer p-2 rounded-lg" v-for="(option, idx) in options" :key="idx"
           @click="optionClicked(option)">
-          {{ option?.fullName }}
+          {{ option?.fullName }} - <span class="font-light">{{ option?.company }}</span>
         </div>
         <div v-if="options?.length === 0" class="hover:bg-gray-200 cursor-pointer p-2 rounded-lg">
           <p class="text-red-500">{{ $t('agentNotFound') }}</p>
@@ -81,7 +81,7 @@ const getSearchResult = (options) => {
         class="absolute shadow p-2 z-20 top-12 max-h-56 overflow-auto w-full bg-gray-100 rounded-lg divide-y">
         <div class="hover:bg-gray-200 cursor-pointer p-2 rounded-lg" v-for="(option, idx) in searchResults" :key="idx"
           @click="optionClicked(option)">
-          {{ option?.fullName }}
+          {{ option?.fullName }} - <span class="font-light">{{ option?.company }}</span>
         </div>
         <div v-if="searchResults?.length === 0" class="hover:bg-gray-200 cursor-pointer p-2 rounded-lg">
           <p class="text-red-500">{{ $t('agentNotFound') }}</p>

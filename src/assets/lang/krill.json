@@ -252,5 +252,8 @@
   "to":"Гача",
   "plsFillInAtLeastOneField":"Илтимос, камида битта майдонни тўлдиринг",
   "plsEnterStartDate":"Илтимос бошланиш санасини киритинг",
-  "plsEnterEndDate":"Илтимос тугаш санасини киритинг"
+  "plsEnterEndDate":"Илтимос тугаш санасини киритинг",
+  "percentage": "Фоиз",
+  "errorWhileGettingSaleSettings": "Сотув созламаларни олишда хатолик юз берди!",
+  "enterPercentage": "Фоиз киритинг"
 }

@@ -7,7 +7,6 @@ import ProductsTable from '../components/common/ProductsTable.vue'
 import ProductService from '../services/product.service'
 import { cleanObjectEmptyFields } from '../mixins/utils'
 import EditIcon from '../assets/icons/EditIcon.vue'
-import PrinterIcon from '../assets/icons/PrinterIcon.vue'
 import TrashIcon from '../assets/icons/TrashIcon.vue'
 import { useModalStore } from '../store/modal.store'
 import { useProductStore } from '../store/product.store'
@@ -109,13 +108,6 @@ const columns = [
     cell: ({ row }) => h('div', { class: 'flex items-center space-x-2' }, [
       h('button', {
         onClick: () => {
-          printLabel(row.original)
-        },
-      }, [
-        h(PrinterIcon, { class: 'w-6 h-6 text-blue-600 hover:scale-105' }),
-      ]),
-      h('button', {
-        onClick: () => {
           createDuplicateProductModal(row.original)
         },
       }, [
@@ -161,7 +153,7 @@ const printLabel = (product) => {
     .then(async () => {
       toast.success(t('labelCreatedSuccessfully'))
     })
-    .catch((err) => {
+    .catch(() => {
       toast.error(t('errorWhileCreatingLabel'))
     })
 }
@@ -183,6 +175,7 @@ const openDeleteProductModal = (data) => {
 
 const page = ref(1)
 const pageSize = 50
+
 const getProducts = (filters = {}) => {
   isLoading.value = true
   ProductService.getProducts({ limit: pageSize, page: page.value, ...filters })
@@ -275,10 +268,6 @@ onMounted(() => {
           placeholder="Search everything...">
       </div>
       <div class="w-full md:w-auto order-1 md:order-2 flex space-x-2">
-        <button v-if="navigationGuard('create_product')" @click="useModalStore().openCreateLabelModal()"
-          class="w-full md:w-auto py-2 px-4 rounded-full text-white text-lg font-medium bg-green-500 cursor-pointer hover:bg-green-600">
-          {{ $t('createLabel') }}
-        </button>
         <button v-if="navigationGuard('create_product')" @click="useModalStore().openCreateProductModal()"
           class="w-full md:w-auto py-2 px-4 rounded-full text-white text-lg font-medium bg-blue-500 cursor-pointer hover:bg-blue-600">
           {{ $t('addProduct') }}

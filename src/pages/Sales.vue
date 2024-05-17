@@ -12,7 +12,6 @@ import SearchIcon from '../assets/icons/SearchIcon.vue'
 import MoneyIcon from '../assets/icons/MoneyIcon.vue'
 import BarcodeIcon from '../assets/icons/BarcodeIcon.vue'
 import CreditCardIcon from '../assets/icons/CreditCardIcon.vue'
-import UserIcon from '../assets/icons/UserIcon.vue'
 import OnlinePaymentIcon from '../assets/icons/OnlinePaymentIcon.vue'
 import DebtIcon from '../assets/icons/DebtIcon.vue'
 import XIcon from '../assets/icons/XIcon.vue'
@@ -35,6 +34,7 @@ import axios from 'axios'
 import moment from 'moment'
 import { onClickOutside } from '@vueuse/core'
 import ScrollPanel from 'primevue/scrollpanel';
+import { Money3 } from 'v-money3'
 
 const API_URL = import.meta.env.VITE_CHEQUE_API_URL
 
@@ -74,14 +74,14 @@ const onSearchFocus = ref(null)
 const onFullNameFocus = ref(null)
 const onPhoneFocus = ref(null)
 const isLoading = ref(false)
-const selectedProducts = ref([])
+// const selectedProducts = ref([])
 const activeBasketStatus = ref('firstBasket')
 const activeBasket = ref([])
 const firstBasket = ref([])
 const secondBasket = ref([])
 const thirdBasket = ref([])
 const qrcode = ref()
-const phoneRegex = /\+998[1-9][\d]{8}/
+const phoneRegex = /\+998[1-9]\d{8}/
 
 const baskets = [
   {
@@ -133,9 +133,9 @@ const searchProducts = () => {
         })
       ).then((res) => {
         isLoading.value = false
-        if (res.data.length == 1) {
+        if (res.data.length === 1) {
           const product = res.data[0]
-          var amount = null
+          let amount = null
           if (String(search.value).startsWith('9')) {
             const quantity = Number.parseInt(String(search.value).substring(8, 12))
             amount = product.saleType.includes('kg') ? quantity / 1000 : quantity
@@ -171,14 +171,14 @@ const searchProducts = () => {
 }
 
 const addProductToCart = (product, amount) => {
-  if (activeBasket.value.find((p) => p?.productId == product?.id)) {
+  if (activeBasket.value.find((p) => p?.productId === product?.id)) {
     activeBasket.value = activeBasket.value.map((item) => {
       if (item.productId === product.id && product?.quantity > item.amount) {
         if (amount) {
           return { ...item, amount: item.amount + amount }
-        } else if (item.saleType == 'kg') {
+        } else if (item.saleType === 'kg') {
           return { ...item, amount: roundFloatToOneDecimal(item.amount + 0.1) }
-        } else if (item.saleType == 'litre') {
+        } else if (item.saleType === 'litre') {
           return { ...item, amount: roundFloatToOneDecimal(item.amount + 0.5) }
         } else {
           return { ...item, amount: item.amount + 1 }
@@ -203,7 +203,7 @@ const addProductToCart = (product, amount) => {
           amount: amount,
           serialId: product?.serialId,
         })
-      } else if (product?.saleType == 'kg') {
+      } else if (product?.saleType === 'kg') {
         activeBasket.value.push({
           productId: product?.id,
           name: product?.name,
@@ -214,7 +214,7 @@ const addProductToCart = (product, amount) => {
           amount: 0.1,
           serialId: product?.serialId,
         })
-      } else if (product?.saleType == 'litre') {
+      } else if (product?.saleType === 'litre') {
         activeBasket.value.push({
           productId: product?.id,
           name: product?.name,
@@ -252,24 +252,20 @@ const changeBasketStatus = (status) => {
 }
 
 const increaseCountChecking = (product) => {
-  if (product?.amount > 0.1 && product?.saleType == 'kg') {
+  if (product?.amount > 0.1 && product?.saleType === 'kg') {
     return true
-  } else if (product?.amount > 0.5 && product?.saleType == 'litre') {
+  } else if (product?.amount > 0.5 && product?.saleType === 'litre') {
     return true
-  } else if (product?.amount > 1) {
-    return true
-  } else {
-    return false
-  }
+  } else return product?.amount > 1;
 }
 
 const increaseCountOfProducts = (product) => {
   activeBasket.value = activeBasket.value.map((item) => {
     if (item.productId === product.productId) {
       // return { ...item, amount: item.amount + 1 }
-      if (item.saleType == 'kg') {
+      if (item.saleType === 'kg') {
         return { ...item, amount: roundFloatToOneDecimal(item.amount + 0.1) }
-      } else if (item.saleType == 'litre') {
+      } else if (item.saleType === 'litre') {
         return { ...item, amount: roundFloatToOneDecimal(item.amount + 0.5) }
       } else {
         return { ...item, amount: item.amount + 1 }
@@ -283,9 +279,9 @@ const reduceCountOfProducts = (product) => {
   activeBasket.value = activeBasket.value.map((item) => {
     if (item.productId === product.productId) {
       // return { ...item, amount: item.amount - 1 }
-      if (item.saleType == 'kg') {
+      if (item.saleType === 'kg') {
         return { ...item, amount: roundFloatToOneDecimal(item.amount - 0.1) }
-      } else if (item.saleType == 'litre') {
+      } else if (item.saleType === 'litre') {
         return { ...item, amount: roundFloatToOneDecimal(item.amount - 0.5) }
       } else {
         return { ...item, amount: item.amount - 1 }
@@ -304,17 +300,17 @@ const clearSubmitData = () => {
   submitData.discountPercent = ''
   submitData.paymentReceived = ''
   activeBasket.value = []
-  if (activeBasketStatus.value == 'firstBasket') {
+  if (activeBasketStatus.value === 'firstBasket') {
     firstBasket.value = []
-  } else if (activeBasketStatus.value == 'secondBasket') {
+  } else if (activeBasketStatus.value === 'secondBasket') {
     secondBasket.value = []
-  } else if (activeBasketStatus.value == 'thirdBasket') {
+  } else if (activeBasketStatus.value === 'thirdBasket') {
     thirdBasket.value = []
   }
 }
 
 const createOrder = () => {
-  if (activeBasket.value.length == 0) {
+  if (activeBasket.value.length === 0) {
     toast.error('Tanlangan mahsulotlar mavjud emas!')
   } else {
     isLoading.value = true
@@ -328,7 +324,7 @@ const createOrder = () => {
       .then((res) => {
         orderId.value = res
         toast.success(t('saleWasMadeSuccessfully'))
-        if (boundaryPrice.value != 0 && totalPrice.value >= boundaryPrice.value) {
+        if (boundaryPrice.value !== 0 && totalPrice.value >= boundaryPrice.value) {
           orderId.value = res
           showSale.value = true
           onSearchFocus.value = null
@@ -368,7 +364,7 @@ const createOrder = () => {
           })
         })
       })
-      .catch((err) => {
+      .catch(() => {
         toast.error(t('errorWhileCreatingOrder'))
         isLoading.value = false
       })
@@ -378,10 +374,10 @@ const createOrder = () => {
 async function printChaque(data) {
   await axios
     .post(API_URL + '/print', data)
-    .then(async (res) => {
+    .then(async () => {
       console.log('Chaque printed')
     })
-    .catch((err) => {
+    .catch(() => {
       console.log('Chaque not printed')
     })
 }
@@ -466,11 +462,11 @@ watch(
 watch(
   () => activeBasketStatus.value,
   (data) => {
-    if (data == 'firstBasket') {
+    if (data === 'firstBasket') {
       activeBasket.value = firstBasket.value
-    } else if (data == 'secondBasket') {
+    } else if (data === 'secondBasket') {
       activeBasket.value = secondBasket.value
-    } else if (data == 'thirdBasket') {
+    } else if (data === 'thirdBasket') {
       activeBasket.value = thirdBasket.value
     }
   },
@@ -480,11 +476,11 @@ watch(
 watch(
   () => activeBasket.value,
   () => {
-    if (activeBasketStatus.value == 'firstBasket') {
+    if (activeBasketStatus.value === 'firstBasket') {
       firstBasket.value = activeBasket.value
-    } else if (activeBasketStatus.value == 'secondBasket') {
+    } else if (activeBasketStatus.value === 'secondBasket') {
       secondBasket.value = activeBasket.value
-    } else if (activeBasketStatus.value == 'thirdBasket') {
+    } else if (activeBasketStatus.value === 'thirdBasket') {
       thirdBasket.value = activeBasket.value
     }
   },
@@ -531,7 +527,7 @@ const createSale = () => {
         closeForm()
         toast.success('Chegirma yaratildi!')
       })
-      .catch((err) => {
+      .catch(() => {
         isLoadingCustomerForm.value = false
         toast.error('Chegirma yaratishda xatolik yuz berdi!')
       })
@@ -561,7 +557,7 @@ const createDebt = () => {
         closeDebtForm()
         toast.success(t('debtCreatedSuccessfully'))
       })
-      .catch((err) => {
+      .catch(() => {
         isLoadingDebtForm.value = false
         toast.error(t('errorWhileCreatingDebt'))
       })
@@ -650,7 +646,7 @@ const createDebt = () => {
         </div>
       </div>
 
-      <div v-if="activeBasket.length > 0" class="py-2 align-middle">
+      <div v-if="activeBasket.length > 0" class=" py-2 align-middle">
           <div class="min-w-full">
             <ScrollPanel class="w-full h-[550px] rounded-xl">
               <table class="md:min-w-full divide-y-8 divide-white">

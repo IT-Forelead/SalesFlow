@@ -252,5 +252,8 @@
   "to":"Gacha",
   "plsFillInAtLeastOneField":"Iltimos, kamida bitta maydonni to'ldiring",
   "plsEnterStartDate":"Iltimos boshlanish sanasini kiriting",
-  "plsEnterEndDate":"Iltimos tugash sanasini kiriting"
+  "plsEnterEndDate":"Iltimos tugash sanasini kiriting",
+  "percentage": "Foiz",
+  "errorWhileGettingSaleSettings": "Sotuv sozlamalarni olishda xatolik yuz berdi!",
+  "enterPercentage": "Foiz kiriting"
 }

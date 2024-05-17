@@ -252,5 +252,8 @@
   "to":"к",
   "plsFillInAtLeastOneField":"Пожалуйста, заполните хотя бы одно поле",
   "plsEnterStartDate":"Пожалуйста, введите дату начала",
-  "plsEnterEndDate":"Пожалуйста, введите дату окончания"
+  "plsEnterEndDate":"Пожалуйста, введите дату окончания",
+  "percentage": "Процент",
+  "errorWhileGettingSaleSettings": "Ошибка при получении настроек продаж!",
+  "enterPercentage": "Введите процент"
 }
