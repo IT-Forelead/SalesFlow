@@ -31,6 +31,7 @@ const submitData = reactive({
   purchasePrice: 0,
   productionDate: '',
   expirationDate: '',
+  toLend: false,
 })
 
 const clearSubmitData = () => {
@@ -39,6 +40,7 @@ const clearSubmitData = () => {
   submitData.quantity = 0
   submitData.productionDate = ''
   submitData.expirationDate = ''
+  submitData.toLend = false
 }
 const editProductHistory = () => {
   if (!submitData.purchasePrice) {
@@ -53,6 +55,7 @@ const editProductHistory = () => {
       quantity: submitData.quantity,
       productionDate: submitData.productionDate,
       expirationDate: submitData.expirationDate,
+      toLend: submitData.toLend,
     }).then(() => {
       toast.success(t('productEditedSuccessfully'))
       ProductHistoryService.getProductHistories({ limit: 30, page: currentPage.value })
@@ -82,6 +85,7 @@ watch(
       submitData.purchasePrice = data?.purchasePrice
       submitData.productionDate = data?.productionDate
       submitData.expirationDate = data?.expirationDate
+      submitData.toLend = data?.toLend
     }
   },
   { deep: true },
@@ -138,6 +142,16 @@ const closeModal = () => {
             <input id="quantity" type="date" v-model="submitData.expirationDate"
                    class="bg-slate-100 border-none text-slate-900 rounded-lg w-full h-11 placeholder-slate-400 placeholder:text-sm md:placeholder:text-lg"
                    :placeholder="t('enterProductQuantity')">
+          </div>
+          <div class="flex-1 space-y-1">
+            <label for="toLend" class="text-base md:text-lg font-medium">
+              {{ $t('toLend') }}
+            </label>
+            <div class="flex items-center px-4 border border-gray-200 bg-slate-50 rounded-lg mt-2 lg:mt-0 md:mt-0">
+              <input v-model="submitData.toLend" id="toLend" type="checkbox"
+                     class="w-5 h-5 text-blue-600 border-slate-300 rounded focus:ring-blue-500 focus:ring-2 mr-2">
+              <label for="toLend" class="py-2 text-base font-medium">{{ $t('toLend') }}</label>
+            </div>
           </div>
         </div>
       </div>

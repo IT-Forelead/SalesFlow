@@ -244,5 +244,8 @@
   "productDeletedSuccessfully": "Product deleted successfully!",
   "errorWhileDeletingProduct": "Error while deleting product!",
   "fullPrice": "Full price",
-  "agentNotFound": "Agents not found!"
+  "agentNotFound": "Agents not found!",
+  "percentage": "Percentage",
+  "errorWhileGettingSaleSettings": "Error while getting sale settings!",
+  "enterPercentage": "Enter percentage"
 }

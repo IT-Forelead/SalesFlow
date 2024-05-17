@@ -245,5 +245,8 @@
   "productDeletedSuccessful": "Товар успешно удален!",
   "errorWhileDeletingProduct": "Ошибка при удалении продукта!",
   "fullPrice": "Полная стоимость",
-  "agentNotFound": "Агенты не найдены!"
+  "agentNotFound": "Агенты не найдены!",
+  "percentage": "Процент",
+  "errorWhileGettingSaleSettings": "Ошибка при получении настроек продаж!",
+  "enterPercentage": "Введите процент"
 }
