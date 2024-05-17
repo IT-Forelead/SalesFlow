@@ -8,6 +8,7 @@ import { useI18n } from 'vue-i18n'
 import Spinners270RingIcon from '../../assets/icons/Spinners270RingIcon.vue'
 import { toast } from 'vue-sonner'
 import ProductHistoryService from '../../services/productHistory.service.js'
+import ProductService from '../../services/product.service.js'
 
 const { t } = useI18n()
 const isLoading = ref(false)
@@ -58,7 +59,7 @@ const editProductHistory = () => {
       toLend: submitData.toLend,
     }).then(() => {
       toast.success(t('productEditedSuccessfully'))
-      ProductHistoryService.getProductHistories({ limit: 30, page: currentPage.value })
+      ProductService.getProductsDetails({ limit: 30, page: currentPage.value })
         .then((res) => {
           productHistoryStore.clearStore()
           productHistoryStore.setProductHistories(res.data)

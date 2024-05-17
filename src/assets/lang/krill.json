@@ -246,6 +246,13 @@
   "errorWhileDeletingProduct": "Маҳсулотни ўчиришда хатолик юз берди!",
   "fullPrice": "Тўлик нархи",
   "agentNotFound": "Агентлар мавжуд эмас!",
+  "inputAndOutputCostStatistics":"Кирим ва чиқим харажатлари статистикаси",
+  "filter":"Филтр",
+  "from":"Дан",
+  "to":"Гача",
+  "plsFillInAtLeastOneField":"Илтимос, камида битта майдонни тўлдиринг",
+  "plsEnterStartDate":"Илтимос бошланиш санасини киритинг",
+  "plsEnterEndDate":"Илтимос тугаш санасини киритинг",
   "percentage": "Фоиз",
   "errorWhileGettingSaleSettings": "Сотув созламаларни олишда хатолик юз берди!",
   "enterPercentage": "Фоиз киритинг"

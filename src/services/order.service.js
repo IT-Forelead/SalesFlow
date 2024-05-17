@@ -22,6 +22,9 @@ class OrderService {
   async getOrderById(orderId) {
     return AxiosService.get(`/order/${orderId}`)
   }
+  async getTurnoverStats(data) {
+    return AxiosService.post('/order/turnover/stats', data)
+  }
 }
 
 export default new OrderService()

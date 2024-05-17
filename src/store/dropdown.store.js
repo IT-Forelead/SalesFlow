@@ -5,6 +5,7 @@ export const useDropdownStore = defineStore('dropdown', {
     selectOptionAgent: '',
     isOpenAgentDropdown: false,
     isOpenSelectLanguage: false,
+    isOpenFilterBy: false,
   }),
   actions: {
     setSelectOptionAgent(data) {
@@ -21,6 +22,9 @@ export const useDropdownStore = defineStore('dropdown', {
     },
     closeSelectLanguage() {
       this.isOpenSelectLanguage = false
+    },
+    toggleFilterBy() {
+      this.isOpenFilterBy = !this.isOpenFilterBy
     },
   }
 })
