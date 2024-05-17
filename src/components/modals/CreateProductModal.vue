@@ -83,6 +83,7 @@ const clearSubmitData = () => {
   submitData.expirationDate = ''
   submitData.toLend = false
   submitData.quantity = null
+  boxPrice.value = null
 }
 
 const closeModal = () => {

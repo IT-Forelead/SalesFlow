@@ -18,6 +18,7 @@ import PrinterIcon from '../assets/icons/PrinterIcon.vue'
 import axios from 'axios'
 import { toast } from 'vue-sonner'
 import ProductService from '../services/product.service.js'
+import { useRoute, useRouter } from 'vue-router'
 
 const { t } = useI18n()
 const API_URL = import.meta.env.VITE_CHEQUE_API_URL
@@ -28,6 +29,8 @@ const renderKey = ref(0)
 const page = ref(1)
 const pageSize = 50
 const payload = ref({})
+const route = useRoute();
+const router = useRouter();
 
 const currentPage = computed(() => {
   return productHistoryStore.currentPage
@@ -183,8 +186,18 @@ const debounce = (fn, delay) => {
     }, delay)
   }
 }
+//
+// const searchProducts = debounce(() => {
+//   if (searchFilter.value.trim() === '') {
+//     getProductHistories({ limit: pageSize, page: currentPage.value });
+//   } else {
+//     getProductHistories({ name: searchFilter.value });
+//   }
+// }, 300);
 
 const searchProducts = debounce(() => {
+  const query = searchFilter.value.trim() ? { search: searchFilter.value } : {};
+  router.push({ query });
   if (searchFilter.value.trim() === '') {
     getProductHistories({ limit: pageSize, page: currentPage.value });
   } else {
@@ -233,7 +246,21 @@ const navigationGuard = (access) => {
 onMounted(() => {
   useAuthStore().setUser(decodeJwt(JSON.parse(localStorage.getItem('session'))?.accessToken))
   payload.value = parseJwt()
+  if (route.query.search) {
+    searchFilter.value = route.query.search;
+  }
+  getProductHistories();
 })
+
+watch(route, (newRoute) => {
+  if (newRoute.query.search) {
+    searchFilter.value = newRoute.query.search;
+    searchProducts();
+  } else {
+    searchFilter.value = '';
+    getProductHistories();
+  }
+});
 </script>
 <template>
   <div class="p-4 md:p-8">

@@ -9,7 +9,9 @@ import Spinners270RingIcon from '../../assets/icons/Spinners270RingIcon.vue'
 import { toast } from 'vue-sonner'
 import ProductHistoryService from '../../services/productHistory.service.js'
 import ProductService from '../../services/product.service.js'
+import { useRoute } from 'vue-router'
 
+const route = useRoute()
 const { t } = useI18n()
 const isLoading = ref(false)
 const productHistoryStore = useProductHistoryStore()
@@ -33,6 +35,7 @@ const submitData = reactive({
   productionDate: '',
   expirationDate: '',
   toLend: false,
+  salePrice: 0,
 })
 
 const clearSubmitData = () => {
@@ -41,6 +44,7 @@ const clearSubmitData = () => {
   submitData.quantity = 0
   submitData.productionDate = ''
   submitData.expirationDate = ''
+  submitData.salePrice = 0
   submitData.toLend = false
 }
 const editProductHistory = () => {
@@ -53,13 +57,14 @@ const editProductHistory = () => {
     ProductHistoryService.updateProductHistory({
       id: submitData.id,
       purchasePrice: submitData.purchasePrice,
+      salePrice: submitData.salePrice,
       quantity: submitData.quantity,
       productionDate: submitData.productionDate,
       expirationDate: submitData.expirationDate,
       toLend: submitData.toLend,
     }).then(() => {
       toast.success(t('productEditedSuccessfully'))
-      ProductService.getProductsDetails({ limit: 30, page: currentPage.value })
+      ProductService.getProductsDetails({ limit: 30, page: currentPage.value, name: route.query.search })
         .then((res) => {
           productHistoryStore.clearStore()
           productHistoryStore.setProductHistories(res.data)
@@ -87,6 +92,7 @@ watch(
       submitData.productionDate = data?.productionDate
       submitData.expirationDate = data?.expirationDate
       submitData.toLend = data?.toLend
+      submitData.salePrice = data?.price
     }
   },
   { deep: true },
@@ -107,6 +113,8 @@ const closeModal = () => {
     <template v-slot:body>
       <div class="space-y-4">
         <div class="flex items-center space-x-4">
+          <p class="font-medium">{{t('productName')}}:</p>
+          <span>{{selectedProductHistory.name}} - {{selectedProductHistory.packaging}}</span>
         </div>
         <div class="flex items-center justify-between space-x-4">
           <div class="flex-1 spaceSearchIcon-y-1">
@@ -115,6 +123,15 @@ const closeModal = () => {
               {{ $t('purchasePrice') }}
             </label>
             <money3 id="price" v-bind="moneyConf" v-model.number="submitData.purchasePrice"
+                    class="bg-slate-50 text-right border border-slate-200 text-slate-900 text-base rounded-2xl focus:ring-green-400/40 focus:border-green-400/40 focus:ring-4 block w-full p-2.5">
+            </money3>
+          </div>
+          <div class="flex-1 spaceSearchIcon-y-1">
+            <label for="price"
+                   class="block text-left mb-2 text-slate-900 text-base font-medium after:text-red-500 ">
+              {{ $t('salePrice') }}
+            </label>
+            <money3 id="price" v-bind="moneyConf" v-model.number="submitData.salePrice"
                     class="bg-slate-50 text-right border border-slate-200 text-slate-900 text-base rounded-2xl focus:ring-green-400/40 focus:border-green-400/40 focus:ring-4 block w-full p-2.5">
             </money3>
           </div>
