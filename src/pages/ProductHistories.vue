@@ -1,6 +1,5 @@
 <script setup>
 import { computed, h, onMounted, ref, watch } from 'vue'
-import { computed, h, ref, watch } from 'vue'
 import SearchIcon from '../assets/icons/SearchIcon.vue'
 import Spinners270RingIcon from '../assets/icons/Spinners270RingIcon.vue'
 import HistoryTable from '../components/common/HistoryTable.vue'
