@@ -245,5 +245,12 @@
   "productDeletedSuccessfully": "Маҳсулот муваффақиятли ўчирилди!",
   "errorWhileDeletingProduct": "Маҳсулотни ўчиришда хатолик юз берди!",
   "fullPrice": "Тўлик нархи",
-  "agentNotFound": "Агентлар мавжуд эмас!"
+  "agentNotFound": "Агентлар мавжуд эмас!",
+  "inputAndOutputCostStatistics":"Кирим ва чиқим харажатлари статистикаси",
+  "filter":"Филтр",
+  "from":"Дан",
+  "to":"Гача",
+  "plsFillInAtLeastOneField":"Илтимос, камида битта майдонни тўлдиринг",
+  "plsEnterStartDate":"Илтимос бошланиш санасини киритинг",
+  "plsEnterEndDate":"Илтимос тугаш санасини киритинг"
 }

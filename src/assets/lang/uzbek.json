@@ -245,5 +245,12 @@
   "productDeletedSuccessfully": "Mahsulot muvaffaqiyatli o'chirildi!",
   "errorWhileDeletingProduct": "Mahsulotni o'chirishda xatolik yuz berdi!",
   "fullPrice": "To'liq narxi",
-  "agentNotFound": "Agentlar mavjud emas!"
+  "agentNotFound": "Agentlar mavjud emas!",
+  "inputAndOutputCostStatistics":"Kirim va chiqim xarajatlari statistikasi",
+  "filter": "Filtr",
+  "from":"Dan",
+  "to":"Gacha",
+  "plsFillInAtLeastOneField":"Iltimos, kamida bitta maydonni to'ldiring",
+  "plsEnterStartDate":"Iltimos boshlanish sanasini kiriting",
+  "plsEnterEndDate":"Iltimos tugash sanasini kiriting"
 }

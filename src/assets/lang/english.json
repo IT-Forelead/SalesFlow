@@ -244,5 +244,12 @@
   "productDeletedSuccessfully": "Product deleted successfully!",
   "errorWhileDeletingProduct": "Error while deleting product!",
   "fullPrice": "Full price",
-  "agentNotFound": "Agents not found!"
+  "agentNotFound": "Agents not found!",
+  "inputAndOutputCostStatistics":"Input and output cost statistics",
+  "filter": "Filter",
+  "from":"From",
+  "to":"To",
+  "plsFillInAtLeastOneField":"Please fill in at least one field",
+  "plsEnterStartDate":"Please enter a start date",
+  "plsEnterEndDate":"Please enter a end date"
 }
