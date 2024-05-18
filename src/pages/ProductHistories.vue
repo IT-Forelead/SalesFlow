@@ -249,7 +249,7 @@ onMounted(() => {
   if (route.query.search) {
     searchFilter.value = route.query.search;
   }
-  getProductHistories();
+  // getProductHistories();
 })
 
 watch(route, (newRoute) => {
@@ -280,6 +280,10 @@ watch(route, (newRoute) => {
         <button v-if="navigationGuard('create_product')" @click="useModalStore().openCreateLabelModal()"
                 class="w-full md:w-auto py-2 px-4 rounded-full text-white text-lg font-medium bg-green-500 cursor-pointer hover:bg-green-600">
           {{ $t('createLabel') }}
+        </button>
+        <button v-if="navigationGuard('create_product')" @click="useModalStore().openCreateProductModal()"
+                class="w-full md:w-auto py-2 px-4 rounded-full text-white text-lg font-medium bg-blue-500 cursor-pointer hover:bg-blue-600">
+          {{ $t('addProduct') }}
         </button>
       </div>
     </div>
