@@ -20,6 +20,7 @@ import { useAgentStore } from '../../store/agent.store.js'
 import SelectOptionAgent from '../inputs/SelectOptionAgent.vue'
 import { useDropdownStore } from '../../store/dropdown.store'
 import ScrollPanel from 'primevue/scrollpanel'
+import SettingsService from '../../services/settings.service.js'
 
 const { t } = useI18n()
 
@@ -45,6 +46,8 @@ const selectedProduct = computed(() => {
 })
 
 const boxPrice = ref(null)
+const percentage = ref(null)
+
 const moneyConf = {
   thousands: ' ',
   suffix: ' UZS',
@@ -251,6 +254,23 @@ watch(
       submitData.saleType = data?.saleType
       submitData.price = data?.price
       submitData.quantity = data?.quantity
+    }
+  },
+  { deep: true }
+)
+
+const getSaleSettings = () => {
+  SettingsService.getSettings().then((res) => {
+      percentage.value = res.percentage
+  }).catch(() => {
+    toast.error($t('errorWhileGettingSaleSettings'))
+  })
+}
+watch(
+  () => useModalStore().isOpenCreateProductModal,
+  (data) => {
+    if (data) {
+      getSaleSettings()
     }
   },
   { deep: true }
