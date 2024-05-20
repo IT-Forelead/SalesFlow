@@ -186,23 +186,43 @@ const debounce = (fn, delay) => {
     }, delay)
   }
 }
-//
+
 // const searchProducts = debounce(() => {
+//   const query = searchFilter.value.trim() ? { search: searchFilter.value } : {};
+//   router.push({ query });
 //   if (searchFilter.value.trim() === '') {
 //     getProductHistories({ limit: pageSize, page: currentPage.value });
 //   } else {
-//     getProductHistories({ name: searchFilter.value });
+//     const filters = searchFilter.value.match(/^\d+$/) ? { barcode: searchFilter.value } : { name: searchFilter.value };
+//     getProductHistories(filters);
 //   }
 // }, 300);
 
 const searchProducts = debounce(() => {
   const query = searchFilter.value.trim() ? { search: searchFilter.value } : {};
   router.push({ query });
-  if (searchFilter.value.trim() === '') {
+  const trimmedValue = searchFilter.value.trim();
+  let filters = {};
+
+  if (trimmedValue === '') {
+    // No search input, get all products
     getProductHistories({ limit: pageSize, page: currentPage.value });
-  } else {
-    getProductHistories({ name: searchFilter.value });
+    return; // Exit early
   }
+  // Check if the input is a number
+  if (!isNaN(trimmedValue)) {
+    // If the input is a number, check if it starts with "9"
+    if (trimmedValue.startsWith("9")) {
+      filters = { name: String(trimmedValue) };
+    } else {
+      // Search by barcode
+      filters = { barcode: trimmedValue };
+    }
+  } else {
+    // Search by name
+    filters = { name: trimmedValue };
+  }
+  getProductHistories(filters);
 }, 300);
 
 
