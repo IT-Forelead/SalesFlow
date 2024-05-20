@@ -254,5 +254,7 @@
   "plsEnterEndDate":"Please enter a end date",
   "percentage": "Percentage",
   "errorWhileGettingSaleSettings": "Error while getting sale settings!",
-  "enterPercentage": "Enter percentage"
+  "enterPercentage": "Enter percentage",
+  "cleaning": "Cleaning",
+  "plsEnterLabelCount": "Please enter label count!"
 }

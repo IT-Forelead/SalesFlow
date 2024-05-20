@@ -255,5 +255,7 @@
   "plsEnterEndDate":"Илтимос тугаш санасини киритинг",
   "percentage": "Фоиз",
   "errorWhileGettingSaleSettings": "Сотув созламаларни олишда хатолик юз берди!",
-  "enterPercentage": "Фоиз киритинг"
+  "enterPercentage": "Фоиз киритинг",
+  "cleaning": "Тозалаш",
+  "plsEnterLabelCount": "Ёрлиқ сонини киритинг"
 }

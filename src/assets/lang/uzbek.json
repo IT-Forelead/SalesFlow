@@ -255,5 +255,7 @@
   "plsEnterEndDate":"Iltimos tugash sanasini kiriting",
   "percentage": "Foiz",
   "errorWhileGettingSaleSettings": "Sotuv sozlamalarni olishda xatolik yuz berdi!",
-  "enterPercentage": "Foiz kiriting"
+  "enterPercentage": "Foiz kiriting",
+  "cleaning": "Tozalash",
+  "plsEnterLabelCount": "Yorliqlar sonini kiriting"
 }

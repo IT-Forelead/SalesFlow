@@ -255,5 +255,7 @@
   "plsEnterEndDate":"Пожалуйста, введите дату окончания",
   "percentage": "Процент",
   "errorWhileGettingSaleSettings": "Ошибка при получении настроек продаж!",
-  "enterPercentage": "Введите процент"
+  "enterPercentage": "Введите процент",
+  "cleaning": "Очистка",
+  "plsEnterLabelCount": "Введите количество меток"
 }
