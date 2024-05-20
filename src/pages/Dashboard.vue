@@ -37,6 +37,11 @@ const filterData = reactive({
   endDate: '',
 })
 
+const cleanFilterData = () => {
+  filterData.startDate = ''
+  filterData.endDate = ''
+}
+
 onClickOutside(dropdown, () => {
   if (useDropdownStore().isOpenFilterBy) {
     useDropdownStore().toggleFilterBy()
@@ -620,15 +625,23 @@ watch(
                   class="border-none text-gray-500 bg-gray-100 rounded-lg w-full" />
               </label>
             </div>
-            <div v-if="isLoading"
-              class="w-full bg-gray-600 py-3 select-none text-white rounded-lg flex items-center justify-center">
-              <Spinners270RingIcon
-                class="mr-2 w-5 h-5 text-gray-200 animate-spin dark:text-gray-600 fill-gray-600 dark:fill-gray-300" />
-              <span>{{ $t('loading') }}</span>
-            </div>
-            <div v-else @click="submitTurnoverStatsFilterData()"
-              class="w-full bg-gray-900 hover:bg-gray-800 cursor-pointer select-none py-3 text-white rounded-lg flex items-center justify-center">
-              <span>{{ $t('filter') }}</span>
+            <div class="flex items-center space-x-2">
+              <div @click="cleanFilterData()"
+                class="basis-1/3 w-full bg-slate-100 hover:bg-slate-300 cursor-pointer select-none py-3 text-gray-900 rounded-lg flex items-center justify-center">
+                <span>{{ $t('cleaning') }}</span>
+              </div>
+              <div class="basis-2/3">
+                <div v-if="isLoading"
+                  class="w-full bg-blue-600 py-3 select-none text-white rounded-lg flex items-center justify-center">
+                  <Spinners270RingIcon
+                    class="mr-2 w-5 h-5 text-gray-200 animate-spin dark:text-gray-600 fill-gray-600 dark:fill-gray-300" />
+                  <span>{{ $t('loading') }}</span>
+                </div>
+                <div v-else @click="submitTurnoverStatsFilterData()"
+                  class="w-full bg-blue-500 hover:bg-blue-600 cursor-pointer select-none py-3 text-white rounded-lg flex items-center justify-center">
+                  <span>{{ $t('filter') }}</span>
+                </div>
+              </div>
             </div>
           </div>
         </div>
