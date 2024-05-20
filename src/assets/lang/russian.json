@@ -256,5 +256,6 @@
   "percentage": "Процент",
   "errorWhileGettingSaleSettings": "Ошибка при получении настроек продаж!",
   "enterPercentage": "Введите процент",
-  "cleaning": "Очистка"
+  "cleaning": "Очистка",
+  "plsEnterLabelCount": "Введите количество меток"
 }

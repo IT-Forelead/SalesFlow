@@ -9,8 +9,7 @@ import SearchIcon from '../../assets/icons/SearchIcon.vue'
 import Spinners270RingIcon from '../../assets/icons/Spinners270RingIcon.vue'
 import BarcodeIcon from '../../assets/icons/BarcodeIcon.vue'
 import ProductService from '../../services/product.service'
-import { reactive, ref, watch } from 'vue'
-import { computed } from 'vue'
+import { computed, reactive, ref, watch } from 'vue'
 import { isBarcode } from '../../mixins/barcodeFormatter'
 import ImageIcon from '../../assets/icons/ImageIcon.vue'
 import { useI18n } from 'vue-i18n'
@@ -38,6 +37,9 @@ const submitData = reactive({
   barcode: '',
   quantity: null,
   count: null,
+  totalPrice: null,
+  productionDate: '',
+  expirationDate: '',
 })
 
 const clearSubmitData = () => {
@@ -46,6 +48,9 @@ const clearSubmitData = () => {
   submitData.quantity = null
   submitData.count = null
   search.value = ''
+  submitData.totalPrice = null
+  submitData.productionDate = ''
+  submitData.expirationDate = ''
 }
 
 const closeModal = () => {
@@ -56,14 +61,19 @@ const closeModal = () => {
 
 const createLabel = () => {
   if (!submitData.name) {
-    toast.warning(t('plsEnterProductName'))
-  } else if (submitData.quantity <= 0) {
+    toast.warning(t('plsSelectProduct'))
+  } else if (!submitData.quantity || submitData.quantity <= 0 || isNaN(submitData.quantity)) {
     toast.warning(t('plsEnterProductQuantity'))
+  } else if (!submitData.totalPrice || submitData.totalPrice <= 0 || isNaN(submitData.totalPrice)) {
+    toast.warning(t('plsEnterTotalPrice'))
+  } else if (!submitData.count || submitData.count <= 0 || isNaN(submitData.count)) {
+    toast.warning(t('plsEnterLabelCount'))
   } else {
     isLoading.value = true
     const product = productBarcode.value
     const quantity = product.saleType.includes('kg') ? Number.parseFloat(submitData.quantity) * 1000 : submitData.quantity
     const barcode = !product.barcode ? `9${String(product.serialId).padStart(6, '0')}${String(quantity).padStart(5, '0')}1` : submitData.barcode
+
     axios
       .post(
         API_URL + '/print-label',
@@ -76,6 +86,9 @@ const createLabel = () => {
           packaging: product.packaging,
           serialId: product.serialId,
           price: product.price,
+          totalPrice: product.price * Number.parseInt(submitData.quantity),
+          productionDate: product.productionDate,
+          expirationDate: product.expirationDate,
         })
       )
       .then(async () => {
@@ -83,7 +96,7 @@ const createLabel = () => {
         clearSubmitData()
         isLoading.value = false
       })
-      .catch((err) => {
+      .catch(() => {
         toast.error(t('errorWhileCreatingLabel'))
         setTimeout(() => {
           isLoading.value = false
@@ -91,6 +104,7 @@ const createLabel = () => {
       })
   }
 }
+
 
 const searchProducts = () => {
   if (!search.value) {
@@ -148,6 +162,26 @@ watch(
     }
   },
   { deep: true }
+)
+
+
+const moneyConf = {
+  thousands: ' ',
+  suffix: ' UZS',
+  precision: 0,
+}
+
+
+watch(
+  () => submitData.quantity,
+  (newQuantity) => {
+    if (newQuantity && !isNaN(newQuantity)) {
+      const product = productBarcode.value
+      submitData.totalPrice = Math.round(product.price * submitData.quantity)
+    } else {
+      submitData.totalPrice = null
+    }
+  }
 )
 </script>
 <template>
@@ -217,6 +251,15 @@ watch(
             </label>
             <input  id="quantity" type="number" v-model="submitData.quantity" class="bg-slate-100 border-none text-slate-900 rounded-lg w-full h-11 placeholder-slate-400 placeholder:text-sm md:placeholder:text-lg" :placeholder="t('enterProductQuantity')" />
           </div>
+          <div class="flex-1 space-y-1">
+            <label for="totalPrice" class="text-base md:text-lg font-medium">
+              {{ $t('totalPrice') }}
+              <span class="text-red-500 mr-2">*</span>
+            </label>
+            <money3 v-model.number="submitData.totalPrice" v-bind="moneyConf" id="totalPrice"
+                    class="border-none text-right text-gray-500 bg-slate-100 h-11 rounded-lg w-full text-lg">
+            </money3>
+             </div>
           <div class="flex-1 space-y-1">
             <label for="count" class="text-base md:text-lg font-medium">
               {{ $t('countOfLabel') }}
