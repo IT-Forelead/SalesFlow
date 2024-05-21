@@ -238,7 +238,6 @@ onMounted(() => {
   if (route.query.search) {
     searchFilter.value = route.query.search;
   }
-  getProducts();
 })
 
 watch(route, (newRoute) => {
@@ -267,10 +266,10 @@ watch(route, (newRoute) => {
           placeholder="Search everything...">
       </div>
       <div class="w-full md:w-auto order-1 md:order-2 flex space-x-2">
-        <button v-if="navigationGuard('create_product')" @click="useModalStore().openCreateProductModal()"
-          class="w-full md:w-auto py-2 px-4 rounded-full text-white text-lg font-medium bg-blue-500 cursor-pointer hover:bg-blue-600">
-          {{ $t('addProduct') }}
-        </button>
+<!--        <button v-if="navigationGuard('create_product')" @click="useModalStore().openCreateProductModal()"-->
+<!--          class="w-full md:w-auto py-2 px-4 rounded-full text-white text-lg font-medium bg-blue-500 cursor-pointer hover:bg-blue-600">-->
+<!--          {{ $t('addProduct') }}-->
+<!--        </button>-->
       </div>
     </div>
 

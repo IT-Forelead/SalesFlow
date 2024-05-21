@@ -67,6 +67,7 @@ const editProductHistory = () => {
       ProductService.getProductsDetails({ limit: 30, page: currentPage.value, name: route.query.search })
         .then((res) => {
           productHistoryStore.clearStore()
+          useProductHistoryStore().totalHistories = res.total
           productHistoryStore.setProductHistories(res.data)
         })
         .catch((err) => {

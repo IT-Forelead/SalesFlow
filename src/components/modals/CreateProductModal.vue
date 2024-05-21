@@ -20,6 +20,7 @@ import { useAgentStore } from '../../store/agent.store.js'
 import SelectOptionAgent from '../inputs/SelectOptionAgent.vue'
 import { useDropdownStore } from '../../store/dropdown.store'
 import ScrollPanel from 'primevue/scrollpanel'
+import { useProductHistoryStore } from '../../store/productHistory.store.js'
 
 const { t } = useI18n()
 
@@ -27,7 +28,13 @@ const router = useRouter()
 const barcodeStore = useBarcodeStore()
 const agentStore = useAgentStore()
 const productStore = useProductStore()
-
+const productHistoryStore = useProductHistoryStore()
+const currentPage1 = computed(() => {
+  return productStore.currentPage
+})
+const currentPage2 = computed(() => {
+  return productHistoryStore.currentPage
+})
 const decodedBarcode = computed(() => {
   return barcodeStore.decodedBarcode
 })
@@ -43,7 +50,7 @@ const selectedAgent = computed(() => {
 const selectedProduct = computed(() => {
   return productStore.selectedProduct
 })
-
+const pageSize = 50
 const boxPrice = ref(null)
 const moneyConf = {
   thousands: ' ',
@@ -127,11 +134,17 @@ const createProduct = () => {
       }),
     ).then(() => {
       toast.success(t('productAddedSuccessfully'))
-      ProductService.getProducts({})
+      ProductService.getProducts({limit: pageSize, page: currentPage1.value})
         .then((res) => {
           useProductStore().clearStore()
           useProductStore().total = res.total
           useProductStore().setProducts(res.data)
+        })
+      ProductService.getProductsDetails({limit: pageSize, page: currentPage2.value})
+        .then((res) => {
+          useProductHistoryStore().clearStore()
+          useProductHistoryStore().totalHistories = res.total
+          useProductHistoryStore().setProductHistories(res.data)
         })
       clearSubmitData()
       isLoading.value = false

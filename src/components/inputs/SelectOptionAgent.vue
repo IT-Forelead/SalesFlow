@@ -1,9 +1,7 @@
 <script setup>
-import { ref } from 'vue'
+import { onMounted, ref, toRefs, watch } from 'vue'
 import { useDropdownStore } from '../../store/dropdown.store'
-import { onMounted, watch } from 'vue'
 import { onClickOutside } from '@vueuse/core'
-import { toRefs } from 'vue'
 import XIcon from '../../assets/icons/XIcon.vue'
 import ChevronRightIcon from '../../assets/icons/ChevronRightIcon.vue'
 
@@ -40,14 +38,25 @@ const optionClicked = (data) => {
 const search = ref('')
 const searchResults = ref([])
 
+// const getSearchResult = (options) => {
+//   if (search.value) {
+//     searchResults.value = options.filter((agent) => agent?.fullName.toLowerCase().includes(search?.value.toLowerCase()))
+//   } else {
+//     searchResults.value = []
+//   }
+// }
+
 const getSearchResult = (options) => {
   if (search.value) {
-    searchResults.value = options.filter((agent) => agent?.fullName.toLowerCase().includes(search?.value.toLowerCase()))
+    const searchLower = search.value.toLowerCase()
+    searchResults.value = options.filter((agent) =>
+      agent?.fullName.toLowerCase().includes(searchLower) ||
+      agent?.company.toLowerCase().includes(searchLower)
+    )
   } else {
     searchResults.value = []
   }
 }
-
 </script>
 <template>
   <div class="select-none">

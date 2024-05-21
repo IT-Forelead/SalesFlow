@@ -147,6 +147,9 @@ const printLabel = (product) => {
         packaging: product.packaging,
         serialId: product.serialId,
         price: product.price,
+        productionDate: product.productionDate,
+        expirationDate: product.expirationDate,
+        totalPrice: product.price,
       })
     )
     .then(async () => {
@@ -186,23 +189,43 @@ const debounce = (fn, delay) => {
     }, delay)
   }
 }
-//
+
 // const searchProducts = debounce(() => {
+//   const query = searchFilter.value.trim() ? { search: searchFilter.value } : {};
+//   router.push({ query });
 //   if (searchFilter.value.trim() === '') {
 //     getProductHistories({ limit: pageSize, page: currentPage.value });
 //   } else {
-//     getProductHistories({ name: searchFilter.value });
+//     const filters = searchFilter.value.match(/^\d+$/) ? { barcode: searchFilter.value } : { name: searchFilter.value };
+//     getProductHistories(filters);
 //   }
 // }, 300);
 
 const searchProducts = debounce(() => {
   const query = searchFilter.value.trim() ? { search: searchFilter.value } : {};
   router.push({ query });
-  if (searchFilter.value.trim() === '') {
+  const trimmedValue = searchFilter.value.trim();
+  let filters = {};
+
+  if (trimmedValue === '') {
+    // No search input, get all products
     getProductHistories({ limit: pageSize, page: currentPage.value });
-  } else {
-    getProductHistories({ name: searchFilter.value });
+    return; // Exit early
   }
+  // Check if the input is a number
+  if (!isNaN(trimmedValue)) {
+    // If the input is a number, check if it starts with "9"
+    if (trimmedValue.startsWith("9")) {
+      filters = { name: String(trimmedValue) };
+    } else {
+      // Search by barcode
+      filters = { barcode: trimmedValue };
+    }
+  } else {
+    // Search by name
+    filters = { name: trimmedValue };
+  }
+  getProductHistories(filters);
 }, 300);
 
 
@@ -249,7 +272,7 @@ onMounted(() => {
   if (route.query.search) {
     searchFilter.value = route.query.search;
   }
-  getProductHistories();
+  // getProductHistories();
 })
 
 watch(route, (newRoute) => {
@@ -280,6 +303,10 @@ watch(route, (newRoute) => {
         <button v-if="navigationGuard('create_product')" @click="useModalStore().openCreateLabelModal()"
                 class="w-full md:w-auto py-2 px-4 rounded-full text-white text-lg font-medium bg-green-500 cursor-pointer hover:bg-green-600">
           {{ $t('createLabel') }}
+        </button>
+        <button v-if="navigationGuard('create_product')" @click="useModalStore().openCreateProductModal()"
+                class="w-full md:w-auto py-2 px-4 rounded-full text-white text-lg font-medium bg-blue-500 cursor-pointer hover:bg-blue-600">
+          {{ $t('addProduct') }}
         </button>
       </div>
     </div>
