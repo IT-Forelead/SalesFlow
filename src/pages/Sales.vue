@@ -243,20 +243,38 @@ const addProductToCart = (product, amount) => {
   clearSearchInput()
 }
 
+const selectProduct = (product) => {
+  console.log("-----------------")
+  selectP.value = product;
+  inputValue.value = '0'
+}
+
 const removeProductFromCart = (product) => {
   activeBasket.value = activeBasket.value.filter((p) => p.productId !== product.productId)
+  if (selectP.value == product) {
+    selectP.value = undefined
+  }
+  
 }
 
 const changeBasketStatus = (status) => {
   activeBasketStatus.value = status
 }
 
-const increaseCountChecking = (product) => {
+const reduceCountChecking = (product) => {
   if (product?.amount > 0.1 && product?.saleType === 'kg') {
     return true
   } else if (product?.amount > 0.5 && product?.saleType === 'litre') {
     return true
   } else return product?.amount > 1;
+}
+
+const increaseCountChecking = (product) => {
+  if (product?.saleType === 'kg') {
+    return product?.quantity >= product?.amount + 0.1
+  } else if (product?.saleType === 'litre') {
+    return product?.quantity >= product?.amount + 0.5
+  } else return product?.quantity >= product?.amount + 1;
 }
 
 const increaseCountOfProducts = (product) => {
@@ -266,6 +284,7 @@ const increaseCountOfProducts = (product) => {
       if (item.saleType === 'kg') {
         return { ...item, amount: roundFloatToOneDecimal(item.amount + 0.1) }
       } else if (item.saleType === 'litre') {
+
         return { ...item, amount: roundFloatToOneDecimal(item.amount + 0.5) }
       } else {
         return { ...item, amount: item.amount + 1 }
@@ -537,6 +556,7 @@ const createSale = () => {
 const closeDebtForm = () => {
   showDebtForm.value = false
   clearCustomerForm()
+  selectP.value = undefined;
 }
 const createDebt = () => {
   if (!customerForm.fullName) {
@@ -563,6 +583,46 @@ const createDebt = () => {
       })
   }
 }
+
+const selectP = ref();
+const inputValue = ref('0');
+
+const appendValue = (event) => {
+  const value = event.target.textContent;
+  if (inputValue.value === '0') {
+    if (value !== '0') {
+      inputValue.value = '';
+    } else {
+      return;
+    }
+  }
+  if (inputValue.value + value.toString() <= selectP.value.quantity) {
+    inputValue.value += value.toString();
+    selectP.value.amount = parseFloat(inputValue.value);
+  } else {
+    toast.warning("max count is " + selectP.value.quantity);
+  }
+};
+
+const separator = () => {
+  if (selectP.value.saleType=== 'amount') {
+    toast.warning("comma is forbidden")
+  } else {
+    inputValue.value += '.';
+  }
+  
+  
+};
+
+const removeLastDigit = () => {
+  if (inputValue.value.length > 1) {
+    inputValue.value = inputValue.value.slice(0, -1);
+    selectP.value.amount = parseFloat(inputValue.value);
+  } else {
+    inputValue.value = '0';
+    selectP.value.amount = 1;
+  }
+};
 </script>
 
 <template>
@@ -671,7 +731,7 @@ const createDebt = () => {
                 </thead>
 
                 <tbody class="bg-slate-100 divide-y-8 divide-white">
-                  <tr v-for="(product, idx) in activeBasket" :key="idx" class="overflow-x-auto overflow-y-auto">
+                  <tr :class="{ 'bg-blue-100': selectP === product }" @click="selectProduct(product)" v-for="(product, idx) in activeBasket" :key="idx" class="overflow-x-auto overflow-y-auto">
                     <td class="px-3 py-2 whitespace-nowrap rounded-l-xl">
                       <div class="flex items-center space-x-3">
                         <div class="flex items-center justify-center bg-slate-200 md:w-12 md:h-12 w-8 h-8 rounded-lg">
@@ -701,8 +761,8 @@ const createDebt = () => {
                     </td>
                     <td class="px-3 py-2 text-center whitespace-nowrap">
                       <div class="flex justify-center">
-                        <div class="flex items-center justify-between bg-slate-100 w-36 rounded-xl p-1">
-                          <div @click="reduceCountOfProducts(product)" v-if="increaseCountChecking(product)"
+                        <div class="flex items-center justify-between w-36 rounded-xl p-1">
+                          <div @click="reduceCountOfProducts(product)" v-if="reduceCountChecking(product)"
                             class="flex items-center justify-center w-8 h-8 bg-white text-blue-700 shadow-sm hover:bg-slate-200 cursor-pointer rounded-xl">
                             <MinusIcon class="w-4 h-4" />
                           </div>
@@ -710,17 +770,19 @@ const createDebt = () => {
                             class="flex items-center justify-center w-8 h-8 bg-white text-slate-700 cursor-default rounded-xl">
                             <MinusIcon class="w-4 h-4" />
                           </div>
+                          
                           <div class="flex items-center justify-center text-lg font-normal">
                             {{ product?.amount + ' ' + saleTypeShortTranslate(product?.saleType) }}
                           </div>
-                          <div @click="increaseCountOfProducts(product)" v-if="product?.quantity > product?.amount"
+                          <div @click="increaseCountOfProducts(product)" v-if="increaseCountChecking(product)"
                             class="flex items-center justify-center w-8 h-8 bg-white text-blue-700 shadow-sm hover:bg-slate-200 cursor-pointer rounded-xl">
                             <PlusIcon class="w-4 h-4" />
                           </div>
                           <div v-else
                             class="flex items-center justify-center w-8 h-8 bg-white text-slate-700 cursor-default rounded-xl">
                             <PlusIcon class="w-4 h-4" />
-                          </div>
+                          </div>                         
+
                         </div>
                       </div>
                     </td>
@@ -729,7 +791,7 @@ const createDebt = () => {
                     </td>
                     <td class="px-3 py-2 whitespace-nowrap rounded-r-2xl">
                       <div class="flex justify-center">
-                        <TrashIcon @click="removeProductFromCart(product)"
+                        <TrashIcon @click="$event.stopPropagation(); removeProductFromCart(product)"
                           class="w-6 h-6 text-rose-500 cursor-pointer transform hover:scale-105" />
                       </div>
                     </td>
@@ -915,6 +977,22 @@ const createDebt = () => {
               class="ms-3 text-white bg-blue-500 hover:bg-blue-600 focus:ring-4 focus:outline-none focus:ring-slate-300 rounded-xl border border-slate-200 text-sm font-medium px-5 py-2.5 focus:z-10">{{
                 $t('create') }}</button>
           </div>
+        </div>
+      </div>
+      <div>
+        <div v-if="selectP && selectP != undefined" class="h-52 grid grid-cols-3 grid-rows-4 gap-2">
+          <div class="flex items-center justify-center text-lg cursor-pointer border border-slate-400 bg-slate-100 hover:border-blue-400 hover:text-blue-400 hover:bg-blue-100 rounded-lg" @click="appendValue($event)">1</div>
+          <div class="flex items-center justify-center text-lg cursor-pointer border border-slate-400 bg-slate-100 hover:border-blue-400 hover:text-blue-400 hover:bg-blue-100 rounded-lg" @click="appendValue($event)">2</div>
+          <div class="flex items-center justify-center text-lg cursor-pointer border border-slate-400 bg-slate-100 hover:border-blue-400 hover:text-blue-400 hover:bg-blue-100 rounded-lg" @click="appendValue($event)">3</div>
+          <div class="flex items-center justify-center text-lg cursor-pointer border border-slate-400 bg-slate-100 hover:border-blue-400 hover:text-blue-400 hover:bg-blue-100 rounded-lg" @click="appendValue($event)">4</div>
+          <div class="flex items-center justify-center text-lg cursor-pointer border border-slate-400 bg-slate-100 hover:border-blue-400 hover:text-blue-400 hover:bg-blue-100 rounded-lg" @click="appendValue($event)">5</div>
+          <div class="flex items-center justify-center text-lg cursor-pointer border border-slate-400 bg-slate-100 hover:border-blue-400 hover:text-blue-400 hover:bg-blue-100 rounded-lg" @click="appendValue($event)">6</div>
+          <div class="flex items-center justify-center text-lg cursor-pointer border border-slate-400 bg-slate-100 hover:border-blue-400 hover:text-blue-400 hover:bg-blue-100 rounded-lg" @click="appendValue($event)">7</div>
+          <div class="flex items-center justify-center text-lg cursor-pointer border border-slate-400 bg-slate-100 hover:border-blue-400 hover:text-blue-400 hover:bg-blue-100 rounded-lg" @click="appendValue($event)">8</div>
+          <div class="flex items-center justify-center text-lg cursor-pointer border border-slate-400 bg-slate-100 hover:border-blue-400 hover:text-blue-400 hover:bg-blue-100 rounded-lg" @click="appendValue($event)">9</div>
+          <div class="flex items-center justify-center text-lg cursor-pointer border border-slate-400 bg-slate-100 hover:border-blue-400 hover:text-blue-400 hover:bg-blue-100 rounded-lg" @click="separator()">.</div>
+          <div class="flex items-center justify-center text-lg cursor-pointer border border-slate-400 bg-slate-100 hover:border-blue-400 hover:text-blue-400 hover:bg-blue-100 rounded-lg"   @click="appendValue($event)">0</div>
+          <div class="flex items-center justify-center text-lg cursor-pointer border border-slate-400 bg-slate-100 hover:border-blue-400 hover:text-blue-400 hover:bg-blue-100 rounded-lg" @click="removeLastDigit()">{{'<'}}</div>
         </div>
       </div>
     </div>
