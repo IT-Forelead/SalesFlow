@@ -20,6 +20,7 @@ import { useAgentStore } from '../../store/agent.store.js'
 import SelectOptionAgent from '../inputs/SelectOptionAgent.vue'
 import { useDropdownStore } from '../../store/dropdown.store'
 import ScrollPanel from 'primevue/scrollpanel'
+import SettingsService from '../../services/settings.service.js'
 import { useProductHistoryStore } from '../../store/productHistory.store.js'
 
 const { t } = useI18n()
@@ -52,6 +53,8 @@ const selectedProduct = computed(() => {
 })
 const pageSize = 50
 const boxPrice = ref(null)
+const percentage = ref(0)
+
 const moneyConf = {
   thousands: ' ',
   suffix: ' UZS',
@@ -268,6 +271,40 @@ watch(
   },
   { deep: true }
 )
+
+const getSaleSettings = () => {
+  SettingsService.getSettings().then((res) => {
+      percentage.value = res.percentage
+  }).catch(() => {
+    toast.error($t('errorWhileGettingSaleSettings'))
+  })
+}
+watch(
+  [submitData.purchasePrice, boxPrice.value, () => !useModalStore().isOpenCreateProductModal],
+  (data) => {
+    if (data) {
+      getSaleSettings()
+    }
+  },
+  { deep: true }
+)
+
+watch([percentage.value, () => submitData.purchasePrice], (data) => {
+  if (data) {
+    console.log("percentage:",percentage.value)
+    let salePrice = Math.round(submitData.purchasePrice + (submitData.purchasePrice*percentage.value)/100)
+    console.log("salePrice without rounding:",salePrice)
+    const hundredths = salePrice % 1000
+    if (hundredths < 500 && hundredths > 1) {
+      salePrice = Math.floor(salePrice / 1000)*1000+500
+    } else if (hundredths > 500 && hundredths < 1000) {
+      salePrice = Math.floor(salePrice / 1000) * 1000 + 1000;
+    }
+    submitData.price = Math.round(salePrice)
+    console.log("purchase:",submitData.purchasePrice)
+    console.log("sale:",salePrice)
+  }
+})
 </script>
 
 <template>
