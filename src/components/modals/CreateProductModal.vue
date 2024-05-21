@@ -53,7 +53,7 @@ const selectedProduct = computed(() => {
 })
 const pageSize = 50
 const boxPrice = ref(null)
-const percentage = ref(null)
+const percentage = ref(0)
 
 const moneyConf = {
   thousands: ' ',
@@ -280,7 +280,7 @@ const getSaleSettings = () => {
   })
 }
 watch(
-  () => useModalStore().isOpenCreateProductModal,
+  [submitData.purchasePrice, () => !useModalStore().isOpenCreateProductModal],
   (data) => {
     if (data) {
       getSaleSettings()
@@ -288,6 +288,18 @@ watch(
   },
   { deep: true }
 )
+
+watch([percentage.value, () => submitData.purchasePrice], (data) => {
+  if (data) {
+    const salePrice = Math.round(submitData.purchasePrice + (submitData.purchasePrice*percentage.value)/100)
+    const hundredths = salePrice % 1000
+    if (hundredths > 0) {
+      submitData.price = Math.round(salePrice / 1000) + '.' + hundredths
+    }
+    submitData.price = Math.round(submitData.purchasePrice + (submitData.purchasePrice*percentage.value)/100)
+    console.log(salePrice)
+  }
+})
 </script>
 
 <template>
