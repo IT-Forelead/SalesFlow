@@ -64,6 +64,10 @@ const columns = [
     cell: ({ row }) => `${parseInt(row.id, 10) + 1}`,
   },
   {
+    accessorKey: 'serialId',
+    header: t('serialId'),
+  },
+  {
     accessorKey: 'name',
     header: t('product'),
     cell: ({ row }) => {
@@ -92,8 +96,9 @@ const columns = [
     cell: ({ row }) => useMoneyFormatter(row.original.price),
   },
   {
-    accessorKey: 'serialId',
-    header: t('serialId'),
+    accessorKey: 'percent',
+    header: t('percent'),
+    cell: ({ row }) => calcPercentOfSale(row.original.purchasePrice, row.original.price) + "%",
   },
   {
     accessorKey: 'productionDate',
@@ -139,6 +144,15 @@ const columns = [
     enableSorting: false,
   },
 ]
+
+const calcPercentOfSale = (purchasePrice, salePrice) => {
+  const num = (((salePrice - purchasePrice) * 100) / salePrice).toFixed(1)
+  if (num % 1 === 0) {
+    return Math.floor(num);
+  } else {
+    return num;
+  }
+}
 
 const printLabel = (product) => {
   const quantity = product.saleType.includes('kg') ? Number.parseFloat(product.quantity) * 1000 : product.quantity
