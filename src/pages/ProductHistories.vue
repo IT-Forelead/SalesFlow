@@ -8,6 +8,7 @@ import useMoneyFormatter from '../mixins/currencyFormatter.js'
 import CaretDoubleRightIcon from '../assets/icons/CaretDoubleRightIcon.vue'
 import CaretDoubleLeftIcon from '../assets/icons/CaretDoubleLeftIcon.vue'
 import CaretLeftIcon from '../assets/icons/CaretLeftIcon.vue'
+import CopyIcon from '../assets/icons/CopyIcon.vue'
 import CaretRightIcon from '../assets/icons/CaretRightIcon.vue'
 import { useI18n } from 'vue-i18n'
 import EditIcon from '../assets/icons/EditIcon.vue'
@@ -106,6 +107,13 @@ const columns = [
     accessorKey: 'actions',
     header: t('actions'),
     cell: ({ row }) => h('div', { class: 'flex items-center space-x-2' }, [
+      h('button', {
+        onClick: () => {
+          createDuplicateProductModal(row.original)
+        },
+      }, [
+        h(CopyIcon, { class: 'w-6 h-6 text-blue-600 hover:scale-105' }),
+      ]),
       h('button', {
         onClick: () => {
           openEditProductModalHistory(row.original)
@@ -264,6 +272,11 @@ watch(searchFilter, searchProducts)
 
 const navigationGuard = (access) => {
   return payload.value?.privileges?.includes(access)
+}
+
+const createDuplicateProductModal = (data) => {
+  useModalStore().openCreateProductModal()
+  useProductHistoryStore().setSelectedProductHistory(data)
 }
 
 onMounted(() => {

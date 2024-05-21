@@ -171,7 +171,6 @@ const moneyConf = {
   precision: 0,
 }
 
-
 watch(
   () => submitData.quantity,
   (newQuantity) => {

@@ -30,12 +30,16 @@ const barcodeStore = useBarcodeStore()
 const agentStore = useAgentStore()
 const productStore = useProductStore()
 const productHistoryStore = useProductHistoryStore()
+const dropdownStore = useDropdownStore()
+
 const currentPage1 = computed(() => {
   return productStore.currentPage
 })
+
 const currentPage2 = computed(() => {
   return productHistoryStore.currentPage
 })
+
 const decodedBarcode = computed(() => {
   return barcodeStore.decodedBarcode
 })
@@ -45,14 +49,14 @@ const agents = computed(() => {
 })
 
 const selectedAgent = computed(() => {
-  return useDropdownStore().selectOptionAgent
+  return dropdownStore.selectOptionAgent
 })
 
-const selectedProduct = computed(() => {
-  return productStore.selectedProduct
+const selectedProductHistory = computed(() => {
+  return productHistoryStore.selectedProductHistory
 })
+
 const pageSize = 50
-const boxPrice = ref(null)
 const percentage = ref(0)
 
 const moneyConf = {
@@ -73,34 +77,34 @@ const submitData = reactive({
   barcode: '',
   packaging: '',
   saleType: '',
-  price: null,
+  price: 0,
   toLend: false,
-  quantity: null,
-  purchasePrice: null,
+  quantity: 0,
+  purchasePrice: 0,
+  boxPrice: 0,
   productionDate: '',
   expirationDate: '',
 })
 
 const clearSubmitData = () => {
-  useDropdownStore().setSelectOptionAgent('')
+  dropdownStore.setSelectOptionAgent('')
   submitData.name = ''
   submitData.barcode = ''
   submitData.packaging = ''
   submitData.saleType = ''
-  submitData.price = null
-  submitData.purchasePrice = null
+  submitData.price = 0
+  submitData.purchasePrice = 0
+  submitData.boxPrice = 0
   submitData.productionDate = ''
   submitData.expirationDate = ''
   submitData.toLend = false
-  submitData.quantity = null
-  boxPrice.value = null
+  submitData.quantity = 0
 }
 
 const closeModal = () => {
   useModalStore().closeCreateProductModal()
-  useProductStore().setSelectedProduct({})
+  useProductHistoryStore().setSelectedProductHistory('')
   clearSubmitData()
-  boxPrice.value = null
   productBarcodes.value = []
 }
 
@@ -137,13 +141,13 @@ const createProduct = () => {
       }),
     ).then(() => {
       toast.success(t('productAddedSuccessfully'))
-      ProductService.getProducts({limit: pageSize, page: currentPage1.value})
+      ProductService.getProducts({ limit: pageSize, page: currentPage1.value })
         .then((res) => {
           useProductStore().clearStore()
           useProductStore().total = res.total
           useProductStore().setProducts(res.data)
         })
-      ProductService.getProductsDetails({limit: pageSize, page: currentPage2.value})
+      ProductService.getProductsDetails({ limit: pageSize, page: currentPage2.value })
         .then((res) => {
           useProductHistoryStore().clearStore()
           useProductHistoryStore().totalHistories = res.total
@@ -241,6 +245,7 @@ const getAgents = () => {
       isLoading.value = false
     })
 }
+
 watch(
   () => useModalStore().isOpenCreateProductModal,
   (data) => {
@@ -251,22 +256,39 @@ watch(
   { deep: true }
 )
 
-watch([boxPrice, () => submitData.quantity], ([newBoxPrice, newQuantity]) => {
-  if (newBoxPrice !== null && newQuantity !== null && newQuantity > 0) {
-    submitData.purchasePrice = Math.round(newBoxPrice / newQuantity)
+watch([() => submitData.boxPrice, () => submitData.quantity], ([newBoxPrice, newQuantity]) => {
+  if (newBoxPrice > 0 && newQuantity > 0) {
+    const sum = Math.round(newBoxPrice / newQuantity)
+    submitData.purchasePrice = sum
   }
 })
 
+const findAndSelectAgent = (agentId) => {
+  agents.value.map((agent) => {
+    if (agent?.id === agentId) {
+      console.log("find: " + agent?.id);
+      dropdownStore.setSelectOptionAgent(agent)
+      console.log("select agent: " + selectedAgent.value?.id);
+    }
+  })
+}
+
 watch(
-  () => selectedProduct.value,
+  () => selectedProductHistory.value,
   (data) => {
     if (data) {
+      // findAndSelectAgent(data?.agentId)
+      // dropdownStore.setSelectOptionAgent(agents.value.filter(a => a?.id === data?.agentId)[0])
       submitData.name = data?.name
       // submitData.barcode = data?.barcode
       submitData.packaging = data?.packaging
       submitData.saleType = data?.saleType
       submitData.price = data?.price
       submitData.quantity = data?.quantity
+      submitData.toLend = data?.toLend
+      submitData.purchasePrice = data?.purchasePrice
+      submitData.productionDate = data?.productionDate
+      submitData.expirationDate = data?.expirationDate
     }
   },
   { deep: true }
@@ -279,8 +301,9 @@ const getSaleSettings = () => {
     toast.error($t('errorWhileGettingSaleSettings'))
   })
 }
+
 watch(
-  [submitData.purchasePrice, boxPrice.value, () => !useModalStore().isOpenCreateProductModal],
+  [() => submitData.purchasePrice, () => submitData.boxPrice, () => !useModalStore().isOpenCreateProductModal],
   (data) => {
     if (data) {
       getSaleSettings()
@@ -289,11 +312,9 @@ watch(
   { deep: true }
 )
 
-watch([percentage.value, () => submitData.purchasePrice], (data) => {
+watch([() => percentage.value, () => submitData.purchasePrice], (data) => {
   if (data) {
-    console.log("percentage:",percentage.value)
     let salePrice = Math.round(submitData.purchasePrice + (submitData.purchasePrice*percentage.value)/100)
-    console.log("salePrice without rounding:",salePrice)
     const hundredths = salePrice % 1000
     if (hundredths < 500 && hundredths > 1) {
       salePrice = Math.floor(salePrice / 1000)*1000+500
@@ -301,8 +322,6 @@ watch([percentage.value, () => submitData.purchasePrice], (data) => {
       salePrice = Math.floor(salePrice / 1000) * 1000 + 1000;
     }
     submitData.price = Math.round(salePrice)
-    console.log("purchase:",submitData.purchasePrice)
-    console.log("sale:",salePrice)
   }
 })
 </script>
@@ -414,7 +433,7 @@ watch([percentage.value, () => submitData.purchasePrice], (data) => {
             <label for="boxPrice" class="text-base md:text-lg font-medium">
               {{ $t('fullPrice') }}
             </label>
-            <money3 v-model.number="boxPrice" v-bind="moneyConf" id="boxPrice"
+            <money3 v-model.number="submitData.boxPrice" v-bind="moneyConf" id="boxPrice"
               class="border-none text-right text-gray-500 bg-slate-100 h-11 rounded-lg w-full text-lg">
             </money3>
           </div>
