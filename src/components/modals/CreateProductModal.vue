@@ -280,7 +280,7 @@ const getSaleSettings = () => {
   })
 }
 watch(
-  [submitData.purchasePrice, () => !useModalStore().isOpenCreateProductModal],
+  [submitData.purchasePrice, boxPrice.value, () => !useModalStore().isOpenCreateProductModal],
   (data) => {
     if (data) {
       getSaleSettings()
@@ -291,13 +291,18 @@ watch(
 
 watch([percentage.value, () => submitData.purchasePrice], (data) => {
   if (data) {
-    const salePrice = Math.round(submitData.purchasePrice + (submitData.purchasePrice*percentage.value)/100)
+    console.log("percentage:",percentage.value)
+    let salePrice = Math.round(submitData.purchasePrice + (submitData.purchasePrice*percentage.value)/100)
+    console.log("salePrice without rounding:",salePrice)
     const hundredths = salePrice % 1000
-    if (hundredths > 0) {
-      submitData.price = Math.round(salePrice / 1000) + '.' + hundredths
+    if (hundredths < 500 && hundredths > 1) {
+      salePrice = Math.floor(salePrice / 1000)*1000+500
+    } else if (hundredths > 500 && hundredths < 1000) {
+      salePrice = Math.floor(salePrice / 1000) * 1000 + 1000;
     }
-    submitData.price = Math.round(submitData.purchasePrice + (submitData.purchasePrice*percentage.value)/100)
-    console.log(salePrice)
+    submitData.price = Math.round(salePrice)
+    console.log("purchase:",submitData.purchasePrice)
+    console.log("sale:",salePrice)
   }
 })
 </script>
