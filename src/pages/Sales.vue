@@ -244,7 +244,6 @@ const addProductToCart = (product, amount) => {
 }
 
 const selectProduct = (product) => {
-  console.log("-----------------")
   selectP.value = product;
   inputValue.value = '0'
 }
@@ -394,10 +393,8 @@ async function printChaque(data) {
   await axios
     .post(API_URL + '/print', data)
     .then(async () => {
-      console.log('Chaque printed')
     })
     .catch(() => {
-      console.log('Chaque not printed')
     })
 }
 
