@@ -147,6 +147,9 @@ const printLabel = (product) => {
         packaging: product.packaging,
         serialId: product.serialId,
         price: product.price,
+        productionDate: product.productionDate,
+        expirationDate: product.expirationDate,
+        totalPrice: product.price,
       })
     )
     .then(async () => {

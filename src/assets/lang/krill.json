@@ -256,5 +256,6 @@
   "percentage": "Фоиз",
   "errorWhileGettingSaleSettings": "Сотув созламаларни олишда хатолик юз берди!",
   "enterPercentage": "Фоиз киритинг",
-  "cleaning": "Тозалаш"
+  "cleaning": "Тозалаш",
+  "plsEnterLabelCount": "Ёрлиқ сонини киритинг"
 }

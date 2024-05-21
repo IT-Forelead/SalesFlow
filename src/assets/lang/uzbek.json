@@ -256,5 +256,6 @@
   "percentage": "Foiz",
   "errorWhileGettingSaleSettings": "Sotuv sozlamalarni olishda xatolik yuz berdi!",
   "enterPercentage": "Foiz kiriting",
-  "cleaning": "Tozalash"
+  "cleaning": "Tozalash",
+  "plsEnterLabelCount": "Yorliqlar sonini kiriting"
 }

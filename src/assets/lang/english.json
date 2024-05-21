@@ -255,5 +255,6 @@
   "percentage": "Percentage",
   "errorWhileGettingSaleSettings": "Error while getting sale settings!",
   "enterPercentage": "Enter percentage",
-  "cleaning": "Cleaning"
+  "cleaning": "Cleaning",
+  "plsEnterLabelCount": "Please enter label count!"
 }
