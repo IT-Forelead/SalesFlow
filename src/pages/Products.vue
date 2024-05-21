@@ -19,8 +19,6 @@ import { useAuthStore } from '../store/auth.store.js'
 import decodeJwt, { parseJwt } from '../mixins/utils.js'
 import { useRoute, useRouter } from 'vue-router'
 
-const API_URL = import.meta.env.VITE_CHEQUE_API_URL
-
 const { t } = useI18n()
 const searchFilter = ref('')
 const isLoading = ref(false)
