@@ -8,6 +8,7 @@ import useMoneyFormatter from '../mixins/currencyFormatter.js'
 import CaretDoubleRightIcon from '../assets/icons/CaretDoubleRightIcon.vue'
 import CaretDoubleLeftIcon from '../assets/icons/CaretDoubleLeftIcon.vue'
 import CaretLeftIcon from '../assets/icons/CaretLeftIcon.vue'
+import CopyIcon from '../assets/icons/CopyIcon.vue'
 import CaretRightIcon from '../assets/icons/CaretRightIcon.vue'
 import { useI18n } from 'vue-i18n'
 import EditIcon from '../assets/icons/EditIcon.vue'
@@ -63,6 +64,10 @@ const columns = [
     cell: ({ row }) => `${parseInt(row.id, 10) + 1}`,
   },
   {
+    accessorKey: 'serialId',
+    header: t('serialId'),
+  },
+  {
     accessorKey: 'name',
     header: t('product'),
     cell: ({ row }) => {
@@ -91,8 +96,9 @@ const columns = [
     cell: ({ row }) => useMoneyFormatter(row.original.price),
   },
   {
-    accessorKey: 'serialId',
-    header: t('serialId'),
+    accessorKey: 'percent',
+    header: t('percent'),
+    cell: ({ row }) => calcPercentOfSale(row.original.purchasePrice, row.original.price) + "%",
   },
   {
     accessorKey: 'productionDate',
@@ -106,6 +112,13 @@ const columns = [
     accessorKey: 'actions',
     header: t('actions'),
     cell: ({ row }) => h('div', { class: 'flex items-center space-x-2' }, [
+      h('button', {
+        onClick: () => {
+          createDuplicateProductModal(row.original)
+        },
+      }, [
+        h(CopyIcon, { class: 'w-6 h-6 text-blue-600 hover:scale-105' }),
+      ]),
       h('button', {
         onClick: () => {
           openEditProductModalHistory(row.original)
@@ -131,6 +144,15 @@ const columns = [
     enableSorting: false,
   },
 ]
+
+const calcPercentOfSale = (purchasePrice, salePrice) => {
+  const num = (((salePrice - purchasePrice) * 100) / salePrice).toFixed(1)
+  if (num % 1 === 0) {
+    return Math.floor(num);
+  } else {
+    return num;
+  }
+}
 
 const printLabel = (product) => {
   const quantity = product.saleType.includes('kg') ? Number.parseFloat(product.quantity) * 1000 : product.quantity
@@ -264,6 +286,11 @@ watch(searchFilter, searchProducts)
 
 const navigationGuard = (access) => {
   return payload.value?.privileges?.includes(access)
+}
+
+const createDuplicateProductModal = (data) => {
+  useModalStore().openCreateProductModal()
+  useProductHistoryStore().setSelectedProductHistory(data)
 }
 
 onMounted(() => {

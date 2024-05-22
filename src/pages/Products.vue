@@ -2,7 +2,6 @@
 import { computed, h, onMounted, ref, watch } from 'vue'
 import SearchIcon from '../assets/icons/SearchIcon.vue'
 import Spinners270RingIcon from '../assets/icons/Spinners270RingIcon.vue'
-import CopyIcon from '../assets/icons/CopyIcon.vue'
 import ProductsTable from '../components/common/ProductsTable.vue'
 import ProductService from '../services/product.service'
 import EditIcon from '../assets/icons/EditIcon.vue'
@@ -106,13 +105,6 @@ const columns = [
     cell: ({ row }) => h('div', { class: 'flex items-center space-x-2' }, [
       h('button', {
         onClick: () => {
-          createDuplicateProductModal(row.original)
-        },
-      }, [
-        h(CopyIcon, { class: 'w-6 h-6 text-blue-600 hover:scale-105' }),
-      ]),
-      h('button', {
-        onClick: () => {
           openEditProductModal(row.original)
         },
       }, [
@@ -133,11 +125,6 @@ const columns = [
 
 const openEditProductModal = (data) => {
   useModalStore().openEditProductModal()
-  useProductStore().setSelectedProduct(data)
-}
-
-const createDuplicateProductModal = (data) => {
-  useModalStore().openCreateProductModal()
   useProductStore().setSelectedProduct(data)
 }
 
@@ -264,10 +251,10 @@ watch(route, (newRoute) => {
           placeholder="Search everything...">
       </div>
       <div class="w-full md:w-auto order-1 md:order-2 flex space-x-2">
-<!--        <button v-if="navigationGuard('create_product')" @click="useModalStore().openCreateProductModal()"-->
-<!--          class="w-full md:w-auto py-2 px-4 rounded-full text-white text-lg font-medium bg-blue-500 cursor-pointer hover:bg-blue-600">-->
-<!--          {{ $t('addProduct') }}-->
-<!--        </button>-->
+        <!--        <button v-if="navigationGuard('create_product')" @click="useModalStore().openCreateProductModal()"-->
+        <!--          class="w-full md:w-auto py-2 px-4 rounded-full text-white text-lg font-medium bg-blue-500 cursor-pointer hover:bg-blue-600">-->
+        <!--          {{ $t('addProduct') }}-->
+        <!--        </button>-->
       </div>
     </div>
 
