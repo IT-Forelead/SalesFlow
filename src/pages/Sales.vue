@@ -301,7 +301,40 @@ const increaseCountOfProducts = (product) => {
   })
 }
 
+const increaseCountOfPrice = (product) => {
+  activeBasket.value = activeBasket.value.map((item) => {
+    if (item.productId === product.productId) {
+      // return { ...item, amount: item.amount + 1 }
+      if (item.saleType === 'kg') {
+        return { ...item, amount: roundFloatToOneDecimal(item.amount + 0.1) }
+      } else if (item.saleType === 'litre') {
+
+        return { ...item, amount: roundFloatToOneDecimal(item.amount + 0.5) }
+      } else {
+        return { ...item, amount: item.amount + 1 }
+      }
+    } else item
+    return item
+  })
+}
+
 const reduceCountOfProducts = (product) => {
+  activeBasket.value = activeBasket.value.map((item) => {
+    if (item.productId === product.productId) {
+      // return { ...item, amount: item.amount - 1 }
+      if (item.saleType === 'kg') {
+        return { ...item, amount: roundFloatToOneDecimal(item.amount - 0.1) }
+      } else if (item.saleType === 'litre') {
+        return { ...item, amount: roundFloatToOneDecimal(item.amount - 0.5) }
+      } else {
+        return { ...item, amount: item.amount - 1 }
+      }
+    } else item
+    return item
+  })
+}
+
+const reduceCountOfPrice = (product) => {
   activeBasket.value = activeBasket.value.map((item) => {
     if (item.productId === product.productId) {
       // return { ...item, amount: item.amount - 1 }
@@ -592,8 +625,7 @@ const createDebt = () => {
 const selectP = ref()
 const inputValue = ref('0')
 
-const appendValue = (event) => {
-  const value = event.target.textContent
+const appendValue = (value) => {
   if (inputValue.value === '0') {
     if (value !== '0') {
       inputValue.value = ''
@@ -793,7 +825,31 @@ const removeLastDigit = () => {
                   </div>
                 </td>
                 <td class="px-3 py-2 text-center whitespace-nowrap">
+                  <div class="flex justify-center">
+                    <div class="flex items-center justify-between w-48 rounded-xl p-1">
+                      <div @click="reduceCountOfPrice(product)" v-if="reduceCountChecking(product)"
+                           class="flex items-center justify-center w-8 h-8 bg-white text-blue-700 shadow-sm hover:bg-slate-200 cursor-pointer rounded-xl">
+                        <MinusIcon class="w-4 h-4" />
+                      </div>
+                      <div v-else
+                           class="flex items-center justify-center w-8 h-8 bg-white text-slate-700 cursor-default rounded-xl">
+                        <MinusIcon class="w-4 h-4" />
+                      </div>
+
+                      <div class="flex items-center justify-center text-lg font-normal">
                   {{ useMoneyFormatter(product?.price * product?.amount) }}
+                      </div>
+                      <div @click="increaseCountOfPrice(product)" v-if="increaseCountChecking(product)"
+                           class="flex items-center justify-center w-8 h-8 bg-white text-blue-700 shadow-sm hover:bg-slate-200 cursor-pointer rounded-xl">
+                        <PlusIcon class="w-4 h-4" />
+                      </div>
+                      <div v-else
+                           class="flex items-center justify-center w-8 h-8 bg-white text-slate-700 cursor-default rounded-xl">
+                        <PlusIcon class="w-4 h-4" />
+                      </div>
+
+                    </div>
+                  </div>
                 </td>
                 <td class="px-3 py-2 whitespace-nowrap rounded-r-2xl">
                   <div class="flex justify-center">
@@ -991,39 +1047,39 @@ const removeLastDigit = () => {
         <div v-if="selectP && selectP != undefined" class="h-52 grid grid-cols-3 grid-rows-4 gap-2">
           <div
             class="flex items-center justify-center text-lg cursor-pointer border border-slate-400 bg-slate-100 hover:border-blue-400 hover:text-blue-400 hover:bg-blue-100 rounded-lg"
-            @click="appendValue($event)">1
+            @click="appendValue(1)">1
           </div>
           <div
             class="flex items-center justify-center text-lg cursor-pointer border border-slate-400 bg-slate-100 hover:border-blue-400 hover:text-blue-400 hover:bg-blue-100 rounded-lg"
-            @click="appendValue($event)">2
+            @click="appendValue(2)">2
           </div>
           <div
             class="flex items-center justify-center text-lg cursor-pointer border border-slate-400 bg-slate-100 hover:border-blue-400 hover:text-blue-400 hover:bg-blue-100 rounded-lg"
-            @click="appendValue($event)">3
+            @click="appendValue(3)">3
           </div>
           <div
             class="flex items-center justify-center text-lg cursor-pointer border border-slate-400 bg-slate-100 hover:border-blue-400 hover:text-blue-400 hover:bg-blue-100 rounded-lg"
-            @click="appendValue($event)">4
+            @click="appendValue(4)">4
           </div>
           <div
             class="flex items-center justify-center text-lg cursor-pointer border border-slate-400 bg-slate-100 hover:border-blue-400 hover:text-blue-400 hover:bg-blue-100 rounded-lg"
-            @click="appendValue($event)">5
+            @click="appendValue(5)">5
           </div>
           <div
             class="flex items-center justify-center text-lg cursor-pointer border border-slate-400 bg-slate-100 hover:border-blue-400 hover:text-blue-400 hover:bg-blue-100 rounded-lg"
-            @click="appendValue($event)">6
+            @click="appendValue(6)">6
           </div>
           <div
             class="flex items-center justify-center text-lg cursor-pointer border border-slate-400 bg-slate-100 hover:border-blue-400 hover:text-blue-400 hover:bg-blue-100 rounded-lg"
-            @click="appendValue($event)">7
+            @click="appendValue(7)">7
           </div>
           <div
             class="flex items-center justify-center text-lg cursor-pointer border border-slate-400 bg-slate-100 hover:border-blue-400 hover:text-blue-400 hover:bg-blue-100 rounded-lg"
-            @click="appendValue($event)">8
+            @click="appendValue(8)">8
           </div>
           <div
             class="flex items-center justify-center text-lg cursor-pointer border border-slate-400 bg-slate-100 hover:border-blue-400 hover:text-blue-400 hover:bg-blue-100 rounded-lg"
-            @click="appendValue($event)">9
+            @click="appendValue(9)">9
           </div>
           <div
             class="flex items-center justify-center text-lg cursor-pointer border border-slate-400 bg-slate-100 hover:border-blue-400 hover:text-blue-400 hover:bg-blue-100 rounded-lg"
@@ -1031,7 +1087,7 @@ const removeLastDigit = () => {
           </div>
           <div
             class="flex items-center justify-center text-lg cursor-pointer border border-slate-400 bg-slate-100 hover:border-blue-400 hover:text-blue-400 hover:bg-blue-100 rounded-lg"
-            @click="appendValue($event)">0
+            @click="appendValue(0)">0
           </div>
           <div
             class="flex items-center justify-center text-lg cursor-pointer border border-slate-400 bg-slate-100 hover:border-blue-400 hover:text-blue-400 hover:bg-blue-100 rounded-lg"
