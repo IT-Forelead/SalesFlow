@@ -1,10 +1,9 @@
 <script setup>
-import { onMounted, ref, toRefs, watch } from 'vue'
+import { computed, onMounted, ref, toRefs } from 'vue'
 import { useDropdownStore } from '../../store/dropdown.store'
 import { onClickOutside } from '@vueuse/core'
 import XIcon from '../../assets/icons/XIcon.vue'
 import ChevronRightIcon from '../../assets/icons/ChevronRightIcon.vue'
-import { computed } from 'vue'
 
 const dropdownStore = useDropdownStore()
 
@@ -72,7 +71,7 @@ const getSearchResult = (options) => {
         :placeholder="$t('search')" />
       <div @click="useDropdownStore().openAgentDropdown()"
         v-if="!useDropdownStore().isOpenAgentDropdown && !selectedOption"
-        class="border-none bg-gray-100 py-2 w-full text-lg rounded-lg cursor-pointer text-gray-500 pl-2">
+        class="border-none bg-gray-100 py-2 w-full text-lg rounded-lg cursor-pointer text-slate-500 pl-2">
         {{ $t('selectAgent') }}
       </div>
       <ChevronRightIcon @click="useDropdownStore().openAgentDropdown()" v-if="!selectedOption"
