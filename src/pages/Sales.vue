@@ -320,6 +320,7 @@ const reduceCountOfProducts = (product) => {
 const clearSearchInput = () => {
   search.value = ''
   useProductStore().clearStore()
+  onFocusSearchInput()
 }
 
 const clearSubmitData = () => {
@@ -346,54 +347,45 @@ const createOrder = () => {
         paymentReceived: submitData.paymentReceived,
         items: activeBasket.value,
       }),
-    )
-      .then((res) => {
+    ).then((res) => {
+      orderId.value = res
+      toast.success(t('saleWasMadeSuccessfully'))
+      if (boundaryPrice.value !== 0 && totalPrice.value >= boundaryPrice.value) {
         orderId.value = res
-        toast.success(t('saleWasMadeSuccessfully'))
-        if (boundaryPrice.value !== 0 && totalPrice.value >= boundaryPrice.value) {
-          orderId.value = res
-          showSale.value = true
-          onSearchFocus.value = null
-          qrcode.value = API_URL + `/customer-form/${res}`
-        } else {
-          showSale.value = false
-          qrcode.value = null
-        }
-
-        isLoading.value = false
-        clearSubmitData()
-        if (showSale.value) {
-          setTimeout(() => {
-            onSearchFocus.value = null
-          }, 3000)
-        }
-        OrderService.getOrderById(res).then((res) => {
-          printChaque({
-            cashier: res?.cashierFirstName + ' ' + res.cashierLastName,
-            discount: res?.discountPercent ?? 0,
-            discount_amount: res?.discountPrice ?? 0,
-            final_price: res?.totalPrice,
-            market: res?.marketName,
-            paid: res?.paymentReceived,
-            price: res?.initialPrice,
-            products: res?.items.map((item) => {
-              return {
-                count: item?.amount,
-                name: item?.productName,
-                packaging: item?.packaging,
-                price: item?.salePrice,
-                total: item?.price,
-              }
-            }),
-            time: moment(res?.createdAt).format('DD/MM/YYYY H:mm'),
-            qrcode: qrcode.value,
-          })
+        showSale.value = true
+        qrcode.value = API_URL + `/customer-form/${res}`
+      } else {
+        showSale.value = false
+        qrcode.value = null
+      }
+      isLoading.value = false
+      clearSubmitData()
+      OrderService.getOrderById(res).then((res) => {
+        printChaque({
+          cashier: res?.cashierFirstName + ' ' + res.cashierLastName,
+          discount: res?.discountPercent ?? 0,
+          discount_amount: res?.discountPrice ?? 0,
+          final_price: res?.totalPrice,
+          market: res?.marketName,
+          paid: res?.paymentReceived,
+          price: res?.initialPrice,
+          products: res?.items.map((item) => {
+            return {
+              count: item?.amount,
+              name: item?.productName,
+              packaging: item?.packaging,
+              price: item?.salePrice,
+              total: item?.price,
+            }
+          }),
+          time: moment(res?.createdAt).format('DD/MM/YYYY H:mm'),
+          qrcode: qrcode.value,
         })
       })
-      .catch(() => {
-        toast.error(t('errorWhileCreatingOrder'))
-        isLoading.value = false
-      })
+    }).catch(() => {
+      toast.error(t('errorWhileCreatingOrder'))
+      isLoading.value = false
+    })
   }
 }
 
@@ -428,48 +420,9 @@ const whenPressEnter = (e) => {
   }
 }
 
-watchEffect(() => {
-  if (onSearchFocus.value) {
-    onSearchFocus.value.focus()
-    onFullNameFocus.value = null
-    onPhoneFocus.value = null
-  }
-})
-watchEffect(() => {
-  if (onFullNameFocus.value) {
-    onFullNameFocus.value.focus()
-    onSearchFocus.value = null
-    onPhoneFocus.value = null
-  }
-})
-watchEffect(() => {
-  if (onPhoneFocus.value) {
-    onPhoneFocus.value.focus()
-    onSearchFocus.value = null
-    onFullNameFocus.value = null
-  }
-})
-
-const reFocus = () => {
-  if (router?.currentRoute?.value?.path === '/sales' && onSearchFocus.value) {
-    onSearchFocus.value.focus()
-  }
-}
-
-const fullNameReFocus = () => {
-  if (router?.currentRoute?.value?.path === '/sales' && onFullNameFocus.value) {
-    onFullNameFocus.value.focus()
-    onSearchFocus.value = null
-    onPhoneFocus.value = null
-  }
-}
-
-const phoneReFocus = () => {
-  if (router?.currentRoute?.value?.path === '/sales' && onPhoneFocus.value) {
-    onPhoneFocus.value.focus()
-    onSearchFocus.value = null
-    onFullNameFocus.value = null
-  }
+const onFocusSearchInput = () => {
+  const searchInput = document.getElementById('globle-search');
+  searchInput.focus();
 }
 
 watch(
@@ -513,6 +466,7 @@ watch(
 
 onMounted(() => {
   useProductStore().clearStore()
+  onFocusSearchInput()
 })
 
 const isLoadingCustomerForm = ref(false)
@@ -615,8 +569,6 @@ const separator = () => {
   } else {
     inputValue.value += '.'
   }
-
-
 }
 
 const removeLastDigit = () => {
@@ -640,22 +592,21 @@ const removeLastDigit = () => {
           <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
             <SearchIcon class="w-5 h-5 text-slate-400" />
           </div>
-          <input v-model="search" v-on:keypress="whenPressEnter($event)" type="search" ref="onSearchFocus"
-                 @blur="reFocus()"
-                 class="bg-slate-100 border-none text-slate-900 text-base md:text-lg rounded-xl block w-full h-12 pl-10 py-2 placeholder-slate-400 placeholder:text-sm md:placeholder:text-lg lg:placeholder:text-base"
-                 :placeholder="t('searchByProductNameOrBarcode')" />
+          <input id="globle-search" v-model="search" v-on:keypress="whenPressEnter($event)" type="search"
+            class="bg-slate-100 border-none text-slate-900 text-base md:text-lg rounded-xl block w-full h-12 pl-10 py-2 placeholder-slate-400 placeholder:text-sm md:placeholder:text-lg lg:placeholder:text-base"
+            :placeholder="t('searchByProductNameOrBarcode')" />
           <div v-if="search" @click="clearSearchInput()"
-               class="absolute inset-y-0 right-20 p-1 flex items-center cursor-pointer">
+            class="absolute inset-y-0 right-20 p-1 flex items-center cursor-pointer">
             <XIcon class="w-5 h-5 text-slate-600" />
           </div>
           <button @click="searchProducts()" type="button"
-                  class="absolute inset-y-0 right-0 px-4 bg-[#0167F3] text-white rounded-r-xl">
+            class="absolute inset-y-0 right-0 px-4 bg-[#0167F3] text-white rounded-r-xl">
             {{ $t('search') }}
           </button>
           <ScrollPanel v-if="products.length > 0" ref="searchProductDropdown"
-                       class="h-[500px] flex flex-row absolute top-16 left-0 bg-transparent w-full space-y-2 ">
+            class="h-[500px] flex flex-row absolute top-16 left-0 bg-transparent w-full space-y-2 ">
             <div v-for="(product, idx) in products" :key="idx" @click="addProductToCart(product)"
-                 class="flex items-center justify-between bg-white border shadow-sm rounded-xl px-3 py-2 my-2 w-full cursor-pointer hover:bg-slate-100">
+              class="flex items-center justify-between bg-white border shadow-sm rounded-xl px-3 py-2 my-2 w-full cursor-pointer hover:bg-slate-100">
               <div class="flex items-center space-x-3">
                 <div class="flex items-center justify-center bg-slate-200 w-10 h-10 rounded-lg">
                   <ImageIcon class="text-gray-500 w-8 h-8" />
@@ -685,11 +636,11 @@ const removeLastDigit = () => {
         </div>
 
         <div @click="useModalStore().openCameraScannerModal()" :title="t('barcodeScanning')"
-             class="flex items-center justify-center bg-slate-100 rounded-xl h-12 w-12 cursor-pointer">
+          class="flex items-center justify-center bg-slate-100 rounded-xl h-12 w-12 cursor-pointer">
           <BarcodeIcon class="w-6 h-6 text-blue-600" />
         </div>
         <div @click="clearSubmitData()" :title="t('clearTheBasket')"
-             class="hidden md:flex items-center justify-center bg-slate-100 rounded-xl h-12 w-12 cursor-pointer">
+          class="hidden md:flex items-center justify-center bg-slate-100 rounded-xl h-12 w-12 cursor-pointer">
           <BroomIcon class="w-5 h-5 text-blue-600" />
         </div>
       </div>
@@ -700,10 +651,10 @@ const removeLastDigit = () => {
         </div>
         <div class="flex space-x-2">
           <div v-for="(basket, idx) in baskets" :key="idx" @click="changeBasketStatus(basket.id)"
-               class="px-4 py-2 inline-flex flex-col xl:flex-row sm:flex items-center leading-none border-b-2 rounded-xl"
-               :class="activeBasketStatus === basket.id ? 'bg-slate-100 border-blue-500' : 'bg-slate-50 border-slate-200 cursor-pointer'">
+            class="px-4 py-2 inline-flex flex-col xl:flex-row sm:flex items-center leading-none border-b-2 rounded-xl"
+            :class="activeBasketStatus === basket.id ? 'bg-slate-100 border-blue-500' : 'bg-slate-50 border-slate-200 cursor-pointer'">
             <BasketIcon class="w-6 h-6 mr-2"
-                        :class="activeBasketStatus === basket.id ? 'text-blue-500 text-sm' : 'text-gray-500 text-sm'" />
+              :class="activeBasketStatus === basket.id ? 'text-blue-500 text-sm' : 'text-gray-500 text-sm'" />
             <span :class="activeBasketStatus === basket.id ? 'text-blue-500 text-sm' : 'text-gray-900 text-sm'">
               {{ basket.name }}
             </span>
@@ -716,92 +667,90 @@ const removeLastDigit = () => {
           <ScrollPanel class="w-full h-[550px] rounded-xl">
             <table class="md:min-w-full divide-y-8 divide-white">
               <thead>
-              <tr class="bg-slate-100 text-base font-semibold text-gray-900 h-12">
-                <th class="px-3 py-2 text-left rounded-l-xl text-sm md:text-base">
-                  {{ $t('product') }}
-                </th>
-                <th class="px-3 py-2 text-center text-sm md:text-base">
-                  {{ $t('serialId') }}
-                </th>
-                <th class="px-3 py-2 text-center text-sm md:text-base">
-                  {{ $t('quantity') }}
-                </th>
-                <th class="px-3 py-2 text-center text-sm md:text-base">
-                  {{ $t('totalPrice') }}
-                </th>
-                <th class="px-3 py-2 text-center text-sm md:text-base rounded-r-xl">
-                  {{ $t('actions') }}
-                </th>
-              </tr>
+                <tr class="bg-slate-100 text-base font-semibold text-gray-900 h-12">
+                  <th class="px-3 py-2 text-left rounded-l-xl text-sm md:text-base">
+                    {{ $t('product') }}
+                  </th>
+                  <th class="px-3 py-2 text-center text-sm md:text-base">
+                    {{ $t('serialId') }}
+                  </th>
+                  <th class="px-3 py-2 text-center text-sm md:text-base">
+                    {{ $t('quantity') }}
+                  </th>
+                  <th class="px-3 py-2 text-center text-sm md:text-base">
+                    {{ $t('totalPrice') }}
+                  </th>
+                  <th class="px-3 py-2 text-center text-sm md:text-base rounded-r-xl">
+                    {{ $t('actions') }}
+                  </th>
+                </tr>
               </thead>
-
               <tbody class="bg-slate-100 divide-y-8 divide-white">
-              <tr :class="{ 'bg-blue-100': selectP === product }" @click="selectProduct(product)"
+                <tr :class="{ 'bg-blue-100': selectP === product }" @click="selectProduct(product)"
                   v-for="(product, idx) in activeBasket" :key="idx" class="overflow-x-auto overflow-y-auto">
-                <td class="px-3 py-2 whitespace-nowrap rounded-l-xl">
-                  <div class="flex items-center space-x-3">
-                    <div class="flex items-center justify-center bg-slate-200 md:w-12 md:h-12 w-8 h-8 rounded-lg">
-                      <ImageIcon class="text-gray-500 w-6 h-6" />
-                    </div>
-                    <div>
-                      <div class="text-sm md:text-base font-semibold text-gray-800 max-w-full whitespace-break-spaces">
-                        {{ product?.name + ' - ' + product?.packaging }}
+                  <td class="px-3 py-2 whitespace-nowrap rounded-l-xl">
+                    <div class="flex items-center space-x-3">
+                      <div class="flex items-center justify-center bg-slate-200 md:w-12 md:h-12 w-8 h-8 rounded-lg">
+                        <ImageIcon class="text-gray-500 w-6 h-6" />
                       </div>
-                      <div class="text-sm md:text-base font-medium text-gray-500">
-                        {{ $t('price') }}:
-                        <span class="text-gray-700 text-sm md:text-base">
-                              {{ useMoneyFormatter(product?.price) }}
+                      <div>
+                        <div
+                          class="text-sm md:text-base font-semibold text-gray-800 max-w-full whitespace-break-spaces">
+                          {{ product?.name + ' - ' + product?.packaging }}
+                        </div>
+                        <div class="text-sm md:text-base font-medium text-gray-500">
+                          {{ $t('price') }}:
+                          <span class="text-gray-700 text-sm md:text-base">
+                            {{ useMoneyFormatter(product?.price) }}
+                          </span>
+                          <div v-if="product.quantity <= 15">
+                            {{ $t('remainingAmount') }}:
+                            <span class="text-red-500 text-sm md:text-base">
+                              {{ roundFloatToOneDecimal(product?.quantity - product?.amount) }}
                             </span>
-                        <div v-if="product.quantity <= 15">
-                          {{ $t('remainingAmount') }}:
-                          <span class="text-red-500 text-sm md:text-base">
-                                {{ roundFloatToOneDecimal(product?.quantity - product?.amount) }}
-                              </span>
+                          </div>
                         </div>
                       </div>
                     </div>
-                  </div>
-                </td>
-                <td class="px-3 py-2 text-center whitespace-nowrap">
-                  {{ product?.serialId }}
-                </td>
-                <td class="px-3 py-2 text-center whitespace-nowrap">
-                  <div class="flex justify-center">
-                    <div class="flex items-center justify-between w-36 rounded-xl p-1">
-                      <div @click="reduceCountOfProducts(product)" v-if="reduceCountChecking(product)"
-                           class="flex items-center justify-center w-8 h-8 bg-white text-blue-700 shadow-sm hover:bg-slate-200 cursor-pointer rounded-xl">
-                        <MinusIcon class="w-4 h-4" />
+                  </td>
+                  <td class="px-3 py-2 text-center whitespace-nowrap">
+                    {{ product?.serialId }}
+                  </td>
+                  <td class="px-3 py-2 text-center whitespace-nowrap">
+                    <div class="flex justify-center">
+                      <div class="flex items-center justify-between w-36 rounded-xl p-1">
+                        <div @click="reduceCountOfProducts(product)" v-if="reduceCountChecking(product)"
+                          class="flex items-center justify-center w-8 h-8 bg-white text-blue-700 shadow-sm hover:bg-slate-200 cursor-pointer rounded-xl">
+                          <MinusIcon class="w-4 h-4" />
+                        </div>
+                        <div v-else
+                          class="flex items-center justify-center w-8 h-8 bg-white text-slate-700 cursor-default rounded-xl">
+                          <MinusIcon class="w-4 h-4" />
+                        </div>
+                        <div class="flex items-center justify-center text-lg font-normal">
+                          {{ product?.amount + ' ' + saleTypeShortTranslate(product?.saleType) }}
+                        </div>
+                        <div @click="increaseCountOfProducts(product)" v-if="increaseCountChecking(product)"
+                          class="flex items-center justify-center w-8 h-8 bg-white text-blue-700 shadow-sm hover:bg-slate-200 cursor-pointer rounded-xl">
+                          <PlusIcon class="w-4 h-4" />
+                        </div>
+                        <div v-else
+                          class="flex items-center justify-center w-8 h-8 bg-white text-slate-700 cursor-default rounded-xl">
+                          <PlusIcon class="w-4 h-4" />
+                        </div>
                       </div>
-                      <div v-else
-                           class="flex items-center justify-center w-8 h-8 bg-white text-slate-700 cursor-default rounded-xl">
-                        <MinusIcon class="w-4 h-4" />
-                      </div>
-
-                      <div class="flex items-center justify-center text-lg font-normal">
-                        {{ product?.amount + ' ' + saleTypeShortTranslate(product?.saleType) }}
-                      </div>
-                      <div @click="increaseCountOfProducts(product)" v-if="increaseCountChecking(product)"
-                           class="flex items-center justify-center w-8 h-8 bg-white text-blue-700 shadow-sm hover:bg-slate-200 cursor-pointer rounded-xl">
-                        <PlusIcon class="w-4 h-4" />
-                      </div>
-                      <div v-else
-                           class="flex items-center justify-center w-8 h-8 bg-white text-slate-700 cursor-default rounded-xl">
-                        <PlusIcon class="w-4 h-4" />
-                      </div>
-
                     </div>
-                  </div>
-                </td>
-                <td class="px-3 py-2 text-center whitespace-nowrap">
-                  {{ useMoneyFormatter(product?.price * product?.amount) }}
-                </td>
-                <td class="px-3 py-2 whitespace-nowrap rounded-r-2xl">
-                  <div class="flex justify-center">
-                    <TrashIcon @click="$event.stopPropagation(); removeProductFromCart(product)"
-                               class="w-6 h-6 text-rose-500 cursor-pointer transform hover:scale-105" />
-                  </div>
-                </td>
-              </tr>
+                  </td>
+                  <td class="px-3 py-2 text-center whitespace-nowrap">
+                    {{ useMoneyFormatter(product?.price * product?.amount) }}
+                  </td>
+                  <td class="px-3 py-2 whitespace-nowrap rounded-r-2xl">
+                    <div class="flex justify-center">
+                      <TrashIcon @click="$event.stopPropagation(); removeProductFromCart(product)"
+                        class="w-6 h-6 text-rose-500 cursor-pointer transform hover:scale-105" />
+                    </div>
+                  </td>
+                </tr>
               </tbody>
             </table>
           </ScrollPanel>
@@ -867,7 +816,7 @@ const removeLastDigit = () => {
           {{ $t('paymentReceived') }}
         </label>
         <money3 v-model="submitData.paymentReceived" v-bind="moneyConf" id="price"
-                class="border-none text-right text-gray-500 bg-slate-100 rounded-lg w-full text-lg" disabled></money3>
+          class="border-none text-right text-gray-500 bg-slate-100 rounded-lg w-full text-lg" disabled></money3>
       </div>
       <div class="py-3 lg:py-0 space-y-1">
         <div class="text-base font-medium">
@@ -896,7 +845,7 @@ const removeLastDigit = () => {
             </div>
           </div>
           <div @click="showDebtForm = !showDebtForm" :class="showDebtForm ? 'border-blue-300 bg-blue-50' : ''"
-               class="flex-1 flex flex-col hover:border-blue-300 hover:bg-blue-50 hover:cursor-pointer items-center justify-center border rounded-lg py-4">
+            class="flex-1 flex flex-col hover:border-blue-300 hover:bg-blue-50 hover:cursor-pointer items-center justify-center border rounded-lg py-4">
             <DebtIcon class="w-6 h-6 text-gray-500" />
             <div class="text-lg font-medium">
               {{ $t('intoDebt') }}
@@ -906,40 +855,39 @@ const removeLastDigit = () => {
       </div>
       <div class="space-y-6">
         <button @click="createOrder()"
-                class="w-full xl:py-3 px-4 lg:py-2 py-3 rounded-full text-white text-lg font-medium bg-blue-500 cursor-pointer hover:bg-blue-600">
+          class="w-full xl:py-3 px-4 lg:py-2 py-3 rounded-full text-white text-lg font-medium bg-blue-500 cursor-pointer hover:bg-blue-600">
           {{ $t('payment') }}
         </button>
         <div v-if="showDebtForm" class="flex flex-col space-y-4">
           <div>
             <div class="flex flex-col items-center space-y-4">
               <div class="w-full">
-                <label for="fullName" class="text-base font-medium">
+                <label for="debtor-fullname" class="text-base font-medium">
                   {{ $t('fullName') }}
                   <span class="text-red-500 mr-2">*</span>
                 </label>
-                <input ref="onFullNameFocus" @blur="fullNameReFocus()" id="fullName" type="text"
-                       v-model="customerForm.fullName"
-                       class="bg-slate-100 border-none text-slate-900 rounded-lg w-full py-2.5 placeholder-slate-400"
-                       :placeholder="t('enterFullName')" />
+                <input v-model="customerForm.fullName" id="debtor-fullname" type="text"
+                  class="bg-slate-100 border-none text-slate-900 rounded-lg w-full py-2.5 placeholder-slate-400"
+                  :placeholder="t('enterFullName')" />
               </div>
               <div class="w-full">
-                <label for="phone" class="text-base font-medium">
+                <label for="debtor-phone" class="text-base font-medium">
                   {{ $t('phone') }}
                   <span class="text-red-500 mr-2">*</span>
                 </label>
-                <input ref="onPhoneFocus" @blur="phoneReFocus()" id="phone" type="text" v-model="customerForm.phone"
-                       v-maska data-maska="+998(##) ###-##-##"
-                       class="bg-slate-100 border-none w-full text-slate-900 rounded-lg py-2.5 placeholder-slate-400"
-                       placeholder="+998(00) 000-00-00" />
+                <input v-model="customerForm.phone" id="debtor-phone" type="text" v-maska
+                  data-maska="+998(##) ###-##-##"
+                  class="bg-slate-100 border-none w-full text-slate-900 rounded-lg py-2.5 placeholder-slate-400"
+                  placeholder="+998(00) 000-00-00" />
               </div>
             </div>
           </div>
           <div class="space-y-2">
             <CancelButton class="w-full" @click="closeDebtForm" />
             <button @click="createDebt"
-                    class="w-full xl:py-3 px-4 lg:py-2 py-3 rounded-full text-white flex items-center justify-center text-lg font-medium bg-blue-500 cursor-pointer hover:bg-blue-600">
+              class="w-full xl:py-3 px-4 lg:py-2 py-3 rounded-full text-white flex items-center justify-center text-lg font-medium bg-blue-500 cursor-pointer hover:bg-blue-600">
               <Spinners270RingIcon v-if="isLoadingDebtForm"
-                                   class="mr-2 w-5 h-5 text-gray-200 animate-spin dark:text-gray-600 fill-gray-600 dark:fill-gray-300" />
+                lass="mr-2 w-5 h-5 text-gray-200 animate-spin dark:text-gray-600 fill-gray-600 dark:fill-gray-300" />
               {{ $t('intoDebt') }}
             </button>
           </div>
@@ -950,39 +898,37 @@ const removeLastDigit = () => {
           <div>
             <div class="flex items-center space-x-4">
               <div class="flex-1">
-                <label for="fullName" class="text-base font-medium">
+                <label for="customer-fullname" class="text-base font-medium">
                   {{ $t('fullName') }}
                   <span class="text-red-500 mr-2">*</span>
                 </label>
-                <input ref="onFullNameFocus" @blur="fullNameReFocus()" id="fullName" type="text"
-                       v-model="customerForm.fullName"
-                       class="bg-slate-100 border-none text-slate-900 rounded-lg w-full py-2.5 placeholder-slate-400"
-                       :placeholder="t('enterFullName')" />
+                <input id="customer-fullname" type="text" v-model="customerForm.fullName"
+                  class="bg-slate-100 border-none text-slate-900 rounded-lg w-full py-2.5 placeholder-slate-400"
+                  :placeholder="t('enterFullName')" />
               </div>
               <div class="flex-1">
-                <label for="phone" class="text-base font-medium">
+                <label for="customer-phone" class="text-base font-medium">
                   {{ $t('phone') }}
                   <span class="text-red-500 mr-2">*</span>
                 </label>
-                <input ref="onPhoneFocus" @blur="phoneReFocus()" id="phone" type="text" v-model="customerForm.phone"
-                       v-maska data-maska="+998(##) ###-##-##"
-                       class="bg-slate-100 border-none text-slate-900 rounded-lg w-full py-2.5 placeholder-slate-400"
-                       placeholder="+998(00) 000-00-00" />
+                <input id="customer-phone" type="text" v-model="customerForm.phone" v-maska
+                  data-maska="+998(##) ###-##-##"
+                  class="bg-slate-100 border-none text-slate-900 rounded-lg w-full py-2.5 placeholder-slate-400"
+                  placeholder="+998(00) 000-00-00" />
               </div>
             </div>
           </div>
           <div>
             <CancelButton @click="closeForm" />
             <button v-if="isLoadingCustomerForm"
-                    class="inline-flex items-center justify-center ms-3 text-white bg-blue-600 focus:ring-4 focus:outline-none focus:ring-slate-300 rounded-xl border border-slate-200 text-sm font-medium px-5 py-2.5 focus:z-10 cursor-default">
+              class="inline-flex items-center justify-center ms-3 text-white bg-blue-600 focus:ring-4 focus:outline-none focus:ring-slate-300 rounded-xl border border-slate-200 text-sm font-medium px-5 py-2.5 focus:z-10 cursor-default">
               <Spinners270RingIcon
                 class="mr-2 w-5 h-5 text-gray-200 animate-spin dark:text-gray-600 fill-gray-600 dark:fill-gray-300" />
               {{ $t('create') }}
             </button>
             <button v-else @click="createSale()" type="button"
-                    class="ms-3 text-white bg-blue-500 hover:bg-blue-600 focus:ring-4 focus:outline-none focus:ring-slate-300 rounded-xl border border-slate-200 text-sm font-medium px-5 py-2.5 focus:z-10">
-              {{
-                $t('create') }}
+              class="ms-3 text-white bg-blue-500 hover:bg-blue-600 focus:ring-4 focus:outline-none focus:ring-slate-300 rounded-xl border border-slate-200 text-sm font-medium px-5 py-2.5 focus:z-10">
+              {{ $t('create') }}
             </button>
           </div>
         </div>
@@ -1035,12 +981,11 @@ const removeLastDigit = () => {
           </div>
           <div
             class="flex items-center justify-center text-lg cursor-pointer border border-slate-400 bg-slate-100 hover:border-blue-400 hover:text-blue-400 hover:bg-blue-100 rounded-lg"
-            @click="removeLastDigit()">{{ '<' }}
+            @click="removeLastDigit()">{{ '<' }} </div>
           </div>
         </div>
       </div>
     </div>
-  </div>
 </template>
 
 <style scoped></style>

@@ -1676,10 +1676,10 @@ pretty-format@^27.0.2:
     ansi-styles "^5.0.0"
     react-is "^17.0.1"
 
-primevue@^3.46.0:
-  version "3.46.0"
-  resolved "https://registry.npmjs.org/primevue/-/primevue-3.46.0.tgz"
-  integrity sha512-WGprXj9HA+j6gLLDaSxcRRSChIF99ld5fg1D3hYFA7hNiEuON1aqe83gf52vUSw8yjVMtFQ3CMPQSTYhooNwIg==
+primevue@^3.52.0:
+  version "3.52.0"
+  resolved "https://registry.npmjs.org/primevue/-/primevue-3.52.0.tgz"
+  integrity sha512-HLOVP5YI0ArFKUhIyfZsWmTNMaBYNCBWC/3DYvdd/Po4LY5/WXf7yIYvArE2q/3OuwSXJXvjlR8UNQeJYRSQog==
 
 print-js@^1.6.0:
   version "1.6.0"
