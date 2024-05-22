@@ -23,7 +23,7 @@ import ScrollPanel from 'primevue/scrollpanel'
 import SettingsService from '../../services/settings.service.js'
 import { useProductHistoryStore } from '../../store/productHistory.store.js'
 import OverlayPanel from 'primevue/overlaypanel'
-import PhPlusCircleBold from '../../assets/icons/PlusCircleIcon.vue'
+import PhUserPlus from '../../assets/icons/PlusCircleIcon.vue'
 import { vMaska } from 'maska'
 
 const { t } = useI18n()
@@ -205,15 +205,12 @@ const selectedProductBarcode = (product) => {
 }
 
 const whenPressEnter = (e) => {
-  if (e.keyCode === 13) {
-    searchProductBarcodes()
-  }
+  if (e.keyCode === 13) searchProductBarcodes()
 }
 
+
 watchEffect(() => {
-  if (onSearchFocus.value) {
-    onSearchFocus.value.focus()
-  }
+  if (onSearchFocus.value) onSearchFocus.value.focus()
 })
 
 watch(
@@ -251,15 +248,9 @@ const getAgents = () => {
   })
 }
 
-watch(
-  () => useModalStore().isOpenCreateProductModal,
-  (data) => {
-    if (data) {
-      getAgents()
-    }
-  },
-  { deep: true },
-)
+watch(() => useModalStore().isOpenCreateProductModal, data => {
+  if (data) getAgents()
+}, { deep: true })
 
 watch([() => submitData.boxPrice, () => submitData.quantity], ([newBoxPrice, newQuantity]) => {
   if (newBoxPrice > 0 && newQuantity > 0) {
@@ -307,15 +298,9 @@ const getSaleSettings = () => {
   })
 }
 
-watch(
-  [() => submitData.purchasePrice, () => submitData.boxPrice, () => !useModalStore().isOpenCreateProductModal],
-  (data) => {
-    if (data) {
-      getSaleSettings()
-    }
-  },
-  { deep: true },
-)
+watch([() => submitData.purchasePrice, () => submitData.boxPrice, () => !useModalStore().isOpenCreateProductModal], data => {
+  if (data) getSaleSettings()
+})
 
 watch([() => percentage.value, () => submitData.purchasePrice], (data) => {
   if (data) {
@@ -330,9 +315,10 @@ watch([() => percentage.value, () => submitData.purchasePrice], (data) => {
   }
 })
 
-const op = ref()
+const isOpenAgentCreatePopup = ref()
 const toggle = (event) => {
-  op.value.toggle(event)
+  isOpenAgentCreatePopup.value.toggle(event)
+  clearAgentForm()
 }
 
 const phoneRegex = /\+998[1-9][\d]{8}/
@@ -434,173 +420,177 @@ const createAgent = () => {
           </ScrollPanel>
         </div>
       </div>
-      <div class="space-y-2 md:space-y-4">
-        <div class="flex flex-col md:flex-row md:items-center space-y-2 md:space-y-0 md:space-x-4">
-          <div class="flex-1">
-            <label for="name" class="text-base md:text-lg font-medium">
-              {{ $t('productName') }}
-              <span class="text-red-500 mr-2">*</span>
-            </label>
-            <input id="name" type="text" v-model="submitData.name"
-                   class="bg-slate-100 border-none text-slate-900 rounded-lg w-full py-2.5 placeholder-slate-400 placeholder:text-sm md:placeholder:text-lg"
-                   :placeholder="t('enterProductName')">
+        <div class="space-y-2 md:space-y-4">
+          <div class="flex flex-col md:flex-row md:items-center space-y-2 md:space-y-0 md:space-x-4">
+            <div class="flex-1">
+              <label for="name" class="text-base md:text-lg font-medium">
+                {{ $t('productName') }}
+                <span class="text-red-500 mr-2">*</span>
+              </label>
+              <input id="name" type="text" v-model="submitData.name"
+                     class="bg-slate-100 border-none text-slate-900 rounded-lg w-full py-2.5 placeholder-slate-400 placeholder:text-sm md:placeholder:text-lg"
+                     :placeholder="t('enterProductName')">
+            </div>
+            <div class="flex-1">
+              <label for="barcode" class="text-base md:text-lg font-medium">
+                {{ $t('barcode') }}
+              </label>
+              <input id="barcode" type="text" v-model="submitData.barcode"
+                     class="bg-slate-100 border-none text-slate-900 rounded-lg w-full py-2.5 placeholder-slate-400 placeholder:text-sm md:placeholder:text-lg"
+                     :placeholder="t('enterProductBarcode')">
+            </div>
           </div>
-          <div class="flex-1">
-            <label for="barcode" class="text-base md:text-lg font-medium">
-              {{ $t('barcode') }}
-            </label>
-            <input id="barcode" type="text" v-model="submitData.barcode"
-                   class="bg-slate-100 border-none text-slate-900 rounded-lg w-full py-2.5 placeholder-slate-400 placeholder:text-sm md:placeholder:text-lg"
-                   :placeholder="t('enterProductBarcode')">
+          <div class="flex flex-col md:flex-row md:items-center space-y-2 md:space-y-0 md:space-x-4">
+            <div class="flex-1 space-y-1">
+              <label for="default-value" class="text-base md:text-lg font-medium">
+                {{ $t('packaging') }}
+                <span class="text-red-500 mr-2">*</span>
+              </label>
+              <input id="default-value" type="text" v-model="submitData.packaging"
+                     class="bg-slate-100 border-none text-slate-900 rounded-lg w-full h-11 placeholder-slate-400 placeholder:text-sm md:placeholder:text-lg"
+                     :placeholder="t('enterProductPackaging')">
+            </div>
+            <div class="flex-1 space-y-1">
+              <label for="default-type" class="text-base md:text-lg font-medium">
+                {{ $t('saleType') }}
+                <span class="text-red-500 mr-2">*</span>
+              </label>
+              <select id="default-type" v-model="submitData.saleType"
+                      class="bg-slate-100 border-none text-slate-900 rounded-lg text-base md:text-lg block w-full h-11">
+                <option value="" selected>{{ $t('selectType') }}</option>
+                <option value="amount">Donali</option>
+                <option value="kg">Kilogrammli</option>
+                <option value="g">Gramli</option>
+                <option value="litre">Litrli</option>
+              </select>
+            </div>
           </div>
-        </div>
-        <div class="flex flex-col md:flex-row md:items-center space-y-2 md:space-y-0 md:space-x-4">
-          <div class="flex-1 space-y-1">
-            <label for="default-value" class="text-base md:text-lg font-medium">
-              {{ $t('packaging') }}
-              <span class="text-red-500 mr-2">*</span>
-            </label>
-            <input id="default-value" type="text" v-model="submitData.packaging"
-                   class="bg-slate-100 border-none text-slate-900 rounded-lg w-full h-11 placeholder-slate-400 placeholder:text-sm md:placeholder:text-lg"
-                   :placeholder="t('enterProductPackaging')">
+          <div class="flex flex-col md:flex-row md:items-center space-y-2 md:space-y-0 md:space-x-4">
+            <div class="flex-1 space-y-1">
+              <label for="quantity" class="text-base md:text-lg font-medium">
+                {{ $t('quantity') }}
+                <span class="text-red-500 mr-2">*</span>
+              </label>
+              <input id="quantity" type="number" v-model="submitData.quantity"
+                     class="bg-slate-100 border-none text-slate-900 rounded-lg w-full h-11 placeholder-slate-400 placeholder:text-sm md:placeholder:text-lg"
+                     :placeholder="t('enterProductQuantity')">
+            </div>
+            <div class="flex-1 space-y-1">
+              <label for="boxPrice" class="text-base md:text-lg font-medium">
+                {{ $t('fullPrice') }}
+              </label>
+              <money3 v-model.number="submitData.boxPrice" v-bind="moneyConf" id="boxPrice"
+                      class="border-none text-right text-gray-500 bg-slate-100 h-11 rounded-lg w-full text-lg">
+              </money3>
+            </div>
           </div>
-          <div class="flex-1 space-y-1">
-            <label for="default-type" class="text-base md:text-lg font-medium">
-              {{ $t('saleType') }}
-              <span class="text-red-500 mr-2">*</span>
-            </label>
-            <select id="default-type" v-model="submitData.saleType"
-                    class="bg-slate-100 border-none text-slate-900 rounded-lg text-base md:text-lg block w-full h-11">
-              <option value="" selected>{{ $t('selectType') }}</option>
-              <option value="amount">Donali</option>
-              <option value="kg">Kilogrammli</option>
-              <option value="g">Gramli</option>
-              <option value="litre">Litrli</option>
-            </select>
+          <div class="flex flex-col md:flex-row md:items-center space-y-2 md:space-y-0 md:space-x-4">
+            <div class="flex-1 space-y-1">
+              <label for="purchasePrice" class="text-base md:text-lg font-medium">
+                {{ $t('purchasePrice') }}
+              </label>
+              <money3 v-model.number="submitData.purchasePrice" v-bind="moneyConf" id="purchasePrice"
+                      class="border-none text-right text-gray-500 bg-slate-100 h-11 rounded-lg w-full text-lg">
+              </money3>
+            </div>
+            <div class="flex-1 spaceSearchIcon-y-1">
+              <label for="price" class="text-base md:text-lg font-medium">
+                {{ $t('price') }}
+                <span class="text-red-500 mr-2">*</span>
+              </label>
+              <money3 v-model.number="submitData.price" v-bind="moneyConf" id="price"
+                      class="border-none text-right text-gray-500 bg-slate-100 h-11 rounded-lg w-full text-lg">
+              </money3>
+            </div>
           </div>
-        </div>
-        <div class="flex flex-col md:flex-row md:items-center space-y-2 md:space-y-0 md:space-x-4">
-          <div class="flex-1 space-y-1">
-            <label for="quantity" class="text-base md:text-lg font-medium">
-              {{ $t('quantity') }}
-              <span class="text-red-500 mr-2">*</span>
-            </label>
-            <input id="quantity" type="number" v-model="submitData.quantity"
-                   class="bg-slate-100 border-none text-slate-900 rounded-lg w-full h-11 placeholder-slate-400 placeholder:text-sm md:placeholder:text-lg"
-                   :placeholder="t('enterProductQuantity')">
+          <div class="flex flex-col md:flex-row md:items-center space-y-2 md:space-y-0 md:space-x-4">
+            <div class="flex-1 space-y-1">
+              <label for="quantity" class="text-base md:text-lg font-medium">
+                {{ $t('productionDate') }}
+              </label>
+              <input id="quantity" type="date" v-model="submitData.productionDate"
+                     class="bg-slate-100 border-none text-slate-900 rounded-lg w-full h-11 placeholder-slate-400 placeholder:text-sm md:placeholder:text-lg"
+                     :placeholder="t('enterProductQuantity')">
+            </div>
+            <div class="flex-1 spaceSearchIcon-y-1">
+              <label for="price" class="text-base md:text-lg font-medium">
+                {{ $t('expirationDate') }}
+              </label>
+              <input id="quantity" type="date" v-model="submitData.expirationDate"
+                     class="bg-slate-100 border-none text-slate-900 rounded-lg w-full h-11 placeholder-slate-400 placeholder:text-sm md:placeholder:text-lg"
+                     :placeholder="t('enterProductQuantity')">
+            </div>
           </div>
-          <div class="flex-1 space-y-1">
-            <label for="boxPrice" class="text-base md:text-lg font-medium">
-              {{ $t('fullPrice') }}
-            </label>
-            <money3 v-model.number="submitData.boxPrice" v-bind="moneyConf" id="boxPrice"
-                    class="border-none text-right text-gray-500 bg-slate-100 h-11 rounded-lg w-full text-lg">
-            </money3>
-          </div>
-        </div>
-        <div class="flex flex-col md:flex-row md:items-center space-y-2 md:space-y-0 md:space-x-4">
-          <div class="flex-1 space-y-1">
-            <label for="purchasePrice" class="text-base md:text-lg font-medium">
-              {{ $t('purchasePrice') }}
-            </label>
-            <money3 v-model.number="submitData.purchasePrice" v-bind="moneyConf" id="purchasePrice"
-                    class="border-none text-right text-gray-500 bg-slate-100 h-11 rounded-lg w-full text-lg">
-            </money3>
-          </div>
-          <div class="flex-1 spaceSearchIcon-y-1">
-            <label for="price" class="text-base md:text-lg font-medium">
-              {{ $t('price') }}
-              <span class="text-red-500 mr-2">*</span>
-            </label>
-            <money3 v-model.number="submitData.price" v-bind="moneyConf" id="price"
-                    class="border-none text-right text-gray-500 bg-slate-100 h-11 rounded-lg w-full text-lg">
-            </money3>
-          </div>
-        </div>
-        <div class="flex flex-col md:flex-row md:items-center space-y-2 md:space-y-0 md:space-x-4">
-          <div class="flex-1 space-y-1">
-            <label for="quantity" class="text-base md:text-lg font-medium">
-              {{ $t('productionDate') }}
-            </label>
-            <input id="quantity" type="date" v-model="submitData.productionDate"
-                   class="bg-slate-100 border-none text-slate-900 rounded-lg w-full h-11 placeholder-slate-400 placeholder:text-sm md:placeholder:text-lg"
-                   :placeholder="t('enterProductQuantity')">
-          </div>
-          <div class="flex-1 spaceSearchIcon-y-1">
-            <label for="price" class="text-base md:text-lg font-medium">
-              {{ $t('expirationDate') }}
-            </label>
-            <input id="quantity" type="date" v-model="submitData.expirationDate"
-                   class="bg-slate-100 border-none text-slate-900 rounded-lg w-full h-11 placeholder-slate-400 placeholder:text-sm md:placeholder:text-lg"
-                   :placeholder="t('enterProductQuantity')">
-          </div>
-        </div>
-        <div class="flex flex-col md:flex-row md:items-center space-y-2 md:space-y-0 md:space-x-4">
-          <div class="flex-1 space-y-1">
-            <label for="agents" class="text-base md:text-lg font-medium">
-              {{ $t('agents') }}
-              <span class="text-red-500 mr-2">*</span>
-            </label>
-            <SelectOptionAgent :options="agents" />
-          </div>
-            <button type="button" @click="toggle">
-              <PhPlusCircleBold class="w-9 h-9 mt-7 bg-blue-500 text-white rounded-lg p-1" />
-            </button>
-            <OverlayPanel ref="op">
-              <div class="flex flex-col space-y-3 w-[480px]">
-                <div class="flex-1">
-                  <label for="agent-fullName" class="text-base font-medium">
-                    {{ $t('fullName') }}
-                    <span class="text-red-500 mr-2">*</span>
-                  </label>
-                  <input id="agent-fullName" type="text" v-model="submitAgentForm.fullName"
-                         class="bg-slate-100 placeholder:line-clamp-2 border-none text-slate-900 rounded-lg w-full py-2.5 placeholder-slate-400"
-                         :placeholder="t('fullName')">
-                </div>
-                <div class="flex-1">
-                  <label for="phone" class="text-base font-medium">
-                    {{ $t('phone') }}
-                    <span class="text-red-500 mr-2">*</span>
-                  </label>
-                  <input id="phone" type="text" v-model="submitAgentForm.phone" v-maska data-maska="+998(##) ###-##-##"
-                         class="bg-slate-100 border-none text-slate-900 rounded-lg w-full py-2.5 placeholder-slate-400"
-                         placeholder="+998(00) 000-00-00">
-                </div>
-                <div class="flex-1">
-                  <label for="company" class="text-base font-medium">
-                    {{ $t('company') }}
-                    <span class="text-red-500 mr-2">*</span>
-                  </label>
-                  <input id="company" type="text" v-model="submitAgentForm.company"
-                         class="bg-slate-100 border-none text-slate-900 rounded-lg w-full py-2.5 placeholder-slate-400"
-                         :placeholder="t('enterCompany')">
+          <div class="flex flex-col md:flex-row md:items-center space-y-2 md:space-y-0 md:space-x-4">
+            <div class="flex-1 space-y-1 items-center">
+              <label for="agents" class="text-base md:text-lg font-medium">
+                {{ $t('agents') }}
+                <span class="text-red-500 mr-2">*</span>
+              </label>
+              <div class="flex space-x-2 space-y-1 items-center flex-row">
+                <SelectOptionAgent class="w-96 " :options="agents" />
+                <div class="h-full">
+                  <button type="button" @click="toggle">
+                    <PhUserPlus class="w-9 h-full bg-slate-100 text-slate-600 rounded-lg p-2" />
+                  </button>
+                  <OverlayPanel ref="isOpenAgentCreatePopup">
+                    <div class="flex flex-col space-y-3 w-80 md:w-96">
+                      <div class="flex-1">
+                        <label for="agent-fullName" class="text-base font-medium">
+                          {{ $t('fullName') }}
+                          <span class="text-red-500 mr-2">*</span>
+                        </label>
+                        <input id="agent-fullName" type="text" v-model="submitAgentForm.fullName"
+                               class="bg-slate-100 placeholder:line-clamp-2 border-none text-slate-900 rounded-lg w-full py-2.5 placeholder-slate-400"
+                               :placeholder="t('enterFullName')">
+                      </div>
+                      <div class="flex-1">
+                        <label for="phone" class="text-base font-medium">
+                          {{ $t('phone') }}
+                          <span class="text-red-500 mr-2">*</span>
+                        </label>
+                        <input id="phone" type="text" v-model="submitAgentForm.phone" v-maska
+                               data-maska="+998(##) ###-##-##"
+                               class="bg-slate-100 border-none text-slate-900 rounded-lg w-full py-2.5 placeholder-slate-400"
+                               placeholder="+998(00) 000-00-00">
+                      </div>
+                      <div class="flex-1">
+                        <label for="company" class="text-base font-medium">
+                          {{ $t('company') }}
+                          <span class="text-red-500 mr-2">*</span>
+                        </label>
+                        <input id="company" type="text" v-model="submitAgentForm.company"
+                               class="bg-slate-100 border-none text-slate-900 rounded-lg w-full py-2.5 placeholder-slate-400"
+                               :placeholder="t('enterCompany')">
+                      </div>
+                    </div>
+                    <div class="flex mt-3 items-center justify-end w-full">
+                      <button v-if="isLoadingAgent"
+                              class="bg-green-500 hover:bg-green-700 text-white font-bold py-1.5 px-3 rounded-md">
+                        {{ $t('loading') }}
+                      </button>
+                      <button v-else
+                              class="bg-green-500 hover:bg-green-700 text-white font-bold py-1.5 px-3 rounded-md"
+                              @click="createAgent">
+                        {{ $t('create') }}
+                      </button>
+                    </div>
+                  </OverlayPanel>
                 </div>
               </div>
-              <div class="flex mt-3 items-center justify-end w-full">
-                <button v-if="isLoadingAgent"
-                        class="bg-green-500 hover:bg-green-700 text-white font-bold py-1.5 px-3 rounded-md">
-                  {{ $t('loading') }}
-                </button>
-                <button v-else
-                        class="bg-green-500 hover:bg-green-700 text-white font-bold py-1.5 px-3 rounded-md"
-                        @click="createAgent">
-                  {{ $t('create') }}
-                </button>
+            </div>
+            <div class="flex-1 space-y-1 md:pb-0 pb-12">
+              <label for="toLend" class="text-base md:text-lg font-medium">
+                {{ $t('toLend') }}
+              </label>
+              <div class="flex items-center px-4 border border-gray-200 bg-slate-50 rounded-lg mt-2 lg:mt-0 md:mt-0">
+                <input v-model="submitData.toLend" id="toLend" type="checkbox"
+                       class="w-5 h-5 text-blue-600 border-slate-300 rounded focus:ring-blue-500 focus:ring-2 mr-2">
+                <label for="toLend" class="py-2 text-base font-medium">{{ $t('toLend') }}</label>
               </div>
-            </OverlayPanel>
-
-          <div class="flex-1 space-y-1">
-            <label for="toLend" class="text-base md:text-lg font-medium">
-              {{ $t('toLend') }}
-            </label>
-            <div class="flex items-center px-4 border border-gray-200 bg-slate-50 rounded-lg mt-2 lg:mt-0 md:mt-0">
-              <input v-model="submitData.toLend" id="toLend" type="checkbox"
-                     class="w-5 h-5 text-blue-600 border-slate-300 rounded focus:ring-blue-500 focus:ring-2 mr-2">
-              <label for="toLend" class="py-2 text-base font-medium">{{ $t('toLend') }}</label>
             </div>
           </div>
         </div>
-      </div>
     </template>
     <template v-slot:footer>
       <CancelButton @click="closeModal" />
