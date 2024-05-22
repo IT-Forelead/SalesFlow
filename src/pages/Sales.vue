@@ -592,8 +592,7 @@ const createDebt = () => {
 const selectP = ref()
 const inputValue = ref('0')
 
-const appendValue = (event) => {
-  const value = event.target.textContent
+const appendValue = (value) => {
   if (inputValue.value === '0') {
     if (value !== '0') {
       inputValue.value = ''
@@ -991,39 +990,39 @@ const removeLastDigit = () => {
         <div v-if="selectP && selectP != undefined" class="h-52 grid grid-cols-3 grid-rows-4 gap-2">
           <div
             class="flex items-center justify-center text-lg cursor-pointer border border-slate-400 bg-slate-100 hover:border-blue-400 hover:text-blue-400 hover:bg-blue-100 rounded-lg"
-            @click="appendValue($event)">1
+            @click="appendValue(1)">1
           </div>
           <div
             class="flex items-center justify-center text-lg cursor-pointer border border-slate-400 bg-slate-100 hover:border-blue-400 hover:text-blue-400 hover:bg-blue-100 rounded-lg"
-            @click="appendValue($event)">2
+            @click="appendValue(2)">2
           </div>
           <div
             class="flex items-center justify-center text-lg cursor-pointer border border-slate-400 bg-slate-100 hover:border-blue-400 hover:text-blue-400 hover:bg-blue-100 rounded-lg"
-            @click="appendValue($event)">3
+            @click="appendValue(3)">3
           </div>
           <div
             class="flex items-center justify-center text-lg cursor-pointer border border-slate-400 bg-slate-100 hover:border-blue-400 hover:text-blue-400 hover:bg-blue-100 rounded-lg"
-            @click="appendValue($event)">4
+            @click="appendValue(4)">4
           </div>
           <div
             class="flex items-center justify-center text-lg cursor-pointer border border-slate-400 bg-slate-100 hover:border-blue-400 hover:text-blue-400 hover:bg-blue-100 rounded-lg"
-            @click="appendValue($event)">5
+            @click="appendValue(5)">5
           </div>
           <div
             class="flex items-center justify-center text-lg cursor-pointer border border-slate-400 bg-slate-100 hover:border-blue-400 hover:text-blue-400 hover:bg-blue-100 rounded-lg"
-            @click="appendValue($event)">6
+            @click="appendValue(6)">6
           </div>
           <div
             class="flex items-center justify-center text-lg cursor-pointer border border-slate-400 bg-slate-100 hover:border-blue-400 hover:text-blue-400 hover:bg-blue-100 rounded-lg"
-            @click="appendValue($event)">7
+            @click="appendValue(7)">7
           </div>
           <div
             class="flex items-center justify-center text-lg cursor-pointer border border-slate-400 bg-slate-100 hover:border-blue-400 hover:text-blue-400 hover:bg-blue-100 rounded-lg"
-            @click="appendValue($event)">8
+            @click="appendValue(8)">8
           </div>
           <div
             class="flex items-center justify-center text-lg cursor-pointer border border-slate-400 bg-slate-100 hover:border-blue-400 hover:text-blue-400 hover:bg-blue-100 rounded-lg"
-            @click="appendValue($event)">9
+            @click="appendValue(9)">9
           </div>
           <div
             class="flex items-center justify-center text-lg cursor-pointer border border-slate-400 bg-slate-100 hover:border-blue-400 hover:text-blue-400 hover:bg-blue-100 rounded-lg"
@@ -1031,7 +1030,7 @@ const removeLastDigit = () => {
           </div>
           <div
             class="flex items-center justify-center text-lg cursor-pointer border border-slate-400 bg-slate-100 hover:border-blue-400 hover:text-blue-400 hover:bg-blue-100 rounded-lg"
-            @click="appendValue($event)">0
+            @click="appendValue(0)">0
           </div>
           <div
             class="flex items-center justify-center text-lg cursor-pointer border border-slate-400 bg-slate-100 hover:border-blue-400 hover:text-blue-400 hover:bg-blue-100 rounded-lg"
