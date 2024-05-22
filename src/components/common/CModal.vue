@@ -51,7 +51,7 @@ watch(() => props.isOpen, (newValue) => {
   <div v-if="isOpen || isClosing" @click="handleBackgroundClick"
        class="fixed top-0 right-0 bottom-0 left-0 z-40 backdrop-blur-[2px] bg-gray-900/70 flex justify-end"></div>
   <div
-    :class="[{ 'slide-in-right': isOpen && !isClosing, 'slide-out-right': isClosing }, ' z-50 bg-white fixed right-0  md:rounded-l-2xl shadow-xl min-h-screen w-[900px]']">
+    :class="[{ 'slide-in-right': isOpen && !isClosing, 'slide-out-right': isClosing }, 'z-50 bg-white fixed right-0  md:rounded-l-2xl shadow-xl min-h-screen md:w-[900px] w-full']">
     <!-- Modal content -->
     <!-- Modal header -->
     <div class="w-full flex items-center justify-between md:justify-start p-3 md:p-3 border-b rounded-t">
