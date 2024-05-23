@@ -25,20 +25,30 @@ class ProductService {
   async createProductBarcode(data) {
     return AxiosService.post('/product/add-barcode', data)
   }
-  async updateProduct(data){
+  async updateProduct(data) {
     return AxiosService.put('/product/update', data)
   }
-  async updateProductBarcode(data){
+  async updateProductBarcode(data) {
     return AxiosService.post('/product/update-barcode', data)
   }
-  async getProductStats(){
+  async getProductStats() {
     return AxiosService.get('/product/stats')
   }
-  async getBestSellerStats(data){
+  async getBestSellerStats(data) {
     return AxiosService.post('/product/best-seller/weekly-stats', data)
   }
-  async searchProductBarcodeByParams(data){
+  async searchProductBarcodeByParams(data) {
     return AxiosService.post('/product/barcode-search', data)
+  }
+  async uploadImage(data) {
+    return AxiosService.post('/assets', data, {
+      headers: {
+        'Content-Type': 'multipart/form-data',
+      },
+    })
+  }
+  async getUploadedImage(assetId) {
+    return AxiosService.get(`/assets/${assetId}`)
   }
 }
 

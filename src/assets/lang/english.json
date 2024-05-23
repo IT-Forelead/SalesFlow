@@ -256,5 +256,10 @@
   "errorWhileGettingSaleSettings": "Error while getting sale settings!",
   "enterPercentage": "Enter percentage",
   "cleaning": "Cleaning",
-  "plsEnterLabelCount": "Please enter label count!"
+  "plsEnterLabelCount": "Please enter label count!",
+  "image": "Image",
+  "uploadPhoto": "Upload a photo",
+  "uploadAnotherPhoto": "Upload another photo",
+  "youCanOnlyUploadPicture": "You can only upload a picture",
+  "thereWasAnErrorUploadingThePhoto!": "There was an error uploading the photo!"
 }

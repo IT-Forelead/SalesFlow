@@ -73,6 +73,15 @@ const columns = [
     cell: ({ row }) => `${parseInt(row.id, 10) + 1}`,
   },
   {
+    accessorKey: 'asset',
+    header: t('image'),
+    accessorFn: row => `${row.asset}`,
+    // cell: ({ row }) =>
+    //   h('div', { class: 'flex items-center space-x-2' }, [row.original.asset ?
+    //     h('div', [`${row.original.asset}`]) : h('span')]),
+    //     // h('img', { src: `${row.original.asset}`, class: 'w-12 h-12', alt: '#' }) : h('span')]),
+  },
+  {
     accessorKey: 'name',
     header: t('name'),
   },
