@@ -75,11 +75,10 @@ const columns = [
   {
     accessorKey: 'asset',
     header: t('image'),
-    accessorFn: row => `${row.asset}`,
-    // cell: ({ row }) =>
-    //   h('div', { class: 'flex items-center space-x-2' }, [row.original.asset ?
-    //     h('div', [`${row.original.asset}`]) : h('span')]),
-    //     // h('img', { src: `${row.original.asset}`, class: 'w-12 h-12', alt: '#' }) : h('span')]),
+    // accessorFn: row => `${row.original.asset.url}`,
+    cell: ({ row }) =>
+      h('div', { class: 'flex items-center space-x-2' }, [row.original.asset ?
+        h('img', { src: `${row.original.asset.url}`, class: 'w-12 h-12 rounded', alt: '#' }) : h('span')]),
   },
   {
     accessorKey: 'name',
