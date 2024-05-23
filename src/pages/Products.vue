@@ -76,8 +76,8 @@ const columns = [
     accessorKey: 'asset',
     header: t('image'),
     cell: ({ row }) =>
-      h('div', { class: 'flex items-center space-x-2' }, [row.original.asset ?
-        h('img', { src: `${row.original.asset.url}`, class: 'w-12 h-12 rounded', alt: '#' }) : h('span')]),
+      h('div', { class: 'flex items-center' }, [row.original.asset ?
+        h('img', { src: `${row.original.asset.url}`, class: 'w-12 h-auto rounded', alt: '#' }) : h('span')]),
   },
   {
     accessorKey: 'name',
