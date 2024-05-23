@@ -75,7 +75,6 @@ const columns = [
   {
     accessorKey: 'asset',
     header: t('image'),
-    // accessorFn: row => `${row.original.asset.url}`,
     cell: ({ row }) =>
       h('div', { class: 'flex items-center space-x-2' }, [row.original.asset ?
         h('img', { src: `${row.original.asset.url}`, class: 'w-12 h-12 rounded', alt: '#' }) : h('span')]),
