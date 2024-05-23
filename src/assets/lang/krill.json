@@ -257,5 +257,10 @@
   "errorWhileGettingSaleSettings": "Сотув созламаларни олишда хатолик юз берди!",
   "enterPercentage": "Фоиз киритинг",
   "cleaning": "Тозалаш",
-  "plsEnterLabelCount": "Ёрлиқ сонини киритинг"
+  "plsEnterLabelCount": "Ёрлиқ сонини киритинг",
+  "image": "Расми",
+  "uploadPhoto": "Фотосуратни юклаш",
+  "uploadAnotherPhoto": "Бошқа фотосурат юкланг",
+  "youCanOnlyUploadPicture": "Фақат расм юклашингиз мумкин",
+  "thereWasAnErrorUploadingThePhoto!": "Фотосурат юклашда хатолик юз берди!"
 }
