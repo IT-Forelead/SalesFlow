@@ -320,7 +320,7 @@ const reduceCountOfProducts = (product) => {
 const clearSearchInput = () => {
   search.value = ''
   useProductStore().clearStore()
-  onFocusSearchInput()
+  // onFocusSearchInput()
 }
 
 const clearSubmitData = () => {
@@ -353,6 +353,7 @@ const createOrder = () => {
       if (boundaryPrice.value !== 0 && totalPrice.value >= boundaryPrice.value) {
         orderId.value = res
         showSale.value = true
+        onSearchFocus.value = null
         qrcode.value = API_URL + `/customer-form/${res}`
       } else {
         showSale.value = false
@@ -360,6 +361,11 @@ const createOrder = () => {
       }
       isLoading.value = false
       clearSubmitData()
+      if (showSale.value) {
+        setTimeout(() => {
+          onSearchFocus.value = null
+        }, 3000)
+      }
       OrderService.getOrderById(res).then((res) => {
         printChaque({
           cashier: res?.cashierFirstName + ' ' + res.cashierLastName,
@@ -420,10 +426,54 @@ const whenPressEnter = (e) => {
   }
 }
 
-const onFocusSearchInput = () => {
-  const searchInput = document.getElementById('globle-search');
-  searchInput.focus();
+watchEffect(() => {
+  if (onSearchFocus.value) {
+    onSearchFocus.value.focus()
+    onFullNameFocus.value = null
+    onPhoneFocus.value = null
+  }
+})
+watchEffect(() => {
+  if (onFullNameFocus.value) {
+    onFullNameFocus.value.focus()
+    onSearchFocus.value = null
+    onPhoneFocus.value = null
+  }
+})
+watchEffect(() => {
+  if (onPhoneFocus.value) {
+    onPhoneFocus.value.focus()
+    onSearchFocus.value = null
+    onFullNameFocus.value = null
+  }
+})
+
+const reFocus = () => {
+  if (router?.currentRoute?.value?.path === '/sales' && onSearchFocus.value) {
+    onSearchFocus.value.focus()
+  }
 }
+
+const fullNameReFocus = () => {
+  if (router?.currentRoute?.value?.path === '/sales' && onFullNameFocus.value) {
+    onFullNameFocus.value.focus()
+    onSearchFocus.value = null
+    onPhoneFocus.value = null
+  }
+}
+
+const phoneReFocus = () => {
+  if (router?.currentRoute?.value?.path === '/sales' && onPhoneFocus.value) {
+    onPhoneFocus.value.focus()
+    onSearchFocus.value = null
+    onFullNameFocus.value = null
+  }
+}
+
+// const onFocusSearchInput = () => {
+//   const searchInput = document.getElementById('globle-search');
+//   searchInput.focus();
+// }
 
 watch(
   () => useBarcodeStore().decodedBarcode,
@@ -466,7 +516,7 @@ watch(
 
 onMounted(() => {
   useProductStore().clearStore()
-  onFocusSearchInput()
+  // onFocusSearchInput()
 })
 
 const isLoadingCustomerForm = ref(false)
@@ -592,6 +642,7 @@ const removeLastDigit = () => {
             <SearchIcon class="w-5 h-5 text-slate-400" />
           </div>
           <input id="globle-search" v-model="search" v-on:keypress="whenPressEnter($event)" type="search"
+            @blur="reFocus()" ref="onSearchFocus"
             class="bg-slate-100 border-none text-slate-900 text-base md:text-lg rounded-xl block w-full h-12 pl-10 py-2 placeholder-slate-400 placeholder:text-sm md:placeholder:text-lg lg:placeholder:text-base"
             :placeholder="t('searchByProductNameOrBarcode')" />
           <div v-if="search" @click="clearSearchInput()"
@@ -865,7 +916,8 @@ const removeLastDigit = () => {
                   {{ $t('fullName') }}
                   <span class="text-red-500 mr-2">*</span>
                 </label>
-                <input v-model="customerForm.fullName" id="debtor-fullname" type="text"
+                <input v-model="customerForm.fullName" id="debtor-fullname" type="text" ref="onFullNameFocus"
+                  @blur="fullNameReFocus()"
                   class="bg-slate-100 border-none text-slate-900 rounded-lg w-full py-2.5 placeholder-slate-400"
                   :placeholder="t('enterFullName')" />
               </div>
@@ -874,8 +926,8 @@ const removeLastDigit = () => {
                   {{ $t('phone') }}
                   <span class="text-red-500 mr-2">*</span>
                 </label>
-                <input v-model="customerForm.phone" id="debtor-phone" type="text" v-maska
-                  data-maska="+998(##) ###-##-##"
+                <input ref="onPhoneFocus" @blur="phoneReFocus()" v-model="customerForm.phone" id="debtor-phone"
+                  type="text" v-maska data-maska="+998(##) ###-##-##"
                   class="bg-slate-100 border-none w-full text-slate-900 rounded-lg py-2.5 placeholder-slate-400"
                   placeholder="+998(00) 000-00-00" />
               </div>
@@ -886,7 +938,7 @@ const removeLastDigit = () => {
             <button @click="createDebt"
               class="w-full xl:py-3 px-4 lg:py-2 py-3 rounded-full text-white flex items-center justify-center text-lg font-medium bg-blue-500 cursor-pointer hover:bg-blue-600">
               <Spinners270RingIcon v-if="isLoadingDebtForm"
-                lass="mr-2 w-5 h-5 text-gray-200 animate-spin dark:text-gray-600 fill-gray-600 dark:fill-gray-300" />
+                class="mr-2 w-5 h-5 text-gray-200 animate-spin dark:text-gray-600 fill-gray-600 dark:fill-gray-300" />
               {{ $t('intoDebt') }}
             </button>
           </div>
@@ -901,7 +953,8 @@ const removeLastDigit = () => {
                   {{ $t('fullName') }}
                   <span class="text-red-500 mr-2">*</span>
                 </label>
-                <input id="customer-fullname" type="text" v-model="customerForm.fullName"
+                <input ref="onFullNameFocus" @blur="fullNameReFocus()" id="customer-fullname" type="text"
+                  v-model="customerForm.fullName"
                   class="bg-slate-100 border-none text-slate-900 rounded-lg w-full py-2.5 placeholder-slate-400"
                   :placeholder="t('enterFullName')" />
               </div>
@@ -910,8 +963,8 @@ const removeLastDigit = () => {
                   {{ $t('phone') }}
                   <span class="text-red-500 mr-2">*</span>
                 </label>
-                <input id="customer-phone" type="text" v-model="customerForm.phone" v-maska
-                  data-maska="+998(##) ###-##-##"
+                <input ref="onPhoneFocus" @blur="phoneReFocus()" id="customer-phone" type="text"
+                  v-model="customerForm.phone" v-maska data-maska="+998(##) ###-##-##"
                   class="bg-slate-100 border-none text-slate-900 rounded-lg w-full py-2.5 placeholder-slate-400"
                   placeholder="+998(00) 000-00-00" />
               </div>
