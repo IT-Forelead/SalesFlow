@@ -211,6 +211,8 @@
   "errorWhileDeletingDebt": "Ошибка при удалении должника",
   "debtDeletedSuccessfully": "Должник успешно удален!",
   "debtInformation": "Информация о долге",
+  "maxCount": "Максимальное количество продукта ",
+  "separatorForbidden": "Разделитель запрещен",
   "serialId": "Номер продукта",
   "purchasePrice": "Начальная цена",
   "productionDate":"Дата производства ",
