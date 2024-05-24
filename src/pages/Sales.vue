@@ -73,6 +73,7 @@ const onSearchFocus = ref(null)
 const onFullNameFocus = ref(null)
 const onPhoneFocus = ref(null)
 const isLoading = ref(false)
+const isLoadingOrder = ref(false)
 // const selectedProducts = ref([])
 const activeBasketStatus = ref('firstBasket')
 const activeBasket = ref([])
@@ -340,7 +341,7 @@ const createOrder = () => {
   if (activeBasket.value.length === 0) {
     toast.error('Tanlangan mahsulotlar mavjud emas!')
   } else {
-    isLoading.value = true
+    isLoadingOrder.value = true
     OrderService.createOrder(
       cleanObjectEmptyFields({
         discountPercent: submitData.discountPercent,
@@ -359,7 +360,7 @@ const createOrder = () => {
         showSale.value = false
         qrcode.value = null
       }
-      isLoading.value = false
+      isLoadingOrder.value = false
       clearSubmitData()
       if (showSale.value) {
         setTimeout(() => {
@@ -390,7 +391,7 @@ const createOrder = () => {
       })
     }).catch(() => {
       toast.error(t('errorWhileCreatingOrder'))
-      isLoading.value = false
+      isLoadingOrder.value = false
     })
   }
 }
@@ -904,8 +905,14 @@ const removeLastDigit = () => {
         </div>
       </div>
       <div class="space-y-6">
-        <button @click="createOrder()"
+        <button v-if="!isLoadingOrder" @click="createOrder()"
           class="w-full xl:py-3 px-4 lg:py-2 py-3 rounded-full text-white text-lg font-medium bg-blue-500 cursor-pointer hover:bg-blue-600">
+          {{ $t('payment') }}
+        </button>
+        <button v-else
+          class="flex items-center justify-center w-full xl:py-3 px-4 lg:py-2 py-3 rounded-full text-white text-lg font-medium bg-blue-600">
+          <Spinners270RingIcon
+            class="mr-2 w-5 h-5 text-gray-200 animate-spin dark:text-gray-600 fill-gray-600 dark:fill-gray-300" />
           {{ $t('payment') }}
         </button>
         <div v-if="showDebtForm" class="flex flex-col space-y-4">
