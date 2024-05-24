@@ -199,14 +199,14 @@ const addProductToCart = (product, amount) => {
       }
     })
   } else {
-    if (product.quantity > 0) {
+    if (product.quantity - product?.sold > 0) {
       if (amount) {
         activeBasket.value.push({
           productId: product?.id,
           name: product?.name,
           packaging: product?.packaging,
           price: product?.price,
-          quantity: product?.quantity,
+          quantity: product?.quantity - product?.sold,
           saleType: product?.saleType,
           amount: amount,
           serialId: product?.serialId,
@@ -217,7 +217,7 @@ const addProductToCart = (product, amount) => {
           name: product?.name,
           packaging: product?.packaging,
           price: product?.price,
-          quantity: product?.quantity,
+          quantity: product?.quantity - product?.sold,
           saleType: product?.saleType,
           amount: 0.1,
           serialId: product?.serialId,
@@ -228,7 +228,7 @@ const addProductToCart = (product, amount) => {
           name: product?.name,
           packaging: product?.packaging,
           price: product?.price,
-          quantity: product?.quantity,
+          quantity: product?.quantity - product?.sold,
           saleType: product?.saleType,
           amount: 0.5,
         })
@@ -238,7 +238,7 @@ const addProductToCart = (product, amount) => {
           name: product?.name,
           packaging: product?.packaging,
           price: product?.price,
-          quantity: product?.quantity,
+          quantity: product?.quantity - product?.sold,
           saleType: product?.saleType,
           amount: 1,
           serialId: product?.serialId,
@@ -677,7 +677,7 @@ const removeLastDigit = () => {
                 <div class="text-base font-medium text-gray-500">
                   {{ $t('quantity') }}:
                   <span class="text-gray-700">
-                    {{ product?.quantity }}
+                    {{ product?.quantity - product?.sold }}
                   </span>
                 </div>
               </div>
