@@ -211,6 +211,8 @@
   "debtDeletedSuccessfully": "Debt deleted successfully!",
   "errorWhileDeletingDebt": "Error while deleting debt!",
   "debtInformation": "Debt information",
+  "maxCount": "Max count products is ",
+  "separatorForbidden": "This product must be countable",
   "serialId": "Product number",
   "productionDate": "Production Date",
   "expirationDate": "Expiration Date",

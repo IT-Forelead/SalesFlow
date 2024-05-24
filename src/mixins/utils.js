@@ -45,3 +45,7 @@ export function shortenNumber(num) {
 export function roundFloatToOneDecimal(num) {
   return parseFloat((num).toFixed(1))
 }
+
+export function roundFloatToTwoDecimal(num) {
+  return parseFloat((num).toFixed(2))
+}
