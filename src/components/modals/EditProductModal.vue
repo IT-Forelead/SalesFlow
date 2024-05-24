@@ -39,7 +39,7 @@ const submitData = reactive({
   packaging: '',
   saleType: 0,
   image: null,
-  assetId: '',
+  assetId: null,
 })
 
 const clearSubmitData = () => {
@@ -49,7 +49,7 @@ const clearSubmitData = () => {
   submitData.packaging = ''
   submitData.saleType = 0
   submitData.image = null
-  submitData.assetId = ''
+  submitData.assetId = null
 }
 
 const closeModal = () => {
@@ -81,7 +81,6 @@ const updateProduct = () => {
   }).catch(() => {
     toast.error(t('errorWhileEditingProduct'))
     isLoading.value = false
-    closeModal()
   })
 }
 
@@ -128,6 +127,7 @@ watch(
       submitData.barcode = data?.barcode
       submitData.packaging = data?.packaging
       submitData.saleType = data?.saleType
+      submitData.assetId = data?.assetId
     }
   },
   { deep: true }
