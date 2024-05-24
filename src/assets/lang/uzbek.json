@@ -212,7 +212,7 @@
   "debtDeletedSuccessfully": "Qarzdorlik muvaffaqiyatli o'chirildi!",
   "errorWhileDeletingDebt": "Qarzdorlikni o'chirishda xatolik yuz berdi!",
   "maxCount": "Mahsulotning maksimal soni ",
-  "separatorForbidden": "Bu mahsulot butun bo'lishi kerak",
+  "separatorForbidden": "Bu mahsulot sanaladigan bo'lishi kerak",
   "serialId": "Mahsulot raqami",
   "purchasePrice": "Boshlang'ich narxi",
   "productionDate":"Ishlab chiqarilgan sanasi",

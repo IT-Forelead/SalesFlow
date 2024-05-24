@@ -212,7 +212,7 @@
   "errorWhileDeletingDebt": "Error while deleting debt!",
   "debtInformation": "Debt information",
   "maxCount": "Max count products is ",
-  "separatorForbidden": "Bu mahsulot butun bo'lishi kerak",
+  "separatorForbidden": "This product must be countable",
   "serialId": "Product number",
   "productionDate": "Production Date",
   "expirationDate": "Expiration Date",

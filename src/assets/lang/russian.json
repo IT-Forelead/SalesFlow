@@ -212,7 +212,7 @@
   "debtDeletedSuccessfully": "Должник успешно удален!",
   "debtInformation": "Информация о долге",
   "maxCount": "Максимальное количество продукта ",
-  "separatorForbidden": "Разделитель запрещен",
+  "separatorForbidden": "Этот продукт должен быть счетным",
   "serialId": "Номер продукта",
   "purchasePrice": "Начальная цена",
   "productionDate":"Дата производства ",
