@@ -26,6 +26,7 @@ export const useModalStore = defineStore('modal', {
     isOpenBarcodeScannerModal: false,
     isOpenDeleteDebtorModal: false,
     isOpenDebtInfoModal: false,
+    isOpenUploadImageToProductModal: false,
   }),
   actions: {
     openCreateProductBarcodeModal() {
@@ -153,6 +154,12 @@ export const useModalStore = defineStore('modal', {
     },
     closeDebtInfoModal() {
       this.isOpenDebtInfoModal = false
+    },
+    openUploadImageToProductModal() {
+      this.isOpenUploadImageToProductModal = true
+    },
+    closeUploadImageToProductModal() {
+      this.isOpenUploadImageToProductModal = false
     },
     toggleNotification() {
       this.isOpenNotification = !this.isOpenNotification

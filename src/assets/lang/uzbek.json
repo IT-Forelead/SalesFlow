@@ -259,5 +259,10 @@
   "errorWhileGettingSaleSettings": "Sotuv sozlamalarni olishda xatolik yuz berdi!",
   "enterPercentage": "Foiz kiriting",
   "cleaning": "Tozalash",
-  "plsEnterLabelCount": "Yorliqlar sonini kiriting"
+  "plsEnterLabelCount": "Yorliqlar sonini kiriting",
+  "image": "Rasmi",
+  "uploadPhoto": "Fotosuratni yuklash",
+  "uploadAnotherPhoto": "Boshqa fotosurat yuklang",
+  "youCanOnlyUploadPicture": "Faqat rasm yuklashingiz mumkin",
+  "thereWasAnErrorUploadingThePhoto!": "Fotosurat yuklashda xatolik yuz berdi!"
 }

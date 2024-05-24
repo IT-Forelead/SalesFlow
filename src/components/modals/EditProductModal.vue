@@ -9,11 +9,14 @@ import ProductService from '../../services/product.service.js'
 import { computed, reactive, ref, watch } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { useRoute } from 'vue-router'
+import ImageIcon from '../../assets/icons/ImageIcon.vue'
 
 const { t } = useI18n()
 const route = useRoute()
-const isLoading = ref(false)
 const productStore = useProductStore()
+
+const isLoading = ref(false)
+const selectedImage = ref('')
 
 const selectedProduct = computed(() => {
   return productStore.selectedProduct
@@ -35,6 +38,8 @@ const submitData = reactive({
   barcode: 0,
   packaging: '',
   saleType: 0,
+  image: null,
+  assetId: '',
 })
 
 const clearSubmitData = () => {
@@ -43,12 +48,41 @@ const clearSubmitData = () => {
   submitData.barcode = 0
   submitData.packaging = ''
   submitData.saleType = 0
+  submitData.image = null
+  submitData.assetId = ''
 }
 
 const closeModal = () => {
   useModalStore().closeEditProductModal()
   useProductStore().setSelectedProduct({})
   clearSubmitData()
+}
+
+const updateProduct = () => {
+  ProductService.updateProduct({
+    id: submitData.id,
+    name: submitData.name,
+    assetId: submitData.assetId,
+    barcode: submitData.barcode,
+    packaging: submitData.packaging,
+    saleType: submitData.saleType,
+  }).then(() => {
+    toast.success(t('productEditedSuccessfully'))
+    ProductService.getProducts({ limit: 30, page: currentPage.value, name: route.query.search })
+      .then((res) => {
+        productStore.clearStore()
+        productStore.setProducts(res.data)
+      })
+      .catch((err) => {
+        toast.error(err.message)
+      })
+    isLoading.value = false
+    closeModal()
+  }).catch(() => {
+    toast.error(t('errorWhileEditingProduct'))
+    isLoading.value = false
+    closeModal()
+  })
 }
 
 const editProduct = () => {
@@ -62,31 +96,27 @@ const editProduct = () => {
     toast.warning(t('plsSelectSaleType'))
   } else {
     isLoading.value = true
-    ProductService.updateProduct({
-      id: submitData.id,
-      name: submitData.name,
-      barcode: submitData.barcode,
-      packaging: submitData.packaging,
-      saleType: submitData.saleType,
-    }).then(() => {
-      toast.success(t('productEditedSuccessfully'))
-      ProductService.getProducts({limit:30, page:currentPage.value, name: route.query.search})
+    const formData = new FormData()
+    if (submitData.image) {
+      formData.append('image', submitData.image)
+      ProductService.uploadImage(formData)
         .then((res) => {
-          productStore.clearStore()
-          productStore.setProducts(res.data)
+          submitData.assetId = res
+          updateProduct()
         })
         .catch((err) => {
-          toast.error(err.message)
+          toast.error(t('thereWasAnErrorUploadingThePhoto'))
+          isLoading.value = false
         })
-      isLoading.value = false
-      closeModal()
-    })
-      .catch(() => {
-        toast.error(t('errorWhileEditingProduct'))
-        isLoading.value = false
-        closeModal()
-      })
+    } else updateProduct()
   }
+}
+
+function getImage(e) {
+  if (e.target.files[0].type.includes('image')) {
+    submitData.image = e.target.files[0]
+    selectedImage.value = URL.createObjectURL(submitData.image)
+  } else toast.warning(t('youCanOnlyUploadPicture'))
 }
 
 watch(
@@ -112,6 +142,26 @@ watch(
     </template>
     <template v-slot:body>
       <div class="space-y-4">
+        <div class="flex flex-col p-5 mb-12">
+          <label v-if="!submitData.image" for="dropzone-file"
+            class="relative flex items-center justify-center w-28 h-28 max-w-lg p-6 mx-auto text-center border-2 border-blue-400 border-dashed rounded-lg cursor-pointer bg-slate-100">
+            <ImageIcon class="w-12 h-12 text-blue-700" />
+            <input id="dropzone-file" type="file" class="hidden" name="image" @change="getImage" />
+            <span
+              class="absolute mx-auto mt-3 text-lg font-semibold tracking-wide text-blue-500 -bottom-10 whitespace-nowrap">
+              {{ $t('uploadPhoto') }}
+            </span>
+          </label>
+          <label v-else for="dropzone-file"
+            class="relative flex items-center justify-center w-28 h-28 max-w-lg mx-auto text-center border-2 rounded-lg cursor-pointer">
+            <img :src="selectedImage" class="object-cover w-28 h-28 rounded-lg" alt="#" />
+            <input id="dropzone-file" type="file" class="hidden" name="image" @change="getImage" />
+            <span
+              class="absolute mx-auto mt-3 text-lg font-semibold tracking-wide text-blue-500 -bottom-10 whitespace-nowrap">
+              {{ $t('uploadAnotherPhoto') }}
+            </span>
+          </label>
+        </div>
         <div class="flex items-center space-x-4">
           <div class="flex-1">
             <label for="name" class="text-base md:text-lg font-medium">

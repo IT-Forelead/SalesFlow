@@ -9,6 +9,7 @@ import StoreIcon from '../assets/icons/StoreIcon.vue'
 import SunIcon from '../assets/icons/SunIcon.vue'
 import { useRouter } from 'vue-router'
 import { useI18n } from 'vue-i18n'
+import { toast } from 'vue-sonner'
 import decodeJwt, { parseJwt } from '../mixins/utils';
 import { useSidebarStore } from '../store/sidebar.store'
 import ProfileDropDown from './ProfileDropDown.vue'
@@ -18,11 +19,18 @@ import SettingsIcon from '../assets/icons/SettingsIcon.vue'
 import CaretDownIcon from '../assets/icons/CaretDownIcon.vue'
 import SelectOptionLanguage from './inputs/SelectOptionLanguage.vue'
 import PhUsersThree from '../assets/icons/UsersThreeIcon.vue'
+import OverlayPanel from 'primevue/overlaypanel';
 
 const { t } = useI18n()
 const router = useRouter()
 
 const payload = ref({})
+const wishToBuyProductName = ref('')
+const wishToBuyProductModal = ref()
+
+const toggleWishToBuyProductModal = (event) => {
+  wishToBuyProductModal.value.toggle(event);
+}
 
 const selectPage = () => {
   useSidebarStore().isOpenSidebar = false
@@ -36,6 +44,21 @@ const closeSidebar = (event) => {
 
 const navigationGuard = (access) => {
   return payload.value?.privileges?.includes(access)
+}
+
+const createWishToBuyProduct = () => {
+  if (!wishToBuyProductName.value) {
+    toast.warning(t('plsEnterProductName'))
+  } else {
+    toast.success("Mahsulot muoffaqiyatli qo'shildi!")
+    toggleWishToBuyProductModal()
+  }
+}
+
+const whenPressEnter = (e) => {
+  if (e.keyCode === 13) {
+    createWishToBuyProduct()
+  }
 }
 
 onMounted(() => {
@@ -91,7 +114,8 @@ onMounted(() => {
               {{ $t('products') }}
             </div>
           </router-link>
-          <router-link v-if="navigationGuard('view_histories')" to="/product-histories" @click="selectPage()" active-class="active"
+          <router-link v-if="navigationGuard('view_histories')" to="/product-histories" @click="selectPage()"
+            active-class="active"
             class="relative h-10 flex items-center w-full hover:bg-blue-300/10 hover:text-blue-600 py-5 text-zinc-400 text-lg font-medium space-x-4 cursor-pointer transition-colors duration-300">
             <div class="w-1.5 h-12 rounded-r-xl first-child-bg-color mr-2"></div>
             <div class="flex items-center justify-center rounded-xl w-10 h-10 second-child-bg-color">
@@ -153,9 +177,8 @@ onMounted(() => {
               {{ $t('saleSettings') }}
             </div>
           </router-link>
-          <router-link v-if="navigationGuard('view_settings')" to="/debtors" @click="selectPage()"
-                       active-class="active"
-                       class="relative h-10 flex items-center w-full hover:bg-blue-300/10 hover:text-blue-600 py-7 text-zinc-400 text-lg font-medium space-x-4 cursor-pointer transition-colors duration-300">
+          <router-link v-if="navigationGuard('view_settings')" to="/debtors" @click="selectPage()" active-class="active"
+            class="relative h-10 flex items-center w-full hover:bg-blue-300/10 hover:text-blue-600 py-7 text-zinc-400 text-lg font-medium space-x-4 cursor-pointer transition-colors duration-300">
             <div class="w-1.5 h-12 rounded-r-xl first-child-bg-color mr-2"></div>
             <div class="flex items-center justify-center rounded-xl w-10 h-10 second-child-bg-color">
               <DebtIcon class="w-6 h-6" />
@@ -164,9 +187,8 @@ onMounted(() => {
               {{ $t('debtors') }}
             </div>
           </router-link>
-          <router-link v-if="navigationGuard('view_agents')" to="/agents" @click="selectPage()"
-                       active-class="active"
-                       class="relative h-10 flex items-center w-full hover:bg-blue-300/10 hover:text-blue-600 py-7 text-zinc-400 text-lg font-medium space-x-4 cursor-pointer transition-colors duration-300">
+          <router-link v-if="navigationGuard('view_agents')" to="/agents" @click="selectPage()" active-class="active"
+            class="relative h-10 flex items-center w-full hover:bg-blue-300/10 hover:text-blue-600 py-7 text-zinc-400 text-lg font-medium space-x-4 cursor-pointer transition-colors duration-300">
             <div class="w-1.5 h-12 rounded-r-xl first-child-bg-color mr-2"></div>
             <div class="flex items-center justify-center rounded-xl w-10 h-10 second-child-bg-color">
               <PhUsersThree class="w-6 h-6" />
@@ -178,9 +200,23 @@ onMounted(() => {
         </div>
       </div>
       <div class="absolute bottom-0 w-full mb-3 space-y-4">
+        <div class="px-4">
+          <button @click="toggleWishToBuyProductModal"
+            class="w-full py-2 px-4 rounded-lg text-white text-base bg-blue-500 cursor-pointer hover:bg-blue-600">
+            Istak qo'shish
+          </button>
+          <OverlayPanel ref="wishToBuyProductModal">
+            <div class="w-96">
+              <input v-model="wishToBuyProductName" id="login" type="text" v-on:keypress="whenPressEnter($event)"
+                class="bg-slate-100 border-none text-slate-900 rounded-lg w-full py-2.5 placeholder-slate-400"
+                :placeholder="t('enterProductName')">
+            </div>
+          </OverlayPanel>
+        </div>
         <div class="flex items-center space-x-3 px-4">
           <SelectOptionLanguage />
-          <div class="flex-1 flex items-center justify-between rounded-lg bg-white p-2 cursor-pointer hover:bg-gray-100">
+          <div
+            class="flex-1 flex items-center justify-between rounded-lg bg-white p-2 cursor-pointer hover:bg-gray-100">
             <div class="flex items-center space-x-1">
               <SunIcon class="w-5 h-5 text-gray-500" />
               <span>Light</span>

@@ -259,5 +259,10 @@
   "errorWhileGettingSaleSettings": "Ошибка при получении настроек продаж!",
   "enterPercentage": "Введите процент",
   "cleaning": "Очистка",
-  "plsEnterLabelCount": "Введите количество меток"
+  "plsEnterLabelCount": "Введите количество меток",
+  "image": "Изображение",
+  "uploadPhoto": "Загрузить фотографию",
+  "uploadAnotherPhoto": "Загрузить еще одну фотографию",
+  "youCanOnlyUploadPicture": "Вы можете загрузить только изображение",
+  "thereWasAnErrorUploadingThePhoto!": "При загрузке фотографии произошла ошибка!"
 }
