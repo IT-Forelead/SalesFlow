@@ -4,6 +4,7 @@ import { vMaska } from 'maska'
 import { toast } from 'vue-sonner'
 import { useRouter } from 'vue-router'
 import { cleanObjectEmptyFields, roundFloatToOneDecimal } from '../mixins/utils'
+import { roundFloatToTwoDecimal } from '../mixins/utils'
 import ImageIcon from '../assets/icons/ImageIcon.vue'
 import MinusIcon from '../assets/icons/MinusIcon.vue'
 import PlusIcon from '../assets/icons/PlusIcon.vue'
@@ -292,7 +293,6 @@ const increaseCountOfProducts = (product) => {
       if (item.saleType === 'kg') {
         return { ...item, amount: roundFloatToOneDecimal(item.amount + 0.1) }
       } else if (item.saleType === 'litre') {
-
         return { ...item, amount: roundFloatToOneDecimal(item.amount + 0.5) }
       } else {
         return { ...item, amount: item.amount + 1 }
@@ -312,6 +312,65 @@ const reduceCountOfProducts = (product) => {
         return { ...item, amount: roundFloatToOneDecimal(item.amount - 0.5) }
       } else {
         return { ...item, amount: item.amount - 1 }
+      }
+    } else item
+    return item
+  })
+}
+
+const reducePriceChecking = (product) => {
+  // return product.price * product.amount - 500 >= product.price
+  if (product.saleType === 'kg') {
+   return product.amount != 0.1
+  } else if (product.saleType === 'litre') {
+
+   return product.amount > 0.5
+  } else {
+   return product.amount != 1
+  }
+}
+
+const increasePriceChecking = (product) => {
+  return product.price * product.quantity != product.price * product.amount
+}
+
+const increaseCountOfPrice = (product) => {
+  let selectProductSum = product.price * product.amount
+  activeBasket.value = activeBasket.value.map((item) => {
+    if (item.productId === product.productId) {
+      // return { ...item, amount: item.amount + 1 }
+      if (item.saleType != 'amount') {
+        selectProductSum = Math.floor(selectProductSum / 500) * 500 + 500
+        if ((selectProductSum / item.price) > product.quantity) {
+          selectProductSum = item.price * item.amount
+        }
+        return { ...item, amount: (selectProductSum / item.price) }
+      } else {
+        item
+      }
+    } else item
+    return item
+  })
+}
+
+const reduceCountOfPrice = (product) => {
+  let selectProductSum = product.price * product.amount
+  activeBasket.value = activeBasket.value.map((item) => {
+    if (item.productId === product.productId) {
+      // return { ...item, amount: item.amount - 1 }
+      if (item.saleType != 'amount') {
+        selectProductSum = Math.ceil(selectProductSum / 500) * 500 - 500
+          if (product.saleType === 'kg' && selectProductSum < item.price * 0.1) {
+            selectProductSum = item.price * 0.1
+          } else if (product.saleType === 'litre' && selectProductSum < item.price * 0.5) {
+
+            selectProductSum = item.price * 0.5
+          } else if (product.saleType === 'amount' && selectProductSum < item.price) {
+            selectProductSum = item.price
+          }
+          return { ...item, amount: (selectProductSum / item.price) }
+      } else {
+        item
       }
     } else item
     return item
@@ -599,7 +658,7 @@ const inputValue = ref('0')
 
 const appendValue = (value) => {
   if (inputValue.value === '0') {
-    if (value !== '0') {
+    if (value != '0') {
       inputValue.value = ''
     } else {
       return
@@ -609,13 +668,13 @@ const appendValue = (value) => {
     inputValue.value += value.toString()
     selectP.value.amount = parseFloat(inputValue.value)
   } else {
-    toast.warning('max count is ' + selectP.value.quantity)
+    toast.warning(t('maxCount') + selectP.value.quantity + ' ' + saleTypeShortTranslate(selectP.value.saleType))
   }
 }
 
 const separator = () => {
   if (selectP.value.saleType === 'amount') {
-    toast.warning('comma is forbidden')
+    toast.warning(t('separatorForbidden'))
   } else {
     inputValue.value += '.'
   }
@@ -779,7 +838,7 @@ const removeLastDigit = () => {
                           <MinusIcon class="w-4 h-4" />
                         </div>
                         <div class="flex items-center justify-center text-lg font-normal">
-                          {{ product?.amount + ' ' + saleTypeShortTranslate(product?.saleType) }}
+                          {{ roundFloatToTwoDecimal(product?.amount)+ ' ' + saleTypeShortTranslate(product?.saleType) }}
                         </div>
                         <div @click="increaseCountOfProducts(product)" v-if="increaseCountChecking(product)"
                           class="flex items-center justify-center w-8 h-8 bg-white text-blue-700 shadow-sm hover:bg-slate-200 cursor-pointer rounded-xl">
@@ -793,7 +852,31 @@ const removeLastDigit = () => {
                     </div>
                   </td>
                   <td class="px-3 py-2 text-center whitespace-nowrap">
-                    {{ useMoneyFormatter(product?.price * product?.amount) }}
+                    <div class="flex justify-center">
+                    <div class="flex items-center justify-between w-48 rounded-xl p-1">
+                      <div @click="reduceCountOfPrice(product)" v-if="reducePriceChecking(product)"
+                           class="flex items-center justify-center w-8 h-8 bg-white text-blue-700 shadow-sm hover:bg-slate-200 cursor-pointer rounded-xl">
+                        <MinusIcon class="w-4 h-4" />
+                      </div>
+                      <div v-else
+                           class="flex items-center justify-center w-8 h-8 bg-white text-slate-700 cursor-default rounded-xl">
+                        <MinusIcon class="w-4 h-4" />
+                      </div>
+
+                      <div class="flex items-center justify-center text-lg font-normal">
+                  {{ useMoneyFormatter(product?.price * product?.amount) }}
+                      </div>
+                      <div @click="increaseCountOfPrice(product)" v-if="increasePriceChecking(product)"
+                           class="flex items-center justify-center w-8 h-8 bg-white text-blue-700 shadow-sm hover:bg-slate-200 cursor-pointer rounded-xl">
+                        <PlusIcon class="w-4 h-4" />
+                      </div>
+                      <div v-else
+                           class="flex items-center justify-center w-8 h-8 bg-white text-slate-700 cursor-default rounded-xl">
+                        <PlusIcon class="w-4 h-4" />
+                      </div>
+
+                    </div>
+                  </div>
                   </td>
                   <td class="px-3 py-2 whitespace-nowrap rounded-r-2xl">
                     <div class="flex justify-center">
