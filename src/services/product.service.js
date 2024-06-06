@@ -25,6 +25,9 @@ class ProductService {
   async createProductBarcode(data) {
     return AxiosService.post('/product/add-barcode', data)
   }
+  async sendChannel(data) {
+    return AxiosService.post('/product/send-channel', data)
+  }
   async updateProduct(data) {
     return AxiosService.put('/product/update', data)
   }
