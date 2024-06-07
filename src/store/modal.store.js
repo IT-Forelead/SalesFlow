@@ -27,8 +27,15 @@ export const useModalStore = defineStore('modal', {
     isOpenDeleteDebtorModal: false,
     isOpenDebtInfoModal: false,
     isOpenUploadImageToProductModal: false,
+    isOpenCreateTelegramBotModal: false,
   }),
   actions: {
+    openCreateTelegramBotModal() {
+      this.isOpenCreateTelegramBotModal = true
+    },
+    closeCreateTelegramBotModal() {
+      this.isOpenCreateTelegramBotModal = false
+    },
     openCreateProductBarcodeModal() {
       this.isOpenCreateProductBarcodeModal = true
     },

@@ -268,5 +268,17 @@
   "uploadPhoto": "Загрузить фотографию",
   "uploadAnotherPhoto": "Загрузить еще одну фотографию",
   "youCanOnlyUploadPicture": "Вы можете загрузить только изображение",
-  "thereWasAnErrorUploadingThePhoto!": "При загрузке фотографии произошла ошибка!"
+  "thereWasAnErrorUploadingThePhoto!": "При загрузке фотографии произошла ошибка!",
+  "telegramBots": "Телеграм боты",
+  "addBot": "Добавить бота",
+  "botType": "Тип бота",
+  "chatId": "Чат ИД",
+  "token": "Токен",
+  "enterChatId": "Введите чат ИД",
+  "enterBotToken": "Введите токен бота",
+  "plsSelectBotType": "Выберите тип бота",
+  "plsEnterBotToken": "Введите токен бота",
+  "botSuccessfullyAdded": "Бот успешно добавлен!",
+  "errorWhileCreatingBot": "Ошибка при создании бота",
+  "status": "Статус"
 }
