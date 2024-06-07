@@ -13,11 +13,10 @@ import XIcon from '../assets/icons/XIcon.vue'
 import { isBarcode } from '../mixins/barcodeFormatter'
 import useMoneyFormatter from '../mixins/currencyFormatter.js'
 import { cleanObjectEmptyFields } from '../mixins/utils'
-import ProductHistoryService from '../services/productHistory.service'
 import ProductService from '../services/product.service'
 import { useBarcodeStore } from '../store/barcode.store'
 import { useModalStore } from '../store/modal.store'
-import { useProductHistoryStore } from '../store/productHistory.store'
+import { useProductStore } from '../store/product.store'
 import { Money3 } from 'v-money3'
 
 const { t } = useI18n()
@@ -35,9 +34,9 @@ const searchProductDropdown = ref(null)
 const search = ref('')
 const onSearchFocus = ref(null)
 const isLoading = ref(false)
-const productHistoryStore = useProductHistoryStore()
+const productStore = useProductStore()
 const products = computed(() => {
-  return productHistoryStore.productHistories
+  return productStore.products
 })
 
 onClickOutside(searchProductDropdown, () => {
@@ -50,7 +49,7 @@ const searchProducts = () => {
   } else {
     isLoading.value = true
     if (isBarcode(search.value)) {
-      ProductHistoryService.getProductHistories(
+      ProductService.getProductsDetails(
         cleanObjectEmptyFields({
           barcode: search.value,
         }),
@@ -63,12 +62,12 @@ const searchProducts = () => {
           const product = res.data[0]
           addProduct(product)
         } else {
-          useProductHistoryStore().clearStore()
-          useProductHistoryStore().setProductHistories(res.data)
+          useProductStore().clearStore()
+          useProductStore().setProducts(res.data)
         }
       })
     } else if (!isNaN(search.value) && Number.isInteger(+search.value)) {
-      ProductHistoryService.getProductHistories(
+      ProductService.getProductsDetails(
         cleanObjectEmptyFields({
           serialId: +search.value,
         }),
@@ -78,19 +77,19 @@ const searchProducts = () => {
           clearSearchInput()
         } else {
           isLoading.value = false
-          useProductHistoryStore().clearStore()
-          useProductHistoryStore().setProductHistories(res.data)
+          useProductStore().clearStore()
+          useProductStore().setProducts(res.data)
         }
       })
     } else {
-      ProductHistoryService.getProductHistories(
+      ProductService.getProductsDetails(
         cleanObjectEmptyFields({
           name: search.value,
         }),
       ).then((res) => {
         isLoading.value = false
-        useProductHistoryStore().clearStore()
-        useProductHistoryStore().setProductHistories(res.data)
+        useProductStore().clearStore()
+        useProductStore().setProducts(res.data)
       })
     }
   }
@@ -118,7 +117,7 @@ const removeProduct = (product) => {
 
 const clearSearchInput = () => {
   search.value = ''
-  useProductHistoryStore().clearStore()
+  useProductStore().clearStore()
 }
 const whenPressEnter = (e) => {
   if (e.keyCode === 13) {
@@ -137,7 +136,7 @@ watch(
   { deep: true },
 )
 onMounted(() => {
-  useProductHistoryStore().clearStore()
+  useProductStore().clearStore()
 })
 
 const selectP = ref()
@@ -149,7 +148,7 @@ const sendChannel = () => {
     ProductService.sendChannel(data)
       .then((res) => {
         selectedProducts.value = []
-        useProductHistoryStore().clearStore()
+        useProductStore().clearStore()
         toast.success(t('discountSendSuccessfully'))
       })
   } else {
@@ -217,7 +216,7 @@ const changeAllDiscounts = () => {
                 </div>
                 <div>
                   <div class="text-base font-semibold text-gray-800">
-                    {{ product?.productName + ' - ' + product?.packaging }}
+                    {{ product?.name + ' - ' + product?.packaging }}
                   </div>
                   <div class="text-base font-medium text-gray-500">
                     {{ product?.barcode }}
@@ -226,7 +225,7 @@ const changeAllDiscounts = () => {
               </div>
               <div>
                 <div class="text-base font-semibold text-gray-800">
-                  {{ useMoneyFormatter(product?.salePrice) }}
+                  {{ useMoneyFormatter(product?.price) }}
                 </div>
                 <div class="text-base font-medium text-gray-500">
                   {{ $t('quantity') }}:
@@ -284,12 +283,12 @@ const changeAllDiscounts = () => {
                         <div>
                           <div
                             class="text-sm md:text-base font-semibold text-gray-800 max-w-full whitespace-break-spaces">
-                            {{ product?.productName + ' - ' + product?.packaging }}
+                            {{ product?.name + ' - ' + product?.packaging }}
                           </div>
                           <div class="text-sm md:text-base font-medium text-gray-500">
                             {{ $t('price') }}:
                             <span class="text-gray-700 text-sm md:text-base">
-                              {{ useMoneyFormatter(product?.salePrice) }}
+                              {{ useMoneyFormatter(product?.price) }}
                             </span>
                           </div>
                         </div>
