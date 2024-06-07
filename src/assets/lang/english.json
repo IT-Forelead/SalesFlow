@@ -267,5 +267,17 @@
   "uploadPhoto": "Upload a photo",
   "uploadAnotherPhoto": "Upload another photo",
   "youCanOnlyUploadPicture": "You can only upload a picture",
-  "thereWasAnErrorUploadingThePhoto!": "There was an error uploading the photo!"
+  "thereWasAnErrorUploadingThePhoto!": "There was an error uploading the photo!",
+  "telegramBots": "Telegram botlar",
+  "addBot": "Add bot",
+  "botType": "Bot type",
+  "chatId": "Chat id",
+  "token": "Token",
+  "enterChatId": "Enter chat id",
+  "enterBotToken": "Enter bot token",
+  "plsSelectBotType": "Please select bot type",
+  "plsEnterBotToken": "Please enter bot token",
+  "botSuccessfullyAdded": "Bot successfully added!",
+  "errorWhileCreatingBot": "Error while creating bot",
+  "status": "Status"
 }

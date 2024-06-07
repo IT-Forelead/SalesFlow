@@ -25,6 +25,7 @@ import DebtInfoModal from './modals/DebtInfoModal.vue'
 import CreateLabelModal from './modals/CreateLabelModal.vue'
 import CreateAgentModal from './modals/CreateAgentModal.vue'
 import EditAgentModal from './modals/EditAgentModal.vue'
+import CreateTelegramBotModal from './modals/CreateTelegramBotModal.vue'
 
 const notificationDropdown = ref(null)
 
@@ -111,6 +112,7 @@ onUnmounted(() => {
   <CreateLabelModal/>
   <CreateAgentModal/>
   <EditAgentModal/>
+  <CreateTelegramBotModal/>
 </template>
 
 <style scoped></style>

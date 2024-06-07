@@ -323,7 +323,6 @@ const reducePriceChecking = (product) => {
   if (product.saleType === 'kg') {
    return product.amount != 0.1
   } else if (product.saleType === 'litre') {
-
    return product.amount > 0.5
   } else {
    return product.amount != 1
@@ -344,7 +343,7 @@ const increaseCountOfPrice = (product) => {
         if ((selectProductSum / item.price) > product.quantity) {
           selectProductSum = item.price * item.amount
         }
-        return { ...item, amount: (selectProductSum / item.price) }
+        return { ...item, amount: roundFloatToOneDecimal(selectProductSum / item.price) }
       } else {
         item
       }
@@ -363,12 +362,11 @@ const reduceCountOfPrice = (product) => {
           if (product.saleType === 'kg' && selectProductSum < item.price * 0.1) {
             selectProductSum = item.price * 0.1
           } else if (product.saleType === 'litre' && selectProductSum < item.price * 0.5) {
-
             selectProductSum = item.price * 0.5
           } else if (product.saleType === 'amount' && selectProductSum < item.price) {
             selectProductSum = item.price
           }
-          return { ...item, amount: (selectProductSum / item.price) }
+          return { ...item, amount: roundFloatToOneDecimal(selectProductSum / item.price) }
       } else {
         item
       }

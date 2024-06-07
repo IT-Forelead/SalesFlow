@@ -268,5 +268,17 @@
   "uploadPhoto": "Fotosuratni yuklash",
   "uploadAnotherPhoto": "Boshqa fotosurat yuklang",
   "youCanOnlyUploadPicture": "Faqat rasm yuklashingiz mumkin",
-  "thereWasAnErrorUploadingThePhoto!": "Fotosurat yuklashda xatolik yuz berdi!"
+  "thereWasAnErrorUploadingThePhoto!": "Fotosurat yuklashda xatolik yuz berdi!",
+  "telegramBots": "Telegram botlar",
+  "addBot": "Bot qo'shish",
+  "botType": "Bot turi",
+  "chatId": "Chat id",
+  "token": "Token",
+  "enterChatId": "Chat id kiriting",
+  "enterBotToken": "Bot token kiriting",
+  "plsSelectBotType": "Iltimos Bot turini tanlang",
+  "plsEnterBotToken": "Iltimos Bot token kiriting",
+  "botSuccessfullyAdded": "Bot muvaffaqiyatli qo'shildi!",
+  "errorWhileCreatingBot": "Bot yaratishda xatolik yuz berdi",
+  "status": "Status"
 }

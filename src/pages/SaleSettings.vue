@@ -1,12 +1,29 @@
 <script setup>
-import { reactive, ref, onMounted } from 'vue'
+import { computed, h, onMounted, reactive, ref } from 'vue'
 import { toast } from 'vue-sonner'
 import SettingsService from '../services/settings.service'
 import TabView from 'primevue/tabview'
 import TabPanel from 'primevue/tabpanel'
 import { Money3 } from 'v-money3'
+import { useI18n } from 'vue-i18n'
+import Spinners270RingIcon from '../assets/icons/Spinners270RingIcon.vue'
+import CTable from '../components/common/CTable.vue'
+import { useTelegramBot } from '../store/telegramBots.store.js'
+import TelegramBotsService from '../services/telegramBots.service.js'
+import SearchIcon from '../assets/icons/SearchIcon.vue'
+import { useModalStore } from '../store/modal.store.js'
 
+const { t } = useI18n()
 const isLoading = ref(false)
+const isLoadingBots = ref(false)
+const globalSearchFromTable = ref('')
+const renderKey = ref(0)
+
+const botStore = useTelegramBot()
+const telegramBots = computed(() => {
+  renderKey.value += 1
+  return botStore.bots
+})
 
 const moneyConf = {
   thousands: ' ',
@@ -19,6 +36,50 @@ const submitData = reactive({
   percentage: null
 
 })
+
+const statusBot = (active) => {
+  if (active) {
+    return {
+      text: t('faol emas'),
+      class: 'bg-red-500 rounded-lg text-white',
+    }
+  } else {
+    return {
+      text: t('faol'),
+      class: 'bg-green-500 rounded-lg text-white',
+    }
+  }
+}
+
+const columns = [
+  {
+    accessorKey: 'id',
+    header: t('n'),
+    cell: ({ row }) => `${parseInt(row.id, 10) + 1}`,
+    enableSorting: false,
+  },
+  { accessorKey: 'type', header: t('type') },
+  {
+    accessorKey: 'active',
+    header: t('status'),
+    cell: ({ row }) => {
+      const status = statusBot(row.active)
+      return h('span', { class: `px-2 py-1 rounded ${status.class}` }, status.text)
+    },
+  },
+]
+const getBots = () => {
+  isLoadingBots.value = true
+  TelegramBotsService.getTelegramBots()
+    .then((res) => {
+      useTelegramBot().clearStore()
+      useTelegramBot().setBots(res)
+    }).finally(() => {
+    isLoadingBots.value = false
+  })
+}
+
+getBots()
 
 onMounted(() => {
   SettingsService.getSettings().then((res) => {
@@ -107,6 +168,37 @@ const createPercentageSettings = () => {
               <button @click="createSaleSettings" class="text-white text-base flex items-center rounded-xl px-4 py-2.5 bg-blue-500 hover:bg-blue-600 absolute bottom-0">{{ $t('save')}}</button>
             </div>
           </div>
+        </div>
+      </TabPanel>
+      <TabPanel>
+        <template #header>
+          <div class="flex align-items-center gap-2">
+            <span class="font-bold white-space-nowrap">Telegram bot</span>
+          </div>
+        </template>
+        <div class="p-4 md:p-8">
+          <div class="text-slate-900 text-2xl md:text-3xl font-semibold mb-6">
+            {{ $t('telegramBots') }}
+          </div>
+          <div class="flex flex-col md:flex-row items-center justify-between">
+            <div class="relative w-full md:w-auto my-2 md:mb-0 order-2 md:order-1">
+              <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                <SearchIcon class="w-5 h-5 text-slate-400" />
+              </div>
+              <input type="search" v-model="globalSearchFromTable"
+                     class="bg-slate-100 border-none w-full text-slate-900 text-base md:text-lg rounded-full block pl-10 py-2 placeholder-slate-400"
+                     placeholder="Search everything...">
+            </div>
+            <div class="w-full md:w-auto order-1 md:order-2">
+              <button @click="useModalStore().openCreateTelegramBotModal()" class="w-full md:w-auto py-2 px-4 rounded-full text-white text-lg font-medium bg-blue-500 cursor-pointer hover:bg-blue-600">
+                {{ $t('addBot') }}
+              </button>
+            </div>
+          </div>
+          <div v-if="isLoadingBots" class="flex items-center justify-center h-20">
+            <Spinners270RingIcon class="w-6 h-6 text-gray-500 animate-spin" />
+          </div>
+          <CTable v-else :data="telegramBots" :key="renderKey" :columns="columns" :filter="globalSearchFromTable" />
         </div>
       </TabPanel>
     </TabView>

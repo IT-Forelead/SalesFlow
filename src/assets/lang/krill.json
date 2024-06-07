@@ -268,5 +268,17 @@
   "uploadPhoto": "Фотосуратни юклаш",
   "uploadAnotherPhoto": "Бошқа фотосурат юкланг",
   "youCanOnlyUploadPicture": "Фақат расм юклашингиз мумкин",
-  "thereWasAnErrorUploadingThePhoto!": "Фотосурат юклашда хатолик юз берди!"
+  "thereWasAnErrorUploadingThePhoto!": "Фотосурат юклашда хатолик юз берди!",
+  "telegramBots": "Телеграм ботлар",
+  "addBot": "Бот қўшиш",
+  "botType": "Бот түр",
+  "chatId": "Чат id",
+  "token": "Токен",
+  "enterChatId": "Чат ИД киритинг",
+  "enterBotToken": "Бот токен киритинг",
+  "plsSelectBotType": "Бот түрни танланг",
+  "plsEnterBotToken": "Бот токен киритинг",
+  "botSuccessfullyAdded": "Бот муваффақиятли қўшилди!",
+  "errorWhileCreatingBot": "Бот қўшишда хатолик юз берди",
+  "status": "Статус"
 }
