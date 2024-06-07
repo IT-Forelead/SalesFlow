@@ -149,7 +149,7 @@ const sendChannel = () => {
       .then((res) => {
         selectedProducts.value = []
         useProductStore().clearStore()
-        toast.success(t('discountSendSuccessfully'))
+        toast.success(t('discountSentSuccessfully'))
       })
   } else {
     toast.error(t('pleaseEnterDiscounts'))
@@ -163,13 +163,13 @@ const setDiscount = (event, product) => {
   const data = selectedProductsBase.value.filter(p => p.id == product.id);
   product.discount = event.target.value
 
-  product.salePrice = data[0].salePrice - (product.discount * data[0].salePrice / 100)
+  product.price = data[0].price - (product.discount * data[0].price / 100)
 }
 
 const setPrice = (product) => {
   const data = selectedProductsBase.value.filter(p => p.id == product.id);
 
-  product.discount = (data[0].salePrice - product.salePrice) * 100 / data[0].salePrice
+  product.discount = (data[0].price - product.price) * 100 / data[0].price
 
 }
 
@@ -179,7 +179,7 @@ const changeAllDiscounts = () => {
   selectedProducts.value.map((p) => {
     p.discount = discount.value
     const data = selectedProductsBase.value.filter(pr => pr.id == p.id);
-    p.salePrice = data[0].salePrice - (p.discount * data[0].salePrice / 100)
+    p.price = data[0].price - (p.discount * data[0].price / 100)
   })
 }
 </script>
@@ -305,7 +305,7 @@ const changeAllDiscounts = () => {
                     </td>
                     <td class="px-3 py-2 whitespace-nowrap">
                       <div class="flex justify-center">
-                        <money3 v-model.number="product.salePrice" @blur="setPrice(product)" v-bind="moneyConf"
+                        <money3 v-model.number="product.price" @blur="setPrice(product)" v-bind="moneyConf"
                           id="price"
                           class="w-40 border-none text-right text-gray-500 bg-slate-100 h-11 rounded-lg text-lg">
                         </money3>
