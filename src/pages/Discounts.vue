@@ -148,6 +148,7 @@ const sendChannel = () => {
     ProductService.sendChannel(data)
       .then((res) => {
         selectedProducts.value = []
+        selectedProductsBase.value = []
         useProductStore().clearStore()
         toast.success(t('discountSentSuccessfully'))
       })
