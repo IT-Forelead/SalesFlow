@@ -1,5 +1,5 @@
 <script setup>
-import { ref, onMounted } from 'vue'
+import { onMounted, ref } from 'vue'
 import HouseIcon from './../assets/icons/HouseIcon.vue'
 import MoneyIcon from './../assets/icons/MoneyIcon.vue'
 import PhShoppingCart from '../assets/icons/ShoppingCartIcon.vue'
@@ -11,16 +11,17 @@ import SunIcon from '../assets/icons/SunIcon.vue'
 import { useRouter } from 'vue-router'
 import { useI18n } from 'vue-i18n'
 import { toast } from 'vue-sonner'
-import decodeJwt, { parseJwt } from '../mixins/utils';
+import decodeJwt, { parseJwt } from '../mixins/utils'
 import { useSidebarStore } from '../store/sidebar.store'
 import ProfileDropDown from './ProfileDropDown.vue'
 import { useAuthStore } from '../store/auth.store'
 import DebtIcon from '../assets/icons/DebtIcon.vue'
+import ProductHistoryIcon from '../assets/icons/ProductHistoryIcon.vue'
 import SettingsIcon from '../assets/icons/SettingsIcon.vue'
 import CaretDownIcon from '../assets/icons/CaretDownIcon.vue'
 import SelectOptionLanguage from './inputs/SelectOptionLanguage.vue'
 import PhUsersThree from '../assets/icons/UsersThreeIcon.vue'
-import OverlayPanel from 'primevue/overlaypanel';
+import OverlayPanel from 'primevue/overlaypanel'
 
 const { t } = useI18n()
 const router = useRouter()
@@ -120,7 +121,7 @@ onMounted(() => {
             class="relative h-10 flex items-center w-full hover:bg-blue-300/10 hover:text-blue-600 py-5 text-zinc-400 text-lg font-medium space-x-4 cursor-pointer transition-colors duration-300">
             <div class="w-1.5 h-12 rounded-r-xl first-child-bg-color mr-2"></div>
             <div class="flex items-center justify-center rounded-xl w-10 h-10 second-child-bg-color">
-              <PhShoppingCart class="w-6 h-6" />
+              <ProductHistoryIcon class="w-6 h-6" />
             </div>
             <div>
               {{ $t('productsHistory') }}

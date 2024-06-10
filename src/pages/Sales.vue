@@ -3,8 +3,12 @@ import { computed, onMounted, reactive, ref, watch, watchEffect } from 'vue'
 import { vMaska } from 'maska'
 import { toast } from 'vue-sonner'
 import { useRouter } from 'vue-router'
-import { cleanObjectEmptyFields, roundFloatToOneDecimal } from '../mixins/utils'
-import { roundFloatToTwoDecimal } from '../mixins/utils'
+import {
+  cleanObjectEmptyFields,
+  roundFloatToFourDecimal,
+  roundFloatToOneDecimal,
+  roundFloatToTwoDecimal,
+} from '../mixins/utils'
 import ImageIcon from '../assets/icons/ImageIcon.vue'
 import MinusIcon from '../assets/icons/MinusIcon.vue'
 import PlusIcon from '../assets/icons/PlusIcon.vue'
@@ -201,7 +205,7 @@ const addProductToCart = (product, amount) => {
       }
     })
   } else {
-    if (product.quantity - product?.sold > 0) {
+    if (product.quantity - product?.sold >= 0) {
       if (amount) {
         activeBasket.value.push({
           productId: product?.id,
@@ -213,7 +217,20 @@ const addProductToCart = (product, amount) => {
           amount: amount,
           serialId: product?.serialId,
         })
-      } else if (product?.saleType === 'kg') {
+      }
+      else if (product?.saleType === 'kg' && product?.quantity - product?.sold <= 0.1) {
+        activeBasket.value.push({
+          productId: product?.id,
+          name: product?.name,
+          packaging: product?.packaging,
+          price: product?.price,
+          quantity: product?.quantity - product?.sold,
+          saleType: product?.saleType,
+          amount: product?.quantity - product?.sold,
+          serialId: product?.serialId,
+        })
+      }
+      else if (product?.saleType === 'kg') {
         activeBasket.value.push({
           productId: product?.id,
           name: product?.name,
@@ -224,7 +241,8 @@ const addProductToCart = (product, amount) => {
           amount: 0.1,
           serialId: product?.serialId,
         })
-      } else if (product?.saleType === 'litre') {
+      }
+      else if (product?.saleType === 'litre') {
         activeBasket.value.push({
           productId: product?.id,
           name: product?.name,
@@ -392,6 +410,60 @@ const clearSubmitData = () => {
   } else if (activeBasketStatus.value === 'thirdBasket') {
     thirdBasket.value = []
   }
+}
+
+const saleAllRemainingAmount = () => {
+  OrderService.createOrder(
+    cleanObjectEmptyFields({
+      discountPercent: submitData.discountPercent,
+      paymentReceived: submitData.paymentReceived,
+      items: activeBasket.value,
+    }),
+  ).then((res) => {
+    orderId.value = res
+    toast.success(t('saleWasMadeSuccessfully'))
+    if (boundaryPrice.value !== 0 && totalPrice.value >= boundaryPrice.value) {
+      orderId.value = res
+      showSale.value = true
+      onSearchFocus.value = null
+      qrcode.value = API_URL + `/customer-form/${res}`
+    } else {
+      showSale.value = false
+      qrcode.value = null
+    }
+    isLoadingOrder.value = false
+    clearSubmitData()
+    if (showSale.value) {
+      setTimeout(() => {
+        onSearchFocus.value = null
+      }, 3000)
+    }
+    OrderService.getOrderById(res).then((res) => {
+      printChaque({
+        cashier: res?.cashierFirstName + ' ' + res.cashierLastName,
+        discount: res?.discountPercent ?? 0,
+        discount_amount: res?.discountPrice ?? 0,
+        final_price: res?.totalPrice,
+        market: res?.marketName,
+        paid: res?.paymentReceived,
+        price: res?.initialPrice,
+        products: res?.items.map((item) => {
+          return {
+            count: item?.amount,
+            name: item?.productName,
+            packaging: item?.packaging,
+            price: item?.salePrice,
+            total: item?.price,
+          }
+        }),
+        time: moment(res?.createdAt).format('DD/MM/YYYY H:mm'),
+        qrcode: qrcode.value,
+      })
+    })
+  }).catch(() => {
+    toast.error(t('errorWhileCreatingOrder'))
+    isLoadingOrder.value = false
+  })
 }
 
 const createOrder = () => {
@@ -835,7 +907,11 @@ const removeLastDigit = () => {
                           class="flex items-center justify-center w-8 h-8 bg-white text-slate-700 cursor-default rounded-xl">
                           <MinusIcon class="w-4 h-4" />
                         </div>
-                        <div class="flex items-center justify-center text-lg font-normal">
+                        <div v-if="product?.saleType === 'kg' && product?.amount <= 0.1" class="flex items-center justify-center text-lg font-normal">
+                          {{ roundFloatToFourDecimal(product?.amount)+ ' ' + saleTypeShortTranslate(product?.saleType) }}
+                        </div>
+
+                        <div v-else class="flex items-center justify-center text-lg font-normal">
                           {{ roundFloatToTwoDecimal(product?.amount)+ ' ' + saleTypeShortTranslate(product?.saleType) }}
                         </div>
                         <div @click="increaseCountOfProducts(product)" v-if="increaseCountChecking(product)"
@@ -877,9 +953,11 @@ const removeLastDigit = () => {
                   </div>
                   </td>
                   <td class="px-3 py-2 whitespace-nowrap rounded-r-2xl">
-                    <div class="flex justify-center">
+                    <div class="flex justify-center space-x-2">
                       <TrashIcon @click="$event.stopPropagation(); removeProductFromCart(product)"
                         class="w-6 h-6 text-rose-500 cursor-pointer transform hover:scale-105" />
+<!--                      <PhMoney @click="saleAllRemainingAmount(); removeProductFromCart(product)"-->
+<!--                        class="w-6 h-6 text-green-500 cursor-pointer transform hover:scale-105" />-->
                     </div>
                   </td>
                 </tr>
