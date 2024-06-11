@@ -20,7 +20,6 @@ import CreditCardIcon from '../assets/icons/CreditCardIcon.vue'
 import OnlinePaymentIcon from '../assets/icons/OnlinePaymentIcon.vue'
 import DebtIcon from '../assets/icons/DebtIcon.vue'
 import XIcon from '../assets/icons/XIcon.vue'
-import useMoneyFormatter from '../mixins/currencyFormatter.js'
 import ProductService from '../services/product.service'
 import OrderService from '../services/order.service'
 import CustomerService from '../services/customer.service'
@@ -39,6 +38,7 @@ import moment from 'moment'
 import { onClickOutside } from '@vueuse/core'
 import ScrollPanel from 'primevue/scrollpanel'
 import { Money3 } from 'v-money3'
+import useMoneyFormatter from '../mixins/currencyFormatter.js'
 
 const API_URL = import.meta.env.VITE_CHEQUE_API_URL
 
@@ -218,7 +218,8 @@ const addProductToCart = (product, amount) => {
           serialId: product?.serialId,
         })
       }
-      else if (product?.saleType === 'kg' && product?.quantity - product?.sold <= 0.1) {
+      else if (product?.saleType === 'kg' && (product?.quantity - product?.sold < 0.1 && product?.quantity - product?.sold > 0)) {
+        console.log(product?.quantity - product?.sold)
         activeBasket.value.push({
           productId: product?.id,
           name: product?.name,
@@ -240,6 +241,17 @@ const addProductToCart = (product, amount) => {
           saleType: product?.saleType,
           amount: 0.1,
           serialId: product?.serialId,
+        })
+      }
+      else if (product?.saleType === 'litre' && (product?.quantity - product?.sold <= 0.1 && product?.quantity - product?.sold > 0)) {
+        activeBasket.value.push({
+          productId: product?.id,
+          name: product?.name,
+          packaging: product?.packaging,
+          price: product?.price,
+          quantity: product?.quantity - product?.sold,
+          saleType: product?.saleType,
+          amount: product?.quantity - product?.sold,
         })
       }
       else if (product?.saleType === 'litre') {
@@ -411,60 +423,6 @@ const clearSubmitData = () => {
   } else if (activeBasketStatus.value === 'thirdBasket') {
     thirdBasket.value = []
   }
-}
-
-const saleAllRemainingAmount = () => {
-  OrderService.createOrder(
-    cleanObjectEmptyFields({
-      discountPercent: submitData.discountPercent,
-      paymentReceived: submitData.paymentReceived,
-      items: activeBasket.value,
-    }),
-  ).then((res) => {
-    orderId.value = res
-    toast.success(t('saleWasMadeSuccessfully'))
-    if (boundaryPrice.value !== 0 && totalPrice.value >= boundaryPrice.value) {
-      orderId.value = res
-      showSale.value = true
-      onSearchFocus.value = null
-      qrcode.value = API_URL + `/customer-form/${res}`
-    } else {
-      showSale.value = false
-      qrcode.value = null
-    }
-    isLoadingOrder.value = false
-    clearSubmitData()
-    if (showSale.value) {
-      setTimeout(() => {
-        onSearchFocus.value = null
-      }, 3000)
-    }
-    OrderService.getOrderById(res).then((res) => {
-      printChaque({
-        cashier: res?.cashierFirstName + ' ' + res.cashierLastName,
-        discount: res?.discountPercent ?? 0,
-        discount_amount: res?.discountPrice ?? 0,
-        final_price: res?.totalPrice,
-        market: res?.marketName,
-        paid: res?.paymentReceived,
-        price: res?.initialPrice,
-        products: res?.items.map((item) => {
-          return {
-            count: item?.amount,
-            name: item?.productName,
-            packaging: item?.packaging,
-            price: item?.salePrice,
-            total: item?.price,
-          }
-        }),
-        time: moment(res?.createdAt).format('DD/MM/YYYY H:mm'),
-        qrcode: qrcode.value,
-      })
-    })
-  }).catch(() => {
-    toast.error(t('errorWhileCreatingOrder'))
-    isLoadingOrder.value = false
-  })
 }
 
 const createOrder = () => {
