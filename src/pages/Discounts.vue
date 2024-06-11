@@ -144,14 +144,19 @@ const sendChannel = () => {
   const data = selectedProducts.value.filter(p => p.discount > 0).map((
     { id, discount }) => ({ productId: id, discount: discount })
   )
+  const dataWithImg = selectedProducts.value.filter(p => p.asset)
   if (selectedProducts.value.length == data.length) {
-    ProductService.sendChannel(data)
-      .then((res) => {
-        selectedProducts.value = []
-        selectedProductsBase.value = []
-        useProductStore().clearStore()
-        toast.success(t('discountSentSuccessfully'))
-      })
+    if (dataWithImg.length == data.length) {
+      ProductService.sendChannel(data)
+        .then((res) => {
+          selectedProducts.value = []
+          selectedProductsBase.value = []
+          useProductStore().clearStore()
+          toast.success(t('discountSentSuccessfully'))
+        })
+    } else {
+      toast.error(t('pleaseEnterImg'))
+    }
   } else {
     toast.error(t('pleaseEnterDiscounts'))
 
@@ -213,7 +218,9 @@ const changeAllDiscounts = () => {
               class="flex items-center justify-between bg-white border shadow-sm rounded-xl px-3 py-2 my-2 w-full cursor-pointer hover:bg-slate-100">
               <div class="flex items-center space-x-3">
                 <div class="flex items-center justify-center bg-slate-200 w-10 h-10 rounded-lg">
-                  <ImageIcon class="text-gray-500 w-8 h-8" />
+                  <img v-if="product.asset" :src="product.asset.url" class="w-12 h-auto rounded">
+
+                          <ImageIcon v-else class="text-gray-500 w-6 h-6" />
                 </div>
                 <div>
                   <div class="text-base font-semibold text-gray-800">
@@ -279,7 +286,10 @@ const changeAllDiscounts = () => {
                     <td class="px-3 py-2 whitespace-nowrap rounded-l-xl">
                       <div class="flex items-center space-x-3">
                         <div class="flex items-center justify-center bg-slate-200 md:w-12 md:h-12 w-8 h-8 rounded-lg">
-                          <ImageIcon class="text-gray-500 w-6 h-6" />
+                          
+                          <img v-if="product.asset" :src="product.asset.url" class="w-12 h-auto rounded">
+
+                          <ImageIcon v-else class="text-gray-500 w-6 h-6" />
                         </div>
                         <div>
                           <div
@@ -306,8 +316,7 @@ const changeAllDiscounts = () => {
                     </td>
                     <td class="px-3 py-2 whitespace-nowrap">
                       <div class="flex justify-center">
-                        <money3 v-model.number="product.price" @blur="setPrice(product)" v-bind="moneyConf"
-                          id="price"
+                        <money3 v-model.number="product.price" @blur="setPrice(product)" v-bind="moneyConf" id="price"
                           class="w-40 border-none text-right text-gray-500 bg-slate-100 h-11 rounded-lg text-lg">
                         </money3>
                       </div>
