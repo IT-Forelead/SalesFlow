@@ -2,7 +2,7 @@
 import { cleanObjectEmptyFields } from '../../mixins/utils'
 import CModal from '../common/CModal.vue'
 import { toast } from 'vue-sonner'
-import { useRouter } from 'vue-router'
+import { useRoute, useRouter } from 'vue-router'
 import { useModalStore } from '../../store/modal.store'
 import { useProductStore } from '../../store/product.store'
 import { useBarcodeStore } from '../../store/barcode.store'
@@ -27,7 +27,7 @@ import PhUserPlus from '../../assets/icons/PlusCircleIcon.vue'
 import { vMaska } from 'maska'
 
 const { t } = useI18n()
-
+const route = useRoute()
 const router = useRouter()
 const barcodeStore = useBarcodeStore()
 const agentStore = useAgentStore()
@@ -152,7 +152,7 @@ const createProduct = () => {
           useProductStore().total = res.total
           useProductStore().setProducts(res.data)
         })
-      ProductService.getProductsDetails({ limit: pageSize, page: currentPage2.value })
+      ProductService.getProductsDetails({ limit: pageSize, page: currentPage2.value, name: route.query.search })
         .then((res) => {
           useProductHistoryStore().clearStore()
           useProductHistoryStore().totalHistories = res.total
