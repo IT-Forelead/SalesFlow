@@ -71,7 +71,9 @@ const createLabel = () => {
   } else {
     isLoading.value = true
     const product = productBarcode.value
-    const quantity = product.saleType.includes('kg') ? Number.parseFloat(submitData.quantity) * 1000 : submitData.quantity
+    const quantity = product.saleType.includes('kg')
+        ? Math.floor(parseFloat(submitData.quantity) * 1000)
+        : submitData.quantity
     const barcode = !product.barcode ? `9${String(product.serialId).padStart(6, '0')}${String(quantity).padStart(5, '0')}1` : submitData.barcode
 
     axios
@@ -80,13 +82,13 @@ const createLabel = () => {
         cleanObjectEmptyFields({
           name: submitData.name,
           barcode: barcode,
-          quantity: Number.parseInt(submitData.quantity),
+          quantity: Number.parseFloat(submitData.quantity),
           count: Number.parseInt(submitData.count),
           saleType: product.saleType,
           packaging: product.packaging,
           serialId: product.serialId,
           price: product.price,
-          totalPrice: product.price * Number.parseInt(submitData.quantity),
+          totalPrice: product.price * Number.parseFloat(submitData.quantity),
           productionDate: product.productionDate,
           expirationDate: product.expirationDate,
         }),
