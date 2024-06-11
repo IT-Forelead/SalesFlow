@@ -339,11 +339,11 @@ const reduceCountOfProducts = (product) => {
 const reducePriceChecking = (product) => {
   // return product.price * product.amount - 500 >= product.price
   if (product.saleType === 'kg') {
-   return product.amount != 0.1
+    return product.amount != 0.1
   } else if (product.saleType === 'litre') {
-   return product.amount > 0.5
+    return product.amount > 0.5
   } else {
-   return product.amount != 1
+    return product.amount != 1
   }
 }
 
@@ -352,18 +352,19 @@ const increasePriceChecking = (product) => {
 }
 
 const increaseCountOfPrice = (product) => {
-  let selectProductSum = product.price * product.amount
+  let selectProductSum = (product.price * product.amount)
   activeBasket.value = activeBasket.value.map((item) => {
     if (item.productId === product.productId) {
       // return { ...item, amount: item.amount + 1 }
       if (item.saleType != 'amount') {
-        selectProductSum = Math.floor(selectProductSum / 500) * 500 + 500
+        selectProductSum = Math.floor(roundFloatToTwoDecimal(selectProductSum) / 500) * 500 + 500
+
         if ((selectProductSum / item.price) > product.quantity) {
           selectProductSum = item.price * item.amount
         }
-        return { ...item, amount: roundFloatToOneDecimal(selectProductSum / item.price) }
+        return { ...item, amount: (selectProductSum / item.price) }
       } else {
-        item
+        return { ...item, amount: item.amount + 1 }
       }
     } else item
     return item
@@ -371,22 +372,22 @@ const increaseCountOfPrice = (product) => {
 }
 
 const reduceCountOfPrice = (product) => {
-  let selectProductSum = product.price * product.amount
+  let selectProductSum = (product.price * product.amount)
   activeBasket.value = activeBasket.value.map((item) => {
     if (item.productId === product.productId) {
       // return { ...item, amount: item.amount - 1 }
       if (item.saleType != 'amount') {
-        selectProductSum = Math.ceil(selectProductSum / 500) * 500 - 500
-          if (product.saleType === 'kg' && selectProductSum < item.price * 0.1) {
-            selectProductSum = item.price * 0.1
-          } else if (product.saleType === 'litre' && selectProductSum < item.price * 0.5) {
-            selectProductSum = item.price * 0.5
-          } else if (product.saleType === 'amount' && selectProductSum < item.price) {
-            selectProductSum = item.price
-          }
-          return { ...item, amount: roundFloatToOneDecimal(selectProductSum / item.price) }
+        selectProductSum = Math.ceil(roundFloatToTwoDecimal(selectProductSum) / 500) * 500 - 500
+        if (product.saleType === 'kg' && selectProductSum < item.price * 0.1) {
+          selectProductSum = item.price * 0.1
+        } else if (product.saleType === 'litre' && selectProductSum < item.price * 0.5) {
+          selectProductSum = item.price * 0.5
+        } else if (product.saleType === 'amount' && selectProductSum < item.price) {
+          selectProductSum = item.price
+        }
+        return { ...item, amount: (selectProductSum / item.price) }
       } else {
-        item
+        return { ...item, amount: item.amount - 1 }
       }
     } else item
     return item
@@ -886,7 +887,7 @@ const removeLastDigit = () => {
                           <div v-if="product.quantity <= 15">
                             {{ $t('remainingAmount') }}:
                             <span class="text-red-500 text-sm md:text-base">
-                              {{ roundFloatToOneDecimal(product?.quantity - product?.amount) }}
+                              {{ roundFloatToTwoDecimal(product?.quantity - product?.amount) }}
                             </span>
                           </div>
                         </div>
@@ -912,7 +913,7 @@ const removeLastDigit = () => {
                         </div>
 
                         <div v-else class="flex items-center justify-center text-lg font-normal">
-                          {{ roundFloatToTwoDecimal(product?.amount)+ ' ' + saleTypeShortTranslate(product?.saleType) }}
+                          {{ roundFloatToTwoDecimal(product?.amount) + ' ' + saleTypeShortTranslate(product?.saleType) }}
                         </div>
                         <div @click="increaseCountOfProducts(product)" v-if="increaseCountChecking(product)"
                           class="flex items-center justify-center w-8 h-8 bg-white text-blue-700 shadow-sm hover:bg-slate-200 cursor-pointer rounded-xl">
@@ -927,30 +928,30 @@ const removeLastDigit = () => {
                   </td>
                   <td class="px-3 py-2 text-center whitespace-nowrap">
                     <div class="flex justify-center">
-                    <div class="flex items-center justify-between w-48 rounded-xl p-1">
-                      <div @click="reduceCountOfPrice(product)" v-if="reducePriceChecking(product)"
-                           class="flex items-center justify-center w-8 h-8 bg-white text-blue-700 shadow-sm hover:bg-slate-200 cursor-pointer rounded-xl">
-                        <MinusIcon class="w-4 h-4" />
-                      </div>
-                      <div v-else
-                           class="flex items-center justify-center w-8 h-8 bg-white text-slate-700 cursor-default rounded-xl">
-                        <MinusIcon class="w-4 h-4" />
-                      </div>
+                      <div class="flex items-center justify-between w-48 rounded-xl p-1">
+                        <div @click="reduceCountOfPrice(product)" v-if="reducePriceChecking(product)"
+                          class="flex items-center justify-center w-8 h-8 bg-white text-blue-700 shadow-sm hover:bg-slate-200 cursor-pointer rounded-xl">
+                          <MinusIcon class="w-4 h-4" />
+                        </div>
+                        <div v-else
+                          class="flex items-center justify-center w-8 h-8 bg-white text-slate-700 cursor-default rounded-xl">
+                          <MinusIcon class="w-4 h-4" />
+                        </div>
 
-                      <div class="flex items-center justify-center text-lg font-normal">
-                  {{ useMoneyFormatter(product?.price * product?.amount) }}
-                      </div>
-                      <div @click="increaseCountOfPrice(product)" v-if="increasePriceChecking(product)"
-                           class="flex items-center justify-center w-8 h-8 bg-white text-blue-700 shadow-sm hover:bg-slate-200 cursor-pointer rounded-xl">
-                        <PlusIcon class="w-4 h-4" />
-                      </div>
-                      <div v-else
-                           class="flex items-center justify-center w-8 h-8 bg-white text-slate-700 cursor-default rounded-xl">
-                        <PlusIcon class="w-4 h-4" />
-                      </div>
+                        <div class="flex items-center justify-center text-lg font-normal">
+                          {{ useMoneyFormatter(product?.price * product?.amount) }}
+                        </div>
+                        <div @click="increaseCountOfPrice(product)" v-if="increasePriceChecking(product)"
+                          class="flex items-center justify-center w-8 h-8 bg-white text-blue-700 shadow-sm hover:bg-slate-200 cursor-pointer rounded-xl">
+                          <PlusIcon class="w-4 h-4" />
+                        </div>
+                        <div v-else
+                          class="flex items-center justify-center w-8 h-8 bg-white text-slate-700 cursor-default rounded-xl">
+                          <PlusIcon class="w-4 h-4" />
+                        </div>
 
+                      </div>
                     </div>
-                  </div>
                   </td>
                   <td class="px-3 py-2 whitespace-nowrap rounded-r-2xl">
                     <div class="flex justify-center space-x-2">
