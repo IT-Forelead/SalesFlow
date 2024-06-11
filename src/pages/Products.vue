@@ -120,7 +120,7 @@ const columns = [
       h('div', [navigationGuard('delete_product') ?
         h('button', {
           onClick: () => {
-            openDeleteProductModal(row.original)
+            openDeleteProductModal(row.original, searchFilter.value)
           },
         }, [
           h(TrashIcon, { class: 'w-6 h-6 text-red-600 hover:scale-105' }),
@@ -135,9 +135,10 @@ const openEditProductModal = (data) => {
   useProductStore().setSelectedProduct(data)
 }
 
-const openDeleteProductModal = (data) => {
+const openDeleteProductModal = (data, searchFilter) => {
   useModalStore().openDeleteProductModal()
   useProductStore().setSelectedProduct(data)
+  useProductStore().setSearchFilter(searchFilter)
 }
 
 const page = ref(1)

@@ -227,7 +227,6 @@ const salesAreaChartChartOptions = computed(() => {
   }
 })
 
-// Turnover Stats Area  Chart
 const turnoverStatsAreaChartChartOptions = computed(() => {
   return {
     legend: {
@@ -345,8 +344,8 @@ const getOrdersStatsFinal = () => {
 }
 
 const getSoldProductPrice = () => {
-  OrderService.getOrdersStatsFinal({}).then((res) => {
-    soldProductPrice.value = res.reduce((acc, cur) => acc + cur.profit, 0)
+  OrderService.getOrdersStatsOverall().then((res) => {
+    soldProductPrice.value = res.total
   })
 }
 
