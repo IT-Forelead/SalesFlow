@@ -18,6 +18,10 @@ const selectedProduct = computed(() => {
   return productStore.selectedProduct
 })
 
+const searchFilter = computed(() => {
+  return productStore.searchFilter
+})
+
 const currentPage = computed(() => {
   return productStore.currentPage
 })
@@ -48,15 +52,25 @@ const deleteProduct = () => {
     ProductService.deleteProduct(selectedProduct.value.id)
       .then(() => {
         toast.success(t('productDeletedSuccessfully'))
-        ProductService.getProducts({
-          limit: 30,
-          page: currentPage.value
+        if (searchFilter.value.trim() === '') {
+          ProductService.getProducts({ limit: 30, page: 1 
         }).then((res) => {
           productStore.clearStore()
           productStore.setProducts(res.data)
         })
         isLoading.value = false
         closeModal()
+        } else {
+          ProductService.getProducts({
+            name: searchFilter.value 
+          }).then((res) => {
+          productStore.clearStore()
+          productStore.setProducts(res.data)
+        })
+        isLoading.value = false
+          closeModal()
+        }
+        
       })
       .catch(() => {
         toast.error(t('errorWhileDeletingProduct'))
