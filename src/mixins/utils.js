@@ -1,4 +1,4 @@
-import jwt_decode from "jwt-decode";
+import jwt_decode from 'jwt-decode'
 
 export default function decodeJwt(token) {
   return JSON.parse(window.atob(token.split('.')[1]))
@@ -48,4 +48,9 @@ export function roundFloatToOneDecimal(num) {
 
 export function roundFloatToTwoDecimal(num) {
   return parseFloat((num).toFixed(2))
+}
+
+//round to 5 decimal places
+export function roundFloatToFourDecimal(num) {
+  return parseFloat((num).toFixed(4))
 }

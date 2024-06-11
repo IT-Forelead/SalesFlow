@@ -3,8 +3,12 @@ import { computed, onMounted, reactive, ref, watch, watchEffect } from 'vue'
 import { vMaska } from 'maska'
 import { toast } from 'vue-sonner'
 import { useRouter } from 'vue-router'
-import { cleanObjectEmptyFields, roundFloatToOneDecimal } from '../mixins/utils'
-import { roundFloatToTwoDecimal } from '../mixins/utils'
+import {
+  cleanObjectEmptyFields,
+  roundFloatToFourDecimal,
+  roundFloatToOneDecimal,
+  roundFloatToTwoDecimal,
+} from '../mixins/utils'
 import ImageIcon from '../assets/icons/ImageIcon.vue'
 import MinusIcon from '../assets/icons/MinusIcon.vue'
 import PlusIcon from '../assets/icons/PlusIcon.vue'
@@ -16,7 +20,6 @@ import CreditCardIcon from '../assets/icons/CreditCardIcon.vue'
 import OnlinePaymentIcon from '../assets/icons/OnlinePaymentIcon.vue'
 import DebtIcon from '../assets/icons/DebtIcon.vue'
 import XIcon from '../assets/icons/XIcon.vue'
-import useMoneyFormatter from '../mixins/currencyFormatter.js'
 import ProductService from '../services/product.service'
 import OrderService from '../services/order.service'
 import CustomerService from '../services/customer.service'
@@ -35,6 +38,7 @@ import moment from 'moment'
 import { onClickOutside } from '@vueuse/core'
 import ScrollPanel from 'primevue/scrollpanel'
 import { Money3 } from 'v-money3'
+import useMoneyFormatter from '../mixins/currencyFormatter.js'
 
 const API_URL = import.meta.env.VITE_CHEQUE_API_URL
 
@@ -201,7 +205,7 @@ const addProductToCart = (product, amount) => {
       }
     })
   } else {
-    if (product.quantity - product?.sold > 0) {
+    if (product.quantity - product?.sold >= 0) {
       if (amount) {
         activeBasket.value.push({
           productId: product?.id,
@@ -213,7 +217,21 @@ const addProductToCart = (product, amount) => {
           amount: amount,
           serialId: product?.serialId,
         })
-      } else if (product?.saleType === 'kg') {
+      }
+      else if (product?.saleType === 'kg' && (product?.quantity - product?.sold < 0.1 && product?.quantity - product?.sold > 0)) {
+        console.log(product?.quantity - product?.sold)
+        activeBasket.value.push({
+          productId: product?.id,
+          name: product?.name,
+          packaging: product?.packaging,
+          price: product?.price,
+          quantity: product?.quantity - product?.sold,
+          saleType: product?.saleType,
+          amount: product?.quantity - product?.sold,
+          serialId: product?.serialId,
+        })
+      }
+      else if (product?.saleType === 'kg') {
         activeBasket.value.push({
           productId: product?.id,
           name: product?.name,
@@ -224,7 +242,19 @@ const addProductToCart = (product, amount) => {
           amount: 0.1,
           serialId: product?.serialId,
         })
-      } else if (product?.saleType === 'litre') {
+      }
+      else if (product?.saleType === 'litre' && (product?.quantity - product?.sold <= 0.1 && product?.quantity - product?.sold > 0)) {
+        activeBasket.value.push({
+          productId: product?.id,
+          name: product?.name,
+          packaging: product?.packaging,
+          price: product?.price,
+          quantity: product?.quantity - product?.sold,
+          saleType: product?.saleType,
+          amount: product?.quantity - product?.sold,
+        })
+      }
+      else if (product?.saleType === 'litre') {
         activeBasket.value.push({
           productId: product?.id,
           name: product?.name,
@@ -836,7 +866,11 @@ const removeLastDigit = () => {
                           class="flex items-center justify-center w-8 h-8 bg-white text-slate-700 cursor-default rounded-xl">
                           <MinusIcon class="w-4 h-4" />
                         </div>
-                        <div class="flex items-center justify-center text-lg font-normal">
+                        <div v-if="product?.saleType === 'kg' && product?.amount <= 0.1" class="flex items-center justify-center text-lg font-normal">
+                          {{ roundFloatToFourDecimal(product?.amount)+ ' ' + saleTypeShortTranslate(product?.saleType) }}
+                        </div>
+
+                        <div v-else class="flex items-center justify-center text-lg font-normal">
                           {{ roundFloatToTwoDecimal(product?.amount) + ' ' + saleTypeShortTranslate(product?.saleType) }}
                         </div>
                         <div @click="increaseCountOfProducts(product)" v-if="increaseCountChecking(product)"
@@ -878,9 +912,11 @@ const removeLastDigit = () => {
                     </div>
                   </td>
                   <td class="px-3 py-2 whitespace-nowrap rounded-r-2xl">
-                    <div class="flex justify-center">
+                    <div class="flex justify-center space-x-2">
                       <TrashIcon @click="$event.stopPropagation(); removeProductFromCart(product)"
                         class="w-6 h-6 text-rose-500 cursor-pointer transform hover:scale-105" />
+<!--                      <PhMoney @click="saleAllRemainingAmount(); removeProductFromCart(product)"-->
+<!--                        class="w-6 h-6 text-green-500 cursor-pointer transform hover:scale-105" />-->
                     </div>
                   </td>
                 </tr>
