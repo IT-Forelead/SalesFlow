@@ -9,6 +9,7 @@ export const useProductStore = defineStore('product', {
     productBarcodes: [],
     selectedProduct: {},
     selectedBarcodes:{},
+    searchFilter:{},
   }),
   actions: {
     setProducts(data) {
@@ -19,6 +20,9 @@ export const useProductStore = defineStore('product', {
     },
     setSelectedProduct(data) {
       this.selectedProduct = data
+    },
+    setSearchFilter(data) {
+      this.searchFilter = data
     },
     setSelectedBarcodes(data) {
       this.selectedBarcodes = data
