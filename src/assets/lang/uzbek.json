@@ -281,5 +281,6 @@
   "plsEnterBotToken": "Iltimos Bot token kiriting",
   "botSuccessfullyAdded": "Bot muvaffaqiyatli qo'shildi!",
   "errorWhileCreatingBot": "Bot yaratishda xatolik yuz berdi",
-  "status": "Status"
+  "status": "Status",
+  "realPrice": "Haqiqiy narxi"
 }

@@ -281,5 +281,6 @@
   "plsEnterBotToken": "Введите токен бота",
   "botSuccessfullyAdded": "Бот успешно добавлен!",
   "errorWhileCreatingBot": "Ошибка при создании бота",
-  "status": "Статус"
+  "status": "Статус",
+  "realPrice": "Реальная цена"
 }
