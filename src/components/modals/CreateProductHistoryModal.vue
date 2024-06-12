@@ -204,7 +204,7 @@ const closeModal = () => {
           </div>
         </div>
         <div class="flex items-center justify-between space-x-4">
-          <div class="flex-1 spaceSearchIcon-y-1">
+          <div class="flex-1 space-y-1">
             <label for="price"
               class="block mb-2 text-neutral-800 text-base font-normal after:text-red-500 after:content-['*']">
               {{ $t('purchasePrice') }}
@@ -213,7 +213,7 @@ const closeModal = () => {
               class="bg-slate-50 text-right border border-slate-200 text-slate-900 text-base rounded-2xl focus:ring-green-400/40 focus:border-green-400/40 focus:ring-4 block w-full p-2.5">
             </money3>
           </div>
-          <div class="flex-1 spaceSearchIcon-y-1">
+          <div class="flex-1 space-y-1">
             <label for="price"
               class="block mb-2 text-neutral-800 text-base font-normal after:text-red-500 after:content-['*']">
               {{ $t('salePrice') }}

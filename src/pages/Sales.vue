@@ -41,7 +41,9 @@ import { Money3 } from 'v-money3'
 import useMoneyFormatter from '../mixins/currencyFormatter.js'
 
 const API_URL = import.meta.env.VITE_CHEQUE_API_URL
-
+const addedToBasket = new Audio('/audios/added-to-basket.mp3')
+const notFoundProduct = new Audio('/audios/not-found.mp3')
+const soldSuccess = new Audio('/audios/sold-success.mp3')
 const { t } = useI18n()
 const router = useRouter()
 
@@ -126,9 +128,13 @@ onClickOutside(searchProductDropdown, () => {
   clearSearchInput()
 })
 
+const playAudio = () => {
+  addedToBasket.play()
+}
 const searchProducts = () => {
   if (!search.value) {
     toast.warning(t('plsEnterProductNameOrBarcode'))
+    notFoundProduct.play()
   } else {
     isLoading.value = true
     if (isBarcode(search.value)) {
@@ -140,6 +146,7 @@ const searchProducts = () => {
         isLoading.value = false
         if (res.data.length === 0) {
           toast.warning(t('productNotFound'))
+          notFoundProduct.play()
           clearSearchInput()
         } else if (res.data.length === 1) {
           const product = res.data[0]
@@ -162,9 +169,9 @@ const searchProducts = () => {
       ).then((res) => {
         if (res.data.length === 0) {
           toast.warning(t('productNotFound'))
+          notFoundProduct.play()
           clearSearchInput()
         } else {
-          console.log(res.data)
           isLoading.value = false
           useProductStore().clearStore()
           useProductStore().setProducts(res.data)
@@ -176,9 +183,15 @@ const searchProducts = () => {
           name: search.value,
         }),
       ).then((res) => {
-        isLoading.value = false
-        useProductStore().clearStore()
-        useProductStore().setProducts(res.data)
+        if (res.data.length === 0) {
+          toast.warning(t('productNotFound'))
+          notFoundProduct.play()
+          clearSearchInput()
+        } else {
+          isLoading.value = false
+          useProductStore().clearStore()
+          useProductStore().setProducts(res.data)
+        }
       })
     }
   }
@@ -281,6 +294,7 @@ const addProductToCart = (product, amount) => {
     }
   }
   clearSearchInput()
+  addedToBasket.play()
 }
 
 const selectProduct = (product) => {
@@ -439,6 +453,7 @@ const createOrder = () => {
     ).then((res) => {
       orderId.value = res
       toast.success(t('saleWasMadeSuccessfully'))
+      soldSuccess.play()
       if (boundaryPrice.value !== 0 && totalPrice.value >= boundaryPrice.value) {
         orderId.value = res
         showSale.value = true
