@@ -118,7 +118,7 @@ const closeModal = () => {
           <span>{{selectedProductHistory.name}} - {{selectedProductHistory.packaging}}</span>
         </div>
         <div class="flex items-center justify-between space-x-4">
-          <div class="flex-1 spaceSearchIcon-y-1">
+          <div class="flex-1 space-y-1">
             <label for="price"
                    class="block text-left mb-2 text-slate-900 text-base font-medium after:text-red-500 ">
               {{ $t('purchasePrice') }}
@@ -127,7 +127,7 @@ const closeModal = () => {
                     class="bg-slate-50 text-right border border-slate-200 text-slate-900 text-base rounded-2xl focus:ring-green-400/40 focus:border-green-400/40 focus:ring-4 block w-full p-2.5">
             </money3>
           </div>
-          <div class="flex-1 spaceSearchIcon-y-1">
+          <div class="flex-1 space-y-1">
             <label for="price"
                    class="block text-left mb-2 text-slate-900 text-base font-medium after:text-red-500 ">
               {{ $t('salePrice') }}
@@ -146,7 +146,7 @@ const closeModal = () => {
           </div>
         </div>
         <div class="flex items-center justify-between space-x-4">
-          <div class="flex-1 spaceSearchIcon-y-1">
+          <div class="flex-1 space-y-1">
             <label for="price" class="text-base md:text-lg font-medium">
               {{ $t('productionDate') }}
             </label>
@@ -154,7 +154,7 @@ const closeModal = () => {
                    class="bg-slate-100 border-none text-slate-900 rounded-lg w-full h-11 placeholder-slate-400 placeholder:text-sm md:placeholder:text-lg"
                    :placeholder="t('enterProductQuantity')">
           </div>
-          <div class="flex-1 spaceSearchIcon-y-1">
+          <div class="flex-1 space-y-1">
             <label for="price" class="text-base md:text-lg font-medium">
               {{ $t('expirationDate') }}
             </label>

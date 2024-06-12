@@ -7,12 +7,14 @@ import { useProductHistoryStore } from '../store/productHistory.store.js'
 import useMoneyFormatter from '../mixins/currencyFormatter.js'
 import CaretDoubleRightIcon from '../assets/icons/CaretDoubleRightIcon.vue'
 import CaretDoubleLeftIcon from '../assets/icons/CaretDoubleLeftIcon.vue'
+import FunnelIcon from '../assets/icons/FunnelIcon.vue'
 import CaretLeftIcon from '../assets/icons/CaretLeftIcon.vue'
 import CopyIcon from '../assets/icons/CopyIcon.vue'
 import CaretRightIcon from '../assets/icons/CaretRightIcon.vue'
 import { useI18n } from 'vue-i18n'
 import EditIcon from '../assets/icons/EditIcon.vue'
-import { useModalStore } from '../store/modal.store.js'
+import { useModalStore } from '../store/modal.store'
+import { useDropdownStore } from '../store/dropdown.store'
 import { useAuthStore } from '../store/auth.store.js'
 import decodeJwt, { cleanObjectEmptyFields, parseJwt } from '../mixins/utils.js'
 import PrinterIcon from '../assets/icons/PrinterIcon.vue'
@@ -20,6 +22,8 @@ import axios from 'axios'
 import { toast } from 'vue-sonner'
 import ProductService from '../services/product.service.js'
 import { useRoute, useRouter } from 'vue-router'
+import { onClickOutside } from '@vueuse/core'
+import { reactive } from 'vue'
 
 const { t } = useI18n()
 const API_URL = import.meta.env.VITE_CHEQUE_API_URL
@@ -32,6 +36,26 @@ const pageSize = 50
 const payload = ref({})
 const route = useRoute();
 const router = useRouter();
+
+const sortByDropdown = ref(null)
+const filterByDropdown = ref(null)
+
+onClickOutside(sortByDropdown, () => {
+  if (useDropdownStore().isOpenSortBy) {
+    useDropdownStore().toggleSortBy()
+  }
+})
+
+onClickOutside(filterByDropdown, () => {
+  if (useDropdownStore().isOpenFilterBy) {
+    useDropdownStore().toggleFilterBy()
+  }
+})
+
+const filterData = reactive({
+  startExpirationDate: '',
+  endExpirationDate: '',
+})
 
 const currentPage = computed(() => {
   return productHistoryStore.currentPage
@@ -189,15 +213,34 @@ const openEditProductModalHistory = (data) => {
 
 const getProductHistories = (filters = {}) => {
   isLoading.value = true
-  ProductService.getProductsDetails({ limit: pageSize, page: page.value, ...filters })
-    .then((res) => {
-      useProductHistoryStore().clearStore()
-      useProductHistoryStore().totalHistories = res.total
-      useProductHistoryStore().setProductHistories(res.data)
-      useProductHistoryStore().currentPage = page.value
-    }).finally(() => {
+  ProductService.getProductsDetails(
+    cleanObjectEmptyFields({ limit: pageSize, page: page.value, ...filters })
+  ).then((res) => {
+    useProductHistoryStore().clearStore()
+    useProductHistoryStore().totalHistories = res.total
+    useProductHistoryStore().setProductHistories(res.data)
+    useProductHistoryStore().currentPage = page.value
+  }).finally(() => {
     isLoading.value = false
   })
+}
+
+const getSort = (sortBy, sortOrder) => {
+  getProductHistories({
+    sortBy: sortBy,
+    sortOrder: sortOrder,
+  })
+  useDropdownStore().toggleSortBy()
+}
+
+const submitFilterData = () => {
+  isLoading.value = true
+  if (!filterData.startExpirationDate && !filterData.endExpirationDate) {
+    toast.error("Kamida bitta vaqtni tanlang")
+  } else {
+    getProductHistories(filterData)
+    useDropdownStore().toggleFilterBy()
+  }
 }
 
 const debounce = (fn, delay) => {
@@ -314,8 +357,20 @@ watch(route, (newRoute) => {
 </script>
 <template>
   <div class="p-4 md:p-8">
-    <div class="text-slate-900 text-2xl md:text-3xl font-semibold mb-6">
-      {{ $t('productsHistory') }}
+    <div class="flex md:flex-row flex-col items-center justify-between space-y-4 md:space-y-0 mb-6">
+      <div class="text-slate-900 text-2xl md:text-3xl font-semibold">
+        {{ $t('productsHistory') }}
+      </div>
+      <div class="w-full md:w-auto order-1 md:order-2 flex space-x-2">
+        <button v-if="navigationGuard('create_product')" @click="useModalStore().openCreateLabelModal()"
+          class="w-full md:w-auto py-2 px-4 rounded-full text-white text-lg font-medium bg-green-500 cursor-pointer hover:bg-green-600">
+          {{ $t('createLabel') }}
+        </button>
+        <button v-if="navigationGuard('create_product')" @click="useModalStore().openCreateProductModal()"
+          class="w-full md:w-auto py-2 px-4 rounded-full text-white text-lg font-medium bg-blue-500 cursor-pointer hover:bg-blue-600">
+          {{ $t('addProduct') }}
+        </button>
+      </div>
     </div>
     <div class="flex md:flex-row flex-col items-center justify-between">
       <div class="relative w-full md:w-auto my-2 md:mb-0 order-2 md:order-1">
@@ -323,18 +378,94 @@ watch(route, (newRoute) => {
           <SearchIcon class="w-5 h-5 text-slate-400" />
         </div>
         <input type="search" v-model="searchFilter"
-               class="bg-slate-100 border-none w-full text-slate-900 text-base md:text-lg rounded-full block pl-10 py-2 placeholder-slate-400"
-               placeholder="Search everything...">
+          class="bg-slate-100 border-none w-full text-slate-900 text-base md:text-lg rounded-full block pl-10 py-2 placeholder-slate-400"
+          placeholder="Search everything...">
       </div>
       <div class="w-full md:w-auto order-1 md:order-2 flex space-x-2">
-        <button v-if="navigationGuard('create_product')" @click="useModalStore().openCreateLabelModal()"
-                class="w-full md:w-auto py-2 px-4 rounded-full text-white text-lg font-medium bg-green-500 cursor-pointer hover:bg-green-600">
-          {{ $t('createLabel') }}
-        </button>
-        <button v-if="navigationGuard('create_product')" @click="useModalStore().openCreateProductModal()"
-                class="w-full md:w-auto py-2 px-4 rounded-full text-white text-lg font-medium bg-blue-500 cursor-pointer hover:bg-blue-600">
-          {{ $t('addProduct') }}
-        </button>
+        <div class="relative w-full" ref="filterByDropdown">
+          <div @click="useDropdownStore().toggleFilterBy()"
+            class="border-none select-none text-gray-500 bg-slate-100 rounded-full w-full p-2 px-5 flex items-center hover:bg-gray-200 cursor-pointer space-x-1">
+            <FunnelIcon class="w-5 h-5 text-gray-400" />
+            <span>Filtr</span>
+          </div>
+          <div v-if="useDropdownStore().isOpenFilterBy"
+            class="absolute bg-white shadow-md rounded-xl w-52 p-3 z-20 top-12 right-0 space-y-3">
+            <div class="flex-1 space-y-1">
+              <label for="startExpirationDate" class="text-base md:text-lg font-medium">
+                {{ $t('from') }}
+              </label>
+              <input id="startExpirationDate" type="date" v-model="filterData.startExpirationDate"
+                class="bg-slate-100 border-none text-slate-900 rounded-lg w-full h-11 placeholder-slate-400 placeholder:text-sm md:placeholder:text-lg"
+                :placeholder="t('enterProductQuantity')">
+            </div>
+            <div class="flex-1 space-y-1">
+              <label for="endExpirationDate" class="text-base md:text-lg font-medium">
+                {{ $t('to') }}
+              </label>
+              <input id="endExpirationDate" type="date" v-model="filterData.endExpirationDate"
+                class="bg-slate-100 border-none text-slate-900 rounded-lg w-full h-11 placeholder-slate-400 placeholder:text-sm md:placeholder:text-lg"
+                :placeholder="t('enterProductQuantity')">
+            </div>
+            <div v-if="isLoading"
+              class="w-full bg-blue-600 py-2 select-none text-white rounded-lg flex items-center justify-center">
+              <Spinners270RingIcon
+                class="mr-2 w-5 h-5 text-gray-200 animate-spin dark:text-gray-600 fill-gray-600 dark:fill-gray-300" />
+              <span>{{ $t('loading') }}</span>
+            </div>
+            <div v-else @click="submitFilterData()"
+              class="w-full bg-blue-500 hover:bg-blue-600 cursor-pointer select-none py-2 text-white rounded-lg flex items-center justify-center">
+              <span>{{ $t('filter') }}</span>
+            </div>
+          </div>
+        </div>
+        <div class="relative w-full" ref="sortByDropdown">
+          <div @click="useDropdownStore().toggleSortBy()"
+            class="border-none select-none text-gray-500 bg-slate-100 rounded-full w-full p-2 px-5 flex items-center hover:bg-gray-200 cursor-pointer space-x-1">
+            <FunnelIcon class="w-5 h-5 text-gray-400" />
+            <span>Saralash</span>
+          </div>
+          <div v-if="useDropdownStore().isOpenSortBy"
+            class="absolute bg-white shadow-md rounded-xl w-48 p-3 z-20 top-12 right-0 space-y-3">
+            <ul>
+              <li @click="getSort('name', 'ASC')" class="px-2 py-1 text-sm hover:bg-slate-100 rounded cursor-pointer">
+                Nom bo'yicha (A-Z)
+              </li>
+              <li @click="getSort('name', 'DESC')" class="px-2 py-1 text-sm hover:bg-slate-100 rounded cursor-pointer">
+                Nom bo'yicha (Z-A)
+              </li>
+              <li @click="getSort('price', 'ASC')" class="px-2 py-1 text-sm hover:bg-slate-100 rounded cursor-pointer">
+                Narx bo'yicha (arzoni)
+              </li>
+              <li @click="getSort('price', 'DESC')" class="px-2 py-1 text-sm hover:bg-slate-100 rounded cursor-pointer">
+                Narx bo'yicha (qimmati)
+              </li>
+              <li @click="getSort('quantity', 'ASC')"
+                class="px-2 py-1 text-sm hover:bg-slate-100 rounded cursor-pointer">
+                Qoldiq bo'yicha (ozi)
+              </li>
+              <li @click="getSort('quantity', 'DESC')"
+                class="px-2 py-1 text-sm hover:bg-slate-100 rounded cursor-pointer">
+                Qoldiq bo'yicha (ko'pi)
+              </li>
+              <li @click="getSort('production_date', 'ASC')"
+                class="px-2 py-1 text-sm hover:bg-slate-100 rounded cursor-pointer">
+                Ishlab chiqarilgan (eski)
+              </li>
+              <li @click="getSort('production_date', 'DESC')"
+                class="px-2 py-1 text-sm hover:bg-slate-100 rounded cursor-pointer">
+                Ishlab chiqarilgan (yangi)
+              </li>
+              <li @click="getSort('expiration_date', 'ASC')"
+                class="px-2 py-1 text-sm hover:bg-slate-100 rounded cursor-pointer">
+                Yaroqlilik muddati (eski)
+              </li>
+              <li @click="getSort('expiration_date', 'DESC')"
+                class="px-2 py-1 text-sm hover:bg-slate-100 rounded cursor-pointer">
+                Yaroqlilik muddati (yangi)
+              </li>
+            </ul>
+          </div>
+        </div>
       </div>
     </div>
     <div v-if="isLoading" class="flex items-center justify-center h-20">
@@ -348,30 +479,30 @@ watch(route, (newRoute) => {
       </div>
       <div class="flex items-center space-x-2">
         <button :disabled="page === 1" @click="goToPage(1)"
-                class="flex items-center justify-center px-3 py-2 text-base font-medium text-slate-900 rounded-lg select-none hover:bg-blue-200 disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
-                type="button">
+          class="flex items-center justify-center px-3 py-2 text-base font-medium text-slate-900 rounded-lg select-none hover:bg-blue-200 disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
+          type="button">
           <CaretDoubleLeftIcon class="w-5 h-5" />
         </button>
         <button @click="prevPage" :disabled="page === 1"
-                class="flex items-center justify-center px-3 py-2 text-base font-medium text-slate-900 rounded-lg select-none hover:bg-blue-200 disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
-                type="button">
+          class="flex items-center justify-center px-3 py-2 text-base font-medium text-slate-900 rounded-lg select-none hover:bg-blue-200 disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
+          type="button">
           <CaretLeftIcon class="w-5 h-5" />
         </button>
         <div class="flex items-center space-x-2">
           <button v-for="pageNumber in displayedPageNumbers" :key="pageNumber" @click="goToPage(pageNumber)"
-                  :class="{ 'bg-blue-600 text-white': pageNumber === page, 'hover:bg-blue-200': pageNumber !== page }"
-                  class="px-3 py-2 select-none rounded-lg text-slate-900 text-center text-base font-medium transition-all">
+            :class="{ 'bg-blue-600 text-white': pageNumber === page, 'hover:bg-blue-200': pageNumber !== page }"
+            class="px-3 py-2 select-none rounded-lg text-slate-900 text-center text-base font-medium transition-all">
             {{ pageNumber }}
           </button>
         </div>
         <button @click="nextPage" :disabled="page === totalPages"
-                class="flex items-center gap-2 px-3 py-2 text-base font-medium text-center text-slate-900 rounded-lg select-none hover:bg-blue-200 disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
-                type="button">
+          class="flex items-center gap-2 px-3 py-2 text-base font-medium text-center text-slate-900 rounded-lg select-none hover:bg-blue-200 disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
+          type="button">
           <CaretRightIcon class="w-5 h-5" />
         </button>
         <button :disabled="page === totalPages" @click="goToPage(totalPages)"
-                class="flex items-center gap-2 px-3 py-2 text-base font-medium text-slate-900 rounded-lg select-none hover:bg-blue-200 disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
-                type="button">
+          class="flex items-center gap-2 px-3 py-2 text-base font-medium text-slate-900 rounded-lg select-none hover:bg-blue-200 disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
+          type="button">
           <CaretDoubleRightIcon class="w-5 h-5" />
         </button>
       </div>
