@@ -268,5 +268,11 @@
   "uploadPhoto": "Загрузить фотографию",
   "uploadAnotherPhoto": "Загрузить еще одну фотографию",
   "youCanOnlyUploadPicture": "Вы можете загрузить только изображение",
-  "thereWasAnErrorUploadingThePhoto!": "При загрузке фотографии произошла ошибка!"
+  "thereWasAnErrorUploadingThePhoto!": "При загрузке фотографии произошла ошибка!",
+  "sotring": "Сортировка",
+  "byName": "По имени",
+  "byPrice": "По цене",
+  "byQuantity": "По количеству",
+  "byProductionDate": "По дате производства",
+  "byExpirationDate": "По дате истечения срока действия"
 }

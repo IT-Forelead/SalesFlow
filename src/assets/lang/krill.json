@@ -268,5 +268,11 @@
   "uploadPhoto": "Фотосуратни юклаш",
   "uploadAnotherPhoto": "Бошқа фотосурат юкланг",
   "youCanOnlyUploadPicture": "Фақат расм юклашингиз мумкин",
-  "thereWasAnErrorUploadingThePhoto!": "Фотосурат юклашда хатолик юз берди!"
+  "thereWasAnErrorUploadingThePhoto!": "Фотосурат юклашда хатолик юз берди!",
+  "sotring": "Саралаш",
+  "byName": "Номи билан",
+  "byPrice": "Нарх бўйича",
+  "byQuantity": "Миқдор бўйича",
+  "byProductionDate": "Ишлаб чиқарилган сана бўйича",
+  "byExpirationDate": "Яроқлилик муддати бўйича"
 }

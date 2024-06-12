@@ -267,5 +267,11 @@
   "uploadPhoto": "Upload a photo",
   "uploadAnotherPhoto": "Upload another photo",
   "youCanOnlyUploadPicture": "You can only upload a picture",
-  "thereWasAnErrorUploadingThePhoto!": "There was an error uploading the photo!"
+  "thereWasAnErrorUploadingThePhoto!": "There was an error uploading the photo!",
+  "sotring": "Sorting",
+  "byName": "By name",
+  "byPrice": "By price",
+  "byQuantity": "By quantity",
+  "byProductionDate": "By production date",
+  "byExpirationDate": "By expiration date"
 }

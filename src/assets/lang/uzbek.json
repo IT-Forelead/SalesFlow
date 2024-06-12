@@ -268,5 +268,11 @@
   "uploadPhoto": "Fotosuratni yuklash",
   "uploadAnotherPhoto": "Boshqa fotosurat yuklang",
   "youCanOnlyUploadPicture": "Faqat rasm yuklashingiz mumkin",
-  "thereWasAnErrorUploadingThePhoto!": "Fotosurat yuklashda xatolik yuz berdi!"
+  "thereWasAnErrorUploadingThePhoto!": "Fotosurat yuklashda xatolik yuz berdi!",
+  "sotring": "Saralash",
+  "byName": "Nomi bilan",
+  "byPrice": "Narx bo'yicha",
+  "byQuantity": "Miqdor bo'yicha",
+  "byProductionDate": "Ishlab chiqarilgan sana bo'yicha",
+  "byExpirationDate": "Yaroqlilik muddati bo'yicha"
 }
