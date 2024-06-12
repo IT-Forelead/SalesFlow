@@ -254,11 +254,9 @@ const changeAllDiscounts = () => {
       <div v-if="selectedProducts?.length > 0" class=" py-2 align-middle flex flex-col space-y-2">
         <div class="flex flex-col space-y-4">
           <div class="flex h-12 space-x-3 justify-end">
-
             <input class="w-20 rounded-xl bg-slate-100 border-none" placeholder="0" type="number" v-model="discount">
             <button class="w-auto whitespace-nowrap px-4 bg-blue-500 hover:bg-blue-600 text-white rounded-xl"
               @click="changeAllDiscounts">{{ $t('changeAll') }}</button>
-
           </div>
 
           <div class="flex h-[200px] flex-col space-y-5 ">
@@ -309,7 +307,7 @@ const changeAllDiscounts = () => {
                     <td class="px-3 py-2 whitespace-nowrap">
                       <div class="flex justify-center space-x-2 items-center">
                         <input v-model="product.discount" @blur="setDiscount($event, product)"
-                          class="bg-slate-100 border-none text-slate-900 rounded-xl w-20 h-12 pl-4 py-2 placeholder-slate-400"
+                          class="bg-slate-100 border border-slate-200 cursor-pointer text-slate-900 rounded-lg w-20 h-12 pl-4 py-2 placeholder-slate-400"
                           type="number" placeholder="0">
                         <span>%</span>
                       </div>
@@ -317,7 +315,7 @@ const changeAllDiscounts = () => {
                     <td class="px-3 py-2 whitespace-nowrap">
                       <div class="flex justify-center">
                         <money3 v-model.number="product.price" @blur="setPrice(product)" v-bind="moneyConf" id="price"
-                          class="w-40 border-none text-right text-gray-500 bg-slate-100 h-11 rounded-lg text-lg">
+                          class="w-40 border border-slate-200 cursor-pointer text-right text-gray-500 bg-slate-100 h-12 rounded-lg text-lg">
                         </money3>
                       </div>
                     </td>

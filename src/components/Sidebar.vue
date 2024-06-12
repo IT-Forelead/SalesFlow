@@ -187,7 +187,7 @@ onMounted(() => {
               <SettingsIcon class="w-6 h-6" />
             </div>
             <div>
-              {{ $t('saleSettings') }}
+              {{ $t('settings') }}
             </div>
           </router-link>
           <router-link v-if="navigationGuard('view_settings')" to="/debtors" @click="selectPage()" active-class="active"
