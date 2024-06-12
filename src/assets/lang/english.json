@@ -287,5 +287,6 @@
   "botSuccessfullyAdded": "Bot successfully added!",
   "errorWhileCreatingBot": "Error while creating bot",
   "status": "Status",
-  "realPrice": "Real price"
+  "realPrice": "Real price",
+  "profitStatistics": "Profit statistics"
 }
