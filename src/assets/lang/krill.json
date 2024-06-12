@@ -281,5 +281,6 @@
   "plsEnterBotToken": "Бот токен киритинг",
   "botSuccessfullyAdded": "Бот муваффақиятли қўшилди!",
   "errorWhileCreatingBot": "Бот қўшишда хатолик юз берди",
-  "status": "Статус"
+  "status": "Статус",
+  "realPrice": "Ҳақиқий нархи"
 }

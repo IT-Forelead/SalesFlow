@@ -66,7 +66,7 @@ onMounted(() => {
     }
   })
 })
-
+const realPrice = ref(0)
 const showDebtForm = ref(false)
 const searchProductDropdown = ref(null)
 const orderId = ref()
@@ -460,7 +460,7 @@ const createOrder = () => {
           cashier: res?.cashierFirstName + ' ' + res.cashierLastName,
           discount: res?.discountPercent ?? 0,
           discount_amount: res?.discountPrice ?? 0,
-          final_price: res?.totalPrice,
+          final_price: res?.paymentReceived,
           market: res?.marketName,
           paid: res?.paymentReceived,
           price: res?.initialPrice,
@@ -500,11 +500,26 @@ watch(
   },
   { deep: true },
 )
+watch(
+  () => activeBasket.value,
+  () => {
+    realPrice.value = activeBasket.value.map((product) => product?.price * roundFloatToTwoDecimal(product?.amount)).reduce((accumulator, currentValue) => accumulator + currentValue, 0)
+  },
+  { deep: true },
+)
 
+console.log(realPrice.value)
 watch(
   () => totalPrice.value,
   () => {
     submitData.paymentReceived = totalPrice.value
+  },
+  { deep: true },
+)
+watch(
+  () => realPrice.value,
+  () => {
+    realPrice.value = activeBasket.value.map((product) => product?.price * roundFloatToTwoDecimal(product?.amount)).reduce((accumulator, currentValue) => accumulator + currentValue, 0)
   },
   { deep: true },
 )
@@ -968,6 +983,14 @@ const removeLastDigit = () => {
               {{ $t('discountAmount') }}
             </div>
             <div class="text-base font-semibold text-red-500">-{{ useMoneyFormatter(0) }}</div>
+          </div>
+        </div>
+        <div class="flex items-center justify-between mt-2">
+          <div class="text-base font-medium text-gray-700">
+            {{ $t('realPrice') }}
+          </div>
+          <div class="text-base font-medium text-gray-700">
+            {{ useMoneyFormatter(realPrice) }}
           </div>
         </div>
         <div class="flex items-center justify-between mt-2 pt-3 border-t border-dashed">

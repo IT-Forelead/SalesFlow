@@ -280,5 +280,6 @@
   "plsEnterBotToken": "Please enter bot token",
   "botSuccessfullyAdded": "Bot successfully added!",
   "errorWhileCreatingBot": "Error while creating bot",
-  "status": "Status"
+  "status": "Status",
+  "realPrice": "Real price"
 }
