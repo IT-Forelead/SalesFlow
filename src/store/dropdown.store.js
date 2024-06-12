@@ -6,6 +6,7 @@ export const useDropdownStore = defineStore('dropdown', {
     isOpenAgentDropdown: false,
     isOpenSelectLanguage: false,
     isOpenFilterBy: false,
+    isOpenSortBy: false,
   }),
   actions: {
     setSelectOptionAgent(data) {
@@ -25,6 +26,9 @@ export const useDropdownStore = defineStore('dropdown', {
     },
     toggleFilterBy() {
       this.isOpenFilterBy = !this.isOpenFilterBy
+    },
+    toggleSortBy() {
+      this.isOpenSortBy = !this.isOpenSortBy
     },
   }
 })

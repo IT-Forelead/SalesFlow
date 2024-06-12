@@ -74,7 +74,7 @@ const createPercentageSettings = () => {
         </template>
         <div class="flex flex-col rounded-3xl">
           <div class="flex relative items-center space-x-4">
-            <div class="flex-1 spaceSearchIcon-y-1">
+            <div class="flex-1 space-y-1">
               <label for="percentage" class="text-base md:text-lg font-medium">
                 {{ $t('percentage')}}
               </label>
@@ -95,7 +95,7 @@ const createPercentageSettings = () => {
         </template>
         <div class="flex flex-col rounded-3xl">
           <div class="flex relative items-center space-x-4" v-if="isLoading">
-            <div class="flex-1 spaceSearchIcon-y-1">
+            <div class="flex-1 space-y-1">
               <label for="price" class="text-base md:text-lg font-medium">
                 {{ $t('boundaryPrice')}}
               </label>
