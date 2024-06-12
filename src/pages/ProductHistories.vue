@@ -386,7 +386,7 @@ watch(route, (newRoute) => {
           <div @click="useDropdownStore().toggleFilterBy()"
             class="border-none select-none text-gray-500 bg-slate-100 rounded-full w-full p-2 px-5 flex items-center hover:bg-gray-200 cursor-pointer space-x-1">
             <FunnelIcon class="w-5 h-5 text-gray-400" />
-            <span>Filtr</span>
+            <span>{{ $t('filter') }}</span>
           </div>
           <div v-if="useDropdownStore().isOpenFilterBy"
             class="absolute bg-white shadow-md rounded-xl w-52 p-3 z-20 top-12 right-0 space-y-3">
@@ -422,46 +422,46 @@ watch(route, (newRoute) => {
           <div @click="useDropdownStore().toggleSortBy()"
             class="border-none select-none text-gray-500 bg-slate-100 rounded-full w-full p-2 px-5 flex items-center hover:bg-gray-200 cursor-pointer space-x-1">
             <FunnelIcon class="w-5 h-5 text-gray-400" />
-            <span>Saralash</span>
+            <span>{{ $t('sorting') }}</span>
           </div>
           <div v-if="useDropdownStore().isOpenSortBy"
             class="absolute bg-white shadow-md rounded-xl w-48 p-3 z-20 top-12 right-0 space-y-3">
             <ul>
               <li @click="getSort('name', 'ASC')" class="px-2 py-1 text-sm hover:bg-slate-100 rounded cursor-pointer">
-                Nom bo'yicha (A-Z)
+                {{ $t('byName') }} (A-Z)
               </li>
               <li @click="getSort('name', 'DESC')" class="px-2 py-1 text-sm hover:bg-slate-100 rounded cursor-pointer">
-                Nom bo'yicha (Z-A)
+                {{ $t('byName') }} (Z-A)
               </li>
               <li @click="getSort('price', 'ASC')" class="px-2 py-1 text-sm hover:bg-slate-100 rounded cursor-pointer">
-                Narx bo'yicha (arzoni)
+                {{ $t('byPrice') }} (arzoni)
               </li>
               <li @click="getSort('price', 'DESC')" class="px-2 py-1 text-sm hover:bg-slate-100 rounded cursor-pointer">
-                Narx bo'yicha (qimmati)
+                {{ $t('byPrice') }} (qimmati)
               </li>
               <li @click="getSort('quantity', 'ASC')"
                 class="px-2 py-1 text-sm hover:bg-slate-100 rounded cursor-pointer">
-                Qoldiq bo'yicha (ozi)
+                {{ $t('byQuantity') }} (ozi)
               </li>
               <li @click="getSort('quantity', 'DESC')"
                 class="px-2 py-1 text-sm hover:bg-slate-100 rounded cursor-pointer">
-                Qoldiq bo'yicha (ko'pi)
+                {{ $t('byQuantity') }} (ko'pi)
               </li>
               <li @click="getSort('production_date', 'ASC')"
                 class="px-2 py-1 text-sm hover:bg-slate-100 rounded cursor-pointer">
-                Ishlab chiqarilgan (eski)
+                {{ $t('byProductionDate') }} (eski)
               </li>
               <li @click="getSort('production_date', 'DESC')"
                 class="px-2 py-1 text-sm hover:bg-slate-100 rounded cursor-pointer">
-                Ishlab chiqarilgan (yangi)
+                {{ $t('byProductionDate') }} (yangi)
               </li>
               <li @click="getSort('expiration_date', 'ASC')"
                 class="px-2 py-1 text-sm hover:bg-slate-100 rounded cursor-pointer">
-                Yaroqlilik muddati (eski)
+                {{ $t('byExpirationDate') }} (eski)
               </li>
               <li @click="getSort('expiration_date', 'DESC')"
                 class="px-2 py-1 text-sm hover:bg-slate-100 rounded cursor-pointer">
-                Yaroqlilik muddati (yangi)
+                {{ $t('byExpirationDate') }} (yangi)
               </li>
             </ul>
           </div>
