@@ -218,29 +218,29 @@ const addProductToCart = (product, amount) => {
       }
     })
   } else {
-    if (product.quantity - product?.sold >= 0) {
+    if (product?.rest >= 0) {
       if (amount) {
         activeBasket.value.push({
           productId: product?.id,
           name: product?.name,
           packaging: product?.packaging,
           price: product?.price,
-          quantity: product?.quantity - product?.sold,
+          quantity: product?.rest,
           saleType: product?.saleType,
           amount: amount,
           serialId: product?.serialId,
         })
       }
-      else if (product?.saleType === 'kg' && (product?.quantity - product?.sold < 0.1 && product?.quantity - product?.sold > 0)) {
-        console.log(product?.quantity - product?.sold)
+      else if (product?.saleType === 'kg' && (product?.rest < 0.1 && product?.rest > 0)) {
+        console.log(product?.rest)
         activeBasket.value.push({
           productId: product?.id,
           name: product?.name,
           packaging: product?.packaging,
           price: product?.price,
-          quantity: product?.quantity - product?.sold,
+          quantity: product?.rest,
           saleType: product?.saleType,
-          amount: product?.quantity - product?.sold,
+          amount: product?.rest,
           serialId: product?.serialId,
         })
       }
@@ -250,21 +250,21 @@ const addProductToCart = (product, amount) => {
           name: product?.name,
           packaging: product?.packaging,
           price: product?.price,
-          quantity: product?.quantity - product?.sold,
+          quantity: product?.rest,
           saleType: product?.saleType,
           amount: 0.1,
           serialId: product?.serialId,
         })
       }
-      else if (product?.saleType === 'litre' && (product?.quantity - product?.sold <= 0.1 && product?.quantity - product?.sold > 0)) {
+      else if (product?.saleType === 'litre' && (product?.rest <= 0.1 && product?.rest > 0)) {
         activeBasket.value.push({
           productId: product?.id,
           name: product?.name,
           packaging: product?.packaging,
           price: product?.price,
-          quantity: product?.quantity - product?.sold,
+          quantity: product?.rest,
           saleType: product?.saleType,
-          amount: product?.quantity - product?.sold,
+          amount: product?.rest,
         })
       }
       else if (product?.saleType === 'litre') {
@@ -273,7 +273,7 @@ const addProductToCart = (product, amount) => {
           name: product?.name,
           packaging: product?.packaging,
           price: product?.price,
-          quantity: product?.quantity - product?.sold,
+          quantity: product?.rest,
           saleType: product?.saleType,
           amount: 0.5,
         })
@@ -283,7 +283,7 @@ const addProductToCart = (product, amount) => {
           name: product?.name,
           packaging: product?.packaging,
           price: product?.price,
-          quantity: product?.quantity - product?.sold,
+          quantity: product?.rest,
           saleType: product?.saleType,
           amount: 1,
           serialId: product?.serialId,
@@ -796,7 +796,7 @@ const removeLastDigit = () => {
                 <div class="text-base font-medium text-gray-500">
                   {{ $t('quantity') }}:
                   <span class="text-gray-700">
-                    {{ product?.quantity - product?.sold }}
+                    {{ product?.rest }}
                   </span>
                 </div>
               </div>
