@@ -289,5 +289,17 @@
   "errorWhileCreatingBot": "Бот қўшишда хатолик юз берди",
   "status": "Статус",
   "realPrice": "Ҳақиқий нархи",
-  "profitStatistics": "Фойда статистикаси"
+  "profitStatistics": "Фойда статистикаси",
+  "holidayDiscounts": "Байрам чегирмалари",
+  "addHolidayDiscount": "Байрам чегирма қўшиш",
+  "holidayDiscountPercentage": "Байрам чегирмасы фоиз",
+  "used": "Нечтаси фойдаланилган",
+  "holidayDiscountSuccessfullyAdded": "Байрам чегирма қўшилди!",
+  "errorWhileCreatingHolidayDiscount": "Байрам чегирма қўшишда хатолик юз берди",
+  "plsEnterPercentage": "Илтимос фоиз киритинг",
+  "plsEnterFrom": "Илтимос бошланиш санасини киритинг",
+  "plsEnterTo": "Илтимос тугаш санасини киритинг",
+  "enterFrom": "Бошлангич санаси киритинг",
+  "enterTo": "Тугаш санаси киритинг",
+  "minimalPriceForHolidayDiscount": "Байрам чегирмаси минимал нархи"
 }
