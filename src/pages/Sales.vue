@@ -1065,26 +1065,14 @@ const removeLastDigit = () => {
         </div>
       </div>
       <div class="space-y-6">
-        <div v-if="!isLoadingOrder" class="space-y-4">
+        <div class="space-y-4">
           <button @click="createOrder()"
                   class="w-full xl:py-3 px-4 lg:py-2 py-3 rounded-full text-white text-lg font-medium bg-blue-500 cursor-pointer hover:bg-blue-600">
             {{ $t('payment') }} <BillCheckIcon class="ml-2 h-6 w-6 inline" />
           </button>
           <button @click="createOrder(false)"
-                  class="w-full xl:py-3 px-4 lg:py-2 py-3 rounded-full text-white text-lg font-medium bg-blue-500 cursor-pointer hover:bg-blue-600">
+                  class="w-full xl:py-3 px-4 lg:py-2 py-3 rounded-full text-lg font-medium cursor-pointer bg-blue-50 border border-blue-300 text-blue-500 hover:bg-blue-100">
             {{ $t('payment') }} <BillCrossIcon class="ml-2 h-6 w-6 inline" />
-          </button>
-        </div>
-        <div v-else class="space-y-4">
-          <button class="flex items-center justify-center w-full xl:py-3 px-4 lg:py-2 py-3 rounded-full text-white text-lg font-medium bg-blue-600">
-            <Spinners270RingIcon
-                class="mr-2 w-5 h-5 text-gray-200 animate-spin dark:text-gray-600 fill-gray-600 dark:fill-gray-300" />
-            {{ $t('payment') }}
-          </button>
-          <button class="flex items-center justify-center w-full xl:py-3 px-4 lg:py-2 py-3 rounded-full text-white text-lg font-medium bg-blue-600">
-            <Spinners270RingIcon
-                class="mr-2 w-5 h-5 text-gray-200 animate-spin dark:text-gray-600 fill-gray-600 dark:fill-gray-300" />
-            {{ $t('payment') }}
           </button>
         </div>
         <div v-if="showDebtForm" class="flex flex-col space-y-4">
