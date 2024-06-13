@@ -20,6 +20,8 @@ import CreditCardIcon from '../assets/icons/CreditCardIcon.vue'
 import OnlinePaymentIcon from '../assets/icons/OnlinePaymentIcon.vue'
 import DebtIcon from '../assets/icons/DebtIcon.vue'
 import XIcon from '../assets/icons/XIcon.vue'
+import BillCheckIcon from '../assets/icons/BillCheckIcon.vue'
+import BillCrossIcon from '../assets/icons/BillCrossIcon.vue'
 import ProductService from '../services/product.service'
 import OrderService from '../services/order.service'
 import CustomerService from '../services/customer.service'
@@ -439,7 +441,7 @@ const clearSubmitData = () => {
   }
 }
 
-const createOrder = () => {
+const createOrder = (printCheck = true) => {
   if (activeBasket.value.length === 0) {
     toast.error('Tanlangan mahsulotlar mavjud emas!')
   } else {
@@ -470,28 +472,30 @@ const createOrder = () => {
           onSearchFocus.value = null
         }, 3000)
       }
-      OrderService.getOrderById(res).then((res) => {
-        printChaque({
-          cashier: res?.cashierFirstName + ' ' + res.cashierLastName,
-          discount: res?.discountPercent ?? 0,
-          discount_amount: res?.discountPrice ?? 0,
-          final_price: res?.paymentReceived,
-          market: res?.marketName,
-          paid: res?.paymentReceived,
-          price: res?.initialPrice,
-          products: res?.items.map((item) => {
-            return {
-              count: item?.amount,
-              name: item?.productName,
-              packaging: item?.packaging,
-              price: item?.salePrice,
-              total: item?.price,
-            }
-          }),
-          time: moment(res?.createdAt).format('DD/MM/YYYY H:mm'),
-          qrcode: qrcode.value,
+      if (printCheck) {
+        OrderService.getOrderById(res).then((res) => {
+          printChaque({
+            cashier: res?.cashierFirstName + ' ' + res.cashierLastName,
+            discount: res?.discountPercent ?? 0,
+            discount_amount: res?.discountPrice ?? 0,
+            final_price: res?.paymentReceived,
+            market: res?.marketName,
+            paid: res?.paymentReceived,
+            price: res?.initialPrice,
+            products: res?.items.map((item) => {
+              return {
+                count: item?.amount,
+                name: item?.productName,
+                packaging: item?.packaging,
+                price: item?.salePrice,
+                total: item?.price,
+              }
+            }),
+            time: moment(res?.createdAt).format('DD/MM/YYYY H:mm'),
+            qrcode: qrcode.value,
+          })
         })
-      })
+      }
     }).catch(() => {
       toast.error(t('errorWhileCreatingOrder'))
       isLoadingOrder.value = false
@@ -1061,16 +1065,28 @@ const removeLastDigit = () => {
         </div>
       </div>
       <div class="space-y-6">
-        <button v-if="!isLoadingOrder" @click="createOrder()"
-          class="w-full xl:py-3 px-4 lg:py-2 py-3 rounded-full text-white text-lg font-medium bg-blue-500 cursor-pointer hover:bg-blue-600">
-          {{ $t('payment') }}
-        </button>
-        <button v-else
-          class="flex items-center justify-center w-full xl:py-3 px-4 lg:py-2 py-3 rounded-full text-white text-lg font-medium bg-blue-600">
-          <Spinners270RingIcon
-            class="mr-2 w-5 h-5 text-gray-200 animate-spin dark:text-gray-600 fill-gray-600 dark:fill-gray-300" />
-          {{ $t('payment') }}
-        </button>
+        <div v-if="!isLoadingOrder" class="space-y-4">
+          <button @click="createOrder()"
+                  class="w-full xl:py-3 px-4 lg:py-2 py-3 rounded-full text-white text-lg font-medium bg-blue-500 cursor-pointer hover:bg-blue-600">
+            {{ $t('payment') }} <BillCheckIcon class="ml-2 h-6 w-6 inline" />
+          </button>
+          <button @click="createOrder(false)"
+                  class="w-full xl:py-3 px-4 lg:py-2 py-3 rounded-full text-white text-lg font-medium bg-blue-500 cursor-pointer hover:bg-blue-600">
+            {{ $t('payment') }} <BillCrossIcon class="ml-2 h-6 w-6 inline" />
+          </button>
+        </div>
+        <div v-else class="space-y-4">
+          <button class="flex items-center justify-center w-full xl:py-3 px-4 lg:py-2 py-3 rounded-full text-white text-lg font-medium bg-blue-600">
+            <Spinners270RingIcon
+                class="mr-2 w-5 h-5 text-gray-200 animate-spin dark:text-gray-600 fill-gray-600 dark:fill-gray-300" />
+            {{ $t('payment') }}
+          </button>
+          <button class="flex items-center justify-center w-full xl:py-3 px-4 lg:py-2 py-3 rounded-full text-white text-lg font-medium bg-blue-600">
+            <Spinners270RingIcon
+                class="mr-2 w-5 h-5 text-gray-200 animate-spin dark:text-gray-600 fill-gray-600 dark:fill-gray-300" />
+            {{ $t('payment') }}
+          </button>
+        </div>
         <div v-if="showDebtForm" class="flex flex-col space-y-4">
           <div>
             <div class="flex flex-col items-center space-y-4">
