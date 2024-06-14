@@ -41,7 +41,7 @@
   "addShop": "Добавить магазин",
   "shopName": "Название магазина",
   "address": "Адрес",
-  "price": "Цена продажи",
+  "price": "Цена",
   "accepted": "Принято",
   "discount": "Скидка",
   "pleaseEnterImg": "Пожалуйста, выберите продукт с изображением!",
@@ -289,5 +289,6 @@
   "errorWhileCreatingBot": "Ошибка при создании бота",
   "status": "Статус",
   "realPrice": "Реальная цена",
-  "profitStatistics": "Статистика прибыли"
+  "profitStatistics": "Статистика прибыли",
+  "sold": "Продал"
 }

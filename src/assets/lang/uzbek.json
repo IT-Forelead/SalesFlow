@@ -41,7 +41,7 @@
   "addShop": "Do'kon qo'shish",
   "shopName": "Do'kon nomi",
   "address": "Manzili",
-  "price": "Sotuv narxi",
+  "price": "Narxi",
   "accepted": "Qabul qilingan",
   "discount": "Chegirma",
   "pleaseEnterImg": "Iltimos, rasimni kiriting!",
@@ -289,5 +289,6 @@
   "errorWhileCreatingBot": "Bot yaratishda xatolik yuz berdi",
   "status": "Status",
   "realPrice": "Haqiqiy narxi",
- "profitStatistics": "Foyda statistikasi"
+ "profitStatistics": "Foyda statistikasi",
+  "sold": "Sotilgan"
 }

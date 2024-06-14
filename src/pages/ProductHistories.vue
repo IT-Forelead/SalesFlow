@@ -105,6 +105,10 @@ const columns = [
     header: t('quantity'),
   },
   {
+    accessorKey: 'sold',
+    header: t('sold'),
+  },
+  {
     accessorKey: 'historyType',
     header: t('type'),
     cell: ({ row }) => getHistoryType(row.original.historyType),

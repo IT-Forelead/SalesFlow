@@ -288,5 +288,6 @@
   "errorWhileCreatingBot": "Error while creating bot",
   "status": "Status",
   "realPrice": "Real price",
-  "profitStatistics": "Profit statistics"
+  "profitStatistics": "Profit statistics",
+  "sold": "Sold"
 }
