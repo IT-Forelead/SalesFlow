@@ -105,7 +105,8 @@ const onSearchFocus = ref(null)
 const onFullNameFocus = ref(null)
 const onPhoneFocus = ref(null)
 const isLoading = ref(false)
-const isLoadingOrder = ref(false)
+const isLoadingOrderWithPrint = ref(false)
+const isLoadingOrderWithoutPrint = ref(false)
 // const selectedProducts = ref([])
 const activeBasketStatus = ref('firstBasket')
 const activeBasket = ref([])
@@ -489,10 +490,14 @@ const createOrder = (printCheck = true) => {
   if (activeBasket.value.length === 0) {
     toast.error('Tanlangan mahsulotlar mavjud emas!')
   } else {
-    isLoadingOrder.value = true
+    if (printCheck) {
+      isLoadingOrderWithPrint.value = true
+    } else {
+      isLoadingOrderWithoutPrint.value = true
+    }
     OrderService.createOrder(
       cleanObjectEmptyFields({
-        holidayDiscountId:holidayDiscount.value?.id,
+        holidayDiscountId: holidayDiscount.value?.id,
         discountPercent: submitData.discountPercent,
         paymentReceived: submitData.paymentReceived,
         items: activeBasket.value,
@@ -510,7 +515,6 @@ const createOrder = (printCheck = true) => {
         showSale.value = false
         qrcode.value = null
       }
-      isLoadingOrder.value = false
       clearSubmitData()
       if (showSale.value) {
         setTimeout(() => {
@@ -541,9 +545,12 @@ const createOrder = (printCheck = true) => {
           })
         })
       }
+      isLoadingOrderWithPrint.value = false
+      isLoadingOrderWithoutPrint.value = false
     }).catch(() => {
       toast.error(t('errorWhileCreatingOrder'))
-      isLoadingOrder.value = false
+      isLoadingOrderWithPrint.value = false
+      isLoadingOrderWithoutPrint.value = false
     })
   }
 }
@@ -1114,16 +1121,36 @@ const removeLastDigit = () => {
       </div>
       <div class="space-y-6">
         <div class="space-y-4">
-          <button @click="createOrder()"
-                  class="w-full xl:py-3 px-4 lg:py-2 py-3 rounded-full text-white text-lg font-medium bg-blue-500 cursor-pointer hover:bg-blue-600">
-            {{ $t('payment') }}
-            <BillCheckIcon class="ml-2 h-6 w-6 inline" />
-          </button>
-          <button @click="createOrder(false)"
-                  class="w-full xl:py-3 px-4 lg:py-2 py-3 rounded-full text-lg font-medium cursor-pointer bg-blue-50 border border-blue-300 text-blue-500 hover:bg-blue-100">
-            {{ $t('payment') }}
-            <BillCrossIcon class="ml-2 h-6 w-6 inline" />
-          </button>
+          <div class="space-y-4">
+            <div v-if="!isLoadingOrderWithPrint && !isLoadingOrderWithoutPrint" class="space-y-4">
+              <button @click="createOrder(true)"
+                      class="w-full xl:py-3 px-4 lg:py-2 py-3 rounded-full text-white text-lg font-medium bg-blue-500 cursor-pointer hover:bg-blue-600">
+                {{ $t('payment') }} <BillCheckIcon class="ml-2 h-6 w-6 inline" />
+              </button>
+              <button @click="createOrder(false)"
+                      class="w-full xl:py-3 px-4 lg:py-2 py-3 rounded-full text-lg font-medium cursor-pointer bg-blue-50 border border-blue-300 text-blue-500 hover:bg-blue-100">
+                {{ $t('payment') }}
+                <BillCrossIcon class="ml-2 h-6 w-6 inline" />
+              </button>
+            </div>
+            <div v-else class="space-y-4">
+              <button v-if="isLoadingOrderWithPrint" class="flex items-center justify-center w-full xl:py-3 px-4 lg:py-2 py-3 rounded-full text-white text-lg font-medium bg-blue-600">
+                <Spinners270RingIcon class="mr-2 w-5 h-5 text-gray-200 animate-spin dark:text-gray-600 fill-gray-600 dark:fill-gray-300" />
+                {{ $t('payment') }}
+              </button>
+              <button v-else class="w-full xl:py-3 px-4 lg:py-2 py-3 rounded-full text-white text-lg font-medium bg-blue-500 cursor-pointer hover:bg-blue-600">
+                {{ $t('payment') }} <BillCheckIcon class="ml-2 h-6 w-6 inline" />
+              </button>
+              <button v-if="isLoadingOrderWithoutPrint" class="flex items-center justify-center w-full xl:py-3 px-4 lg:py-2 py-3 rounded-full text-lg font-medium cursor-pointer bg-blue-50 border border-blue-300 text-blue-500 hover:bg-blue-100">
+                <Spinners270RingIcon class="mr-2 w-5 h-5 text-blue-500 animate-spin dark:text-gray-600 fill-gray-600 dark:fill-gray-300" />
+                {{ $t('payment') }}
+              </button>
+              <button v-else class="w-full xl:py-3 px-4 lg:py-2 py-3 rounded-full text-lg font-medium cursor-pointer bg-blue-50 border border-blue-300 text-blue-500 hover:bg-blue-100">
+                {{ $t('payment') }}
+                <BillCrossIcon class="ml-2 h-6 w-6 inline" />
+              </button>
+            </div>
+          </div>
         </div>
         <div v-if="showDebtForm" class="flex flex-col space-y-4">
           <div>
