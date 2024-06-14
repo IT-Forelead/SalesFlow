@@ -289,5 +289,6 @@
   "status": "Status",
   "realPrice": "Real price",
   "profitStatistics": "Profit statistics",
-  "sold": "Sold"
+  "sold": "Sold",
+  "remainDebt": "Remain debt"
 }

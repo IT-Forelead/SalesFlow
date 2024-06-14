@@ -50,6 +50,10 @@ const columns = [
     header: t('phoneNumber'),
   },
   {
+    accessorKey: 'remainDebt',
+    header: t('remainDebt'),
+  },
+  {
     accessorKey: 'createdAt',
     accessorFn: row => moment(row.createdAt).format('DD/MM/YYYY H:mm'),
     header: t('createdAt'),

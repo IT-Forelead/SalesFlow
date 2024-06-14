@@ -290,5 +290,6 @@
   "status": "Статус",
   "realPrice": "Реальная цена",
   "profitStatistics": "Статистика прибыли",
-  "sold": "Продал"
+  "sold": "Продал",
+  "remainDebt": "Remain debt"
 }

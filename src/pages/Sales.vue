@@ -91,6 +91,7 @@ const secondBasket = ref([])
 const thirdBasket = ref([])
 const qrcode = ref()
 const phoneRegex = /\+998[1-9]\d{8}/
+const onDebtFocus = ref(null)
 
 const baskets = [
   {
@@ -554,6 +555,7 @@ watchEffect(() => {
     onSearchFocus.value.focus()
     onFullNameFocus.value = null
     onPhoneFocus.value = null
+    onDebtFocus.value = null
   }
 })
 watchEffect(() => {
@@ -561,6 +563,7 @@ watchEffect(() => {
     onFullNameFocus.value.focus()
     onSearchFocus.value = null
     onPhoneFocus.value = null
+    onDebtFocus.value = null
   }
 })
 watchEffect(() => {
@@ -568,11 +571,20 @@ watchEffect(() => {
     onPhoneFocus.value.focus()
     onSearchFocus.value = null
     onFullNameFocus.value = null
+    onDebtFocus.value = null
+  }
+})
+watchEffect(() => {
+  if (onDebtFocus.value) {
+    document.getElementById('debt').focus()
+    onPhoneFocus.value = null
+    onSearchFocus.value = null
+    onFullNameFocus.value = null
   }
 })
 
 const reFocus = () => {
-  if (router?.currentRoute?.value?.path === '/sales' && onSearchFocus.value) {
+  if (router?.currentRoute?.value?.path === '/sales' && onSearchFocus.value && onDebtFocus.value != null) {
     onSearchFocus.value.focus()
   }
 }
@@ -582,6 +594,7 @@ const fullNameReFocus = () => {
     onFullNameFocus.value.focus()
     onSearchFocus.value = null
     onPhoneFocus.value = null
+    onDebtFocus.value = null
   }
 }
 
@@ -590,9 +603,18 @@ const phoneReFocus = () => {
     onPhoneFocus.value.focus()
     onSearchFocus.value = null
     onFullNameFocus.value = null
+    onDebtFocus.value = null
   }
 }
 
+const debtReFocus = () => {
+  if (router?.currentRoute?.value?.path === '/sales' && onDebtFocus.value) {
+    document.getElementById('debtor-price').focus() // Focus the element
+    onSearchFocus.value = null
+    onPhoneFocus.value = null
+    onFullNameFocus.value = null
+  }
+}
 // const onFocusSearchInput = () => {
 //   const searchInput = document.getElementById('globle-search');
 //   searchInput.focus();
@@ -647,11 +669,13 @@ const isLoadingDebtForm = ref(false)
 const customerForm = reactive({
   fullName: '',
   phone: '',
+  remainDebt: '',
 })
 
 const clearCustomerForm = () => {
   customerForm.fullName = ''
   customerForm.phone = ''
+  customerForm.remainDebt = ''
 }
 
 const closeForm = () => {
@@ -699,20 +723,31 @@ const createDebt = () => {
     toast.warning(t('plsEnterValidPhoneNumber'))
   } else {
     isLoadingDebtForm.value = true
-    CustomerService.createDebt({
-      orderId: orderId.value,
-      fullName: customerForm.fullName,
-      phone: customerForm.phone.replace(/([() -])/g, ''),
-    })
-      .then(() => {
-        isLoadingDebtForm.value = false
-        closeDebtForm()
-        toast.success(t('debtCreatedSuccessfully'))
+    OrderService.createOrder(
+        cleanObjectEmptyFields({
+          discountPercent: submitData.discountPercent,
+          paymentReceived: submitData.paymentReceived,
+          items: activeBasket.value,
+        }),
+      ).then((res) => {
+        orderId.value = res
+        CustomerService.createDebt({
+          orderId: orderId.value,
+          fullName: customerForm.fullName,
+          phone: customerForm.phone.replace(/([() -])/g, ''),
+          remainDebt: customerForm.remainDebt,
+        })
+          .then(() => {
+            isLoadingDebtForm.value = false
+            closeDebtForm()
+            toast.success(t('debtCreatedSuccessfully'))
+          })
+          .catch(() => {
+            isLoadingDebtForm.value = false
+            toast.error(t('errorWhileCreatingDebt'))
+          })
       })
-      .catch(() => {
-        isLoadingDebtForm.value = false
-        toast.error(t('errorWhileCreatingDebt'))
-      })
+      
   }
 }
 
@@ -1097,6 +1132,15 @@ const removeLastDigit = () => {
                   type="text" v-maska data-maska="+998(##) ###-##-##"
                   class="bg-slate-100 border-none w-full text-slate-900 rounded-lg py-2.5 placeholder-slate-400"
                   placeholder="+998(00) 000-00-00" />
+              </div>
+              <div class="w-full">
+                <label for="remainDebt" class="text-base font-medium">
+                  {{ $t('remainDebt') }}
+                  <span class="text-red-500 mr-2">*</span>
+                </label>
+                <money3 v-model="customerForm.remainDebt" type="text" v-bind="moneyConf" id="debtor-price" ref="onDebtFocus" @blur="debtReFocus()"
+                  class="border-none text-right text-gray-500 bg-slate-100 rounded-lg w-full text-lg" ></money3>
+                
               </div>
             </div>
           </div>
