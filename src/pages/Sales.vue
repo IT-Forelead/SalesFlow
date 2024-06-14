@@ -3,7 +3,12 @@ import { computed, onMounted, reactive, ref, watch, watchEffect } from 'vue'
 import { vMaska } from 'maska'
 import { toast } from 'vue-sonner'
 import { useRouter } from 'vue-router'
-import { cleanObjectEmptyFields, roundFloatToOneDecimal, roundFloatToTwoDecimal } from '../mixins/utils'
+import {
+  cleanObjectEmptyFields,
+  roundFloatToFourDecimal,
+  roundFloatToOneDecimal,
+  roundFloatToTwoDecimal,
+} from '../mixins/utils'
 import ImageIcon from '../assets/icons/ImageIcon.vue'
 import MinusIcon from '../assets/icons/MinusIcon.vue'
 import PlusIcon from '../assets/icons/PlusIcon.vue'
@@ -535,7 +540,6 @@ const createOrder = (printCheck = true) => {
   }
 }
 
-const disableBasket = ref(false)
 const isLoadingDiscount = ref(false)
 const holidayDiscount = reactive({})
 const randomDiscount = () => {
@@ -550,10 +554,9 @@ const randomDiscount = () => {
     }
   })
   hasDiscount.value = false
-  disableBasket.value = true
   setTimeout(() => {
     createOrder(true)
-    holidayDiscount.value = { }
+    holidayDiscount.value = null
   }, 2500)
 }
 
