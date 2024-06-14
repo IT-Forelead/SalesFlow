@@ -26,6 +26,9 @@ import CreateLabelModal from './modals/CreateLabelModal.vue'
 import CreateAgentModal from './modals/CreateAgentModal.vue'
 import EditAgentModal from './modals/EditAgentModal.vue'
 import CreateTelegramBotModal from './modals/CreateTelegramBotModal.vue'
+import CreateHolidayDiscountModal from './modals/CreateHolidayDiscountModal.vue'
+import DiscountInfoModal from './modals/DiscountInfoModal.vue'
+import DeleteHolidayDiscountModal from './modals/DeleteHolidayDiscountModal.vue'
 
 const notificationDropdown = ref(null)
 
@@ -113,6 +116,9 @@ onUnmounted(() => {
   <CreateAgentModal/>
   <EditAgentModal/>
   <CreateTelegramBotModal/>
+  <CreateHolidayDiscountModal/>
+  <DiscountInfoModal/>
+  <DeleteHolidayDiscountModal/>
 </template>
 
 <style scoped></style>
