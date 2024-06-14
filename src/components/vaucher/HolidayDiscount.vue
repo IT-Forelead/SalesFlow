@@ -29,15 +29,15 @@ const columns = [
   },
   { accessorKey: 'quantity', header: t('quantity') },
   {
+    accessorKey: 'used',
+    header: t('used'),
+  },
+  {
     header: t('percentage'),
     cell: ({ row }) => `${row.original.percentage} %`,
   },
   { accessorKey: 'from', header: t('from') },
   { accessorKey: 'to', header: t('to') },
-  {
-    accessorKey: 'used',
-    header: t('used'),
-  },
   {
     accessorKey: 'actions',
     header: t('actions'),
