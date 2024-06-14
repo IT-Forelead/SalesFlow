@@ -466,30 +466,6 @@ const clearSubmitData = () => {
 }
 
 
-const isLoadingDiscount = ref(false)
-const holidayDiscount = reactive({})
-const randomDiscount = () => {
-  useModalStore().openDiscountInfoModal()
-  HolidayDiscountService.randomDiscount().then((discount) => {
-    if (discount) {
-      holidayDiscount.value = discount
-      useHolidayDiscount().clearDiscountStore()
-      useHolidayDiscount().setDiscount(discount)
-      useHolidayDiscount().totalPrice = submitData.paymentReceived
-      submitData.paymentReceived = Math.round(submitData.paymentReceived -(submitData.paymentReceived * discount.percentage)/100)
-    }
-  })
-  hasDiscount.value = false
-}
-
-const handleDiscountClick = () => {
-  isLoadingDiscount.value = true;
-  setTimeout(() => {
-    randomDiscount();
-    isLoadingDiscount.value = false;
-  }, 2500);
-};
-
 const createOrder = (printCheck = true) => {
   if (activeBasket.value.length === 0) {
     toast.error('Tanlangan mahsulotlar mavjud emas!')
@@ -558,6 +534,37 @@ const createOrder = (printCheck = true) => {
     })
   }
 }
+
+const disableBasket = ref(false)
+const isLoadingDiscount = ref(false)
+const holidayDiscount = reactive({})
+const randomDiscount = () => {
+  useModalStore().openDiscountInfoModal()
+  HolidayDiscountService.randomDiscount().then((discount) => {
+    if (discount) {
+      holidayDiscount.value = discount
+      useHolidayDiscount().clearDiscountStore()
+      useHolidayDiscount().setDiscount(discount)
+      useHolidayDiscount().totalPrice = submitData.paymentReceived
+      submitData.paymentReceived = Math.round(submitData.paymentReceived -(submitData.paymentReceived * discount.percentage)/100)
+    }
+  })
+  hasDiscount.value = false
+  disableBasket.value = true
+  setTimeout(() => {
+    createOrder(true)
+    holidayDiscount.value = { }
+  }, 2500)
+}
+
+const handleDiscountClick = () => {
+  isLoadingDiscount.value = true;
+  setTimeout(() => {
+    randomDiscount();
+    isLoadingDiscount.value = false;
+  }, 2500);
+};
+
 
 async function printChaque(data) {
   await axios
@@ -890,7 +897,7 @@ const removeLastDigit = () => {
         </div>
       </div>
 
-      <div v-if="activeBasket.length > 0" class=" py-2 align-middle">
+      <div v-if="activeBasket.length > 0" class="py-2 align-middle">
         <div class="min-w-full">
           <ScrollPanel class="w-full h-[550px] rounded-xl">
             <table class="md:min-w-full divide-y-8 divide-white">
@@ -1049,7 +1056,7 @@ const removeLastDigit = () => {
             <div class="text-base text-gray-600">
               {{ $t('discount') }}
             </div>
-            <div class="text-base font-semibold text-gray-900">{{ holidayDiscount.value.percentage }} %</div>
+            <div class="text-base font-semibold text-gray-900">{{ holidayDiscount.value?.percentage }} %</div>
           </div>
           <div class="flex items-center justify-between">
             <div class="text-base text-gray-600">
