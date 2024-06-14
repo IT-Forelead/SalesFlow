@@ -3,10 +3,11 @@ import { useModalStore } from '../../store/modal.store.js'
 import CTable from '../common/CTable.vue'
 import Spinners270RingIcon from '../../assets/icons/Spinners270RingIcon.vue'
 import SearchIcon from '../../assets/icons/SearchIcon.vue'
-import { computed, ref } from 'vue'
+import { computed, h, ref } from 'vue'
 import { useHolidayDiscount } from '../../store/holidayDiscount.store.js'
 import HolidayDiscountService from '../../services/holidayDiscount.service.js'
 import { useI18n } from 'vue-i18n'
+import TrashIcon from '../../assets/icons/TrashIcon.vue'
 
 const { t } = useI18n()
 const isLoading = ref(false)
@@ -37,7 +38,26 @@ const columns = [
     accessorKey: 'used',
     header: t('used'),
   },
+  {
+    accessorKey: 'actions',
+    header: t('actions'),
+    cell: ({ row }) => h('div', { class: 'flex items-center space-x-2' }, [
+      h('button', {
+        onClick: () => {
+          openDeleteHolidayDiscountModal(row.original)
+        },
+      }, [
+        h(TrashIcon, { class: 'w-6 h-6 text-red-600 hover:scale-105' }),
+      ]),
+    ]),
+    enableSorting: false,
+  },
 ]
+
+const openDeleteHolidayDiscountModal = (data) => {
+  useModalStore().openDeleteHolidayDiscountModal()
+  useHolidayDiscount().setSelectedHolidayDiscount(data)
+}
 
 const getHolidayDiscounts = () => {
   isLoading.value = true
