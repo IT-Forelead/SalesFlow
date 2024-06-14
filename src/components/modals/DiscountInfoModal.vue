@@ -20,7 +20,7 @@ const congratulations = new Audio('/audios/congratulations.mp3')
 watchEffect(() => {
   if (useModalStore().isOpenDiscountInfoModal) {
     jsConfetti.addConfetti({
-      emojis: ['⚡️', '💥', '✨', '🎉', '🎊', '🎁'],
+      emojis: ['⚡️', '💥', '✨', '🎉', '🎊', '🎁', '🎏', '🧨', '🔥', '🎫', '💰', '💸', '💣', '😱'],
     })
     congratulations.play()
   }
@@ -51,13 +51,12 @@ const calculateDiscountPrice = computed(() => {
         <div class="p-4 flex flex-col justify-center items-center" id="pricing">
           <div class="ring-2 ring-green-500 rounded-3xl w-full p-8 xl:p-10">
             <div class="flex items-center justify-between gap-x-4">
-              <h3 id="tier-extended" class="text-green-500 text-3xl font-semibold leading-8 uppercase">{{ $t('discount')
-                }}</h3>
+              <h3 id="tier-extended" class="text-green-500 text-3xl font-semibold leading-8 uppercase">{{ $t('discount') }}</h3>
               <p class="rounded-full bg-green-600/10 px-3 py-6 text-3xl font-semibold leading-5 text-green-600">
                 {{ discount.percentage }} %</p>
             </div>
-            <p class="mt-6 flex items-center space-x-4">
-              <span class="line-through text-2xl font-sans text-gray-500/70">{{ useMoneyFormatter(totalPrice) }}</span>
+            <p class="mt-6 flex items-center flex-col space-y-4">
+              <span class="line-through text-4xl font-sans text-gray-500/70">{{ useMoneyFormatter(totalPrice) }}</span>
               <span class="text-5xl font-bold tracking-tight text-gray-900">{{ useMoneyFormatter(calculateDiscountPrice) }}</span>
             </p>
           </div>

@@ -26,7 +26,11 @@ const columns = [
     cell: ({ row }) => `${parseInt(row.id, 10) + 1}`,
     enableSorting: false,
   },
-  { accessorKey: 'percentage', header: t('percentage') },
+  { accessorKey: 'quantity', header: t('quantity') },
+  {
+    header: t('percentage'),
+    cell: ({ row }) => `${row.original.percentage} %`,
+  },
   { accessorKey: 'from', header: t('from') },
   { accessorKey: 'to', header: t('to') },
   {
@@ -34,7 +38,6 @@ const columns = [
     header: t('used'),
   },
 ]
-
 
 const getHolidayDiscounts = () => {
   isLoading.value = true
