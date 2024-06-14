@@ -42,6 +42,7 @@ import ScrollPanel from 'primevue/scrollpanel'
 import { Money3 } from 'v-money3'
 import useMoneyFormatter from '../mixins/currencyFormatter.js'
 import HolidayDiscountService from '../services/holidayDiscount.service.js'
+import { useHolidayDiscount } from '../store/holidayDiscount.store.js'
 
 const API_URL = import.meta.env.VITE_CHEQUE_API_URL
 const addedToBasket = new Audio('/audios/added-to-basket.mp3')
@@ -474,6 +475,11 @@ const randomDiscount = () => {
   HolidayDiscountService.randomDiscount().then((discount) => {
     if (discount) {
       holidayDiscount.value = discount
+      useHolidayDiscount().clearDiscountStore()
+      useHolidayDiscount().setDiscount(discount)
+      useHolidayDiscount().totalPrice = submitData.paymentReceived
+      console.log(submitData.paymentReceived)
+      submitData.paymentReceived = Math.round(submitData.paymentReceived -(submitData.paymentReceived * discount.percentage)/100)
     }
   })
   hasDiscount.value = false
@@ -1058,7 +1064,6 @@ const removeLastDigit = () => {
           </div>
         </div>
       </div>
-
       <div class="space-y-1">
         <label class="text-base font-medium">
           {{ $t('paymentReceived') }}
