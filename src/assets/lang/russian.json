@@ -290,5 +290,17 @@
   "status": "Статус",
   "realPrice": "Реальная цена",
   "profitStatistics": "Статистика прибыли",
-  "sold": "Продал"
+  "sold": "Продал",
+  "holidayDiscounts": "Скидки на праздники",
+  "addHolidayDiscount": "Добавить скидку на праздник",
+  "holidayDiscountPercentage": "Процент скидки на праздник",
+  "used": "Использовано",
+  "holidayDiscountSuccessfullyAdded": "Скидка на праздник успешно добавлена!",
+  "errorWhileCreatingHolidayDiscount": "Ошибка при создании скидки на праздник",
+  "plsEnterPercentage": "Введите процент",
+  "plsEnterFrom": "Введите срок начала",
+  "plsEnterTo": "Введите срок окончания",
+  "enterFrom": "Срок начала",
+  "enterTo": "Срок окончания",
+  "minimalPriceForHolidayDiscount": "Минимальная цена для скидки на праздник"
 }
