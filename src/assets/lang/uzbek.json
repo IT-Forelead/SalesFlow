@@ -289,5 +289,8 @@
   "errorWhileCreatingBot": "Bot yaratishda xatolik yuz berdi",
   "status": "Status",
   "realPrice": "Haqiqiy narxi",
- "profitStatistics": "Foyda statistikasi"
+  "profitStatistics": "Foyda statistikasi",
+  "thisProductNameAlreadyExist": "Ushbu mahsulot allaqachon mavjud!",
+  "reason": "Sababi",
+  "intoDiscount": "Chegirma berish"
 }

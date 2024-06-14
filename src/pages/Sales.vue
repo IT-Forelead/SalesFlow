@@ -1,5 +1,5 @@
 <script setup>
-import { computed, onMounted, reactive, ref, watch, watchEffect } from 'vue'
+import { computed, onMounted, reactive, ref, watch, watchEffect, nextTick } from 'vue'
 import { vMaska } from 'maska'
 import { toast } from 'vue-sonner'
 import { useRouter } from 'vue-router'
@@ -39,6 +39,7 @@ import { onClickOutside } from '@vueuse/core'
 import ScrollPanel from 'primevue/scrollpanel'
 import { Money3 } from 'v-money3'
 import useMoneyFormatter from '../mixins/currencyFormatter.js'
+import PhPercent from '../assets/icons/PercentIcon.vue'
 
 const API_URL = import.meta.env.VITE_CHEQUE_API_URL
 const addedToBasket = new Audio('/audios/added-to-basket.mp3')
@@ -56,6 +57,7 @@ const moneyConf = {
 const submitData = reactive({
   discountPercent: null,
   paymentReceived: 0,
+  discountReason: null,
 })
 
 const boundaryPrice = ref(0)
@@ -70,6 +72,7 @@ onMounted(() => {
 })
 const realPrice = ref(0)
 const showDebtForm = ref(false)
+const showDiscountForm = ref(false)
 const searchProductDropdown = ref(null)
 const orderId = ref()
 const showSale = ref(false)
@@ -89,6 +92,14 @@ const secondBasket = ref([])
 const thirdBasket = ref([])
 const qrcode = ref()
 const phoneRegex = /\+998[1-9]\d{8}/
+const onDiscountFocus = ref(null)
+const onTotalFocus = ref(null)
+const onDiscountReasonFocus = ref(null)
+const discount = ref(0);
+
+const setDiscountValue = (value) => {
+  discount.value = value;
+}
 
 const baskets = [
   {
@@ -428,6 +439,7 @@ const clearSearchInput = () => {
 
 const clearSubmitData = () => {
   submitData.discountPercent = ''
+  submitData.discountReason = ''
   submitData.paymentReceived = ''
   activeBasket.value = []
   if (activeBasketStatus.value === 'firstBasket') {
@@ -447,6 +459,7 @@ const createOrder = () => {
     OrderService.createOrder(
       cleanObjectEmptyFields({
         discountPercent: submitData.discountPercent,
+        discountReason: submitData.discountReason,
         paymentReceived: submitData.paymentReceived,
         items: activeBasket.value,
       }),
@@ -527,7 +540,7 @@ console.log(realPrice.value)
 watch(
   () => totalPrice.value,
   () => {
-    submitData.paymentReceived = totalPrice.value
+    submitData.paymentReceived = totalPrice.value - (totalPrice.value * submitData.discountPercent / 100)
   },
   { deep: true },
 )
@@ -545,11 +558,24 @@ const whenPressEnter = (e) => {
   }
 }
 
+watch(
+  () => discount.value,
+  (data) => {
+    submitData.discountPercent = data
+    submitData.paymentReceived = totalPrice.value - (totalPrice.value * submitData.discountPercent / 100)
+  },
+  { deep: true },
+)
+
 watchEffect(() => {
   if (onSearchFocus.value) {
     onSearchFocus.value.focus()
     onFullNameFocus.value = null
     onPhoneFocus.value = null
+    onDiscountFocus.value = null
+    onTotalFocus.value = null
+    onDiscountReasonFocus.value = null
+
   }
 })
 watchEffect(() => {
@@ -557,6 +583,10 @@ watchEffect(() => {
     onFullNameFocus.value.focus()
     onSearchFocus.value = null
     onPhoneFocus.value = null
+    onDiscountFocus.value = null
+    onTotalFocus.value = null
+    onDiscountReasonFocus.value = null
+
   }
 })
 watchEffect(() => {
@@ -564,20 +594,93 @@ watchEffect(() => {
     onPhoneFocus.value.focus()
     onSearchFocus.value = null
     onFullNameFocus.value = null
+    onDiscountFocus.value = null
+    onTotalFocus.value = null
+    onDiscountReasonFocus.value = null
+
+  }
+})
+
+watchEffect(() => {
+  if (onDiscountFocus.value) {
+    onDiscountFocus.value.focus()
+    onTotalFocus.value = null
+    onSearchFocus.value = null
+    onFullNameFocus.value = null
+    onPhoneFocus.value = null
+    onDiscountReasonFocus.value = null
+
+  }
+})
+
+watchEffect(() => {
+  if (onTotalFocus.value) {
+    document.getElementById('price').focus() // Focus the element
+    onDiscountFocus.value = null
+    onSearchFocus.value = null
+    onFullNameFocus.value = null
+    onPhoneFocus.value = null
+    onDiscountReasonFocus.value = null
+  }
+})
+
+watchEffect(() => {
+  if (onDiscountReasonFocus.value) {
+    onDiscountReasonFocus.value.focus() // Focus the element
+    onDiscountFocus.value = null
+    onSearchFocus.value = null
+    onFullNameFocus.value = null
+    onPhoneFocus.value = null
   }
 })
 
 const reFocus = () => {
-  if (router?.currentRoute?.value?.path === '/sales' && onSearchFocus.value) {
+  if (router?.currentRoute?.value?.path === '/sales' && onSearchFocus.value && (onDiscountFocus.value != null || onTotalFocus.value != null)) {
+    onTotalFocus.value = null
     onSearchFocus.value.focus()
   }
 }
 
 const fullNameReFocus = () => {
   if (router?.currentRoute?.value?.path === '/sales' && onFullNameFocus.value) {
+    onTotalFocus.value = null
     onFullNameFocus.value.focus()
     onSearchFocus.value = null
     onPhoneFocus.value = null
+    onDiscountFocus.value = null
+   // onTotalFocus.value = null
+  }
+}
+
+const discountReFocus = () => {
+  if (router?.currentRoute?.value?.path === '/sales' && onDiscountFocus.value) {
+    onDiscountFocus.value.focus()
+    onTotalFocus.value = null
+    onSearchFocus.value = null
+    onPhoneFocus.value = null
+    onFullNameFocus.value = null
+  }
+}
+
+const discountReasonReFocus = () => {
+  if (router?.currentRoute?.value?.path === '/sales' && onDiscountReasonFocus.value) {
+    onDiscountReasonFocus.value.focus()
+    onDiscountFocus.value = null
+    onTotalFocus.value = null
+    onSearchFocus.value = null
+    onPhoneFocus.value = null
+    onFullNameFocus.value = null
+  }
+}
+
+const totalReFocus = () => {
+  if (router?.currentRoute?.value?.path === '/sales' && onTotalFocus.value) {
+    document.getElementById('price').focus() // Focus the element
+    onDiscountFocus.value = null
+    onDiscountReasonFocus.value = null
+    onSearchFocus.value = null
+    onPhoneFocus.value = null
+    onFullNameFocus.value = null
   }
 }
 
@@ -586,6 +689,7 @@ const phoneReFocus = () => {
     onPhoneFocus.value.focus()
     onSearchFocus.value = null
     onFullNameFocus.value = null
+    onDiscountFocus.value = null
   }
 }
 
@@ -685,6 +789,9 @@ const closeDebtForm = () => {
   showDebtForm.value = false
   clearCustomerForm()
   selectP.value = undefined
+}
+const closeDiscountForm = () => {
+  showDiscountForm.value = false
 }
 const createDebt = () => {
   if (!customerForm.fullName) {
@@ -896,12 +1003,15 @@ const removeLastDigit = () => {
                           class="flex items-center justify-center w-8 h-8 bg-white text-slate-700 cursor-default rounded-xl">
                           <MinusIcon class="w-4 h-4" />
                         </div>
-                        <div v-if="product?.saleType === 'kg' && product?.amount <= 0.1" class="flex items-center justify-center text-lg font-normal">
-                          {{ roundFloatToFourDecimal(product?.amount)+ ' ' + saleTypeShortTranslate(product?.saleType) }}
+                        <div v-if="product?.saleType === 'kg' && product?.amount <= 0.1"
+                          class="flex items-center justify-center text-lg font-normal">
+                          {{ roundFloatToFourDecimal(product?.amount) + ' ' + saleTypeShortTranslate(product?.saleType)
+                          }}
                         </div>
 
                         <div v-else class="flex items-center justify-center text-lg font-normal">
-                          {{ roundFloatToTwoDecimal(product?.amount) + ' ' + saleTypeShortTranslate(product?.saleType) }}
+                          {{ roundFloatToTwoDecimal(product?.amount) + ' ' + saleTypeShortTranslate(product?.saleType)
+                          }}
                         </div>
                         <div @click="increaseCountOfProducts(product)" v-if="increaseCountChecking(product)"
                           class="flex items-center justify-center w-8 h-8 bg-white text-blue-700 shadow-sm hover:bg-slate-200 cursor-pointer rounded-xl">
@@ -925,7 +1035,6 @@ const removeLastDigit = () => {
                           class="flex items-center justify-center w-8 h-8 bg-white text-slate-700 cursor-default rounded-xl">
                           <MinusIcon class="w-4 h-4" />
                         </div>
-
                         <div class="flex items-center justify-center text-lg font-normal">
                           {{ useMoneyFormatter(product?.price * product?.amount) }}
                         </div>
@@ -937,7 +1046,6 @@ const removeLastDigit = () => {
                           class="flex items-center justify-center w-8 h-8 bg-white text-slate-700 cursor-default rounded-xl">
                           <PlusIcon class="w-4 h-4" />
                         </div>
-
                       </div>
                     </div>
                   </td>
@@ -945,8 +1053,8 @@ const removeLastDigit = () => {
                     <div class="flex justify-center space-x-2">
                       <TrashIcon @click="$event.stopPropagation(); removeProductFromCart(product)"
                         class="w-6 h-6 text-rose-500 cursor-pointer transform hover:scale-105" />
-<!--                      <PhMoney @click="saleAllRemainingAmount(); removeProductFromCart(product)"-->
-<!--                        class="w-6 h-6 text-green-500 cursor-pointer transform hover:scale-105" />-->
+                      <!--                      <PhMoney @click="saleAllRemainingAmount(); removeProductFromCart(product)"-->
+                      <!--                        class="w-6 h-6 text-green-500 cursor-pointer transform hover:scale-105" />-->
                     </div>
                   </td>
                 </tr>
@@ -997,7 +1105,8 @@ const removeLastDigit = () => {
             <div class="text-base text-gray-600">
               {{ $t('discountAmount') }}
             </div>
-            <div class="text-base font-semibold text-red-500">-{{ useMoneyFormatter(0) }}</div>
+            <div class="text-base font-semibold text-red-500">-{{ useMoneyFormatter(totalPrice *
+              submitData.discountPercent / 100) }}</div>
           </div>
         </div>
         <div class="flex items-center justify-between mt-2">
@@ -1013,190 +1122,233 @@ const removeLastDigit = () => {
             {{ $t('total') }}
           </div>
           <div class="text-xl font-semibold text-gray-900">
-            {{ useMoneyFormatter(totalPrice) }}
+            {{ useMoneyFormatter(totalPrice - (totalPrice * submitData.discountPercent / 100)) }}
           </div>
         </div>
       </div>
-
       <div class="space-y-1">
         <label class="text-base font-medium">
           {{ $t('paymentReceived') }}
         </label>
-        <money3 v-model="submitData.paymentReceived" v-bind="moneyConf" id="price"
-          class="border-none text-right text-gray-500 bg-slate-100 rounded-lg w-full text-lg" disabled></money3>
+        <money3 v-model="submitData.paymentReceived" v-bind="moneyConf" id="price" ref="onTotalFocus" 
+          @blur="totalReFocus()" class="border-none text-right text-gray-500 bg-slate-100 rounded-lg w-full text-lg" />
       </div>
-      <div class="py-3 lg:py-0 space-y-1">
-        <div class="text-base font-medium">
-          {{ $t('paymentType') }}
-        </div>
-        <div class="flex w-full space-x-2 lg:space-x-0 xl:space-x-4 xl:space-y-0 lg:space-y-2 lg:flex-col xl:flex-row">
-          <div
-            class="flex-1 flex flex-col w-full items-center justify-center bg-blue-50 border border-blue-300 rounded-lg py-4">
-            <MoneyIcon class="w-6 h-6 text-blue-500" />
-            <div class="text-lg font-medium text-blue-500">
-              {{ $t('withCash') }}
-            </div>
-          </div>
-          <div class="flex-1 flex flex-col items-center justify-center border rounded-lg py-4">
-            <CreditCardIcon class="w-6 h-6 text-gray-500" />
-            <div class="text-lg font-medium text-center">
-              {{ $t('withPlasticCard') }}
-            </div>
-          </div>
-        </div>
-        <div class="flex w-full space-x-2 lg:space-x-0 xl:space-x-4 xl:space-y-0 lg:space-y-2 lg:flex-col xl:flex-row">
-          <div class="flex-1 flex flex-col w-full items-center justify-center border rounded-lg py-4">
-            <OnlinePaymentIcon class="w-6 h-6" />
-            <div class="text-lg font-medium">
-              {{ $t('withClick') }}
-            </div>
-          </div>
-          <div @click="showDebtForm = !showDebtForm" :class="showDebtForm ? 'border-blue-300 bg-blue-50' : ''"
-            class="flex-1 flex flex-col hover:border-blue-300 hover:bg-blue-50 hover:cursor-pointer items-center justify-center border rounded-lg py-4">
-            <DebtIcon class="w-6 h-6 text-gray-500" />
-            <div class="text-lg font-medium">
-              {{ $t('intoDebt') }}
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="space-y-6">
-        <button v-if="!isLoadingOrder" @click="createOrder()"
-          class="w-full xl:py-3 px-4 lg:py-2 py-3 rounded-full text-white text-lg font-medium bg-blue-500 cursor-pointer hover:bg-blue-600">
-          {{ $t('payment') }}
-        </button>
-        <button v-else
-          class="flex items-center justify-center w-full xl:py-3 px-4 lg:py-2 py-3 rounded-full text-white text-lg font-medium bg-blue-600">
-          <Spinners270RingIcon
-            class="mr-2 w-5 h-5 text-gray-200 animate-spin dark:text-gray-600 fill-gray-600 dark:fill-gray-300" />
-          {{ $t('payment') }}
-        </button>
-        <div v-if="showDebtForm" class="flex flex-col space-y-4">
-          <div>
-            <div class="flex flex-col items-center space-y-4">
-              <div class="w-full">
-                <label for="debtor-fullname" class="text-base font-medium">
-                  {{ $t('fullName') }}
-                  <span class="text-red-500 mr-2">*</span>
-                </label>
-                <input v-model="customerForm.fullName" id="debtor-fullname" type="text" ref="onFullNameFocus"
-                  @blur="fullNameReFocus()"
-                  class="bg-slate-100 border-none text-slate-900 rounded-lg w-full py-2.5 placeholder-slate-400"
-                  :placeholder="t('enterFullName')" />
-              </div>
-              <div class="w-full">
-                <label for="debtor-phone" class="text-base font-medium">
-                  {{ $t('phone') }}
-                  <span class="text-red-500 mr-2">*</span>
-                </label>
-                <input ref="onPhoneFocus" @blur="phoneReFocus()" v-model="customerForm.phone" id="debtor-phone"
-                  type="text" v-maska data-maska="+998(##) ###-##-##"
-                  class="bg-slate-100 border-none w-full text-slate-900 rounded-lg py-2.5 placeholder-slate-400"
-                  placeholder="+998(00) 000-00-00" />
-              </div>
-            </div>
-          </div>
-          <div class="space-y-2">
-            <CancelButton class="w-full" @click="closeDebtForm" />
-            <button @click="createDebt"
-              class="w-full xl:py-3 px-4 lg:py-2 py-3 rounded-full text-white flex items-center justify-center text-lg font-medium bg-blue-500 cursor-pointer hover:bg-blue-600">
-              <Spinners270RingIcon v-if="isLoadingDebtForm"
-                class="mr-2 w-5 h-5 text-gray-200 animate-spin dark:text-gray-600 fill-gray-600 dark:fill-gray-300" />
-              {{ $t('intoDebt') }}
-            </button>
-          </div>
-        </div>
 
-        <div v-if="showSale" class="flex flex-col space-y-8">
-          <h3 class="text-xl font-semibold">{{ $t('addCustomer') }}</h3>
+      <div class="space-y-1">
+        <div @click="showDiscountForm = !showDiscountForm" :class="showDiscountForm ? 'border-blue-300 bg-blue-50' : ''"
+          class="flex-1 flex flex-col hover:border-blue-300 hover:bg-blue-50 hover:cursor-pointer items-center justify-center border rounded-lg py-4">
+          <PhPercent class="w-6 h-6 text-gray-500" />
+          <div class="text-lg font-medium">
+            {{ $t('intoDiscount') }}
+          </div>
+        </div>
+        <div v-if="showDiscountForm" class="flex flex-col space-y-1">
+          <div class="space-y-1">
+            <label class="text-base font-medium">
+              {{ $t('discount') }}
+            </label>
+          </div>
           <div>
-            <div class="flex items-center space-x-4">
-              <div class="flex-1">
-                <label for="customer-fullname" class="text-base font-medium">
-                  {{ $t('fullName') }}
-                  <span class="text-red-500 mr-2">*</span>
-                </label>
-                <input ref="onFullNameFocus" @blur="fullNameReFocus()" id="customer-fullname" type="text"
-                  v-model="customerForm.fullName"
-                  class="bg-slate-100 border-none text-slate-900 rounded-lg w-full py-2.5 placeholder-slate-400"
-                  :placeholder="t('enterFullName')" />
+            <input min="0" max="100" v-model="discount" type="number" ref="onDiscountFocus" @blur="discountReFocus()"
+              class="border-none text-right text-gray-500 bg-slate-100 rounded-lg w-full text-lg">
+            <div class="flex space-x-3 my-3 justify-end">
+              <button
+                class="px-4 py-2 flex items-center justify-center text-lg cursor-pointer border border-blue-400 bg-blue-50 hover:border-blue-400 hover:text-white hover:bg-blue-300 rounded-lg"
+                @click="setDiscountValue(10)">10%</button>
+              <button
+                class="px-4 py-2 flex items-center justify-center text-lg cursor-pointer border border-blue-400 bg-blue-100 hover:border-blue-400 hover:text-white hover:bg-blue-300 rounded-lg"
+                @click="setDiscountValue(25)">25%</button>
+              <button
+                class="px-4 py-2 flex items-center justify-center text-lg cursor-pointer border border-blue-400 bg-blue-200 hover:border-blue-400 hover:text-white hover:bg-blue-300 rounded-lg"
+                @click="setDiscountValue(50)">50%</button>
+              <button
+                class="px-4 py-2 flex items-center justify-center text-lg cursor-pointer border border-blue-400 bg-blue-300 hover:border-blue-400 hover:text-white hover:bg-blue-300 rounded-lg"
+                @click="setDiscountValue(100)">100%</button>
+            </div>
+            <div class="space-y-2">
+              <label class="text-base font-medium" for="reason">{{ $t('reason') }}</label>
+              <input type="text" v-model="submitData.discountReason"
+              ref="onDiscountReasonFocus" @blur="discountReasonReFocus()" class="border-none text-left text-gray-500 bg-slate-100 rounded-lg w-full text-lg">
+            </div>
+            <div class="mt-5">
+              <CancelButton class="w-full" @click="closeDiscountForm" />
+            </div>
+          </div>
+        </div>
+        <div class="py-3 lg:py-0 space-y-1">
+          <div class="text-base font-medium">
+            {{ $t('paymentType') }}
+          </div>
+          <div
+            class="flex w-full space-x-2 lg:space-x-0 xl:space-x-4 xl:space-y-0 lg:space-y-2 lg:flex-col xl:flex-row">
+            <div
+              class="flex-1 flex flex-col w-full items-center justify-center bg-blue-50 border border-blue-300 rounded-lg py-4">
+              <MoneyIcon class="w-6 h-6 text-blue-500" />
+              <div class="text-lg font-medium text-blue-500">
+                {{ $t('withCash') }}
               </div>
-              <div class="flex-1">
-                <label for="customer-phone" class="text-base font-medium">
-                  {{ $t('phone') }}
-                  <span class="text-red-500 mr-2">*</span>
-                </label>
-                <input ref="onPhoneFocus" @blur="phoneReFocus()" id="customer-phone" type="text"
-                  v-model="customerForm.phone" v-maska data-maska="+998(##) ###-##-##"
-                  class="bg-slate-100 border-none text-slate-900 rounded-lg w-full py-2.5 placeholder-slate-400"
-                  placeholder="+998(00) 000-00-00" />
+            </div>
+            <div class="flex-1 flex flex-col items-center justify-center border rounded-lg py-4">
+              <CreditCardIcon class="w-6 h-6 text-gray-500" />
+              <div class="text-lg font-medium text-center">
+                {{ $t('withPlasticCard') }}
               </div>
             </div>
           </div>
-          <div>
-            <CancelButton @click="closeForm" />
-            <button v-if="isLoadingCustomerForm"
-              class="inline-flex items-center justify-center ms-3 text-white bg-blue-600 focus:ring-4 focus:outline-none focus:ring-slate-300 rounded-xl border border-slate-200 text-sm font-medium px-5 py-2.5 focus:z-10 cursor-default">
-              <Spinners270RingIcon
-                class="mr-2 w-5 h-5 text-gray-200 animate-spin dark:text-gray-600 fill-gray-600 dark:fill-gray-300" />
-              {{ $t('create') }}
-            </button>
-            <button v-else @click="createSale()" type="button"
-              class="ms-3 text-white bg-blue-500 hover:bg-blue-600 focus:ring-4 focus:outline-none focus:ring-slate-300 rounded-xl border border-slate-200 text-sm font-medium px-5 py-2.5 focus:z-10">
-              {{ $t('create') }}
-            </button>
+          <div
+            class="flex w-full space-x-2 lg:space-x-0 xl:space-x-4 xl:space-y-0 lg:space-y-2 lg:flex-col xl:flex-row">
+            <div class="flex-1 flex flex-col w-full items-center justify-center border rounded-lg py-4">
+              <OnlinePaymentIcon class="w-6 h-6" />
+              <div class="text-lg font-medium">
+                {{ $t('withClick') }}
+              </div>
+            </div>
+            <div @click="showDebtForm = !showDebtForm" :class="showDebtForm ? 'border-blue-300 bg-blue-50' : ''"
+              class="flex-1 flex flex-col hover:border-blue-300 hover:bg-blue-50 hover:cursor-pointer items-center justify-center border rounded-lg py-4">
+              <DebtIcon class="w-6 h-6 text-gray-500" />
+              <div class="text-lg font-medium">
+                {{ $t('intoDebt') }}
+              </div>
+            </div>
           </div>
         </div>
-      </div>
-      <div>
-        <div v-if="selectP && selectP != undefined" class="h-52 grid grid-cols-3 grid-rows-4 gap-2">
-          <div
-            class="flex items-center justify-center text-lg cursor-pointer border border-slate-400 bg-slate-100 hover:border-blue-400 hover:text-blue-400 hover:bg-blue-100 rounded-lg"
-            @click="appendValue(1)">1
+        <div class="space-y-6">
+          <button v-if="!isLoadingOrder" @click="createOrder()"
+            class="w-full xl:py-3 px-4 lg:py-2 py-3 rounded-full text-white text-lg font-medium bg-blue-500 cursor-pointer hover:bg-blue-600">
+            {{ $t('payment') }}
+          </button>
+          <button v-else
+            class="flex items-center justify-center w-full xl:py-3 px-4 lg:py-2 py-3 rounded-full text-white text-lg font-medium bg-blue-600">
+            <Spinners270RingIcon
+              class="mr-2 w-5 h-5 text-gray-200 animate-spin dark:text-gray-600 fill-gray-600 dark:fill-gray-300" />
+            {{ $t('payment') }}
+          </button>
+          <div v-if="showDebtForm" class="flex flex-col space-y-4">
+            <div>
+              <div class="flex flex-col items-center space-y-4">
+                <div class="w-full">
+                  <label for="debtor-fullname" class="text-base font-medium">
+                    {{ $t('fullName') }}
+                    <span class="text-red-500 mr-2">*</span>
+                  </label>
+                  <input v-model="customerForm.fullName" id="debtor-fullname" type="text" ref="onFullNameFocus"
+                    @blur="fullNameReFocus()"
+                    class="bg-slate-100 border-none text-slate-900 rounded-lg w-full py-2.5 placeholder-slate-400"
+                    :placeholder="t('enterFullName')" />
+                </div>
+                <div class="w-full">
+                  <label for="debtor-phone" class="text-base font-medium">
+                    {{ $t('phone') }}
+                    <span class="text-red-500 mr-2">*</span>
+                  </label>
+                  <input ref="onPhoneFocus" @blur="phoneReFocus()" v-model="customerForm.phone" id="debtor-phone"
+                    type="text" v-maska data-maska="+998(##) ###-##-##"
+                    class="bg-slate-100 border-none w-full text-slate-900 rounded-lg py-2.5 placeholder-slate-400"
+                    placeholder="+998(00) 000-00-00" />
+                </div>
+              </div>
+            </div>
+            <div class="space-y-2">
+              <CancelButton class="w-full" @click="closeDebtForm" />
+              <button @click="createDebt"
+                class="w-full xl:py-3 px-4 lg:py-2 py-3 rounded-full text-white flex items-center justify-center text-lg font-medium bg-blue-500 cursor-pointer hover:bg-blue-600">
+                <Spinners270RingIcon v-if="isLoadingDebtForm"
+                  class="mr-2 w-5 h-5 text-gray-200 animate-spin dark:text-gray-600 fill-gray-600 dark:fill-gray-300" />
+                {{ $t('intoDebt') }}
+              </button>
+            </div>
           </div>
-          <div
-            class="flex items-center justify-center text-lg cursor-pointer border border-slate-400 bg-slate-100 hover:border-blue-400 hover:text-blue-400 hover:bg-blue-100 rounded-lg"
-            @click="appendValue(2)">2
+          <div v-if="showSale" class="flex flex-col space-y-8">
+            <h3 class="text-xl font-semibold">{{ $t('addCustomer') }}</h3>
+            <div>
+              <div class="flex items-center space-x-4">
+                <div class="flex-1">
+                  <label for="customer-fullname" class="text-base font-medium">
+                    {{ $t('fullName') }}
+                    <span class="text-red-500 mr-2">*</span>
+                  </label>
+                  <input ref="onFullNameFocus" @blur="fullNameReFocus()" id="customer-fullname" type="text"
+                    v-model="customerForm.fullName"
+                    class="bg-slate-100 border-none text-slate-900 rounded-lg w-full py-2.5 placeholder-slate-400"
+                    :placeholder="t('enterFullName')" />
+                </div>
+                <div class="flex-1">
+                  <label for="customer-phone" class="text-base font-medium">
+                    {{ $t('phone') }}
+                    <span class="text-red-500 mr-2">*</span>
+                  </label>
+                  <input ref="onPhoneFocus" @blur="phoneReFocus()" id="customer-phone" type="text"
+                    v-model="customerForm.phone" v-maska data-maska="+998(##) ###-##-##"
+                    class="bg-slate-100 border-none text-slate-900 rounded-lg w-full py-2.5 placeholder-slate-400"
+                    placeholder="+998(00) 000-00-00" />
+                </div>
+              </div>
+            </div>
+            <div>
+              <CancelButton @click="closeForm" />
+              <button v-if="isLoadingCustomerForm"
+                class="inline-flex items-center justify-center ms-3 text-white bg-blue-600 focus:ring-4 focus:outline-none focus:ring-slate-300 rounded-xl border border-slate-200 text-sm font-medium px-5 py-2.5 focus:z-10 cursor-default">
+                <Spinners270RingIcon
+                  class="mr-2 w-5 h-5 text-gray-200 animate-spin dark:text-gray-600 fill-gray-600 dark:fill-gray-300" />
+                {{ $t('create') }}
+              </button>
+              <button v-else @click="createSale()" type="button"
+                class="ms-3 text-white bg-blue-500 hover:bg-blue-600 focus:ring-4 focus:outline-none focus:ring-slate-300 rounded-xl border border-slate-200 text-sm font-medium px-5 py-2.5 focus:z-10">
+                {{ $t('create') }}
+              </button>
+            </div>
           </div>
-          <div
-            class="flex items-center justify-center text-lg cursor-pointer border border-slate-400 bg-slate-100 hover:border-blue-400 hover:text-blue-400 hover:bg-blue-100 rounded-lg"
-            @click="appendValue(3)">3
-          </div>
-          <div
-            class="flex items-center justify-center text-lg cursor-pointer border border-slate-400 bg-slate-100 hover:border-blue-400 hover:text-blue-400 hover:bg-blue-100 rounded-lg"
-            @click="appendValue(4)">4
-          </div>
-          <div
-            class="flex items-center justify-center text-lg cursor-pointer border border-slate-400 bg-slate-100 hover:border-blue-400 hover:text-blue-400 hover:bg-blue-100 rounded-lg"
-            @click="appendValue(5)">5
-          </div>
-          <div
-            class="flex items-center justify-center text-lg cursor-pointer border border-slate-400 bg-slate-100 hover:border-blue-400 hover:text-blue-400 hover:bg-blue-100 rounded-lg"
-            @click="appendValue(6)">6
-          </div>
-          <div
-            class="flex items-center justify-center text-lg cursor-pointer border border-slate-400 bg-slate-100 hover:border-blue-400 hover:text-blue-400 hover:bg-blue-100 rounded-lg"
-            @click="appendValue(7)">7
-          </div>
-          <div
-            class="flex items-center justify-center text-lg cursor-pointer border border-slate-400 bg-slate-100 hover:border-blue-400 hover:text-blue-400 hover:bg-blue-100 rounded-lg"
-            @click="appendValue(8)">8
-          </div>
-          <div
-            class="flex items-center justify-center text-lg cursor-pointer border border-slate-400 bg-slate-100 hover:border-blue-400 hover:text-blue-400 hover:bg-blue-100 rounded-lg"
-            @click="appendValue(9)">9
-          </div>
-          <div
-            class="flex items-center justify-center text-lg cursor-pointer border border-slate-400 bg-slate-100 hover:border-blue-400 hover:text-blue-400 hover:bg-blue-100 rounded-lg"
-            @click="separator()">.
-          </div>
-          <div
-            class="flex items-center justify-center text-lg cursor-pointer border border-slate-400 bg-slate-100 hover:border-blue-400 hover:text-blue-400 hover:bg-blue-100 rounded-lg"
-            @click="appendValue(0)">0
-          </div>
-          <div
-            class="flex items-center justify-center text-lg cursor-pointer border border-slate-400 bg-slate-100 hover:border-blue-400 hover:text-blue-400 hover:bg-blue-100 rounded-lg"
-            @click="removeLastDigit()">{{ '<' }} </div>
+        </div>
+        <div>
+          <div v-if="selectP && selectP != undefined" class="h-52 grid grid-cols-3 grid-rows-4 gap-2">
+            <div
+              class="flex items-center justify-center text-lg cursor-pointer border border-slate-400 bg-slate-100 hover:border-blue-400 hover:text-blue-400 hover:bg-blue-100 rounded-lg"
+              @click="appendValue(1)">1
+            </div>
+            <div
+              class="flex items-center justify-center text-lg cursor-pointer border border-slate-400 bg-slate-100 hover:border-blue-400 hover:text-blue-400 hover:bg-blue-100 rounded-lg"
+              @click="appendValue(2)">2
+            </div>
+            <div
+              class="flex items-center justify-center text-lg cursor-pointer border border-slate-400 bg-slate-100 hover:border-blue-400 hover:text-blue-400 hover:bg-blue-100 rounded-lg"
+              @click="appendValue(3)">3
+            </div>
+            <div
+              class="flex items-center justify-center text-lg cursor-pointer border border-slate-400 bg-slate-100 hover:border-blue-400 hover:text-blue-400 hover:bg-blue-100 rounded-lg"
+              @click="appendValue(4)">4
+            </div>
+            <div
+              class="flex items-center justify-center text-lg cursor-pointer border border-slate-400 bg-slate-100 hover:border-blue-400 hover:text-blue-400 hover:bg-blue-100 rounded-lg"
+              @click="appendValue(5)">5
+            </div>
+            <div
+              class="flex items-center justify-center text-lg cursor-pointer border border-slate-400 bg-slate-100 hover:border-blue-400 hover:text-blue-400 hover:bg-blue-100 rounded-lg"
+              @click="appendValue(6)">6
+            </div>
+            <div
+              class="flex items-center justify-center text-lg cursor-pointer border border-slate-400 bg-slate-100 hover:border-blue-400 hover:text-blue-400 hover:bg-blue-100 rounded-lg"
+              @click="appendValue(7)">7
+            </div>
+            <div
+              class="flex items-center justify-center text-lg cursor-pointer border border-slate-400 bg-slate-100 hover:border-blue-400 hover:text-blue-400 hover:bg-blue-100 rounded-lg"
+              @click="appendValue(8)">8
+            </div>
+            <div
+              class="flex items-center justify-center text-lg cursor-pointer border border-slate-400 bg-slate-100 hover:border-blue-400 hover:text-blue-400 hover:bg-blue-100 rounded-lg"
+              @click="appendValue(9)">9
+            </div>
+            <div
+              class="flex items-center justify-center text-lg cursor-pointer border border-slate-400 bg-slate-100 hover:border-blue-400 hover:text-blue-400 hover:bg-blue-100 rounded-lg"
+              @click="separator()">.
+            </div>
+            <div
+              class="flex items-center justify-center text-lg cursor-pointer border border-slate-400 bg-slate-100 hover:border-blue-400 hover:text-blue-400 hover:bg-blue-100 rounded-lg"
+              @click="appendValue(0)">0
+            </div>
+            <div
+              class="flex items-center justify-center text-lg cursor-pointer border border-slate-400 bg-slate-100 hover:border-blue-400 hover:text-blue-400 hover:bg-blue-100 rounded-lg"
+              @click="removeLastDigit()">{{ '<' }} </div>
+            </div>
           </div>
         </div>
       </div>

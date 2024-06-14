@@ -288,5 +288,8 @@
   "errorWhileCreatingBot": "Error while creating bot",
   "status": "Status",
   "realPrice": "Real price",
-  "profitStatistics": "Profit statistics"
+  "profitStatistics": "Profit statistics",
+  "thisProductNameAlreadyExist": "This product name already exist!",
+  "reason": "Reason",
+  "intoDiscount": "Use discount"
 }

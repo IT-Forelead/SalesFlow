@@ -289,5 +289,8 @@
   "errorWhileCreatingBot": "Бот қўшишда хатолик юз берди",
   "status": "Статус",
   "realPrice": "Ҳақиқий нархи",
-  "profitStatistics": "Фойда статистикаси"
+  "profitStatistics": "Фойда статистикаси",
+  "thisProductNameAlreadyExist": "Ушбу маҳсулот аллақачон мавжуд!",
+  "reason": "Сабаби",
+  "intoDiscount": "Чегирма бериш"
 }

@@ -289,5 +289,9 @@
   "errorWhileCreatingBot": "Ошибка при создании бота",
   "status": "Статус",
   "realPrice": "Реальная цена",
-  "profitStatistics": "Статистика прибыли"
+  "profitStatistics": "Статистика прибыли",
+  "thisProductNameAlreadyExist": "Такой товар уже существует!",
+  "reason": "Причина",
+  "intoDiscount": "Со скидкой"
+
 }
