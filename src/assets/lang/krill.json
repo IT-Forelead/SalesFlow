@@ -41,7 +41,7 @@
   "addShop": "Дўкон қўшиш",
   "shopName": "Дўкон номи",
   "address": "Манзили",
-  "price": "Сотув нархи",
+  "price": "Нархи",
   "accepted": "Қабул қилинган",
   "discount": "Чегирма",
   "pleaseEnterImg": "Илтимос, расимли махсулотни танланг!",
@@ -290,6 +290,7 @@
   "status": "Статус",
   "realPrice": "Ҳақиқий нархи",
   "profitStatistics": "Фойда статистикаси",
+  "sold": "Сотилган",
   "thisProductNameAlreadyExist": "Ушбу маҳсулот аллақачон мавжуд!",
   "reason": "Сабаби",
   "intoDiscount": "Чегирма бериш"
