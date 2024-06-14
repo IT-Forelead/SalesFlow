@@ -288,5 +288,6 @@
   "botSuccessfullyAdded": "Бот успешно добавлен!",
   "errorWhileCreatingBot": "Ошибка при создании бота",
   "status": "Статус",
-  "realPrice": "Реальная цена"
+  "realPrice": "Реальная цена",
+  "profitStatistics": "Статистика прибыли"
 }

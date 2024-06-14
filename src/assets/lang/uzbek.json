@@ -288,5 +288,6 @@
   "botSuccessfullyAdded": "Bot muvaffaqiyatli qo'shildi!",
   "errorWhileCreatingBot": "Bot yaratishda xatolik yuz berdi",
   "status": "Status",
-  "realPrice": "Haqiqiy narxi"
+  "realPrice": "Haqiqiy narxi",
+ "profitStatistics": "Foyda statistikasi"
 }

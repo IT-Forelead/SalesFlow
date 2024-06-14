@@ -9,6 +9,7 @@ import ChartDonutIcon from '../assets/icons/ChartDonutIcon.vue'
 import DollarIcon from '../assets/icons/DollarIcon.vue'
 import FunnelIcon from '../assets/icons/FunnelIcon.vue'
 import MoneyIcon from '../assets/icons/MoneyIcon.vue'
+import ChartBarIcon from '../assets/icons/ChartBarIcon.vue'
 import ShoppingCartIcon from '../assets/icons/ShoppingCartIcon.vue'
 import Spinners270RingIcon from '../assets/icons/Spinners270RingIcon.vue'
 import StoreIcon from '../assets/icons/StoreIcon.vue'
@@ -48,10 +49,17 @@ onClickOutside(dropdown, () => {
   }
 })
 
-const salesChartSeries = computed(() => [
+const profitChartSeries = computed(() => [
   {
     name: dailyTrading,
     data: ordersStat.value?.map((item) => item.profit),
+  },
+])
+
+const salesChartSeries = computed(() => [
+  {
+    name: dailyTrading,
+    data: turnoverStats.value?.map((item) => item.orderPrice).slice(-7),
   },
 ])
 
@@ -67,7 +75,7 @@ const turnoverStatsChartSeries = computed(() => [
 ])
 
 // Expenses Bar Chart
-const salesChartChartOptions = computed(() => {
+const profitChartChartOptions = computed(() => {
   return {
     chart: {
       type: 'bar',
@@ -106,6 +114,84 @@ const salesChartChartOptions = computed(() => {
     },
     xaxis: {
       categories: ordersStat.value?.map((item) => item.date),
+      labels: {
+        style: {
+          fontSize: '12px',
+        },
+        formatter: function (val) {
+          return moment(val).format('D-MMMM')
+        },
+      },
+      tooltip: {
+        enabled: true,
+      },
+      axisBorder: {
+        show: false,
+      },
+      axisTicks: {
+        show: false,
+      },
+    },
+    yaxis: {
+      axisBorder: {
+        show: false,
+      },
+      axisTicks: {
+        show: false,
+      },
+      labels: {
+        show: false,
+        formatter: function (val) {
+          return useMoneyFormatter(val)
+        },
+      },
+    },
+    grid: {
+      show: false,
+    },
+  }
+})
+
+// profit Bar Chart
+const salesChartChartOptions = computed(() => {
+  return {
+    chart: {
+      type: 'bar',
+      zoom: {
+        enabled: false,
+      },
+      toolbar: {
+        show: false,
+      },
+    },
+    plotOptions: {
+      bar: {
+        borderRadius: 5,
+        columnWidth: '60%',
+        dataLabels: {
+          position: 'top',
+          formatter: function (val) {
+            return shortenNumber(val)
+          },
+        },
+      },
+    },
+    dataLabels: {
+      enabled: true,
+      offsetY: -20,
+      style: {
+        fontSize: '14px',
+        colors: ['#304758'],
+      },
+      formatter: function (val) {
+        return shortenNumber(val)
+      },
+    },
+    legend: {
+      show: false,
+    },
+    xaxis: {
+      categories: turnoverStats.value?.map((item) => item.date).slice(-7),
       labels: {
         style: {
           fontSize: '12px',
@@ -545,7 +631,7 @@ watch(
         <div class="flex flex-col md:flex-row md:items-center md:justify-between px-2 space-y-3 md:space-y-0">
           <div>
             <div class="text-base font-bold text-gray-800">
-              {{ $t('salesStatistics') }}
+              {{ $t('profitStatistics') }}
             </div>
             <div v-if="salesChartFilterData === 7" class="text-sm text-gray-600">
               {{ $t('statisticsForTheLastSevenDays') }}
@@ -567,29 +653,29 @@ watch(
           </div>
         </div>
         <div v-if="salesChartFilterData === 7">
-          <apexchart type="bar" height="320" :options="salesChartChartOptions" :series="salesChartSeries">
+          <apexchart type="bar" height="320" :options="profitChartChartOptions" :series="profitChartSeries">
           </apexchart>
         </div>
         <div v-else>
-          <apexchart type="area" height="320" :options="salesAreaChartChartOptions" :series="salesChartSeries">
+          <apexchart type="area" height="320" :options="salesAreaChartChartOptions" :series="profitChartSeries">
           </apexchart>
         </div>
       </div>
       <div class="flex-1 bg-slate-50 rounded-3xl p-5">
-        <div class="flex items-center justify-between px-2">
+        <div class="flex flex-col md:flex-row md:items-center md:justify-between px-2 space-y-3 md:space-y-0">
           <div>
             <div class="text-base font-bold text-gray-800">
-              {{ $t('cashierStatistics') }}
+              {{ $t('salesStatistics') }}
             </div>
             <div class="text-sm text-gray-600">
               {{ $t('statisticsForTheLastSevenDays') }}
             </div>
           </div>
           <div class="flex items-center justify-center rounded-xl bg-blue-100 p-2">
-            <ChartDonutIcon class="w-8 h-8 text-blue-600" />
+            <ChartBarIcon class="w-8 h-8 text-blue-600" />
           </div>
         </div>
-        <apexchart type="donut" height="320" :options="caishersChartOptions" :series="caishersChartSeries">
+        <apexchart type="bar" height="320" :options="salesChartChartOptions" :series="salesChartSeries">
         </apexchart>
       </div>
     </div>
@@ -648,6 +734,26 @@ watch(
       <apexchart type="area" height="320" :options="turnoverStatsAreaChartChartOptions"
         :series="turnoverStatsChartSeries">
       </apexchart>
+    </div>
+    <div class="flex flex-col md:flex-row space-x-0 md:space-x-4 space-y-2 md:space-y-0">
+      <div class="flex-1 bg-slate-50 rounded-3xl p-5">
+        <div class="flex items-center justify-between px-2">
+          <div>
+            <div class="text-base font-bold text-gray-800">
+              {{ $t('cashierStatistics') }}
+            </div>
+            <div class="text-sm text-gray-600">
+              {{ $t('statisticsForTheLastSevenDays') }}
+            </div>
+          </div>
+          <div class="flex items-center justify-center rounded-xl bg-blue-100 p-2">
+            <ChartDonutIcon class="w-8 h-8 text-blue-600" />
+          </div>
+        </div>
+        <apexchart type="donut" height="320" :options="caishersChartOptions" :series="caishersChartSeries">
+        </apexchart>
+      </div>
+      <div class="flex-1"></div>
     </div>
   </div>
 </template>

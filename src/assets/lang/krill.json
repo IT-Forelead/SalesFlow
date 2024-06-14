@@ -288,5 +288,6 @@
   "botSuccessfullyAdded": "Бот муваффақиятли қўшилди!",
   "errorWhileCreatingBot": "Бот қўшишда хатолик юз берди",
   "status": "Статус",
-  "realPrice": "Ҳақиқий нархи"
+  "realPrice": "Ҳақиқий нархи",
+  "profitStatistics": "Фойда статистикаси"
 }
