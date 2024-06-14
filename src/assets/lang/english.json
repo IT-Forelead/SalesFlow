@@ -300,5 +300,6 @@
   "plsEnterTo": "Please enter to",
   "enterFrom": "Enter from",
   "enterTo": "Enter to",
-  "minimalPriceForHolidayDiscount": "Minimal price for holiday discount"
+  "minimalPriceForHolidayDiscount": "Minimal price for holiday discount",
+  "sold": "Sold"
 }
