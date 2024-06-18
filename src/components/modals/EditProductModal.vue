@@ -78,8 +78,13 @@ const updateProduct = () => {
       })
     isLoading.value = false
     closeModal()
-  }).catch(() => {
-    toast.error(t('errorWhileEditingProduct'))
+  }).catch((err) => {
+    console.log(err);
+    if (err.response.data.includes("already exist")) {
+      toast.error(t('thisProductNameAlreadyExist'))
+    } else {
+      toast.error(t('errorWhileEditingProduct'))
+    }
     isLoading.value = false
   })
 }
