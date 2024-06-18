@@ -40,9 +40,9 @@ import moment from 'moment'
 import { onClickOutside } from '@vueuse/core'
 import ScrollPanel from 'primevue/scrollpanel'
 import { Money3 } from 'v-money3'
-import useMoneyFormatter from '../mixins/currencyFormatter.js'
 import HolidayDiscountService from '../services/holidayDiscount.service.js'
 import { useHolidayDiscount } from '../store/holidayDiscount.store.js'
+import useMoneyFormatter from '../mixins/currencyFormatter.js'
 import PhPercent from '../assets/icons/PercentIcon.vue'
 
 const API_URL = import.meta.env.VITE_CHEQUE_API_URL
@@ -482,21 +482,6 @@ const clearSubmitData = () => {
   }
 }
 
-const holidayDiscount = reactive({})
-const randomDiscount = () => {
-  useModalStore().openDiscountInfoModal()
-  HolidayDiscountService.randomDiscount().then((discount) => {
-    if (discount) {
-      holidayDiscount.value = discount
-      useHolidayDiscount().clearDiscountStore()
-      useHolidayDiscount().setDiscount(discount)
-      useHolidayDiscount().totalPrice = submitData.paymentReceived
-      console.log(submitData.paymentReceived)
-      submitData.paymentReceived = Math.round(submitData.paymentReceived -(submitData.paymentReceived * discount.percentage)/100)
-    }
-  })
-  hasDiscount.value = false
-}
 
 const createOrder = (printCheck = true) => {
   if (activeBasket.value.length === 0) {
@@ -567,6 +552,35 @@ const createOrder = (printCheck = true) => {
     })
   }
 }
+
+const isLoadingDiscount = ref(false)
+const holidayDiscount = reactive({})
+const randomDiscount = () => {
+  useModalStore().openDiscountInfoModal()
+  HolidayDiscountService.randomDiscount().then((discount) => {
+    if (discount) {
+      holidayDiscount.value = discount
+      useHolidayDiscount().clearDiscountStore()
+      useHolidayDiscount().setDiscount(discount)
+      useHolidayDiscount().totalPrice = submitData.paymentReceived
+      submitData.paymentReceived = Math.round(submitData.paymentReceived -(submitData.paymentReceived * discount.percentage)/100)
+    }
+  })
+  hasDiscount.value = false
+  setTimeout(() => {
+    createOrder(true)
+    holidayDiscount.value = null
+  }, 2500)
+}
+
+const handleDiscountClick = () => {
+  isLoadingDiscount.value = true;
+  setTimeout(() => {
+    randomDiscount();
+    isLoadingDiscount.value = false;
+  }, 2500);
+};
+
 
 async function printChaque(data) {
   await axios
@@ -993,7 +1007,7 @@ const removeLastDigit = () => {
         </div>
       </div>
 
-      <div v-if="activeBasket.length > 0" class=" py-2 align-middle">
+      <div v-if="activeBasket.length > 0" class="py-2 align-middle">
         <div class="min-w-full">
           <ScrollPanel class="w-full h-[550px] rounded-xl">
             <table class="md:min-w-full divide-y-8 divide-white">
@@ -1154,14 +1168,13 @@ const removeLastDigit = () => {
             <div class="text-base text-gray-600">
               {{ $t('discount') }}
             </div>
-            <div class="text-base font-semibold text-gray-900">{{ submitData.discountPercent }} %</div>
+            <div class="text-base font-semibold text-gray-900">{{ holidayDiscount.value?.percentage }} %</div>
           </div>
           <div class="flex items-center justify-between">
             <div class="text-base text-gray-600">
               {{ $t('discountAmount') }}
             </div>
-            <div class="text-base font-semibold text-red-500">-{{ useMoneyFormatter(totalPrice *
-              submitData.discountPercent / 100) }}</div>
+            <div class="text-base font-semibold text-red-500">-{{ useMoneyFormatter(totalPrice-submitData.paymentReceived) }}</div>
           </div>
         </div>
         <div class="flex items-center justify-between mt-2">
@@ -1265,8 +1278,14 @@ const removeLastDigit = () => {
         </div>
       </div>
       <div v-if="hasDiscount && activeBasket.length > 0" class="flex flex-col space-y-4">
-        <button @click="randomDiscount()"
-          class="px-6 w-full uppercase animate-pulse py-5 bg-gradient-to-r from-blue-500 to-green-500 text-white font-semibold text-lg rounded-full shadow-md hover:shadow-lg transition duration-300 transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-opacity-75">
+        <button v-if="!isLoadingDiscount" @click="handleDiscountClick"
+                class="px-6 w-full uppercase animate-pulse py-5 bg-gradient-to-r from-blue-500 to-green-500 text-white font-semibold text-lg rounded-full shadow-md hover:shadow-lg transition duration-300 transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-opacity-75">
+          chegirma %
+        </button>
+
+        <button v-if="isLoadingDiscount"
+                class="flex items-center justify-center px-6 w-full uppercase animate-pulse py-5 bg-gradient-to-r from-blue-500 to-green-500 text-white font-semibold text-lg rounded-full shadow-md hover:shadow-lg transition duration-300 transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-opacity-75">
+          <Spinners270RingIcon class="mr-2 w-5 h-5 text-white animate-spin dark:text-gray-600 fill-gray-600 dark:fill-gray-300" />
           chegirma %
         </button>
       </div>
