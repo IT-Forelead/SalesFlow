@@ -41,7 +41,7 @@
   "addShop": "Дўкон қўшиш",
   "shopName": "Дўкон номи",
   "address": "Манзили",
-  "price": "Сотув нархи",
+  "price": "Нархи",
   "accepted": "Қабул қилинган",
   "discount": "Чегирма",
   "pleaseEnterImg": "Илтимос, расимли махсулотни танланг!",
@@ -289,5 +289,18 @@
   "errorWhileCreatingBot": "Бот қўшишда хатолик юз берди",
   "status": "Статус",
   "realPrice": "Ҳақиқий нархи",
-  "profitStatistics": "Фойда статистикаси"
+  "sold": "Сотилган",
+  "profitStatistics": "Фойда статистикаси",
+  "holidayDiscounts": "Байрам чегирмалари",
+  "addHolidayDiscount": "Байрам чегирма қўшиш",
+  "holidayDiscountPercentage": "Байрам чегирмасы фоиз",
+  "used": "Нечтаси фойдаланилган",
+  "holidayDiscountSuccessfullyAdded": "Байрам чегирма қўшилди!",
+  "errorWhileCreatingHolidayDiscount": "Байрам чегирма қўшишда хатолик юз берди",
+  "plsEnterPercentage": "Илтимос фоиз киритинг",
+  "plsEnterFrom": "Илтимос бошланиш санасини киритинг",
+  "plsEnterTo": "Илтимос тугаш санасини киритинг",
+  "enterFrom": "Бошлангич санаси киритинг",
+  "enterTo": "Тугаш санаси киритинг",
+  "minimalPriceForHolidayDiscount": "Байрам чегирмаси минимал нархи"
 }

@@ -41,7 +41,7 @@
   "addShop": "Добавить магазин",
   "shopName": "Название магазина",
   "address": "Адрес",
-  "price": "Цена продажи",
+  "price": "Цена",
   "accepted": "Принято",
   "discount": "Скидка",
   "pleaseEnterImg": "Пожалуйста, выберите продукт с изображением!",
@@ -289,5 +289,18 @@
   "errorWhileCreatingBot": "Ошибка при создании бота",
   "status": "Статус",
   "realPrice": "Реальная цена",
-  "profitStatistics": "Статистика прибыли"
+  "profitStatistics": "Статистика прибыли",
+  "sold": "Продал",
+  "holidayDiscounts": "Скидки на праздники",
+  "addHolidayDiscount": "Добавить скидку на праздник",
+  "holidayDiscountPercentage": "Процент скидки на праздник",
+  "used": "Использовано",
+  "holidayDiscountSuccessfullyAdded": "Скидка на праздник успешно добавлена!",
+  "errorWhileCreatingHolidayDiscount": "Ошибка при создании скидки на праздник",
+  "plsEnterPercentage": "Введите процент",
+  "plsEnterFrom": "Введите срок начала",
+  "plsEnterTo": "Введите срок окончания",
+  "enterFrom": "Срок начала",
+  "enterTo": "Срок окончания",
+  "minimalPriceForHolidayDiscount": "Минимальная цена для скидки на праздник"
 }

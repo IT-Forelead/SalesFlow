@@ -41,7 +41,7 @@
   "addShop": "Do'kon qo'shish",
   "shopName": "Do'kon nomi",
   "address": "Manzili",
-  "price": "Sotuv narxi",
+  "price": "Narxi",
   "accepted": "Qabul qilingan",
   "discount": "Chegirma",
   "pleaseEnterImg": "Iltimos, rasimni kiriting!",
@@ -289,5 +289,18 @@
   "errorWhileCreatingBot": "Bot yaratishda xatolik yuz berdi",
   "status": "Status",
   "realPrice": "Haqiqiy narxi",
- "profitStatistics": "Foyda statistikasi"
+ "profitStatistics": "Foyda statistikasi",
+  "holidayDiscounts": "Bayram chegirmalari",
+  "addHolidayDiscount": "Bayram chegirma qo'shish",
+  "holidayDiscountPercentage": "Bayram chegirmasi foizi",
+  "used": "Nechtasi foydalanilgan",
+  "holidayDiscountSuccessfullyAdded": "Bayram chegirmasi muvaffaqiyatli qo'shildi!",
+  "errorWhileCreatingHolidayDiscount": "Bayram chegirmasi yaratishda xatolik yuz berdi",
+  "plsEnterPercentage": "Iltimos foiz kiriting",
+  "plsEnterFrom": "Iltimos boshlang'ich sanasini kiriting",
+  "plsEnterTo": "Iltimos tugash sanasini kiriting",
+  "enterFrom": "Boshlang'ich sanasi kiriting",
+  "enterTo": "Tugash sanasi kiriting",
+  "minimalPriceForHolidayDiscount": "Bayram chegirmasi minimal narxi",
+  "sold": "Sotilgan"
 }
