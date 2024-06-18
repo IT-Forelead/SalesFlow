@@ -126,9 +126,6 @@ const discount = ref(0);
 const setDiscountValue = (value) => {
   discount.value = value;
 }
-const selectPage = () => {
-  useSidebarStore().isOpenSidebar = false
-}
 
 // write watch if hasDiscountToday is true and totalPrice is greater than minimalPrice make hasDiscount true
 watch(totalPrice, (newValue) => {
@@ -818,11 +815,15 @@ const isLoadingDebtForm = ref(false)
 const customerForm = reactive({
   fullName: '',
   phone: '',
+  discount: '',
+  discountReason: '',
 })
 
 const clearCustomerForm = () => {
   customerForm.fullName = ''
   customerForm.phone = ''
+  discount.value = ''
+  submitData.discountReason = ''
 }
 
 const closeForm = () => {
@@ -863,6 +864,8 @@ const closeDebtForm = () => {
 }
 const closeDiscountForm = () => {
   showDiscountForm.value = false
+  clearCustomerForm()
+  selectP.value = undefined
 }
 const createDebt = () => {
   if (!customerForm.fullName) {
@@ -1249,9 +1252,10 @@ const removeLastDigit = () => {
           </div>
         </div>
         <div class="py-3 lg:py-0 space-y-1">
-          <div class="text-base font-medium">
-            {{ $t('paymentType') }}
-          </div>
+        <div class="text-base font-medium">
+          {{ $t('paymentType') }}
+        </div>
+        <div class="flex w-full space-x-2 lg:space-x-0 xl:space-x-4 xl:space-y-0 lg:space-y-2 lg:flex-col xl:flex-row">
           <div
             class="flex-1 flex flex-col w-full items-center justify-center bg-blue-50 border border-blue-300 rounded-lg py-4">
             <MoneyIcon class="w-6 h-6 text-blue-500" />
@@ -1453,6 +1457,7 @@ const removeLastDigit = () => {
           <div
             class="flex items-center justify-center text-lg cursor-pointer border border-slate-400 bg-slate-100 hover:border-blue-400 hover:text-blue-400 hover:bg-blue-100 rounded-lg"
             @click="removeLastDigit()">{{ '<' }}
+          </div>
           </div>
         </div>
       </div>
