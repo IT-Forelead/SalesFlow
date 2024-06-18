@@ -126,7 +126,9 @@ const discount = ref(0);
 const setDiscountValue = (value) => {
   discount.value = value;
 }
-
+const selectPage = () => {
+  useSidebarStore().isOpenSidebar = false
+}
 
 // write watch if hasDiscountToday is true and totalPrice is greater than minimalPrice make hasDiscount true
 watch(totalPrice, (newValue) => {
@@ -1168,7 +1170,7 @@ const removeLastDigit = () => {
             <div class="text-base text-gray-600">
               {{ $t('discount') }}
             </div>
-            <div class="text-base font-semibold text-gray-900">{{ holidayDiscount.value?.percentage }} %</div>
+            <div class="text-base font-semibold text-gray-900">{{ submitData.discountPercent }} %</div>
           </div>
           <div class="flex items-center justify-between">
             <div class="text-base text-gray-600">
@@ -1221,16 +1223,19 @@ const removeLastDigit = () => {
               class="border-none text-right text-gray-500 bg-slate-100 rounded-lg w-full text-lg">
             <div class="flex space-x-3 my-3 justify-end">
               <button
-                class="px-4 py-2 flex items-center justify-center text-lg cursor-pointer border border-blue-400 bg-blue-50 hover:border-blue-400 hover:text-white hover:bg-blue-300 rounded-lg"
+                class="px-4 py-2 flex items-center justify-center text-lg cursor-pointer border border-blue-400 bg-blue-50  hover:border-blue-400 hover:text-white hover:bg-blue-400 rounded-lg" :class="{'bg-blue-400 text-white' : discount==10}"
                 @click="setDiscountValue(10)">10%</button>
               <button
-                class="px-4 py-2 flex items-center justify-center text-lg cursor-pointer border border-blue-400 bg-blue-100 hover:border-blue-400 hover:text-white hover:bg-blue-300 rounded-lg"
+                class="px-4 py-2 flex items-center justify-center text-lg cursor-pointer border border-blue-400 bg-blue-100 hover:border-blue-400 hover:text-white hover:bg-blue-400 rounded-lg"
+                :class="{'bg-blue-400 text-white' : discount==25}"
                 @click="setDiscountValue(25)">25%</button>
               <button
-                class="px-4 py-2 flex items-center justify-center text-lg cursor-pointer border border-blue-400 bg-blue-200 hover:border-blue-400 hover:text-white hover:bg-blue-300 rounded-lg"
+                class="px-4 py-2 flex items-center justify-center text-lg cursor-pointer border border-blue-400 bg-blue-200 hover:border-blue-400 hover:text-white hover:bg-blue-400 rounded-lg"
+                :class="{'bg-blue-400 text-white' : discount==50}"
                 @click="setDiscountValue(50)">50%</button>
               <button
-                class="px-4 py-2 flex items-center justify-center text-lg cursor-pointer border border-blue-400 bg-blue-300 hover:border-blue-400 hover:text-white hover:bg-blue-300 rounded-lg"
+                class="px-4 py-2 flex items-center justify-center text-lg cursor-pointer border border-blue-400 bg-blue-300 hover:border-blue-400 hover:text-white hover:bg-blue-400 rounded-lg"
+                :class="{'bg-blue-400 text-white' : discount==100}"
                 @click="setDiscountValue(100)">100%</button>
             </div>
             <div class="space-y-2">
