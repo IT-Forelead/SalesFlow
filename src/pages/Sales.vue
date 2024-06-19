@@ -54,7 +54,7 @@ const router = useRouter()
 
 const moneyConf = {
   thousands: ' ',
-  suffix: 'UZS',
+  suffix: ' UZS',
   precision: 0,
 }
 
@@ -513,6 +513,7 @@ const createOrder = (printCheck = true) => {
         qrcode.value = null
       }
       clearSubmitData()
+      clearCustomerForm()
       if (showSale.value) {
         setTimeout(() => {
           onSearchFocus.value = null
