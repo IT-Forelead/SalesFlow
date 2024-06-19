@@ -1,5 +1,5 @@
 <script setup>
-import { computed, onMounted, reactive, ref, watch, watchEffect } from 'vue'
+import { computed, onMounted, reactive, ref, watch, watchEffect, nextTick } from 'vue'
 import { vMaska } from 'maska'
 import { toast } from 'vue-sonner'
 import { useRouter } from 'vue-router'
@@ -43,6 +43,7 @@ import { Money3 } from 'v-money3'
 import HolidayDiscountService from '../services/holidayDiscount.service.js'
 import { useHolidayDiscount } from '../store/holidayDiscount.store.js'
 import useMoneyFormatter from '../mixins/currencyFormatter.js'
+import PhPercent from '../assets/icons/PercentIcon.vue'
 
 const API_URL = import.meta.env.VITE_CHEQUE_API_URL
 const addedToBasket = new Audio('/audios/added-to-basket.mp3')
@@ -60,6 +61,7 @@ const moneyConf = {
 const submitData = reactive({
   discountPercent: null,
   paymentReceived: 0,
+  discountReason: null,
 })
 
 const hasDiscountToday = ref(false)
@@ -95,6 +97,7 @@ onMounted(() => {
 
 const realPrice = ref(0)
 const showDebtForm = ref(false)
+const showDiscountForm = ref(false)
 const searchProductDropdown = ref(null)
 const orderId = ref()
 const showSale = ref(false)
@@ -115,7 +118,14 @@ const secondBasket = ref([])
 const thirdBasket = ref([])
 const qrcode = ref()
 const phoneRegex = /\+998[1-9]\d{8}/
+const onDiscountFocus = ref(null)
+const onTotalFocus = ref(null)
+const onDiscountReasonFocus = ref(null)
+const discount = ref(0);
 
+const setDiscountValue = (value) => {
+  discount.value = value;
+}
 
 // write watch if hasDiscountToday is true and totalPrice is greater than minimalPrice make hasDiscount true
 watch(totalPrice, (newValue) => {
@@ -459,6 +469,7 @@ const clearSearchInput = () => {
 
 const clearSubmitData = () => {
   submitData.discountPercent = ''
+  submitData.discountReason = ''
   submitData.paymentReceived = ''
   activeBasket.value = []
   if (activeBasketStatus.value === 'firstBasket') {
@@ -484,6 +495,7 @@ const createOrder = (printCheck = true) => {
       cleanObjectEmptyFields({
         holidayDiscountId: holidayDiscount.value?.id,
         discountPercent: submitData.discountPercent,
+        discountReason: submitData.discountReason,
         paymentReceived: submitData.paymentReceived,
         items: activeBasket.value,
       }),
@@ -596,7 +608,7 @@ watch(
 watch(
   () => totalPrice.value,
   () => {
-    submitData.paymentReceived = totalPrice.value
+    submitData.paymentReceived = totalPrice.value - (totalPrice.value * submitData.discountPercent / 100)
   },
   { deep: true },
 )
@@ -614,11 +626,24 @@ const whenPressEnter = (e) => {
   }
 }
 
+watch(
+  () => discount.value,
+  (data) => {
+    submitData.discountPercent = data
+    submitData.paymentReceived = totalPrice.value - (totalPrice.value * submitData.discountPercent / 100)
+  },
+  { deep: true },
+)
+
 watchEffect(() => {
   if (onSearchFocus.value) {
     onSearchFocus.value.focus()
     onFullNameFocus.value = null
     onPhoneFocus.value = null
+    onDiscountFocus.value = null
+    onTotalFocus.value = null
+    onDiscountReasonFocus.value = null
+
   }
 })
 watchEffect(() => {
@@ -626,6 +651,10 @@ watchEffect(() => {
     onFullNameFocus.value.focus()
     onSearchFocus.value = null
     onPhoneFocus.value = null
+    onDiscountFocus.value = null
+    onTotalFocus.value = null
+    onDiscountReasonFocus.value = null
+
   }
 })
 watchEffect(() => {
@@ -633,20 +662,93 @@ watchEffect(() => {
     onPhoneFocus.value.focus()
     onSearchFocus.value = null
     onFullNameFocus.value = null
+    onDiscountFocus.value = null
+    onTotalFocus.value = null
+    onDiscountReasonFocus.value = null
+
+  }
+})
+
+watchEffect(() => {
+  if (onDiscountFocus.value) {
+    onDiscountFocus.value.focus()
+    onTotalFocus.value = null
+    onSearchFocus.value = null
+    onFullNameFocus.value = null
+    onPhoneFocus.value = null
+    onDiscountReasonFocus.value = null
+
+  }
+})
+
+watchEffect(() => {
+  if (onTotalFocus.value) {
+    document.getElementById('price').focus() // Focus the element
+    onDiscountFocus.value = null
+    onSearchFocus.value = null
+    onFullNameFocus.value = null
+    onPhoneFocus.value = null
+    onDiscountReasonFocus.value = null
+  }
+})
+
+watchEffect(() => {
+  if (onDiscountReasonFocus.value) {
+    onDiscountReasonFocus.value.focus() // Focus the element
+    onDiscountFocus.value = null
+    onSearchFocus.value = null
+    onFullNameFocus.value = null
+    onPhoneFocus.value = null
   }
 })
 
 const reFocus = () => {
-  if (router?.currentRoute?.value?.path === '/sales' && onSearchFocus.value) {
+  if (router?.currentRoute?.value?.path === '/sales' && onSearchFocus.value && (onDiscountFocus.value != null || onTotalFocus.value != null)) {
+    onTotalFocus.value = null
     onSearchFocus.value.focus()
   }
 }
 
 const fullNameReFocus = () => {
   if (router?.currentRoute?.value?.path === '/sales' && onFullNameFocus.value) {
+    onTotalFocus.value = null
     onFullNameFocus.value.focus()
     onSearchFocus.value = null
     onPhoneFocus.value = null
+    onDiscountFocus.value = null
+   // onTotalFocus.value = null
+  }
+}
+
+const discountReFocus = () => {
+  if (router?.currentRoute?.value?.path === '/sales' && onDiscountFocus.value) {
+    onDiscountFocus.value.focus()
+    onTotalFocus.value = null
+    onSearchFocus.value = null
+    onPhoneFocus.value = null
+    onFullNameFocus.value = null
+  }
+}
+
+const discountReasonReFocus = () => {
+  if (router?.currentRoute?.value?.path === '/sales' && onDiscountReasonFocus.value) {
+    onDiscountReasonFocus.value.focus()
+    onDiscountFocus.value = null
+    onTotalFocus.value = null
+    onSearchFocus.value = null
+    onPhoneFocus.value = null
+    onFullNameFocus.value = null
+  }
+}
+
+const totalReFocus = () => {
+  if (router?.currentRoute?.value?.path === '/sales' && onTotalFocus.value) {
+    document.getElementById('price').focus() // Focus the element
+    onDiscountFocus.value = null
+    onDiscountReasonFocus.value = null
+    onSearchFocus.value = null
+    onPhoneFocus.value = null
+    onFullNameFocus.value = null
   }
 }
 
@@ -655,6 +757,7 @@ const phoneReFocus = () => {
     onPhoneFocus.value.focus()
     onSearchFocus.value = null
     onFullNameFocus.value = null
+    onDiscountFocus.value = null
   }
 }
 
@@ -712,11 +815,15 @@ const isLoadingDebtForm = ref(false)
 const customerForm = reactive({
   fullName: '',
   phone: '',
+  discount: '',
+  discountReason: '',
 })
 
 const clearCustomerForm = () => {
   customerForm.fullName = ''
   customerForm.phone = ''
+  discount.value = ''
+  submitData.discountReason = ''
 }
 
 const closeForm = () => {
@@ -752,6 +859,11 @@ const createSale = () => {
 
 const closeDebtForm = () => {
   showDebtForm.value = false
+  clearCustomerForm()
+  selectP.value = undefined
+}
+const closeDiscountForm = () => {
+  showDiscountForm.value = false
   clearCustomerForm()
   selectP.value = undefined
 }
@@ -946,55 +1058,57 @@ const removeLastDigit = () => {
                           <span class="text-red-500 text-sm md:text-base">
                               {{ roundFloatToTwoDecimal(product?.quantity - product?.amount) }}
                             </span>
+                          </div>
                         </div>
                       </div>
                     </div>
-                  </div>
-                </td>
-                <td class="px-3 py-2 text-center whitespace-nowrap">
-                  {{ product?.serialId }}
-                </td>
-                <td class="px-3 py-2 text-center whitespace-nowrap">
-                  <div class="flex justify-center">
-                    <div class="flex items-center justify-between w-36 rounded-xl p-1">
-                      <div @click="reduceCountOfProducts(product)" v-if="reduceCountChecking(product)"
-                           class="flex items-center justify-center w-8 h-8 bg-white text-blue-700 shadow-sm hover:bg-slate-200 cursor-pointer rounded-xl">
-                        <MinusIcon class="w-4 h-4" />
-                      </div>
-                      <div v-else
-                           class="flex items-center justify-center w-8 h-8 bg-white text-slate-700 cursor-default rounded-xl">
-                        <MinusIcon class="w-4 h-4" />
-                      </div>
-                      <div v-if="product?.saleType === 'kg' && product?.amount <= 0.1"
-                           class="flex items-center justify-center text-lg font-normal">
-                        {{ roundFloatToFourDecimal(product?.amount) + ' ' + saleTypeShortTranslate(product?.saleType) }}
-                      </div>
+                  </td>
+                  <td class="px-3 py-2 text-center whitespace-nowrap">
+                    {{ product?.serialId }}
+                  </td>
+                  <td class="px-3 py-2 text-center whitespace-nowrap">
+                    <div class="flex justify-center">
+                      <div class="flex items-center justify-between w-36 rounded-xl p-1">
+                        <div @click="reduceCountOfProducts(product)" v-if="reduceCountChecking(product)"
+                          class="flex items-center justify-center w-8 h-8 bg-white text-blue-700 shadow-sm hover:bg-slate-200 cursor-pointer rounded-xl">
+                          <MinusIcon class="w-4 h-4" />
+                        </div>
+                        <div v-else
+                          class="flex items-center justify-center w-8 h-8 bg-white text-slate-700 cursor-default rounded-xl">
+                          <MinusIcon class="w-4 h-4" />
+                        </div>
+                        <div v-if="product?.saleType === 'kg' && product?.amount <= 0.1"
+                          class="flex items-center justify-center text-lg font-normal">
+                          {{ roundFloatToFourDecimal(product?.amount) + ' ' + saleTypeShortTranslate(product?.saleType)
+                          }}
+                        </div>
 
-                      <div v-else class="flex items-center justify-center text-lg font-normal">
-                        {{ roundFloatToTwoDecimal(product?.amount) + ' ' + saleTypeShortTranslate(product?.saleType) }}
-                      </div>
-                      <div @click="increaseCountOfProducts(product)" v-if="increaseCountChecking(product)"
-                           class="flex items-center justify-center w-8 h-8 bg-white text-blue-700 shadow-sm hover:bg-slate-200 cursor-pointer rounded-xl">
-                        <PlusIcon class="w-4 h-4" />
-                      </div>
-                      <div v-else
-                           class="flex items-center justify-center w-8 h-8 bg-white text-slate-700 cursor-default rounded-xl">
-                        <PlusIcon class="w-4 h-4" />
+                        <div v-else class="flex items-center justify-center text-lg font-normal">
+                          {{ roundFloatToTwoDecimal(product?.amount) + ' ' + saleTypeShortTranslate(product?.saleType)
+                          }}
+                        </div>
+                        <div @click="increaseCountOfProducts(product)" v-if="increaseCountChecking(product)"
+                          class="flex items-center justify-center w-8 h-8 bg-white text-blue-700 shadow-sm hover:bg-slate-200 cursor-pointer rounded-xl">
+                          <PlusIcon class="w-4 h-4" />
+                        </div>
+                        <div v-else
+                          class="flex items-center justify-center w-8 h-8 bg-white text-slate-700 cursor-default rounded-xl">
+                          <PlusIcon class="w-4 h-4" />
+                        </div>
                       </div>
                     </div>
-                  </div>
-                </td>
-                <td class="px-3 py-2 text-center whitespace-nowrap">
-                  <div class="flex justify-center">
-                    <div class="flex items-center justify-between w-48 rounded-xl p-1">
-                      <div @click="reduceCountOfPrice(product)" v-if="reducePriceChecking(product)"
-                           class="flex items-center justify-center w-8 h-8 bg-white text-blue-700 shadow-sm hover:bg-slate-200 cursor-pointer rounded-xl">
-                        <MinusIcon class="w-4 h-4" />
-                      </div>
-                      <div v-else
-                           class="flex items-center justify-center w-8 h-8 bg-white text-slate-700 cursor-default rounded-xl">
-                        <MinusIcon class="w-4 h-4" />
-                      </div>
+                  </td>
+                  <td class="px-3 py-2 text-center whitespace-nowrap">
+                    <div class="flex justify-center">
+                      <div class="flex items-center justify-between w-48 rounded-xl p-1">
+                        <div @click="reduceCountOfPrice(product)" v-if="reducePriceChecking(product)"
+                          class="flex items-center justify-center w-8 h-8 bg-white text-blue-700 shadow-sm hover:bg-slate-200 cursor-pointer rounded-xl">
+                          <MinusIcon class="w-4 h-4" />
+                        </div>
+                        <div v-else
+                          class="flex items-center justify-center w-8 h-8 bg-white text-slate-700 cursor-default rounded-xl">
+                          <MinusIcon class="w-4 h-4" />
+                        </div>
 
                       <div class="flex items-center justify-center text-lg font-normal">
                         {{ useMoneyFormatter(product?.price * product?.amount) }}
@@ -1059,7 +1173,7 @@ const removeLastDigit = () => {
             <div class="text-base text-gray-600">
               {{ $t('discount') }}
             </div>
-            <div class="text-base font-semibold text-gray-900">{{ holidayDiscount.value?.percentage }} %</div>
+            <div class="text-base font-semibold text-gray-900">{{ submitData.discountPercent }} %</div>
           </div>
           <div class="flex items-center justify-between">
             <div class="text-base text-gray-600">
@@ -1081,7 +1195,7 @@ const removeLastDigit = () => {
             {{ $t('total') }}
           </div>
           <div class="text-xl font-semibold text-gray-900">
-            {{ useMoneyFormatter(totalPrice) }}
+            {{ useMoneyFormatter(totalPrice - (totalPrice * submitData.discountPercent / 100)) }}
           </div>
         </div>
       </div>
@@ -1089,10 +1203,55 @@ const removeLastDigit = () => {
         <label class="text-base font-medium">
           {{ $t('paymentReceived') }}
         </label>
-        <money3 v-model="submitData.paymentReceived" v-bind="moneyConf" id="price"
-                class="border-none text-right text-gray-500 bg-slate-100 rounded-lg w-full text-lg" disabled></money3>
+        <money3 v-model="submitData.paymentReceived" v-bind="moneyConf" id="price" ref="onTotalFocus"
+                @blur="totalReFocus()" class="border-none text-right text-gray-500 bg-slate-100 rounded-lg w-full text-lg" />
       </div>
-      <div class="py-3 lg:py-0 space-y-1">
+
+      <div class="space-y-1">
+        <div @click="showDiscountForm = !showDiscountForm" :class="showDiscountForm ? 'border-blue-300 bg-blue-50' : ''"
+          class="flex-1 flex flex-col hover:border-blue-300 hover:bg-blue-50 hover:cursor-pointer items-center justify-center border rounded-lg py-4">
+          <PhPercent class="w-6 h-6 text-gray-500" />
+          <div class="text-lg font-medium">
+            {{ $t('intoDiscount') }}
+          </div>
+        </div>
+        <div v-if="showDiscountForm" class="flex flex-col space-y-1">
+          <div class="space-y-1">
+            <label class="text-base font-medium">
+              {{ $t('discount') }}
+            </label>
+          </div>
+          <div>
+            <input min="0" max="100" v-model="discount" type="number" ref="onDiscountFocus" @blur="discountReFocus()"
+              class="border-none text-right text-gray-500 bg-slate-100 rounded-lg w-full text-lg">
+            <div class="flex space-x-3 my-3 justify-end">
+              <button
+                class="px-4 py-2 flex items-center justify-center text-lg cursor-pointer border border-blue-400 bg-blue-50  hover:border-blue-400 hover:text-white hover:bg-blue-400 rounded-lg" :class="{'bg-blue-400 text-white' : discount==10}"
+                @click="setDiscountValue(10)">10%</button>
+              <button
+                class="px-4 py-2 flex items-center justify-center text-lg cursor-pointer border border-blue-400 bg-blue-100 hover:border-blue-400 hover:text-white hover:bg-blue-400 rounded-lg"
+                :class="{'bg-blue-400 text-white' : discount==25}"
+                @click="setDiscountValue(25)">25%</button>
+              <button
+                class="px-4 py-2 flex items-center justify-center text-lg cursor-pointer border border-blue-400 bg-blue-200 hover:border-blue-400 hover:text-white hover:bg-blue-400 rounded-lg"
+                :class="{'bg-blue-400 text-white' : discount==50}"
+                @click="setDiscountValue(50)">50%</button>
+              <button
+                class="px-4 py-2 flex items-center justify-center text-lg cursor-pointer border border-blue-400 bg-blue-300 hover:border-blue-400 hover:text-white hover:bg-blue-400 rounded-lg"
+                :class="{'bg-blue-400 text-white' : discount==100}"
+                @click="setDiscountValue(100)">100%</button>
+            </div>
+            <div class="space-y-2">
+              <label class="text-base font-medium" for="reason">{{ $t('reason') }}</label>
+              <input type="text" v-model="submitData.discountReason"
+              ref="onDiscountReasonFocus" @blur="discountReasonReFocus()" class="border-none text-left text-gray-500 bg-slate-100 rounded-lg w-full text-lg">
+            </div>
+            <div class="mt-5">
+              <CancelButton class="w-full" @click="closeDiscountForm" />
+            </div>
+          </div>
+        </div>
+        <div class="py-3 lg:py-0 space-y-1">
         <div class="text-base font-medium">
           {{ $t('paymentType') }}
         </div>
@@ -1298,6 +1457,7 @@ const removeLastDigit = () => {
           <div
             class="flex items-center justify-center text-lg cursor-pointer border border-slate-400 bg-slate-100 hover:border-blue-400 hover:text-blue-400 hover:bg-blue-100 rounded-lg"
             @click="removeLastDigit()">{{ '<' }}
+          </div>
           </div>
         </div>
       </div>

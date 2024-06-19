@@ -302,5 +302,8 @@
   "enterFrom": "Boshlang'ich sanasi kiriting",
   "enterTo": "Tugash sanasi kiriting",
   "minimalPriceForHolidayDiscount": "Bayram chegirmasi minimal narxi",
-  "sold": "Sotilgan"
+  "sold": "Sotilgan",
+  "thisProductNameAlreadyExist": "Ushbu mahsulot allaqachon mavjud!",
+  "reason": "Sababi",
+  "intoDiscount": "Chegirma berish"
 }

@@ -301,5 +301,8 @@
   "enterFrom": "Enter from",
   "enterTo": "Enter to",
   "minimalPriceForHolidayDiscount": "Minimal price for holiday discount",
-  "sold": "Sold"
+  "sold": "Sold",
+  "thisProductNameAlreadyExist": "This product name already exist!",
+  "reason": "Reason",
+  "intoDiscount": "Use discount"
 }

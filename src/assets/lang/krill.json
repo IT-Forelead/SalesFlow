@@ -302,5 +302,8 @@
   "plsEnterTo": "Илтимос тугаш санасини киритинг",
   "enterFrom": "Бошлангич санаси киритинг",
   "enterTo": "Тугаш санаси киритинг",
-  "minimalPriceForHolidayDiscount": "Байрам чегирмаси минимал нархи"
+  "minimalPriceForHolidayDiscount": "Байрам чегирмаси минимал нархи",
+  "thisProductNameAlreadyExist": "Ушбу маҳсулот аллақачон мавжуд!",
+  "reason": "Сабаби",
+  "intoDiscount": "Чегирма бериш"
 }
