@@ -39,7 +39,7 @@ export function shortenNumber(num) {
     suffixIndex++;
   }
 
-  return num.toLocaleString(undefined, {maximumFractionDigits: 1}) + suffixes[suffixIndex];
+  return num.toLocaleString(undefined, { maximumFractionDigits: 1 }) + suffixes[suffixIndex];
 }
 
 export function roundFloatToOneDecimal(num) {
@@ -48,6 +48,17 @@ export function roundFloatToOneDecimal(num) {
 
 export function roundFloatToTwoDecimal(num) {
   return parseFloat((num).toFixed(2))
+}
+
+export function calcPercentOfSale(purchasePrice, salePrice) {
+  if (purchasePrice != 0) {
+    const num = (((salePrice - purchasePrice) * 100) / purchasePrice).toFixed(1)
+    if (num % 1 === 0) {
+      return Math.floor(num)
+    } else {
+      return num
+    }
+  } else return 100
 }
 
 //round to 5 decimal places

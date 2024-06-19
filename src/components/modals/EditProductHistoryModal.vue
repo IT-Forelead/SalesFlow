@@ -10,7 +10,7 @@ import { toast } from 'vue-sonner'
 import ProductHistoryService from '../../services/productHistory.service.js'
 import ProductService from '../../services/product.service.js'
 import { useRoute } from 'vue-router'
-import { roundFloatToOneDecimal } from '../../mixins/utils'
+import { calcPercentOfSale } from '../../mixins/utils'
 
 const route = useRoute()
 const { t } = useI18n()
@@ -183,7 +183,7 @@ const closeModal = () => {
           </div>
           <div v-else class="text-base md:text-lg font-medium">
             <label>{{ $t('percent') + ": " }}</label>
-            <span  class="font-light">{{ roundFloatToOneDecimal(100 - (submitData.purchasePrice / submitData.salePrice) * 100) + "%"}}</span>
+            <span  class="font-light">{{ calcPercentOfSale(submitData.purchasePrice,submitData.salePrice) + "%"}}</span>
           </div>
           <div class="text-base md:text-lg font-medium">
             <label>{{ $t('sold') + ": "  }}</label>
