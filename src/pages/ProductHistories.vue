@@ -16,7 +16,7 @@ import EditIcon from '../assets/icons/EditIcon.vue'
 import { useModalStore } from '../store/modal.store'
 import { useDropdownStore } from '../store/dropdown.store'
 import { useAuthStore } from '../store/auth.store.js'
-import decodeJwt, { cleanObjectEmptyFields, parseJwt } from '../mixins/utils.js'
+import decodeJwt, { calcPercentOfSale, cleanObjectEmptyFields, parseJwt } from '../mixins/utils.js'
 import PrinterIcon from '../assets/icons/PrinterIcon.vue'
 import axios from 'axios'
 import { toast } from 'vue-sonner'
@@ -181,15 +181,6 @@ const columns = [
     enableSorting: false,
   },
 ]
-
-const calcPercentOfSale = (purchasePrice, salePrice) => {
-  const num = (((salePrice - purchasePrice) * 100) / purchasePrice).toFixed(1)
-  if (num % 1 === 0) {
-    return Math.floor(num)
-  } else {
-    return num
-  }
-}
 
 const printLabel = (product) => {
   const quantity = product.saleType.includes('kg') ? Number.parseFloat(product.quantity) * 1000 : product.quantity
