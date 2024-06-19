@@ -54,7 +54,7 @@ const router = useRouter()
 
 const moneyConf = {
   thousands: ' ',
-  suffix: 'UZS',
+  suffix: ' UZS',
   precision: 0,
 }
 
