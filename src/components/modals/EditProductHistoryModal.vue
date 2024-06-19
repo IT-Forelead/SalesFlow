@@ -10,6 +10,7 @@ import { toast } from 'vue-sonner'
 import ProductHistoryService from '../../services/productHistory.service.js'
 import ProductService from '../../services/product.service.js'
 import { useRoute } from 'vue-router'
+import { roundFloatToOneDecimal } from '../../mixins/utils'
 
 const route = useRoute()
 const { t } = useI18n()
@@ -36,6 +37,7 @@ const submitData = reactive({
   expirationDate: '',
   toLend: false,
   salePrice: 0,
+  sold: 0,
 })
 
 const clearSubmitData = () => {
@@ -94,6 +96,7 @@ watch(
       submitData.expirationDate = data?.expirationDate
       submitData.toLend = data?.toLend
       submitData.salePrice = data?.price
+      submitData.sold = data?.sold
     }
   },
   { deep: true },
@@ -171,6 +174,20 @@ const closeModal = () => {
                      class="w-5 h-5 text-blue-600 border-slate-300 rounded focus:ring-blue-500 focus:ring-2 mr-2">
               <label for="toLend" class="py-2 text-base font-medium">{{ $t('toLend') }}</label>
             </div>
+          </div>
+        </div>
+        <div class="flex space-x-10">
+          <div v-if="submitData.salePrice == 0 " class="text-base md:text-lg font-medium">
+            <label>{{ $t('percent') + ": " }}</label>
+            <span class="font-light">0%</span>
+          </div>
+          <div v-else class="text-base md:text-lg font-medium">
+            <label>{{ $t('percent') + ": " }}</label>
+            <span  class="font-light">{{ roundFloatToOneDecimal(100 - (submitData.purchasePrice / submitData.salePrice) * 100) + "%"}}</span>
+          </div>
+          <div class="text-base md:text-lg font-medium">
+            <label>{{ $t('sold') + ": "  }}</label>
+            <span  class="font-light">{{ submitData.sold }}</span>
           </div>
         </div>
       </div>
