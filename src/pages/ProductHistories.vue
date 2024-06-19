@@ -184,7 +184,7 @@ const columns = [
 ]
 
 const calcPercentOfSale = (purchasePrice, salePrice) => {
-  const num = (((salePrice - purchasePrice) * 100) / salePrice).toFixed(1)
+  const num = (((salePrice - purchasePrice) * 100) / purchasePrice).toFixed(1)
   if (num % 1 === 0) {
     return Math.floor(num);
   } else {
