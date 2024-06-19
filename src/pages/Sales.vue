@@ -54,7 +54,7 @@ const router = useRouter()
 
 const moneyConf = {
   thousands: ' ',
-  suffix: 'UZS',
+  suffix: ' UZS',
   precision: 0,
 }
 
@@ -474,6 +474,7 @@ const clearSearchInput = () => {
 const clearSubmitData = () => {
   submitData.discountPercent = ''
   submitData.discountReason = ''
+  discount.value = ''
   submitData.paymentReceived = ''
   activeBasket.value = []
   if (activeBasketStatus.value === 'firstBasket') {
@@ -517,6 +518,9 @@ const createOrder = (printCheck = true) => {
         qrcode.value = null
       }
       clearSubmitData()
+      clearCustomerForm()
+      closeDebtForm()
+      closeDiscountForm()
       if (showSale.value) {
         setTimeout(() => {
           onSearchFocus.value = null
@@ -826,8 +830,6 @@ const customerForm = reactive({
 const clearCustomerForm = () => {
   customerForm.fullName = ''
   customerForm.phone = ''
-  discount.value = ''
-  submitData.discountReason = ''
 }
 
 const closeForm = () => {
@@ -868,7 +870,7 @@ const closeDebtForm = () => {
 }
 const closeDiscountForm = () => {
   showDiscountForm.value = false
-  clearCustomerForm()
+  clearSubmitData()
   selectP.value = undefined
 }
 const createDebt = () => {
