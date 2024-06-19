@@ -305,6 +305,6 @@
   "minimalPriceForHolidayDiscount": "Минимальная цена для скидки на праздник",
   "thisProductNameAlreadyExist": "Такой товар уже существует!",
   "reason": "Причина",
-  "intoDiscount": "Со скидкой"
-
+  "intoDiscount": "Со скидкой",
+  "month": "Месяц"
 }
