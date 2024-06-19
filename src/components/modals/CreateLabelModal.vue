@@ -14,6 +14,7 @@ import { isBarcode } from '../../mixins/barcodeFormatter'
 import ImageIcon from '../../assets/icons/ImageIcon.vue'
 import { useI18n } from 'vue-i18n'
 import axios from 'axios'
+import ScrollPanel from 'primevue/scrollpanel'
 
 const { t } = useI18n()
 
