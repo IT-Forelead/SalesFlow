@@ -1,5 +1,5 @@
 <script setup>
-import { computed, onMounted, reactive, ref, watch, watchEffect } from 'vue'
+import { computed, onMounted, reactive, ref, watch, watchEffect, nextTick } from 'vue'
 import { vMaska } from 'maska'
 import { toast } from 'vue-sonner'
 import { useRouter } from 'vue-router'
@@ -40,7 +40,10 @@ import moment from 'moment'
 import { onClickOutside } from '@vueuse/core'
 import ScrollPanel from 'primevue/scrollpanel'
 import { Money3 } from 'v-money3'
+import HolidayDiscountService from '../services/holidayDiscount.service.js'
+import { useHolidayDiscount } from '../store/holidayDiscount.store.js'
 import useMoneyFormatter from '../mixins/currencyFormatter.js'
+import PhPercent from '../assets/icons/PercentIcon.vue'
 
 const API_URL = import.meta.env.VITE_CHEQUE_API_URL
 const addedToBasket = new Audio('/audios/added-to-basket.mp3')
@@ -51,27 +54,50 @@ const router = useRouter()
 
 const moneyConf = {
   thousands: ' ',
-  suffix: ' UZS',
+  suffix: 'UZS',
   precision: 0,
 }
 
 const submitData = reactive({
   discountPercent: null,
   paymentReceived: 0,
+  discountReason: null,
 })
 
+const hasDiscountToday = ref(false)
 const boundaryPrice = ref(0)
+const minimalPrice = ref(0)
+const hasDiscount = ref(false)
 
 onMounted(() => {
-  SettingsService.getSettings().then((res) => {
-    isLoading.value = true
-    if (res) {
-      boundaryPrice.value = res.boundaryPrice
-    }
-  })
+  isLoading.value = true
+  SettingsService.getSettings()
+    .then((res) => {
+      if (res) {
+        boundaryPrice.value = res.boundaryPrice
+        minimalPrice.value = res.minimalPrice
+      }
+    })
+    .catch((err) => {
+      console.error('Error fetching settings:', err)
+    })
+  HolidayDiscountService.hasDiscountToday()
+    .then((res) => {
+      if (res) {
+        hasDiscountToday.value = res
+      }
+    })
+    .catch((err) => {
+      console.error('Error fetching holiday discount:', err)
+    })
+    .finally(() => {
+      isLoading.value = false
+    })
 })
+
 const realPrice = ref(0)
 const showDebtForm = ref(false)
+const showDiscountForm = ref(false)
 const searchProductDropdown = ref(null)
 const orderId = ref()
 const showSale = ref(false)
@@ -82,7 +108,8 @@ const onSearchFocus = ref(null)
 const onFullNameFocus = ref(null)
 const onPhoneFocus = ref(null)
 const isLoading = ref(false)
-const isLoadingOrder = ref(false)
+const isLoadingOrderWithPrint = ref(false)
+const isLoadingOrderWithoutPrint = ref(false)
 // const selectedProducts = ref([])
 const activeBasketStatus = ref('firstBasket')
 const activeBasket = ref([])
@@ -91,6 +118,25 @@ const secondBasket = ref([])
 const thirdBasket = ref([])
 const qrcode = ref()
 const phoneRegex = /\+998[1-9]\d{8}/
+const onDiscountFocus = ref(null)
+const onTotalFocus = ref(null)
+const onDiscountReasonFocus = ref(null)
+const discount = ref(0);
+
+const setDiscountValue = (value) => {
+  discount.value = value;
+}
+
+// write watch if hasDiscountToday is true and totalPrice is greater than minimalPrice make hasDiscount true
+watch(totalPrice, (newValue) => {
+  if (newValue) {
+    if (totalPrice.value >= minimalPrice.value && hasDiscountToday.value) {
+      hasDiscount.value = true
+    } else if (totalPrice.value <= minimalPrice.value && hasDiscountToday.value) {
+      hasDiscount.value = false
+    }
+  }
+})
 
 const baskets = [
   {
@@ -130,9 +176,6 @@ onClickOutside(searchProductDropdown, () => {
   clearSearchInput()
 })
 
-const playAudio = () => {
-  addedToBasket.play()
-}
 const searchProducts = () => {
   if (!search.value) {
     toast.warning(t('plsEnterProductNameOrBarcode'))
@@ -232,8 +275,7 @@ const addProductToCart = (product, amount) => {
           amount: amount,
           serialId: product?.serialId,
         })
-      }
-      else if (product?.saleType === 'kg' && (product?.rest < 0.1 && product?.rest > 0)) {
+      } else if (product?.saleType === 'kg' && (product?.rest < 0.1 && product?.rest > 0)) {
         console.log(product?.rest)
         activeBasket.value.push({
           productId: product?.id,
@@ -245,8 +287,7 @@ const addProductToCart = (product, amount) => {
           amount: product?.rest,
           serialId: product?.serialId,
         })
-      }
-      else if (product?.saleType === 'kg') {
+      } else if (product?.saleType === 'kg') {
         activeBasket.value.push({
           productId: product?.id,
           name: product?.name,
@@ -257,8 +298,7 @@ const addProductToCart = (product, amount) => {
           amount: 0.1,
           serialId: product?.serialId,
         })
-      }
-      else if (product?.saleType === 'litre' && (product?.rest <= 0.1 && product?.rest > 0)) {
+      } else if (product?.saleType === 'litre' && (product?.rest <= 0.1 && product?.rest > 0)) {
         activeBasket.value.push({
           productId: product?.id,
           name: product?.name,
@@ -268,8 +308,7 @@ const addProductToCart = (product, amount) => {
           saleType: product?.saleType,
           amount: product?.rest,
         })
-      }
-      else if (product?.saleType === 'litre') {
+      } else if (product?.saleType === 'litre') {
         activeBasket.value.push({
           productId: product?.id,
           name: product?.name,
@@ -430,6 +469,7 @@ const clearSearchInput = () => {
 
 const clearSubmitData = () => {
   submitData.discountPercent = ''
+  submitData.discountReason = ''
   submitData.paymentReceived = ''
   activeBasket.value = []
   if (activeBasketStatus.value === 'firstBasket') {
@@ -441,14 +481,21 @@ const clearSubmitData = () => {
   }
 }
 
+
 const createOrder = (printCheck = true) => {
   if (activeBasket.value.length === 0) {
     toast.error('Tanlangan mahsulotlar mavjud emas!')
   } else {
-    isLoadingOrder.value = true
+    if (printCheck) {
+      isLoadingOrderWithPrint.value = true
+    } else {
+      isLoadingOrderWithoutPrint.value = true
+    }
     OrderService.createOrder(
       cleanObjectEmptyFields({
+        holidayDiscountId: holidayDiscount.value?.id,
         discountPercent: submitData.discountPercent,
+        discountReason: submitData.discountReason,
         paymentReceived: submitData.paymentReceived,
         items: activeBasket.value,
       }),
@@ -465,7 +512,6 @@ const createOrder = (printCheck = true) => {
         showSale.value = false
         qrcode.value = null
       }
-      isLoadingOrder.value = false
       clearSubmitData()
       if (showSale.value) {
         setTimeout(() => {
@@ -496,12 +542,44 @@ const createOrder = (printCheck = true) => {
           })
         })
       }
+      isLoadingOrderWithPrint.value = false
+      isLoadingOrderWithoutPrint.value = false
     }).catch(() => {
       toast.error(t('errorWhileCreatingOrder'))
-      isLoadingOrder.value = false
+      isLoadingOrderWithPrint.value = false
+      isLoadingOrderWithoutPrint.value = false
     })
   }
 }
+
+const isLoadingDiscount = ref(false)
+const holidayDiscount = reactive({})
+const randomDiscount = () => {
+  useModalStore().openDiscountInfoModal()
+  HolidayDiscountService.randomDiscount().then((discount) => {
+    if (discount) {
+      holidayDiscount.value = discount
+      useHolidayDiscount().clearDiscountStore()
+      useHolidayDiscount().setDiscount(discount)
+      useHolidayDiscount().totalPrice = submitData.paymentReceived
+      submitData.paymentReceived = Math.round(submitData.paymentReceived -(submitData.paymentReceived * discount.percentage)/100)
+    }
+  })
+  hasDiscount.value = false
+  setTimeout(() => {
+    createOrder(true)
+    holidayDiscount.value = null
+  }, 2500)
+}
+
+const handleDiscountClick = () => {
+  isLoadingDiscount.value = true;
+  setTimeout(() => {
+    randomDiscount();
+    isLoadingDiscount.value = false;
+  }, 2500);
+};
+
 
 async function printChaque(data) {
   await axios
@@ -527,11 +605,10 @@ watch(
   { deep: true },
 )
 
-console.log(realPrice.value)
 watch(
   () => totalPrice.value,
   () => {
-    submitData.paymentReceived = totalPrice.value
+    submitData.paymentReceived = totalPrice.value - (totalPrice.value * submitData.discountPercent / 100)
   },
   { deep: true },
 )
@@ -549,11 +626,24 @@ const whenPressEnter = (e) => {
   }
 }
 
+watch(
+  () => discount.value,
+  (data) => {
+    submitData.discountPercent = data
+    submitData.paymentReceived = totalPrice.value - (totalPrice.value * submitData.discountPercent / 100)
+  },
+  { deep: true },
+)
+
 watchEffect(() => {
   if (onSearchFocus.value) {
     onSearchFocus.value.focus()
     onFullNameFocus.value = null
     onPhoneFocus.value = null
+    onDiscountFocus.value = null
+    onTotalFocus.value = null
+    onDiscountReasonFocus.value = null
+
   }
 })
 watchEffect(() => {
@@ -561,6 +651,10 @@ watchEffect(() => {
     onFullNameFocus.value.focus()
     onSearchFocus.value = null
     onPhoneFocus.value = null
+    onDiscountFocus.value = null
+    onTotalFocus.value = null
+    onDiscountReasonFocus.value = null
+
   }
 })
 watchEffect(() => {
@@ -568,20 +662,93 @@ watchEffect(() => {
     onPhoneFocus.value.focus()
     onSearchFocus.value = null
     onFullNameFocus.value = null
+    onDiscountFocus.value = null
+    onTotalFocus.value = null
+    onDiscountReasonFocus.value = null
+
+  }
+})
+
+watchEffect(() => {
+  if (onDiscountFocus.value) {
+    onDiscountFocus.value.focus()
+    onTotalFocus.value = null
+    onSearchFocus.value = null
+    onFullNameFocus.value = null
+    onPhoneFocus.value = null
+    onDiscountReasonFocus.value = null
+
+  }
+})
+
+watchEffect(() => {
+  if (onTotalFocus.value) {
+    document.getElementById('price').focus() // Focus the element
+    onDiscountFocus.value = null
+    onSearchFocus.value = null
+    onFullNameFocus.value = null
+    onPhoneFocus.value = null
+    onDiscountReasonFocus.value = null
+  }
+})
+
+watchEffect(() => {
+  if (onDiscountReasonFocus.value) {
+    onDiscountReasonFocus.value.focus() // Focus the element
+    onDiscountFocus.value = null
+    onSearchFocus.value = null
+    onFullNameFocus.value = null
+    onPhoneFocus.value = null
   }
 })
 
 const reFocus = () => {
-  if (router?.currentRoute?.value?.path === '/sales' && onSearchFocus.value) {
+  if (router?.currentRoute?.value?.path === '/sales' && onSearchFocus.value && (onDiscountFocus.value != null || onTotalFocus.value != null)) {
+    onTotalFocus.value = null
     onSearchFocus.value.focus()
   }
 }
 
 const fullNameReFocus = () => {
   if (router?.currentRoute?.value?.path === '/sales' && onFullNameFocus.value) {
+    onTotalFocus.value = null
     onFullNameFocus.value.focus()
     onSearchFocus.value = null
     onPhoneFocus.value = null
+    onDiscountFocus.value = null
+   // onTotalFocus.value = null
+  }
+}
+
+const discountReFocus = () => {
+  if (router?.currentRoute?.value?.path === '/sales' && onDiscountFocus.value) {
+    onDiscountFocus.value.focus()
+    onTotalFocus.value = null
+    onSearchFocus.value = null
+    onPhoneFocus.value = null
+    onFullNameFocus.value = null
+  }
+}
+
+const discountReasonReFocus = () => {
+  if (router?.currentRoute?.value?.path === '/sales' && onDiscountReasonFocus.value) {
+    onDiscountReasonFocus.value.focus()
+    onDiscountFocus.value = null
+    onTotalFocus.value = null
+    onSearchFocus.value = null
+    onPhoneFocus.value = null
+    onFullNameFocus.value = null
+  }
+}
+
+const totalReFocus = () => {
+  if (router?.currentRoute?.value?.path === '/sales' && onTotalFocus.value) {
+    document.getElementById('price').focus() // Focus the element
+    onDiscountFocus.value = null
+    onDiscountReasonFocus.value = null
+    onSearchFocus.value = null
+    onPhoneFocus.value = null
+    onFullNameFocus.value = null
   }
 }
 
@@ -590,6 +757,7 @@ const phoneReFocus = () => {
     onPhoneFocus.value.focus()
     onSearchFocus.value = null
     onFullNameFocus.value = null
+    onDiscountFocus.value = null
   }
 }
 
@@ -647,11 +815,15 @@ const isLoadingDebtForm = ref(false)
 const customerForm = reactive({
   fullName: '',
   phone: '',
+  discount: '',
+  discountReason: '',
 })
 
 const clearCustomerForm = () => {
   customerForm.fullName = ''
   customerForm.phone = ''
+  discount.value = ''
+  submitData.discountReason = ''
 }
 
 const closeForm = () => {
@@ -687,6 +859,11 @@ const createSale = () => {
 
 const closeDebtForm = () => {
   showDebtForm.value = false
+  clearCustomerForm()
+  selectP.value = undefined
+}
+const closeDiscountForm = () => {
+  showDiscountForm.value = false
   clearCustomerForm()
   selectP.value = undefined
 }
@@ -765,21 +942,21 @@ const removeLastDigit = () => {
             <SearchIcon class="w-5 h-5 text-slate-400" />
           </div>
           <input id="globle-search" v-model="search" v-on:keypress="whenPressEnter($event)" type="search"
-            @blur="reFocus()" ref="onSearchFocus"
-            class="bg-slate-100 border-none text-slate-900 text-base md:text-lg rounded-xl block w-full h-12 pl-10 py-2 placeholder-slate-400 placeholder:text-sm md:placeholder:text-lg lg:placeholder:text-base"
-            :placeholder="t('searchByProductNameOrBarcode')" />
+                 @blur="reFocus()" ref="onSearchFocus"
+                 class="bg-slate-100 border-none text-slate-900 text-base md:text-lg rounded-xl block w-full h-12 pl-10 py-2 placeholder-slate-400 placeholder:text-sm md:placeholder:text-lg lg:placeholder:text-base"
+                 :placeholder="t('searchByProductNameOrBarcode')" />
           <div v-if="search" @click="clearSearchInput()"
-            class="absolute inset-y-0 right-20 p-1 flex items-center cursor-pointer">
+               class="absolute inset-y-0 right-20 p-1 flex items-center cursor-pointer">
             <XIcon class="w-5 h-5 text-slate-600" />
           </div>
           <button @click="searchProducts()" type="button"
-            class="absolute inset-y-0 right-0 px-4 bg-[#0167F3] text-white rounded-r-xl">
+                  class="absolute inset-y-0 right-0 px-4 bg-[#0167F3] text-white rounded-r-xl">
             {{ $t('search') }}
           </button>
           <ScrollPanel v-if="products.length > 0" ref="searchProductDropdown"
-            class="h-[500px] flex flex-row absolute top-16 left-0 bg-transparent w-full space-y-2 ">
+                       class="h-[500px] flex flex-row absolute top-16 left-0 bg-transparent w-full space-y-2 ">
             <div v-for="(product, idx) in products" :key="idx" @click="addProductToCart(product)"
-              class="flex items-center justify-between bg-white border shadow-sm rounded-xl px-3 py-2 my-2 w-full cursor-pointer hover:bg-slate-100">
+                 class="flex items-center justify-between bg-white border shadow-sm rounded-xl px-3 py-2 my-2 w-full cursor-pointer hover:bg-slate-100">
               <div class="flex items-center space-x-3">
                 <div class="flex items-center justify-center bg-slate-200 w-10 h-10 rounded-lg">
                   <ImageIcon class="text-gray-500 w-8 h-8" />
@@ -809,11 +986,11 @@ const removeLastDigit = () => {
         </div>
 
         <div @click="useModalStore().openCameraScannerModal()" :title="t('barcodeScanning')"
-          class="flex items-center justify-center bg-slate-100 rounded-xl h-12 w-12 cursor-pointer">
+             class="flex items-center justify-center bg-slate-100 rounded-xl h-12 w-12 cursor-pointer">
           <BarcodeIcon class="w-6 h-6 text-blue-600" />
         </div>
         <div @click="clearSubmitData()" :title="t('clearTheBasket')"
-          class="hidden md:flex items-center justify-center bg-slate-100 rounded-xl h-12 w-12 cursor-pointer">
+             class="hidden md:flex items-center justify-center bg-slate-100 rounded-xl h-12 w-12 cursor-pointer">
           <BroomIcon class="w-5 h-5 text-blue-600" />
         </div>
       </div>
@@ -824,10 +1001,10 @@ const removeLastDigit = () => {
         </div>
         <div class="flex space-x-2">
           <div v-for="(basket, idx) in baskets" :key="idx" @click="changeBasketStatus(basket.id)"
-            class="px-4 py-2 inline-flex flex-col xl:flex-row sm:flex items-center leading-none border-b-2 rounded-xl"
-            :class="activeBasketStatus === basket.id ? 'bg-slate-100 border-blue-500' : 'bg-slate-50 border-slate-200 cursor-pointer'">
+               class="px-4 py-2 inline-flex flex-col xl:flex-row sm:flex items-center leading-none border-b-2 rounded-xl"
+               :class="activeBasketStatus === basket.id ? 'bg-slate-100 border-blue-500' : 'bg-slate-50 border-slate-200 cursor-pointer'">
             <BasketIcon class="w-6 h-6 mr-2"
-              :class="activeBasketStatus === basket.id ? 'text-blue-500 text-sm' : 'text-gray-500 text-sm'" />
+                        :class="activeBasketStatus === basket.id ? 'text-blue-500 text-sm' : 'text-gray-500 text-sm'" />
             <span :class="activeBasketStatus === basket.id ? 'text-blue-500 text-sm' : 'text-gray-900 text-sm'">
               {{ basket.name }}
             </span>
@@ -835,50 +1012,50 @@ const removeLastDigit = () => {
         </div>
       </div>
 
-      <div v-if="activeBasket.length > 0" class=" py-2 align-middle">
+      <div v-if="activeBasket.length > 0" class="py-2 align-middle">
         <div class="min-w-full">
           <ScrollPanel class="w-full h-[550px] rounded-xl">
             <table class="md:min-w-full divide-y-8 divide-white">
               <thead>
-                <tr class="bg-slate-100 text-base font-semibold text-gray-900 h-12">
-                  <th class="px-3 py-2 text-left rounded-l-xl text-sm md:text-base">
-                    {{ $t('product') }}
-                  </th>
-                  <th class="px-3 py-2 text-center text-sm md:text-base">
-                    {{ $t('serialId') }}
-                  </th>
-                  <th class="px-3 py-2 text-center text-sm md:text-base">
-                    {{ $t('quantity') }}
-                  </th>
-                  <th class="px-3 py-2 text-center text-sm md:text-base">
-                    {{ $t('totalPrice') }}
-                  </th>
-                  <th class="px-3 py-2 text-center text-sm md:text-base rounded-r-xl">
-                    {{ $t('actions') }}
-                  </th>
-                </tr>
+              <tr class="bg-slate-100 text-base font-semibold text-gray-900 h-12">
+                <th class="px-3 py-2 text-left rounded-l-xl text-sm md:text-base">
+                  {{ $t('product') }}
+                </th>
+                <th class="px-3 py-2 text-center text-sm md:text-base">
+                  {{ $t('serialId') }}
+                </th>
+                <th class="px-3 py-2 text-center text-sm md:text-base">
+                  {{ $t('quantity') }}
+                </th>
+                <th class="px-3 py-2 text-center text-sm md:text-base">
+                  {{ $t('totalPrice') }}
+                </th>
+                <th class="px-3 py-2 text-center text-sm md:text-base rounded-r-xl">
+                  {{ $t('actions') }}
+                </th>
+              </tr>
               </thead>
               <tbody class="bg-slate-100 divide-y-8 divide-white">
-                <tr :class="{ 'bg-blue-100': selectP === product }" @click="selectProduct(product)"
+              <tr :class="{ 'bg-blue-100': selectP === product }" @click="selectProduct(product)"
                   v-for="(product, idx) in activeBasket" :key="idx" class="overflow-x-auto overflow-y-auto">
-                  <td class="px-3 py-2 whitespace-nowrap rounded-l-xl">
-                    <div class="flex items-center space-x-3">
-                      <div class="flex items-center justify-center bg-slate-200 md:w-12 md:h-12 w-8 h-8 rounded-lg">
-                        <ImageIcon class="text-gray-500 w-6 h-6" />
+                <td class="px-3 py-2 whitespace-nowrap rounded-l-xl">
+                  <div class="flex items-center space-x-3">
+                    <div class="flex items-center justify-center bg-slate-200 md:w-12 md:h-12 w-8 h-8 rounded-lg">
+                      <ImageIcon class="text-gray-500 w-6 h-6" />
+                    </div>
+                    <div>
+                      <div
+                        class="text-sm md:text-base font-semibold text-gray-800 max-w-full whitespace-break-spaces">
+                        {{ product?.name + ' - ' + product?.packaging }}
                       </div>
-                      <div>
-                        <div
-                          class="text-sm md:text-base font-semibold text-gray-800 max-w-full whitespace-break-spaces">
-                          {{ product?.name + ' - ' + product?.packaging }}
-                        </div>
-                        <div class="text-sm md:text-base font-medium text-gray-500">
-                          {{ $t('price') }}:
-                          <span class="text-gray-700 text-sm md:text-base">
+                      <div class="text-sm md:text-base font-medium text-gray-500">
+                        {{ $t('price') }}:
+                        <span class="text-gray-700 text-sm md:text-base">
                             {{ useMoneyFormatter(product?.price) }}
                           </span>
-                          <div v-if="product.quantity <= 15">
-                            {{ $t('remainingAmount') }}:
-                            <span class="text-red-500 text-sm md:text-base">
+                        <div v-if="product.quantity <= 15">
+                          {{ $t('remainingAmount') }}:
+                          <span class="text-red-500 text-sm md:text-base">
                               {{ roundFloatToTwoDecimal(product?.quantity - product?.amount) }}
                             </span>
                           </div>
@@ -900,12 +1077,15 @@ const removeLastDigit = () => {
                           class="flex items-center justify-center w-8 h-8 bg-white text-slate-700 cursor-default rounded-xl">
                           <MinusIcon class="w-4 h-4" />
                         </div>
-                        <div v-if="product?.saleType === 'kg' && product?.amount <= 0.1" class="flex items-center justify-center text-lg font-normal">
-                          {{ roundFloatToFourDecimal(product?.amount)+ ' ' + saleTypeShortTranslate(product?.saleType) }}
+                        <div v-if="product?.saleType === 'kg' && product?.amount <= 0.1"
+                          class="flex items-center justify-center text-lg font-normal">
+                          {{ roundFloatToFourDecimal(product?.amount) + ' ' + saleTypeShortTranslate(product?.saleType)
+                          }}
                         </div>
 
                         <div v-else class="flex items-center justify-center text-lg font-normal">
-                          {{ roundFloatToTwoDecimal(product?.amount) + ' ' + saleTypeShortTranslate(product?.saleType) }}
+                          {{ roundFloatToTwoDecimal(product?.amount) + ' ' + saleTypeShortTranslate(product?.saleType)
+                          }}
                         </div>
                         <div @click="increaseCountOfProducts(product)" v-if="increaseCountChecking(product)"
                           class="flex items-center justify-center w-8 h-8 bg-white text-blue-700 shadow-sm hover:bg-slate-200 cursor-pointer rounded-xl">
@@ -930,30 +1110,28 @@ const removeLastDigit = () => {
                           <MinusIcon class="w-4 h-4" />
                         </div>
 
-                        <div class="flex items-center justify-center text-lg font-normal">
-                          {{ useMoneyFormatter(product?.price * product?.amount) }}
-                        </div>
-                        <div @click="increaseCountOfPrice(product)" v-if="increasePriceChecking(product)"
-                          class="flex items-center justify-center w-8 h-8 bg-white text-blue-700 shadow-sm hover:bg-slate-200 cursor-pointer rounded-xl">
-                          <PlusIcon class="w-4 h-4" />
-                        </div>
-                        <div v-else
-                          class="flex items-center justify-center w-8 h-8 bg-white text-slate-700 cursor-default rounded-xl">
-                          <PlusIcon class="w-4 h-4" />
-                        </div>
-
+                      <div class="flex items-center justify-center text-lg font-normal">
+                        {{ useMoneyFormatter(product?.price * product?.amount) }}
                       </div>
+                      <div @click="increaseCountOfPrice(product)" v-if="increasePriceChecking(product)"
+                           class="flex items-center justify-center w-8 h-8 bg-white text-blue-700 shadow-sm hover:bg-slate-200 cursor-pointer rounded-xl">
+                        <PlusIcon class="w-4 h-4" />
+                      </div>
+                      <div v-else
+                           class="flex items-center justify-center w-8 h-8 bg-white text-slate-700 cursor-default rounded-xl">
+                        <PlusIcon class="w-4 h-4" />
+                      </div>
+
                     </div>
-                  </td>
-                  <td class="px-3 py-2 whitespace-nowrap rounded-r-2xl">
-                    <div class="flex justify-center space-x-2">
-                      <TrashIcon @click="$event.stopPropagation(); removeProductFromCart(product)"
-                        class="w-6 h-6 text-rose-500 cursor-pointer transform hover:scale-105" />
-<!--                      <PhMoney @click="saleAllRemainingAmount(); removeProductFromCart(product)"-->
-<!--                        class="w-6 h-6 text-green-500 cursor-pointer transform hover:scale-105" />-->
-                    </div>
-                  </td>
-                </tr>
+                  </div>
+                </td>
+                <td class="px-3 py-2 whitespace-nowrap rounded-r-2xl">
+                  <div class="flex justify-center space-x-2">
+                    <TrashIcon @click="$event.stopPropagation(); removeProductFromCart(product)"
+                               class="w-6 h-6 text-rose-500 cursor-pointer transform hover:scale-105" />
+                  </div>
+                </td>
+              </tr>
               </tbody>
             </table>
           </ScrollPanel>
@@ -1001,7 +1179,7 @@ const removeLastDigit = () => {
             <div class="text-base text-gray-600">
               {{ $t('discountAmount') }}
             </div>
-            <div class="text-base font-semibold text-red-500">-{{ useMoneyFormatter(0) }}</div>
+            <div class="text-base font-semibold text-red-500">-{{ useMoneyFormatter(totalPrice-submitData.paymentReceived) }}</div>
           </div>
         </div>
         <div class="flex items-center justify-between mt-2">
@@ -1017,19 +1195,63 @@ const removeLastDigit = () => {
             {{ $t('total') }}
           </div>
           <div class="text-xl font-semibold text-gray-900">
-            {{ useMoneyFormatter(totalPrice) }}
+            {{ useMoneyFormatter(totalPrice - (totalPrice * submitData.discountPercent / 100)) }}
           </div>
         </div>
       </div>
-
       <div class="space-y-1">
         <label class="text-base font-medium">
           {{ $t('paymentReceived') }}
         </label>
-        <money3 v-model="submitData.paymentReceived" v-bind="moneyConf" id="price"
-          class="border-none text-right text-gray-500 bg-slate-100 rounded-lg w-full text-lg" disabled></money3>
+        <money3 v-model="submitData.paymentReceived" v-bind="moneyConf" id="price" ref="onTotalFocus"
+                @blur="totalReFocus()" class="border-none text-right text-gray-500 bg-slate-100 rounded-lg w-full text-lg" />
       </div>
-      <div class="py-3 lg:py-0 space-y-1">
+
+      <div class="space-y-1">
+        <div @click="showDiscountForm = !showDiscountForm" :class="showDiscountForm ? 'border-blue-300 bg-blue-50' : ''"
+          class="flex-1 flex flex-col hover:border-blue-300 hover:bg-blue-50 hover:cursor-pointer items-center justify-center border rounded-lg py-4">
+          <PhPercent class="w-6 h-6 text-gray-500" />
+          <div class="text-lg font-medium">
+            {{ $t('intoDiscount') }}
+          </div>
+        </div>
+        <div v-if="showDiscountForm" class="flex flex-col space-y-1">
+          <div class="space-y-1">
+            <label class="text-base font-medium">
+              {{ $t('discount') }}
+            </label>
+          </div>
+          <div>
+            <input min="0" max="100" v-model="discount" type="number" ref="onDiscountFocus" @blur="discountReFocus()"
+              class="border-none text-right text-gray-500 bg-slate-100 rounded-lg w-full text-lg">
+            <div class="flex space-x-3 my-3 justify-end">
+              <button
+                class="px-4 py-2 flex items-center justify-center text-lg cursor-pointer border border-blue-400 bg-blue-50  hover:border-blue-400 hover:text-white hover:bg-blue-400 rounded-lg" :class="{'bg-blue-400 text-white' : discount==10}"
+                @click="setDiscountValue(10)">10%</button>
+              <button
+                class="px-4 py-2 flex items-center justify-center text-lg cursor-pointer border border-blue-400 bg-blue-100 hover:border-blue-400 hover:text-white hover:bg-blue-400 rounded-lg"
+                :class="{'bg-blue-400 text-white' : discount==25}"
+                @click="setDiscountValue(25)">25%</button>
+              <button
+                class="px-4 py-2 flex items-center justify-center text-lg cursor-pointer border border-blue-400 bg-blue-200 hover:border-blue-400 hover:text-white hover:bg-blue-400 rounded-lg"
+                :class="{'bg-blue-400 text-white' : discount==50}"
+                @click="setDiscountValue(50)">50%</button>
+              <button
+                class="px-4 py-2 flex items-center justify-center text-lg cursor-pointer border border-blue-400 bg-blue-300 hover:border-blue-400 hover:text-white hover:bg-blue-400 rounded-lg"
+                :class="{'bg-blue-400 text-white' : discount==100}"
+                @click="setDiscountValue(100)">100%</button>
+            </div>
+            <div class="space-y-2">
+              <label class="text-base font-medium" for="reason">{{ $t('reason') }}</label>
+              <input type="text" v-model="submitData.discountReason"
+              ref="onDiscountReasonFocus" @blur="discountReasonReFocus()" class="border-none text-left text-gray-500 bg-slate-100 rounded-lg w-full text-lg">
+            </div>
+            <div class="mt-5">
+              <CancelButton class="w-full" @click="closeDiscountForm" />
+            </div>
+          </div>
+        </div>
+        <div class="py-3 lg:py-0 space-y-1">
         <div class="text-base font-medium">
           {{ $t('paymentType') }}
         </div>
@@ -1056,7 +1278,7 @@ const removeLastDigit = () => {
             </div>
           </div>
           <div @click="showDebtForm = !showDebtForm" :class="showDebtForm ? 'border-blue-300 bg-blue-50' : ''"
-            class="flex-1 flex flex-col hover:border-blue-300 hover:bg-blue-50 hover:cursor-pointer items-center justify-center border rounded-lg py-4">
+               class="flex-1 flex flex-col hover:border-blue-300 hover:bg-blue-50 hover:cursor-pointer items-center justify-center border rounded-lg py-4">
             <DebtIcon class="w-6 h-6 text-gray-500" />
             <div class="text-lg font-medium">
               {{ $t('intoDebt') }}
@@ -1064,16 +1286,50 @@ const removeLastDigit = () => {
           </div>
         </div>
       </div>
+      <div v-if="hasDiscount && activeBasket.length > 0" class="flex flex-col space-y-4">
+        <button v-if="!isLoadingDiscount" @click="handleDiscountClick"
+                class="px-6 w-full uppercase animate-pulse py-5 bg-gradient-to-r from-blue-500 to-green-500 text-white font-semibold text-lg rounded-full shadow-md hover:shadow-lg transition duration-300 transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-opacity-75">
+          chegirma %
+        </button>
+
+        <button v-if="isLoadingDiscount"
+                class="flex items-center justify-center px-6 w-full uppercase animate-pulse py-5 bg-gradient-to-r from-blue-500 to-green-500 text-white font-semibold text-lg rounded-full shadow-md hover:shadow-lg transition duration-300 transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-opacity-75">
+          <Spinners270RingIcon class="mr-2 w-5 h-5 text-white animate-spin dark:text-gray-600 fill-gray-600 dark:fill-gray-300" />
+          chegirma %
+        </button>
+      </div>
       <div class="space-y-6">
         <div class="space-y-4">
-          <button @click="createOrder()"
-                  class="w-full xl:py-3 px-4 lg:py-2 py-3 rounded-full text-white text-lg font-medium bg-blue-500 cursor-pointer hover:bg-blue-600">
-            {{ $t('payment') }} <BillCheckIcon class="ml-2 h-6 w-6 inline" />
-          </button>
-          <button @click="createOrder(false)"
-                  class="w-full xl:py-3 px-4 lg:py-2 py-3 rounded-full text-lg font-medium cursor-pointer bg-blue-50 border border-blue-300 text-blue-500 hover:bg-blue-100">
-            {{ $t('payment') }} <BillCrossIcon class="ml-2 h-6 w-6 inline" />
-          </button>
+          <div class="space-y-4">
+            <div v-if="!isLoadingOrderWithPrint && !isLoadingOrderWithoutPrint" class="space-y-4">
+              <button @click="createOrder(true)"
+                      class="w-full xl:py-3 px-4 lg:py-2 py-3 rounded-full text-white text-lg font-medium bg-blue-500 cursor-pointer hover:bg-blue-600">
+                {{ $t('payment') }} <BillCheckIcon class="ml-2 h-6 w-6 inline" />
+              </button>
+              <button @click="createOrder(false)"
+                      class="w-full xl:py-3 px-4 lg:py-2 py-3 rounded-full text-lg font-medium cursor-pointer bg-blue-50 border border-blue-300 text-blue-500 hover:bg-blue-100">
+                {{ $t('payment') }}
+                <BillCrossIcon class="ml-2 h-6 w-6 inline" />
+              </button>
+            </div>
+            <div v-else class="space-y-4">
+              <button v-if="isLoadingOrderWithPrint" class="flex items-center justify-center w-full xl:py-3 px-4 lg:py-2 py-3 rounded-full text-white text-lg font-medium bg-blue-600">
+                <Spinners270RingIcon class="mr-2 w-5 h-5 text-gray-200 animate-spin dark:text-gray-600 fill-gray-600 dark:fill-gray-300" />
+                {{ $t('payment') }}
+              </button>
+              <button v-else class="w-full xl:py-3 px-4 lg:py-2 py-3 rounded-full text-white text-lg font-medium bg-blue-500 cursor-pointer hover:bg-blue-600">
+                {{ $t('payment') }} <BillCheckIcon class="ml-2 h-6 w-6 inline" />
+              </button>
+              <button v-if="isLoadingOrderWithoutPrint" class="flex items-center justify-center w-full xl:py-3 px-4 lg:py-2 py-3 rounded-full text-lg font-medium cursor-pointer bg-blue-50 border border-blue-300 text-blue-500 hover:bg-blue-100">
+                <Spinners270RingIcon class="mr-2 w-5 h-5 text-blue-500 animate-spin dark:text-gray-600 fill-gray-600 dark:fill-gray-300" />
+                {{ $t('payment') }}
+              </button>
+              <button v-else class="w-full xl:py-3 px-4 lg:py-2 py-3 rounded-full text-lg font-medium cursor-pointer bg-blue-50 border border-blue-300 text-blue-500 hover:bg-blue-100">
+                {{ $t('payment') }}
+                <BillCrossIcon class="ml-2 h-6 w-6 inline" />
+              </button>
+            </div>
+          </div>
         </div>
         <div v-if="showDebtForm" class="flex flex-col space-y-4">
           <div>
@@ -1084,9 +1340,9 @@ const removeLastDigit = () => {
                   <span class="text-red-500 mr-2">*</span>
                 </label>
                 <input v-model="customerForm.fullName" id="debtor-fullname" type="text" ref="onFullNameFocus"
-                  @blur="fullNameReFocus()"
-                  class="bg-slate-100 border-none text-slate-900 rounded-lg w-full py-2.5 placeholder-slate-400"
-                  :placeholder="t('enterFullName')" />
+                       @blur="fullNameReFocus()"
+                       class="bg-slate-100 border-none text-slate-900 rounded-lg w-full py-2.5 placeholder-slate-400"
+                       :placeholder="t('enterFullName')" />
               </div>
               <div class="w-full">
                 <label for="debtor-phone" class="text-base font-medium">
@@ -1094,18 +1350,18 @@ const removeLastDigit = () => {
                   <span class="text-red-500 mr-2">*</span>
                 </label>
                 <input ref="onPhoneFocus" @blur="phoneReFocus()" v-model="customerForm.phone" id="debtor-phone"
-                  type="text" v-maska data-maska="+998(##) ###-##-##"
-                  class="bg-slate-100 border-none w-full text-slate-900 rounded-lg py-2.5 placeholder-slate-400"
-                  placeholder="+998(00) 000-00-00" />
+                       type="text" v-maska data-maska="+998(##) ###-##-##"
+                       class="bg-slate-100 border-none w-full text-slate-900 rounded-lg py-2.5 placeholder-slate-400"
+                       placeholder="+998(00) 000-00-00" />
               </div>
             </div>
           </div>
           <div class="space-y-2">
             <CancelButton class="w-full" @click="closeDebtForm" />
             <button @click="createDebt"
-              class="w-full xl:py-3 px-4 lg:py-2 py-3 rounded-full text-white flex items-center justify-center text-lg font-medium bg-blue-500 cursor-pointer hover:bg-blue-600">
+                    class="w-full xl:py-3 px-4 lg:py-2 py-3 rounded-full text-white flex items-center justify-center text-lg font-medium bg-blue-500 cursor-pointer hover:bg-blue-600">
               <Spinners270RingIcon v-if="isLoadingDebtForm"
-                class="mr-2 w-5 h-5 text-gray-200 animate-spin dark:text-gray-600 fill-gray-600 dark:fill-gray-300" />
+                                   class="mr-2 w-5 h-5 text-gray-200 animate-spin dark:text-gray-600 fill-gray-600 dark:fill-gray-300" />
               {{ $t('intoDebt') }}
             </button>
           </div>
@@ -1121,9 +1377,9 @@ const removeLastDigit = () => {
                   <span class="text-red-500 mr-2">*</span>
                 </label>
                 <input ref="onFullNameFocus" @blur="fullNameReFocus()" id="customer-fullname" type="text"
-                  v-model="customerForm.fullName"
-                  class="bg-slate-100 border-none text-slate-900 rounded-lg w-full py-2.5 placeholder-slate-400"
-                  :placeholder="t('enterFullName')" />
+                       v-model="customerForm.fullName"
+                       class="bg-slate-100 border-none text-slate-900 rounded-lg w-full py-2.5 placeholder-slate-400"
+                       :placeholder="t('enterFullName')" />
               </div>
               <div class="flex-1">
                 <label for="customer-phone" class="text-base font-medium">
@@ -1131,22 +1387,22 @@ const removeLastDigit = () => {
                   <span class="text-red-500 mr-2">*</span>
                 </label>
                 <input ref="onPhoneFocus" @blur="phoneReFocus()" id="customer-phone" type="text"
-                  v-model="customerForm.phone" v-maska data-maska="+998(##) ###-##-##"
-                  class="bg-slate-100 border-none text-slate-900 rounded-lg w-full py-2.5 placeholder-slate-400"
-                  placeholder="+998(00) 000-00-00" />
+                       v-model="customerForm.phone" v-maska data-maska="+998(##) ###-##-##"
+                       class="bg-slate-100 border-none text-slate-900 rounded-lg w-full py-2.5 placeholder-slate-400"
+                       placeholder="+998(00) 000-00-00" />
               </div>
             </div>
           </div>
           <div>
             <CancelButton @click="closeForm" />
             <button v-if="isLoadingCustomerForm"
-              class="inline-flex items-center justify-center ms-3 text-white bg-blue-600 focus:ring-4 focus:outline-none focus:ring-slate-300 rounded-xl border border-slate-200 text-sm font-medium px-5 py-2.5 focus:z-10 cursor-default">
+                    class="inline-flex items-center justify-center ms-3 text-white bg-blue-600 focus:ring-4 focus:outline-none focus:ring-slate-300 rounded-xl border border-slate-200 text-sm font-medium px-5 py-2.5 focus:z-10 cursor-default">
               <Spinners270RingIcon
                 class="mr-2 w-5 h-5 text-gray-200 animate-spin dark:text-gray-600 fill-gray-600 dark:fill-gray-300" />
               {{ $t('create') }}
             </button>
             <button v-else @click="createSale()" type="button"
-              class="ms-3 text-white bg-blue-500 hover:bg-blue-600 focus:ring-4 focus:outline-none focus:ring-slate-300 rounded-xl border border-slate-200 text-sm font-medium px-5 py-2.5 focus:z-10">
+                    class="ms-3 text-white bg-blue-500 hover:bg-blue-600 focus:ring-4 focus:outline-none focus:ring-slate-300 rounded-xl border border-slate-200 text-sm font-medium px-5 py-2.5 focus:z-10">
               {{ $t('create') }}
             </button>
           </div>
@@ -1200,11 +1456,13 @@ const removeLastDigit = () => {
           </div>
           <div
             class="flex items-center justify-center text-lg cursor-pointer border border-slate-400 bg-slate-100 hover:border-blue-400 hover:text-blue-400 hover:bg-blue-100 rounded-lg"
-            @click="removeLastDigit()">{{ '<' }} </div>
+            @click="removeLastDigit()">{{ '<' }}
+          </div>
           </div>
         </div>
       </div>
     </div>
+  </div>
 </template>
 
 <style scoped></style>
