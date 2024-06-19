@@ -289,5 +289,9 @@
   "status": "Status",
   "realPrice": "Real price",
   "profitStatistics": "Profit statistics",
-  "sold": "Sold"
+  "sold": "Sold",
+  "upcomingProducts": "Upcoming products",
+  "addUpcomingProduct": "Add upcoming product",
+  "agent": "Agent",
+  "standard": "Standard"
 }

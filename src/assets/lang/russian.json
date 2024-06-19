@@ -290,5 +290,9 @@
   "status": "Статус",
   "realPrice": "Реальная цена",
   "profitStatistics": "Статистика прибыли",
-  "sold": "Продал"
+  "sold": "Продал",
+  "upcomingProducts": "Предстоящие продукты",
+  "addUpcomingProduct": "Добавить предстоящий продукт",
+  "agent": "Агент",
+  "standard": "Стандартный"
 }

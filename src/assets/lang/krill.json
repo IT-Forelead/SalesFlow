@@ -290,5 +290,9 @@
   "status": "Статус",
   "realPrice": "Ҳақиқий нархи",
   "profitStatistics": "Фойда статистикаси",
-  "sold": "Сотилган"
+  "sold": "Сотилган",
+  "upcomingProducts": "Келгуси маҳсулотлар",
+  "addUpcomingProduct": "Кутилётган маҳсулотни қўшиш",
+  "agent": "Агент",
+  "standard": "Стандарт"
 }

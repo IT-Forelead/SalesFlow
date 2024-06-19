@@ -24,6 +24,7 @@ import ProductService from '../services/product.service.js'
 import { useRoute, useRouter } from 'vue-router'
 import { onClickOutside } from '@vueuse/core'
 import { reactive } from 'vue'
+import BroomIcon from '../assets/icons/BroomIcon.vue'
 
 const { t } = useI18n()
 const API_URL = import.meta.env.VITE_CHEQUE_API_URL
@@ -53,9 +54,18 @@ onClickOutside(filterByDropdown, () => {
 })
 
 const filterData = reactive({
+  sortBy: '',
+  sortOrder: '',
   startExpirationDate: '',
   endExpirationDate: '',
 })
+
+const clearFilterData = () => {
+  filterData.sortBy = ''
+  filterData.sortOrder = ''
+  filterData.startExpirationDate = ''
+  filterData.endExpirationDate = ''
+}
 
 const currentPage = computed(() => {
   return productHistoryStore.currentPage
@@ -230,10 +240,15 @@ const getProductHistories = (filters = {}) => {
 }
 
 const getSort = (sortBy, sortOrder) => {
-  getProductHistories({
-    sortBy: sortBy,
-    sortOrder: sortOrder,
-  })
+  filterData.sortBy = sortBy
+  filterData.sortOrder = sortOrder
+  getProductHistories(filterData)
+  useDropdownStore().toggleSortBy()
+}
+
+const resetSortData = () => {
+  clearFilterData()
+  getProductHistories(filterData)
   useDropdownStore().toggleSortBy()
 }
 
@@ -327,8 +342,9 @@ const nextPage = () => {
 getProductHistories()
 
 watch(page, () => {
-  getProductHistories()
+  getProductHistories(filterData)
 })
+
 watch(searchFilter, searchProducts)
 
 const navigationGuard = (access) => {
@@ -393,7 +409,7 @@ watch(route, (newRoute) => {
             <span>{{ $t('filter') }}</span>
           </div>
           <div v-if="useDropdownStore().isOpenFilterBy"
-            class="absolute bg-white shadow-md rounded-xl w-52 p-3 z-20 top-12 right-0 space-y-3">
+            class="absolute bg-white shadow-md rounded-xl w-64 p-3 z-20 top-12 right-0 space-y-3">
             <div class="flex-1 space-y-1">
               <label for="startExpirationDate" class="text-base md:text-lg font-medium">
                 {{ $t('from') }}
@@ -410,15 +426,21 @@ watch(route, (newRoute) => {
                 class="bg-slate-100 border-none text-slate-900 rounded-lg w-full h-11 placeholder-slate-400 placeholder:text-sm md:placeholder:text-lg"
                 :placeholder="t('enterProductQuantity')">
             </div>
-            <div v-if="isLoading"
-              class="w-full bg-blue-600 py-2 select-none text-white rounded-lg flex items-center justify-center">
-              <Spinners270RingIcon
-                class="mr-2 w-5 h-5 text-gray-200 animate-spin dark:text-gray-600 fill-gray-600 dark:fill-gray-300" />
-              <span>{{ $t('loading') }}</span>
-            </div>
-            <div v-else @click="submitFilterData()"
-              class="w-full bg-blue-500 hover:bg-blue-600 cursor-pointer select-none py-2 text-white rounded-lg flex items-center justify-center">
-              <span>{{ $t('filter') }}</span>
+            <div class="flex items-center space-x-2">
+              <div @click="clearFilterData()"
+                class="bg-blue-500 hover:bg-blue-600 cursor-pointer select-none py-2 px-3 text-white rounded-lg flex items-center justify-center">
+                <BroomIcon class="w-5 h-5 text-white" />
+              </div>
+              <div v-if="isLoading"
+                class="w-full bg-blue-600 py-2 select-none text-white rounded-lg flex items-center justify-center">
+                <Spinners270RingIcon
+                  class="mr-2 w-5 h-5 text-gray-200 animate-spin dark:text-gray-600 fill-gray-600 dark:fill-gray-300" />
+                <span>{{ $t('loading') }}</span>
+              </div>
+              <div v-else @click="submitFilterData()"
+                class="w-full bg-blue-500 hover:bg-blue-600 cursor-pointer select-none py-2 text-white rounded-lg flex items-center justify-center">
+                <span>{{ $t('filter') }}</span>
+              </div>
             </div>
           </div>
         </div>
@@ -431,6 +453,9 @@ watch(route, (newRoute) => {
           <div v-if="useDropdownStore().isOpenSortBy"
             class="absolute bg-white shadow-md rounded-xl w-48 p-3 z-20 top-12 right-0 space-y-3">
             <ul>
+              <li @click="resetSortData()" class="px-2 py-1 text-sm hover:bg-slate-100 rounded cursor-pointer">
+                {{ $t('standard') }}
+              </li>
               <li @click="getSort('name', 'ASC')" class="px-2 py-1 text-sm hover:bg-slate-100 rounded cursor-pointer">
                 {{ $t('byName') }} (A-Z)
               </li>
