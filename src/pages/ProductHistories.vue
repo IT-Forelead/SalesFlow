@@ -280,7 +280,7 @@ const searchProducts = (async () => {
   } else {
     filters = { name: trimmedValue }
   }
-  await getProductHistories(filters)
+  await getProductHistories({ limit: pageSize, page: 1, ...filters })
 })
 
 const goToPage = async (pageNumber) => {
