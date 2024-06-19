@@ -122,6 +122,7 @@ const onDiscountFocus = ref(null)
 const onTotalFocus = ref(null)
 const onDiscountReasonFocus = ref(null)
 const discount = ref(0);
+const onDebtFocus = ref(null)
 
 const setDiscountValue = (value) => {
   discount.value = value;
@@ -643,7 +644,7 @@ watchEffect(() => {
     onDiscountFocus.value = null
     onTotalFocus.value = null
     onDiscountReasonFocus.value = null
-
+    onDebtFocus.value = null
   }
 })
 watchEffect(() => {
@@ -654,7 +655,7 @@ watchEffect(() => {
     onDiscountFocus.value = null
     onTotalFocus.value = null
     onDiscountReasonFocus.value = null
-
+    onDebtFocus.value = null
   }
 })
 watchEffect(() => {
@@ -665,7 +666,7 @@ watchEffect(() => {
     onDiscountFocus.value = null
     onTotalFocus.value = null
     onDiscountReasonFocus.value = null
-
+    onDebtFocus.value = null
   }
 })
 
@@ -677,28 +678,44 @@ watchEffect(() => {
     onFullNameFocus.value = null
     onPhoneFocus.value = null
     onDiscountReasonFocus.value = null
-
+    onDebtFocus.value = null
   }
 })
 
 watchEffect(() => {
   if (onTotalFocus.value) {
-    document.getElementById('price').focus() // Focus the element
+    document.getElementById('price').focus()
     onDiscountFocus.value = null
     onSearchFocus.value = null
     onFullNameFocus.value = null
     onPhoneFocus.value = null
     onDiscountReasonFocus.value = null
+    onDebtFocus.value = null
   }
 })
 
 watchEffect(() => {
   if (onDiscountReasonFocus.value) {
-    onDiscountReasonFocus.value.focus() // Focus the element
+    onDiscountReasonFocus.value.focus()
+    onDiscountFocus.value = null
+    onTotalFocus.value = null
+    onSearchFocus.value = null
+    onFullNameFocus.value = null
+    onPhoneFocus.value = null
+    onDebtFocus.value = null
+  }
+})
+
+watchEffect(() => {
+  if (onDebtFocus.value) {
+    document.getElementById('debtor-price').focus()
+    onDiscountReasonFocus.value = null
     onDiscountFocus.value = null
     onSearchFocus.value = null
     onFullNameFocus.value = null
     onPhoneFocus.value = null
+    onTotalFocus.value = null
+
   }
 })
 
@@ -711,8 +728,8 @@ const reFocus = () => {
 
 const fullNameReFocus = () => {
   if (router?.currentRoute?.value?.path === '/sales' && onFullNameFocus.value) {
-    onTotalFocus.value = null
     onFullNameFocus.value.focus()
+    onTotalFocus.value = null
     onSearchFocus.value = null
     onPhoneFocus.value = null
     onDiscountFocus.value = null
@@ -743,7 +760,7 @@ const discountReasonReFocus = () => {
 
 const totalReFocus = () => {
   if (router?.currentRoute?.value?.path === '/sales' && onTotalFocus.value) {
-    document.getElementById('price').focus() // Focus the element
+    document.getElementById('price').focus()
     onDiscountFocus.value = null
     onDiscountReasonFocus.value = null
     onSearchFocus.value = null
@@ -758,6 +775,18 @@ const phoneReFocus = () => {
     onSearchFocus.value = null
     onFullNameFocus.value = null
     onDiscountFocus.value = null
+  }
+}
+
+const debtReFocus = () => {
+  console.log('debbbbbt');
+  if (router?.currentRoute?.value?.path === '/sales' && onDebtFocus.value) {
+    document.getElementById('debtor-price').focus()
+    onDiscountReasonFocus.value = null
+    onDiscountFocus.value = null
+    onSearchFocus.value = null
+    onFullNameFocus.value = null
+    onPhoneFocus.value = null
   }
 }
 
@@ -815,13 +844,19 @@ const isLoadingDebtForm = ref(false)
 const customerForm = reactive({
   fullName: '',
   phone: '',
-  discount: '',
-  discountReason: '',
+  debt: '',
 })
+
+
 
 const clearCustomerForm = () => {
   customerForm.fullName = ''
   customerForm.phone = ''
+  customerForm.debt = ''
+
+}
+
+const clearDiscountForm = () => {
   discount.value = ''
   submitData.discountReason = ''
 }
@@ -829,6 +864,7 @@ const clearCustomerForm = () => {
 const closeForm = () => {
   showSale.value = false
   clearCustomerForm()
+  clearDiscountForm()
 }
 
 const createSale = () => {
@@ -864,7 +900,7 @@ const closeDebtForm = () => {
 }
 const closeDiscountForm = () => {
   showDiscountForm.value = false
-  clearCustomerForm()
+  clearDiscountForm()
   selectP.value = undefined
 }
 const createDebt = () => {
@@ -874,12 +910,15 @@ const createDebt = () => {
     toast.warning(t('enterPhone'))
   } else if (customerForm.phone && !phoneRegex.test(customerForm.phone.replace(/([() -])/g, ''))) {
     toast.warning(t('plsEnterValidPhoneNumber'))
+  } else if (!customerForm.debt) {
+    toast.warning(t('enterDebt'))
   } else {
     isLoadingDebtForm.value = true
     CustomerService.createDebt({
       orderId: orderId.value,
       fullName: customerForm.fullName,
       phone: customerForm.phone.replace(/([() -])/g, ''),
+      debt: customerForm.debt,
     })
       .then(() => {
         isLoadingDebtForm.value = false
@@ -1353,6 +1392,16 @@ const removeLastDigit = () => {
                        type="text" v-maska data-maska="+998(##) ###-##-##"
                        class="bg-slate-100 border-none w-full text-slate-900 rounded-lg py-2.5 placeholder-slate-400"
                        placeholder="+998(00) 000-00-00" />
+              </div>
+              <div class="w-full">
+                <label for="debt" class="text-base font-medium">
+                  {{ $t('remainDebt') }}
+                  <span class="text-red-500 mr-2">*</span>
+                </label>
+                <money3 v-model="customerForm.debt" type="text" v-bind="moneyConf" id="debtor-price" ref="onDebtFocus"
+                  @blur="debtReFocus()"
+                  class="border-none text-right text-gray-500 bg-slate-100 rounded-lg w-full text-lg" ></money3>
+                
               </div>
             </div>
           </div>

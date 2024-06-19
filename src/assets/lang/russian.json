@@ -306,5 +306,6 @@
   "thisProductNameAlreadyExist": "Такой товар уже существует!",
   "reason": "Причина",
   "intoDiscount": "Со скидкой",
-  "remainDebt": "Remain debt"
+  "remainDebt": "Оставшийся долг",
+  "pleaseEnterDebt": "Пожалуйста, введите оставшийся долг!"
 }

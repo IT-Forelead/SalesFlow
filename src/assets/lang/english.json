@@ -305,5 +305,6 @@
   "thisProductNameAlreadyExist": "This product name already exist!",
   "reason": "Reason",
   "intoDiscount": "Use discount",
-  "remainDebt": "Remain debt"
+  "remainDebt": "Remaining debt",
+  "pleaseEnterDebt": "Please enter remaining debt!"
 }

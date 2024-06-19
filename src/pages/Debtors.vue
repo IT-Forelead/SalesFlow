@@ -10,6 +10,7 @@ import { useAuthStore } from '../store/auth.store.js'
 import decodeJwt, { parseJwt } from '../mixins/utils.js'
 import { useI18n } from 'vue-i18n'
 import EyeIcon from '../assets/icons/EyeIcon.vue'
+import PhPencil from '../assets/icons/PencilIcon.vue'
 import DebtorsTable from '../components/common/DebtorsTable.vue'
 import { useDebtorStore } from '../store/debtor.store.js'
 import CustomerService from '../services/customer.service.js'
@@ -49,10 +50,10 @@ const columns = [
     accessorKey: 'phone',
     header: t('phoneNumber'),
   },
-  {
-    accessorKey: 'remainDebt',
-    header: t('remainDebt'),
-  },
+  // {
+  //   accessorKey: 'remainDebt',
+  //   header: t('remainDebt'),
+  // },
   {
     accessorKey: 'createdAt',
     accessorFn: row => moment(row.createdAt).format('DD/MM/YYYY H:mm'),
@@ -64,6 +65,9 @@ const columns = [
     cell: ({ row }) => h('div', { class: 'flex items-center space-x-2' }, [
       // h('button', { onClick: () => { openDebtInfo(row.original) } }, [
       //   h(EyeIcon, { class: 'w-6 h-6 text-blue-600 hover:scale-105' })
+      // ]),
+      // h('button', { onClick: () => { openDebtInfo(row.original) } }, [
+      //   h(PhPencil, { class: 'w-6 h-6 text-blue-600 hover:scale-105' })
       // ]),
       h('button', { onClick: () => { openDeleteDebtorModal(row.original) } }, [
         h(TrashIcon, { class: 'w-6 h-6 text-red-600 hover:scale-105' })

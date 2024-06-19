@@ -306,5 +306,6 @@
   "thisProductNameAlreadyExist": "Ushbu mahsulot allaqachon mavjud!",
   "reason": "Sababi",
   "intoDiscount": "Chegirma berish",
-  "remainDebt": "Remain debt"
+  "remainDebt": "Qolgan qarz",
+  "pleaseEnterDebt": "Iltimos qolgan qarzni kiriting!"
 }
