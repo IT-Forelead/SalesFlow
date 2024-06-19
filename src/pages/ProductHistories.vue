@@ -1,5 +1,5 @@
 <script setup>
-import { computed, h, onMounted, ref, watch } from 'vue'
+import { computed, h, onMounted, reactive, ref, watch } from 'vue'
 import SearchIcon from '../assets/icons/SearchIcon.vue'
 import Spinners270RingIcon from '../assets/icons/Spinners270RingIcon.vue'
 import HistoryTable from '../components/common/HistoryTable.vue'
@@ -23,7 +23,6 @@ import { toast } from 'vue-sonner'
 import ProductService from '../services/product.service.js'
 import { useRoute, useRouter } from 'vue-router'
 import { onClickOutside } from '@vueuse/core'
-import { reactive } from 'vue'
 import BroomIcon from '../assets/icons/BroomIcon.vue'
 
 const { t } = useI18n()
@@ -35,8 +34,8 @@ const renderKey = ref(0)
 const page = ref(1)
 const pageSize = 50
 const payload = ref({})
-const route = useRoute();
-const router = useRouter();
+const route = useRoute()
+const router = useRouter()
 
 const sortByDropdown = ref(null)
 const filterByDropdown = ref(null)
@@ -136,7 +135,7 @@ const columns = [
   {
     accessorKey: 'percent',
     header: t('percent'),
-    cell: ({ row }) => calcPercentOfSale(row.original.purchasePrice, row.original.price) + "%",
+    cell: ({ row }) => calcPercentOfSale(row.original.purchasePrice, row.original.price) + '%',
   },
   {
     accessorKey: 'productionDate',
@@ -186,9 +185,9 @@ const columns = [
 const calcPercentOfSale = (purchasePrice, salePrice) => {
   const num = (((salePrice - purchasePrice) * 100) / purchasePrice).toFixed(1)
   if (num % 1 === 0) {
-    return Math.floor(num);
+    return Math.floor(num)
   } else {
-    return num;
+    return num
   }
 }
 
@@ -210,7 +209,7 @@ const printLabel = (product) => {
         productionDate: product.productionDate,
         expirationDate: product.expirationDate,
         totalPrice: product.price,
-      })
+      }),
     )
     .then(async () => {
       toast.success(t('labelCreatedSuccessfully'))
@@ -225,18 +224,16 @@ const openEditProductModalHistory = (data) => {
   useProductHistoryStore().setSelectedProductHistory(data)
 }
 
-const getProductHistories = (filters = {}) => {
+const getProductHistories = async (filters = {}) => {
   isLoading.value = true
-  ProductService.getProductsDetails(
-    cleanObjectEmptyFields({ limit: pageSize, page: page.value, ...filters })
+  await ProductService.getProductsDetails(
+    cleanObjectEmptyFields({ limit: pageSize, page: page.value, ...filters }),
   ).then((res) => {
     useProductHistoryStore().clearStore()
     useProductHistoryStore().totalHistories = res.total
     useProductHistoryStore().setProductHistories(res.data)
     useProductHistoryStore().currentPage = page.value
-  }).finally(() => {
-    isLoading.value = false
-  })
+  }).finally(() => isLoading.value = false)
 }
 
 const getSort = (sortBy, sortOrder) => {
@@ -252,100 +249,110 @@ const resetSortData = () => {
   useDropdownStore().toggleSortBy()
 }
 
-const submitFilterData = () => {
+const submitFilterData = async () => {
   isLoading.value = true
   if (!filterData.startExpirationDate && !filterData.endExpirationDate) {
-    toast.error("Kamida bitta vaqtni tanlang")
+    toast.error('Kamida bitta vaqtni tanlang')
   } else {
-    getProductHistories(filterData)
+   await getProductHistories(filterData)
     useDropdownStore().toggleFilterBy()
   }
 }
 
-const debounce = (fn, delay) => {
-  let timerId
-  return (...args) => {
-    if (timerId) {
-      clearTimeout(timerId)
-    }
-    timerId = setTimeout(() => {
-      fn(...args)
-    }, delay)
-  }
-}
-
-// const searchProducts = debounce(() => {
-//   const query = searchFilter.value.trim() ? { search: searchFilter.value } : {};
-//   router.push({ query });
-//   if (searchFilter.value.trim() === '') {
-//     getProductHistories({ limit: pageSize, page: currentPage.value });
-//   } else {
-//     const filters = searchFilter.value.match(/^\d+$/) ? { barcode: searchFilter.value } : { name: searchFilter.value };
-//     getProductHistories(filters);
+// const debounce = (fn, delay) => {
+//   let timerId
+//   return (...args) => {
+//     if (timerId) {
+//       clearTimeout(timerId)
+//     }
+//     timerId = setTimeout(() => {
+//       fn(...args)
+//     }, delay)
 //   }
-// }, 300);
+// }
 
-const searchProducts = debounce(() => {
-  const query = searchFilter.value.trim() ? { search: searchFilter.value } : {};
-  router.push({ query });
-  const trimmedValue = searchFilter.value.trim();
-  let filters = {};
-
+const searchProducts = (async () => {
+  const query = searchFilter.value.trim() ? { search: searchFilter.value } : {}
+  await router.push({ query })
+  const trimmedValue = searchFilter.value.trim()
+  let filters = {}
   if (trimmedValue === '') {
-    // No search input, get all products
-    getProductHistories({ limit: pageSize, page: currentPage.value });
-    return; // Exit early
+    await getProductHistories({ limit: pageSize, page: currentPage.value })
+    return
   }
-  // Check if the input is a number
   if (!isNaN(trimmedValue)) {
-    // If the input is a number, check if it starts with "9"
-    if (trimmedValue.startsWith("9")) {
-      filters = { name: String(trimmedValue) };
+    if (trimmedValue.startsWith('9')) {
+      filters = { name: String(trimmedValue) }
     } else {
-      // Search by barcode
-      filters = { barcode: trimmedValue };
+      filters = { barcode: trimmedValue }
     }
   } else {
-    // Search by name
-    filters = { name: trimmedValue };
+    filters = { name: trimmedValue }
   }
-  getProductHistories(filters);
-}, 300);
+  await getProductHistories(filters)
+})
 
+const goToPage = async (pageNumber) => {
+  page.value = pageNumber
+  await getProductHistories()
+}
 
-const totalPages = computed(() => Math.ceil(total.value / pageSize))
+const prevPage = async () => {
+  if (page.value > 1) {
+    page.value -= 1
+    await getProductHistories()
+  }
+}
+
+const nextPage = async () => {
+  if (page.value < totalPages.value) {
+    page.value += 1
+    await getProductHistories()
+  }
+}
+
+const totalPages = computed(() => {
+  return Math.ceil(total.value / pageSize)
+})
+
 const displayedPageNumbers = computed(() => {
-  const numPages = Math.min(4, totalPages.value)
-  const startPage = Math.max(1, page.value - Math.floor(numPages / 2))
-  const endPage = Math.min(totalPages.value, startPage + numPages - 1)
-  const pages = []
-  for (let i = startPage; i <= endPage; i++) {
-    pages.push(i)
+  const pageCount = totalPages.value;
+  if (pageCount <= 5) {
+    return Array.from({ length: pageCount }, (_, i) => i + 1);
+  } else {
+    const currentPage = page.value;
+    if (currentPage <= 3) {
+      return [1, 2, 3, 4, 5];
+    } else if (currentPage >= pageCount - 2) {
+      return [
+        pageCount - 4,
+        pageCount - 3,
+        pageCount - 2,
+        pageCount - 1,
+        pageCount,
+      ];
+    } else {
+      return [
+        currentPage - 2,
+        currentPage - 1,
+        currentPage,
+        currentPage + 1,
+        currentPage + 2,
+      ];
+    }
   }
-  return pages
+});
+
+watch(page, async () => {
+  await getProductHistories(filterData)
+})
+watch(searchFilter, async () => {
+  if (searchFilter.value === '') {
+    await getProductHistories({ limit: pageSize, page: currentPage.value })
+  }
 })
 
-const goToPage = (pageNumber) => {
-  if (pageNumber >= 1 && pageNumber <= totalPages.value) {
-    page.value = pageNumber
-    currentPage.value = page.value
-  }
-}
-
-const prevPage = () => {
-  goToPage(page.value - 1)
-}
-const nextPage = () => {
-  goToPage(page.value + 1)
-}
-
-getProductHistories()
-
-watch(page, () => {
-  getProductHistories(filterData)
-})
-
-watch(searchFilter, searchProducts)
+// watch(searchFilter, searchProducts)
 
 const navigationGuard = (access) => {
   return payload.value?.privileges?.includes(access)
@@ -356,24 +363,23 @@ const createDuplicateProductModal = (data) => {
   useProductHistoryStore().setSelectedProductHistory(data)
 }
 
-onMounted(() => {
+onMounted(async () => {
   useAuthStore().setUser(decodeJwt(JSON.parse(localStorage.getItem('session'))?.accessToken))
   payload.value = parseJwt()
   if (route.query.search) {
-    searchFilter.value = route.query.search;
+    searchFilter.value = route.query.search
   }
-  // getProductHistories();
+  await getProductHistories();
 })
 
-watch(route, (newRoute) => {
+watch(route, async (newRoute) => {
   if (newRoute.query.search) {
-    searchFilter.value = newRoute.query.search;
-    searchProducts();
+    searchFilter.value = newRoute.query.search
   } else {
-    searchFilter.value = '';
-    getProductHistories();
+    searchFilter.value = ''
+    await getProductHistories();
   }
-});
+})
 </script>
 <template>
   <div class="p-4 md:p-8">
@@ -383,11 +389,11 @@ watch(route, (newRoute) => {
       </div>
       <div class="w-full md:w-auto order-1 md:order-2 flex space-x-2">
         <button v-if="navigationGuard('create_product')" @click="useModalStore().openCreateLabelModal()"
-          class="w-full md:w-auto py-2 px-4 rounded-full text-white text-lg font-medium bg-green-500 cursor-pointer hover:bg-green-600">
+                class="w-full md:w-auto py-2 px-4 rounded-full text-white text-lg font-medium bg-green-500 cursor-pointer hover:bg-green-600">
           {{ $t('createLabel') }}
         </button>
         <button v-if="navigationGuard('create_product')" @click="useModalStore().openCreateProductModal()"
-          class="w-full md:w-auto py-2 px-4 rounded-full text-white text-lg font-medium bg-blue-500 cursor-pointer hover:bg-blue-600">
+                class="w-full md:w-auto py-2 px-4 rounded-full text-white text-lg font-medium bg-blue-500 cursor-pointer hover:bg-blue-600">
           {{ $t('addProduct') }}
         </button>
       </div>
@@ -397,26 +403,26 @@ watch(route, (newRoute) => {
         <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
           <SearchIcon class="w-5 h-5 text-slate-400" />
         </div>
-        <input type="search" v-model="searchFilter"
-          class="bg-slate-100 border-none w-full text-slate-900 text-base md:text-lg rounded-full block pl-10 py-2 placeholder-slate-400"
-          placeholder="Search everything...">
+        <input type="search" v-model="searchFilter"   @keyup.enter="searchProducts"
+               class="bg-slate-100 border-none w-full text-slate-900 text-base md:text-lg rounded-full block pl-10 py-2 placeholder-slate-400"
+               placeholder="Search everything...">
       </div>
       <div class="w-full md:w-auto order-1 md:order-2 flex space-x-2">
         <div class="relative w-full" ref="filterByDropdown">
           <div @click="useDropdownStore().toggleFilterBy()"
-            class="border-none select-none text-gray-500 bg-slate-100 rounded-full w-full p-2 px-5 flex items-center hover:bg-gray-200 cursor-pointer space-x-1">
+               class="border-none select-none text-gray-500 bg-slate-100 rounded-full w-full p-2 px-5 flex items-center hover:bg-gray-200 cursor-pointer space-x-1">
             <FunnelIcon class="w-5 h-5 text-gray-400" />
             <span>{{ $t('filter') }}</span>
           </div>
           <div v-if="useDropdownStore().isOpenFilterBy"
-            class="absolute bg-white shadow-md rounded-xl w-64 p-3 z-20 top-12 right-0 space-y-3">
+               class="absolute bg-white shadow-md rounded-xl w-64 p-3 z-20 top-12 right-0 space-y-3">
             <div class="flex-1 space-y-1">
               <label for="startExpirationDate" class="text-base md:text-lg font-medium">
                 {{ $t('from') }}
               </label>
               <input id="startExpirationDate" type="date" v-model="filterData.startExpirationDate"
-                class="bg-slate-100 border-none text-slate-900 rounded-lg w-full h-11 placeholder-slate-400 placeholder:text-sm md:placeholder:text-lg"
-                :placeholder="t('enterProductQuantity')">
+                     class="bg-slate-100 border-none text-slate-900 rounded-lg w-full h-11 placeholder-slate-400 placeholder:text-sm md:placeholder:text-lg"
+                     :placeholder="t('enterProductQuantity')">
             </div>
             <div class="flex-1 space-y-1">
               <label for="endExpirationDate" class="text-base md:text-lg font-medium">
@@ -432,26 +438,25 @@ watch(route, (newRoute) => {
                 <BroomIcon class="w-5 h-5 text-white" />
               </div>
               <div v-if="isLoading"
-                class="w-full bg-blue-600 py-2 select-none text-white rounded-lg flex items-center justify-center">
-                <Spinners270RingIcon
-                  class="mr-2 w-5 h-5 text-gray-200 animate-spin dark:text-gray-600 fill-gray-600 dark:fill-gray-300" />
-                <span>{{ $t('loading') }}</span>
-              </div>
-              <div v-else @click="submitFilterData()"
-                class="w-full bg-blue-500 hover:bg-blue-600 cursor-pointer select-none py-2 text-white rounded-lg flex items-center justify-center">
-                <span>{{ $t('filter') }}</span>
-              </div>
+                 class="w-full bg-blue-600 py-2 select-none text-white rounded-lg flex items-center justify-center">
+              <Spinners270RingIcon
+                class="mr-2 w-5 h-5 text-gray-200 animate-spin dark:text-gray-600 fill-gray-600 dark:fill-gray-300" />
+              <span>{{ $t('loading') }}</span>
+            </div>
+            <div v-else @click="submitFilterData()"
+                 class="w-full bg-blue-500 hover:bg-blue-600 cursor-pointer select-none py-2 text-white rounded-lg flex items-center justify-center">
+              <span>{{ $t('filter') }}</span></div>
             </div>
           </div>
         </div>
         <div class="relative w-full" ref="sortByDropdown">
           <div @click="useDropdownStore().toggleSortBy()"
-            class="border-none select-none text-gray-500 bg-slate-100 rounded-full w-full p-2 px-5 flex items-center hover:bg-gray-200 cursor-pointer space-x-1">
+               class="border-none select-none text-gray-500 bg-slate-100 rounded-full w-full p-2 px-5 flex items-center hover:bg-gray-200 cursor-pointer space-x-1">
             <FunnelIcon class="w-5 h-5 text-gray-400" />
             <span>{{ $t('sorting') }}</span>
           </div>
           <div v-if="useDropdownStore().isOpenSortBy"
-            class="absolute bg-white shadow-md rounded-xl w-48 p-3 z-20 top-12 right-0 space-y-3">
+               class="absolute bg-white shadow-md rounded-xl w-48 p-3 z-20 top-12 right-0 space-y-3">
             <ul>
               <li @click="resetSortData()" class="px-2 py-1 text-sm hover:bg-slate-100 rounded cursor-pointer">
                 {{ $t('standard') }}
@@ -469,27 +474,27 @@ watch(route, (newRoute) => {
                 {{ $t('byPrice') }} (qimmati)
               </li>
               <li @click="getSort('quantity', 'ASC')"
-                class="px-2 py-1 text-sm hover:bg-slate-100 rounded cursor-pointer">
+                  class="px-2 py-1 text-sm hover:bg-slate-100 rounded cursor-pointer">
                 {{ $t('byQuantity') }} (ozi)
               </li>
               <li @click="getSort('quantity', 'DESC')"
-                class="px-2 py-1 text-sm hover:bg-slate-100 rounded cursor-pointer">
+                  class="px-2 py-1 text-sm hover:bg-slate-100 rounded cursor-pointer">
                 {{ $t('byQuantity') }} (ko'pi)
               </li>
               <li @click="getSort('production_date', 'ASC')"
-                class="px-2 py-1 text-sm hover:bg-slate-100 rounded cursor-pointer">
+                  class="px-2 py-1 text-sm hover:bg-slate-100 rounded cursor-pointer">
                 {{ $t('byProductionDate') }} (eski)
               </li>
               <li @click="getSort('production_date', 'DESC')"
-                class="px-2 py-1 text-sm hover:bg-slate-100 rounded cursor-pointer">
+                  class="px-2 py-1 text-sm hover:bg-slate-100 rounded cursor-pointer">
                 {{ $t('byProductionDate') }} (yangi)
               </li>
               <li @click="getSort('expiration_date', 'ASC')"
-                class="px-2 py-1 text-sm hover:bg-slate-100 rounded cursor-pointer">
+                  class="px-2 py-1 text-sm hover:bg-slate-100 rounded cursor-pointer">
                 {{ $t('byExpirationDate') }} (eski)
               </li>
               <li @click="getSort('expiration_date', 'DESC')"
-                class="px-2 py-1 text-sm hover:bg-slate-100 rounded cursor-pointer">
+                  class="px-2 py-1 text-sm hover:bg-slate-100 rounded cursor-pointer">
                 {{ $t('byExpirationDate') }} (yangi)
               </li>
             </ul>
@@ -508,30 +513,30 @@ watch(route, (newRoute) => {
       </div>
       <div class="flex items-center space-x-2">
         <button :disabled="page === 1" @click="goToPage(1)"
-          class="flex items-center justify-center px-3 py-2 text-base font-medium text-slate-900 rounded-lg select-none hover:bg-blue-200 disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
-          type="button">
+                class="flex items-center justify-center px-3 py-2 text-base font-medium text-slate-900 rounded-lg select-none hover:bg-blue-200 disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
+                type="button">
           <CaretDoubleLeftIcon class="w-5 h-5" />
         </button>
         <button @click="prevPage" :disabled="page === 1"
-          class="flex items-center justify-center px-3 py-2 text-base font-medium text-slate-900 rounded-lg select-none hover:bg-blue-200 disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
-          type="button">
+                class="flex items-center justify-center px-3 py-2 text-base font-medium text-slate-900 rounded-lg select-none hover:bg-blue-200 disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
+                type="button">
           <CaretLeftIcon class="w-5 h-5" />
         </button>
         <div class="flex items-center space-x-2">
           <button v-for="pageNumber in displayedPageNumbers" :key="pageNumber" @click="goToPage(pageNumber)"
-            :class="{ 'bg-blue-600 text-white': pageNumber === page, 'hover:bg-blue-200': pageNumber !== page }"
-            class="px-3 py-2 select-none rounded-lg text-slate-900 text-center text-base font-medium transition-all">
+                  :class="{ 'bg-blue-600 text-white': pageNumber === page, 'hover:bg-blue-200': pageNumber !== page }"
+                  class="px-3 py-2 select-none rounded-lg text-slate-900 text-center text-base font-medium transition-all">
             {{ pageNumber }}
           </button>
         </div>
         <button @click="nextPage" :disabled="page === totalPages"
-          class="flex items-center gap-2 px-3 py-2 text-base font-medium text-center text-slate-900 rounded-lg select-none hover:bg-blue-200 disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
-          type="button">
+                class="flex items-center gap-2 px-3 py-2 text-base font-medium text-center text-slate-900 rounded-lg select-none hover:bg-blue-200 disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
+                type="button">
           <CaretRightIcon class="w-5 h-5" />
         </button>
         <button :disabled="page === totalPages" @click="goToPage(totalPages)"
-          class="flex items-center gap-2 px-3 py-2 text-base font-medium text-slate-900 rounded-lg select-none hover:bg-blue-200 disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
-          type="button">
+                class="flex items-center gap-2 px-3 py-2 text-base font-medium text-slate-900 rounded-lg select-none hover:bg-blue-200 disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
+                type="button">
           <CaretDoubleRightIcon class="w-5 h-5" />
         </button>
       </div>

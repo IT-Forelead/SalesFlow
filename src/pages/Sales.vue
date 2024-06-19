@@ -54,7 +54,7 @@ const router = useRouter()
 
 const moneyConf = {
   thousands: ' ',
-  suffix: 'UZS',
+  suffix: ' UZS',
   precision: 0,
 }
 
@@ -68,6 +68,7 @@ const hasDiscountToday = ref(false)
 const boundaryPrice = ref(0)
 const minimalPrice = ref(0)
 const hasDiscount = ref(false)
+const marketLocation = ref(null)
 
 onMounted(() => {
   isLoading.value = true
@@ -76,6 +77,9 @@ onMounted(() => {
       if (res) {
         boundaryPrice.value = res.boundaryPrice
         minimalPrice.value = res.minimalPrice
+        if (res.latitude && res.longitude) {
+          marketLocation.value = `geo:${res.latitude},${res.longitude}`
+        }
       }
     })
     .catch((err) => {
@@ -470,6 +474,7 @@ const clearSearchInput = () => {
 const clearSubmitData = () => {
   submitData.discountPercent = ''
   submitData.discountReason = ''
+  discount.value = ''
   submitData.paymentReceived = ''
   activeBasket.value = []
   if (activeBasketStatus.value === 'firstBasket') {
@@ -513,6 +518,9 @@ const createOrder = (printCheck = true) => {
         qrcode.value = null
       }
       clearSubmitData()
+      clearCustomerForm()
+      closeDebtForm()
+      closeDiscountForm()
       if (showSale.value) {
         setTimeout(() => {
           onSearchFocus.value = null
@@ -538,7 +546,7 @@ const createOrder = (printCheck = true) => {
               }
             }),
             time: moment(res?.createdAt).format('DD/MM/YYYY H:mm'),
-            qrcode: qrcode.value,
+            qrcode: marketLocation.value,
           })
         })
       }
@@ -822,8 +830,6 @@ const customerForm = reactive({
 const clearCustomerForm = () => {
   customerForm.fullName = ''
   customerForm.phone = ''
-  discount.value = ''
-  submitData.discountReason = ''
 }
 
 const closeForm = () => {
@@ -864,7 +870,7 @@ const closeDebtForm = () => {
 }
 const closeDiscountForm = () => {
   showDiscountForm.value = false
-  clearCustomerForm()
+  clearSubmitData()
   selectP.value = undefined
 }
 const createDebt = () => {
