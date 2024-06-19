@@ -733,7 +733,6 @@ const fullNameReFocus = () => {
     onSearchFocus.value = null
     onPhoneFocus.value = null
     onDiscountFocus.value = null
-   // onTotalFocus.value = null
   }
 }
 
@@ -779,7 +778,6 @@ const phoneReFocus = () => {
 }
 
 const debtReFocus = () => {
-  console.log('debbbbbt');
   if (router?.currentRoute?.value?.path === '/sales' && onDebtFocus.value) {
     document.getElementById('debtor-price').focus()
     onDiscountReasonFocus.value = null
