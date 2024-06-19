@@ -68,6 +68,7 @@ const hasDiscountToday = ref(false)
 const boundaryPrice = ref(0)
 const minimalPrice = ref(0)
 const hasDiscount = ref(false)
+const marketLocation = ref(null)
 
 onMounted(() => {
   isLoading.value = true
@@ -76,6 +77,9 @@ onMounted(() => {
       if (res) {
         boundaryPrice.value = res.boundaryPrice
         minimalPrice.value = res.minimalPrice
+        if (res.latitude && res.longitude) {
+          marketLocation.value = `geo:${res.latitude},${res.longitude}`
+        }
       }
     })
     .catch((err) => {
@@ -538,7 +542,7 @@ const createOrder = (printCheck = true) => {
               }
             }),
             time: moment(res?.createdAt).format('DD/MM/YYYY H:mm'),
-            qrcode: qrcode.value,
+            qrcode: marketLocation.value,
           })
         })
       }
