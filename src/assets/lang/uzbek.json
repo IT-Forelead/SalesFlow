@@ -289,7 +289,7 @@
   "errorWhileCreatingBot": "Bot yaratishda xatolik yuz berdi",
   "status": "Status",
   "realPrice": "Haqiqiy narxi",
- "profitStatistics": "Foyda statistikasi",
+  "profitStatistics": "Foyda statistikasi",
   "holidayDiscounts": "Bayram chegirmalari",
   "addHolidayDiscount": "Bayram chegirma qo'shish",
   "holidayDiscountPercentage": "Bayram chegirmasi foizi",
@@ -302,5 +302,13 @@
   "enterFrom": "Boshlang'ich sanasi kiriting",
   "enterTo": "Tugash sanasi kiriting",
   "minimalPriceForHolidayDiscount": "Bayram chegirmasi minimal narxi",
-  "sold": "Sotilgan"
+  "sold": "Sotilgan",
+  "thisProductNameAlreadyExist": "Ushbu mahsulot allaqachon mavjud!",
+  "reason": "Sababi",
+  "intoDiscount": "Chegirma berish",
+  "month": "Oy",
+  "upcomingProducts": "Kelgusi mahsulotlar",
+  "addUpcomingProduct": "Kutilyotgan mahsulotni qo'shish",
+  "agent": "Agent",
+  "standard": "Standart"
 }

@@ -302,5 +302,13 @@
   "plsEnterTo": "Введите срок окончания",
   "enterFrom": "Срок начала",
   "enterTo": "Срок окончания",
-  "minimalPriceForHolidayDiscount": "Минимальная цена для скидки на праздник"
+  "minimalPriceForHolidayDiscount": "Минимальная цена для скидки на праздник",
+  "thisProductNameAlreadyExist": "Такой товар уже существует!",
+  "reason": "Причина",
+  "intoDiscount": "Со скидкой",
+  "month": "Месяц",
+  "upcomingProducts": "Предстоящие продукты",
+  "addUpcomingProduct": "Добавить предстоящий продукт",
+  "agent": "Агент",
+  "standard": "Стандартный"
 }

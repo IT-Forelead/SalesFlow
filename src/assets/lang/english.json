@@ -301,5 +301,13 @@
   "enterFrom": "Enter from",
   "enterTo": "Enter to",
   "minimalPriceForHolidayDiscount": "Minimal price for holiday discount",
-  "sold": "Sold"
+  "sold": "Sold",
+  "thisProductNameAlreadyExist": "This product name already exist!",
+  "reason": "Reason",
+  "intoDiscount": "Use discount",
+  "month": "Month",
+  "upcomingProducts": "Upcoming products",
+  "addUpcomingProduct": "Add upcoming product",
+  "agent": "Agent",
+  "standard": "Standard"
 }

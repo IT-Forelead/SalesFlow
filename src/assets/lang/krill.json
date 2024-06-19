@@ -289,8 +289,8 @@
   "errorWhileCreatingBot": "Бот қўшишда хатолик юз берди",
   "status": "Статус",
   "realPrice": "Ҳақиқий нархи",
-  "sold": "Сотилган",
   "profitStatistics": "Фойда статистикаси",
+  "sold": "Сотилган",
   "holidayDiscounts": "Байрам чегирмалари",
   "addHolidayDiscount": "Байрам чегирма қўшиш",
   "holidayDiscountPercentage": "Байрам чегирмасы фоиз",
@@ -302,5 +302,13 @@
   "plsEnterTo": "Илтимос тугаш санасини киритинг",
   "enterFrom": "Бошлангич санаси киритинг",
   "enterTo": "Тугаш санаси киритинг",
-  "minimalPriceForHolidayDiscount": "Байрам чегирмаси минимал нархи"
+  "minimalPriceForHolidayDiscount": "Байрам чегирмаси минимал нархи",
+  "thisProductNameAlreadyExist": "Ушбу маҳсулот аллақачон мавжуд!",
+  "reason": "Сабаби",
+  "intoDiscount": "Чегирма бериш",
+  "month": "Ой",
+  "upcomingProducts": "Келгуси маҳсулотлар",
+  "addUpcomingProduct": "Кутилётган маҳсулотни қўшиш",
+  "agent": "Агент",
+  "standard": "Стандарт"
 }
