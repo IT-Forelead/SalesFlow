@@ -1,14 +1,9 @@
 <script setup>
-import { computed, onMounted, reactive, ref, watch, watchEffect, nextTick } from 'vue'
+import { computed, onMounted, reactive, ref, watch, watchEffect } from 'vue'
 import { vMaska } from 'maska'
 import { toast } from 'vue-sonner'
 import { useRouter } from 'vue-router'
-import {
-  cleanObjectEmptyFields,
-  roundFloatToFourDecimal,
-  roundFloatToOneDecimal,
-  roundFloatToTwoDecimal,
-} from '../mixins/utils'
+import { cleanObjectEmptyFields, roundFloatToOneDecimal, roundFloatToTwoDecimal } from '../mixins/utils'
 import ImageIcon from '../assets/icons/ImageIcon.vue'
 import MinusIcon from '../assets/icons/MinusIcon.vue'
 import PlusIcon from '../assets/icons/PlusIcon.vue'
@@ -42,13 +37,14 @@ import ScrollPanel from 'primevue/scrollpanel'
 import { Money3 } from 'v-money3'
 import HolidayDiscountService from '../services/holidayDiscount.service.js'
 import { useHolidayDiscount } from '../store/holidayDiscount.store.js'
-import useMoneyFormatter from '../mixins/currencyFormatter.js'
 import PhPercent from '../assets/icons/PercentIcon.vue'
+import useMoneyFormatter from '../mixins/currencyFormatter.js'
 
 const API_URL = import.meta.env.VITE_CHEQUE_API_URL
 const addedToBasket = new Audio('/audios/added-to-basket.mp3')
 const notFoundProduct = new Audio('/audios/not-found.mp3')
 const soldSuccess = new Audio('/audios/sold-success.mp3')
+const productOutOfStore = new Audio('/audios/product-is-out-of-store.mp3')
 const { t } = useI18n()
 const router = useRouter()
 
@@ -261,6 +257,7 @@ const addProductToCart = (product, amount) => {
         }
       } else if (item.productId === product.id) {
         toast.error(t('productIsOutOfStore'))
+        productOutOfStore.play()
         return item
       } else {
         return item
@@ -334,12 +331,13 @@ const addProductToCart = (product, amount) => {
           serialId: product?.serialId,
         })
       }
+      addedToBasket.play()
     } else {
       toast.error('Mahsulot sotuvda mavjud emas!')
+      productOutOfStore.play()
     }
   }
   clearSearchInput()
-  addedToBasket.play()
 }
 
 const selectProduct = (product) => {
@@ -352,7 +350,6 @@ const removeProductFromCart = (product) => {
   if (selectP.value === product) {
     selectP.value = undefined
   }
-
 }
 
 const changeBasketStatus = (status) => {
