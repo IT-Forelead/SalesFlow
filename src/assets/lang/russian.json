@@ -310,5 +310,6 @@
   "upcomingProducts": "Предстоящие продукты",
   "addUpcomingProduct": "Добавить предстоящий продукт",
   "agent": "Агент",
-  "standard": "Стандартный"
+  "standard": "Стандартный",
+  "remainingProducts": "Дефицитные продукты"
 }

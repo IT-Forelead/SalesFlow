@@ -53,6 +53,7 @@ onClickOutside(filterByDropdown, () => {
 })
 
 const filterData = reactive({
+  remainingProducts: false,
   sortBy: '',
   sortOrder: '',
   startExpirationDate: '',
@@ -60,6 +61,7 @@ const filterData = reactive({
 })
 
 const clearFilterData = () => {
+  filterData.remainingProducts = false
   filterData.sortBy = ''
   filterData.sortOrder = ''
   filterData.startExpirationDate = ''
@@ -234,6 +236,12 @@ const getSort = (sortBy, sortOrder) => {
   useDropdownStore().toggleSortBy()
 }
 
+const getRemainingProducts = (data) => {
+  filterData.remainingProducts = data
+  getProductHistories(filterData)
+  useDropdownStore().toggleSortBy()
+}
+
 const resetSortData = () => {
   clearFilterData()
   getProductHistories(filterData)
@@ -337,6 +345,7 @@ const displayedPageNumbers = computed(() => {
 watch(page, async () => {
   await getProductHistories(filterData)
 })
+
 watch(searchFilter, async () => {
   if (searchFilter.value === '') {
     await getProductHistories({ limit: pageSize, page: currentPage.value })
@@ -447,10 +456,13 @@ watch(route, async (newRoute) => {
             <span>{{ $t('sorting') }}</span>
           </div>
           <div v-if="useDropdownStore().isOpenSortBy"
-               class="absolute bg-white shadow-md rounded-xl w-48 p-3 z-20 top-12 right-0 space-y-3">
+               class="absolute bg-white shadow-md rounded-xl w-52 p-3 z-20 top-12 right-0 space-y-3">
             <ul>
               <li @click="resetSortData()" class="px-2 py-1 text-sm hover:bg-slate-100 rounded cursor-pointer">
                 {{ $t('standard') }}
+              </li>
+              <li @click="getRemainingProducts(true)" class="px-2 py-1 text-sm hover:bg-slate-100 rounded cursor-pointer">
+                {{ $t('remainingProducts') }}
               </li>
               <li @click="getSort('name', 'ASC')" class="px-2 py-1 text-sm hover:bg-slate-100 rounded cursor-pointer">
                 {{ $t('byName') }} (A-Z)

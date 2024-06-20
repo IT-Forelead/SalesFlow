@@ -1,14 +1,9 @@
 <script setup>
-import { computed, onMounted, reactive, ref, watch, watchEffect, nextTick } from 'vue'
+import { computed, onMounted, reactive, ref, watch, watchEffect } from 'vue'
 import { vMaska } from 'maska'
 import { toast } from 'vue-sonner'
 import { useRouter } from 'vue-router'
-import {
-  cleanObjectEmptyFields,
-  roundFloatToFourDecimal,
-  roundFloatToOneDecimal,
-  roundFloatToTwoDecimal,
-} from '../mixins/utils'
+import { cleanObjectEmptyFields, roundFloatToOneDecimal, roundFloatToTwoDecimal } from '../mixins/utils'
 import ImageIcon from '../assets/icons/ImageIcon.vue'
 import MinusIcon from '../assets/icons/MinusIcon.vue'
 import PlusIcon from '../assets/icons/PlusIcon.vue'
@@ -42,13 +37,14 @@ import ScrollPanel from 'primevue/scrollpanel'
 import { Money3 } from 'v-money3'
 import HolidayDiscountService from '../services/holidayDiscount.service.js'
 import { useHolidayDiscount } from '../store/holidayDiscount.store.js'
-import useMoneyFormatter from '../mixins/currencyFormatter.js'
 import PhPercent from '../assets/icons/PercentIcon.vue'
+import useMoneyFormatter from '../mixins/currencyFormatter.js'
 
 const API_URL = import.meta.env.VITE_CHEQUE_API_URL
 const addedToBasket = new Audio('/audios/added-to-basket.mp3')
 const notFoundProduct = new Audio('/audios/not-found.mp3')
 const soldSuccess = new Audio('/audios/sold-success.mp3')
+const productOutOfStore = new Audio('/audios/product-is-out-of-store.mp3')
 const { t } = useI18n()
 const router = useRouter()
 
@@ -261,6 +257,7 @@ const addProductToCart = (product, amount) => {
         }
       } else if (item.productId === product.id) {
         toast.error(t('productIsOutOfStore'))
+        productOutOfStore.play()
         return item
       } else {
         return item
@@ -334,12 +331,13 @@ const addProductToCart = (product, amount) => {
           serialId: product?.serialId,
         })
       }
+      addedToBasket.play()
     } else {
       toast.error('Mahsulot sotuvda mavjud emas!')
+      productOutOfStore.play()
     }
   }
   clearSearchInput()
-  addedToBasket.play()
 }
 
 const selectProduct = (product) => {
@@ -352,7 +350,6 @@ const removeProductFromCart = (product) => {
   if (selectP.value === product) {
     selectP.value = undefined
   }
-
 }
 
 const changeBasketStatus = (status) => {
@@ -690,19 +687,8 @@ watchEffect(() => {
 })
 
 watchEffect(() => {
-  if (onTotalFocus.value) {
-    document.getElementById('price').focus() // Focus the element
-    onDiscountFocus.value = null
-    onSearchFocus.value = null
-    onFullNameFocus.value = null
-    onPhoneFocus.value = null
-    onDiscountReasonFocus.value = null
-  }
-})
-
-watchEffect(() => {
   if (onDiscountReasonFocus.value) {
-    onDiscountReasonFocus.value.focus() // Focus the element
+    onDiscountReasonFocus.value.focus()
     onDiscountFocus.value = null
     onSearchFocus.value = null
     onFullNameFocus.value = null
@@ -711,9 +697,13 @@ watchEffect(() => {
 })
 
 const reFocus = () => {
-  if (router?.currentRoute?.value?.path === '/sales' && onSearchFocus.value && (onDiscountFocus.value != null || onTotalFocus.value != null)) {
+  if (router?.currentRoute?.value?.path === '/sales' && onSearchFocus.value ){
     onTotalFocus.value = null
     onSearchFocus.value.focus()
+  } else if (onTotalFocus.value) {
+    onSearchFocus.value.focus()
+  } else {
+    document.getElementById('price').focus()
   }
 }
 
@@ -724,7 +714,6 @@ const fullNameReFocus = () => {
     onSearchFocus.value = null
     onPhoneFocus.value = null
     onDiscountFocus.value = null
-   // onTotalFocus.value = null
   }
 }
 
@@ -751,7 +740,7 @@ const discountReasonReFocus = () => {
 
 const totalReFocus = () => {
   if (router?.currentRoute?.value?.path === '/sales' && onTotalFocus.value) {
-    document.getElementById('price').focus() // Focus the element
+    document.getElementById('price').focus()
     onDiscountFocus.value = null
     onDiscountReasonFocus.value = null
     onSearchFocus.value = null
@@ -870,7 +859,9 @@ const closeDebtForm = () => {
 }
 const closeDiscountForm = () => {
   showDiscountForm.value = false
-  clearSubmitData()
+  submitData.discountPercent = ''
+  submitData.discountReason = ''
+  discount.value = ''
   selectP.value = undefined
 }
 const createDebt = () => {
@@ -1019,8 +1010,8 @@ const removeLastDigit = () => {
       </div>
 
       <div v-if="activeBasket.length > 0" class="py-2 align-middle">
-        <div class="min-w-full">
-          <ScrollPanel class="w-full h-[550px] rounded-xl">
+        <div class="min-w-full h-[680px] overflow-y-auto overflow-x-auto">
+          <ScrollPanel class="w-full rounded-xl">
             <table class="md:min-w-full divide-y-8 divide-white">
               <thead>
               <tr class="bg-slate-100 text-base font-semibold text-gray-900 h-12">
@@ -1232,7 +1223,8 @@ const removeLastDigit = () => {
               class="border-none text-right text-gray-500 bg-slate-100 rounded-lg w-full text-lg">
             <div class="flex space-x-3 my-3 justify-end">
               <button
-                class="px-4 py-2 flex items-center justify-center text-lg cursor-pointer border border-blue-400 bg-blue-50  hover:border-blue-400 hover:text-white hover:bg-blue-400 rounded-lg" :class="{'bg-blue-400 text-white' : discount==10}"
+              class="px-4 py-2 flex items-center justify-center text-lg cursor-pointer border border-blue-400 bg-blue-100 hover:border-blue-400 hover:text-white hover:bg-blue-400 rounded-lg"
+              :class="{'bg-blue-400 text-white' : discount==10}"
                 @click="setDiscountValue(10)">10%</button>
               <button
                 class="px-4 py-2 flex items-center justify-center text-lg cursor-pointer border border-blue-400 bg-blue-100 hover:border-blue-400 hover:text-white hover:bg-blue-400 rounded-lg"
