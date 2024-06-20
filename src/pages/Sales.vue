@@ -690,19 +690,8 @@ watchEffect(() => {
 })
 
 watchEffect(() => {
-  if (onTotalFocus.value) {
-    document.getElementById('price').focus() // Focus the element
-    onDiscountFocus.value = null
-    onSearchFocus.value = null
-    onFullNameFocus.value = null
-    onPhoneFocus.value = null
-    onDiscountReasonFocus.value = null
-  }
-})
-
-watchEffect(() => {
   if (onDiscountReasonFocus.value) {
-    onDiscountReasonFocus.value.focus() // Focus the element
+    onDiscountReasonFocus.value.focus()
     onDiscountFocus.value = null
     onSearchFocus.value = null
     onFullNameFocus.value = null
@@ -711,9 +700,13 @@ watchEffect(() => {
 })
 
 const reFocus = () => {
-  if (router?.currentRoute?.value?.path === '/sales' && onSearchFocus.value && (onDiscountFocus.value != null || onTotalFocus.value != null)) {
+  if (router?.currentRoute?.value?.path === '/sales' && onSearchFocus.value ){
     onTotalFocus.value = null
     onSearchFocus.value.focus()
+  } else if (onTotalFocus.value) {
+    onSearchFocus.value.focus()
+  } else {
+    document.getElementById('price').focus()
   }
 }
 
@@ -724,7 +717,6 @@ const fullNameReFocus = () => {
     onSearchFocus.value = null
     onPhoneFocus.value = null
     onDiscountFocus.value = null
-   // onTotalFocus.value = null
   }
 }
 
@@ -751,7 +743,7 @@ const discountReasonReFocus = () => {
 
 const totalReFocus = () => {
   if (router?.currentRoute?.value?.path === '/sales' && onTotalFocus.value) {
-    document.getElementById('price').focus() // Focus the element
+    document.getElementById('price').focus()
     onDiscountFocus.value = null
     onDiscountReasonFocus.value = null
     onSearchFocus.value = null
@@ -870,7 +862,9 @@ const closeDebtForm = () => {
 }
 const closeDiscountForm = () => {
   showDiscountForm.value = false
-  clearSubmitData()
+  submitData.discountPercent = ''
+  submitData.discountReason = ''
+  discount.value = ''
   selectP.value = undefined
 }
 const createDebt = () => {
@@ -1232,7 +1226,8 @@ const removeLastDigit = () => {
               class="border-none text-right text-gray-500 bg-slate-100 rounded-lg w-full text-lg">
             <div class="flex space-x-3 my-3 justify-end">
               <button
-                class="px-4 py-2 flex items-center justify-center text-lg cursor-pointer border border-blue-400 bg-blue-50  hover:border-blue-400 hover:text-white hover:bg-blue-400 rounded-lg" :class="{'bg-blue-400 text-white' : discount==10}"
+              class="px-4 py-2 flex items-center justify-center text-lg cursor-pointer border border-blue-400 bg-blue-100 hover:border-blue-400 hover:text-white hover:bg-blue-400 rounded-lg"
+              :class="{'bg-blue-400 text-white' : discount==10}"
                 @click="setDiscountValue(10)">10%</button>
               <button
                 class="px-4 py-2 flex items-center justify-center text-lg cursor-pointer border border-blue-400 bg-blue-100 hover:border-blue-400 hover:text-white hover:bg-blue-400 rounded-lg"
