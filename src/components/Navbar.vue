@@ -16,6 +16,7 @@ import DeleteMarketModal from './modals/DeleteMarketModal.vue'
 import DeleteProductHistoryModal from './modals/DeleteProductHistoryModal.vue'
 import DeleteProductModal from './modals/DeleteProductModal.vue'
 import EditProductHistoryModal from './modals/EditProductHistoryModal.vue'
+import CreateUpcomingProductModal from './modals/CreateUpcomingProductModal.vue'
 import EditProductModal from './modals/EditProductModal.vue'
 import DeleteUserModal from './modals/DeleteUserModal.vue'
 import EditProductBarcodeModal from './modals/EditProductBarcodeModal.vue'
@@ -97,6 +98,7 @@ onUnmounted(() => {
   <CreateProductBarcodeModal />
   <CreateMarketModal />
   <CreateProductModal />
+  <CreateUpcomingProductModal />
   <CreateProductHistoryModal />
   <CreateUserModal />
   <OrderInfoModal />

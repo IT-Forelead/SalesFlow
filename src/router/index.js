@@ -36,6 +36,13 @@ const routes = [
     beforeEnter: navigationGuards('view_histories'),
   },
   {
+    path: '/upcoming-products',
+    name: 'Upcoming products',
+    component: () => import('../pages/UpcomingProducts.vue'),
+    meta: { layout: 'dashboard' },
+    beforeEnter: navigationGuards('view_histories'),
+  },
+  {
     path: '/discounts',
     name: 'Discounts',
     component: () => import('../pages/Discounts.vue'),
