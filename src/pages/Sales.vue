@@ -1010,8 +1010,8 @@ const removeLastDigit = () => {
       </div>
 
       <div v-if="activeBasket.length > 0" class="py-2 align-middle">
-        <div class="min-w-full">
-          <ScrollPanel class="w-full h-[550px] rounded-xl">
+        <div class="min-w-full h-[680px] overflow-y-auto overflow-x-auto">
+          <ScrollPanel class="w-full rounded-xl">
             <table class="md:min-w-full divide-y-8 divide-white">
               <thead>
               <tr class="bg-slate-100 text-base font-semibold text-gray-900 h-12">
