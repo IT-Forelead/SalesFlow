@@ -9,19 +9,17 @@ import { useBarcodeStore } from '../../store/barcode.store'
 import CancelButton from '../buttons/CancelButton.vue'
 import SearchIcon from '../../assets/icons/SearchIcon.vue'
 import Spinners270RingIcon from '../../assets/icons/Spinners270RingIcon.vue'
-import BarcodeIcon from '../../assets/icons/BarcodeIcon.vue'
 import UpcomingProductService from '../../services/upcomingProduct.service'
 import ProductService from '../../services/product.service'
 import { computed, reactive, ref, watch, watchEffect } from 'vue'
 import ImageIcon from '../../assets/icons/ImageIcon.vue'
 import { useI18n } from 'vue-i18n'
-import AgentService from '../../services/agent.service.js'
-import { useAgentStore } from '../../store/agent.store.js'
+import AgentService from '../../services/agent.service'
+import { useAgentStore } from '../../store/agent.store'
 import SelectOptionAgent from '../inputs/SelectOptionAgent.vue'
 import { useDropdownStore } from '../../store/dropdown.store'
 import ScrollPanel from 'primevue/scrollpanel'
-import SettingsService from '../../services/settings.service.js'
-import { useProductHistoryStore } from '../../store/productHistory.store.js'
+import { useProductHistoryStore } from '../../store/productHistory.store'
 import OverlayPanel from 'primevue/overlaypanel'
 import PhUserPlus from '../../assets/icons/PlusCircleIcon.vue'
 import MultiSelect from 'primevue/multiselect'
@@ -57,6 +55,10 @@ const selectedAgent = computed(() => {
   return dropdownStore.selectOptionAgent
 })
 
+const decodedBarcode = computed(() => {
+  return barcodeStore.decodedBarcode
+})
+
 const pageSize = 50
 
 const moneyConf = {
@@ -65,24 +67,23 @@ const moneyConf = {
   precision: 0,
 }
 
+const onSearchFocus = ref(null)
 const isLoading = ref(false)
 const isLoadingAgent = ref(false)
+const isSearching = ref(false)
+const searchProduct = ref('')
+const productBarcode = ref({})
 const productBarcodes = ref([])
 
-const selectedCities = ref();
-const cities = ref([
-    { name: 'New York', code: 'NY' },
-    { name: 'Rome', code: 'RM' },
-    { name: 'London', code: 'LDN' },
-    { name: 'Istanbul', code: 'IST' },
-    { name: 'Paris', code: 'PRS' }
-]);
+
+const selectedProducts = ref([])
 
 const submitData = reactive({
   productIds: [],
   expectedTime: '',
   paymentType: '',
   price: 0,
+  agentId: '',
 })
 
 const clearSubmitData = () => {
@@ -153,17 +154,6 @@ const getAgents = () => {
       isLoading.value = false
     })
 }
-
-const getProducts = () => {
-  console.log("aaaaaaaaaaaaaaaaaaa");
-  ProductService.getProducts({})
-    .then((res) => {
-      useProductStore().clearStore()
-      useProductStore().setProducts(res.data)
-    })
-}
-
-getProducts()
 
 watch(() => useModalStore().isOpenCreateProductModal, data => {
   if (data) getAgents()
@@ -240,6 +230,65 @@ const createAgent = () => {
     toggle()
   }
 }
+
+const whenPressEnter = (e) => {
+  if (e.keyCode === 13) searchProducts()
+}
+
+const searchProducts = () => {
+  if (!searchProduct.value) {
+    toast.error(t('plsEnterProductNameOrBarcode'))
+  } else {
+    isSearching.value = true
+    ProductService.getProducts({
+      name: searchProduct.value,
+    }).then((res) => {
+      if (res.data.length === 0) {
+        toast.info(t('thereIsNoSuchBarcodeProduct'))
+        clearSubmitData()
+        submitData.barcode = searchProduct.value
+      } else if (res.length === 1) {
+        useBarcodeStore().setDecodedBarcode('')
+        productBarcode.value = res.data[0]
+      } else {
+        useBarcodeStore().setDecodedBarcode('')
+        productBarcodes.value = res.data
+      }
+      isSearching.value = false
+      searchProduct.value = ''
+    }).catch(() => {
+      toast.error(t('errorGettingProduct'))
+      setTimeout(() => {
+        isSearching.value = false
+      }, 3000)
+    })
+  }
+}
+
+watch(
+  () => decodedBarcode.value,
+  (data) => {
+    if (data && router?.currentRoute?.value?.path === '/products') {
+      searchProduct.value = data
+      searchProducts()
+    }
+  },
+  { deep: true },
+)
+
+const selectProduct = (data) => {
+  selectedProducts.value.push({
+    id: data?.id,
+    name: data?.name,
+    packaging: data?.packaging,
+  })
+  // submitData.productIds.push({
+  //   id: data?.id,
+  //   name: data?.name,
+  //   packaging: data?.packaging,
+  // })
+  productBarcodes.value = []
+}
 </script>
 
 <template>
@@ -249,41 +298,63 @@ const createAgent = () => {
       {{ $t('addUpcomingProduct') }}
     </template>
     <template v-slot:body>
-      <div class="space-y-2 md:space-y-4">
-        <div class="flex flex-col md:flex-row md:items-center space-y-2 md:space-y-0 md:space-x-4">
-          <div class="flex-1">
-            <label for="name" class="text-base md:text-lg font-medium">
-              {{ $t('product') }}
-              <span class="text-red-500 mr-2">*</span>
-            </label>
-            <MultiSelect v-model="selectedCities" :options="products" filter optionLabel="name"
-              placeholder="Mahsulotlarni tanlang" :maxSelectedLabels="3" class="bg-slate-100 w-full" />
+      <div class="relative mb-8">
+        <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+          <SearchIcon class="w-5 h-5 text-slate-400" />
+        </div>
+        <input type="search" v-model="searchProduct" ref="onSearchFocus" v-on:keypress="whenPressEnter($event)"
+          class="bg-slate-100 border-none text-slate-900 rounded-lg w-full h-12 pl-10 placeholder-slate-400 placeholder:text-sm md:placeholder:text-lg"
+          :placeholder="t('searchByProductNameOrBarcode')">
+        <div class="absolute inset-y-0 right-0 flex items-center space-x-2">
+          <button type="button" @click="searchProducts()"
+            class="px-4 bg-[#0167F3] text-white rounded-lg text-base h-full md:text-lg cursor-pointer">
+            {{ $t('search') }}
+          </button>
+        </div>
+        <div v-if="productBarcodes.length > 0" class="absolute top-16 left-0 bg-transparent w-full space-y-2 z-[2000]">
+          <ScrollPanel style="height: 600px;">
+            <div v-for="(product, idx) in productBarcodes" :key="idx" @click="selectProduct(product)"
+              class="flex items-center justify-between bg-white border shadow-sm rounded-xl px-3 py-2 w-full cursor-pointer hover:bg-slate-100">
+              <div class="flex items-center space-x-3">
+                <div class="flex items-center justify-center bg-slate-200 w-10 h-10 rounded-lg">
+                  <ImageIcon class="text-gray-500 w-8 h-8" />
+                </div>
+                <div>
+                  <div class="text-base font-semibold text-gray-800">
+                    {{ product?.name + ' - ' + product?.packaging }}
+                  </div>
+                  <div class="text-base font-medium text-gray-500">
+                    {{ product?.saleType }}
+                  </div>
+                </div>
+              </div>
+              <div class="text-base font-semibold text-gray-800">
+                {{ product?.barcode }}
+              </div>
+            </div>
+          </ScrollPanel>
+        </div>
+      </div>
+
+      <ScrollPanel style="max-height: 480px;">
+        <div v-for="(product, idx) in selectedProducts" :key="idx"
+          class="flex items-center justify-between bg-white border-b px-2 py-1 w-full">
+          <div class="flex items-center space-x-3">
+            <div class="flex items-center justify-center bg-slate-200 w-10 h-10 rounded-lg">
+              <ImageIcon class="text-gray-500 w-8 h-8" />
+            </div>
+            <div class="text-base font-semibold text-gray-800">
+              {{ product?.name + ' - ' + product?.packaging }}
+            </div>
           </div>
-          <div class="flex-1 space-y-1">
-            <label for="default-type" class="text-base md:text-lg font-medium">
-              {{ $t('saleType') }}
-              <span class="text-red-500 mr-2">*</span>
-            </label>
-            <select id="default-type" v-model="submitData.saleType"
-              class="bg-slate-100 border-none text-slate-900 rounded-lg text-base md:text-lg block w-full h-11">
-              <option value="" selected>{{ $t('selectType') }}</option>
-              <option value="amount">Donali</option>
-              <option value="kg">Kilogrammli</option>
-              <option value="g">Gramli</option>
-              <option value="litre">Litrli</option>
-            </select>
+          <div class="text-base font-semibold text-gray-800">
+            X
           </div>
         </div>
+      </ScrollPanel>
+
+      <div class="space-y-2 md:space-y-4">
         <div class="flex flex-col md:flex-row md:items-center space-y-2 md:space-y-0 md:space-x-4">
-          <div class="flex-1 space-y-1">
-            <label for="quantity" class="text-base md:text-lg font-medium">
-              {{ $t('quantity') }}
-              <span class="text-red-500 mr-2">*</span>
-            </label>
-            <input id="quantity" type="number" v-model="submitData.quantity"
-              class="bg-slate-100 border-none text-slate-900 rounded-lg w-full h-11 placeholder-slate-400 placeholder:text-sm md:placeholder:text-lg"
-              :placeholder="t('enterProductQuantity')">
-          </div>
           <div class="flex-1 space-y-1">
             <label for="price" class="text-base md:text-lg font-medium">
               {{ $t('fullPrice') }}
@@ -292,6 +363,19 @@ const createAgent = () => {
             <money3 v-model.number="submitData.price" v-bind="moneyConf" id="price"
               class="border-none text-right text-gray-500 bg-slate-100 h-11 rounded-lg w-full text-lg">
             </money3>
+          </div>
+          <div class="flex-1 space-y-1">
+            <label for="default-type" class="text-base md:text-lg font-medium">
+              {{ $t('paymentType') }}
+              <span class="text-red-500 mr-2">*</span>
+            </label>
+            <select id="default-type" v-model="submitData.paymentType"
+              class="bg-slate-100 border-none text-slate-900 rounded-lg text-base md:text-lg block w-full h-11">
+              <option value="" selected>{{ $t('selectType') }}</option>
+              <option value="cash">Cash</option>
+              <option value="paid">Paid</option>
+              <option value="bank_transfer">BankTransfer</option>
+            </select>
           </div>
         </div>
         <div class="flex flex-col md:flex-row md:items-center space-y-2 md:space-y-0 md:space-x-4">
