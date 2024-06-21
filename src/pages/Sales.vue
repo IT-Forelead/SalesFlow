@@ -3,16 +3,18 @@ import { computed, onMounted, reactive, ref, watch, watchEffect } from 'vue'
 import { vMaska } from 'maska'
 import { toast } from 'vue-sonner'
 import { useRouter } from 'vue-router'
-import { cleanObjectEmptyFields, roundFloatToOneDecimal, roundFloatToTwoDecimal, roundFloatToFourDecimal } from '../mixins/utils'
+import {
+  cleanObjectEmptyFields,
+  roundFloatToFourDecimal,
+  roundFloatToOneDecimal,
+  roundFloatToTwoDecimal,
+} from '../mixins/utils'
 import ImageIcon from '../assets/icons/ImageIcon.vue'
 import MinusIcon from '../assets/icons/MinusIcon.vue'
 import PlusIcon from '../assets/icons/PlusIcon.vue'
 import TrashIcon from '../assets/icons/TrashIcon.vue'
 import SearchIcon from '../assets/icons/SearchIcon.vue'
-import MoneyIcon from '../assets/icons/MoneyIcon.vue'
 import BarcodeIcon from '../assets/icons/BarcodeIcon.vue'
-import CreditCardIcon from '../assets/icons/CreditCardIcon.vue'
-import OnlinePaymentIcon from '../assets/icons/OnlinePaymentIcon.vue'
 import DebtIcon from '../assets/icons/DebtIcon.vue'
 import XIcon from '../assets/icons/XIcon.vue'
 import BillCheckIcon from '../assets/icons/BillCheckIcon.vue'
@@ -1204,85 +1206,78 @@ const removeLastDigit = () => {
                 @blur="totalReFocus()" class="border-none text-right text-gray-500 bg-slate-100 rounded-lg w-full text-lg" />
       </div>
 
-      <div class="space-y-1">
-        <div @click="showDiscountForm = !showDiscountForm" :class="showDiscountForm ? 'border-blue-300 bg-blue-50' : ''"
-          class="flex-1 flex flex-col hover:border-blue-300 hover:bg-blue-50 hover:cursor-pointer items-center justify-center border rounded-lg py-4">
-          <PhPercent class="w-6 h-6 text-gray-500" />
-          <div class="text-lg font-medium">
-            {{ $t('intoDiscount') }}
-          </div>
-        </div>
-        <div v-if="showDiscountForm" class="flex flex-col space-y-1">
-          <div class="space-y-1">
-            <label class="text-base font-medium">
-              {{ $t('discount') }}
-            </label>
-          </div>
-          <div>
-            <input min="0" max="100" v-model="discount" type="number" ref="onDiscountFocus" @blur="discountReFocus()"
-              class="border-none text-right text-gray-500 bg-slate-100 rounded-lg w-full text-lg">
-            <div class="flex space-x-3 my-3 justify-end">
-              <button
-              class="px-4 py-2 flex items-center justify-center text-lg cursor-pointer border border-blue-400 bg-blue-100 hover:border-blue-400 hover:text-white hover:bg-blue-400 rounded-lg"
-              :class="{'bg-blue-400 text-white' : discount==10}"
-                @click="setDiscountValue(10)">10%</button>
-              <button
-                class="px-4 py-2 flex items-center justify-center text-lg cursor-pointer border border-blue-400 bg-blue-100 hover:border-blue-400 hover:text-white hover:bg-blue-400 rounded-lg"
-                :class="{'bg-blue-400 text-white' : discount==25}"
-                @click="setDiscountValue(25)">25%</button>
-              <button
-                class="px-4 py-2 flex items-center justify-center text-lg cursor-pointer border border-blue-400 bg-blue-200 hover:border-blue-400 hover:text-white hover:bg-blue-400 rounded-lg"
-                :class="{'bg-blue-400 text-white' : discount==50}"
-                @click="setDiscountValue(50)">50%</button>
-              <button
-                class="px-4 py-2 flex items-center justify-center text-lg cursor-pointer border border-blue-400 bg-blue-300 hover:border-blue-400 hover:text-white hover:bg-blue-400 rounded-lg"
-                :class="{'bg-blue-400 text-white' : discount==100}"
-                @click="setDiscountValue(100)">100%</button>
-            </div>
-            <div class="space-y-2">
-              <label class="text-base font-medium" for="reason">{{ $t('reason') }}</label>
-              <input type="text" v-model="submitData.discountReason"
-              ref="onDiscountReasonFocus" @blur="discountReasonReFocus()" class="border-none text-left text-gray-500 bg-slate-100 rounded-lg w-full text-lg">
-            </div>
-            <div class="mt-5">
-              <CancelButton class="w-full" @click="closeDiscountForm" />
-            </div>
-          </div>
-        </div>
+      <div class="space-y-3">
         <div class="py-3 lg:py-0 space-y-1">
-        <div class="text-base font-medium">
-          {{ $t('paymentType') }}
-        </div>
+<!--        <div class="text-base font-medium">-->
+<!--          {{ $t('paymentType') }}-->
+<!--        </div>-->
+<!--        <div class="flex w-full space-x-2 lg:space-x-0 xl:space-x-4 xl:space-y-0 lg:space-y-2 lg:flex-col xl:flex-row">-->
+<!--          <div-->
+<!--            class="flex-1 flex flex-col w-full items-center justify-center bg-blue-50 border border-blue-300 rounded-lg py-4">-->
+<!--            <MoneyIcon class="w-6 h-6 text-blue-500" />-->
+<!--            <div class="text-lg font-medium text-blue-500">-->
+<!--              {{ $t('withCash') }}-->
+<!--            </div>-->
+<!--          </div>-->
+<!--          <div class="flex-1 flex flex-col items-center justify-center border rounded-lg py-4">-->
+<!--            <CreditCardIcon class="w-6 h-6 text-gray-500" />-->
+<!--            <div class="text-lg font-medium text-center">-->
+<!--              {{ $t('withPlasticCard') }}-->
+<!--            </div>-->
+<!--          </div>-->
+<!--        </div>-->
         <div class="flex w-full space-x-2 lg:space-x-0 xl:space-x-4 xl:space-y-0 lg:space-y-2 lg:flex-col xl:flex-row">
-          <div
-            class="flex-1 flex flex-col w-full items-center justify-center bg-blue-50 border border-blue-300 rounded-lg py-4">
-            <MoneyIcon class="w-6 h-6 text-blue-500" />
-            <div class="text-lg font-medium text-blue-500">
-              {{ $t('withCash') }}
-            </div>
-          </div>
-          <div class="flex-1 flex flex-col items-center justify-center border rounded-lg py-4">
-            <CreditCardIcon class="w-6 h-6 text-gray-500" />
-            <div class="text-lg font-medium text-center">
-              {{ $t('withPlasticCard') }}
-            </div>
-          </div>
-        </div>
-        <div class="flex w-full space-x-2 lg:space-x-0 xl:space-x-4 xl:space-y-0 lg:space-y-2 lg:flex-col xl:flex-row">
-          <div class="flex-1 flex flex-col w-full items-center justify-center border rounded-lg py-4">
-            <OnlinePaymentIcon class="w-6 h-6" />
+          <div @click="showDiscountForm = !showDiscountForm" :class="showDiscountForm ? 'border-blue-300 bg-blue-50' : ''" class="flex-1 hover:bg-blue-50 hover:cursor-pointer flex flex-col w-full items-center justify-center border rounded-lg py-4">
+            <PhPercent class="w-6 h-6" />
             <div class="text-lg font-medium">
-              {{ $t('withClick') }}
+              {{ $t('intoDiscount') }}
             </div>
           </div>
           <div @click="showDebtForm = !showDebtForm" :class="showDebtForm ? 'border-blue-300 bg-blue-50' : ''"
                class="flex-1 flex flex-col hover:border-blue-300 hover:bg-blue-50 hover:cursor-pointer items-center justify-center border rounded-lg py-4">
-            <DebtIcon class="w-6 h-6 text-gray-500" />
+            <DebtIcon class="w-6 h-6" />
             <div class="text-lg font-medium">
               {{ $t('intoDebt') }}
             </div>
           </div>
         </div>
+          <div v-if="showDiscountForm" class="flex flex-col space-y-1">
+            <div class="space-y-1">
+              <label class="text-base font-medium">
+                {{ $t('discount') }}
+              </label>
+            </div>
+            <div>
+              <input min="0" max="100" v-model="discount" type="number" ref="onDiscountFocus" @blur="discountReFocus()"
+                     class="border-none text-right text-gray-500 bg-slate-100 rounded-lg w-full text-lg">
+              <div class="flex space-x-3 my-3 justify-end">
+                <button
+                  class="px-4 py-2 flex items-center justify-center text-lg cursor-pointer border border-blue-400 bg-blue-100 hover:border-blue-400 hover:text-white hover:bg-blue-400 rounded-lg"
+                  :class="{'bg-blue-400 text-white' : discount===10}"
+                  @click="setDiscountValue(10)">10%</button>
+                <button
+                  class="px-4 py-2 flex items-center justify-center text-lg cursor-pointer border border-blue-400 bg-blue-100 hover:border-blue-400 hover:text-white hover:bg-blue-400 rounded-lg"
+                  :class="{'bg-blue-400 text-white' : discount===25}"
+                  @click="setDiscountValue(25)">25%</button>
+                <button
+                  class="px-4 py-2 flex items-center justify-center text-lg cursor-pointer border border-blue-400 bg-blue-200 hover:border-blue-400 hover:text-white hover:bg-blue-400 rounded-lg"
+                  :class="{'bg-blue-400 text-white' : discount===50}"
+                  @click="setDiscountValue(50)">50%</button>
+                <button
+                  class="px-4 py-2 flex items-center justify-center text-lg cursor-pointer border border-blue-400 bg-blue-300 hover:border-blue-400 hover:text-white hover:bg-blue-400 rounded-lg"
+                  :class="{'bg-blue-400 text-white' : discount===100}"
+                  @click="setDiscountValue(100)">100%</button>
+              </div>
+              <div class="space-y-2">
+                <label class="text-base font-medium" for="reason">{{ $t('reason') }}</label>
+                <input type="text" v-model="submitData.discountReason"
+                       ref="onDiscountReasonFocus" @blur="discountReasonReFocus()" class="border-none text-left text-gray-500 bg-slate-100 rounded-lg w-full text-lg">
+              </div>
+              <div class="mt-5">
+                <CancelButton class="w-full" @click="closeDiscountForm" />
+              </div>
+            </div>
+          </div>
       </div>
       <div v-if="hasDiscount && activeBasket.length > 0" class="flex flex-col space-y-4">
         <button v-if="!isLoadingDiscount" @click="handleDiscountClick"
@@ -1297,39 +1292,42 @@ const removeLastDigit = () => {
         </button>
       </div>
       <div class="space-y-6">
-        <div class="space-y-4">
           <div class="space-y-4">
             <div v-if="!isLoadingOrderWithPrint && !isLoadingOrderWithoutPrint" class="space-y-4">
-              <button @click="createOrder(true)"
-                      class="w-full xl:py-3 px-4 lg:py-2 py-3 rounded-full text-white text-lg font-medium bg-blue-500 cursor-pointer hover:bg-blue-600">
-                {{ $t('payment') }} <BillCheckIcon class="ml-2 h-6 w-6 inline" />
-              </button>
-              <button @click="createOrder(false)"
-                      class="w-full xl:py-3 px-4 lg:py-2 py-3 rounded-full text-lg font-medium cursor-pointer bg-blue-50 border border-blue-300 text-blue-500 hover:bg-blue-100">
-                {{ $t('payment') }}
-                <BillCrossIcon class="ml-2 h-6 w-6 inline" />
-              </button>
+              <div class="flex space-x-4">
+                <button @click="createOrder(true)"
+                        class="w-full xl:py-3 px-4 lg:py-2 py-3 rounded-lg text-white text-lg font-medium bg-blue-500 cursor-pointer hover:bg-blue-600">
+                  {{ $t('payment') }} <BillCheckIcon class="ml-2 h-6 w-6 inline" />
+                </button>
+                <button @click="createOrder(false)"
+                        class="w-full xl:py-3 px-4 lg:py-2 py-3 rounded-lg text-lg font-medium cursor-pointer bg-blue-50 border border-blue-300 text-blue-500 hover:bg-blue-100">
+                  {{ $t('payment') }}
+                  <BillCrossIcon class="ml-2 h-6 w-6 inline" />
+                </button>
+              </div>
             </div>
             <div v-else class="space-y-4">
-              <button v-if="isLoadingOrderWithPrint" class="flex items-center justify-center w-full xl:py-3 px-4 lg:py-2 py-3 rounded-full text-white text-lg font-medium bg-blue-600">
-                <Spinners270RingIcon class="mr-2 w-5 h-5 text-gray-200 animate-spin dark:text-gray-600 fill-gray-600 dark:fill-gray-300" />
-                {{ $t('payment') }}
-              </button>
-              <button v-else class="w-full xl:py-3 px-4 lg:py-2 py-3 rounded-full text-white text-lg font-medium bg-blue-500 cursor-pointer hover:bg-blue-600">
-                {{ $t('payment') }} <BillCheckIcon class="ml-2 h-6 w-6 inline" />
-              </button>
-              <button v-if="isLoadingOrderWithoutPrint" class="flex items-center justify-center w-full xl:py-3 px-4 lg:py-2 py-3 rounded-full text-lg font-medium cursor-pointer bg-blue-50 border border-blue-300 text-blue-500 hover:bg-blue-100">
-                <Spinners270RingIcon class="mr-2 w-5 h-5 text-blue-500 animate-spin dark:text-gray-600 fill-gray-600 dark:fill-gray-300" />
-                {{ $t('payment') }}
-              </button>
-              <button v-else class="w-full xl:py-3 px-4 lg:py-2 py-3 rounded-full text-lg font-medium cursor-pointer bg-blue-50 border border-blue-300 text-blue-500 hover:bg-blue-100">
-                {{ $t('payment') }}
-                <BillCrossIcon class="ml-2 h-6 w-6 inline" />
-              </button>
+              <div class="flex space-x-4">
+                <button v-if="isLoadingOrderWithPrint" class="flex items-center justify-center w-full xl:py-3 px-4 lg:py-2 py-3 rounded-lg text-white text-lg font-medium bg-blue-600">
+                  <Spinners270RingIcon class="mr-2 w-5 h-5 text-gray-200 animate-spin dark:text-gray-600 fill-gray-600 dark:fill-gray-300" />
+                  {{ $t('payment') }}
+                </button>
+                <button v-else class="w-full xl:py-3 px-4 lg:py-2 py-3 rounded-lg text-white text-lg font-medium bg-blue-500 cursor-pointer hover:bg-blue-600">
+                  {{ $t('payment') }} <BillCheckIcon class="ml-2 h-6 w-6 inline" />
+                </button>
+                <button v-if="isLoadingOrderWithoutPrint" class="flex items-center justify-center w-full xl:py-3 px-4 lg:py-2 py-3 rounded-lg text-lg font-medium cursor-pointer bg-blue-50 border border-blue-300 text-blue-500 hover:bg-blue-100">
+                  <Spinners270RingIcon class="mr-2 w-5 h-5 text-blue-500 animate-spin dark:text-gray-600 fill-gray-600 dark:fill-gray-300" />
+                  {{ $t('payment') }}
+                </button>
+                <button v-else class="w-full xl:py-3 px-4 lg:py-2 py-3 rounded-lg text-lg font-medium cursor-pointer bg-blue-50 border border-blue-300 text-blue-500 hover:bg-blue-100">
+                  {{ $t('payment') }}
+                  <BillCrossIcon class="ml-2 h-6 w-6 inline" />
+                </button>
+              </div>
             </div>
           </div>
-        </div>
-        <div v-if="showDebtForm" class="flex flex-col space-y-4">
+
+        <div v-if="showDebtForm" class="flex flex-col space-y-3">
           <div>
             <div class="flex flex-col items-center space-y-4">
               <div class="w-full">
@@ -1354,7 +1352,7 @@ const removeLastDigit = () => {
               </div>
             </div>
           </div>
-          <div class="space-y-2">
+          <div class="space-y-2 pb-12">
             <CancelButton class="w-full" @click="closeDebtForm" />
             <button @click="createDebt"
                     class="w-full xl:py-3 px-4 lg:py-2 py-3 rounded-full text-white flex items-center justify-center text-lg font-medium bg-blue-500 cursor-pointer hover:bg-blue-600">
@@ -1407,7 +1405,7 @@ const removeLastDigit = () => {
         </div>
       </div>
       <div>
-        <div v-if="selectP && selectP != undefined" class="h-52 grid grid-cols-3 grid-rows-4 gap-2">
+        <div v-if="selectP && true" class="h-52 py-4 grid grid-cols-3 grid-rows-4 gap-2">
           <div
             class="flex items-center justify-center text-lg cursor-pointer border border-slate-400 bg-slate-100 hover:border-blue-400 hover:text-blue-400 hover:bg-blue-100 rounded-lg"
             @click="appendValue(1)">1
