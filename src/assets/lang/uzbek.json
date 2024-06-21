@@ -311,5 +311,6 @@
   "addUpcomingProduct": "Kutilyotgan mahsulotni qo'shish",
   "agent": "Agent",
   "standard": "Standart",
-  "remainingProducts": "Kam qolgan mahsulotlar"
+  "remainingProducts": "Kam qolgan mahsulotlar",
+  "remainDebt": "Qolgan qarz"
 }

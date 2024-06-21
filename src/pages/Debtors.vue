@@ -17,6 +17,7 @@ import CaretLeftIcon from '../assets/icons/CaretLeftIcon.vue'
 import CaretRightIcon from '../assets/icons/CaretRightIcon.vue'
 import CaretDoubleRightIcon from '../assets/icons/CaretDoubleRightIcon.vue'
 import CaretDoubleLeftIcon from '../assets/icons/CaretDoubleLeftIcon.vue'
+import useMoneyFormatter from '../mixins/currencyFormatter.js'
 
 const { t } = useI18n()
 
@@ -48,6 +49,11 @@ const columns = [
   {
     accessorKey: 'phone',
     header: t('phoneNumber'),
+  },
+  {
+    accessorKey: 'remained',
+    header: t('remainDebt'),
+    cell: ({ row }) => useMoneyFormatter(row.original.remained),
   },
   {
     accessorKey: 'createdAt',

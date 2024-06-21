@@ -311,5 +311,6 @@
   "addUpcomingProduct": "Добавить предстоящий продукт",
   "agent": "Агент",
   "standard": "Стандартный",
-  "remainingProducts": "Дефицитные продукты"
+  "remainingProducts": "Дефицитные продукты",
+  "remainDebt": "Оставшийся долг"
 }
