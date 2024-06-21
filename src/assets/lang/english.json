@@ -310,5 +310,6 @@
   "addUpcomingProduct": "Add upcoming product",
   "agent": "Agent",
   "standard": "Standard",
-  "remainingProducts": "Remaining products"
+  "remainingProducts": "Remaining products",
+  "remainDebt": "Remaining debt"
 }
