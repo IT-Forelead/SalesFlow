@@ -122,6 +122,7 @@ const onDiscountFocus = ref(null)
 const onTotalFocus = ref(null)
 const onDiscountReasonFocus = ref(null)
 const discount = ref(0);
+const onDebtFocus = ref(null)
 
 const setDiscountValue = (value) => {
   discount.value = value;
@@ -484,6 +485,13 @@ const clearSubmitData = () => {
 }
 
 
+const clearAndClose = () => {
+  clearSubmitData()
+  clearCustomerForm()
+  closeDebtForm()
+  closeDiscountForm()
+}
+
 const createOrder = (printCheck = true) => {
   if (activeBasket.value.length === 0) {
     toast.error('Tanlangan mahsulotlar mavjud emas!')
@@ -515,8 +523,8 @@ const createOrder = (printCheck = true) => {
         qrcode.value = null
       }
       clearSubmitData()
-      clearCustomerForm()
-      closeDebtForm()
+      // clearCustomerForm()
+      // closeDebtForm()
       closeDiscountForm()
       if (showSale.value) {
         setTimeout(() => {
@@ -648,7 +656,7 @@ watchEffect(() => {
     onDiscountFocus.value = null
     onTotalFocus.value = null
     onDiscountReasonFocus.value = null
-
+    onDebtFocus.value = null
   }
 })
 watchEffect(() => {
@@ -659,7 +667,7 @@ watchEffect(() => {
     onDiscountFocus.value = null
     onTotalFocus.value = null
     onDiscountReasonFocus.value = null
-
+    onDebtFocus.value = null
   }
 })
 watchEffect(() => {
@@ -670,7 +678,7 @@ watchEffect(() => {
     onDiscountFocus.value = null
     onTotalFocus.value = null
     onDiscountReasonFocus.value = null
-
+    onDebtFocus.value = null
   }
 })
 
@@ -682,7 +690,7 @@ watchEffect(() => {
     onFullNameFocus.value = null
     onPhoneFocus.value = null
     onDiscountReasonFocus.value = null
-
+    onDebtFocus.value = null
   }
 })
 
@@ -690,18 +698,37 @@ watchEffect(() => {
   if (onDiscountReasonFocus.value) {
     onDiscountReasonFocus.value.focus()
     onDiscountFocus.value = null
+    onTotalFocus.value = null
     onSearchFocus.value = null
     onFullNameFocus.value = null
     onPhoneFocus.value = null
+    onDebtFocus.value = null
+  }
+})
+
+watchEffect(() => {
+  if (onDebtFocus.value) {
+    document.getElementById('debtor-price').focus()
+    onDiscountReasonFocus.value = null
+    onDiscountFocus.value = null
+    onSearchFocus.value = null
+    onFullNameFocus.value = null
+    onPhoneFocus.value = null
+    onTotalFocus.value = null
+
   }
 })
 
 const reFocus = () => {
-  if (router?.currentRoute?.value?.path === '/sales' && onSearchFocus.value ){
+  if (router?.currentRoute?.value?.path === '/sales' && onSearchFocus.value && onFullNameFocus.value == null)  {
     onTotalFocus.value = null
     onSearchFocus.value.focus()
-  } else if (onTotalFocus.value) {
+  } else if (onTotalFocus.value && onFullNameFocus.value == null) {
     onSearchFocus.value.focus()
+  } else if (onFullNameFocus.value) {
+    onFullNameFocus.value.focus()
+  } else if (onDiscountFocus.value) {
+    onDiscountFocus.value.focus()
   } else {
     document.getElementById('price').focus()
   }
@@ -755,6 +782,17 @@ const phoneReFocus = () => {
     onSearchFocus.value = null
     onFullNameFocus.value = null
     onDiscountFocus.value = null
+  }
+}
+
+const debtReFocus = () => {
+  if (router?.currentRoute?.value?.path === '/sales' && onDebtFocus.value) {
+    document.getElementById('debtor-price').focus()
+    onDiscountReasonFocus.value = null
+    onDiscountFocus.value = null
+    onSearchFocus.value = null
+    onFullNameFocus.value = null
+    onPhoneFocus.value = null
   }
 }
 
@@ -812,18 +850,25 @@ const isLoadingDebtForm = ref(false)
 const customerForm = reactive({
   fullName: '',
   phone: '',
-  discount: '',
-  discountReason: '',
+  remained: '',
 })
 
 const clearCustomerForm = () => {
   customerForm.fullName = ''
   customerForm.phone = ''
+  customerForm.remained = ''
+
+}
+
+const clearDiscountForm = () => {
+  discount.value = ''
+  submitData.discountReason = ''
 }
 
 const closeForm = () => {
   showSale.value = false
   clearCustomerForm()
+  clearDiscountForm()
 }
 
 const createSale = () => {
@@ -871,12 +916,15 @@ const createDebt = () => {
     toast.warning(t('enterPhone'))
   } else if (customerForm.phone && !phoneRegex.test(customerForm.phone.replace(/([() -])/g, ''))) {
     toast.warning(t('plsEnterValidPhoneNumber'))
+  } else if (!customerForm.remained) {
+    toast.warning(t('enterDebt'))
   } else {
     isLoadingDebtForm.value = true
     CustomerService.createDebt({
       orderId: orderId.value,
       fullName: customerForm.fullName,
       phone: customerForm.phone.replace(/([() -])/g, ''),
+      remained: customerForm.remained,
     })
       .then(() => {
         isLoadingDebtForm.value = false
@@ -986,7 +1034,7 @@ const removeLastDigit = () => {
              class="flex items-center justify-center bg-slate-100 rounded-xl h-12 w-12 cursor-pointer">
           <BarcodeIcon class="w-6 h-6 text-blue-600" />
         </div>
-        <div @click="clearSubmitData()" :title="t('clearTheBasket')"
+        <div @click="clearAndClose()" :title="t('clearTheBasket')"
              class="hidden md:flex items-center justify-center bg-slate-100 rounded-xl h-12 w-12 cursor-pointer">
           <BroomIcon class="w-5 h-5 text-blue-600" />
         </div>
@@ -1351,6 +1399,16 @@ const removeLastDigit = () => {
                        type="text" v-maska data-maska="+998(##) ###-##-##"
                        class="bg-slate-100 border-none w-full text-slate-900 rounded-lg py-2.5 placeholder-slate-400"
                        placeholder="+998(00) 000-00-00" />
+              </div>
+              <div class="w-full">
+                <label for="remained" class="text-base font-medium">
+                  {{ $t('remainDebt') }}
+                  <span class="text-red-500 mr-2">*</span>
+                </label>
+                <money3 v-model="customerForm.remained" type="text" v-bind="moneyConf" id="debtor-price" ref="onDebtFocus"
+                  @blur="debtReFocus()"
+                  class="border-none text-right text-gray-500 bg-slate-100 rounded-lg w-full text-lg" ></money3>
+
               </div>
             </div>
           </div>

@@ -311,5 +311,6 @@
   "addUpcomingProduct": "Кутилётган маҳсулотни қўшиш",
   "agent": "Агент",
   "standard": "Стандарт",
-  "remainingProducts": "Кам қолган маҳсулотлар"
+  "remainingProducts": "Кам қолган маҳсулотлар",
+  "remainDebt": "Қолган қарз"
 }
