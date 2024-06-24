@@ -311,5 +311,7 @@
   "addUpcomingProduct": "Kutilyotgan mahsulotni qo'shish",
   "agent": "Agent",
   "standard": "Standart",
-  "remainingProducts": "Kam qolgan mahsulotlar"
+  "remainingProducts": "Kam qolgan mahsulotlar",
+  "arrivalTime": "Kelish vaqti",
+  "entirExpectedTime": "Kutilayotgan vaqtni kiriting"
 }

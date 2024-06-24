@@ -9,9 +9,10 @@ import { useBarcodeStore } from '../../store/barcode.store'
 import CancelButton from '../buttons/CancelButton.vue'
 import SearchIcon from '../../assets/icons/SearchIcon.vue'
 import Spinners270RingIcon from '../../assets/icons/Spinners270RingIcon.vue'
+import TrashIcon from '../../assets/icons/TrashIcon.vue'
 import UpcomingProductService from '../../services/upcomingProduct.service'
 import ProductService from '../../services/product.service'
-import { computed, reactive, ref, watch, watchEffect } from 'vue'
+import { computed, reactive, ref, watch } from 'vue'
 import ImageIcon from '../../assets/icons/ImageIcon.vue'
 import { useI18n } from 'vue-i18n'
 import AgentService from '../../services/agent.service'
@@ -22,7 +23,7 @@ import ScrollPanel from 'primevue/scrollpanel'
 import { useProductHistoryStore } from '../../store/productHistory.store'
 import OverlayPanel from 'primevue/overlaypanel'
 import PhUserPlus from '../../assets/icons/PlusCircleIcon.vue'
-import MultiSelect from 'primevue/multiselect'
+import Calendar from 'primevue/calendar'
 import { vMaska } from 'maska'
 
 const { t } = useI18n()
@@ -75,7 +76,6 @@ const searchProduct = ref('')
 const productBarcode = ref({})
 const productBarcodes = ref([])
 
-
 const selectedProducts = ref([])
 
 const submitData = reactive({
@@ -87,6 +87,7 @@ const submitData = reactive({
 })
 
 const clearSubmitData = () => {
+  selectedProducts.value = []
   dropdownStore.setSelectOptionAgent('')
   submitData.productIds = []
   submitData.paymentType = ''
@@ -100,7 +101,7 @@ const closeModal = () => {
   productBarcodes.value = []
 }
 
-const createProduct = () => {
+const createUpcomingProduct = () => {
   if (!submitData.productIds.length == 0) {
     toast.warning("Iltimos Mahsulotlarni tanlang!")
   } else if (!submitData.paymentType) {
@@ -111,28 +112,20 @@ const createProduct = () => {
     toast.warning(t('plsEnterProductPrice'))
   } else {
     isLoading.value = true
-    UpcomingProductService.createProduct(
-      cleanObjectEmptyFields({
-        name: submitData.name,
-        barcode: submitData.barcode,
-        packaging: submitData.packaging,
-        saleType: submitData.saleType,
-        price: submitData.price,
-        purchasePrice: submitData.purchasePrice,
-        expirationDate: submitData.expirationDate,
-        productionDate: submitData.productionDate,
-        quantity: submitData.quantity,
-        toLend: submitData.toLend,
-        agentId: selectedAgent.value?.id,
-      }),
-    ).then(() => {
+    UpcomingProductService.createUpcomingProduct({
+      productIds: selectedProducts.value.map(el => el.id),
+      price: submitData.price,
+      expectedTime: submitData.expectedTime,
+      agentId: selectedAgent.value?.id,
+      paymentType: submitData.paymentType,
+    }).then(() => {
       toast.success(t('productAddedSuccessfully'))
-      UpcomingProductService.getProductsDetails({ limit: pageSize, page: currentPage2.value, name: route.query.search })
-        .then((res) => {
-          useProductHistoryStore().clearStore()
-          useProductHistoryStore().totalHistories = res.total
-          useProductHistoryStore().setProductHistories(res.data)
-        })
+      // UpcomingProductService.getProductsDetails({ limit: pageSize, page: currentPage2.value, name: route.query.search })
+      //   .then((res) => {
+      //     useProductHistoryStore().clearStore()
+      //     useProductHistoryStore().totalHistories = res.total
+      //     useProductHistoryStore().setProductHistories(res.data)
+      //   })
       clearSubmitData()
       isLoading.value = false
     }).catch(() => {
@@ -142,6 +135,10 @@ const createProduct = () => {
       }, 3000)
     })
   }
+}
+
+const removeProduct = (product) => {
+  selectedProducts.value = selectedProducts.value.filter((p) => p.id !== product.id)
 }
 
 const getAgents = () => {
@@ -155,7 +152,7 @@ const getAgents = () => {
     })
 }
 
-watch(() => useModalStore().isOpenCreateProductModal, data => {
+watch(() => useModalStore().isOpenCreateUpcomingProductModal, data => {
   if (data) getAgents()
 }, { deep: true })
 
@@ -336,7 +333,10 @@ const selectProduct = (data) => {
         </div>
       </div>
 
-      <ScrollPanel style="max-height: 480px;">
+      <ScrollPanel v-if="selectedProducts.length > 0" style="max-height: 480px; height: auto;">
+        <h4 class="text-slate-900 text-xl font-semibold">
+          {{ $t('products') }}
+        </h4>
         <div v-for="(product, idx) in selectedProducts" :key="idx"
           class="flex items-center justify-between bg-white border-b px-2 py-1 w-full">
           <div class="flex items-center space-x-3">
@@ -348,7 +348,7 @@ const selectProduct = (data) => {
             </div>
           </div>
           <div class="text-base font-semibold text-gray-800">
-            X
+            <TrashIcon @click="removeProduct(product)" class="w-6 h-6 text-rose-500 cursor-pointer transform hover:scale-105" />
           </div>
         </div>
       </ScrollPanel>
@@ -439,9 +439,8 @@ const selectProduct = (data) => {
             <label for="price" class="text-base md:text-lg font-medium">
               {{ $t('arrivalTime') }}
             </label>
-            <input id="quantity" type="date" v-model="submitData.expirationDate"
-              class="bg-slate-100 border-none text-slate-900 rounded-lg w-full h-11 placeholder-slate-400 placeholder:text-sm md:placeholder:text-lg"
-              :placeholder="t('enterProductQuantity')">
+            <Calendar class="w-full bg-slate-100 rounded-lg" input-class="bg-slate-100 border-none rounded-lg"
+              v-model="submitData.expectedTime" :date-format="'dd/mm/yy'" :placeholder="t('entirExpectedTime')" />
           </div>
         </div>
       </div>
@@ -454,7 +453,7 @@ const selectProduct = (data) => {
           class="mr-2 w-5 h-5 text-gray-200 animate-spin dark:text-gray-600 fill-gray-600 dark:fill-gray-300" />
         {{ $t('create') }}
       </button>
-      <button v-else @click="createProduct()" type="button"
+      <button v-else @click="createUpcomingProduct()" type="button"
         class="ms-3 text-white bg-blue-500 hover:bg-blue-600 focus:ring-4 focus:outline-none focus:ring-slate-300 rounded-xl border border-slate-200 text-sm font-medium px-5 py-2.5 focus:z-10">
         {{ $t('create') }}
       </button>

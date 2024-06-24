@@ -311,5 +311,7 @@
   "addUpcomingProduct": "Кутилётган маҳсулотни қўшиш",
   "agent": "Агент",
   "standard": "Стандарт",
-  "remainingProducts": "Кам қолган маҳсулотлар"
+  "remainingProducts": "Кам қолган маҳсулотлар",
+  "arrivalTime": "Келиш вақти",
+  "entirExpectedTime": "Кутилаётган вақтни киритинг"
 }
