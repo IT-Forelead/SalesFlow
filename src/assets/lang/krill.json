@@ -312,8 +312,9 @@
   "agent": "Агент",
   "standard": "Стандарт",
   "remainingProducts": "Кам қолган маҳсулотлар",
+  "remainDebt": "Қолган қарз",
   "arrivalTime": "Келиш вақти",
-  "entirExpectedTime": "Кутилаётган вақтни киритинг",
+  "enterExpectedTime": "Кутилаётган вақтни киритинг",
   "cash": "Нақд пул",
   "paid": "Тўланган",
   "bankTransfer": "Банк ўтказмаси"

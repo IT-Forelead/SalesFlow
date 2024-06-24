@@ -5,6 +5,8 @@ export const useOrderStore = defineStore('order', {
     orders: [],
     totalOrders:0,
     selectedOrder: {},
+    currentPage: 1,
+    params: {},
   }),
   actions: {
     setOrders(data) {

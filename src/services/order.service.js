@@ -29,6 +29,9 @@ class OrderService {
   async getTurnoverStats(data) {
     return AxiosService.post('/order/turnover/stats', data)
   }
+  async refundItems(data) {
+    return AxiosService.post('/order/refund/items', data)
+  }
 }
 
 export default new OrderService()

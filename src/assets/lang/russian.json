@@ -312,8 +312,12 @@
   "agent": "Агент",
   "standard": "Стандартный",
   "remainingProducts": "Дефицитные продукты",
+  "remainDebt": "Оставшийся долг",
+  "refundItems": "Отменить покупки",
+  "refundedSuccessfully": "Покупки отменены успешно",
+  "errorWhileRefunding": "Ошибка при отмене покупок",
   "arrivalTime": "Время прибытия",
-  "entirExpectedTime": "Введите ожидаемое время",
+  "enterExpectedTime": "Введите ожидаемое время",
   "cash": "Наличные",
   "paid": "Оплачено",
   "bankTransfer": "Банковский перевод"

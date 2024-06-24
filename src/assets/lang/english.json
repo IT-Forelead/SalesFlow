@@ -311,8 +311,9 @@
   "agent": "Agent",
   "standard": "Standard",
   "remainingProducts": "Remaining products",
+  "remainDebt": "Remaining debt",
   "arrivalTime": "Arrival time",
-  "entirExpectedTime": "Enter expected time",
+  "enterExpectedTime": "Enter expected time",
   "cash": "Cash",
   "paid": "Paid",
   "bankTransfer": "Bank transfer"
