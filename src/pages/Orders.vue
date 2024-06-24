@@ -1,6 +1,5 @@
 <script setup>
-import { computed, ref, watch, watchEffect } from 'vue'
-import { h } from 'vue'
+import { computed, h, ref, watch } from 'vue'
 import moment from 'moment'
 import SearchIcon from '../assets/icons/SearchIcon.vue'
 import Spinners270RingIcon from '../assets/icons/Spinners270RingIcon.vue'
@@ -134,8 +133,12 @@ const openOrderInfo = (data) => {
   useOrderStore().setSelectedOrder(data)
 }
 
+
 const page = ref(1)
 const pageSize = 50
+const currentPage = computed(() => {
+  return orderStore.currentPage
+})
 const getOrders = (params = {}) => {
   isLoading.value = true
   OrderService.getOrders( page.value , pageSize , {
@@ -145,6 +148,8 @@ const getOrders = (params = {}) => {
       useOrderStore().clearStore()
       useOrderStore().totalOrders = res.total
       useOrderStore().setOrders(res.data)
+      useOrderStore().currentPage = page.value
+      useOrderStore().params = params
     }).finally(() => {
       isLoading.value = false
     })
@@ -186,7 +191,6 @@ const debouncedSearch = debounce(() => {
       cashierName: null,
     };
   }
-
   getOrders(searchParams);
 }, 300);
 
