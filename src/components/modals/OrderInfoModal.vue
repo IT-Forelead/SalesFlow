@@ -3,15 +3,17 @@ import CModal from '../common/CModal.vue'
 import { useModalStore } from '../../store/modal.store'
 import ImageIcon from '../../assets/icons/ImageIcon.vue'
 import PrinterIcon from '../../assets/icons/PrinterIcon.vue'
+import ArrowsUpLeftRightIcon from '../../assets/icons/ArrowsUpLeftRightIcon.vue'
 import Spinners270RingIcon from '../../assets/icons/Spinners270RingIcon.vue'
 import CancelButton from '../buttons/CancelButton.vue'
-import { useOrderStore } from '../../store/order.store';
+import { useOrderStore } from '../../store/order.store'
 import OrderService from '../../services/order.service'
-import { computed, ref } from 'vue';
-import useMoneyFormatter from '../../mixins/currencyFormatter';
+import { computed, ref } from 'vue'
+import useMoneyFormatter from '../../mixins/currencyFormatter'
 import moment from 'moment'
 import axios from 'axios'
 import { useI18n } from 'vue-i18n'
+import { toast } from 'vue-sonner'
 
 const API_URL = import.meta.env.VITE_CHEQUE_API_URL
 
@@ -19,6 +21,13 @@ const { t } = useI18n()
 
 const orderStore = useOrderStore()
 const qrcode = ref()
+
+const currentPage = computed(() => {
+  return orderStore.currentPage
+})
+const params = computed(() => {
+  return orderStore.params
+})
 
 const selectedOrder = computed(() => {
   return orderStore.selectedOrder
@@ -37,6 +46,9 @@ const saleTypeShortTranslate = (type) => {
   }
 }
 
+const isLoadingPrint = ref(false)
+const isRefundLoading = ref(false)
+
 async function printChaque(data) {
   await axios
     .post(API_URL + '/print', data)
@@ -49,6 +61,7 @@ async function printChaque(data) {
 }
 
 const printChaqueFunc = (id) => {
+  isLoadingPrint.value = true
   OrderService.getOrderById(id).then((res) => {
     printChaque({
       cashier: res?.cashierFirstName + ' ' + res.cashierLastName,
@@ -69,6 +82,8 @@ const printChaqueFunc = (id) => {
       }),
       time: moment(res?.createdAt).format('DD/MM/YYYY H:mm'),
       qrcode: qrcode.value,
+    }).finally(() => {
+      isLoadingPrint.value = false
     })
   })
 }
@@ -77,10 +92,54 @@ const closeModal = () => {
   useModalStore().closeOrderInfoModal()
   useOrderStore().setSelectedOrder({})
 }
+
+const selectedProductIds = ref([])
+
+const toggleProductSelection = (id) => {
+  if (selectedProductIds.value.includes(id)) {
+    selectedProductIds.value = selectedProductIds.value.filter((productId) => productId !== id)
+  } else {
+    selectedProductIds.value.push(id)
+  }
+}
+
+const refundProducts = () => {
+  isRefundLoading.value = true
+  const orderId = selectedOrder.value.id
+  const totalPrice = selectedOrder.value.totalPrice
+  const paymentReceived = selectedOrder.value.paymentReceived
+  OrderService.refundItems({
+    orderId,
+    totalPrice,
+    paymentReceived,
+    items: selectedProductIds.value,
+  }).then(() => {
+    selectedProductIds.value = []
+    toast.success(t('refundedSuccessfully'))
+    OrderService.getOrders( currentPage.value , 50, {...params.value} )
+      .then((res) => {
+        useOrderStore().clearStore()
+        useOrderStore().totalOrders = res.total
+        useOrderStore().setOrders(res.data)
+      }).finally(() => {
+      isRefundLoading.value = false
+    })
+    closeModal()
+  }).catch((error) => {
+    selectedProductIds.value = []
+    console.error('Refund failed:', error)
+    toast.error(t('errorWhileRefunding'))
+  }).finally(() => {
+    isRefundLoading.value = false
+  })
+}
+
+console.log(params.value)
 </script>
 
 <template>
-  <CModal :is-open="useModalStore().isOpenOrderInfoModal" v-if="useModalStore().isOpenOrderInfoModal" @close=closeModal>
+  <CModal :is-open="useModalStore().isOpenOrderInfoModal" v-if="useModalStore().isOpenOrderInfoModal"
+          @close="closeModal">
     <template v-slot:header>
       {{ $t('salesDetails') }}
     </template>
@@ -90,39 +149,52 @@ const closeModal = () => {
           <div class="overflow-hidden overflow-y-scroll h-[300px] border-0">
             <table class="md:min-w-full text-sm">
               <thead>
-                <tr class="bg-slate-100 font-medium text-gray-900">
-                  <th class="px-3 py-2 text-left rounded-l-xl text-sm md:text-base">{{ $t('product') }}</th>
-                  <th class="px-3 py-2 text-sm md:text-base">{{ $t('quantity') }}</th>
-                  <th class="px-3 py-2 text-sm md:text-base rounded-r-xl">{{ $t('totalPrice') }}</th>
-                </tr>
+              <tr class="bg-slate-100 font-medium text-gray-900">
+                <th class="px-3 py-2 text-left rounded-l-xl text-sm md:text-base"></th>
+                <th class="px-3 py-2 text-left text-sm md:text-base">{{ $t('product') }}</th>
+                <th class="px-3 py-2 text-sm md:text-base">{{ $t('quantity') }}</th>
+                <th class="px-3 py-2 text-sm md:text-base rounded-r-xl">{{ $t('totalPrice') }}</th>
+              </tr>
               </thead>
               <tbody class="divide-y divide-gray-100">
-                <tr v-for="(product, idx) in selectedOrder?.items" :key="idx">
-                  <td class="px-3 py-2 whitespace-nowrap">
-                    <div class="flex items-center space-x-3">
-                      <div class="flex items-center justify-center bg-slate-100 md:w-12 md:h-12 w-8 h-8 rounded-lg">
-                        <ImageIcon class="text-gray-500 w-6 h-6" />
+              <tr
+                v-for="(product, idx) in selectedOrder?.items"
+                :key="idx"
+                @click="!product.refunded && toggleProductSelection(product.id)"
+                :class="{
+                    'bg-blue-200 rounded-xl': selectedProductIds.includes(product.id) && !product.refunded,
+                    'bg-red-200': product.refunded
+                  }"
+                class="cursor-pointer"
+              >
+                <td class="px-3 py-2 whitespace-nowrap">
+                  <input type="checkbox" class="hidden" :disabled="product.refunded" />
+                </td>
+                <td class="px-3 py-2 whitespace-nowrap">
+                  <div class="flex items-center space-x-3">
+                    <div class="flex items-center justify-center bg-slate-100 md:w-12 md:h-12 w-8 h-8 rounded-lg">
+                      <ImageIcon class="text-gray-500 w-6 h-6" />
+                    </div>
+                    <div>
+                      <div class="text-sm md:text-base font-semibold text-gray-800">
+                        {{ product?.productName + ' - ' + product?.packaging }}
                       </div>
-                      <div>
-                        <div class="text-sm md:text-base font-semibold text-gray-800">
-                          {{ product?.productName + " - " + product?.packaging }}
-                        </div>
-                        <div class="text-sm md:text-base font-medium text-gray-500">
-                          {{ $t('price') }}:
-                          <span class="text-gray-700">
+                      <div class="text-sm md:text-base font-medium text-gray-500">
+                        {{ $t('price') }}:
+                        <span class="text-gray-700">
                             {{ useMoneyFormatter(product?.salePrice) }}
                           </span>
-                        </div>
                       </div>
                     </div>
-                  </td>
-                  <td class="px-3 py-2 text-center whitespace-nowrap">
-                    {{ product?.amount + " " + saleTypeShortTranslate(product?.saleType) }}
-                  </td>
-                  <td class="px-3 py-2 text-center whitespace-nowrap">
-                    {{ useMoneyFormatter(product?.price) }}
-                  </td>
-                </tr>
+                  </div>
+                </td>
+                <td class="px-3 py-2 text-center whitespace-nowrap">
+                  {{ product?.amount + ' ' + saleTypeShortTranslate(product?.saleType) }}
+                </td>
+                <td class="px-3 py-2 text-center whitespace-nowrap">
+                  {{ useMoneyFormatter(product?.price) }}
+                </td>
+              </tr>
               </tbody>
             </table>
           </div>
@@ -133,7 +205,7 @@ const closeModal = () => {
               {{ $t('numberOfProducts') }}
             </div>
             <div class="text-base font-medium">
-              {{ selectedOrder?.items.reduce((acc, cur) => acc + cur.amount, 0) + " " + $t('piece') }}
+              {{ selectedOrder?.items.reduce((acc, cur) => acc + cur.amount, 0) + ' ' + $t('piece') }}
             </div>
           </li>
           <li class="flex items-center justify-between py-2">
@@ -173,7 +245,7 @@ const closeModal = () => {
               {{ $t('cashier') }}
             </div>
             <div class="text-base font-medium">
-              {{ selectedOrder?.cashierFirstName + " " + selectedOrder?.cashierLastName }}
+              {{ selectedOrder?.cashierFirstName + ' ' + selectedOrder?.cashierLastName }}
             </div>
           </li>
           <li class="flex items-center justify-between py-2">
@@ -197,14 +269,27 @@ const closeModal = () => {
     </template>
     <template v-slot:footer>
       <CancelButton @click="closeModal" />
-      <button v-if="isLoading" type="button"
-        class="inline-flex items-center justify-center ms-3 text-white bg-blue-500 hover:bg-blue-600 focus:ring-4 focus:outline-none focus:ring-slate-300 rounded-xl border border-slate-200 text-sm font-medium px-5 py-2.5 focus:z-10">
+      <button v-if="isRefundLoading" type="button"
+              class="inline-flex items-center justify-center ml-2 text-rose-500 bg-white hover:bg-slate-100 focus:ring-4 focus:outline-none focus:ring-slate-300 rounded-xl border border-slate-200 text-sm font-medium px-5 py-2.5 hover:text-rose-600 focus:z-10">
+        <Spinners270RingIcon
+          class="mr-2 w-5 h-5 text-rose-500 animate-spin" />
+        <span>{{ $t('refundItems') }}</span>
+      </button>
+
+      <button v-else type="button" @click="refundProducts"
+              class="inline-flex items-center justify-center ml-2 text-rose-500 bg-white hover:bg-slate-100 focus:ring-4 focus:outline-none focus:ring-slate-300 rounded-xl border border-slate-200 text-sm font-medium px-5 py-2.5 hover:text-rose-600 focus:z-10">
+        <ArrowsUpLeftRightIcon class="mr-2 w-5 h-5" />
+        <span>{{ $t('refundItems') }}</span>
+      </button>
+
+      <button v-if="isLoadingPrint" type="button"
+              class="inline-flex items-center justify-center ms-3 text-white bg-blue-500 hover:bg-blue-600 focus:ring-4 focus:outline-none focus:ring-slate-300 rounded-xl border border-slate-200 text-sm font-medium px-5 py-2.5 focus:z-10">
         <Spinners270RingIcon
           class="mr-2 w-5 h-5 text-gray-200 animate-spin dark:text-gray-600 fill-gray-600 dark:fill-gray-300" />
         <span>{{ $t('printOut') }}</span>
       </button>
       <button v-else @click="printChaqueFunc(selectedOrder?.id)" type="button"
-        class="inline-flex items-center justify-center ms-3 text-white bg-blue-500 hover:bg-blue-600 focus:ring-4 focus:outline-none focus:ring-slate-300 rounded-xl border border-slate-200 text-sm font-medium px-5 py-2.5 focus:z-10">
+              class="inline-flex items-center justify-center ms-3 text-white bg-blue-500 hover:bg-blue-600 focus:ring-4 focus:outline-none focus:ring-slate-300 rounded-xl border border-slate-200 text-sm font-medium px-5 py-2.5 focus:z-10">
         <PrinterIcon class="mr-2 w-5 h-5 text-gray-200 dark:text-gray-600 fill-gray-600 dark:fill-gray-300" />
         <span>{{ $t('printOut') }}</span>
       </button>
@@ -212,4 +297,3 @@ const closeModal = () => {
   </CModal>
 </template>
 
-<style scoped></style>
