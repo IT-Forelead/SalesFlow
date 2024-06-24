@@ -312,5 +312,8 @@
   "agent": "Агент",
   "standard": "Стандартный",
   "remainingProducts": "Дефицитные продукты",
-  "remainDebt": "Оставшийся долг"
+  "remainDebt": "Оставшийся долг",
+  "refundItems": "Отменить покупки",
+  "refundedSuccessfully": "Покупки отменены успешно",
+  "errorWhileRefunding": "Ошибка при отмене покупок"
 }

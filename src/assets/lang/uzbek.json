@@ -312,5 +312,8 @@
   "agent": "Agent",
   "standard": "Standart",
   "remainingProducts": "Kam qolgan mahsulotlar",
-  "remainDebt": "Qolgan qarz"
+  "remainDebt": "Qolgan qarz",
+  "refundItems": "Mahsulot qaytarish",
+  "errorWhileRefunding": "Mahsulot qaytarishda xatolik yuz berdi!",
+  "refundedSuccessfully": "Mahsulot muvaffaqiyatli qaytarildi!"
 }
