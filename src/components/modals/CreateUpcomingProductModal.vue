@@ -426,7 +426,7 @@ const selectProduct = (data) => {
               {{ $t('arrivalTime') }}
             </label>
             <Calendar class="w-full bg-slate-100 rounded-lg" input-class="bg-slate-100 border-none rounded-lg"
-              v-model="submitData.expectedTime" :date-format="'dd/mm/yy'" :placeholder="t('entirExpectedTime')" />
+              v-model="submitData.expectedTime" :date-format="'dd/mm/yy'" :placeholder="t('enterExpectedTime')" />
           </div>
         </div>
       </div>
