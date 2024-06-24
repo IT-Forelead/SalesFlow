@@ -6,6 +6,7 @@ import { useRoute, useRouter } from 'vue-router'
 import { useModalStore } from '../../store/modal.store'
 import { useProductStore } from '../../store/product.store'
 import { useBarcodeStore } from '../../store/barcode.store'
+import { useUpcomingProductStore } from '../../store/upcomingProduct.store'
 import CancelButton from '../buttons/CancelButton.vue'
 import SearchIcon from '../../assets/icons/SearchIcon.vue'
 import Spinners270RingIcon from '../../assets/icons/Spinners270RingIcon.vue'
@@ -120,13 +121,13 @@ const createUpcomingProduct = () => {
       paymentType: submitData.paymentType,
     }).then(() => {
       toast.success(t('productAddedSuccessfully'))
-      // UpcomingProductService.getProductsDetails({ limit: pageSize, page: currentPage2.value, name: route.query.search })
-      //   .then((res) => {
-      //     useProductHistoryStore().clearStore()
-      //     useProductHistoryStore().totalHistories = res.total
-      //     useProductHistoryStore().setProductHistories(res.data)
-      //   })
-      clearSubmitData()
+      UpcomingProductService.getUpcomingProducts({ limit: pageSize, page: currentPage2.value })
+        .then((res) => {
+          useUpcomingProductStore().clearStore()
+          useUpcomingProductStore().setTotal(res.total)
+          useUpcomingProductStore().setUpcomingProducts(res.data)
+        })
+      closeModal()
       isLoading.value = false
     }).catch(() => {
       toast.error(t('errorWhileCreatingProduct'))
@@ -162,16 +163,6 @@ watch([() => submitData.boxPrice, () => submitData.quantity], ([newBoxPrice, new
     submitData.purchasePrice = sum
   }
 })
-
-const findAndSelectAgent = (agentId) => {
-  agents.value.map((agent) => {
-    if (agent?.id === agentId) {
-      console.log('find: ' + agent?.id)
-      dropdownStore.setSelectOptionAgent(agent)
-      console.log('select agent: ' + selectedAgent.value?.id)
-    }
-  })
-}
 
 const isOpenAgentCreatePopup = ref()
 const toggle = (event) => {
@@ -279,11 +270,6 @@ const selectProduct = (data) => {
     name: data?.name,
     packaging: data?.packaging,
   })
-  // submitData.productIds.push({
-  //   id: data?.id,
-  //   name: data?.name,
-  //   packaging: data?.packaging,
-  // })
   productBarcodes.value = []
 }
 </script>
@@ -372,9 +358,9 @@ const selectProduct = (data) => {
             <select id="default-type" v-model="submitData.paymentType"
               class="bg-slate-100 border-none text-slate-900 rounded-lg text-base md:text-lg block w-full h-11">
               <option value="" selected>{{ $t('selectType') }}</option>
-              <option value="cash">Cash</option>
-              <option value="paid">Paid</option>
-              <option value="bank_transfer">BankTransfer</option>
+              <option value="cash">{{ $t('cash') }}</option>
+              <option value="paid">{{ $t('paid') }}</option>
+              <option value="bank_transfer">{{ $t('bankTransfer') }}</option>
             </select>
           </div>
         </div>

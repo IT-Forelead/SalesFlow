@@ -17,6 +17,7 @@ import { useI18n } from 'vue-i18n'
 import { useAuthStore } from '../store/auth.store.js'
 import decodeJwt, { parseJwt } from '../mixins/utils.js'
 import { useRoute, useRouter } from 'vue-router'
+import moment from 'moment'
 
 const { t } = useI18n()
 const searchFilter = ref('')
@@ -27,7 +28,7 @@ const payload = ref({})
 const globalSearchFromTable = ref('')
 const products = computed(() => {
   renderKey.value += 1
-  return upcomingProductStore.products
+  return upcomingProductStore.upcomingProducts
 })
 const route = useRoute();
 const router = useRouter();
@@ -52,16 +53,14 @@ const saleTypeTranslate = (type) => {
   }
 }
 
-const saleTypeShortTranslate = (type) => {
+const paymentTypeTranslate = (type) => {
   switch (type) {
-    case 'amount':
-      return t('piece')
-    case 'litre':
-      return t('litre')
-    case 'kg':
-      return t('kg')
-    case 'g':
-      return t('g')
+    case 'cash':
+      return t('cash')
+    case 'paid':
+      return t('paid')
+    case 'bank_transfer':
+      return t('bankTransfer')
   }
 }
 
@@ -75,11 +74,16 @@ const columns = [
   {
     accessorKey: 'productName',
     header: t('product'),
-  },
-  {
-    accessorKey: 'quantity',
-    header: t('quantity'),
-    // accessorFn: row => `${row.quantity} ${saleTypeShortTranslate(row.saleType)}`,
+    cell: ({ row }) =>
+      h('div', { class: 'w-full flex flex-col' }, [
+        row.original.products?.map((item, index) => {
+          const productName = item.name;
+          const packagingWords = item.packaging.split(' ');
+          return h('div', { key: index, class: 'flex items-center space-x-1' }, [
+            h('p', { class: 'text-base text-gray-900' }, productName + " - " + packagingWords),
+          ]);
+        }),
+      ]),
   },
   {
     accessorKey: 'price',
@@ -87,37 +91,46 @@ const columns = [
     accessorFn: row => `${useMoneyFormatter(row.price)}`,
   },
   {
-    accessorKey: 'createdAt',
-    header: t('createdAt'),
-  },
-  {
-    accessorKey: 'arrivalTime',
-    header: t('Arrival time'),
+    accessorKey: 'expectedTime',
+    header: t('arrivalTime'),
+    accessorFn: row => moment(row.expectedTime).format('DD/MM/YYYY'),
   },
   {
     accessorKey: 'agent',
     header: t('agent'),
+    accessorFn: row => `${row.agent.fullName} ${row.agent.phone}`,
   },
   {
-    accessorKey: 'status',
-    header: t('status'),
+    accessorKey: 'paymentType',
+    header: t('paymentType'),
+    accessorFn: row => paymentTypeTranslate(row.paymentType),
+  },
+  {
+    accessorKey: 'arrivalTime',
+    header: t('arrivalTime'),
+    accessorFn: row => row.arrivalTime ? moment(row.arrivalTime).format('DD/MM/YYYY H:mm') : '',
+  },
+  {
+    accessorKey: 'user',
+    header: t('user'),
+    accessorFn: row => `${row.user.firstname} ${row.user.lastname}`,
   },
   {
     accessorKey: 'actions',
     header: t('actions'),
     cell: ({ row }) => h('div', { class: 'flex items-center space-x-2' }, [
       h('button', {
-        onClick: () => {
-          openEditProductModal(row.original)
-        },
+        // onClick: () => {
+        //   openEditProductModal(row.original)
+        // },
       }, [
         h(EditIcon, { class: 'w-6 h-6 text-blue-600 hover:scale-105' }),
       ]),
       h('div', [navigationGuard('delete_product') ?
         h('button', {
-          onClick: () => {
-            openDeleteProductModal(row.original, searchFilter.value)
-          },
+          // onClick: () => {
+          //   openDeleteProductModal(row.original, searchFilter.value)
+          // },
         }, [
           h(TrashIcon, { class: 'w-6 h-6 text-red-600 hover:scale-105' }),
         ]) : h('span')]),

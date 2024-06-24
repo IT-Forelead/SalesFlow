@@ -313,5 +313,8 @@
   "standard": "Стандартный",
   "remainingProducts": "Дефицитные продукты",
   "arrivalTime": "Время прибытия",
-  "entirExpectedTime": "Введите ожидаемое время"
+  "entirExpectedTime": "Введите ожидаемое время",
+  "cash": "Наличные",
+  "paid": "Оплачено",
+  "bankTransfer": "Банковский перевод"
 }

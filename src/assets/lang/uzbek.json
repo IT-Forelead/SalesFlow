@@ -313,5 +313,8 @@
   "standard": "Standart",
   "remainingProducts": "Kam qolgan mahsulotlar",
   "arrivalTime": "Kelish vaqti",
-  "entirExpectedTime": "Kutilayotgan vaqtni kiriting"
+  "entirExpectedTime": "Kutilayotgan vaqtni kiriting",
+  "cash": "Naqd pul",
+  "paid": "To'langan",
+  "bankTransfer": "Bank o'tkazmasi"
 }

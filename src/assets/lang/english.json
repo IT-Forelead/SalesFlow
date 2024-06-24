@@ -312,5 +312,8 @@
   "standard": "Standard",
   "remainingProducts": "Remaining products",
   "arrivalTime": "Arrival time",
-  "entirExpectedTime": "Enter expected time"
+  "entirExpectedTime": "Enter expected time",
+  "cash": "Cash",
+  "paid": "Paid",
+  "bankTransfer": "Bank transfer"
 }

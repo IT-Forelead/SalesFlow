@@ -127,6 +127,17 @@ onMounted(() => {
               {{ $t('productsHistory') }}
             </div>
           </router-link>
+          <router-link v-if="navigationGuard('view_histories')" to="/upcoming-products" @click="selectPage()"
+            active-class="active"
+            class="relative h-10 flex items-center w-full hover:bg-blue-300/10 hover:text-blue-600 py-5 text-zinc-400 text-lg font-medium space-x-4 cursor-pointer transition-colors duration-300">
+            <div class="w-1.5 h-12 rounded-r-xl first-child-bg-color mr-2"></div>
+            <div class="flex items-center justify-center rounded-xl w-10 h-10 second-child-bg-color">
+              <PhShoppingCart class="w-6 h-6" />
+            </div>
+            <div>
+              {{ $t('upcomingProducts') }}
+            </div>
+          </router-link>
           <router-link to="/discounts" @click="selectPage()"
             active-class="active"
             class="relative h-10 flex items-center w-full hover:bg-blue-300/10 hover:text-blue-600 py-5 text-zinc-400 text-lg font-medium space-x-4 cursor-pointer transition-colors duration-300">
