@@ -54,6 +54,10 @@ const editProductHistory = () => {
     toast.warning(t('plsEnterPurchasePrice'))
   } else if (!submitData.quantity) {
     toast.warning(t('plsEnterQuantity'))
+  } else if (submitData.quantity < 0) {
+    toast.warning(t('quantityCantBeNegative'))
+  } else if (submitData.quantity < submitData.sold) {
+    toast.warning(t('quantityCantBeLess'))
   } else {
     isLoading.value = true
     ProductHistoryService.updateProductHistory({

@@ -317,5 +317,7 @@
   "enterExpectedTime": "Кутилаётган вақтни киритинг",
   "cash": "Нақд пул",
   "paid": "Тўланган",
-  "bankTransfer": "Банк ўтказмаси"
+  "bankTransfer": "Банк ўтказмаси",
+  "quantityCantBeNegative":"Миқдор салбий бўлиши мумкин эмас!",
+  "quantityCantBeLess":"Миқдор сотилганидан кам бўлиши мумкин эмас!"
 }
