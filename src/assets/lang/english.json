@@ -324,5 +324,7 @@
   "requested": "Requested",
   "ordered": "Ordered",
   "delivered": "Delivered",
-  "cancelled": "Cancelled"
+  "cancelled": "Cancelled",
+  "quantityCantBeNegative":"Quantity cannot be negative!",
+  "quantityCantBeLess":"Quantity can not be less than sold!"
 }

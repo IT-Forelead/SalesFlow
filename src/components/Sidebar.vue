@@ -22,6 +22,7 @@ import CaretDownIcon from '../assets/icons/CaretDownIcon.vue'
 import SelectOptionLanguage from './inputs/SelectOptionLanguage.vue'
 import PhUsersThree from '../assets/icons/UsersThreeIcon.vue'
 import OverlayPanel from 'primevue/overlaypanel'
+import XIcon from '../assets/icons/XIcon.vue'
 
 const { t } = useI18n()
 const router = useRouter()
@@ -35,13 +36,16 @@ const toggleWishToBuyProductModal = (event) => {
 }
 
 const selectPage = () => {
-  useSidebarStore().isOpenSidebar = false
+  useSidebarStore().isOpenSidebar = true
 }
 
 const closeSidebar = (event) => {
   if (event.target.closest('#sidebar') === null) {
     useSidebarStore().isOpenSidebar = false;
   }
+}
+const closeBar = () => {
+  useSidebarStore().isOpenSidebar = false;
 }
 
 const navigationGuard = (access) => {
@@ -69,18 +73,23 @@ onMounted(() => {
 })
 </script>
 <template>
-  <div class="relative z-40" v-if="useSidebarStore().toggleSidebar">
+  <div class="relative z-40" v-if="useSidebarStore().toggleSidebar && useSidebarStore().isOpenSidebar">
     <div class="fixed inset-0 z-40 transition-opacity duration-200 bg-slate-900 bg-opacity-30 lg:hidden lg:z-auto"
       :class="useSidebarStore().isOpenSidebar ? 'opacity-100' : 'opacity-0 pointer-events-none'" @click="closeSidebar">
     </div>
     <div id="sidebar" ref="sidebar"
       class="flex flex-col sm:block bg-slate-100 absolute z-40 left-0 top-0 lg:static border-r lg:left-auto lg:top-auto lg:translate-x-0 min-h-screen w-64 2xl:w-72 shrink-0 transition-all duration-200 ease-in-out"
       :class="useSidebarStore().isOpenSidebar ? 'translate-x-0' : '-translate-x-64'">
-      <div class="h-20 flex space-x-1 items-center justify-center">
-        <img src="/images/logo.svg" class="w-12 h-12" alt="#">
-        <div class="text-3xl font-extrabold">
-          <span class="text-[#0167f3]">Sales</span>
-          <span class="text-black">Flow</span>
+      <div class="h-20 flex justify-around">
+        <div class="flex space-x-1 items-center justify-center">
+          <img src="/images/logo.svg" class="w-12 h-12" alt="#">
+          <div class="text-3xl font-extrabold">
+            <span class="text-[#0167f3]">Sales</span>
+            <span class="text-black">Flow</span>
+          </div>
+        </div>
+        <div class="flex items-center justify-end">
+          <XIcon class="w-6 h-6 mt-1 hover:text-[#0167f3] cursor-pointer" @click="closeBar"/>
         </div>
       </div>
       <div class="space-y-8 py-4">

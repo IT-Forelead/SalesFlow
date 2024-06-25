@@ -328,5 +328,7 @@
   "requested": "Запрошено",
   "ordered": "Заказано",
   "delivered": "Доставлено",
-  "cancelled": "Отменено"
+  "cancelled": "Отменено",
+  "quantityCantBeNegative":"Количество не может быть отрицательным!",
+  "quantityCantBeLess":"Количество не может быть меньше проданных продуктов!"
 }

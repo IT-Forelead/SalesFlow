@@ -107,9 +107,14 @@ const columns = [
     accessorKey: 'name',
     header: t('product'),
     cell: ({ row }) => {
-      const productName = `${row.original.name} - (${row.original.packaging})`
-      const lendBadge = row.original.toLend ? h('span', { class: 'bg-red-600 mx-2 text-white rounded-lg px-2 py-1 text-sm' }, t('toLend')) : null
-      return h('div', {}, [productName, lendBadge])
+      const productName = `${row.original.name}`;
+      const packaging = `(${row.original.packaging})`;
+      const lendBadge = row.original.toLend ? h('span', { class: 'bg-red-600 mx-2 text-white rounded-lg px-2 py-1 text-sm' }, t('toLend')) : null;
+      return h('div', { style: { display: 'flex', flexDirection: 'column' } }, [
+        h('div', {}, productName),
+        h('div', {}, packaging),
+        lendBadge,
+      ]);
     },
   },
   {

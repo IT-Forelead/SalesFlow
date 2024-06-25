@@ -328,5 +328,7 @@
   "requested": "So'ralgan",
   "ordered": "Buyurtma qilingan",
   "delivered": "etkazib berildi",
-  "cancelled": "Bekor qilingan"
+  "cancelled": "Bekor qilingan",
+  "quantityCantBeNegative":"Miqdor salbiy bo'lishi mumkin emas!",
+  "quantityCantBeLess":"Miqdor sotilganidan kam bo'lishi mumkin emas!"
 }

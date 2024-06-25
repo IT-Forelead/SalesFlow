@@ -325,5 +325,7 @@
   "requested": "Сўралган",
   "ordered": "Буюртма қилинган",
   "delivered": "этказиб берилди",
-  "cancelled": "Бекор қилинган"
+  "cancelled": "Бекор қилинган",
+  "quantityCantBeNegative":"Миқдор салбий бўлиши мумкин эмас!",
+  "quantityCantBeLess":"Миқдор сотилганидан кам бўлиши мумкин эмас!"
 }
