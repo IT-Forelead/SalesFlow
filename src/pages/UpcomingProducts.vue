@@ -64,12 +64,39 @@ const paymentTypeTranslate = (type) => {
   }
 }
 
+const paymentStatusTranslate = (type) => {
+  switch (type) {
+    case 'paid':
+      return t('paid')
+    case 'unpaid':
+      return t('unpaid')
+  }
+}
+
+const upcomingProductStatusTranslate = (type) => {
+  switch (type) {
+    case 'requested':
+      return t('requested')
+    case 'ordered':
+      return t('ordered')
+    case 'delivered':
+      return t('delivered')
+    case 'cancelled':
+      return t('cancelled')
+  }
+}
+
 const columns = [
   {
     accessorKey: 'id',
     header: t('n'),
     enableSorting: false,
     cell: ({ row }) => `${parseInt(row.id, 10) + 1}`,
+  },
+  {
+    accessorKey: 'createdAt',
+    header: t('createdAt'),
+    accessorFn: row => moment(row.createdAt).format('DD/MM/YYYY H:mm'),
   },
   {
     accessorKey: 'productName',
@@ -91,24 +118,43 @@ const columns = [
     accessorFn: row => `${useMoneyFormatter(row.price)}`,
   },
   {
-    accessorKey: 'expectedTime',
-    header: t('arrivalTime'),
-    accessorFn: row => moment(row.expectedTime).format('DD/MM/YYYY'),
-  },
-  {
     accessorKey: 'agent',
     header: t('agent'),
     accessorFn: row => `${row.agent.fullName} ${row.agent.phone}`,
   },
   {
     accessorKey: 'paymentType',
-    header: t('paymentType'),
-    accessorFn: row => paymentTypeTranslate(row.paymentType),
+    header: t('payment'),
+    cell: ({ row }) =>
+      h('div', { class: 'space-y-1' }, [
+        h('div', { class: 'flex items-center space-x-1' }, [
+          h('div', { class: 'text-sm text-gray-500' }, t('paymentType') + ': '),
+          h('div', { class: 'text-base text-gray-900' }, paymentTypeTranslate(row.original.paymentType)),
+        ]),
+        h('div', { class: 'flex items-center space-x-1' }, [
+          h('div', { class: 'text-sm text-gray-500' }, t('paymentStatus') + ': '),
+          h('div', { class: 'text-base text-gray-900' }, paymentStatusTranslate(row.original.paymentStatus)),
+        ]),
+      ]),
   },
   {
-    accessorKey: 'arrivalTime',
-    header: t('arrivalTime'),
-    accessorFn: row => row.arrivalTime ? moment(row.arrivalTime).format('DD/MM/YYYY H:mm') : '',
+    header: t('date'),
+    cell: ({ row }) =>
+      h('div', { class: 'space-y-1' }, [
+        h('div', { class: 'flex items-center space-x-1' }, [
+          h('div', { class: 'text-sm text-gray-500' }, t('arrivalTime') + ': '),
+          h('div', { class: 'text-base text-gray-900' }, moment(row.expectedTime).format('DD/MM/YYYY')),
+        ]),
+        h('div', { class: 'flex items-center space-x-1' }, [
+          h('div', { class: 'text-sm text-gray-500' }, t('receivedAt') + ': '),
+          h('div', { class: 'text-base text-gray-900' }, row.arrivalTime ? moment(row.arrivalTime).format('DD/MM/YYYY H:mm') : ''),
+        ]),
+      ]),
+  },
+  {
+    accessorKey: 'status',
+    header: t('status'),
+    accessorFn: row => upcomingProductStatusTranslate(row.status),
   },
   {
     accessorKey: 'user',
@@ -126,14 +172,6 @@ const columns = [
       }, [
         h(EditIcon, { class: 'w-6 h-6 text-blue-600 hover:scale-105' }),
       ]),
-      h('div', [navigationGuard('delete_product') ?
-        h('button', {
-          // onClick: () => {
-          //   openDeleteProductModal(row.original, searchFilter.value)
-          // },
-        }, [
-          h(TrashIcon, { class: 'w-6 h-6 text-red-600 hover:scale-105' }),
-        ]) : h('span')]),
     ]),
     enableSorting: false,
   },

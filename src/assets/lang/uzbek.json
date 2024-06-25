@@ -320,5 +320,13 @@
   "enterExpectedTime": "Kutilayotgan vaqtni kiriting",
   "cash": "Naqd pul",
   "paid": "To'langan",
-  "bankTransfer": "Bank o'tkazmasi"
+  "unpaid": "To'lanmagan",
+  "bankTransfer": "Bank o'tkazmasi",
+  "date": "Sana",
+  "receivedAt": "Qabul qilingan",
+  "paymentStatus": "To'lov holati",
+  "requested": "So'ralgan",
+  "ordered": "Buyurtma qilingan",
+  "delivered": "etkazib berildi",
+  "cancelled": "Bekor qilingan"
 }

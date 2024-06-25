@@ -316,5 +316,13 @@
   "enterExpectedTime": "Enter expected time",
   "cash": "Cash",
   "paid": "Paid",
-  "bankTransfer": "Bank transfer"
+  "unpaid": "Unpaid",
+  "bankTransfer": "Bank transfer",
+  "date": "Date",
+  "receivedAt": "Received at",
+  "paymentStatus": "Payment status",
+  "requested": "Requested",
+  "ordered": "Ordered",
+  "delivered": "Delivered",
+  "cancelled": "Cancelled"
 }

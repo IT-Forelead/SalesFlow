@@ -317,5 +317,13 @@
   "enterExpectedTime": "Кутилаётган вақтни киритинг",
   "cash": "Нақд пул",
   "paid": "Тўланган",
-  "bankTransfer": "Банк ўтказмаси"
+  "unpaid": "Тўланмаган",
+  "bankTransfer": "Банк ўтказмаси",
+  "date": "Сана",
+  "receivedAt": "Қабул қилинган",
+  "paymentStatus": "Тўлов ҳолати",
+  "requested": "Сўралган",
+  "ordered": "Буюртма қилинган",
+  "delivered": "этказиб берилди",
+  "cancelled": "Бекор қилинган"
 }

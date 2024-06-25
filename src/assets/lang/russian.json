@@ -320,5 +320,13 @@
   "enterExpectedTime": "Введите ожидаемое время",
   "cash": "Наличные",
   "paid": "Оплачено",
-  "bankTransfer": "Банковский перевод"
+  "unpaid": "Неоплачиваемый",
+  "bankTransfer": "Банковский перевод",
+  "date": "Дата",
+  "receivedAt": "Получено в",
+  "paymentStatus": "Статус платежа",
+  "requested": "Запрошено",
+  "ordered": "Заказано",
+  "delivered": "Доставлено",
+  "cancelled": "Отменено"
 }
