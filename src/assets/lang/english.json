@@ -316,5 +316,7 @@
   "enterExpectedTime": "Enter expected time",
   "cash": "Cash",
   "paid": "Paid",
-  "bankTransfer": "Bank transfer"
+  "bankTransfer": "Bank transfer",
+  "quantityCantBeNegative":"Quantity cannot be negative!",
+  "quantityCantBeLess":"Quantity can not be less than sold!"
 }

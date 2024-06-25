@@ -320,5 +320,7 @@
   "enterExpectedTime": "Kutilayotgan vaqtni kiriting",
   "cash": "Naqd pul",
   "paid": "To'langan",
-  "bankTransfer": "Bank o'tkazmasi"
+  "bankTransfer": "Bank o'tkazmasi",
+  "quantityCantBeNegative":"Miqdor salbiy bo'lishi mumkin emas!",
+  "quantityCantBeLess":"Miqdor sotilganidan kam bo'lishi mumkin emas!"
 }
