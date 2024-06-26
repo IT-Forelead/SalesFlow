@@ -1,5 +1,5 @@
 <script setup>
-import { computed, h, onMounted, reactive, ref, watch } from 'vue'
+import { computed, h, onMounted, reactive, ref, watch, watchEffect } from 'vue'
 import SearchIcon from '../assets/icons/SearchIcon.vue'
 import Spinners270RingIcon from '../assets/icons/Spinners270RingIcon.vue'
 import HistoryTable from '../components/common/HistoryTable.vue'
@@ -36,6 +36,7 @@ const pageSize = 50
 const payload = ref({})
 const route = useRoute()
 const router = useRouter()
+const onSearchFocus = ref(null)
 
 const sortByDropdown = ref(null)
 const filterByDropdown = ref(null)
@@ -106,9 +107,14 @@ const columns = [
     accessorKey: 'name',
     header: t('product'),
     cell: ({ row }) => {
-      const productName = `${row.original.name} - (${row.original.packaging})`
-      const lendBadge = row.original.toLend ? h('span', { class: 'bg-red-600 mx-2 text-white rounded-lg px-2 py-1 text-sm' }, t('toLend')) : null
-      return h('div', {}, [productName, lendBadge])
+      const productName = `${row.original.name}`;
+      const packaging = `(${row.original.packaging})`;
+      const lendBadge = row.original.toLend ? h('span', { class: 'bg-red-600 mx-2 text-white rounded-lg px-2 py-1 text-sm' }, t('toLend')) : null;
+      return h('div', { style: { display: 'flex', flexDirection: 'column' } }, [
+        h('div', {}, productName),
+        h('div', {}, packaging),
+        lendBadge,
+      ]);
     },
   },
   {
@@ -380,6 +386,12 @@ watch(route, async (newRoute) => {
     await getProductHistories();
   }
 })
+
+watchEffect(() => {
+  if (onSearchFocus.value) {
+    onSearchFocus.value.focus()
+  }
+})
 </script>
 <template>
   <div class="p-4 md:p-8">
@@ -403,7 +415,7 @@ watch(route, async (newRoute) => {
         <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
           <SearchIcon class="w-5 h-5 text-slate-400" />
         </div>
-        <input type="search" v-model="searchFilter"   @keyup.enter="searchProducts"
+        <input type="search" v-model="searchFilter"   @keyup.enter="searchProducts" ref="onSearchFocus"
                class="bg-slate-100 border-none w-full text-slate-900 text-base md:text-lg rounded-full block pl-10 py-2 placeholder-slate-400"
                placeholder="Search everything...">
       </div>

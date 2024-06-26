@@ -311,5 +311,20 @@
   "agent": "Agent",
   "standard": "Standard",
   "remainingProducts": "Remaining products",
-  "remainDebt": "Remaining debt"
+  "remainDebt": "Remaining debt",
+  "arrivalTime": "Arrival time",
+  "enterExpectedTime": "Enter expected time",
+  "cash": "Cash",
+  "paid": "Paid",
+  "unpaid": "Unpaid",
+  "bankTransfer": "Bank transfer",
+  "date": "Date",
+  "receivedAt": "Received at",
+  "paymentStatus": "Payment status",
+  "requested": "Requested",
+  "ordered": "Ordered",
+  "delivered": "Delivered",
+  "cancelled": "Cancelled",
+  "quantityCantBeNegative":"Quantity cannot be negative!",
+  "quantityCantBeLess":"Quantity can not be less than sold!"
 }

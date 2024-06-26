@@ -1,13 +1,13 @@
 <script setup>
-import { computed, h, onMounted, ref, watch, watchEffect } from 'vue'
+import { computed, h, onMounted, ref, watch } from 'vue'
 import SearchIcon from '../assets/icons/SearchIcon.vue'
 import Spinners270RingIcon from '../assets/icons/Spinners270RingIcon.vue'
 import ProductsTable from '../components/common/ProductsTable.vue'
-import ProductService from '../services/product.service'
+import UpcomingProductService from '../services/upcomingProduct.service'
 import EditIcon from '../assets/icons/EditIcon.vue'
 import TrashIcon from '../assets/icons/TrashIcon.vue'
 import { useModalStore } from '../store/modal.store'
-import { useProductStore } from '../store/product.store'
+import { useUpcomingProductStore } from '../store/upcomingProduct.store'
 import useMoneyFormatter from '../mixins/currencyFormatter'
 import CaretRightIcon from '../assets/icons/CaretRightIcon.vue'
 import CaretLeftIcon from '../assets/icons/CaretLeftIcon.vue'
@@ -17,29 +17,27 @@ import { useI18n } from 'vue-i18n'
 import { useAuthStore } from '../store/auth.store.js'
 import decodeJwt, { parseJwt } from '../mixins/utils.js'
 import { useRoute, useRouter } from 'vue-router'
+import moment from 'moment'
 
 const { t } = useI18n()
-const route = useRoute()
-const router = useRouter()
-const productStore = useProductStore()
-
 const searchFilter = ref('')
 const isLoading = ref(false)
 const renderKey = ref(0)
+const upcomingProductStore = useUpcomingProductStore()
 const payload = ref({})
 const globalSearchFromTable = ref('')
-const onSearchFocus = ref(null)
-
 const products = computed(() => {
   renderKey.value += 1
-  return productStore.products
+  return upcomingProductStore.upcomingProducts
 })
+const route = useRoute();
+const router = useRouter();
 
 const total = computed(() => {
-  return productStore.total
+  return upcomingProductStore.total
 })
 const currentPage = computed(() => {
-  return productStore.currentPage
+  return upcomingProductStore.currentPage
 })
 
 const saleTypeTranslate = (type) => {
@@ -55,16 +53,36 @@ const saleTypeTranslate = (type) => {
   }
 }
 
-const saleTypeShortTranslate = (type) => {
+const paymentTypeTranslate = (type) => {
   switch (type) {
-    case 'amount':
-      return t('piece')
-    case 'litre':
-      return t('litre')
-    case 'kg':
-      return t('kg')
-    case 'g':
-      return t('g')
+    case 'cash':
+      return t('cash')
+    case 'paid':
+      return t('paid')
+    case 'bank_transfer':
+      return t('bankTransfer')
+  }
+}
+
+const paymentStatusTranslate = (type) => {
+  switch (type) {
+    case 'paid':
+      return t('paid')
+    case 'unpaid':
+      return t('unpaid')
+  }
+}
+
+const upcomingProductStatusTranslate = (type) => {
+  switch (type) {
+    case 'requested':
+      return t('requested')
+    case 'ordered':
+      return t('ordered')
+    case 'delivered':
+      return t('delivered')
+    case 'cancelled':
+      return t('cancelled')
   }
 }
 
@@ -76,85 +94,105 @@ const columns = [
     cell: ({ row }) => `${parseInt(row.id, 10) + 1}`,
   },
   {
-    accessorKey: 'asset',
-    header: t('image'),
+    accessorKey: 'createdAt',
+    header: t('createdAt'),
+    accessorFn: row => moment(row.createdAt).format('DD/MM/YYYY H:mm'),
+  },
+  {
+    accessorKey: 'productName',
+    header: t('product'),
     cell: ({ row }) =>
-      h('div', { class: 'flex items-center' }, [row.original.asset ?
-        h('img', { src: `${row.original.asset.url}`, class: 'w-12 h-auto rounded', alt: '#' }) : h('span')]),
-  },
-  {
-    accessorKey: 'name',
-    header: t('name'),
-  },
-  {
-    accessorKey: 'packaging',
-    header: t('package'),
-  },
-  {
-    accessorKey: 'barcode',
-    header: t('barcode'),
-  },
-  {
-    accessorKey: 'quantity',
-    header: t('quantity'),
-    accessorFn: row => `${row.quantity} ${saleTypeShortTranslate(row.saleType)}`,
-  },
-  {
-    accessorKey: 'saleType',
-    header: t('typeOfSale'),
-    accessorFn: row => `${saleTypeTranslate(row.saleType)}`,
+      h('div', { class: 'w-full flex flex-col' }, [
+        row.original.products?.map((item, index) => {
+          const productName = item.name;
+          const packagingWords = item.packaging.split(' ');
+          return h('div', { key: index, class: 'flex items-center space-x-1' }, [
+            h('p', { class: 'text-base text-gray-900' }, productName + " - " + packagingWords),
+          ]);
+        }),
+      ]),
   },
   {
     accessorKey: 'price',
-    accessorFn: row => `${useMoneyFormatter(row.price)}`,
     header: t('price'),
+    accessorFn: row => `${useMoneyFormatter(row.price)}`,
+  },
+  {
+    accessorKey: 'agent',
+    header: t('agent'),
+    accessorFn: row => `${row.agent.fullName} ${row.agent.phone}`,
+  },
+  {
+    accessorKey: 'paymentType',
+    header: t('payment'),
+    cell: ({ row }) =>
+      h('div', { class: 'space-y-1' }, [
+        h('div', { class: 'flex items-center space-x-1' }, [
+          h('div', { class: 'text-sm text-gray-500' }, t('paymentType') + ': '),
+          h('div', { class: 'text-base text-gray-900' }, paymentTypeTranslate(row.original.paymentType)),
+        ]),
+        h('div', { class: 'flex items-center space-x-1' }, [
+          h('div', { class: 'text-sm text-gray-500' }, t('paymentStatus') + ': '),
+          h('div', { class: 'text-base text-gray-900' }, paymentStatusTranslate(row.original.paymentStatus)),
+        ]),
+      ]),
+  },
+  {
+    header: t('date'),
+    cell: ({ row }) =>
+      h('div', { class: 'space-y-1' }, [
+        h('div', { class: 'flex items-center space-x-1' }, [
+          h('div', { class: 'text-sm text-gray-500' }, t('arrivalTime') + ': '),
+          h('div', { class: 'text-base text-gray-900' }, moment(row.expectedTime).format('DD/MM/YYYY')),
+        ]),
+        h('div', { class: 'flex items-center space-x-1' }, [
+          h('div', { class: 'text-sm text-gray-500' }, t('receivedAt') + ': '),
+          h('div', { class: 'text-base text-gray-900' }, row.arrivalTime ? moment(row.arrivalTime).format('DD/MM/YYYY H:mm') : ''),
+        ]),
+      ]),
+  },
+  {
+    accessorKey: 'status',
+    header: t('status'),
+    accessorFn: row => upcomingProductStatusTranslate(row.status),
+  },
+  {
+    accessorKey: 'user',
+    header: t('user'),
+    accessorFn: row => `${row.user.firstname} ${row.user.lastname}`,
   },
   {
     accessorKey: 'actions',
     header: t('actions'),
     cell: ({ row }) => h('div', { class: 'flex items-center space-x-2' }, [
       h('button', {
-        onClick: () => {
-          openEditProductModal(row.original)
-        },
+        // onClick: () => {
+        //   openEditProductModal(row.original)
+        // },
       }, [
         h(EditIcon, { class: 'w-6 h-6 text-blue-600 hover:scale-105' }),
       ]),
-      h('div', [navigationGuard('delete_product') ?
-        h('button', {
-          onClick: () => {
-            openDeleteProductModal(row.original, searchFilter.value)
-          },
-        }, [
-          h(TrashIcon, { class: 'w-6 h-6 text-red-600 hover:scale-105' }),
-        ]) : h('span')]),
     ]),
     enableSorting: false,
   },
 ]
 
-const openEditProductModal = (data) => {
-  useModalStore().openEditProductModal()
-  useProductStore().setSelectedProduct(data)
-}
-
-const openDeleteProductModal = (data, searchFilter) => {
-  useModalStore().openDeleteProductModal()
-  useProductStore().setSelectedProduct(data)
-  useProductStore().setSearchFilter(searchFilter)
-}
+// const openEditProductModal = (data) => {
+//   useModalStore().openEditProductModal()
+//   useProductStore().setSelectedProduct(data)
+// }
 
 const page = ref(1)
 const pageSize = 50
 
-const getProducts = (filters = {}) => {
+const getUpcomingProducts = (filters = {}) => {
   isLoading.value = true
-  ProductService.getProducts({ limit: pageSize, page: page.value, ...filters })
+  UpcomingProductService.getUpcomingProducts({ limit: pageSize, page: page.value, ...filters })
     .then((res) => {
-      useProductStore().clearStore()
-      useProductStore().total = res.total
-      useProductStore().currentPage = page.value
-      useProductStore().setProducts(res.data)
+      useUpcomingProductStore().clearStore()
+      useUpcomingProductStore().setTotal(res.total)
+      useUpcomingProductStore().setCurrentPage(page.value)
+      useUpcomingProductStore().setUpcomingProducts(res.data)
     }).finally(() => {
       isLoading.value = false
     })
@@ -172,24 +210,15 @@ const debounce = (fn, delay) => {
   }
 }
 
-// const searchProducts = debounce(() => {
-//   if (searchFilter.value.trim() === '') {
-//     getProducts({ limit: pageSize, page: currentPage.value });
-//   } else {
-//     getProducts({ name: searchFilter.value });
-//   }
-// }, 300);
-
 const searchProducts = debounce(() => {
   const query = searchFilter.value.trim() ? { search: searchFilter.value } : {};
   router.push({ query });
   if (searchFilter.value.trim() === '') {
-    getProducts({ limit: pageSize, page: currentPage.value });
+    getUpcomingProducts({ limit: pageSize, page: currentPage.value });
   } else {
-    getProducts({ name: searchFilter.value });
+    getUpcomingProducts({ name: searchFilter.value });
   }
 }, 300);
-
 
 const totalPages = computed(() => Math.ceil(total.value / pageSize))
 const displayedPageNumbers = computed(() => {
@@ -217,10 +246,10 @@ const nextPage = () => {
   goToPage(page.value + 1)
 }
 
-getProducts()
+getUpcomingProducts()
 
 watch(page, () => {
-  getProducts()
+  getUpcomingProducts()
 })
 
 watch(searchFilter, searchProducts)
@@ -242,36 +271,30 @@ watch(route, (newRoute) => {
     searchProducts();
   } else {
     searchFilter.value = '';
-    getProducts();
+    getUpcomingProducts();
   }
-})
-
-watchEffect(() => {
-  if (onSearchFocus.value) {
-    onSearchFocus.value.focus()
-  }
-})
+});
 </script>
 
 <template>
   <div class="p-4 md:p-8">
     <div class="text-slate-900 text-2xl md:text-3xl font-semibold mb-6">
-      {{ $t('products') }}
+      {{ $t('upcomingProducts') }}
     </div>
     <div class="flex flex-col md:flex-row items-center justify-between">
       <div class="relative w-full md:w-auto my-2 md:mb-0 order-2 md:order-1">
         <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
           <SearchIcon class="w-5 h-5 text-slate-400" />
         </div>
-        <input type="search" v-model="searchFilter" ref="onSearchFocus"
+        <input type="search" v-model="searchFilter"
           class="bg-slate-100 border-none w-full text-slate-900 text-base md:text-lg rounded-full block pl-10 py-2 placeholder-slate-400"
           placeholder="Search everything...">
       </div>
       <div class="w-full md:w-auto order-1 md:order-2 flex space-x-2">
-        <!--        <button v-if="navigationGuard('create_product')" @click="useModalStore().openCreateProductModal()"-->
-        <!--          class="w-full md:w-auto py-2 px-4 rounded-full text-white text-lg font-medium bg-blue-500 cursor-pointer hover:bg-blue-600">-->
-        <!--          {{ $t('addProduct') }}-->
-        <!--        </button>-->
+        <button v-if="navigationGuard('create_product')" @click="useModalStore().openCreateUpcomingProductModal()"
+          class="w-full md:w-auto py-2 px-4 rounded-full text-white text-lg font-medium bg-blue-500 cursor-pointer hover:bg-blue-600">
+          {{ $t('addProduct') }}
+        </button>
       </div>
     </div>
 
