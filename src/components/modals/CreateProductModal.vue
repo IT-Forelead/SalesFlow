@@ -37,29 +37,12 @@ const productHistoryStore = useProductHistoryStore()
 const dropdownStore = useDropdownStore()
 const isCreateAgentPopup = ref(false)
 
-const currentPage1 = computed(() => {
-  return productStore.currentPage
-})
-
-const currentPage2 = computed(() => {
-  return productHistoryStore.currentPage
-})
-
-const decodedBarcode = computed(() => {
-  return barcodeStore.decodedBarcode
-})
-
-const agents = computed(() => {
-  return agentStore.agents
-})
-
-const selectedAgent = computed(() => {
-  return dropdownStore.selectOptionAgent
-})
-
-const selectedProductHistory = computed(() => {
-  return productHistoryStore.selectedProductHistory
-})
+const currentPage1 = computed(() => productStore.currentPage)
+const currentPage2 = computed(() => productHistoryStore.currentPage)
+const decodedBarcode = computed(() => barcodeStore.decodedBarcode)
+const agents = computed(() => agentStore.agents)
+const selectedAgent = computed(() => dropdownStore.selectOptionAgent)
+const selectedProductHistory = computed(() => productHistoryStore.selectedProductHistory)
 
 const pageSize = 50
 const percentage = ref(0)
@@ -427,6 +410,7 @@ const calculateExpirationDate = (months) => {
         </div>
       </div>
         <div class="space-y-2 md:space-y-4">
+          <div class="overflow-hidden md:overflow-visible overflow-y-auto max-h-[490px]">
           <div class="flex flex-col md:flex-row md:items-center space-y-2 md:space-y-0 md:space-x-4">
             <div class="flex-1">
               <label for="name" class="text-base md:text-lg font-medium">
@@ -526,7 +510,7 @@ const calculateExpirationDate = (months) => {
                      class="bg-slate-100 border-none text-slate-900 rounded-lg w-full h-11 placeholder-slate-400 placeholder:text-sm md:placeholder:text-lg">
             </div>
           </div>
-          <div class="space-x-3.5">
+          <div class="space-x-3.5 space-y-2 md:text-left text-center">
             <button
               v-for="months in [1, 3, 6, 12, 24]"
               @click="calculateExpirationDate(months)"
@@ -602,6 +586,7 @@ const calculateExpirationDate = (months) => {
                 <label for="toLend" class="py-2 text-base font-medium">{{ $t('toLend') }}</label>
               </div>
             </div>
+          </div>
           </div>
         </div>
     </template>
