@@ -10,6 +10,7 @@ export const useModalStore = defineStore('modal', {
     isOpenEditProductModal: false,
     isOpenDeleteProductModal: false,
     isOpenCreateUpcomingProductModal: false,
+    isOpenEditUpcomingProductStatusModal: false,
     isOpenCreateProductBarcodeModal: false,
     isOpenCreateUserModal: false,
     isOpenCreateAgentModal: false,
@@ -111,6 +112,12 @@ export const useModalStore = defineStore('modal', {
     },
     closeCreateUpcomingProductModal() {
       this.isOpenCreateUpcomingProductModal = false
+    },
+    openEditUpcomingProductStatusModal() {
+      this.isOpenEditUpcomingProductStatusModal = true
+    },
+    closeEditUpcomingProductStatusModal() {
+      this.isOpenEditUpcomingProductStatusModal = false
     },
     openOrderInfoModal() {
       this.isOpenOrderInfoModal = true

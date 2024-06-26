@@ -326,5 +326,16 @@
   "delivered": "Delivered",
   "cancelled": "Cancelled",
   "quantityCantBeNegative":"Quantity cannot be negative!",
-  "quantityCantBeLess":"Quantity can not be less than sold!"
+  "quantityCantBeLess":"Quantity can not be less than sold!",
+  "editUpcomingProduct":"Edit upcoming product",
+  "plsSelectPaymentStatus":"Please select payment status",
+  "plsSelectStatus":"Please select status",
+  "selectedUpcomingProductIsNotAvailable":"Selected upcoming product is not available",
+  "upcomingProductCreatedSuccessfully":"Upcoming product created successfully!",
+  "errorWhileCreatingUpcomingProduct": "Error while creating upcoming product!",
+  "upcomingProductEditedSuccessfully":"Upcoming product edited successfully!",
+  "errorWhileEditingUpcomingProduct": "Error while editing upcoming product!",
+  "selectStatus": "Select status",
+  "plsSelectProducts": "Please select products!",
+  "plsEnterPrice": "Please enter price"
 }

@@ -17,6 +17,7 @@ import DeleteProductHistoryModal from './modals/DeleteProductHistoryModal.vue'
 import DeleteProductModal from './modals/DeleteProductModal.vue'
 import EditProductHistoryModal from './modals/EditProductHistoryModal.vue'
 import CreateUpcomingProductModal from './modals/CreateUpcomingProductModal.vue'
+import EditUpcomingProductStatusModal from './modals/EditUpcomingProductStatusModal.vue'
 import EditProductModal from './modals/EditProductModal.vue'
 import DeleteUserModal from './modals/DeleteUserModal.vue'
 import EditProductBarcodeModal from './modals/EditProductBarcodeModal.vue'
@@ -121,6 +122,7 @@ onUnmounted(() => {
   <CreateHolidayDiscountModal/>
   <DiscountInfoModal/>
   <DeleteHolidayDiscountModal/>
+  <EditUpcomingProductStatusModal />
 </template>
 
 <style scoped></style>

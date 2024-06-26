@@ -104,13 +104,13 @@ const closeModal = () => {
 
 const createUpcomingProduct = () => {
   if (!submitData.productIds.length == 0) {
-    toast.warning("Iltimos Mahsulotlarni tanlang!")
+    toast.warning(t('plsSelectProducts'))
   } else if (!submitData.paymentType) {
-    toast.warning("To'lov turini tanlang")
+    toast.warning(t('plsSelectPaymentStatus'))
   } else if (!submitData.expectedTime) {
     toast.warning("expectedTime ni tanlang")
   } else if (submitData.price <= 0) {
-    toast.warning(t('plsEnterProductPrice'))
+    toast.warning(t('plsEnterPrice'))
   } else {
     isLoading.value = true
     UpcomingProductService.createUpcomingProduct({
@@ -120,7 +120,7 @@ const createUpcomingProduct = () => {
       agentId: selectedAgent.value?.id,
       paymentType: submitData.paymentType,
     }).then(() => {
-      toast.success(t('productAddedSuccessfully'))
+      toast.success(t('upcomingProductCreatedSuccessfully'))
       UpcomingProductService.getUpcomingProducts({ limit: pageSize, page: currentPage2.value })
         .then((res) => {
           useUpcomingProductStore().clearStore()
@@ -130,7 +130,7 @@ const createUpcomingProduct = () => {
       closeModal()
       isLoading.value = false
     }).catch(() => {
-      toast.error(t('errorWhileCreatingProduct'))
+      toast.error(t('errorWhileCreatingUpcomingProduct'))
       setTimeout(() => {
         isLoading.value = false
       }, 3000)
@@ -156,13 +156,6 @@ const getAgents = () => {
 watch(() => useModalStore().isOpenCreateUpcomingProductModal, data => {
   if (data) getAgents()
 }, { deep: true })
-
-watch([() => submitData.boxPrice, () => submitData.quantity], ([newBoxPrice, newQuantity]) => {
-  if (newBoxPrice > 0 && newQuantity > 0) {
-    const sum = Math.round(newBoxPrice / newQuantity)
-    submitData.purchasePrice = sum
-  }
-})
 
 const isOpenAgentCreatePopup = ref()
 const toggle = (event) => {
