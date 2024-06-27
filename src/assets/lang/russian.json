@@ -330,5 +330,16 @@
   "delivered": "Доставлено",
   "cancelled": "Отменено",
   "quantityCantBeNegative":"Количество не может быть отрицательным!",
-  "quantityCantBeLess":"Количество не может быть меньше проданных продуктов!"
+  "quantityCantBeLess":"Количество не может быть меньше проданных продуктов!",
+  "editUpcomingProduct":"Изменить предстоящий продукт",
+  "plsSelectPaymentStatus":"Пожалуйста, выберите статус платежа",
+  "plsSelectStatus":"Пожалуйста, выберите статус",
+  "selectedUpcomingProductIsNotAvailable":"Выбранный предстоящий продукт недоступен",
+  "upcomingProductCreatedSuccessful":"Предстоящий продукт успешно создан!",
+  "errorWhileCreatingUpcomingProduct": "Ошибка при создании будущего продукта!",
+  "upcomingProductEditedSuccessful":"Предстоящий продукт успешно отредактирован!",
+  "errorWhileEditingUpcomingProduct": "Ошибка при редактировании будущего продукта!",
+  "selectStatus": "Выбрать статус",
+  "plsSelectProducts": "Пожалуйста, выберите продукты!",
+  "plsEnterPrice": "Пожалуйста, введите цену"
 }

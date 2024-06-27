@@ -327,8 +327,19 @@
   "paymentStatus": "To'lov holati",
   "requested": "So'ralgan",
   "ordered": "Buyurtma qilingan",
-  "delivered": "etkazib berildi",
+  "delivered": "Yetkazib berildi",
   "cancelled": "Bekor qilingan",
   "quantityCantBeNegative":"Miqdor salbiy bo'lishi mumkin emas!",
-  "quantityCantBeLess":"Miqdor sotilganidan kam bo'lishi mumkin emas!"
+  "quantityCantBeLess":"Miqdor sotilganidan kam bo'lishi mumkin emas!",
+  "editUpcomingProduct":"Kutilyotgan mahsulotni tahrirlash",
+  "plsSelectPaymentStatus":"Iltimos, to'lov holatini tanlang",
+  "plsSelectStatus":"Iltimos, holatni tanlang",
+  "selectedUpcomingProductIsNotAvailable":"Tanlangan kutilyotgan mahsulot mavjud emas",
+  "upcomingProductCreatedSuccessfully":"Kutilyotgan mahsulot muvaffaqiyatli yaratildi!",
+  "errorWhileCreatingUpcomingProduct": "Kutilyotgan mahsulot yaratishda xatolik yuz berdi!",
+  "upcomingProductEditedSuccessfully":"Kutilyotgan mahsulot muvaffaqiyatli tahrir qilindi!",
+  "errorWhileEditingUpcomingProduct": "Kutilyotgan kelgan mahsulotni tahrirlashda xatolik yuz berdi!",
+  "selectStatus": "Holatni tanlash",
+  "plsSelectProducts": "Iltimos, mahsulotlarni tanlang!",
+  "plsEnterPrice": "Iltimos, narxni kiriting"
 }

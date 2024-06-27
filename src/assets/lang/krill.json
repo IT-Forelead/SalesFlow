@@ -324,8 +324,19 @@
   "paymentStatus": "Тўлов ҳолати",
   "requested": "Сўралган",
   "ordered": "Буюртма қилинган",
-  "delivered": "этказиб берилди",
+  "delivered": "Етказиб берилди",
   "cancelled": "Бекор қилинган",
   "quantityCantBeNegative":"Миқдор салбий бўлиши мумкин эмас!",
-  "quantityCantBeLess":"Миқдор сотилганидан кам бўлиши мумкин эмас!"
+  "quantityCantBeLess":"Миқдор сотилганидан кам бўлиши мумкин эмас!",
+  "editUpcomingProduct":"Кутилётган маҳсулотни таҳрирлаш",
+  "plsSelectPaymentStatus":"Илтимос, тўлов ҳолатини танланг",
+  "plsSelectStatus":"Илтимос, ҳолатни танланг",
+  "selectedUpcomingProductIsNotAvailable":"Танланган кутилётган маҳсулот мавжуд эмас",
+  "upcomingProductCreatedSuccessfully":"Кутилётган маҳсулот муваффақиятли яратилди!",
+  "errorWhileCreatingUpcomingProduct": "Кутилётган маҳсулот яратишда хатолик юз берди!",
+  "upcomingProductEditedSuccessfully":"Кутилётган маҳсулот муваффақиятли таҳрир қилинди!",
+  "errorWhileEditingUpcomingProduct": "Кутилётган келган маҳсулотни таҳрирлашда хатолик юз берди!",
+  "selectStatus": "Ҳолатни танлаш",
+  "plsSelectProducts": "Илтимос, маҳсулотларни танланг!",
+  "plsEnterPrice": "Илтимос, нархни киритинг"
 }
