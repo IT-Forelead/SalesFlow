@@ -78,7 +78,7 @@ onMounted(() => {
       :class="useSidebarStore().isOpenSidebar ? 'opacity-100' : 'opacity-0 pointer-events-none'" @click="closeSidebar">
     </div>
     <div id="sidebar" ref="sidebar"
-      class="flex flex-col sm:block bg-slate-100 absolute z-40 left-0 top-0 lg:static border-r lg:left-auto lg:top-auto lg:translate-x-0 min-h-screen w-64 2xl:w-72 shrink-0 transition-all duration-200 ease-in-out"
+      class="flex flex-col sm:block bg-slate-100 absolute z-40 left-0 top-0 lg:static border-r lg:left-auto lg:top-auto lg:translate-x-0 min-h-screen w-72 md:w-64 2xl:w-72 shrink-0 transition-all duration-200 ease-in-out"
       :class="useSidebarStore().isOpenSidebar ? 'translate-x-0' : '-translate-x-64'">
       <div class="h-20 flex justify-around">
         <div class="flex space-x-1 items-center justify-center">
@@ -94,7 +94,7 @@ onMounted(() => {
       </div>
       <div class="space-y-8 py-4">
         <ProfileDropDown />
-        <div class="relative space-y-1">
+        <div class="relative space-y-1 overflow-hidden md:overflow-visible overflow-y-auto max-h-[490px]">
           <router-link v-if="navigationGuard('dashboard')" to="/dashboard" @click="selectPage()" active-class="active"
             class="relative h-10 flex items-center w-full hover:bg-blue-300/10 hover:text-blue-600 py-5 text-zinc-400 text-lg font-medium space-x-4 cursor-pointer transition-colors duration-300">
             <div class="w-1.5 h-12 rounded-r-xl first-child-bg-color mr-2"></div>

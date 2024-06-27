@@ -37,29 +37,12 @@ const productHistoryStore = useProductHistoryStore()
 const dropdownStore = useDropdownStore()
 const isCreateAgentPopup = ref(false)
 
-const currentPage1 = computed(() => {
-  return productStore.currentPage
-})
-
-const currentPage2 = computed(() => {
-  return productHistoryStore.currentPage
-})
-
-const decodedBarcode = computed(() => {
-  return barcodeStore.decodedBarcode
-})
-
-const agents = computed(() => {
-  return agentStore.agents
-})
-
-const selectedAgent = computed(() => {
-  return dropdownStore.selectOptionAgent
-})
-
-const selectedProductHistory = computed(() => {
-  return productHistoryStore.selectedProductHistory
-})
+const currentPage1 = computed(() => productStore.currentPage)
+const currentPage2 = computed(() => productHistoryStore.currentPage)
+const decodedBarcode = computed(() => barcodeStore.decodedBarcode)
+const agents = computed(() => agentStore.agents)
+const selectedAgent = computed(() => dropdownStore.selectOptionAgent)
+const selectedProductHistory = computed(() => productHistoryStore.selectedProductHistory)
 
 const pageSize = 50
 const percentage = ref(0)
@@ -88,7 +71,7 @@ const submitData = reactive({
   quantity: 0,
   purchasePrice: 0,
   boxPrice: 0,
-  productionDate: moment().subtract(30, 'days').format('YYYY-MM-DD'),
+  productionDate: moment().format('YYYY-MM-DD'),
   expirationDate: '',
 })
 
@@ -101,7 +84,7 @@ const clearSubmitData = () => {
   submitData.price = 0
   submitData.purchasePrice = 0
   submitData.boxPrice = 0
-  submitData.productionDate = ''
+  submitData.productionDate = moment().format('YYYY-MM-DD')
   submitData.expirationDate = ''
   submitData.toLend = false
   submitData.quantity = 0
@@ -226,6 +209,11 @@ watch(
   },
   { deep: true },
 )
+watchEffect(()=>{
+  if (useModalStore().isOpenCreateProductModal) {
+  submitData.productionDate = moment().format('YYYY-MM-DD')
+}
+})
 
 watch(
   () => decodedBarcode.value,
@@ -427,6 +415,7 @@ const calculateExpirationDate = (months) => {
         </div>
       </div>
         <div class="space-y-2 md:space-y-4">
+          <div class="overflow-hidden md:overflow-visible overflow-y-auto max-h-[490px]">
           <div class="flex flex-col md:flex-row md:items-center space-y-2 md:space-y-0 md:space-x-4">
             <div class="flex-1">
               <label for="name" class="text-base md:text-lg font-medium">
@@ -526,9 +515,9 @@ const calculateExpirationDate = (months) => {
                      class="bg-slate-100 border-none text-slate-900 rounded-lg w-full h-11 placeholder-slate-400 placeholder:text-sm md:placeholder:text-lg">
             </div>
           </div>
-          <div class="space-x-3.5">
+          <div class="space-x-3.5 space-y-2 md:text-left text-center">
             <button
-              v-for="months in [1, 3, 6, 12, 24]"
+              v-for="months in [1, 3, 6, 9, 12, 24]"
               @click="calculateExpirationDate(months)"
               type="button"
               class="text-slate-600 bg-white hover:bg-slate-100 focus:ring-4 focus:outline-none focus:ring-slate-300 rounded-xl border border-slate-200 text-sm font-medium px-4 py-2.5 hover:text-slate-900 lowercase"
@@ -602,6 +591,7 @@ const calculateExpirationDate = (months) => {
                 <label for="toLend" class="py-2 text-base font-medium">{{ $t('toLend') }}</label>
               </div>
             </div>
+          </div>
           </div>
         </div>
     </template>

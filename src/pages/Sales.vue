@@ -983,6 +983,18 @@ const removeLastDigit = () => {
     selectP.value.amount = 1
   }
 }
+
+watch(
+  () => showDebtForm.value,
+  () => {
+    if (showDebtForm.value) {
+      customerForm.remained = submitData.paymentReceived 
+    } else {
+      customerForm.remained = ''
+    }
+  },
+  { deep: true },
+)
 </script>
 
 <template>

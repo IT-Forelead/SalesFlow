@@ -5,7 +5,6 @@ import Spinners270RingIcon from '../assets/icons/Spinners270RingIcon.vue'
 import ProductsTable from '../components/common/ProductsTable.vue'
 import UpcomingProductService from '../services/upcomingProduct.service'
 import EditIcon from '../assets/icons/EditIcon.vue'
-import TrashIcon from '../assets/icons/TrashIcon.vue'
 import { useModalStore } from '../store/modal.store'
 import { useUpcomingProductStore } from '../store/upcomingProduct.store'
 import useMoneyFormatter from '../mixins/currencyFormatter'
@@ -166,9 +165,9 @@ const columns = [
     header: t('actions'),
     cell: ({ row }) => h('div', { class: 'flex items-center space-x-2' }, [
       h('button', {
-        // onClick: () => {
-        //   openEditProductModal(row.original)
-        // },
+        onClick: () => {
+          openEditUpcomingProductStatusModal(row.original)
+        },
       }, [
         h(EditIcon, { class: 'w-6 h-6 text-blue-600 hover:scale-105' }),
       ]),
@@ -177,10 +176,10 @@ const columns = [
   },
 ]
 
-// const openEditProductModal = (data) => {
-//   useModalStore().openEditProductModal()
-//   useProductStore().setSelectedProduct(data)
-// }
+const openEditUpcomingProductStatusModal = (data) => {
+  useModalStore().openEditUpcomingProductStatusModal()
+  useUpcomingProductStore().setSelectedUpcomingProduct(data)
+}
 
 const page = ref(1)
 const pageSize = 50
