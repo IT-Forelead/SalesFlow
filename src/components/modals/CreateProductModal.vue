@@ -71,7 +71,7 @@ const submitData = reactive({
   quantity: 0,
   purchasePrice: 0,
   boxPrice: 0,
-  productionDate: moment().subtract(30, 'days').format('YYYY-MM-DD'),
+  productionDate: moment().format('YYYY-MM-DD'),
   expirationDate: '',
 })
 
@@ -84,7 +84,7 @@ const clearSubmitData = () => {
   submitData.price = 0
   submitData.purchasePrice = 0
   submitData.boxPrice = 0
-  submitData.productionDate = ''
+  submitData.productionDate = moment().format('YYYY-MM-DD')
   submitData.expirationDate = ''
   submitData.toLend = false
   submitData.quantity = 0
@@ -209,6 +209,11 @@ watch(
   },
   { deep: true },
 )
+watchEffect(()=>{
+  if (useModalStore().isOpenCreateProductModal) {
+  submitData.productionDate = moment().format('YYYY-MM-DD')
+}
+})
 
 watch(
   () => decodedBarcode.value,
