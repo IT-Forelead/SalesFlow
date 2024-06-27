@@ -20,6 +20,10 @@ const selectedUpcomingProduct = computed(() => {
 const pageSize = 50
 const isLoading = ref(false)
 
+const currentPage = computed(() => {
+  return upcomingProductStore.currentPage
+})
+
 const submitData = reactive({
   status: '',
   paymentStatus: '',
@@ -51,17 +55,17 @@ const editUpcomingProductStatus = () => {
         paymentStatus: submitData.paymentStatus,
         status: submitData.status,
       })
-    ).then(() => {
+    ).then((res) => {
       toast.success(t('upcomingProductEditedSuccessfully'))
-      // UpcomingProductService.getUpcomingProducts({ limit: pageSize, page: currentPage2.value })
-      //   .then((res) => {
-      //     useUpcomingProductStore().clearStore()
-      //     useUpcomingProductStore().setTotal(res.total)
-      //     useUpcomingProductStore().setUpcomingProducts(res.data)
-      //   })
+      UpcomingProductService.getUpcomingProducts({ limit: pageSize, page: currentPage.value })
+        .then((res) => {
+          useUpcomingProductStore().clearStore()
+          useUpcomingProductStore().setTotal(res.total)
+          useUpcomingProductStore().setUpcomingProducts(res.data)
+        })
       closeModal()
       isLoading.value = false
-    }).catch(() => {
+    }).catch((err) => {
       toast.error(t('errorWhileEditingUpcomingProduct'))
       setTimeout(() => {
         isLoading.value = false
