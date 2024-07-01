@@ -18,6 +18,7 @@ import { useBarcodeStore } from '../store/barcode.store'
 import { useModalStore } from '../store/modal.store'
 import { useProductStore } from '../store/product.store'
 import { Money3 } from 'v-money3'
+import Spinners270RingIcon from '../assets/icons/Spinners270RingIcon.vue'
 
 const { t } = useI18n()
 const router = useRouter()
@@ -138,28 +139,35 @@ watch(
 onMounted(() => {
   useProductStore().clearStore()
 })
-
+const isLoadingSend = ref(false)
 const selectP = ref()
 const sendChannel = () => {
   const data = selectedProducts.value.filter(p => p.discount > 0).map((
     { id, discount }) => ({ productId: id, discount: discount })
   )
   const dataWithImg = selectedProducts.value.filter(p => p.asset)
-  if (selectedProducts.value.length == data.length) {
-    if (dataWithImg.length == data.length) {
+  isLoadingSend.value = true
+  if (selectedProducts.value.length === data.length) {
+    if (dataWithImg.length === data.length) {
       ProductService.sendChannel(data)
         .then((res) => {
           selectedProducts.value = []
           selectedProductsBase.value = []
           useProductStore().clearStore()
           toast.success(t('discountSentSuccessfully'))
+          isLoadingSend.value = false
+        })
+        .catch((err) => {
+          toast.error(err.message)
+          isLoadingSend.value = false
         })
     } else {
       toast.error(t('pleaseEnterImg'))
+      isLoadingSend.value = false
     }
   } else {
     toast.error(t('pleaseEnterDiscounts'))
-
+    isLoadingSend.value = false
   }
 
 }
@@ -212,13 +220,16 @@ const changeAllDiscounts = () => {
             class="absolute inset-y-0 right-0 px-4 bg-[#0167F3] text-white rounded-r-xl">
             {{ $t('search') }}
           </button>
+          <div v-if="isLoading" class="h-[500px] z-[9999] flex items-center justify-center absolute w-full">
+            <Spinners270RingIcon class="w-12 h-12 text-blue-500 animate-spin" />
+          </div>
           <ScrollPanel v-if="products.length > 0" ref="searchProductDropdown"
             class="h-[500px] flex flex-row absolute top-16 left-0 bg-transparent w-full space-y-2 ">
             <div v-for="(product, idx) in products" :key="idx" @click="addProduct(product)"
               class="flex items-center justify-between bg-white border shadow-sm rounded-xl px-3 py-2 my-2 w-full cursor-pointer hover:bg-slate-100">
               <div class="flex items-center space-x-3">
                 <div class="flex items-center justify-center bg-slate-200 w-10 h-10 rounded-lg">
-                  <img v-if="product.asset" :src="product.asset.url" class="w-12 h-auto rounded">
+                  <img v-if="product.asset" :src="product.asset.url" class="w-12 h-auto rounded" alt="image">
 
                           <ImageIcon v-else class="text-gray-500 w-6 h-6" />
                 </div>
@@ -331,9 +342,17 @@ const changeAllDiscounts = () => {
 
             </ScrollPanel>
             <div class="flex justify-end">
-              <button
+              <button v-if="isLoadingSend"
+                class="inline-flex items-center justify-center w-40 py-2 px-4 rounded-lg text-white text-base bg-blue-500 cursor-pointer hover:bg-blue-600">
+                <Spinners270RingIcon
+                  class="mr-2 w-5 h-5 text-gray-200 animate-spin dark:text-gray-600 fill-gray-600 dark:fill-gray-300" />
+                {{ $t('send') }}
+              </button>
+              <button v-else
                 class="w-40 py-2 px-4 rounded-lg text-white text-base bg-blue-500 cursor-pointer hover:bg-blue-600"
-                @click="sendChannel">{{ $t('send') }}</button>
+                @click="sendChannel">
+                {{ $t('send') }}
+              </button>
             </div>
 
           </div>

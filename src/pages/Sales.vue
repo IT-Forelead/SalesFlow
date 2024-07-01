@@ -110,6 +110,7 @@ const onSearchFocus = ref(null)
 const onFullNameFocus = ref(null)
 const onPhoneFocus = ref(null)
 const isLoading = ref(false)
+const isLoadingSearchProducts = ref(false)
 const isLoadingOrderWithPrint = ref(false)
 const isLoadingOrderWithoutPrint = ref(false)
 // const selectedProducts = ref([])
@@ -184,7 +185,7 @@ const searchProducts = () => {
     toast.warning(t('plsEnterProductNameOrBarcode'))
     notFoundProduct.play()
   } else {
-    isLoading.value = true
+    isLoadingSearchProducts.value = true
     if (isBarcode(search.value)) {
       ProductService.getProductsDetails(
         cleanObjectEmptyFields({
@@ -220,7 +221,7 @@ const searchProducts = () => {
           notFoundProduct.play()
           clearSearchInput()
         } else {
-          isLoading.value = false
+          isLoadingSearchProducts.value = false
           useProductStore().clearStore()
           useProductStore().setProducts(res.data)
         }
@@ -235,8 +236,9 @@ const searchProducts = () => {
           toast.warning(t('productNotFound'))
           notFoundProduct.play()
           clearSearchInput()
+          isLoadingSearchProducts.value = false
         } else {
-          isLoading.value = false
+          isLoadingSearchProducts.value = false
           useProductStore().clearStore()
           useProductStore().setProducts(res.data)
         }
@@ -849,6 +851,7 @@ onMounted(() => {
 
 const isLoadingCustomerForm = ref(false)
 const isLoadingDebtForm = ref(false)
+const isLoadingDebtSaleForm = ref(false)
 const customerForm = reactive({
   fullName: '',
   phone: '',
@@ -941,9 +944,11 @@ const createDebt = () => {
 }
 
 const createOrderWithDebt = () => {
+  isLoadingDebtSaleForm.value = true
   createOrder()
   setTimeout(() => {
     createDebt()
+    isLoadingDebtSaleForm.value = false
   }, 1500);
 }
 
@@ -1019,8 +1024,11 @@ watch(
                   class="absolute inset-y-0 right-0 px-4 bg-[#0167F3] text-white rounded-r-xl">
             {{ $t('search') }}
           </button>
+          <div v-if="isLoadingSearchProducts" class="h-[500px] z-[9999] flex items-center justify-center absolute w-full">
+            <Spinners270RingIcon class="w-12 h-12 text-blue-500 animate-spin" />
+          </div>
           <ScrollPanel v-if="products.length > 0" ref="searchProductDropdown"
-                       class="h-[500px] flex flex-row absolute top-16 left-0 bg-transparent w-full space-y-2 ">
+                       class="h-[500px] flex flex-row absolute top-16 left-0 bg-transparent w-full space-y-2">
             <div v-for="(product, idx) in products" :key="idx" @click="addProductToCart(product)"
                  class="flex items-center justify-between bg-white border shadow-sm rounded-xl px-3 py-2 my-2 w-full cursor-pointer hover:bg-slate-100">
               <div class="flex items-center space-x-3">
@@ -1213,7 +1221,7 @@ watch(
       </div>
     </div>
 
-    <div class="flex-auto md:w-1/3 w-full border-l h-dvh py-8 px-4 md:px-8 space-y-4">
+    <div class="flex-auto md:w-1/3 w-full border-l min-h-screen py-8 px-4 md:px-8 space-y-4">
       <div class="space-y-2">
         <h3 class="text-xl font-semibold">
           {{ $t('salesDetails') }}
@@ -1394,6 +1402,8 @@ watch(
             </div>
           </div>
 
+
+
         <div v-if="showDebtForm" class="flex flex-col space-y-3">
           <div>
             <div class="flex flex-col items-center space-y-4">
@@ -1424,17 +1434,21 @@ watch(
                 </label>
                 <money3 v-model="customerForm.remained" type="text" v-bind="moneyConf" id="debtor-price" ref="onDebtFocus"
                   @blur="debtReFocus()"
-                  class="border-none text-right text-gray-500 bg-slate-100 rounded-lg w-full text-lg" ></money3>
+                  class="border-none text-right text-gray-500 bg-slate-100 rounded-lg w-full text-lg"></money3>
 
               </div>
             </div>
           </div>
           <div class="space-y-2 pb-12">
-            <CancelButton class="w-full" @click="closeDebtForm" />
-            <button @click="createOrderWithDebt"
-                    class="w-full xl:py-3 px-4 lg:py-2 py-3 rounded-full text-white flex items-center justify-center text-lg font-medium bg-blue-500 cursor-pointer hover:bg-blue-600">
-              <Spinners270RingIcon v-if="isLoadingDebtForm"
-                                   class="mr-2 w-5 h-5 text-gray-200 animate-spin dark:text-gray-600 fill-gray-600 dark:fill-gray-300" />
+            <CancelButton class="w-full !rounded-lg" @click="closeDebtForm" />
+            <button v-if="isLoadingDebtSaleForm"
+                    class="w-full xl:py-3 px-4 lg:py-2 py-3 rounded-lg text-white flex items-center justify-center text-lg font-medium bg-blue-500 cursor-pointer hover:bg-blue-600">
+              <Spinners270RingIcon
+                class="mr-2 w-5 h-5 text-gray-200 animate-spin dark:text-gray-600 fill-gray-600 dark:fill-gray-300" />
+              {{ $t('intoDebt') }}
+            </button>
+            <button v-else @click="createOrderWithDebt"
+                    class="w-full xl:py-3 px-4 lg:py-2 py-3 rounded-lg text-white flex items-center justify-center text-lg font-medium bg-blue-500 cursor-pointer hover:bg-blue-600">
               {{ $t('intoDebt') }}
             </button>
           </div>

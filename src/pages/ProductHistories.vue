@@ -184,14 +184,14 @@ const columns = [
       // }, [
       //   // h(TrashIcon, { class: 'w-6 h-6 text-red-600 hover:scale-105' }),
       // ]),
-      h(InputSwitch, {
-        
-        modelValue: switchStates[row.original.id],
-        'onUpdate:modelValue': (value) => {
-          switchStates[row.original.id] = value;
-          toggleSold(row.original.id, value);
-        }
-      }),
+      // h(InputSwitch, {
+      //
+      //   modelValue: switchStates[row.original.id],
+      //   'onUpdate:modelValue': (value) => {
+      //     switchStates[row.original.id] = value;
+      //     toggleSold(row.original.id, value);
+      //   }
+      // }),
     ]),
     enableSorting: false,
   },

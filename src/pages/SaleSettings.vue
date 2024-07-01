@@ -16,6 +16,9 @@ import Vauchers from '../components/vaucher/HolidayDiscount.vue'
 
 const { t } = useI18n()
 const isLoading = ref(false)
+const isLoadingPercent = ref(false)
+const isLoadingMinimalPrice = ref(false)
+const isLoadingHolidayDiscount = ref(false)
 const isLoadingBots = ref(false)
 const globalSearchFromTable = ref('')
 const renderKey = ref(0)
@@ -96,17 +99,19 @@ onMounted(() => {
   })
 });
 
-const createSaleSettings = () => {
+const createBoundaryPrice = () => {
   if (submitData.boundaryPrice < 0) {
     toast.error("Chegirmani kiriting!")
   } else {
+    isLoadingMinimalPrice.value = true
     SettingsService.updateSettings({
       boundaryPrice: submitData.boundaryPrice,
     }).then(() => {
+      isLoadingMinimalPrice.value = false
       toast.success("Chegirma yaratildi!")
     }).catch(() => {
+      isLoadingMinimalPrice.value = false
       toast.error("Chegirma yaratishda xatolik yuz berdi!")
-     
     })
   }
 }
@@ -115,11 +120,14 @@ const createPercentageSettings = () => {
   if (submitData.percentage < 0 || submitData.percentage > 100) {
     toast.error("Foizni to'g'ri kiriting!")
   } else {
+    isLoadingPercent.value = true
     SettingsService.updateSettings({
       percentage: submitData.percentage,
     }).then(() => {
+      isLoadingPercent.value = false
       toast.success("Foiz qo'shildi!")
     }).catch(() => {
+      isLoadingPercent.value = false
       toast.error("Foiz qo'shishda xatolik yuz berdi!")
     })
   }
@@ -129,11 +137,14 @@ const createMinimalPriceSettings = () => {
   if (submitData.minimalPrice < 0) {
     toast.error("Minimal narx qo'shish kiriting!")
   } else {
+    isLoadingHolidayDiscount.value = true
     SettingsService.updateSettings({
       minimalPrice: submitData.minimalPrice,
     }).then(() => {
+      isLoadingHolidayDiscount.value = false
       toast.success("Minimal narx qo'shildi!")
     }).catch(() => {
+      isLoadingHolidayDiscount.value = false
       toast.error("Minimal narx qo'shishda xatolik yuz berdi!")
     })
   }
@@ -160,7 +171,14 @@ const createMinimalPriceSettings = () => {
                      class="border-none text-right text-gray-500 bg-slate-100 h-11 rounded-lg w-full text-lg" />
             </div>
             <div class="flex-1">
-              <button @click="createPercentageSettings" class="text-white text-base flex items-center rounded-xl px-4 py-2.5 bg-blue-500 hover:bg-blue-600 absolute bottom-0">{{ $t('save')}}</button>
+              <button v-if="isLoadingPercent" class="text-white text-base flex items-center rounded-xl px-4 py-2.5 bg-blue-500 hover:bg-blue-600 absolute bottom-0">
+                <Spinners270RingIcon
+                  class="mr-2 w-5 h-5 text-gray-200 animate-spin dark:text-gray-600 fill-gray-600 dark:fill-gray-300" />
+                {{ $t('save')}}
+              </button>
+              <div v-else class="flex-1">
+                <button @click="createPercentageSettings" class="text-white text-base flex items-center rounded-xl px-4 py-2.5 bg-blue-500 hover:bg-blue-600 absolute bottom-0">{{ $t('save')}}</button>
+              </div>
             </div>
           </div>
         </div>
@@ -180,7 +198,10 @@ const createMinimalPriceSettings = () => {
                        class="border-none text-right text-gray-500 bg-slate-100 h-11 rounded-lg w-full text-lg">
               </money3>
               <div class="flex-1">
-                <button @click="createSaleSettings" class="text-white text-base flex items-center rounded-xl px-4 py-2.5 bg-blue-500 hover:bg-blue-600">{{ $t('save')}}</button>
+                <button @click="createBoundaryPrice" class="text-white text-base flex items-center rounded-xl px-4 py-2.5 bg-blue-500 hover:bg-blue-600">
+                  <Spinners270RingIcon v-if="isLoadingMinimalPrice"
+                                       class="mr-2 w-5 h-5 text-gray-200 animate-spin dark:text-gray-600 fill-gray-600 dark:fill-gray-300" />
+                  {{ $t('save')}}</button>
               </div>
           </div>
 
@@ -192,7 +213,10 @@ const createMinimalPriceSettings = () => {
                     class="border-none text-right text-gray-500 bg-slate-100 h-11 rounded-lg w-full text-lg">
             </money3>
             <div class="flex-1">
-              <button @click="createMinimalPriceSettings" class="text-white text-base flex items-center rounded-xl px-4 py-2.5 bg-blue-500 hover:bg-blue-600">{{ $t('save')}}</button>
+              <button @click="createMinimalPriceSettings" class="text-white text-base flex items-center rounded-xl px-4 py-2.5 bg-blue-500 hover:bg-blue-600">
+                <Spinners270RingIcon v-if="isLoadingHolidayDiscount"
+                  class="mr-2 w-5 h-5 text-gray-200 animate-spin dark:text-gray-600 fill-gray-600 dark:fill-gray-300" />
+                {{ $t('save')}}</button>
             </div>
           </div>
         </div>
