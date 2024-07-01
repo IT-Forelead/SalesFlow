@@ -24,6 +24,8 @@ import ProductService from '../services/product.service.js'
 import { useRoute, useRouter } from 'vue-router'
 import { onClickOutside } from '@vueuse/core'
 import BroomIcon from '../assets/icons/BroomIcon.vue'
+import InputSwitch from 'primevue/inputswitch';
+import { useProductStore } from '../store/product.store.js'
 
 const { t } = useI18n()
 const API_URL = import.meta.env.VITE_CHEQUE_API_URL
@@ -40,6 +42,7 @@ const onSearchFocus = ref(null)
 
 const sortByDropdown = ref(null)
 const filterByDropdown = ref(null)
+const checked = ref(false)
 
 onClickOutside(sortByDropdown, () => {
   if (useDropdownStore().isOpenSortBy) {
@@ -69,16 +72,12 @@ const clearFilterData = () => {
   filterData.endExpirationDate = ''
 }
 
-const currentPage = computed(() => {
-  return productHistoryStore.currentPage
-})
+const currentPage = computed(() => productHistoryStore.currentPage )
+const total = computed(() => productHistoryStore.totalHistories)
+
 const productsHistories = computed(() => {
   renderKey.value += 1
   return productHistoryStore.productHistories
-})
-
-const total = computed(() => {
-  return productHistoryStore.totalHistories
 })
 
 const getHistoryType = (historyType) => {
@@ -185,10 +184,22 @@ const columns = [
       // }, [
       //   // h(TrashIcon, { class: 'w-6 h-6 text-red-600 hover:scale-105' }),
       // ]),
+      // h(InputSwitch, {
+      //
+      //   modelValue: switchStates[row.original.id],
+      //   'onUpdate:modelValue': (value) => {
+      //     switchStates[row.original.id] = value;
+      //     toggleSold(row.original.id, value);
+      //   }
+      // }),
     ]),
     enableSorting: false,
   },
 ]
+const switchStates = reactive({});
+const toggleSold = (id, isSold) => {
+  console.log(id, isSold)
+}
 
 const printLabel = (product) => {
   const quantity = product.saleType.includes('kg') ? Number.parseFloat(product.quantity) * 1000 : product.quantity
@@ -392,6 +403,10 @@ watchEffect(() => {
     onSearchFocus.value.focus()
   }
 })
+
+const onChange = (event) => {
+  checked.value = event.value
+}
 </script>
 <template>
   <div class="p-4 md:p-8">
