@@ -341,5 +341,6 @@
   "errorWhileEditingUpcomingProduct": "Ошибка при редактировании будущего продукта!",
   "selectStatus": "Выбрать статус",
   "plsSelectProducts": "Пожалуйста, выберите продукты!",
-  "plsEnterPrice": "Пожалуйста, введите цену"
+  "plsEnterPrice": "Пожалуйста, введите цену",
+  "incomeExpense": "Доход-расход"
 }

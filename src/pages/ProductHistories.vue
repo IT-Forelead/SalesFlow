@@ -397,7 +397,7 @@ watchEffect(() => {
   <div class="p-4 md:p-8">
     <div class="flex md:flex-row flex-col items-center justify-between space-y-4 md:space-y-0 mb-6">
       <div class="text-slate-900 text-2xl md:text-3xl font-semibold">
-        {{ $t('productsHistory') }}
+        {{ $t('incomeExpense') }}
       </div>
       <div class="w-full md:w-auto order-1 md:order-2 flex space-x-2">
         <button v-if="navigationGuard('create_product')" @click="useModalStore().openCreateLabelModal()"
