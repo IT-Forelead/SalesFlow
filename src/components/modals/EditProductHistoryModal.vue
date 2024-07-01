@@ -11,6 +11,7 @@ import ProductHistoryService from '../../services/productHistory.service.js'
 import ProductService from '../../services/product.service.js'
 import { useRoute } from 'vue-router'
 import { calcPercentOfSale } from '../../mixins/utils'
+import moment from 'moment'
 
 const route = useRoute()
 const { t } = useI18n()
@@ -110,6 +111,11 @@ const closeModal = () => {
   useProductHistoryStore().setSelectedProductHistory({})
   clearSubmitData()
 }
+
+const calculateExpirationDate = (months) => {
+  const newDate = moment(submitData.productionDate, 'YYYY-MM-DD').add(months, 'months')
+  submitData.expirationDate = newDate.format('YYYY-MM-DD')
+}
 </script>
 
 <template>
@@ -163,11 +169,10 @@ const closeModal = () => {
           </div>
           <div class="flex-1 space-y-1">
             <label for="price" class="text-base md:text-lg font-medium">
-              {{ $t('expirationDate') }}
-            </label>
-            <input id="quantity" type="date" v-model="submitData.expirationDate"
-                   class="bg-slate-100 border-none text-slate-900 rounded-lg w-full h-11 placeholder-slate-400 placeholder:text-sm md:placeholder:text-lg"
-                   :placeholder="t('enterProductQuantity')">
+                {{ $t('expirationDate') }}
+              </label>
+              <input id="quantity" type="date" v-model="submitData.expirationDate"
+                     class="bg-slate-100 border-none text-slate-900 rounded-lg w-full h-11 placeholder-slate-400 placeholder:text-sm md:placeholder:text-lg">
           </div>
           <div class="flex-1 space-y-1">
             <label for="toLend" class="text-base md:text-lg font-medium">
@@ -179,6 +184,14 @@ const closeModal = () => {
               <label for="toLend" class="py-2 text-base font-medium">{{ $t('toLend') }}</label>
             </div>
           </div>
+        </div>
+        <div class="space-x-3.5 space-y-2 md:text-left text-center">
+          <button
+              v-for="months in [1, 3, 6, 9, 12, 24]"
+              @click="calculateExpirationDate(months)"
+              type="button"
+              class="text-slate-600 bg-white hover:bg-slate-100 focus:ring-4 focus:outline-none focus:ring-slate-300 rounded-xl border border-slate-200 text-sm font-medium px-4 py-2.5 hover:text-slate-900 lowercase"
+            >+ {{ months }} {{ t("month") }}</button>
         </div>
         <div class="flex space-x-10">
           <div v-if="submitData.salePrice == 0 " class="text-base md:text-lg font-medium">

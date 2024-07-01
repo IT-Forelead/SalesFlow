@@ -8,6 +8,7 @@ import { useProductStore } from '../../store/product.store.js'
 import CModal from '../common/CModal.vue'
 import { useHolidayDiscount } from '../../store/holidayDiscount.store.js'
 import HolidayDiscountService from '../../services/holidayDiscount.service.js'
+import Spinners270RingIcon from '../../assets/icons/Spinners270RingIcon.vue'
 
 const { t } = useI18n()
 const isLoading = ref(false)
@@ -118,7 +119,15 @@ const deleteHolidayDiscount = () => {
                   class="w-full md:w-auto py-2 px-4 rounded-xl text-gray-900 text-base font-medium bg-slate-50 cursor-pointer hover:bg-slate-200 border md:flex-1">
                   {{ $t('no') }}
                 </button>
-                <button @click="deleteHolidayDiscount()"
+
+                <button v-if="isLoading"
+                        class="inline-flex items-center justify-center w-full md:w-auto py-2 px-4 rounded-xl text-white text-base font-medium bg-red-600 cursor-pointer hover:bg-red-700">
+                  <Spinners270RingIcon
+                    class="mr-2 w-5 h-5 text-gray-200 animate-spin dark:text-gray-600 fill-gray-600 dark:fill-gray-300" />
+                  {{ $t('yesOfCourse') }}
+                </button>
+
+                <button v-else @click="deleteHolidayDiscount()"
                   class="w-full md:w-auto py-2 px-4 rounded-xl text-white text-base font-medium bg-red-600 cursor-pointer hover:bg-red-700">
                   {{ $t('yesOfCourse') }}
                 </button>

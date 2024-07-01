@@ -133,8 +133,6 @@ const refundProducts = () => {
     isRefundLoading.value = false
   })
 }
-
-console.log(params.value)
 </script>
 
 <template>
