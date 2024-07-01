@@ -193,10 +193,12 @@ const searchProducts = () => {
         }),
       ).then((res) => {
         isLoading.value = false
+        isLoadingSearchProducts.value = false
         if (res.data.length === 0) {
           toast.warning(t('productNotFound'))
           notFoundProduct.play()
           clearSearchInput()
+          isLoadingSearchProducts.value = false
         } else if (res.data.length === 1) {
           const product = res.data[0]
           let amount = null
@@ -205,7 +207,9 @@ const searchProducts = () => {
             amount = product.saleType.includes('kg') ? quantity / 1000 : quantity
           }
           addProductToCart(product, amount)
+          isLoadingSearchProducts.value = false
         } else {
+          isLoadingSearchProducts.value = false
           useProductStore().clearStore()
           useProductStore().setProducts(res.data)
         }
@@ -220,6 +224,7 @@ const searchProducts = () => {
           toast.warning(t('productNotFound'))
           notFoundProduct.play()
           clearSearchInput()
+          isLoadingSearchProducts.value = false
         } else {
           isLoadingSearchProducts.value = false
           useProductStore().clearStore()
