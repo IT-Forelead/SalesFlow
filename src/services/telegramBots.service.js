@@ -8,10 +8,10 @@ class TelegramBotService {
     return AxiosService.get('/telegram/bot')
   }
   async deleteBot(id) {
-    return AxiosService.delete(`/telegram/bot/${id}`)
+    return AxiosService.delete(`/telegram/bot/delete/${id}`)
   }
   async updateBot(data){
-    return AxiosService.put('/telegram/bot', data)
+    return AxiosService.put('/telegram/bot/update', data)
   }
 }
 
