@@ -1092,8 +1092,7 @@ watch(
       </div>
 
       <div v-if="activeBasket.length > 0" class="py-2 align-middle">
-        <div class="min-w-full md:h-[70vh] lg:h-[77vh] low-y-auto overflow-x-auto">
-          <ScrollPanel class="w-full rounded-xl">
+        <div class="min-w-full lg:h-[55vh] xl:h-[66vh] overflow-y-auto overflow-x-auto rounded-xl">
             <table class="md:min-w-full divide-y-8 divide-white">
               <thead>
               <tr class="bg-slate-100 text-base font-semibold text-gray-900 h-12">
@@ -1213,7 +1212,6 @@ watch(
               </tr>
               </tbody>
             </table>
-          </ScrollPanel>
         </div>
       </div>
       <div v-else class="flex flex-col items-center justify-center border-2 border-dashed h-96 rounded-3xl space-y-1">
@@ -1306,15 +1304,15 @@ watch(
 <!--            </div>-->
 <!--          </div>-->
 <!--        </div>-->
-        <div class="flex w-full space-x-2 lg:space-x-0 xl:space-x-4 xl:space-y-0 lg:space-y-2 lg:flex-col xl:flex-row">
-          <div @click="showDiscountForm = !showDiscountForm" :class="showDiscountForm ? 'border-blue-300 bg-blue-50' : ''" class="flex-1 hover:bg-blue-50 hover:cursor-pointer flex flex-col w-full items-center justify-center border rounded-lg py-4">
+        <div class="flex w-full space-x-2 lg:space-x-4 xl:space-x-4 xl:space-y-0 lg:space-y-2 flex-row">
+          <div @click="showDiscountForm = !showDiscountForm" :class="showDiscountForm ? 'border-blue-300 bg-blue-50' : ''" class="flex-1 hover:bg-blue-50 hover:cursor-pointer flex flex-col w-full items-center text-center justify-center border rounded-lg py-4">
             <PhPercent class="w-6 h-6" />
             <div class="text-lg font-medium">
               {{ $t('intoDiscount') }}
             </div>
           </div>
           <div @click="showDebtForm = !showDebtForm" :class="showDebtForm ? 'border-blue-300 bg-blue-50' : ''"
-               class="flex-1 flex flex-col hover:border-blue-300 hover:bg-blue-50 hover:cursor-pointer items-center justify-center border rounded-lg py-4">
+               class="flex-1 flex flex-col hover:border-blue-300 hover:bg-blue-50 hover:cursor-pointer items-center text-center justify-center border rounded-lg py-4">
             <DebtIcon class="w-6 h-6" />
             <div class="text-lg font-medium">
               {{ $t('intoDebt') }}
@@ -1332,19 +1330,19 @@ watch(
                      class="border-none text-right text-gray-500 bg-slate-100 rounded-lg w-full text-lg">
               <div class="flex space-x-3 my-3 justify-end">
                 <button
-                  class="px-4 py-2 flex items-center justify-center text-lg cursor-pointer border border-blue-400 bg-blue-100 hover:border-blue-400 hover:text-white hover:bg-blue-400 rounded-lg"
+                  class="xl:px-4 lg:px-2 py-2 flex items-center justify-center text-lg cursor-pointer border border-blue-400 bg-blue-100 hover:border-blue-400 hover:text-white hover:bg-blue-400 rounded-lg"
                   :class="{'bg-blue-400 text-white' : discount===10}"
                   @click="setDiscountValue(10)">10%</button>
                 <button
-                  class="px-4 py-2 flex items-center justify-center text-lg cursor-pointer border border-blue-400 bg-blue-100 hover:border-blue-400 hover:text-white hover:bg-blue-400 rounded-lg"
+                  class="xl:px-4 lg:px-2 flex items-center justify-center text-lg cursor-pointer border border-blue-400 bg-blue-100 hover:border-blue-400 hover:text-white hover:bg-blue-400 rounded-lg"
                   :class="{'bg-blue-400 text-white' : discount===25}"
                   @click="setDiscountValue(25)">25%</button>
                 <button
-                  class="px-4 py-2 flex items-center justify-center text-lg cursor-pointer border border-blue-400 bg-blue-200 hover:border-blue-400 hover:text-white hover:bg-blue-400 rounded-lg"
+                  class="xl:px-4 lg:px-2 flex items-center justify-center text-lg cursor-pointer border border-blue-400 bg-blue-200 hover:border-blue-400 hover:text-white hover:bg-blue-400 rounded-lg"
                   :class="{'bg-blue-400 text-white' : discount===50}"
                   @click="setDiscountValue(50)">50%</button>
                 <button
-                  class="px-4 py-2 flex items-center justify-center text-lg cursor-pointer border border-blue-400 bg-blue-300 hover:border-blue-400 hover:text-white hover:bg-blue-400 rounded-lg"
+                  class="xl:px-4 lg:px-2 flex items-center justify-center text-lg cursor-pointer border border-blue-400 bg-blue-300 hover:border-blue-400 hover:text-white hover:bg-blue-400 rounded-lg"
                   :class="{'bg-blue-400 text-white' : discount===100}"
                   @click="setDiscountValue(100)">100%</button>
               </div>
