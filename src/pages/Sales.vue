@@ -949,12 +949,24 @@ const createDebt = () => {
 }
 
 const createOrderWithDebt = () => {
-  isLoadingDebtSaleForm.value = true
-  createOrder()
-  setTimeout(() => {
-    createDebt()
-    isLoadingDebtSaleForm.value = false
-  }, 1500);
+  if (activeBasket.value.length === 0) {
+    toast.error('Tanlangan mahsulotlar mavjud emas!')
+  } else if (!customerForm.fullName) {
+    toast.warning(t('enterFullName'))
+  } else if (!customerForm.phone) {
+    toast.warning(t('enterPhone'))
+  } else if (customerForm.phone && !phoneRegex.test(customerForm.phone.replace(/([() -])/g, ''))) {
+    toast.warning(t('plsEnterValidPhoneNumber'))
+  } else if (!customerForm.remained || customerForm.remained == 0) {
+    toast.warning(t('enterDebt'))
+  } else {
+    isLoadingDebtSaleForm.value = true
+    createOrder()
+    setTimeout(() => {
+      createDebt()
+      isLoadingDebtSaleForm.value = false
+    }, 1500);
+  }
 }
 
 const selectP = ref()

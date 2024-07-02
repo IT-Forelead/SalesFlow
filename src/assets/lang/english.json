@@ -351,5 +351,6 @@
   "errorWhileEditingBot": "Error while editing bot!",
   "edit": "Edit",
   "botNotFound": "Bot not found!",
-  "plsExpirationDate": "Please enter expiration date!"
+  "plsExpirationDate": "Please enter expiration date!",
+  "enterDebt": "Enter debt"
 }

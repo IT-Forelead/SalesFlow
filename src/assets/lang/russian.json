@@ -355,5 +355,6 @@
   "errorWhileEditingBot": "Ошибка при редактировании бота!",
   "edit": "Редактировать",
   "botNotFound": "Бот не найден!",
-  "plsExpirationDate": "Пожалуйста, введите срок годности!"
+  "plsExpirationDate": "Пожалуйста, введите срок годности!",
+  "enterDebt": "Введите долг"
 }
