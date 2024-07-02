@@ -351,5 +351,6 @@
   "botEditedSuccessfully": "Бот муваффақиятли таҳрир қилди!",
   "errorWhileEditingBot": "Ботни таҳрирлашда хатолик юз берди!",
   "edit": "Таҳрирлаш",
-  "botNotFound": "Бот топилмади!"
+  "botNotFound": "Бот топилмади!",
+  "enterDebt": "Қарз киритинг"
 }
