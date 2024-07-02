@@ -949,7 +949,9 @@ const createDebt = () => {
 }
 
 const createOrderWithDebt = () => {
-  if (!customerForm.fullName) {
+  if (activeBasket.value.length === 0) {
+    toast.error('Tanlangan mahsulotlar mavjud emas!')
+  } else if (!customerForm.fullName) {
     toast.warning(t('enterFullName'))
   } else if (!customerForm.phone) {
     toast.warning(t('enterPhone'))
