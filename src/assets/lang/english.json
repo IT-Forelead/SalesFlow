@@ -338,5 +338,6 @@
   "selectStatus": "Select status",
   "plsSelectProducts": "Please select products!",
   "plsEnterPrice": "Please enter price",
-  "incomeExpense": "Income-expense"
+  "incomeExpense": "Income-expense",
+  "enterDebt": "Enter debt"
 }

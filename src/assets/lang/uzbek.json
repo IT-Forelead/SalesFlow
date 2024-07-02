@@ -342,5 +342,6 @@
   "selectStatus": "Holatni tanlash",
   "plsSelectProducts": "Iltimos, mahsulotlarni tanlang!",
   "plsEnterPrice": "Iltimos, narxni kiriting",
-  "incomeExpense": "Kirim-chiqim"
+  "incomeExpense": "Kirim-chiqim",
+  "enterDebt": "Qarz qiriting"
 }

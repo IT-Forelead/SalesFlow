@@ -342,5 +342,6 @@
   "selectStatus": "Выбрать статус",
   "plsSelectProducts": "Пожалуйста, выберите продукты!",
   "plsEnterPrice": "Пожалуйста, введите цену",
-  "incomeExpense": "Доход-расход"
+  "incomeExpense": "Доход-расход",
+  "enterDebt": "Введите долг"
 }
