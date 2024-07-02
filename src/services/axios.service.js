@@ -51,5 +51,5 @@ Axios.interceptors.response.use(
     return Promise.reject(error)
   }
 )
--screen
+
 export const AxiosService = Axios
