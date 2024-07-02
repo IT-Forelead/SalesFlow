@@ -1,14 +1,14 @@
-import { PublicAxiosService } from "../services/axios.service"
+import { PublicAxiosService } from '../services/axios.service'
 
 function removeItemsFromLocalStorage(keys) {
   return new Promise((resolve, reject) => {
-      try {
-          keys.forEach(key => localStorage.removeItem(key));
-          resolve();
-      } catch (error) {
-          reject(error);
-      }
-  });
+    try {
+      keys.forEach(key => localStorage.removeItem(key))
+      resolve()
+    } catch (error) {
+      reject(error)
+    }
+  })
 }
 
 export async function refreshToken() {
@@ -25,21 +25,21 @@ export async function refreshToken() {
     if (!session?.accessToken) {
       localStorage.removeItem('session')
       localStorage.removeItem('user')
+    } else {
+      localStorage.setItem('session', JSON.stringify(session))
     }
-
-    localStorage.setItem('session', JSON.stringify(session))
 
     return session
   } catch (error) {
     if (error?.response?.status === 403) {
-      alert("Your session has been expired!")
+      alert('Your session has been expired!')
       removeItemsFromLocalStorage(['session', 'user'])
         .then(() => {
           window.location.reload()
         })
         .catch(error => {
-          console.error("Error occurred while removing items from localStorage:", error);
-        });
+          console.error('Error occurred while removing items from localStorage:', error)
+        })
     }
   }
 }
