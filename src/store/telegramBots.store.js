@@ -9,8 +9,8 @@ export const useTelegramBot = defineStore('bots', {
     setBots(data) {
       this.bots.push(...data)
     },
-    setSelectedAgent(data) {
-      this.selectedBots = data
+    setSelectedBot(data) {
+      this.selectedBot = data
     },
     clearStore() {
       this.bots = []

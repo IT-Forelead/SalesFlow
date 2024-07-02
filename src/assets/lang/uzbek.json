@@ -342,5 +342,17 @@
   "selectStatus": "Holatni tanlash",
   "plsSelectProducts": "Iltimos, mahsulotlarni tanlang!",
   "plsEnterPrice": "Iltimos, narxni kiriting",
-  "incomeExpense": "Kirim-chiqim"
+  "incomeExpense": "Kirim-chiqim",
+  "description": "Tavsif",
+  "enterDescription": "Iltimos, tavsifini kiriting",
+  "active": "Faol",
+  "inactive": "Faol emas",
+  "deleteTelegramBot": "Telegram botini o'chirish",
+  "editTelegramBot": "Telegram botini tahrirlash",
+  "botInformation": "Bot haqida ma'lumot",
+  "plsEnterBotDescription": "Iltimos, botni tafsilotlarini kiriting!",
+  "botEditedSuccessfully": "Bot muvaffaqiyatli tahrir qilindi!",
+  "errorWhileEditingBot": "Botni tahrirlashda xatolik yuz berdi!",
+  "edit": "Tahrirlash",
+  "botNotFound": "Bot topilmadi!"
 }

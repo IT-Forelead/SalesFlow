@@ -202,7 +202,7 @@ const toggleSold = (id, isSold) => {
 }
 
 const printLabel = (product) => {
-  const quantity = product.saleType.includes('kg') ? Number.parseFloat(product.quantity) * 1000 : product.quantity
+  const quantity = product.saleType.includes('kg') ? 1000 : 1
   const barcode = !product.barcode ? `9${String(product.serialId).padStart(6, '0')}${String(quantity).padStart(5, '0')}1` : product.barcode
   axios
     .post(

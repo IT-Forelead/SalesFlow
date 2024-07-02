@@ -7,6 +7,12 @@ class TelegramBotService {
   async getTelegramBots() {
     return AxiosService.get('/telegram/bot')
   }
+  async deleteBot(id) {
+    return AxiosService.delete(`/telegram/bot/${id}`)
+  }
+  async updateBot(data){
+    return AxiosService.put('/telegram/bot', data)
+  }
 }
 
 export default new TelegramBotService()

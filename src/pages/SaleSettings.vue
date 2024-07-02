@@ -13,6 +13,9 @@ import TelegramBotsService from '../services/telegramBots.service.js'
 import SearchIcon from '../assets/icons/SearchIcon.vue'
 import { useModalStore } from '../store/modal.store.js'
 import Vauchers from '../components/vaucher/HolidayDiscount.vue'
+import EditIcon from '../assets/icons/EditIcon.vue'
+import TrashIcon from '../assets/icons/TrashIcon.vue'
+import { useProductStore } from '../store/product.store.js'
 
 const { t } = useI18n()
 const isLoading = ref(false)
@@ -45,12 +48,12 @@ const submitData = reactive({
 const statusBot = (active) => {
   if (active) {
     return {
-      text: t('faol emas'),
+      text: t('inactive'),
       class: 'bg-red-500 rounded-lg text-white',
     }
   } else {
     return {
-      text: t('faol'),
+      text: t('active'),
       class: 'bg-green-500 rounded-lg text-white',
     }
   }
@@ -64,6 +67,7 @@ const columns = [
     enableSorting: false,
   },
   { accessorKey: 'type', header: t('type') },
+  { accessorKey: 'description', header: t('description') },
   {
     accessorKey: 'active',
     header: t('status'),
@@ -72,7 +76,41 @@ const columns = [
       return h('span', { class: `px-2 py-1 rounded ${status.class}` }, status.text)
     },
   },
+  {
+    accessorKey: 'actions',
+    header: t('actions'),
+    cell: ({ row }) => h('div', { class: 'flex items-center space-x-2' }, [
+      h('button', {
+        onClick: () => {
+          openEditTelegramBotModal(row.original)
+        },
+      }, [
+        h(EditIcon, { class: 'w-6 h-6 text-blue-600 hover:scale-105' }),
+      ]),
+      h('button', {
+        onClick: () => {
+          openDeleteTelegramBotModal(row.original)
+        },
+      }, [
+        h(TrashIcon, { class: 'w-6 h-6 text-red-600 hover:scale-105' }),
+      ]),
+    ]),
+    enableSorting: false,
+  },
 ]
+
+
+const openEditTelegramBotModal = (data) => {
+  useModalStore().openEditTelegramBotModal()
+  useTelegramBot().setSelectedBot(data)
+}
+
+const openDeleteTelegramBotModal = (data) => {
+  useModalStore().openDeleteTelegramBotModal()
+  useTelegramBot().setSelectedBot(data)
+}
+
+
 const getBots = () => {
   isLoadingBots.value = true
   TelegramBotsService.getTelegramBots()
