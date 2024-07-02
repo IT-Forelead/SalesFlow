@@ -957,11 +957,11 @@ const createOrderWithDebt = () => {
     toast.warning(t('enterPhone'))
   } else if (customerForm.phone && !phoneRegex.test(customerForm.phone.replace(/([() -])/g, ''))) {
     toast.warning(t('plsEnterValidPhoneNumber'))
-  } else if (!customerForm.remained || customerForm.remained == 0) {
+  } else if (!customerForm.remained || customerForm.remained === 0) {
     toast.warning(t('enterDebt'))
   } else {
     isLoadingDebtSaleForm.value = true
-    createOrder()
+    createOrder(false)
     setTimeout(() => {
       createDebt()
       isLoadingDebtSaleForm.value = false
