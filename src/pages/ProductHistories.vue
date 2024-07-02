@@ -108,11 +108,11 @@ const columns = [
     cell: ({ row }) => {
       const productName = `${row.original.name}`;
       const packaging = `(${row.original.packaging})`;
-      const lendBadge = row.original.toLend ? h('span', { class: 'bg-red-600 mx-2 text-white rounded-lg px-2 py-1 text-sm' }, t('toLend')) : null;
+      const lendBadge = row.original.toLend ? h('span', { class: 'w-fit bg-red-600 mx-2 text-white rounded-lg px-2 py-1 text-sm' }, t('toLend')) : null;
       return h('div', { style: { display: 'flex', flexDirection: 'column' } }, [
-        h('div', {}, productName),
-        h('div', {}, packaging),
-        lendBadge,
+        h('span', {}, productName),
+        h('span', {}, packaging),
+        h('span', {}, lendBadge),
       ]);
     },
   },
