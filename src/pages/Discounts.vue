@@ -158,8 +158,12 @@ const sendChannel = () => {
           isLoadingSend.value = false
         })
         .catch((err) => {
-          toast.error(err.message)
-          isLoadingSend.value = false
+          if (err.response.data.includes('No expiration date found for product')) {
+            toast.error(t('plsExpirationDate'))
+          } else {
+            toast.error(err.message)
+          }
+            isLoadingSend.value = false
         })
     } else {
       toast.error(t('pleaseEnterImg'))

@@ -354,5 +354,6 @@
   "botEditedSuccessfully": "Bot muvaffaqiyatli tahrir qilindi!",
   "errorWhileEditingBot": "Botni tahrirlashda xatolik yuz berdi!",
   "edit": "Tahrirlash",
-  "botNotFound": "Bot topilmadi!"
+  "botNotFound": "Bot topilmadi!",
+  "plsExpirationDate": "Tugash muddatini kiriting!"
 }

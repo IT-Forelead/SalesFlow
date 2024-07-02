@@ -350,5 +350,6 @@
   "botEditedSuccessfully": "Bot edited successfully!",
   "errorWhileEditingBot": "Error while editing bot!",
   "edit": "Edit",
-  "botNotFound": "Bot not found!"
+  "botNotFound": "Bot not found!",
+  "plsExpirationDate": "Please enter expiration date!"
 }

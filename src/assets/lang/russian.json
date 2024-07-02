@@ -354,5 +354,6 @@
   "botEditedSuccessfully": "Бот успешно отредактирован!",
   "errorWhileEditingBot": "Ошибка при редактировании бота!",
   "edit": "Редактировать",
-  "botNotFound": "Бот не найден!"
+  "botNotFound": "Бот не найден!",
+  "plsExpirationDate": "Пожалуйста, введите срок годности!"
 }
