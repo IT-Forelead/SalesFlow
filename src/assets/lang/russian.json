@@ -343,5 +343,18 @@
   "plsSelectProducts": "Пожалуйста, выберите продукты!",
   "plsEnterPrice": "Пожалуйста, введите цену",
   "incomeExpense": "Доход-расход",
+  "description": "Описание",
+  "enterDescription": "Пожалуйста, введите описание",
+  "active": "Активный",
+  "inactive": "Неактивный",
+  "deleteTelegramBot": "Удалить бота в телеграме",
+  "editTelegramBot": "Редактировать бота в телеграме",
+  "botInformation": "Информация о боте",
+  "plsEnterBotDescription": "Пожалуйста, введите описание бота!",
+  "botEditedSuccessfully": "Бот успешно отредактирован!",
+  "errorWhileEditingBot": "Ошибка при редактировании бота!",
+  "edit": "Редактировать",
+  "botNotFound": "Бот не найден!",
+  "plsExpirationDate": "Пожалуйста, введите срок годности!",
   "enterDebt": "Введите долг"
 }

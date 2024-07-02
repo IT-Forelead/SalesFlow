@@ -339,5 +339,18 @@
   "plsSelectProducts": "Please select products!",
   "plsEnterPrice": "Please enter price",
   "incomeExpense": "Income-expense",
+  "description": "Description",
+  "enterDescription": "Please enter description",
+  "active": "Active",
+  "inactive": "Inactive",
+  "deleteTelegramBot": "Delete Telegram bot",
+  "editTelegramBot": "Edit Telegram bot",
+  "botInformation": "Bot information",
+  "plsEnterBotDescription": "Please enter bot description!",
+  "botEditedSuccessfully": "Bot edited successfully!",
+  "errorWhileEditingBot": "Error while editing bot!",
+  "edit": "Edit",
+  "botNotFound": "Bot not found!",
+  "plsExpirationDate": "Please enter expiration date!",
   "enterDebt": "Enter debt"
 }
