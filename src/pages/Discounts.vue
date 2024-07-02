@@ -173,18 +173,14 @@ const sendChannel = () => {
 }
 
 const setDiscount = (event, product) => {
-
   const data = selectedProductsBase.value.filter(p => p.id == product.id);
   product.discount = event.target.value
-
   product.price = data[0].price - (product.discount * data[0].price / 100)
 }
 
 const setPrice = (product) => {
   const data = selectedProductsBase.value.filter(p => p.id == product.id);
-
   product.discount = (data[0].price - product.price) * 100 / data[0].price
-
 }
 
 const discount = ref()
@@ -278,6 +274,9 @@ const changeAllDiscounts = () => {
                     <th class="px-3 py-2 text-left rounded-l-xl text-sm md:text-base">
                       {{ $t('product') }}
                     </th>
+                    <th class="px-3 py-2 text-center rounded-l-xl text-sm md:text-base">
+                      {{ $t('expirationDate') }}
+                    </th>
                     <th class="px-3 py-2 text-center text-sm md:text-base">
                       {{ $t('discount') }}
                     </th>
@@ -312,6 +311,13 @@ const changeAllDiscounts = () => {
                             </span>
                           </div>
                         </div>
+                      </div>
+                    </td>
+                    <td class="px-3 py-2 whitespace-nowrap">
+                      <div class="flex justify-center space-x-2 items-center">
+                        <input v-model="product.expirationDate" @blur="setExpirationDate($event, product)"
+                          class="bg-slate-100 border border-slate-200 cursor-pointer text-slate-900 rounded-lg w-36 h-12 pl-4 py-2 placeholder-slate-400"
+                          type="date" placeholder="0">
                       </div>
                     </td>
 
