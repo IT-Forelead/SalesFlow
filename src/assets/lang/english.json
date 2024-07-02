@@ -337,5 +337,6 @@
   "errorWhileEditingUpcomingProduct": "Error while editing upcoming product!",
   "selectStatus": "Select status",
   "plsSelectProducts": "Please select products!",
-  "plsEnterPrice": "Please enter price"
+  "plsEnterPrice": "Please enter price",
+  "incomeExpense": "Income-expense"
 }

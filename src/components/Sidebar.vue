@@ -134,7 +134,7 @@ onMounted(() => {
               <ProductHistoryIcon class="w-6 h-6" />
             </div>
             <div>
-              {{ $t('productsHistory') }}
+              {{ $t('incomeExpense') }}
             </div>
           </router-link>
           <router-link v-if="navigationGuard('view_histories')" to="/upcoming-products" @click="selectPage()"

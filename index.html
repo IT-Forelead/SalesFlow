@@ -3,7 +3,7 @@
 
 <head>
   <meta charset="UTF-8" />
-  <link rel="icon" type="image/svg+xml" href="/images/favicon.svg" />
+<!--  <link rel="icon" type="image/svg+xml" href="/images/favicon.svg" />-->
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Sales flow</title>
 </head>
@@ -27,6 +27,26 @@
         })
       }
     })(document,"script");
+
+    function setFavicon(faviconUrl) {
+      const link = document.createElement('link');
+      const oldLink = document.querySelector('link[rel="icon"]');
+      link.rel = 'icon';
+      link.type = 'image/svg+xml';
+      link.href = faviconUrl;
+      if (oldLink) {
+        document.head.removeChild(oldLink);
+      }
+      document.head.appendChild(link);
+    }
+
+    // Determine the domain and set the appropriate favicon
+    const hostname = window.location.hostname;
+    if (hostname.includes('market.iflead.uz')) {
+      setFavicon('/images/favicon-red.svg');
+    } else {
+      setFavicon('/images/favicon.svg');
+    }
   </script>
 </body>
 
