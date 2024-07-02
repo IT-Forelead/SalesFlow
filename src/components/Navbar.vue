@@ -31,6 +31,8 @@ import CreateTelegramBotModal from './modals/CreateTelegramBotModal.vue'
 import CreateHolidayDiscountModal from './modals/CreateHolidayDiscountModal.vue'
 import DiscountInfoModal from './modals/DiscountInfoModal.vue'
 import DeleteHolidayDiscountModal from './modals/DeleteHolidayDiscountModal.vue'
+import DeleteTelegramBotModal from './modals/DeleteTelegramBotModal.vue'
+import EditTelegramBotModal from './modals/EditTelegramBotModal.vue'
 
 const notificationDropdown = ref(null)
 
@@ -123,6 +125,8 @@ onUnmounted(() => {
   <DiscountInfoModal/>
   <DeleteHolidayDiscountModal/>
   <EditUpcomingProductStatusModal />
+  <DeleteTelegramBotModal />
+  <EditTelegramBotModal />
 </template>
 
 <style scoped></style>

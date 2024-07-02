@@ -2,6 +2,8 @@ import { defineStore } from 'pinia'
 
 export const useModalStore = defineStore('modal', {
   state:()=>({
+    isOpenEditTelegramBotModal: false,
+    isOpenDeleteTelegramBotModal: false,
     isOpenDeleteHolidayDiscountModal: false,
     isOpenDiscountInfoModal: false,
     isOpenCreateHolidayDiscountModal: false,
@@ -35,6 +37,18 @@ export const useModalStore = defineStore('modal', {
     isOpenCreateTelegramBotModal: false,
   }),
   actions: {
+    openEditTelegramBotModal() {
+      this.isOpenEditTelegramBotModal = true
+    },
+    closeEditTelegramBotModal() {
+      this.isOpenEditTelegramBotModal = false
+    },
+    openDeleteTelegramBotModal() {
+      this.isOpenDeleteTelegramBotModal = true
+    },
+    closeDeleteTelegramBotModal() {
+      this.isOpenDeleteTelegramBotModal = false
+    },
     openDeleteHolidayDiscountModal() {
       this.isOpenDeleteHolidayDiscountModal = true
     },

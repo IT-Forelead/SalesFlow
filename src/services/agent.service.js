@@ -7,7 +7,6 @@ class AgentService {
   async getAgents() {
     return AxiosService.post('/agents/search', {})
   }
-
   async updateAgent(data){
     return AxiosService.put('/agents', data)
   }

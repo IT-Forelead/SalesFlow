@@ -340,5 +340,17 @@
   "plsSelectProducts": "Илтимос, маҳсулотларни танланг!",
   "plsEnterPrice": "Илтимос, нархни киритинг",
   "incomeExpense": "Кирим-чиқим",
+  "description": "Тавсиф",
+  "enterDescription": "Илтимос, тавсифни киритинг",
+  "active": "Актив",
+  "inactive": "Актив эмас",
+  "deleteTelegramBot": "Телеграм ботни ўчириш",
+  "editTelegramBot": "Телеграм ботни таҳрирлаш",
+  "botInformation": "Бот ҳақида маълумот",
+  "plsEnterBotDescription": "Илтимос, ботни тавсифни киритинг!",
+  "botEditedSuccessfully": "Бот муваффақиятли таҳрир қилди!",
+  "errorWhileEditingBot": "Ботни таҳрирлашда хатолик юз берди!",
+  "edit": "Таҳрирлаш",
+  "botNotFound": "Бот топилмади!",
   "enterDebt": "Қарз киритинг"
 }
