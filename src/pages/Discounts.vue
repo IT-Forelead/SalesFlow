@@ -274,9 +274,6 @@ const changeAllDiscounts = () => {
                     <th class="px-3 py-2 text-left rounded-l-xl text-sm md:text-base">
                       {{ $t('product') }}
                     </th>
-                    <th class="px-3 py-2 text-center rounded-l-xl text-sm md:text-base">
-                      {{ $t('expirationDate') }}
-                    </th>
                     <th class="px-3 py-2 text-center text-sm md:text-base">
                       {{ $t('discount') }}
                     </th>
@@ -311,13 +308,6 @@ const changeAllDiscounts = () => {
                             </span>
                           </div>
                         </div>
-                      </div>
-                    </td>
-                    <td class="px-3 py-2 whitespace-nowrap">
-                      <div class="flex justify-center space-x-2 items-center">
-                        <input v-model="product.expirationDate" @blur="setExpirationDate($event, product)"
-                          class="bg-slate-100 border border-slate-200 cursor-pointer text-slate-900 rounded-lg w-36 h-12 pl-4 py-2 placeholder-slate-400"
-                          type="date" placeholder="0">
                       </div>
                     </td>
 
