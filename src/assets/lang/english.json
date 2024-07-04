@@ -352,5 +352,7 @@
   "edit": "Edit",
   "botNotFound": "Bot not found!",
   "plsExpirationDate": "Please enter expiration date!",
-  "enterDebt": "Enter debt"
+  "enterDebt": "Enter debt",
+  "paidBy": "Paid by",
+  "selectPaidBy": "Please select who paid"
 }
