@@ -145,7 +145,7 @@ watch(
               class="bg-slate-100 border-none text-slate-900 rounded-lg text-base md:text-lg block w-full h-11">
               <option value="" selected>{{ $t('selectType') }}</option>
               <option value="cash">{{ $t('cash') }}</option>
-              <option value="paid">{{ $t('paid') }}</option>
+              <option value="terminal">{{ $t('terminal') }}</option>
               <option value="bank_transfer">{{ $t('bankTransfer') }}</option>
             </select>
           </div>

@@ -354,5 +354,6 @@
   "plsExpirationDate": "Please enter expiration date!",
   "enterDebt": "Enter debt",
   "paidBy": "Paid by",
-  "selectPaidBy": "Please select who paid"
+  "selectPaidBy": "Please select who paid",
+  "terminal" : "Terminal"
 }
