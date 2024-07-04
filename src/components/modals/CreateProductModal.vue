@@ -95,6 +95,11 @@ const closeModal = () => {
   useProductHistoryStore().setSelectedProductHistory('')
   clearSubmitData()
   productBarcodes.value = []
+  if (route.path === '/upcoming-products') {
+    setTimeout(() => {
+      useModalStore().openCreateUpcomingProductModal()
+    }, 300)
+  }
 }
 
 const createProduct = () => {
