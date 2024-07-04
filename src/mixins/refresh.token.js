@@ -15,7 +15,7 @@ export async function refreshToken() {
   const oldSession = JSON.parse(localStorage.getItem('session'))
   try {
     /* REFRESH TOKEN REQUEST */
-    const response = await PublicAxiosService.get('/auth/user/refresh', {
+    const response = await PublicAxiosService.get('/auth/refresh', {
       headers: {
         Authorization: `Bearer ${oldSession?.refreshToken}`,
       },

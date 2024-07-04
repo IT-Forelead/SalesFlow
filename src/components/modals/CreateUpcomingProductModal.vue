@@ -85,6 +85,7 @@ const submitData = reactive({
   paymentType: '',
   price: 0,
   agentId: '',
+  quantity: 0,
 })
 
 const clearSubmitData = () => {
@@ -94,6 +95,7 @@ const clearSubmitData = () => {
   submitData.paymentType = ''
   submitData.expectedTime = ''
   submitData.price = 0
+  submitData.quantity = 0
 }
 
 const closeModal = () => {
@@ -114,7 +116,12 @@ const createUpcomingProduct = () => {
   } else {
     isLoading.value = true
     UpcomingProductService.createUpcomingProduct({
-      productIds: selectedProducts.value.map(el => el.id),
+      products: selectedProducts.value.map(el => {
+        return {
+          productId: el.id,
+          quantity: el.quantity,
+        }
+      }),
       price: submitData.price,
       expectedTime: submitData.expectedTime,
       agentId: selectedAgent.value?.id,
@@ -261,9 +268,20 @@ const selectProduct = (data) => {
   selectedProducts.value.push({
     id: data?.id,
     name: data?.name,
+    quantity: submitData.quantity,
     packaging: data?.packaging,
   })
   productBarcodes.value = []
+}
+
+const openCreateProductModal = () => {
+  if (!useModalStore().isOpenCreateProductModal) {
+    useModalStore().openCreateProductModal()
+    useModalStore().closeCreateUpcomingProductModal()
+  } else if (useModalStore().isOpenCreateProductModal) {
+    useModalStore().closeCreateProductModal()
+    useModalStore().openCreateUpcomingProductModal()
+  }
 }
 </script>
 
@@ -274,20 +292,26 @@ const selectProduct = (data) => {
       {{ $t('addUpcomingProduct') }}
     </template>
     <template v-slot:body>
-      <div class="relative mb-8">
-        <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-          <SearchIcon class="w-5 h-5 text-slate-400" />
+      <div class="flex space-x-1 space-y-2 md:space-y-0 md:flex-row flex-col mb-6 justify-between">
+        <div class="relative w-full md:w-[calc(100%-13rem)]">
+          <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+            <SearchIcon class="w-5 h-5 text-slate-400" />
+          </div>
+          <input type="search" v-model="searchProduct" ref="onSearchFocus" v-on:keypress="whenPressEnter($event)"
+                 class="bg-slate-100 border-none text-slate-900 rounded-lg w-full h-12 pl-10 placeholder-slate-400 placeholder:text-sm md:placeholder:text-lg"
+                 :placeholder="t('searchByProductNameOrBarcode')">
+          <div class="absolute inset-y-0 right-0 flex items-center space-x-2">
+            <button type="button" @click="searchProducts()"
+                    class="px-4 bg-[#0167F3] text-white rounded-lg text-base h-full md:text-lg cursor-pointer">
+              {{ $t('search') }}
+            </button>
+          </div>
         </div>
-        <input type="search" v-model="searchProduct" ref="onSearchFocus" v-on:keypress="whenPressEnter($event)"
-          class="bg-slate-100 border-none text-slate-900 rounded-lg w-full h-12 pl-10 placeholder-slate-400 placeholder:text-sm md:placeholder:text-lg"
-          :placeholder="t('searchByProductNameOrBarcode')">
-        <div class="absolute inset-y-0 right-0 flex items-center space-x-2">
-          <button type="button" @click="searchProducts()"
-            class="px-4 bg-[#0167F3] text-white rounded-lg text-base h-full md:text-lg cursor-pointer">
-            {{ $t('search') }}
-          </button>
-        </div>
-        <div v-if="productBarcodes.length > 0" class="absolute top-16 left-0 bg-transparent w-full space-y-2 z-[2000]">
+        <button type="button" @click="openCreateProductModal"
+                class="px-4 bg-[#0167F3] text-white rounded-lg text-base md:text-lg py-2 cursor-pointer">
+          {{ $t('addProduct') }}
+        </button>
+        <div v-if="productBarcodes.length > 0" class="absolute top-36 px-4 left-0 bg-transparent w-full space-y-2 z-[2000]">
           <ScrollPanel style="height: 600px;">
             <div v-for="(product, idx) in productBarcodes" :key="idx" @click="selectProduct(product)"
               class="flex items-center justify-between bg-white border shadow-sm rounded-xl px-3 py-2 w-full cursor-pointer hover:bg-slate-100">
@@ -312,25 +336,52 @@ const selectProduct = (data) => {
         </div>
       </div>
 
-      <ScrollPanel v-if="selectedProducts.length > 0" style="max-height: 480px; height: auto;">
-        <h4 class="text-slate-900 text-xl font-semibold">
-          {{ $t('products') }}
-        </h4>
-        <div v-for="(product, idx) in selectedProducts" :key="idx"
-          class="flex items-center justify-between bg-white border-b px-2 py-1 w-full">
-          <div class="flex items-center space-x-3">
-            <div class="flex items-center justify-center bg-slate-200 w-10 h-10 rounded-lg">
-              <ImageIcon class="text-gray-500 w-8 h-8" />
-            </div>
-            <div class="text-base font-semibold text-gray-800">
-              {{ product?.name + ' - ' + product?.packaging }}
-            </div>
-          </div>
-          <div class="text-base font-semibold text-gray-800">
-            <TrashIcon @click="removeProduct(product)" class="w-6 h-6 text-rose-500 cursor-pointer transform hover:scale-105" />
-          </div>
+        <div v-if="selectedProducts.length" class="overflow-y-auto overflow-x-auto h-96">
+          <h4 class="text-slate-900 text-xl font-semibold">
+            {{ $t('products') }}
+          </h4>
+          <table class="min-w-full divide-y divide-gray-200">
+            <thead class="bg-gray-100">
+            <tr>
+              <th class="rounded-l-xl px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">
+                {{ $t('image') }}
+              </th>
+              <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">
+                {{ $t('product') }}
+              </th>
+              <th class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase">
+                {{ $t('quantity') }}
+              </th>
+              <th class="px-6 py-3 rounded-r-xl text-right text-xs font-medium text-gray-500 uppercase">
+                {{ $t('actions') }}
+              </th>
+            </tr>
+            </thead>
+            <tbody class="bg-white divide-y divide-gray-200">
+            <tr v-for="(product, idx) in selectedProducts" :key="idx">
+              <td class="px-6 py-4 whitespace-nowrap">
+                <div class="flex items-center">
+                  <div class="flex-shrink-0 h-10 w-10">
+                    <ImageIcon class="text-gray-500 w-8 h-8" />
+                  </div>
+                </div>
+              </td>
+              <td class="px-6 py-4 whitespace-nowrap">
+                <div class="text-sm font-medium text-gray-900">
+                  {{ product?.name + ' - ' + product?.packaging }}
+                </div>
+              </td>
+              <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+                <input type="number" v-model="product.quantity" class="w-24 bg-slate-100 border-none text-slate-900 rounded-lg text-base md:text-lg block h-10">
+              </td>
+              <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+                <TrashIcon @click="removeProduct(product)" class="w-6 h-6 text-rose-500 cursor-pointer transform hover:scale-105" />
+              </td>
+            </tr>
+            </tbody>
+          </table>
         </div>
-      </ScrollPanel>
+
 
       <div class="space-y-2 md:space-y-4">
         <div class="flex flex-col md:flex-row md:items-center space-y-2 md:space-y-0 md:space-x-4">
