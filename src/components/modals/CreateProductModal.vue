@@ -95,6 +95,11 @@ const closeModal = () => {
   useProductHistoryStore().setSelectedProductHistory('')
   clearSubmitData()
   productBarcodes.value = []
+  if (route.path === '/upcoming-products') {
+    setTimeout(() => {
+      useModalStore().openCreateUpcomingProductModal()
+    }, 300)
+  }
 }
 
 const createProduct = () => {
@@ -106,7 +111,7 @@ const createProduct = () => {
     toast.warning(t('plsEnterProductPackaging'))
   } else if (!submitData.saleType) {
     toast.warning(t('plsSelectSaleType'))
-  } else if (submitData.quantity <= 0) {
+  } else if (submitData.quantity < 0) {
     toast.warning(t('plsEnterProductQuantity'))
   } else if (!selectedAgent.value?.id) {
     toast.warning(t('plsSelectAgent'))

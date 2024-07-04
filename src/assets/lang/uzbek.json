@@ -356,5 +356,8 @@
   "edit": "Tahrirlash",
   "botNotFound": "Bot topilmadi!",
   "plsExpirationDate": "Kirim-chiqim betda tugash muddatini kiriting!",
-  "enterDebt": "Qarz qiriting"
+  "enterDebt": "Qarz qiriting",
+  "paidBy": "Kim to'ladi",
+  "selectPaidBy": "Kim to'laganini kiriting",
+  "terminal" : "Terminal"
 }

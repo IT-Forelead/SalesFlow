@@ -46,16 +46,16 @@ let isDesktop = window.innerWidth > 1024;
 
 const closeSidebar = () => {
   if (isMobile) {
-    useSidebarStore().toggleSidebar = true;
+    useSidebarStore().toggleSidebar(true);
   }
-  useSidebarStore().isOpenSidebar = true;
+  useSidebarStore().setSidebarState(true);
 }
 
 const openSidebar = () => {
   if (isMobile) {
-    useSidebarStore().toggleSidebar = false;
+    useSidebarStore().toggleSidebar(false);
   }
-  useSidebarStore().isOpenSidebar = false;
+  useSidebarStore().setSidebarState(false);
 }
 
 const handleResize = () => {
@@ -63,7 +63,7 @@ const handleResize = () => {
   isDesktop = window.innerWidth > 1024;
 
   if (isDesktop) {
-    useSidebarStore().isOpenSidebar = true;
+    useSidebarStore().setSidebarState(true);
   }
 }
 

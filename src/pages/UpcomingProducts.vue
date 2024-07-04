@@ -117,6 +117,10 @@ const columns = [
     accessorFn: row => `${useMoneyFormatter(row.price)}`,
   },
   {
+    accessorKey: 'quantity',
+    header: t('quantity'),
+  },
+  {
     accessorKey: 'agent',
     header: t('agent'),
     accessorFn: row => `${row.agent.fullName} ${row.agent.phone}`,

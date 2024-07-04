@@ -41,11 +41,11 @@ const selectPage = () => {
 
 const closeSidebar = (event) => {
   if (event.target.closest('#sidebar') === null) {
-    useSidebarStore().isOpenSidebar = false;
+    useSidebarStore().setSidebarState(false);
   }
 }
 const closeBar = () => {
-  useSidebarStore().isOpenSidebar = false;
+  useSidebarStore().setSidebarState(false);
 }
 
 const navigationGuard = (access) => {

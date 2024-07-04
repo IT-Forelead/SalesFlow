@@ -27,12 +27,16 @@ const currentPage = computed(() => {
 const submitData = reactive({
   status: '',
   paymentStatus: '',
+  paymentType: '',
+  paidBy: '',
 })
 
 const clearSubmitData = () => {
   useUpcomingProductStore().setSelectedUpcomingProduct({})
   submitData.paymentStatus = ''
   submitData.status = ''
+  submitData.paymentType = ''
+  submitData.paidBy = ''
 }
 
 const closeModal = () => {
@@ -47,6 +51,10 @@ const editUpcomingProductStatus = () => {
     toast.warning(t('plsSelectStatus'))
   } else if (!selectedUpcomingProduct.value.id) {
     toast.warning(t('selectedUpcomingProductIsNotAvailable'))
+  } else if (!submitData.paymentType) {
+    toast.warning(t('plsSelectPaymentType'))
+  } else if (submitData.status == 'delivered' && (!submitData.paidBy || submitData.paidBy === '')) {
+    toast.warning(t('selectPaidBy'))
   } else {
     isLoading.value = true
     UpcomingProductService.updateUpcomingProduct(
@@ -54,6 +62,8 @@ const editUpcomingProductStatus = () => {
         id: selectedUpcomingProduct.value.id,
         paymentStatus: submitData.paymentStatus,
         status: submitData.status,
+        paymentType: submitData.paymentType,
+        paidBy: submitData.paidBy,
       })
     ).then((res) => {
       toast.success(t('upcomingProductEditedSuccessfully'))
@@ -81,6 +91,8 @@ watch(
       submitData.id = data?.id
       submitData.paymentStatus = data?.paymentStatus
       submitData.status = data?.status
+      submitData.paymentType = data?.paymentType
+      submitData.paidBy = data?.paidBy
     }
   },
   { deep: true }
@@ -96,7 +108,7 @@ watch(
     <template v-slot:body>
       <div class="space-y-2 md:space-y-4">
         <div class="flex flex-col md:flex-row md:items-center space-y-2 md:space-y-0 md:space-x-4">
-          <div class="flex-1 space-y-1">
+          <div class="space-y-1 md:w-1/2 sm:w-full">
             <label for="price" class="text-base md:text-lg font-medium">
               {{ $t('paymentStatus') }}
               <span class="text-red-500 mr-2">*</span>
@@ -108,7 +120,7 @@ watch(
               <option value="unpaid">{{ $t('unpaid') }}</option>
             </select>
           </div>
-          <div class="flex-1 space-y-1">
+          <div class="space-y-1 md:w-1/2 sm:w-full">
             <label for="default-type" class="text-base md:text-lg font-medium">
               {{ $t('status') }}
               <span class="text-red-500 mr-2">*</span>
@@ -118,10 +130,33 @@ watch(
               <option value="" selected>{{ $t('selectStatus') }}</option>
               <option value="requested">{{ $t('requested') }}</option>
               <option value="ordered">{{ $t('ordered') }}</option>
-              <option value="delivered">{{ $t('delivered') }}</option>
+              <option value="delivered" @change="showDeliveryField = true">{{ $t('delivered') }}</option>
               <option value="cancelled">{{ $t('cancelled') }}</option>
             </select>
+          </div>  
+        </div>
+        <div class="flex flex-col md:flex-row md:items-center space-y-2 md:space-y-0 md:space-x-4">
+          <div class="space-y-1 md:w-1/2 sm:w-full">
+            <label for="default-type" class="text-base md:text-lg font-medium">
+              {{ $t('paymentType') }}
+              <span class="text-red-500 mr-2">*</span>
+            </label>
+            <select id="default-type" v-model="submitData.paymentType"
+              class="bg-slate-100 border-none text-slate-900 rounded-lg text-base md:text-lg block w-full h-11">
+              <option value="" selected>{{ $t('selectType') }}</option>
+              <option value="cash">{{ $t('cash') }}</option>
+              <option value="terminal">{{ $t('terminal') }}</option>
+              <option value="bank_transfer">{{ $t('bankTransfer') }}</option>
+            </select>
           </div>
+          <div v-if="submitData.status === 'delivered'" class="space-y-1 md:w-1/2 sm:w-full">
+            <label for="paidBy" class="text-base md:text-lg font-medium">
+              {{ $t('paidBy') }}
+              <span class="text-red-500 mr-2">*</span>
+            </label>
+            <input type="text" id="paidBy" v-model="submitData.paidBy" class="bg-slate-100 border-none text-slate-900 rounded-lg text-base md:text-lg block w-full h-11">
+          </div>
+          <div v-else class="space-y-1 md:w-1/2 sm:w-full h-11"></div>
         </div>
       </div>
     </template>
