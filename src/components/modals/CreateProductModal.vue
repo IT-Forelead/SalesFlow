@@ -106,7 +106,7 @@ const createProduct = () => {
     toast.warning(t('plsEnterProductPackaging'))
   } else if (!submitData.saleType) {
     toast.warning(t('plsSelectSaleType'))
-  } else if (submitData.quantity <= 0) {
+  } else if (submitData.quantity < 0) {
     toast.warning(t('plsEnterProductQuantity'))
   } else if (!selectedAgent.value?.id) {
     toast.warning(t('plsSelectAgent'))

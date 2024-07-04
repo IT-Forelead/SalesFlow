@@ -278,13 +278,9 @@ const openCreateProductModal = () => {
   if (!useModalStore().isOpenCreateProductModal) {
     useModalStore().openCreateProductModal()
     useModalStore().closeCreateUpcomingProductModal()
-  } else if (useModalStore().isOpenCreateProductModal) {
-    useModalStore().closeCreateProductModal()
-    useModalStore().openCreateUpcomingProductModal()
   }
 }
 </script>
-
 <template>
   <CModal :is-open="useModalStore().isOpenCreateUpcomingProductModal"
     v-if="useModalStore().isOpenCreateUpcomingProductModal" @close="closeModal()">
