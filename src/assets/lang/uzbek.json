@@ -358,5 +358,6 @@
   "plsExpirationDate": "Kirim-chiqim betda tugash muddatini kiriting!",
   "enterDebt": "Qarz qiriting",
   "paidBy": "Kim to'ladi",
-  "selectPaidBy": "Kim to'laganini kiriting"
+  "selectPaidBy": "Kim to'laganini kiriting",
+  "terminal" : "Terminal"
 }
