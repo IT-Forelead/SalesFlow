@@ -359,5 +359,8 @@
   "enterDebt": "Qarz qiriting",
   "paidBy": "Kim to'ladi",
   "selectPaidBy": "Kim to'laganini kiriting",
-  "terminal" : "Terminal"
+  "terminal" : "Terminal",
+  "chatWithAgent": "Agent bilan chat",
+  "messageSentSuccessfully": "Xabar muvaffaqiyatli yuborildi!",
+  "messageSentFailed": "Xabar yuborilmadi!"
 }

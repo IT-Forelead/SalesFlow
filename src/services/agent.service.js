@@ -10,6 +10,9 @@ class AgentService {
   async updateAgent(data){
     return AxiosService.put('/agents', data)
   }
+  async sendMessage(id){
+    return AxiosService.post('/agents/send-message', id)
+  }
 }
 
 export default new AgentService()

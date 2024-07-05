@@ -359,6 +359,9 @@
   "enterDebt": "Введите долг",
   "paidBy": "Кто оплатил",
   "selectPaidBy": "Введидите кто оплатил",
-  "terminal" : "Терминал"
+  "terminal" : "Терминал",
+  "chatWithAgent": "Чат с агентом",
+  "messageSentSuccessfully": "Сообщение отправлено успешно!",
+  "messageSentFailed": "Сообщение не отправлено!"
 
 }

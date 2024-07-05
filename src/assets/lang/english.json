@@ -355,5 +355,8 @@
   "enterDebt": "Enter debt",
   "paidBy": "Paid by",
   "selectPaidBy": "Please select who paid",
-  "terminal" : "Terminal"
+  "terminal" : "Terminal",
+  "chatWithAgent": "Chat with agent",
+  "messageSentSuccessfully": "Message sent successfully!",
+  "messageSentFailed": "Message not sent!"
 }
