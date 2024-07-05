@@ -1316,7 +1316,7 @@ watch(
 <!--            </div>-->
 <!--          </div>-->
 <!--        </div>-->
-        <div class="flex w-full space-x-2 lg:space-x-4 xl:space-x-4 xl:space-y-0 lg:space-y-2 flex-row">
+        <div class="flex w-full space-x-2 lg:space-x-4 xl:space-x-4 xl:space-y-0 lg:space-y-0 flex-row">
           <div @click="showDiscountForm = !showDiscountForm" :class="showDiscountForm ? 'border-blue-300 bg-blue-50' : ''" class="flex-1 hover:bg-blue-50 hover:cursor-pointer flex flex-col w-full items-center text-center justify-center border rounded-lg py-4">
             <PhPercent class="w-6 h-6" />
             <div class="text-lg font-medium">
