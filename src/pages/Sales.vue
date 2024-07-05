@@ -1236,7 +1236,7 @@ watch(
       </div>
     </div>
 
-    <div class="flex-auto md:w-1/3 w-full border-l h-dvh py-8 px-4 md:px-8 space-y-4">
+    <div class="flex-auto overflow-y-auto md:w-1/3 w-full border-l h-dvh py-8 px-4 md:px-8 space-y-4">
       <div class="space-y-2">
         <h3 class="text-xl font-semibold">
           {{ $t('salesDetails') }}
