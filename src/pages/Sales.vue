@@ -1342,19 +1342,19 @@ watch(
                      class="border-none text-right text-gray-500 bg-slate-100 rounded-lg w-full text-lg">
               <div class="flex space-x-3 my-3 justify-end">
                 <button
-                  class="xl:px-4 lg:px-1 py-2 flex items-center justify-center text-lg cursor-pointer border border-blue-400 bg-blue-100 hover:border-blue-400 hover:text-white hover:bg-blue-400 rounded-lg"
+                  class="px-2 py-2 flex items-center justify-center text-lg cursor-pointer border border-blue-400 bg-blue-100 hover:border-blue-400 hover:text-white hover:bg-blue-400 rounded-lg"
                   :class="{'bg-blue-400 text-white' : discount===10}"
                   @click="setDiscountValue(10)">10%</button>
                 <button
-                  class="xl:px-4 lg:px-1 flex items-center justify-center text-lg cursor-pointer border border-blue-400 bg-blue-100 hover:border-blue-400 hover:text-white hover:bg-blue-400 rounded-lg"
+                  class="px-2 flex items-center justify-center text-lg cursor-pointer border border-blue-400 bg-blue-100 hover:border-blue-400 hover:text-white hover:bg-blue-400 rounded-lg"
                   :class="{'bg-blue-400 text-white' : discount===25}"
                   @click="setDiscountValue(25)">25%</button>
                 <button
-                  class="xl:px-4 lg:px-1 flex items-center justify-center text-lg cursor-pointer border border-blue-400 bg-blue-200 hover:border-blue-400 hover:text-white hover:bg-blue-400 rounded-lg"
+                  class="px-2 flex items-center justify-center text-lg cursor-pointer border border-blue-400 bg-blue-200 hover:border-blue-400 hover:text-white hover:bg-blue-400 rounded-lg"
                   :class="{'bg-blue-400 text-white' : discount===50}"
                   @click="setDiscountValue(50)">50%</button>
                 <button
-                  class="xl:px-4 lg:px-1 flex items-center justify-center text-lg cursor-pointer border border-blue-400 bg-blue-300 hover:border-blue-400 hover:text-white hover:bg-blue-400 rounded-lg"
+                  class="px-2 flex items-center justify-center text-lg cursor-pointer border border-blue-400 bg-blue-300 hover:border-blue-400 hover:text-white hover:bg-blue-400 rounded-lg"
                   :class="{'bg-blue-400 text-white' : discount===100}"
                   @click="setDiscountValue(100)">100%</button>
               </div>
