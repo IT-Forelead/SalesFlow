@@ -26,6 +26,7 @@ import { onClickOutside } from '@vueuse/core'
 import BroomIcon from '../assets/icons/BroomIcon.vue'
 import InputSwitch from 'primevue/inputswitch';
 import { useProductStore } from '../store/product.store.js'
+import { isBarcode } from '../mixins/barcodeFormatter'
 
 const { t } = useI18n()
 const API_URL = import.meta.env.VITE_CHEQUE_API_URL
@@ -299,8 +300,10 @@ const searchProducts = (async () => {
   if (!isNaN(trimmedValue)) {
     if (trimmedValue.startsWith('9')) {
       filters = { name: String(trimmedValue) }
-    } else {
+    } else if (isBarcode(trimmedValue)) {
       filters = { barcode: trimmedValue }
+    } else {
+      filters = { serialId: trimmedValue }
     }
   } else {
     filters = { name: trimmedValue }
