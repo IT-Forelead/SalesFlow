@@ -56,8 +56,8 @@ const paymentTypeTranslate = (type) => {
   switch (type) {
     case 'cash':
       return t('cash')
-    case 'paid':
-      return t('paid')
+    case 'terminal':
+      return t('terminal')
     case 'bank_transfer':
       return t('bankTransfer')
   }
