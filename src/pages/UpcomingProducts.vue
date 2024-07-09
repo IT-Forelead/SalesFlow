@@ -42,13 +42,13 @@ const currentPage = computed(() => {
 const saleTypeTranslate = (type) => {
   switch (type) {
     case 'amount':
-      return 'Donali'
+      return 'dona'
     case 'litre':
-      return 'Litrli'
+      return 'litr'
     case 'kg':
-      return 'Kilogrammli'
+      return 'kilogramm'
     case 'g':
-      return 'Grammli'
+      return 'gramm'
   }
 }
 
@@ -56,8 +56,8 @@ const paymentTypeTranslate = (type) => {
   switch (type) {
     case 'cash':
       return t('cash')
-    case 'paid':
-      return t('paid')
+    case 'terminal':
+      return t('terminal')
     case 'bank_transfer':
       return t('bankTransfer')
   }
@@ -105,8 +105,10 @@ const columns = [
         row.original.products?.map((item, index) => {
           const productName = item.name;
           const packagingWords = item.packaging.split(' ');
+          const productQuantity = item.quantity;
+          const productSaleType = item.saleType;
           return h('div', { key: index, class: 'flex items-center space-x-1' }, [
-            h('p', { class: 'text-base text-gray-900' }, productName + " - " + packagingWords),
+            h('p', { class: 'text-base text-gray-900' }, productName + " - " + packagingWords + " (" + productQuantity + " " + saleTypeTranslate(productSaleType) + ")"),
           ]);
         }),
       ]),
@@ -138,6 +140,10 @@ const columns = [
           h('div', { class: 'text-sm text-gray-500' }, t('paymentStatus') + ': '),
           h('div', { class: 'text-base text-gray-900' }, paymentStatusTranslate(row.original.paymentStatus)),
         ]),
+        row.original.paidBy ? h('div', { class: 'flex items-center space-x-1' }, [
+          h('div', { class: 'text-sm text-gray-500' }, t('paidBy') + ': '),
+          h('div', { class: 'text-base text-gray-900' }, row.original.paidBy),
+        ]): null,
       ]),
   },
   {

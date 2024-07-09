@@ -359,6 +359,8 @@
   "enterDebt": "Введите долг",
   "paidBy": "Кто оплатил",
   "selectPaidBy": "Введидите кто оплатил",
-  "terminal" : "Терминал"
+  "terminal" : "Терминал",
+  "productUtilizedSuccessfully": "Продукт успешно утилизирован!",
+  "errorWhileUtilizingProduct": "При утилизации продукта произошла ошибка!"
 
 }

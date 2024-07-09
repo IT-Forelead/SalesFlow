@@ -359,5 +359,7 @@
   "enterDebt": "Qarz qiriting",
   "paidBy": "Kim to'ladi",
   "selectPaidBy": "Kim to'laganini kiriting",
-  "terminal" : "Terminal"
+  "terminal" : "Terminal",
+  "productUtilizedSuccessfully": "Mahsulot utilizatsiya qilindi!",
+  "errorWhileUtilizingProduct": "Mahsulotni utilizatsiya qilishda xatolik yuz berdi!"
 }

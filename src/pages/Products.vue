@@ -17,6 +17,7 @@ import { useI18n } from 'vue-i18n'
 import { useAuthStore } from '../store/auth.store.js'
 import decodeJwt, { parseJwt } from '../mixins/utils.js'
 import { useRoute, useRouter } from 'vue-router'
+import { isBarcode } from '../mixins/barcodeFormatter'
 
 const { t } = useI18n()
 const route = useRoute()
@@ -185,6 +186,8 @@ const searchProducts = debounce(() => {
   router.push({ query });
   if (searchFilter.value.trim() === '') {
     getProducts({ limit: pageSize, page: currentPage.value });
+  } else if (isBarcode(searchFilter.value)) {
+    getProducts({ barcode: searchFilter.value });
   } else {
     getProducts({ name: searchFilter.value });
   }

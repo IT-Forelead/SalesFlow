@@ -43,6 +43,9 @@ class ProductService {
   async searchProductBarcodeByParams(data) {
     return AxiosService.post('/product/barcode-search', data)
   }
+  async utilizeProduct(data) {
+    return AxiosService.post('/product/utilize', data)
+  }
   async uploadImage(data) {
     return AxiosService.post('/assets', data, {
       headers: {
