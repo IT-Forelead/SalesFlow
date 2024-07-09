@@ -154,10 +154,6 @@ const columns = [
     header: t('expirationDate'),
   },
   {
-    accessorKey: 'utilized',
-    header: t('utilized'),
-  },
-  {
     accessorKey: 'actions',
     header: t('actions'),
     cell: ({ row }) => h('div', { class: 'flex items-center space-x-2' }, [

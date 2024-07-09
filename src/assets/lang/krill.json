@@ -356,5 +356,7 @@
   "enterDebt": "Қарз киритинг",
   "paidBy": "Қим тўлади",
   "selectPaidBy": "Қим тўлаганини киритинг",
-  "terminal" : "Терминал"
+  "terminal" : "Терминал",
+  "productUtilizedSuccessfully": "Маҳсулот утилизация қилинди!",
+  "errorWhileUtilizingProduct": "Маҳсулотни утилизация қилишда хатолик юз берди!"
 }

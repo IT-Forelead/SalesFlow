@@ -355,5 +355,8 @@
   "enterDebt": "Enter debt",
   "paidBy": "Paid by",
   "selectPaidBy": "Please select who paid",
-  "terminal" : "Terminal"
+  "terminal" : "Terminal",
+  "productUtilizedSuccessfully": "Product utilized successfully!",
+  "errorWhileUtilizingProduct": "Error while utilizing product!",
+  "utilized": "Utilized"
 }
