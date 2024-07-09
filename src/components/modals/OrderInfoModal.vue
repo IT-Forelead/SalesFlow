@@ -8,19 +8,21 @@ import Spinners270RingIcon from '../../assets/icons/Spinners270RingIcon.vue'
 import CancelButton from '../buttons/CancelButton.vue'
 import { useOrderStore } from '../../store/order.store'
 import OrderService from '../../services/order.service'
-import { computed, ref } from 'vue'
+import { computed, onMounted, ref } from 'vue'
 import useMoneyFormatter from '../../mixins/currencyFormatter'
 import moment from 'moment'
 import axios from 'axios'
 import { useI18n } from 'vue-i18n'
 import { toast } from 'vue-sonner'
+import SettingsService from '../../services/settings.service.js'
+import HolidayDiscountService from '../../services/holidayDiscount.service.js'
 
 const API_URL = import.meta.env.VITE_CHEQUE_API_URL
 
 const { t } = useI18n()
 
 const orderStore = useOrderStore()
-const qrcode = ref()
+const qrCode = ref()
 
 const currentPage = computed(() => {
   return orderStore.currentPage
@@ -31,6 +33,19 @@ const params = computed(() => {
 
 const selectedOrder = computed(() => {
   return orderStore.selectedOrder
+})
+
+
+onMounted(() => {
+  SettingsService.getSettings()
+    .then((res) => {
+      if (res) {
+        qrCode.value = res.qrCode
+      }
+    })
+    .catch((err) => {
+      console.error('Error fetching settings:', err)
+    })
 })
 
 const saleTypeShortTranslate = (type) => {
@@ -81,7 +96,7 @@ const printChaqueFunc = (id) => {
         }
       }),
       time: moment(res?.createdAt).format('DD/MM/YYYY H:mm'),
-      qrcode: qrcode.value,
+      qrcode: qrCode.value,
     }).finally(() => {
       isLoadingPrint.value = false
     })

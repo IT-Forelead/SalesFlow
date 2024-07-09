@@ -66,7 +66,7 @@ const hasDiscountToday = ref(false)
 const boundaryPrice = ref(0)
 const minimalPrice = ref(0)
 const hasDiscount = ref(false)
-const marketLocation = ref(null)
+const qrCode = ref()
 
 onMounted(() => {
   isLoading.value = true
@@ -75,9 +75,7 @@ onMounted(() => {
       if (res) {
         boundaryPrice.value = res.boundaryPrice
         minimalPrice.value = res.minimalPrice
-        if (res.latitude && res.longitude) {
-          marketLocation.value = `geo:${res.latitude},${res.longitude}`
-        }
+        qrCode.value = res.qrCode
       }
     })
     .catch((err) => {
@@ -119,7 +117,6 @@ const activeBasket = ref([])
 const firstBasket = ref([])
 const secondBasket = ref([])
 const thirdBasket = ref([])
-const qrcode = ref()
 const phoneRegex = /\+998[1-9]\d{8}/
 const onDiscountFocus = ref(null)
 const onTotalFocus = ref(null)
@@ -526,10 +523,8 @@ const createOrder = (printCheck = true) => {
         orderId.value = res
         showSale.value = true
         onSearchFocus.value = null
-        qrcode.value = API_URL + `/customer-form/${res}`
       } else {
         showSale.value = false
-        qrcode.value = null
       }
       clearSubmitData()
       // clearCustomerForm()
@@ -560,7 +555,7 @@ const createOrder = (printCheck = true) => {
               }
             }),
             time: moment(res?.createdAt).format('DD/MM/YYYY H:mm'),
-            qrcode: marketLocation.value,
+            qrcode: qrCode.value,
           })
         })
       }
