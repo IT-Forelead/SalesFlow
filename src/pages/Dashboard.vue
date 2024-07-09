@@ -431,7 +431,8 @@ const getOrdersStatsFinal = () => {
 
 const getSoldProductPrice = () => {
   OrderService.getOrdersStatsOverall().then((res) => {
-    soldProductPrice.value = res.total
+    console.log("aaa" + res);
+    soldProductPrice.value = res
   })
 }
 
@@ -575,23 +576,26 @@ watch(
           </div>
         </div>
         <div class="flex flex-col md:flex-row md:items-center space-x-0 md:space-x-4 space-y-2 md:space-y-0">
-          <div class="flex-1 w-full space-y-4 rounded-3xl bg-slate-50 p-5">
+          <div v-for="(product, idx) in soldProductPrice" :key="idx" class="flex-1 w-full space-y-4 rounded-3xl bg-slate-50 p-5">
             <div
               class="flex flex-row md:flex-col items-center md:items-start space-x-4 md:space-x-0 space-y-0 md:space-y-2">
               <div class="inline-flex items-center justify-center rounded-xl bg-blue-100 p-3">
                 <DollarIcon class="w-8 h-8 text-blue-600" />
               </div>
               <div>
-                <div class="text-base text-gray-600">
-                  {{ $t('soldProductsPrice') }}
+                <div v-if="product?.period === 'current_month'" class="text-base text-gray-600">
+                  {{ $t('currentMonthsSales') }}
+                </div>
+                <div v-else class="text-base text-gray-600">
+                  {{ $t('previousMonthsSales') }}
                 </div>
                 <div class="text-xl md:text-2xl font-semibold">
-                  {{ useMoneyFormatter(soldProductPrice) }}
+                  {{ useMoneyFormatter(product?.total) }}
                 </div>
               </div>
             </div>
           </div>
-          <div class="flex-1 w-full space-y-4 rounded-3xl bg-slate-50 p-5">
+          <!-- <div class="flex-1 w-full space-y-4 rounded-3xl bg-slate-50 p-5">
             <div
               class="flex flex-row md:flex-col items-center md:items-start space-x-4 md:space-x-0 space-y-0 md:space-y-2">
               <div class="inline-flex items-center justify-center rounded-xl bg-blue-100 p-3">
@@ -606,7 +610,7 @@ watch(
                 </div>
               </div>
             </div>
-          </div>
+          </div> -->
           <div class="flex-1 w-full h-full space-y-4 rounded-3xl bg-slate-50 p-5">
             <div
               class="flex flex-row md:flex-col items-center md:items-start space-x-4 md:space-x-0 space-y-0 md:space-y-2">

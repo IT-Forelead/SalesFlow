@@ -358,5 +358,7 @@
   "selectPaidBy": "Қим тўлаганини киритинг",
   "terminal" : "Терминал",
   "productUtilizedSuccessfully": "Маҳсулот утилизация қилинди!",
-  "errorWhileUtilizingProduct": "Маҳсулотни утилизация қилишда хатолик юз берди!"
+  "errorWhileUtilizingProduct": "Маҳсулотни утилизация қилишда хатолик юз берди!",
+  "currentMonthsSales" : "Ушбу ойдаги савдо",
+  "previousMonthsSales" : "Олдинги ойдаги савдо"
 }

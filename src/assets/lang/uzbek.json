@@ -361,5 +361,7 @@
   "selectPaidBy": "Kim to'laganini kiriting",
   "terminal" : "Terminal",
   "productUtilizedSuccessfully": "Mahsulot utilizatsiya qilindi!",
-  "errorWhileUtilizingProduct": "Mahsulotni utilizatsiya qilishda xatolik yuz berdi!"
+  "errorWhileUtilizingProduct": "Mahsulotni utilizatsiya qilishda xatolik yuz berdi!",
+  "currentMonthsSales" : "Ushbu oydagi savdo",
+  "previousMonthsSales" : "Oldingi oydagi savdo"
 }
