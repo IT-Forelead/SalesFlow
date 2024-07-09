@@ -44,7 +44,7 @@ const onSearchFocus = ref(null)
 const sortByDropdown = ref(null)
 const filterByDropdown = ref(null)
 const checked = ref(false)
-
+const currentPage2 = computed(() => productHistoryStore.currentPage)
 onClickOutside(sortByDropdown, () => {
   if (useDropdownStore().isOpenSortBy) {
     useDropdownStore().toggleSortBy()
@@ -154,6 +154,10 @@ const columns = [
     header: t('expirationDate'),
   },
   {
+    accessorKey: 'utilized',
+    header: t('utilized'),
+  },
+  {
     accessorKey: 'actions',
     header: t('actions'),
     cell: ({ row }) => h('div', { class: 'flex items-center space-x-2' }, [
@@ -185,21 +189,35 @@ const columns = [
       // }, [
       //   // h(TrashIcon, { class: 'w-6 h-6 text-red-600 hover:scale-105' }),
       // ]),
-      // h(InputSwitch, {
-      //
-      //   modelValue: switchStates[row.original.id],
-      //   'onUpdate:modelValue': (value) => {
-      //     switchStates[row.original.id] = value;
-      //     toggleSold(row.original.id, value);
-      //   }
-      // }),
+      h(InputSwitch, {
+        modelValue: switchStates[row.original.id],
+        'onUpdate:modelValue': (value) => {
+          switchStates[row.original.id] = value;
+          utilizeProduct(row.original.id, row.original.quantity);
+        }
+      }),
     ]),
     enableSorting: false,
   },
 ]
 const switchStates = reactive({});
-const toggleSold = (id, isSold) => {
-  console.log(id, isSold)
+const utilizeProduct = (id, quantity) => {
+  ProductService.utilizeProduct({
+    productId: id,
+    quantity: quantity,
+  })
+    .then(() => {
+      toast.success(t('productUtilizedSuccessfully'))
+      ProductService.getProductsDetails({ limit: pageSize, page: currentPage2.value, name: route.query.search })
+        .then((res) => {
+          useProductHistoryStore().clearStore()
+          useProductHistoryStore().totalHistories = res.total
+          useProductHistoryStore().setProductHistories(res.data)
+        })
+    })
+    .catch(() => {
+      toast.error(t('errorWhileUtilizingProduct'))
+    })
 }
 
 const printLabel = (product) => {
