@@ -53,7 +53,7 @@ const editUpcomingProductStatus = () => {
     toast.warning(t('selectedUpcomingProductIsNotAvailable'))
   } else if (!submitData.paymentType) {
     toast.warning(t('plsSelectPaymentType'))
-  } else if (submitData.status == 'delivered' && (!submitData.paidBy || submitData.paidBy === '')) {
+  } else if (submitData.paymentStatus == 'paid' && submitData.status == 'delivered' && (!submitData.paidBy || submitData.paidBy === '')) {
     toast.warning(t('selectPaidBy'))
   } else {
     isLoading.value = true
@@ -116,7 +116,7 @@ watch(
             <select id="default-type" v-model="submitData.paymentStatus"
               class="bg-slate-100 border-none text-slate-900 rounded-lg text-base md:text-lg block w-full h-11">
               <option value="" selected>{{ $t('selectStatus') }}</option>
-              <option value="paid">{{ $t('paid') }}</option>
+              <option value="paid" @change="showDeliveryField = true">{{ $t('paid') }}</option>
               <option value="unpaid">{{ $t('unpaid') }}</option>
             </select>
           </div>
@@ -149,7 +149,7 @@ watch(
               <option value="bank_transfer">{{ $t('bankTransfer') }}</option>
             </select>
           </div>
-          <div v-if="submitData.status === 'delivered'" class="space-y-1 md:w-1/2 sm:w-full">
+          <div v-if="submitData.status === 'delivered' && submitData.paymentStatus === 'paid' " class="space-y-1 md:w-1/2 sm:w-full">
             <label for="paidBy" class="text-base md:text-lg font-medium">
               {{ $t('paidBy') }}
               <span class="text-red-500 mr-2">*</span>

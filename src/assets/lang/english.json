@@ -358,5 +358,7 @@
   "terminal" : "Terminal",
   "productUtilizedSuccessfully": "Product utilized successfully!",
   "errorWhileUtilizingProduct": "Error while utilizing product!",
-  "utilized": "Utilized"
+  "utilized": "Utilized",
+  "currentMonthsSales" : "Current months sales",
+  "previousMonthsSales" : "Previous month's sales"
 }
