@@ -536,7 +536,7 @@ const onChange = (event) => {
             <span>{{ sortByOption || $t('sorting') }}</span>
           </div>
           <div v-if="useDropdownStore().isOpenSortBy"
-            class="absolute bg-white shadow-md rounded-xl w-52 p-3    z-20    top-18  right-0 space-y-3">
+            class="absolute bg-white shadow-md rounded-xl w-52 p-3 z-20 top-18 right-0 space-y-3">
             <ul>
               <li @click="resetSortData(); sortByOption = $t('standard')"
                 class="px-2 py-1 text-sm hover:bg-slate-100 rounded cursor-pointer">
