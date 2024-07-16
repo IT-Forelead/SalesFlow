@@ -488,7 +488,7 @@ const onChange = (event) => {
                placeholder="Search everything...">
       </div>
       <div class="w-full md:w-auto order-1 md:order-2 flex space-x-2">
-        <div class="relative w-full" ref="filterByDropdown">
+        <div class="relative w-auto" ref="filterByDropdown">
           <div @click="useDropdownStore().toggleFilterBy()"
                class="border-none select-none text-gray-500 bg-slate-100 rounded-full w-full p-2 px-5 flex items-center hover:bg-gray-200 cursor-pointer space-x-1">
             <FunnelIcon class="w-5 h-5 text-gray-400" />
@@ -529,9 +529,9 @@ const onChange = (event) => {
             </div>
           </div>
         </div>
-        <div class="relative w-full" ref="sortByDropdown">
+        <div class="relative w-auto" ref="sortByDropdown">
           <div @click="useDropdownStore().toggleSortBy()"
-            class="border-none select-none text-gray-500 bg-slate-100 rounded-full w-[377px] p-2 px-5 flex items-center hover:bg-gray-200 cursor-pointer space-x-1">
+            class="border-none select-none text-gray-500 bg-slate-100 rounded-full w-full p-2 px-5 flex items-center hover:bg-gray-200 cursor-pointer space-x-1">
             <FunnelIcon class="w-5 h-5 text-gray-400" />
             <span>{{ sortByOption || $t('sorting') }}</span>
           </div>
