@@ -16,6 +16,7 @@ import router from './router'
 import './style.css'
 import PrimeVue from 'primevue/config'
 import 'primevue/resources/themes/lara-light-blue/theme.css'
+import ConfirmationService from 'primevue/confirmationservice';
 
 const pinia = createPinia()
 const app = createApp(App)
@@ -29,6 +30,7 @@ app.use(i18n)
 app.use(MotionPlugin)
 app.use(VueApexCharts)
 app.use(Vue3Marquee)
+app.use(ConfirmationService);
 app.component('dashboard-layout', DashboardLayout)
 app.component('login-layout', LoginLayout)
 app.component('infinite-loading', InfiniteLoading)

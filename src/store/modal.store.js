@@ -35,6 +35,7 @@ export const useModalStore = defineStore('modal', {
     isOpenDebtInfoModal: false,
     isOpenUploadImageToProductModal: false,
     isOpenCreateTelegramBotModal: false,
+    isOpenUtilizeProductModal: false,
   }),
   actions: {
     openEditTelegramBotModal() {
@@ -222,6 +223,12 @@ export const useModalStore = defineStore('modal', {
     },
     toggleProfile() {
       this.isOpenProfileDropDown = !this.isOpenProfileDropDown
+    },
+    openUtilizeProductModal() {
+      this.isOpenUtilizeProductModal = true
+    },
+    closeUtilizeProductModal() {
+      this.isOpenUtilizeProductModal = false
     },
   }
 })

@@ -27,6 +27,10 @@ import BroomIcon from '../assets/icons/BroomIcon.vue'
 import InputSwitch from 'primevue/inputswitch';
 import { useProductStore } from '../store/product.store.js'
 import { isBarcode } from '../mixins/barcodeFormatter'
+import UtilizeIcon from '../assets/icons/UtilizeIcon.vue'
+
+import ConfirmDialog from 'primevue/confirmdialog';
+import { useConfirm } from "primevue/useconfirm";
 
 const { t } = useI18n()
 const API_URL = import.meta.env.VITE_CHEQUE_API_URL
@@ -185,13 +189,15 @@ const columns = [
       // }, [
       //   // h(TrashIcon, { class: 'w-6 h-6 text-red-600 hover:scale-105' }),
       // ]),
-      h(InputSwitch, {
-        modelValue: switchStates[row.original.id],
-        'onUpdate:modelValue': (value) => {
-          switchStates[row.original.id] = value;
-          utilizeProduct(row.original.id, row.original.quantity);
-        }
-      }),
+      h('abbr', { title: t('utilize') }, [
+        h(UtilizeIcon, { onClick: ($event) => { openPopup($event, row.original.id, row.original.rest, row.original.name) }, class: 'w-6 h-6 text-blue-600 hover:scale-105 cursor-pointer' }, {
+          modelValue: switchStates[row.original.id],
+          'onUpdate:modelValue': (value) => {
+            switchStates[row.original.id] = value;
+            // utilizeProduct(row.original.id, row.original.rest);
+          }
+        }),
+      ]),
     ]),
     enableSorting: false,
   },
@@ -247,6 +253,11 @@ const printLabel = (product) => {
 const openEditProductModalHistory = (data) => {
   useModalStore().openEditProductHistoryModal()
   useProductHistoryStore().setSelectedProductHistory(data)
+}
+
+const openUtilizeProductModal = (id, rest) => {
+  useModalStore().openUtilizeProductModal()
+  useProductHistoryStore().setUtilizeData(id, rest)
 }
 
 const getProductHistories = async (filters = {}) => {
@@ -421,12 +432,37 @@ watchEffect(() => {
   }
 })
 
+const confirm = useConfirm();
+const isVisible = ref(false);
+const openPopup = (event, id, quantity, name) => {
+  confirm.require({
+    message: t('beginText') + `${name}` + t('endText'),
+    header: 'Utilizasiya qilish',
+    onShow: () => {
+      isVisible.value = true;
+    },
+    onHide: () => {
+      isVisible.value = false;
+    },
+    ricon: 'icon-delete',
+    rejectLabel: t('no'),
+    rejectClass: 'text-slate-600 bg-white hover:bg-slate-100 focus:outline-none focus:ring-white rounded-xl border border-slate-200 text-sm font-medium px-5 py-2.5 hover:text-slate-900',
+    acceptLabel: t('yesOfCourse'),
+    acceptClass: 'ml-4 text-white bg-blue-500 hover:bg-blue-600 focus:ring-4 focus:outline-none focus:ring-white rounded-xl border border-slate-200 text-sm font-medium px-5 py-2.5',
+    accept: () => {
+      utilizeProduct(id, quantity)
+    },
+    reject: () => { }
+  });
+}
+
 const onChange = (event) => {
   checked.value = event.value
 }
 </script>
 <template>
   <div class="p-4 md:p-8">
+    <ConfirmDialog />
     <div class="flex md:flex-row flex-col items-center justify-between space-y-4 md:space-y-0 mb-6">
       <div class="text-slate-900 text-2xl md:text-3xl font-semibold">
         {{ $t('incomeExpense') }}

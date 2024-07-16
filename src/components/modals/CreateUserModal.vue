@@ -164,8 +164,7 @@ watch(
 )
 </script>
 <template>
-  <div>
-    <CModal :is-open="useModalStore().isOpenCreateUserModal" v-if="useModalStore().isOpenCreateUserModal"
+  <CModal :is-open="useModalStore().isOpenCreateUserModal" v-if="useModalStore().isOpenCreateUserModal"
       @close=closeModal>
       <template v-slot:header>
         {{ $t('createUser') }}
@@ -286,8 +285,6 @@ watch(
           {{ $t('create') }}
         </button>
       </template>
-    </CModal>
-  </div>
+  </CModal>
 </template>
-
 <style scoped></style>
