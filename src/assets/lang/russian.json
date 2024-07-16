@@ -363,6 +363,8 @@
   "productUtilizedSuccessfully": "Продукт успешно утилизирован!",
   "errorWhileUtilizingProduct": "При утилизации продукта произошла ошибка!",
   "currentMonthsSales" : "Продажи текущего месяца",
-  "previousMonthsSales" : "Продажи за предыдущий месяц"
-
+  "previousMonthsSales" : "Продажи за предыдущий месяц",
+  "utilize": "Утилизировать",
+  "beginText": "Утилизировать продукт ",
+  "endText": "?"
 }

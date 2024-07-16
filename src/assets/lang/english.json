@@ -360,5 +360,8 @@
   "errorWhileUtilizingProduct": "Error while utilizing product!",
   "utilized": "Utilized",
   "currentMonthsSales" : "Current months sales",
-  "previousMonthsSales" : "Previous month's sales"
+  "previousMonthsSales" : "Previous month's sales",
+  "utilize": "Utilize",
+  "beginText": "Utilize the product ",
+  "endText": "?"
 }
