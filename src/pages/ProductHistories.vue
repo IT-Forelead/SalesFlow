@@ -437,7 +437,7 @@ const isVisible = ref(false);
 const openPopup = (event, id, quantity, name) => {
   confirm.require({
     message: t('beginText') + `${name}` + t('endText'),
-    header: 'Utilizasiya qilish',
+    header: t('utilize'),
     onShow: () => {
       isVisible.value = true;
     },
@@ -488,7 +488,7 @@ const onChange = (event) => {
                placeholder="Search everything...">
       </div>
       <div class="w-full md:w-auto order-1 md:order-2 flex space-x-2">
-        <div class="relative w-full" ref="filterByDropdown">
+        <div class="relative w-auto" ref="filterByDropdown">
           <div @click="useDropdownStore().toggleFilterBy()"
                class="border-none select-none text-gray-500 bg-slate-100 rounded-full w-full p-2 px-5 flex items-center hover:bg-gray-200 cursor-pointer space-x-1">
             <FunnelIcon class="w-5 h-5 text-gray-400" />
@@ -529,55 +529,61 @@ const onChange = (event) => {
             </div>
           </div>
         </div>
-        <div class="relative w-full" ref="sortByDropdown">
+        <div class="relative w-auto" ref="sortByDropdown">
           <div @click="useDropdownStore().toggleSortBy()"
-               class="border-none select-none text-gray-500 bg-slate-100 rounded-full w-full p-2 px-5 flex items-center hover:bg-gray-200 cursor-pointer space-x-1">
+            class="border-none select-none text-gray-500 bg-slate-100 rounded-full w-full p-2 px-5 flex items-center hover:bg-gray-200 cursor-pointer space-x-1">
             <FunnelIcon class="w-5 h-5 text-gray-400" />
-            <span>{{ $t('sorting') }}</span>
+            <span>{{ sortByOption || $t('sorting') }}</span>
           </div>
           <div v-if="useDropdownStore().isOpenSortBy"
-               class="absolute bg-white shadow-md rounded-xl w-52 p-3 z-20 top-12 right-0 space-y-3">
+            class="absolute bg-white shadow-md rounded-xl w-52 p-3 z-20 top-18 right-0 space-y-3">
             <ul>
-              <li @click="resetSortData()" class="px-2 py-1 text-sm hover:bg-slate-100 rounded cursor-pointer">
+              <li @click="resetSortData(); sortByOption = $t('standard')"
+                class="px-2 py-1 text-sm hover:bg-slate-100 rounded cursor-pointer">
                 {{ $t('standard') }}
               </li>
-              <li @click="getRemainingProducts(true)" class="px-2 py-1 text-sm hover:bg-slate-100 rounded cursor-pointer">
+              <li @click="getRemainingProducts(true); sortByOption = $t('remainingProducts')"
+                class="px-2 py-1 text-sm hover:bg-slate-100 rounded cursor-pointer">
                 {{ $t('remainingProducts') }}
               </li>
-              <li @click="getSort('name', 'ASC')" class="px-2 py-1 text-sm hover:bg-slate-100 rounded cursor-pointer">
+              <li @click="getSort('name', 'ASC'); sortByOption = $t('byName') + ' (A-Z)'"
+                class="px-2 py-1 text-sm hover:bg-slate-100 rounded cursor-pointer">
                 {{ $t('byName') }} (A-Z)
               </li>
-              <li @click="getSort('name', 'DESC')" class="px-2 py-1 text-sm hover:bg-slate-100 rounded cursor-pointer">
+              <li @click="getSort('name', 'DESC'); sortByOption = $t('byName') + ' (Z-A)'"
+                class="px-2 py-1 text-sm hover:bg-slate-100 rounded cursor-pointer">
                 {{ $t('byName') }} (Z-A)
               </li>
-              <li @click="getSort('price', 'ASC')" class="px-2 py-1 text-sm hover:bg-slate-100 rounded cursor-pointer">
+              <li @click="getSort('price', 'ASC'); sortByOption = $t('byPrice') + ' (arzoni)'"
+                class="px-2 py-1 text-sm hover:bg-slate-100 rounded cursor-pointer">
                 {{ $t('byPrice') }} (arzoni)
               </li>
-              <li @click="getSort('price', 'DESC')" class="px-2 py-1 text-sm hover:bg-slate-100 rounded cursor-pointer">
+              <li @click="getSort('price', 'DESC'); sortByOption = $t('byPrice') + ' (qimmati)'"
+                class="px-2 py-1 text-sm hover:bg-slate-100 rounded cursor-pointer">
                 {{ $t('byPrice') }} (qimmati)
               </li>
-              <li @click="getSort('quantity', 'ASC')"
-                  class="px-2 py-1 text-sm hover:bg-slate-100 rounded cursor-pointer">
+              <li @click="getSort('quantity', 'ASC'); sortByOption = $t('byQuantity') + ' (ozi)'"
+                class="px-2 py-1 text-sm hover:bg-slate-100 rounded cursor-pointer">
                 {{ $t('byQuantity') }} (ozi)
               </li>
-              <li @click="getSort('quantity', 'DESC')"
-                  class="px-2 py-1 text-sm hover:bg-slate-100 rounded cursor-pointer">
-                {{ $t('byQuantity') }} (ko'pi)
+              <li @click="getSort('quantity', 'DESC'); sortByOption = $t('byQuantity') + ` (ko'pi)`"
+                class="px-2 py-1 text-sm hover:bg-slate-100 rounded cursor-pointer">
+                {{ $t('byQuantity') }} `ko'pi`
               </li>
-              <li @click="getSort('production_date', 'ASC')"
-                  class="px-2 py-1 text-sm hover:bg-slate-100 rounded cursor-pointer">
+              <li @click="getSort('production_date', 'ASC'); sortByOption = $t('byProductionDate') + ' (eski)'"
+                class="px-2 py-1 text-sm hover:bg-slate-100 rounded cursor-pointer">
                 {{ $t('byProductionDate') }} (eski)
               </li>
-              <li @click="getSort('production_date', 'DESC')"
-                  class="px-2 py-1 text-sm hover:bg-slate-100 rounded cursor-pointer">
+              <li @click="getSort('production_date', 'DESC'); sortByOption = $t('byProductionDate') + ' (yangi)'"
+                class="px-2 py-1 text-sm hover:bg-slate-100 rounded cursor-pointer">
                 {{ $t('byProductionDate') }} (yangi)
               </li>
-              <li @click="getSort('expiration_date', 'ASC')"
-                  class="px-2 py-1 text-sm hover:bg-slate-100 rounded cursor-pointer">
+              <li @click="getSort('expiration_date', 'ASC'); sortByOption = $t  ('byExpirationDate') + ' (eski)'"
+                class="px-2 py-1 text-sm hover:bg-slate-100 rounded cursor-pointer">
                 {{ $t('byExpirationDate') }} (eski)
               </li>
-              <li @click="getSort('expiration_date', 'DESC')"
-                  class="px-2 py-1 text-sm hover:bg-slate-100 rounded cursor-pointer">
+              <li @click="getSort('expiration_date', 'DESC'); sortByOption = $t('byExpirationDate') + ' (yangi)'"
+                class="px-2 py-1 text-sm hover:bg-slate-100 rounded cursor-pointer">
                 {{ $t('byExpirationDate') }} (yangi)
               </li>
             </ul>
