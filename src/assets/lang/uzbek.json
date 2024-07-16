@@ -363,5 +363,8 @@
   "productUtilizedSuccessfully": "Mahsulot utilizatsiya qilindi!",
   "errorWhileUtilizingProduct": "Mahsulotni utilizatsiya qilishda xatolik yuz berdi!",
   "currentMonthsSales" : "Ushbu oydagi savdo",
-  "previousMonthsSales" : "Oldingi oydagi savdo"
+  "previousMonthsSales" : "Oldingi oydagi savdo",
+  "utilize": "Utilizatsiya qilish",
+  "beginText": "Ushbu ",
+  "endText": " mahsulotini utilizatsiya qilishni hohlaysizmi?"
 }

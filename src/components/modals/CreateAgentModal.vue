@@ -68,8 +68,7 @@ const createAgent = () => {
 
 </script>
 <template>
-  <div>
-    <CModal :is-open="useModalStore().isOpenCreateAgentModal" v-if="useModalStore().isOpenCreateAgentModal"
+  <CModal :is-open="useModalStore().isOpenCreateAgentModal" v-if="useModalStore().isOpenCreateAgentModal"
             @close=closeModal>
       <template v-slot:header>
         {{ $t('createAgent') }}
@@ -122,8 +121,7 @@ const createAgent = () => {
           {{ $t('create') }}
         </button>
       </template>
-    </CModal>
-  </div>
+  </CModal>
 </template>
 
 <style scoped></style>
