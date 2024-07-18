@@ -163,28 +163,61 @@ const searchProductBarcodes = () => {
     toast.error(t('plsEnterProductNameOrBarcode'))
   } else {
     isSearching.value = true
-    ProductService.searchProductBarcodeByParams({
-      search: searchProductBarcode.value,
-    }).then((res) => {
-      if (res.length === 0) {
-        toast.info(t('thereIsNoSuchBarcodeProduct'))
-        clearSubmitData()
-        submitData.barcode = searchProductBarcode.value
-      } else if (res.length === 1) {
-        useBarcodeStore().setDecodedBarcode('')
-        productBarcode.value = res[0]
-      } else {
-        useBarcodeStore().setDecodedBarcode('')
-        productBarcodes.value = res
-      }
-      isSearching.value = false
-      searchProductBarcode.value = ''
-    }).catch(() => {
+    productBarcodes.value = []
+
+    let filter = {
+      name: undefined,
+      serialId: undefined,
+      barcode: undefined,
+    }
+
+    if (/^\d{8,14}$/.test(searchProductBarcode.value)) {
+      filter.barcode = parseInt(searchProductBarcode.value)
+    } else if (/^\d{1,8}$/.test(searchProductBarcode.value)) {
+      filter.serialId = parseInt(searchProductBarcode.value)
+    } else {
+      filter.name = searchProductBarcode.value
+    }
+
+    ProductService.getProductsDetails({
+      limit: 20,
+      page: 1,
+      ...filter,
+    })
+      .then((res) => {
+        productBarcodes.value = productBarcodes.value.concat(
+          res.data.map(p => ({ ...p, trademark: p.name }))
+        )
+      }).catch(() => {
       toast.error(t('errorGettingProduct'))
       setTimeout(() => {
         isSearching.value = false
       }, 3000)
-    })
+    }).finally(() => {
+      ProductService.searchProductBarcodeByParams({
+        search: searchProductBarcode.value,
+      }).then((res) => {
+        productBarcodes.value = productBarcodes.value.concat(res)
+        isSearching.value = false
+        searchProductBarcode.value = ''
+      }).catch(() => {
+        toast.error(t('errorGettingProduct'))
+        setTimeout(() => {
+          isSearching.value = false
+        }, 3000)
+      }).finally(() => {
+        if (productBarcodes.value.length === 0) {
+          toast.info(t('thereIsNoSuchBarcodeProduct'))
+          clearSubmitData()
+          submitData.barcode = searchProductBarcode.value
+        } else if (productBarcodes.value.length === 1) {
+          useBarcodeStore().setDecodedBarcode('')
+          productBarcode.value = productBarcodes.value[0]
+        } else {
+          useBarcodeStore().setDecodedBarcode('')
+        }
+      })
+    });
   }
 }
 
@@ -210,6 +243,9 @@ watch(
       submitData.name = data?.trademark
       submitData.packaging = data?.packaging
       submitData.saleType = data?.saleType
+      submitData.price = data?.price
+      submitData.purchasePrice = data?.purchasePrice
+      data?.agentId && findAndSelectAgent(data?.agentId)
     }
   },
   { deep: true },
