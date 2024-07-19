@@ -555,7 +555,7 @@ const createOrder = (printCheck = true) => {
               }
             }),
             time: moment(res?.createdAt).format('DD/MM/YYYY H:mm'),
-            qrcode: qrCode.value,
+            qrcode: window.location.origin + '/customer/order/' + res?.id,
           })
         })
       }
@@ -1005,7 +1005,7 @@ watch(
   () => showDebtForm.value,
   () => {
     if (showDebtForm.value) {
-      customerForm.remained = submitData.paymentReceived 
+      customerForm.remained = submitData.paymentReceived
     } else {
       customerForm.remained = ''
     }

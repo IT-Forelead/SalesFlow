@@ -96,7 +96,7 @@ const printChaqueFunc = (id) => {
         }
       }),
       time: moment(res?.createdAt).format('DD/MM/YYYY H:mm'),
-      qrcode: qrCode.value,
+      qrcode: window.location.origin + '/customer/order/' + res?.id,
     }).finally(() => {
       isLoadingPrint.value = false
     })
