@@ -1,8 +1,11 @@
 <script setup>
 import PhPencilIcon from '../assets/icons/EditIcon.vue'
+import PhTelegramLogo from '../assets/icons/TelegramIcon.vue'
+import PhChatCircleBold from '../assets/icons/ChatIcon.vue'
 import PhTrash from '../assets/icons/TrashIcon.vue'
 import { ref } from 'vue'
 import moment from 'moment'
+import { toast } from 'vue-sonner'
 import { computed, h } from 'vue'
 import SearchIcon from '../assets/icons/SearchIcon.vue'
 import Spinners270RingIcon from '../assets/icons/Spinners270RingIcon.vue'
@@ -57,6 +60,12 @@ const columns = [
       h('button', { onClick: () => { openEditAgent(row.original) } }, [
         h(PhPencilIcon, { class: 'w-6 h-6 text-blue-600 hover:scale-105' })
       ]),
+      h('button', { onClick: () => { sendMessage(row.original.id) } }, [
+        h(PhTelegramLogo, { class: 'w-6 h-6 text-blue-600 hover:scale-105' })
+      ]),
+      h('button', { onClick: () => { openChatWithAgent(row.original) } }, [
+        h(PhChatCircleBold, { class: 'w-6 h-6 text-blue-600 hover:scale-105' })
+      ]),
       // h('button', { onClick: () => { openDeleteUserModal(row.original) } }, [
       //   h(PhTrash, { class: 'w-6 h-6 text-red-600 hover:scale-105' })
       // ]),
@@ -70,10 +79,26 @@ const openEditAgent = (data) => {
   useModalStore().openEditAgentModal()
 }
 
+const openChatWithAgent = (data) => {
+  useAgentStore().setSelectedAgent(data)
+  useModalStore().openChatWithAgentModal()
+}
+
 // const openDeleteUserModal = (data) => {
 //   useModalStore().openDeleteUserModal()
 //   useUserStore().setSelectedUser(data)
 // }
+
+const sendMessage = async (id) => {
+  console.log(id)
+  await AgentService.sendMessage(id)
+    .then(() => {
+      toast.success(t('messageSentSuccessfully'))
+    })
+    .catch(() => {
+      toast.error(t('messageSentFailed'))
+    })
+}
 
 const getAgents = () => {
   isLoading.value = true
