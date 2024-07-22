@@ -13,6 +13,9 @@ class AgentService {
   async sendMessage(id){
     return AxiosService.post('/agents/send-message', id)
   }
+  async sendChatMessage(data) {
+    return AxiosService.post('/agents/send-chat', data)
+  }
 }
 
 export default new AgentService()
