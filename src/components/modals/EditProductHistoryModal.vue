@@ -218,7 +218,7 @@ const calculateExpirationDate = (months) => {
           </div>
         </div>
         <div class="space-x-2 space-y-1 md:text-left text-center">
-          <button v-for="months in [1, 3, 6, 9, 12, 24]" @click="calculateExpirationDate(months)" type="button"
+          <button v-for="months in [1, 3, 6, 9, 12, 24]" :key="months" @click="calculateExpirationDate(months)" type="button"
             class="text-slate-600 bg-white hover:bg-slate-100 focus:ring-4 focus:outline-none focus:ring-slate-300 rounded-xl border border-slate-200 text-sm font-medium px-2.5 py-1 hover:text-slate-900 lowercase">+
             {{ months }} {{ t("month") }}</button>
         </div>
