@@ -1289,7 +1289,8 @@ watch(
             <div class="text-base text-gray-600">
               {{ $t('discountAmount') }}
             </div>
-            <div class="text-base font-semibold text-red-500">-{{ useMoneyFormatter(totalPrice-submitData.paymentReceived) }}</div>
+            <div v-if="discount > 0" class="text-base font-semibold text-red-500">-{{ useMoneyFormatter(totalPrice-submitData.paymentReceived) }}</div>
+            <div v-else class="text-base font-semibold text-red-500">0 UZS</div>
           </div>
         </div>
         <div class="flex items-center justify-between mt-2">
