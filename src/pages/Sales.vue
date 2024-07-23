@@ -60,6 +60,7 @@ const submitData = reactive({
   discountPercent: null,
   paymentReceived: 0,
   discountReason: null,
+  clientMoney: 0,
 })
 
 const hasDiscountToday = ref(false)
@@ -123,6 +124,7 @@ const onTotalFocus = ref(null)
 const onDiscountReasonFocus = ref(null)
 const discount = ref(0);
 const onDebtFocus = ref(null)
+// const onDebtFocus = ref(null)
 
 const setDiscountValue = (value) => {
   discount.value = value;
@@ -1012,6 +1014,11 @@ watch(
   },
   { deep: true },
 )
+
+ 
+
+
+const showChange = ref(false)
 </script>
 
 <template>
@@ -1289,6 +1296,16 @@ watch(
         </label>
         <money3 v-model="submitData.paymentReceived" v-bind="moneyConf" id="price" ref="onTotalFocus"
                 @blur="totalReFocus()" class="border-none text-right text-gray-500 bg-slate-100 rounded-lg w-full text-lg" />
+      </div>
+      <div class="space-y-1">
+        <label class="text-base font-medium">
+          {{ $t('Klient berilgan pul') }}
+        </label>
+        <money3 v-model="submitData.clientMoney" v-bind="moneyConf" class="border-none text-right text-gray-500 bg-slate-100 rounded-lg w-full text-lg" />
+
+  <button class="px-4 bg-[#0167F3] text-white rounded-r-xl" @click="showChange = true">Look change</button>
+
+  <span v-if="showChange">{{ submitData.clientMoney - submitData.paymentReceived }}</span>
       </div>
 
       <div class="space-y-3">
