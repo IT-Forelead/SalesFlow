@@ -532,7 +532,7 @@ const createOrder = (printCheck = true) => {
     OrderService.createOrder(
       cleanObjectEmptyFields({
         holidayDiscountId: holidayDiscount.value?.id,
-        discountPercent: submitData.discountPercent,
+        discountPercent: submitData.discountPercent > 0 ? submitData.discountPercent : '',
         discountReason: submitData.discountReason,
         paymentReceived: submitData.paymentReceived,
         items: activeBasket.value,
