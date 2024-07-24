@@ -379,6 +379,10 @@ const increaseCountChecking = (product) => {
   } else return product?.quantity >= product?.amount + 1
 }
 
+const increaseCountAll = (product) => {
+  return product?.quantity >= product?.amount
+}
+
 const increaseCountOfProducts = (product) => {
   activeBasket.value = activeBasket.value.map((item) => {
     if (item.productId === product.productId) {
@@ -389,6 +393,22 @@ const increaseCountOfProducts = (product) => {
         return { ...item, amount: roundFloatToOneDecimal(item.amount + 0.5) }
       } else {
         return { ...item, amount: item.amount + 1 }
+      }
+    } else item
+    return item
+  })
+}
+
+const increaseCountToAll = (product) => {
+  activeBasket.value = activeBasket.value.map((item) => {
+    if (item.productId === product.productId) {
+      // return { ...item, amount: item.amount + 1 }
+      if (item.saleType === 'kg') {
+        return { ...item, amount: product.quantity }
+      } else if (item.saleType === 'litre') {
+        return { ...item, amount: product.quantity }
+      } else {
+        return { ...item, amount: item.quantity }
       }
     } else item
     return item
@@ -435,9 +455,11 @@ const increaseCountOfPrice = (product) => {
         selectProductSum = Math.floor(roundFloatToTwoDecimal(selectProductSum) / 500) * 500 + 500
 
         if ((selectProductSum / item.price) > product.quantity) {
-          selectProductSum = item.price * item.amount
+          selectProductSum = Math.floor(roundFloatToTwoDecimal(item.price * product.quantity))
+          return { ...item, amount: item.quantity }
+        } else {
+          return { ...item, amount: (selectProductSum / item.price) }
         }
-        return { ...item, amount: (selectProductSum / item.price) }
       } else {
         return { ...item, amount: item.amount + 1 }
       }
@@ -625,7 +647,7 @@ watch(
 watch(
   () => totalPrice.value,
   () => {
-    submitData.paymentReceived = totalPrice.value - (totalPrice.value * submitData.discountPercent / 100)
+    submitData.paymentReceived = Math.round((totalPrice.value - (totalPrice.value * submitData.discountPercent / 100))/100)*100
   },
   { deep: true },
 )
@@ -1176,6 +1198,10 @@ watch(
                           class="flex items-center justify-center w-8 h-8 bg-white text-blue-700 shadow-sm hover:bg-slate-200 cursor-pointer rounded-xl">
                           <PlusIcon class="w-4 h-4" />
                         </div>
+                        <div @click="increaseCountToAll(product)" v-else-if="increaseCountAll(product)"
+                          class="flex items-center justify-center w-8 h-8 bg-white text-blue-700 shadow-sm hover:bg-slate-200 cursor-pointer rounded-xl">
+                          <PlusIcon class="w-4 h-4" />
+                        </div>
                         <div v-else
                           class="flex items-center justify-center w-8 h-8 bg-white text-slate-700 cursor-default rounded-xl">
                           <PlusIcon class="w-4 h-4" />
@@ -1196,7 +1222,7 @@ watch(
                         </div>
 
                       <div class="flex items-center justify-center text-lg font-normal">
-                        {{ useMoneyFormatter(product?.price * product?.amount) }}
+                        {{ useMoneyFormatter(Math.round(product?.price * product?.amount/100)*100) }}
                       </div>
                       <div @click="increaseCountOfPrice(product)" v-if="increasePriceChecking(product)"
                            class="flex items-center justify-center w-8 h-8 bg-white text-blue-700 shadow-sm hover:bg-slate-200 cursor-pointer rounded-xl">
@@ -1250,7 +1276,7 @@ watch(
               {{ $t('price') }}
             </div>
             <div class="text-base font-semibold text-gray-900">
-              {{ useMoneyFormatter(totalPrice) }}
+              {{ useMoneyFormatter(Math.round(totalPrice/100)*100) }}
             </div>
           </div>
           <div class="flex items-center justify-between">
@@ -1263,7 +1289,8 @@ watch(
             <div class="text-base text-gray-600">
               {{ $t('discountAmount') }}
             </div>
-            <div class="text-base font-semibold text-red-500">-{{ useMoneyFormatter(totalPrice-submitData.paymentReceived) }}</div>
+            <div v-if="discount > 0" class="text-base font-semibold text-red-500">-{{ useMoneyFormatter(totalPrice-submitData.paymentReceived) }}</div>
+            <div v-else class="text-base font-semibold text-red-500">0 UZS</div>
           </div>
         </div>
         <div class="flex items-center justify-between mt-2">
@@ -1279,7 +1306,7 @@ watch(
             {{ $t('total') }}
           </div>
           <div class="text-xl font-semibold text-gray-900">
-            {{ useMoneyFormatter(totalPrice - (totalPrice * submitData.discountPercent / 100)) }}
+            {{ useMoneyFormatter(Math.round((totalPrice - (totalPrice * submitData.discountPercent / 100))/100)*100) }}
           </div>
         </div>
       </div>
