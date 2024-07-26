@@ -363,5 +363,7 @@
   "previousMonthsSales" : "Previous month's sales",
   "utilize": "Utilize",
   "beginText": "Utilize the product ",
-  "endText": "?"
+  "endText": "?",
+  "customerMoney": "customerMoney",
+  "change": "Change"
 }

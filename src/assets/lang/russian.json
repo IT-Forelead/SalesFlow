@@ -366,5 +366,7 @@
   "previousMonthsSales" : "Продажи за предыдущий месяц",
   "utilize": "Утилизировать",
   "beginText": "Утилизировать продукт ",
-  "endText": "?"
+  "endText": "?",
+  "customerMoney": "Деньги, выданные клиентом",
+  "change": "Сдача"
 }
