@@ -505,6 +505,7 @@ const clearSubmitData = () => {
   submitData.discountReason = ''
   discount.value = ''
   submitData.paymentReceived = ''
+  submitData.customerMoney = ''
   activeBasket.value = []
   if (activeBasketStatus.value === 'firstBasket') {
     firstBasket.value = []
@@ -753,45 +754,62 @@ watchEffect(() => {
   }
 })
 const focused = ref(false)
+const focusedPrice = ref(false)
 const elm = ref(document.getElementById('customer-money'))
 
 const a = () => {
   onSearchFocus.value = null
   document.getElementById('customer-money').focus()
   focused.value = true
- // onSearchFocus.value = null
 }
-
+const b = () => {
+  onSearchFocus.value = null
+  document.getElementById('price').focus()
+  focusedPrice.value = true
+}
 
 
 watchEffect(() => {
   if (focused.value) {
+    if (onCustomerMoneyFocus.value) {
+      document.getElementById('customer-money').focus()      
+    }
     document.getElementById('customer-money').focus()
     onDiscountReasonFocus.value = null
     onDiscountFocus.value = null
     onSearchFocus.value = null
     onFullNameFocus.value = null
     onPhoneFocus.value = null
-  //  onTotalFocus.value = null
-   
+  }
+})
 
+watchEffect(() => {
+  if (focusedPrice.value) {
+    if(onCustomerMoneyFocus.value == null){
+      document.getElementById('price').focus()
+    }
+    document.getElementById('price').focus()
+    onDiscountReasonFocus.value = null
+    onDiscountFocus.value = null
+    onSearchFocus.value = null
+    onFullNameFocus.value = null
+    onPhoneFocus.value = null
   }
 })
 
 const reFocus = () => { 
-  if (router?.currentRoute?.value?.path === '/sales' && onSearchFocus.value && onFullNameFocus.value == null && !focused.value) {
+  if (router?.currentRoute?.value?.path === '/sales' && onSearchFocus.value && onFullNameFocus.value == null && !focused.value && !focusedPrice.value) {
     onTotalFocus.value = null
     onSearchFocus.value.focus()
-  } else if (onTotalFocus.value && onFullNameFocus.value == null && !focused.value && onCustomerMoneyFocus.value == null) {
+  } else if (onTotalFocus.value && onFullNameFocus.value == null && !focused.value && onCustomerMoneyFocus.value == null && !focusedPrice.value) {
     onSearchFocus.value.focus()
   } else if (onFullNameFocus.value) {
     onFullNameFocus.value.focus()
-  } else if (onDiscountFocus.value) {
+  } else if (onDiscountFocus.value && !focusedPrice.value) {
     onDiscountFocus.value.focus()
-  } else if (onSearchFocus.value && !focused.value && onCustomerMoneyFocus.value == null) {
+  } else if (onSearchFocus.value && !focused.value && onCustomerMoneyFocus.value == null && !focusedPrice.value) {
     onSearchFocus.value.focus()
-
-  } else if (!focused.value && onCustomerMoneyFocus.value == null) {
+  } else if (!focused.value && onCustomerMoneyFocus.value == null && focusedPrice.value) {
     document.getElementById('price').focus()
   } else {
     onSearchFocus.value = null
@@ -816,7 +834,7 @@ const fullNameReFocus = () => {
 }
 
 const discountReFocus = () => {
-  if (router?.currentRoute?.value?.path === '/sales' && onDiscountFocus.value) {
+  if (router?.currentRoute?.value?.path === '/sales' && onDiscountFocus.value && !focusedPrice.value) {
     onDiscountFocus.value.focus()
     onTotalFocus.value = null
     onSearchFocus.value = null
@@ -837,13 +855,8 @@ const discountReasonReFocus = () => {
 }
 
 const totalReFocus = () => {
-  if (router?.currentRoute?.value?.path === '/sales' && onTotalFocus.value && !focused.value) {
-    document.getElementById('price').focus()
-    onDiscountFocus.value = null
-    onDiscountReasonFocus.value = null
-    onSearchFocus.value = null
-    onPhoneFocus.value = null
-    onFullNameFocus.value = null
+  if (router?.currentRoute?.value?.path === '/sales' && focusedPrice.value && onSearchFocus.value == null && onDiscountFocus.value == null) {
+    focusedPrice.value = false 
   }
 }
 
@@ -869,13 +882,9 @@ const debtReFocus = () => {
 
 const customerMoneyReFocus = () => {
   if (router?.currentRoute?.value?.path === '/sales' && focused.value && onSearchFocus.value == null) {
-    focused.value = false 
+    focused.value = false  
   }
 }
-// const onFocusSearchInput = () => {
-//   const searchInput = document.getElementById('globle-search');
-//   searchInput.focus();
-// }
 
 watch(
   () => useBarcodeStore().decodedBarcode,
@@ -1365,7 +1374,7 @@ const showChange = ref(false)
           </div>
         </div>
       </div>
-      <div class="space-y-1">
+      <div class="space-y-1" @click="b">
         <label class="text-base font-medium">
           {{ $t('paymentReceived') }}
         </label>
