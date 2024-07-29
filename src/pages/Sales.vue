@@ -60,6 +60,7 @@ const submitData = reactive({
   discountPercent: null,
   paymentReceived: 0,
   discountReason: null,
+  customerMoney: 0,
 })
 
 const hasDiscountToday = ref(false)
@@ -123,6 +124,8 @@ const onTotalFocus = ref(null)
 const onDiscountReasonFocus = ref(null)
 const discount = ref(0);
 const onDebtFocus = ref(null)
+const onCustomerMoneyFocus = ref(0)
+// const onDebtFocus = ref(null)
 
 const setDiscountValue = (value) => {
   discount.value = value;
@@ -502,6 +505,7 @@ const clearSubmitData = () => {
   submitData.discountReason = ''
   discount.value = ''
   submitData.paymentReceived = ''
+  submitData.customerMoney = ''
   activeBasket.value = []
   if (activeBasketStatus.value === 'firstBasket') {
     firstBasket.value = []
@@ -683,6 +687,7 @@ watchEffect(() => {
     onTotalFocus.value = null
     onDiscountReasonFocus.value = null
     onDebtFocus.value = null
+    onCustomerMoneyFocus.value = null
   }
 })
 watchEffect(() => {
@@ -694,6 +699,7 @@ watchEffect(() => {
     onTotalFocus.value = null
     onDiscountReasonFocus.value = null
     onDebtFocus.value = null
+    onCustomerMoneyFocus.value = null
   }
 })
 watchEffect(() => {
@@ -705,6 +711,7 @@ watchEffect(() => {
     onTotalFocus.value = null
     onDiscountReasonFocus.value = null
     onDebtFocus.value = null
+    onCustomerMoneyFocus.value = null
   }
 })
 
@@ -717,6 +724,7 @@ watchEffect(() => {
     onPhoneFocus.value = null
     onDiscountReasonFocus.value = null
     onDebtFocus.value = null
+    onCustomerMoneyFocus.value = null
   }
 })
 
@@ -729,6 +737,7 @@ watchEffect(() => {
     onFullNameFocus.value = null
     onPhoneFocus.value = null
     onDebtFocus.value = null
+    onCustomerMoneyFocus.value = null
   }
 })
 
@@ -741,22 +750,76 @@ watchEffect(() => {
     onFullNameFocus.value = null
     onPhoneFocus.value = null
     onTotalFocus.value = null
+    onCustomerMoneyFocus.value = null
+  }
+})
+const focused = ref(false)
+const focusedPrice = ref(false)
+const elm = ref(document.getElementById('customer-money'))
 
+const a = () => {
+  onSearchFocus.value = null
+  document.getElementById('customer-money').focus()
+  focused.value = true
+}
+const b = () => {
+  onSearchFocus.value = null
+  document.getElementById('price').focus()
+  focusedPrice.value = true
+}
+
+
+watchEffect(() => {
+  if (focused.value) {
+    if (onCustomerMoneyFocus.value) {
+      document.getElementById('customer-money').focus()      
+    }
+    document.getElementById('customer-money').focus()
+    onDiscountReasonFocus.value = null
+    onDiscountFocus.value = null
+    onSearchFocus.value = null
+    onFullNameFocus.value = null
+    onPhoneFocus.value = null
   }
 })
 
-const reFocus = () => {
-  if (router?.currentRoute?.value?.path === '/sales' && onSearchFocus.value && onFullNameFocus.value == null)  {
+watchEffect(() => {
+  if (focusedPrice.value) {
+    if(onCustomerMoneyFocus.value == null){
+      document.getElementById('price').focus()
+    }
+    document.getElementById('price').focus()
+    onDiscountReasonFocus.value = null
+    onDiscountFocus.value = null
+    onSearchFocus.value = null
+    onFullNameFocus.value = null
+    onPhoneFocus.value = null
+  }
+})
+
+const reFocus = () => { 
+  if (router?.currentRoute?.value?.path === '/sales' && onSearchFocus.value && onFullNameFocus.value == null && !focused.value && !focusedPrice.value) {
     onTotalFocus.value = null
     onSearchFocus.value.focus()
-  } else if (onTotalFocus.value && onFullNameFocus.value == null) {
+  } else if (onTotalFocus.value && onFullNameFocus.value == null && !focused.value && onCustomerMoneyFocus.value == null && !focusedPrice.value) {
     onSearchFocus.value.focus()
   } else if (onFullNameFocus.value) {
     onFullNameFocus.value.focus()
-  } else if (onDiscountFocus.value) {
+  } else if (onDiscountFocus.value && !focusedPrice.value) {
     onDiscountFocus.value.focus()
-  } else {
+  } else if (onSearchFocus.value && !focused.value && onCustomerMoneyFocus.value == null && !focusedPrice.value) {
+    onSearchFocus.value.focus()
+  } else if (!focused.value && onCustomerMoneyFocus.value == null && focusedPrice.value) {
     document.getElementById('price').focus()
+  } else {
+    onSearchFocus.value = null
+    document.getElementById('customer-money').focus()
+    document.getElementById('customer-money').focus()
+    onDiscountReasonFocus.value = null
+    onDiscountFocus.value = null
+    onSearchFocus.value = null
+    onFullNameFocus.value = null
+    onPhoneFocus.value = null
   }
 }
 
@@ -771,7 +834,7 @@ const fullNameReFocus = () => {
 }
 
 const discountReFocus = () => {
-  if (router?.currentRoute?.value?.path === '/sales' && onDiscountFocus.value) {
+  if (router?.currentRoute?.value?.path === '/sales' && onDiscountFocus.value && !focusedPrice.value) {
     onDiscountFocus.value.focus()
     onTotalFocus.value = null
     onSearchFocus.value = null
@@ -792,13 +855,8 @@ const discountReasonReFocus = () => {
 }
 
 const totalReFocus = () => {
-  if (router?.currentRoute?.value?.path === '/sales' && onTotalFocus.value) {
-    document.getElementById('price').focus()
-    onDiscountFocus.value = null
-    onDiscountReasonFocus.value = null
-    onSearchFocus.value = null
-    onPhoneFocus.value = null
-    onFullNameFocus.value = null
+  if (router?.currentRoute?.value?.path === '/sales' && focusedPrice.value && onSearchFocus.value == null && onDiscountFocus.value == null) {
+    focusedPrice.value = false 
   }
 }
 
@@ -822,10 +880,11 @@ const debtReFocus = () => {
   }
 }
 
-// const onFocusSearchInput = () => {
-//   const searchInput = document.getElementById('globle-search');
-//   searchInput.focus();
-// }
+const customerMoneyReFocus = () => {
+  if (router?.currentRoute?.value?.path === '/sales' && focused.value && onSearchFocus.value == null) {
+    focused.value = false  
+  }
+}
 
 watch(
   () => useBarcodeStore().decodedBarcode,
@@ -1034,6 +1093,11 @@ watch(
   },
   { deep: true },
 )
+
+ 
+
+
+const showChange = ref(false)
 </script>
 
 <template>
@@ -1310,13 +1374,31 @@ watch(
           </div>
         </div>
       </div>
-      <div class="space-y-1">
+      <div class="space-y-1" @click="b">
         <label class="text-base font-medium">
           {{ $t('paymentReceived') }}
         </label>
         <money3 v-model="submitData.paymentReceived" v-bind="moneyConf" id="price" ref="onTotalFocus"
                 @blur="totalReFocus()" class="border-none text-right text-gray-500 bg-slate-100 rounded-lg w-full text-lg" />
       </div>
+     <div class="space-y-1" @click="a">
+        <label class="text-base font-medium">
+          {{ $t('customerMoney') }}
+        </label>
+        <div>
+          <money3 v-model="submitData.customerMoney"  id="customer-money"  ref="onCustomerMoneyFocus" @blur="customerMoneyReFocus()"  v-bind="moneyConf" class="border-none text-right text-gray-500 bg-slate-100 rounded-lg w-full text-lg" />
+        </div>
+
+      </div>
+      <div class="flex items-center justify-between">
+            <div class="text-base text-gray-600">
+              {{ $t('change') }}
+            </div>
+            <div class="text-base font-semibold text-blue-500">
+              {{ useMoneyFormatter(submitData.customerMoney - submitData.paymentReceived) }} 
+            </div>
+          </div>
+      
 
       <div class="space-y-3">
         <div class="py-3 lg:py-0 space-y-1">

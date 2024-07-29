@@ -366,5 +366,7 @@
   "previousMonthsSales" : "Oldingi oydagi savdo",
   "utilize": "Utilizatsiya qilish",
   "beginText": "Ushbu ",
-  "endText": " mahsulotini utilizatsiya qilishni hohlaysizmi?"
+  "endText": " mahsulotini utilizatsiya qilishni hohlaysizmi?",
+  "customerMoney": "Klient berilgan pul",
+  "change": "Qaytim"
 }
