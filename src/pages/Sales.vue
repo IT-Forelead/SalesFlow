@@ -41,6 +41,8 @@ import HolidayDiscountService from '../services/holidayDiscount.service.js'
 import { useHolidayDiscount } from '../store/holidayDiscount.store.js'
 import PhPercent from '../assets/icons/PercentIcon.vue'
 import useMoneyFormatter from '../mixins/currencyFormatter.js'
+import TicketSale from '../assets/icons/TicketSaleIcon.vue'
+import Dialog from 'primevue/dialog'
 
 const API_URL = import.meta.env.VITE_CHEQUE_API_URL
 const addedToBasket = new Audio('/audios/added-to-basket.mp3')
@@ -125,6 +127,7 @@ const onDiscountReasonFocus = ref(null)
 const discount = ref(0);
 const onDebtFocus = ref(null)
 const onCustomerMoneyFocus = ref(0)
+const onCashbackFocus = ref(null)
 // const onDebtFocus = ref(null)
 
 const setDiscountValue = (value) => {
@@ -753,6 +756,19 @@ watchEffect(() => {
     onCustomerMoneyFocus.value = null
   }
 })
+
+watchEffect(() => {
+  if (onCashbackFocus.value) {
+    onCashbackFocus.value.focus()
+    onSearchFocus.value = null
+    onPhoneFocus.value = null
+    onDiscountFocus.value = null
+    onTotalFocus.value = null
+    onDiscountReasonFocus.value = null
+    onDebtFocus.value = null
+    onCustomerMoneyFocus.value = null
+  }
+})
 const focused = ref(false)
 const focusedPrice = ref(false)
 const elm = ref(document.getElementById('customer-money'))
@@ -877,6 +893,16 @@ const debtReFocus = () => {
     onSearchFocus.value = null
     onFullNameFocus.value = null
     onPhoneFocus.value = null
+  }
+}
+
+const cashbackReFocus = () => {
+  if (router?.currentRoute?.value?.path === '/sales' && onFullNameFocus.value) {
+    onTotalFocus.value = null
+    onCashbackFocus.value.focus()
+    onSearchFocus.value = null
+    onPhoneFocus.value = null
+    onDiscountFocus.value = null
   }
 }
 
@@ -1094,10 +1120,11 @@ watch(
   { deep: true },
 )
 
- 
-
-
 const showChange = ref(false)
+
+const closeCashbackModal = () => {
+  submitData.cashback = ''
+}
 </script>
 
 <template>
@@ -1161,6 +1188,27 @@ const showChange = ref(false)
              class="flex items-center justify-center bg-slate-100 rounded-xl h-12 w-12 cursor-pointer">
           <BarcodeIcon class="w-6 h-6 text-blue-600" />
         </div>
+        <div @click="useModalStore().openCashbackModal()" :title="t('cashbackScanning')"
+             class="hidden md:flex items-center justify-center bg-slate-100 rounded-xl h-12 w-12 cursor-pointer">
+          <TicketSale class="w-5 h-5 text-blue-600" />
+        </div>
+        <Dialog v-model:visible="useModalStore().isOpenCashbackModal" modal :header="t('cashbackScanning')" >
+          <div class="h-40 w-[25vw] flex flex-col space-y-10 items-center">
+              <input ref="onCashbackFocus"
+              @blur="cashbackReFocus()" v-model="cashback" v-on:keypress="whenPressEnter($event)" type="search" class="mt-3 bg-slate-100 border-none text-slate-900 text-base rounded-xl block w-full h-12 pl-10 py-2 placeholder-slate-400 placeholder:text-lg"
+                    :placeholder="t('searchByCashback')" />
+              <div class="flex w-full justify-end space-x-3">
+              <button @click="useModalStore().closeCashbackModal()" type="button"
+                    class=" xl:py-3 px-4 lg:py-2 py-3 rounded-lg text-white text-lg font-medium bg-blue-500 cursor-pointer hover:bg-blue-600">
+                {{ $t('search') }}
+              </button>  
+              <button @click="useModalStore().closeCashbackModal()" type="button"
+              class=" xl:py-3 px-4 lg:py-2 py-3 rounded-lg text-lg font-medium cursor-pointer bg-blue-50 border border-blue-300 text-blue-500 hover:bg-blue-100">
+                {{ $t('close') }}
+              </button>
+            </div> 
+          </div>
+        </Dialog>
         <div @click="clearAndClose()" :title="t('clearTheBasket')"
              class="hidden md:flex items-center justify-center bg-slate-100 rounded-xl h-12 w-12 cursor-pointer">
           <BroomIcon class="w-5 h-5 text-blue-600" />
