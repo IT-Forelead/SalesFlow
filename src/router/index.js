@@ -106,6 +106,13 @@ const routes = [
     beforeEnter: navigationGuards('view_settings'),
   },
   {
+    path: '/cashback-histories',
+    name: 'Cashbacks histories',
+    component: () => import('../pages/CashbackHistories.vue'),
+    meta: { layout: 'dashboard' },
+    beforeEnter: navigationGuards('view_settings'),
+  },
+  {
     path: '/customer-form/:orderId',
     name: 'Customer form',
     component: () => import('../pages/CustomerForm.vue'),

@@ -368,5 +368,6 @@
   "beginText": "Утилизировать продукт ",
   "endText": "?",
   "customerMoney": "Деньги, выданные клиентом",
-  "change": "Сдача"
+  "change": "Сдача",
+  "cashbackHistories": "История кэшбэков"
 }
