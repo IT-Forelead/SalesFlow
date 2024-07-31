@@ -368,5 +368,11 @@
   "beginText": "Утилизировать продукт ",
   "endText": "?",
   "customerMoney": "Деньги, выданные клиентом",
-  "change": "Сдача"
+  "change": "Сдача",
+  "cashbackHistories": "История кэшбэков",
+  "cardIdScanning": "Сканирование карты",
+  "searchByCashback": "Введидите карту",
+  "pleaseEnterCardId": "Пожалуйста, введите карту",
+  "incorrectCardId": "Неверный ввод",
+  "cashbackAmount": "Сумма"
 }

@@ -41,6 +41,9 @@ import HolidayDiscountService from '../services/holidayDiscount.service.js'
 import { useHolidayDiscount } from '../store/holidayDiscount.store.js'
 import PhPercent from '../assets/icons/PercentIcon.vue'
 import useMoneyFormatter from '../mixins/currencyFormatter.js'
+import TicketSale from '../assets/icons/TicketSaleIcon.vue'
+import Dialog from 'primevue/dialog'
+import CashbackService from '../services/cashback.service.js'
 
 const API_URL = import.meta.env.VITE_CHEQUE_API_URL
 const addedToBasket = new Audio('/audios/added-to-basket.mp3')
@@ -49,6 +52,8 @@ const soldSuccess = new Audio('/audios/sold-success.mp3')
 const productOutOfStore = new Audio('/audios/product-is-out-of-store.mp3')
 const { t } = useI18n()
 const router = useRouter()
+
+
 
 const moneyConf = {
   thousands: ' ',
@@ -61,6 +66,8 @@ const submitData = reactive({
   paymentReceived: 0,
   discountReason: null,
   customerMoney: 0,
+  cashbackAmount: 0,
+  cashbackCustomerId: null,
 })
 
 const hasDiscountToday = ref(false)
@@ -125,6 +132,7 @@ const onDiscountReasonFocus = ref(null)
 const discount = ref(0);
 const onDebtFocus = ref(null)
 const onCustomerMoneyFocus = ref(0)
+const onCashbackFocus = ref(null)
 // const onDebtFocus = ref(null)
 
 const setDiscountValue = (value) => {
@@ -504,9 +512,12 @@ const clearSubmitData = () => {
   submitData.discountPercent = ''
   submitData.discountReason = ''
   discount.value = ''
+  customerBalance.value = 0
   submitData.paymentReceived = ''
   submitData.customerMoney = ''
   activeBasket.value = []
+  submitData.cashbackAmount = 0
+  submitData.cashbackCustomerId = null
   if (activeBasketStatus.value === 'firstBasket') {
     firstBasket.value = []
   } else if (activeBasketStatus.value === 'secondBasket') {
@@ -522,6 +533,7 @@ const clearAndClose = () => {
   clearCustomerForm()
   closeDebtForm()
   closeDiscountForm()
+  closeCardIdModal()
 }
 
 const createOrder = (printCheck = true) => {
@@ -540,13 +552,16 @@ const createOrder = (printCheck = true) => {
         discountReason: submitData.discountReason,
         paymentReceived: submitData.paymentReceived,
         items: activeBasket.value,
+        cashbackAmount: submitData.cashbackAmount,
+        cashbackCustomerId: submitData.cashbackCustomerId
       }),
-    ).then((res) => {
-      orderId.value = res
+    ).then((orderRes) => {
+      orderId.value = orderRes
+      isCashbackUsed.value = false
       toast.success(t('saleWasMadeSuccessfully'))
       soldSuccess.play()
       if (boundaryPrice.value !== 0 && totalPrice.value >= boundaryPrice.value) {
-        orderId.value = res
+        orderId.value = orderRes.orderId
         showSale.value = true
         onSearchFocus.value = null
       } else {
@@ -562,7 +577,7 @@ const createOrder = (printCheck = true) => {
         }, 3000)
       }
       if (printCheck) {
-        OrderService.getOrderById(res).then((res) => {
+        OrderService.getOrderById(orderRes.orderId).then((res) => {
           printChaque({
             cashier: res?.cashierFirstName + ' ' + res.cashierLastName,
             discount: res?.discountPercent ?? 0,
@@ -581,7 +596,7 @@ const createOrder = (printCheck = true) => {
               }
             }),
             time: moment(res?.createdAt).format('DD/MM/YYYY H:mm'),
-            qrcode: window.location.origin + '/customer/order/' + res?.id,
+            qrcode: orderRes.qrCode,
           })
         })
       }
@@ -753,6 +768,19 @@ watchEffect(() => {
     onCustomerMoneyFocus.value = null
   }
 })
+
+watchEffect(() => {
+  if (onCashbackFocus.value) {
+    onCashbackFocus.value.focus()
+    onSearchFocus.value = null
+    onPhoneFocus.value = null
+    onDiscountFocus.value = null
+    onTotalFocus.value = null
+    onDiscountReasonFocus.value = null
+    onDebtFocus.value = null
+    onCustomerMoneyFocus.value = null
+  }
+})
 const focused = ref(false)
 const focusedPrice = ref(false)
 const elm = ref(document.getElementById('customer-money'))
@@ -880,6 +908,16 @@ const debtReFocus = () => {
   }
 }
 
+const cashbackReFocus = () => {
+  if (router?.currentRoute?.value?.path === '/sales' && onFullNameFocus.value) {
+    onTotalFocus.value = null
+    onCashbackFocus.value.focus()
+    onSearchFocus.value = null
+    onPhoneFocus.value = null
+    onDiscountFocus.value = null
+  }
+}
+
 const customerMoneyReFocus = () => {
   if (router?.currentRoute?.value?.path === '/sales' && focused.value && onSearchFocus.value == null) {
     focused.value = false  
@@ -995,6 +1033,21 @@ const closeDiscountForm = () => {
   discount.value = ''
   selectP.value = undefined
 }
+const isCashbackUsed = ref(false)
+const openCardIdModal = () => {
+  if (activeBasket.value.length === 0) {
+    toast.error('Tanlangan mahsulotlar mavjud emas!')
+  } else {
+  useModalStore().openCardIdModal()
+  setTimeout(() => {
+     onCashbackFocus.value.focus()
+     document.getElementById('customerId').focus()
+  }, 500);
+}
+  
+
+  
+}
 const createDebt = () => {
   if (!customerForm.fullName) {
     toast.warning(t('enterFullName'))
@@ -1047,6 +1100,7 @@ const createOrderWithDebt = () => {
 
 const selectP = ref()
 const inputValue = ref('0')
+const customerBalance = ref(0)
 
 const appendValue = (value) => {
   if (inputValue.value === '0') {
@@ -1094,10 +1148,38 @@ watch(
   { deep: true },
 )
 
- 
-
-
 const showChange = ref(false)
+
+const getCustomerBalance = () => {
+  if (submitData.cashbackCustomerId) {
+    CashbackService.getCustomerBalance(submitData.cashbackCustomerId)
+    .then((res) => {
+        console.log(res)
+        isCashbackUsed.value = true
+        customerBalance.value = res
+        if (submitData.paymentReceived >= customerBalance.value) {
+          submitData.cashbackAmount = customerBalance.value
+          submitData.paymentReceived = submitData.paymentReceived - customerBalance.value
+          
+        } else {
+          submitData.cashbackAmount = submitData.paymentReceived
+          submitData.paymentReceived = 0
+        }
+        closeCardIdModal()
+      })
+      .catch((err) => {
+      toast.error(t('incorrectCardId'))
+      
+      })
+      
+  } else {
+    toast.error(t('pleaseEnterCardId'))
+  }
+}
+
+const closeCardIdModal = () => {
+  useModalStore().closeCardIdModal()
+}
 </script>
 
 <template>
@@ -1161,6 +1243,27 @@ const showChange = ref(false)
              class="flex items-center justify-center bg-slate-100 rounded-xl h-12 w-12 cursor-pointer">
           <BarcodeIcon class="w-6 h-6 text-blue-600" />
         </div>
+        <button :disabled="isCashbackUsed" @click="openCardIdModal" :title="t('cardIdScanning')"
+             class="hidden md:flex items-center justify-center bg-slate-100 rounded-xl h-12 w-12 cursor-pointer">
+          <TicketSale class="w-5 h-5 text-blue-600" />
+        </button>
+        <Dialog v-model:visible="useModalStore().isOpenCardIdModal" modal :header="t('cardIdScanning')" :closable="false" >
+          <div class="h-40 w-[25vw] flex flex-col space-y-10 items-center">
+              <input ref="onCashbackFocus" id="customerId"
+              @blur="cashbackReFocus()" v-model="submitData.cashbackCustomerId" v-on:keypress="whenPressEnter($event)" type="search" class="mt-3 bg-slate-100 border-none text-slate-900 text-base rounded-xl block w-full h-12 pl-5 py-2 placeholder-slate-400 placeholder:text-lg"
+                    :placeholder="t('searchByCashback')" />
+              <div class="flex w-full justify-end space-x-3">
+              <button @click="getCustomerBalance" type="button"
+                    class=" xl:py-3 px-4 lg:py-2 py-3 rounded-lg text-white text-lg font-medium bg-blue-500 cursor-pointer hover:bg-blue-600">
+                {{ $t('search') }}
+              </button>  
+              <button @click="closeCardIdModal()" type="button"
+              class=" xl:py-3 px-4 lg:py-2 py-3 rounded-lg text-lg font-medium cursor-pointer bg-blue-50 border border-blue-300 text-blue-500 hover:bg-blue-100">
+                {{ $t('back') }}
+              </button>
+            </div> 
+          </div>
+        </Dialog>
         <div @click="clearAndClose()" :title="t('clearTheBasket')"
              class="hidden md:flex items-center justify-center bg-slate-100 rounded-xl h-12 w-12 cursor-pointer">
           <BroomIcon class="w-5 h-5 text-blue-600" />
@@ -1370,8 +1473,9 @@ const showChange = ref(false)
             {{ $t('total') }}
           </div>
           <div class="text-xl font-semibold text-gray-900">
-            {{ useMoneyFormatter(Math.round((totalPrice - (totalPrice * submitData.discountPercent / 100))/100)*100) }}
+            {{ Math.round((totalPrice - (totalPrice * submitData.discountPercent / 100))/100)*100 - customerBalance >= 0 ? useMoneyFormatter(Math.round((totalPrice - (totalPrice * submitData.discountPercent / 100))/100)*100 - customerBalance) : `0 UZS`}}
           </div>
+          
         </div>
       </div>
       <div class="space-y-1" @click="b">

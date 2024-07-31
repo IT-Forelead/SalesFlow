@@ -368,5 +368,11 @@
   "beginText": "Ushbu ",
   "endText": " mahsulotini utilizatsiya qilishni hohlaysizmi?",
   "customerMoney": "Klient berilgan pul",
-  "change": "Qaytim"
+  "change": "Qaytim",
+  "cashbackHistories": "Keshbek tarixi",
+  "cardIdScanning": "Kartani skanerlash",
+  "searchByCashback": "Kartani kiriting",
+  "pleaseEnterCardId": "Iltimos, kartani kiriting",
+  "incorrectCardId": "Noto'g'ri karta",
+  "cashbackAmount": "Miqdori"
 }

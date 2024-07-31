@@ -23,6 +23,7 @@ import SelectOptionLanguage from './inputs/SelectOptionLanguage.vue'
 import PhUsersThree from '../assets/icons/UsersThreeIcon.vue'
 import OverlayPanel from 'primevue/overlaypanel'
 import XIcon from '../assets/icons/XIcon.vue'
+import TicketSaleIcon from '../assets/icons/TicketSaleIcon.vue'
 
 const { t } = useI18n()
 const router = useRouter()
@@ -94,7 +95,7 @@ onMounted(() => {
         </div>
       </div>
       <ProfileDropDown />
-        <div class="space-y-8 overflow-y-auto xl:h-[64vh] lg:h-[50vh] py-4">
+        <div class="space-y-8 overflow-y-auto xl:h-[67vh] lg:h-[50vh] py-4">
           <div class="relative space-y-1 md:overflow-visible overflow-y-auto max-h-[400px]">
           <router-link v-if="navigationGuard('dashboard')" to="/dashboard" @click="selectPage()" active-class="active"
             class="relative h-10 flex items-center w-full hover:bg-blue-300/10 hover:text-blue-600 py-5 text-zinc-400 text-lg font-medium space-x-4 cursor-pointer transition-colors duration-300">
@@ -157,6 +158,17 @@ onMounted(() => {
             </div>
             <div>
               {{ $t('discount') }}
+            </div>
+          </router-link>
+          <router-link to="/cashback-histories" @click="selectPage()"
+            active-class="active"
+            class="relative h-10 flex items-center w-full hover:bg-blue-300/10 hover:text-blue-600 py-5 text-zinc-400 text-lg font-medium space-x-4 cursor-pointer transition-colors duration-300">
+            <div class="w-1.5 h-12 rounded-r-xl first-child-bg-color mr-2"></div>
+            <div class="flex items-center justify-center rounded-xl w-10 h-10 second-child-bg-color">
+              <TicketSaleIcon class="w-6 h-6" />
+            </div>
+            <div>
+              {{ $t('cashbackHistories') }}
             </div>
           </router-link>
           <router-link to="/orders" @click="selectPage()" active-class="active"
