@@ -370,5 +370,9 @@
   "customerMoney": "Klient berilgan pul",
   "change": "Qaytim",
   "cashbackHistories": "Keshbek tarixi",
-  "cashbackScanning": "Promokodini skanerlash"
+  "cardIdScanning": "Kartani skanerlash",
+  "searchByCashback": "Kartani kiriting",
+  "pleaseEnterCardId": "Iltimos, kartani kiriting",
+  "incorrectCardId": "Noto'g'ri karta",
+  "cashbackAmount": "Miqdori"
 }

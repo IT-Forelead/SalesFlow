@@ -366,5 +366,10 @@
   "endText": " маҳсулотини утилизация қилишни ҳоҳлайсизми?",
   "customerMoney": "Клиент берилган пул",
   "change": "Қайтим",
-  "cashbackHistories": "Кэшбэк тарихи"
+  "cashbackHistories": "Кэшбэк тарихи",
+  "cardIdScanning": "Картани сканерлаш",
+  "searchByCashback": "Картани киритинг",
+  "pleaseEnterCardId": "Илтимос, картани киритинг",
+  "incorrectCardId": "Нотўғри карта",
+  "cashbackAmount": "Миқдори"
 }

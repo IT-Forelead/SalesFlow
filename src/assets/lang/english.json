@@ -366,5 +366,10 @@
   "endText": "?",
   "customerMoney": "customerMoney",
   "change": "Change",
-  "cashbackHistories": "Cashback histories"
+  "cashbackHistories": "Cashback histories",
+  "cardIdScanning": "Id-card scanning",
+  "searchByCashback": "Search by id-card",
+  "pleaseEnterCardId": "Please enter id-card",
+  "incorrectCardId": "Incorrect id-card",
+  "cashbackAmount": "Cashback amount"
 }

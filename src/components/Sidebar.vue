@@ -95,7 +95,7 @@ onMounted(() => {
         </div>
       </div>
       <ProfileDropDown />
-        <div class="space-y-8 overflow-y-auto xl:h-[64vh] lg:h-[50vh] py-4">
+        <div class="space-y-8 overflow-y-auto xl:h-[67vh] lg:h-[50vh] py-4">
           <div class="relative space-y-1 md:overflow-visible overflow-y-auto max-h-[400px]">
           <router-link v-if="navigationGuard('dashboard')" to="/dashboard" @click="selectPage()" active-class="active"
             class="relative h-10 flex items-center w-full hover:bg-blue-300/10 hover:text-blue-600 py-5 text-zinc-400 text-lg font-medium space-x-4 cursor-pointer transition-colors duration-300">

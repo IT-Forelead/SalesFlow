@@ -1,6 +1,4 @@
 <script setup>
-import EyeIcon from '../assets/icons/EyeIcon.vue'
-import PhTrash from '../assets/icons/TrashIcon.vue'
 import { ref } from 'vue'
 import moment from 'moment'
 import { computed, h } from 'vue'
@@ -13,13 +11,14 @@ import { useModalStore } from '../store/modal.store.js'
 import { useI18n } from 'vue-i18n'
 import { useCashbackStore } from '../store/cashback.store.js'
 import CashbackService from '../services/cashback.service.js'
+import useMoneyFormatter from '../mixins/currencyFormatter'
 
 const { t } = useI18n()
 
-const cashbackStore = useCashbackStore()
 const globalSearchFromTable = ref('')
 const isLoading = ref(false)
 const renderkey = ref(0)
+const cashbackStore = useCashbackStore()
 
 const cashbacks = computed(() => {
   renderkey.value += 1
@@ -34,16 +33,16 @@ const columns = [
     cell: ({ row }) => `${parseInt(row.id, 10) + 1}`,
   },
   {
-    accessorFn: row => `${row.fullName}`,
+    accessorFn: row => `${row.customer.fullName}`,
     header: t('fullName'),
   },
   {
-    accessorKey: 'phone',
+    accessorFn: row => `${row.customer.phone}`,
     header: t('phoneNumber'),
   },
   {
-    accessorKey: 'company',
-    header: t('shopName'),
+    accessorFn: row => `${useMoneyFormatter(row.amount)}`,
+    header: t('cashbackAmount'),
   },
   {
     accessorKey: 'type',
@@ -54,35 +53,25 @@ const columns = [
     accessorFn: row => moment(row.createdAt).format('DD/MM/YYYY H:mm'),
     header: t('createdAt'),
   },
-  {
-    accessorKey: 'actions',
-    header: t('actions'),
-    cell: ({ row }) => h('div', { class: 'flex items-center space-x-2' }, [
-      h('button', { onClick: () => { openCashbackInfo(row.original) } }, [
-        h(EyeIcon, { class: 'w-6 h-6 text-blue-600 hover:scale-105' })
-      ]),
-    ]),
-    enableSorting: false,
-  },
 ]
 
 const openCashbackInfo = (data) => {
-  useModalStore().openCashbackInfoModal()
-  useCashbackStore().setSelectedOrder(data)
+  // useModalStore().openCashbackInfoModal()
+  // useCashbackStore().setSelectedOrder(data)
 }
 
-// const getCashbacks = () => {
-//   isLoading.value = true
-//   CashbackService.getCashbacks()
-//     .then((res) => {
-//       useCashbackStore().clearStore()
-//       useCashbackStore().setCashbacks(res)
-//     }).finally(() => {
-//       isLoading.value = false
-//     })
-// }
+const getCashbacks = () => {
+  isLoading.value = true
+  CashbackService.getCashbacks()
+    .then((res) => {
+      useCashbackStore().clearStore()
+      useCashbackStore().setCashbacks(res.data)
+    }).finally(() => {
+      isLoading.value = false
+    })
+}
 
-// getCashbacks()
+getCashbacks()
 
 </script>
 
@@ -104,6 +93,6 @@ const openCashbackInfo = (data) => {
     <div v-if="isLoading" class="flex items-center justify-center h-20">
       <Spinners270RingIcon class="w-6 h-6 text-gray-500 animate-spin" />
     </div>
-    <CTable :key="renderkey" v-else :data="cashbacks" :columns="columns" :filter="globalSearchFromTable" />
+    <CTable v-else :data="cashbacks" :key="renderkey" :columns="columns" :filter="globalSearchFromTable" />
   </div>
 </template>
