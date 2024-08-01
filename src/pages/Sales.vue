@@ -516,7 +516,7 @@ const clearSubmitData = () => {
   submitData.paymentReceived = ''
   submitData.customerMoney = ''
   activeBasket.value = []
-  submitData.cashbackAmount = 0
+  submitData.cashbackAmount = null
   submitData.cashbackCustomerId = null
   if (activeBasketStatus.value === 'firstBasket') {
     firstBasket.value = []
