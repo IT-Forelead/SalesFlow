@@ -182,6 +182,7 @@ const searchProductBarcodes = () => {
     ProductService.getProductsDetails({
       limit: 20,
       page: 1,
+      minRemaining: 0,
       ...filter,
     })
       .then((res) => {
