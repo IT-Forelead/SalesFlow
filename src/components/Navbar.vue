@@ -59,8 +59,8 @@ const openSidebar = () => {
 }
 
 const handleResize = () => {
-  // isMobile = window.innerWidth <= 1924;
-  isDesktop = window.innerWidth > 6000;
+  // isMobile = window.innerWidth <= 1024;
+  isDesktop = window.innerWidth > 10000;
 
   if (isDesktop) {
     useSidebarStore().setSidebarState(true);

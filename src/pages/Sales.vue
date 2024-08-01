@@ -66,7 +66,7 @@ const submitData = reactive({
   paymentReceived: 0,
   discountReason: null,
   customerMoney: 0,
-  cashbackAmount: 0,
+  cashbackAmount: null,
   cashbackCustomerId: null,
 })
 
@@ -1183,12 +1183,12 @@ const closeCardIdModal = () => {
 </script>
 
 <template>
-  <div v-if="products.length > 0" class="fixed top-0 right-0 bottom-0 left-0 z-40 backdrop-blur-[2px] bg-gray-900/70">
+  <div v-if="products.length > 0" class="fixed top-0 right-0 bottom-0 left-0 z-20 backdrop-blur-[2px] bg-gray-900/70">
   </div>
   <div class="flex flex-col md:flex-row">
     <div class="flex-auto md:w-2/3 w-full space-y-4 py-8 px-4 md:px-8">
       <div class="flex items-center space-x-2 pb-2">
-        <div class="relative flex-auto z-50">
+        <div class="relative flex-auto z-30">
           <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
             <SearchIcon class="w-5 h-5 text-slate-400" />
           </div>
