@@ -556,7 +556,7 @@ const createOrder = (printCheck = true) => {
         cashbackCustomerId: submitData.cashbackCustomerId
       }),
     ).then((orderRes) => {
-      orderId.value = orderRes
+      orderId.value = orderRes.orderId
       isCashbackUsed.value = false
       toast.success(t('saleWasMadeSuccessfully'))
       soldSuccess.play()
