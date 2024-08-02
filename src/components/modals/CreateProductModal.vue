@@ -182,6 +182,7 @@ const searchProductBarcodes = () => {
     ProductService.getProductsDetails({
       limit: 20,
       page: 1,
+      minRemaining: 0,
       ...filter,
     })
       .then((res) => {
@@ -558,7 +559,7 @@ const calculateExpirationDate = (months) => {
           </div>
           <div class="space-x-3.5 space-y-2 md:text-left text-center">
             <button
-              v-for="months in [1, 3, 6, 9, 12, 24]"
+              v-for="months in [1, 3, 6, 9, 12, 24]" :key="months"
               @click="calculateExpirationDate(months)"
               type="button"
               class="text-slate-600 bg-white hover:bg-slate-100 focus:ring-4 focus:outline-none focus:ring-slate-300 rounded-xl border border-slate-200 text-sm font-medium px-4 py-2.5 hover:text-slate-900 lowercase"

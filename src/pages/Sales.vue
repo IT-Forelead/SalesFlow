@@ -41,6 +41,9 @@ import HolidayDiscountService from '../services/holidayDiscount.service.js'
 import { useHolidayDiscount } from '../store/holidayDiscount.store.js'
 import PhPercent from '../assets/icons/PercentIcon.vue'
 import useMoneyFormatter from '../mixins/currencyFormatter.js'
+import TicketSale from '../assets/icons/TicketSaleIcon.vue'
+import Dialog from 'primevue/dialog'
+import CashbackService from '../services/cashback.service.js'
 
 const API_URL = import.meta.env.VITE_CHEQUE_API_URL
 const addedToBasket = new Audio('/audios/added-to-basket.mp3')
@@ -49,6 +52,8 @@ const soldSuccess = new Audio('/audios/sold-success.mp3')
 const productOutOfStore = new Audio('/audios/product-is-out-of-store.mp3')
 const { t } = useI18n()
 const router = useRouter()
+
+
 
 const moneyConf = {
   thousands: ' ',
@@ -60,6 +65,9 @@ const submitData = reactive({
   discountPercent: null,
   paymentReceived: 0,
   discountReason: null,
+  customerMoney: 0,
+  cashbackAmount: null,
+  cashbackCustomerId: null,
 })
 
 const hasDiscountToday = ref(false)
@@ -123,6 +131,9 @@ const onTotalFocus = ref(null)
 const onDiscountReasonFocus = ref(null)
 const discount = ref(0);
 const onDebtFocus = ref(null)
+const onCustomerMoneyFocus = ref(0)
+const onCashbackFocus = ref(null)
+// const onDebtFocus = ref(null)
 
 const setDiscountValue = (value) => {
   discount.value = value;
@@ -379,6 +390,10 @@ const increaseCountChecking = (product) => {
   } else return product?.quantity >= product?.amount + 1
 }
 
+const increaseCountAll = (product) => {
+  return product?.quantity >= product?.amount
+}
+
 const increaseCountOfProducts = (product) => {
   activeBasket.value = activeBasket.value.map((item) => {
     if (item.productId === product.productId) {
@@ -389,6 +404,22 @@ const increaseCountOfProducts = (product) => {
         return { ...item, amount: roundFloatToOneDecimal(item.amount + 0.5) }
       } else {
         return { ...item, amount: item.amount + 1 }
+      }
+    } else item
+    return item
+  })
+}
+
+const increaseCountToAll = (product) => {
+  activeBasket.value = activeBasket.value.map((item) => {
+    if (item.productId === product.productId) {
+      // return { ...item, amount: item.amount + 1 }
+      if (item.saleType === 'kg') {
+        return { ...item, amount: product.quantity }
+      } else if (item.saleType === 'litre') {
+        return { ...item, amount: product.quantity }
+      } else {
+        return { ...item, amount: item.quantity }
       }
     } else item
     return item
@@ -435,9 +466,11 @@ const increaseCountOfPrice = (product) => {
         selectProductSum = Math.floor(roundFloatToTwoDecimal(selectProductSum) / 500) * 500 + 500
 
         if ((selectProductSum / item.price) > product.quantity) {
-          selectProductSum = item.price * item.amount
+          selectProductSum = Math.floor(roundFloatToTwoDecimal(item.price * product.quantity))
+          return { ...item, amount: item.quantity }
+        } else {
+          return { ...item, amount: (selectProductSum / item.price) }
         }
-        return { ...item, amount: (selectProductSum / item.price) }
       } else {
         return { ...item, amount: item.amount + 1 }
       }
@@ -479,8 +512,12 @@ const clearSubmitData = () => {
   submitData.discountPercent = ''
   submitData.discountReason = ''
   discount.value = ''
+  customerBalance.value = 0
   submitData.paymentReceived = ''
+  submitData.customerMoney = ''
   activeBasket.value = []
+  submitData.cashbackAmount = null
+  submitData.cashbackCustomerId = null
   if (activeBasketStatus.value === 'firstBasket') {
     firstBasket.value = []
   } else if (activeBasketStatus.value === 'secondBasket') {
@@ -496,6 +533,7 @@ const clearAndClose = () => {
   clearCustomerForm()
   closeDebtForm()
   closeDiscountForm()
+  closeCardIdModal()
 }
 
 const createOrder = (printCheck = true) => {
@@ -514,13 +552,16 @@ const createOrder = (printCheck = true) => {
         discountReason: submitData.discountReason,
         paymentReceived: submitData.paymentReceived,
         items: activeBasket.value,
+        cashbackAmount: submitData.cashbackAmount,
+        cashbackCustomerId: submitData.cashbackCustomerId
       }),
-    ).then((res) => {
-      orderId.value = res
+    ).then((orderRes) => {
+      orderId.value = orderRes
+      isCashbackUsed.value = false
       toast.success(t('saleWasMadeSuccessfully'))
       soldSuccess.play()
       if (boundaryPrice.value !== 0 && totalPrice.value >= boundaryPrice.value) {
-        orderId.value = res
+        orderId.value = orderRes.orderId
         showSale.value = true
         onSearchFocus.value = null
       } else {
@@ -536,7 +577,7 @@ const createOrder = (printCheck = true) => {
         }, 3000)
       }
       if (printCheck) {
-        OrderService.getOrderById(res).then((res) => {
+        OrderService.getOrderById(orderRes.orderId).then((res) => {
           printChaque({
             cashier: res?.cashierFirstName + ' ' + res.cashierLastName,
             discount: res?.discountPercent ?? 0,
@@ -555,7 +596,7 @@ const createOrder = (printCheck = true) => {
               }
             }),
             time: moment(res?.createdAt).format('DD/MM/YYYY H:mm'),
-            qrcode: qrCode.value,
+            qrcode: orderRes.qrCode,
           })
         })
       }
@@ -625,7 +666,7 @@ watch(
 watch(
   () => totalPrice.value,
   () => {
-    submitData.paymentReceived = totalPrice.value - (totalPrice.value * submitData.discountPercent / 100)
+    submitData.paymentReceived = Math.round((totalPrice.value - (totalPrice.value * submitData.discountPercent / 100))/100)*100
   },
   { deep: true },
 )
@@ -661,6 +702,7 @@ watchEffect(() => {
     onTotalFocus.value = null
     onDiscountReasonFocus.value = null
     onDebtFocus.value = null
+    onCustomerMoneyFocus.value = null
   }
 })
 watchEffect(() => {
@@ -672,6 +714,7 @@ watchEffect(() => {
     onTotalFocus.value = null
     onDiscountReasonFocus.value = null
     onDebtFocus.value = null
+    onCustomerMoneyFocus.value = null
   }
 })
 watchEffect(() => {
@@ -683,6 +726,7 @@ watchEffect(() => {
     onTotalFocus.value = null
     onDiscountReasonFocus.value = null
     onDebtFocus.value = null
+    onCustomerMoneyFocus.value = null
   }
 })
 
@@ -695,6 +739,7 @@ watchEffect(() => {
     onPhoneFocus.value = null
     onDiscountReasonFocus.value = null
     onDebtFocus.value = null
+    onCustomerMoneyFocus.value = null
   }
 })
 
@@ -707,6 +752,7 @@ watchEffect(() => {
     onFullNameFocus.value = null
     onPhoneFocus.value = null
     onDebtFocus.value = null
+    onCustomerMoneyFocus.value = null
   }
 })
 
@@ -719,22 +765,89 @@ watchEffect(() => {
     onFullNameFocus.value = null
     onPhoneFocus.value = null
     onTotalFocus.value = null
-
+    onCustomerMoneyFocus.value = null
   }
 })
 
-const reFocus = () => {
-  if (router?.currentRoute?.value?.path === '/sales' && onSearchFocus.value && onFullNameFocus.value == null)  {
+watchEffect(() => {
+  if (onCashbackFocus.value) {
+    onCashbackFocus.value.focus()
+    onSearchFocus.value = null
+    onPhoneFocus.value = null
+    onDiscountFocus.value = null
+    onTotalFocus.value = null
+    onDiscountReasonFocus.value = null
+    onDebtFocus.value = null
+    onCustomerMoneyFocus.value = null
+  }
+})
+const focused = ref(false)
+const focusedPrice = ref(false)
+const elm = ref(document.getElementById('customer-money'))
+
+const a = () => {
+  onSearchFocus.value = null
+  document.getElementById('customer-money').focus()
+  focused.value = true
+}
+const b = () => {
+  onSearchFocus.value = null
+  document.getElementById('price').focus()
+  focusedPrice.value = true
+}
+
+
+watchEffect(() => {
+  if (focused.value) {
+    if (onCustomerMoneyFocus.value) {
+      document.getElementById('customer-money').focus()      
+    }
+    document.getElementById('customer-money').focus()
+    onDiscountReasonFocus.value = null
+    onDiscountFocus.value = null
+    onSearchFocus.value = null
+    onFullNameFocus.value = null
+    onPhoneFocus.value = null
+  }
+})
+
+watchEffect(() => {
+  if (focusedPrice.value) {
+    if(onCustomerMoneyFocus.value == null){
+      document.getElementById('price').focus()
+    }
+    document.getElementById('price').focus()
+    onDiscountReasonFocus.value = null
+    onDiscountFocus.value = null
+    onSearchFocus.value = null
+    onFullNameFocus.value = null
+    onPhoneFocus.value = null
+  }
+})
+
+const reFocus = () => { 
+  if (router?.currentRoute?.value?.path === '/sales' && onSearchFocus.value && onFullNameFocus.value == null && !focused.value && !focusedPrice.value) {
     onTotalFocus.value = null
     onSearchFocus.value.focus()
-  } else if (onTotalFocus.value && onFullNameFocus.value == null) {
+  } else if (onTotalFocus.value && onFullNameFocus.value == null && !focused.value && onCustomerMoneyFocus.value == null && !focusedPrice.value) {
     onSearchFocus.value.focus()
   } else if (onFullNameFocus.value) {
     onFullNameFocus.value.focus()
-  } else if (onDiscountFocus.value) {
+  } else if (onDiscountFocus.value && !focusedPrice.value) {
     onDiscountFocus.value.focus()
-  } else {
+  } else if (onSearchFocus.value && !focused.value && onCustomerMoneyFocus.value == null && !focusedPrice.value) {
+    onSearchFocus.value.focus()
+  } else if (!focused.value && onCustomerMoneyFocus.value == null && focusedPrice.value) {
     document.getElementById('price').focus()
+  } else {
+    onSearchFocus.value = null
+    document.getElementById('customer-money').focus()
+    document.getElementById('customer-money').focus()
+    onDiscountReasonFocus.value = null
+    onDiscountFocus.value = null
+    onSearchFocus.value = null
+    onFullNameFocus.value = null
+    onPhoneFocus.value = null
   }
 }
 
@@ -749,7 +862,7 @@ const fullNameReFocus = () => {
 }
 
 const discountReFocus = () => {
-  if (router?.currentRoute?.value?.path === '/sales' && onDiscountFocus.value) {
+  if (router?.currentRoute?.value?.path === '/sales' && onDiscountFocus.value && !focusedPrice.value) {
     onDiscountFocus.value.focus()
     onTotalFocus.value = null
     onSearchFocus.value = null
@@ -770,13 +883,8 @@ const discountReasonReFocus = () => {
 }
 
 const totalReFocus = () => {
-  if (router?.currentRoute?.value?.path === '/sales' && onTotalFocus.value) {
-    document.getElementById('price').focus()
-    onDiscountFocus.value = null
-    onDiscountReasonFocus.value = null
-    onSearchFocus.value = null
-    onPhoneFocus.value = null
-    onFullNameFocus.value = null
+  if (router?.currentRoute?.value?.path === '/sales' && focusedPrice.value && onSearchFocus.value == null && onDiscountFocus.value == null) {
+    focusedPrice.value = false 
   }
 }
 
@@ -800,10 +908,21 @@ const debtReFocus = () => {
   }
 }
 
-// const onFocusSearchInput = () => {
-//   const searchInput = document.getElementById('globle-search');
-//   searchInput.focus();
-// }
+const cashbackReFocus = () => {
+  if (router?.currentRoute?.value?.path === '/sales' && onFullNameFocus.value) {
+    onTotalFocus.value = null
+    onCashbackFocus.value.focus()
+    onSearchFocus.value = null
+    onPhoneFocus.value = null
+    onDiscountFocus.value = null
+  }
+}
+
+const customerMoneyReFocus = () => {
+  if (router?.currentRoute?.value?.path === '/sales' && focused.value && onSearchFocus.value == null) {
+    focused.value = false  
+  }
+}
 
 watch(
   () => useBarcodeStore().decodedBarcode,
@@ -914,6 +1033,21 @@ const closeDiscountForm = () => {
   discount.value = ''
   selectP.value = undefined
 }
+const isCashbackUsed = ref(false)
+const openCardIdModal = () => {
+  if (activeBasket.value.length === 0) {
+    toast.error('Tanlangan mahsulotlar mavjud emas!')
+  } else {
+  useModalStore().openCardIdModal()
+  setTimeout(() => {
+     onCashbackFocus.value.focus()
+     document.getElementById('customerId').focus()
+  }, 500);
+}
+  
+
+  
+}
 const createDebt = () => {
   if (!customerForm.fullName) {
     toast.warning(t('enterFullName'))
@@ -966,6 +1100,7 @@ const createOrderWithDebt = () => {
 
 const selectP = ref()
 const inputValue = ref('0')
+const customerBalance = ref(0)
 
 const appendValue = (value) => {
   if (inputValue.value === '0') {
@@ -1005,13 +1140,46 @@ watch(
   () => showDebtForm.value,
   () => {
     if (showDebtForm.value) {
-      customerForm.remained = submitData.paymentReceived 
+      customerForm.remained = submitData.paymentReceived
     } else {
       customerForm.remained = ''
     }
   },
   { deep: true },
 )
+
+const showChange = ref(false)
+
+const getCustomerBalance = () => {
+  if (submitData.cashbackCustomerId) {
+    CashbackService.getCustomerBalance(submitData.cashbackCustomerId)
+    .then((res) => {
+        console.log(res)
+        isCashbackUsed.value = true
+        customerBalance.value = res
+        if (submitData.paymentReceived >= customerBalance.value) {
+          submitData.cashbackAmount = customerBalance.value
+          submitData.paymentReceived = submitData.paymentReceived - customerBalance.value
+          
+        } else {
+          submitData.cashbackAmount = submitData.paymentReceived
+          submitData.paymentReceived = 0
+        }
+        closeCardIdModal()
+      })
+      .catch((err) => {
+      toast.error(t('incorrectCardId'))
+      
+      })
+      
+  } else {
+    toast.error(t('pleaseEnterCardId'))
+  }
+}
+
+const closeCardIdModal = () => {
+  useModalStore().closeCardIdModal()
+}
 </script>
 
 <template>
@@ -1075,6 +1243,27 @@ watch(
              class="flex items-center justify-center bg-slate-100 rounded-xl h-12 w-12 cursor-pointer">
           <BarcodeIcon class="w-6 h-6 text-blue-600" />
         </div>
+        <button :disabled="isCashbackUsed" @click="openCardIdModal" :title="t('cardIdScanning')"
+             class="hidden md:flex items-center justify-center bg-slate-100 rounded-xl h-12 w-12 cursor-pointer">
+          <TicketSale class="w-5 h-5 text-blue-600" />
+        </button>
+        <Dialog v-model:visible="useModalStore().isOpenCardIdModal" modal :header="t('cardIdScanning')" :closable="false" >
+          <div class="h-40 w-[25vw] flex flex-col space-y-10 items-center">
+              <input ref="onCashbackFocus" id="customerId"
+              @blur="cashbackReFocus()" v-model="submitData.cashbackCustomerId" v-on:keypress="whenPressEnter($event)" type="search" class="mt-3 bg-slate-100 border-none text-slate-900 text-base rounded-xl block w-full h-12 pl-5 py-2 placeholder-slate-400 placeholder:text-lg"
+                    :placeholder="t('searchByCashback')" />
+              <div class="flex w-full justify-end space-x-3">
+              <button @click="getCustomerBalance" type="button"
+                    class=" xl:py-3 px-4 lg:py-2 py-3 rounded-lg text-white text-lg font-medium bg-blue-500 cursor-pointer hover:bg-blue-600">
+                {{ $t('search') }}
+              </button>  
+              <button @click="closeCardIdModal()" type="button"
+              class=" xl:py-3 px-4 lg:py-2 py-3 rounded-lg text-lg font-medium cursor-pointer bg-blue-50 border border-blue-300 text-blue-500 hover:bg-blue-100">
+                {{ $t('back') }}
+              </button>
+            </div> 
+          </div>
+        </Dialog>
         <div @click="clearAndClose()" :title="t('clearTheBasket')"
              class="hidden md:flex items-center justify-center bg-slate-100 rounded-xl h-12 w-12 cursor-pointer">
           <BroomIcon class="w-5 h-5 text-blue-600" />
@@ -1176,6 +1365,10 @@ watch(
                           class="flex items-center justify-center w-8 h-8 bg-white text-blue-700 shadow-sm hover:bg-slate-200 cursor-pointer rounded-xl">
                           <PlusIcon class="w-4 h-4" />
                         </div>
+                        <div @click="increaseCountToAll(product)" v-else-if="increaseCountAll(product)"
+                          class="flex items-center justify-center w-8 h-8 bg-white text-blue-700 shadow-sm hover:bg-slate-200 cursor-pointer rounded-xl">
+                          <PlusIcon class="w-4 h-4" />
+                        </div>
                         <div v-else
                           class="flex items-center justify-center w-8 h-8 bg-white text-slate-700 cursor-default rounded-xl">
                           <PlusIcon class="w-4 h-4" />
@@ -1196,7 +1389,7 @@ watch(
                         </div>
 
                       <div class="flex items-center justify-center text-lg font-normal">
-                        {{ useMoneyFormatter(product?.price * product?.amount) }}
+                        {{ useMoneyFormatter(Math.round(product?.price * product?.amount/100)*100) }}
                       </div>
                       <div @click="increaseCountOfPrice(product)" v-if="increasePriceChecking(product)"
                            class="flex items-center justify-center w-8 h-8 bg-white text-blue-700 shadow-sm hover:bg-slate-200 cursor-pointer rounded-xl">
@@ -1250,7 +1443,7 @@ watch(
               {{ $t('price') }}
             </div>
             <div class="text-base font-semibold text-gray-900">
-              {{ useMoneyFormatter(totalPrice) }}
+              {{ useMoneyFormatter(Math.round(totalPrice/100)*100) }}
             </div>
           </div>
           <div class="flex items-center justify-between">
@@ -1263,7 +1456,8 @@ watch(
             <div class="text-base text-gray-600">
               {{ $t('discountAmount') }}
             </div>
-            <div class="text-base font-semibold text-red-500">-{{ useMoneyFormatter(totalPrice-submitData.paymentReceived) }}</div>
+            <div v-if="discount > 0" class="text-base font-semibold text-red-500">-{{ useMoneyFormatter(totalPrice-submitData.paymentReceived) }}</div>
+            <div v-else class="text-base font-semibold text-red-500">0 UZS</div>
           </div>
         </div>
         <div class="flex items-center justify-between mt-2">
@@ -1279,17 +1473,36 @@ watch(
             {{ $t('total') }}
           </div>
           <div class="text-xl font-semibold text-gray-900">
-            {{ useMoneyFormatter(totalPrice - (totalPrice * submitData.discountPercent / 100)) }}
+            {{ Math.round((totalPrice - (totalPrice * submitData.discountPercent / 100))/100)*100 - customerBalance >= 0 ? useMoneyFormatter(Math.round((totalPrice - (totalPrice * submitData.discountPercent / 100))/100)*100 - customerBalance) : `0 UZS`}}
           </div>
+          
         </div>
       </div>
-      <div class="space-y-1">
+      <div class="space-y-1" @click="b">
         <label class="text-base font-medium">
           {{ $t('paymentReceived') }}
         </label>
         <money3 v-model="submitData.paymentReceived" v-bind="moneyConf" id="price" ref="onTotalFocus"
                 @blur="totalReFocus()" class="border-none text-right text-gray-500 bg-slate-100 rounded-lg w-full text-lg" />
       </div>
+     <div class="space-y-1" @click="a">
+        <label class="text-base font-medium">
+          {{ $t('customerMoney') }}
+        </label>
+        <div>
+          <money3 v-model="submitData.customerMoney"  id="customer-money"  ref="onCustomerMoneyFocus" @blur="customerMoneyReFocus()"  v-bind="moneyConf" class="border-none text-right text-gray-500 bg-slate-100 rounded-lg w-full text-lg" />
+        </div>
+
+      </div>
+      <div class="flex items-center justify-between">
+            <div class="text-base text-gray-600">
+              {{ $t('change') }}
+            </div>
+            <div class="text-base font-semibold text-blue-500">
+              {{ useMoneyFormatter(submitData.customerMoney - submitData.paymentReceived) }} 
+            </div>
+          </div>
+      
 
       <div class="space-y-3">
         <div class="py-3 lg:py-0 space-y-1">

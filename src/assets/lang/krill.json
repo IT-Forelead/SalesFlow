@@ -363,5 +363,13 @@
   "previousMonthsSales" : "Олдинги ойдаги савдо",
   "utilize": "Утилизация қилиш",
   "beginText": "Ушбу ",
-  "endText": " маҳсулотини утилизация қилишни ҳоҳлайсизми?"
+  "endText": " маҳсулотини утилизация қилишни ҳоҳлайсизми?",
+  "customerMoney": "Клиент берилган пул",
+  "change": "Қайтим",
+  "cashbackHistories": "Кэшбэк тарихи",
+  "cardIdScanning": "Картани сканерлаш",
+  "searchByCashback": "Картани киритинг",
+  "pleaseEnterCardId": "Илтимос, картани киритинг",
+  "incorrectCardId": "Нотўғри карта",
+  "cashbackAmount": "Миқдори"
 }

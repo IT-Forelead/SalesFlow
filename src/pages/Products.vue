@@ -98,7 +98,7 @@ const columns = [
   {
     accessorKey: 'quantity',
     header: t('quantity'),
-    accessorFn: row => `${row.quantity} ${saleTypeShortTranslate(row.saleType)}`,
+    accessorFn: row => `${Math.round((row.quantity * 100)) / 100} ${saleTypeShortTranslate(row.saleType)}`,
   },
   {
     accessorKey: 'saleType',

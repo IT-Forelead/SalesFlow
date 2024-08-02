@@ -36,6 +36,7 @@ export const useModalStore = defineStore('modal', {
     isOpenUploadImageToProductModal: false,
     isOpenCreateTelegramBotModal: false,
     isOpenUtilizeProductModal: false,
+    isOpenCardIdModal: false,
   }),
   actions: {
     openEditTelegramBotModal() {
@@ -229,6 +230,12 @@ export const useModalStore = defineStore('modal', {
     },
     closeUtilizeProductModal() {
       this.isOpenUtilizeProductModal = false
+    },
+    openCardIdModal() {
+      this.isOpenCardIdModal = true
+    },
+    closeCardIdModal() {
+      this.isOpenCardIdModal = false
     },
   }
 })

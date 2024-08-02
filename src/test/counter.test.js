@@ -1,3 +1,4 @@
+import {test, expect} from 'vitest'
 import { useCounter } from '../mixins/counter.js'
 
 test('useCounter', () => {

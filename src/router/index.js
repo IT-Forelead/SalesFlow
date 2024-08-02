@@ -1,5 +1,5 @@
-import { createRouter, createWebHistory } from 'vue-router'
-import { parseJwt } from '../mixins/utils.js'
+import { createRouter, createWebHistory } from 'vue-router';
+import { parseJwt } from '../mixins/utils.js';
 
 const routes = [
   {
@@ -106,6 +106,13 @@ const routes = [
     beforeEnter: navigationGuards('view_settings'),
   },
   {
+    path: '/cashback-histories',
+    name: 'Cashbacks histories',
+    component: () => import('../pages/CashbackHistories.vue'),
+    meta: { layout: 'dashboard' },
+    beforeEnter: navigationGuards('view_settings'),
+  },
+  {
     path: '/customer-form/:orderId',
     name: 'Customer form',
     component: () => import('../pages/CustomerForm.vue'),
@@ -120,31 +127,36 @@ const routes = [
     name: 'NotFound',
     component: () => import('../components/NotFound.vue'),
   },
-]
+  {
+    path: '/customer/order/:orderId',
+    name: 'Customer Order',
+    component: () => import('../pages/CustomerOrder.tsx'),
+  },
+];
 
 const router = createRouter({
   history: createWebHistory(),
   routes: routes,
-})
+});
 
 router.beforeEach((to, from, next) => {
-  const publicPages = ['/', '/login', '/app', '/customer-form']
-  const authNotRequired = !publicPages.includes(to.path)
-  const notLoggedIn = localStorage.getItem('session')
+  const publicPages = ['/', '/login', '/app', '/customer-form', '/customer'];
+  const authNotRequired = !publicPages.includes(to.path);
+  const notLoggedIn = localStorage.getItem('session');
   if ((authNotRequired && notLoggedIn) || publicPages.includes(`/${to.path.split('/')[1]}`)) {
-    next()
+    next();
   } else {
-    next('/')
+    next('/');
   }
-})
+});
 
 function navigationGuards(access) {
   return () => {
     if (localStorage.getItem('session') && !parseJwt()?.privileges.includes(access)) {
-      router.push('/notfound')
+      router.push('/notfound');
     }
-    return parseJwt()?.privileges.includes(access)
-  }
+    return parseJwt()?.privileges.includes(access);
+  };
 }
 
-export default router
+export default router;
