@@ -476,7 +476,7 @@ onMounted(() => {
       productStats.value = res
     })
   ProductService.getBestSellerStats({
-    limit: 5,
+    limit: 15,
   }).then((res) => {
     bestSellerProductStats.value = res
   })
@@ -512,7 +512,7 @@ watch(
               <ShoppingCartIcon class="w-8 h-8 text-blue-600" />
             </div>
           </div>
-          <div class="divide-y divide-gray-100">
+          <div class="divide-y divide-gray-100 h-72 overflow-y-auto">
             <div v-for="(product, idx) in bestSellerProductStats" :key="idx"
               class="flex items-center justify-between py-1.5">
               <div class="flex items-center space-x-3">
@@ -540,92 +540,43 @@ watch(
           </div>
         </div>
       </div>
-      <div class="flex-1 flex flex-col space-y-4">
-        <div class="flex flex-col md:flex-row md:items-center space-x-0 md:space-x-4 space-y-2 md:space-y-0">
-          <div class="flex-1 w-full space-y-4 rounded-3xl bg-slate-50 p-5">
-            <div
-              class="flex flex-row md:flex-col items-center md:items-start space-x-4 md:space-x-0 space-y-0 md:space-y-2">
-              <div class="inline-flex items-center justify-center rounded-xl bg-blue-100 p-3">
-                <StoreIcon class="w-8 h-8 text-blue-600" />
+      <div class="flex-1">
+        <div class="rounded-3xl bg-slate-50 p-5 space-y-4">
+          <div class="flex items-center justify-between">
+            <div class="space-y-0.5">
+              <div class="text-base md:text-xl font-semibold">
+                {{ $t('Top expensive product') }}
               </div>
-              <div>
-                <div class="text-base text-gray-600">
-                  {{ $t('productTypes') }}
-                </div>
-                <div class="text-xl md:text-2xl font-semibold">
-                  {{ productStats?.typeCount }}
-                </div>
+              <div class="text-sm md:text-base text-gray-600">
+                {{ $t('statisticsForTheLastTenDays') }}
               </div>
+            </div>
+            <div class="flex items-center justify-center rounded-xl bg-blue-100 p-3">
+              <ShoppingCartIcon class="w-8 h-8 text-blue-600" />
             </div>
           </div>
-          <div class="flex-1 w-full space-y-4 rounded-3xl bg-slate-50 p-5">
-            <div
-              class="flex flex-row md:flex-col items-center md:items-start space-x-4 md:space-x-0 space-y-0  md:space-y-2">
-              <div class="inline-flex items-center justify-center rounded-xl bg-blue-100 p-3">
-                <StoreIcon class="w-8 h-8 text-blue-600" />
-              </div>
-              <div>
-                <div class="text-base text-gray-600">
-                  {{ $t('numberOfProducts') }}
-                </div>
-                <div class="text-xl md:text-2xl font-semibold">
-                  {{ productStats?.quantity }}
-                </div>
-              </div>
-            </div>
+          <div class="divide-y divide-gray-100">
+            ...
           </div>
         </div>
-        <div class="flex flex-col md:flex-row md:items-center space-x-0 md:space-x-4 space-y-2 md:space-y-0">
-          <div v-for="(product, idx) in soldProductPrice" :key="idx" class="flex-1 w-full space-y-4 rounded-3xl bg-slate-50 p-5">
-            <div
-              class="flex flex-row md:flex-col items-center md:items-start space-x-4 md:space-x-0 space-y-0 md:space-y-2">
-              <div class="inline-flex items-center justify-center rounded-xl bg-blue-100 p-3">
-                <DollarIcon class="w-8 h-8 text-blue-600" />
+      </div>
+      <div class="flex-1">
+        <div class="rounded-3xl bg-slate-50 p-5 space-y-4">
+          <div class="flex items-center justify-between">
+            <div class="space-y-0.5">
+              <div class="text-base md:text-xl font-semibold">
+                {{ $t('Top revenue product') }}
               </div>
-              <div>
-                <div v-if="product?.period === 'current_month'" class="text-base text-gray-600">
-                  {{ $t('currentMonthsSales') }}
-                </div>
-                <div v-else class="text-base text-gray-600">
-                  {{ $t('previousMonthsSales') }}
-                </div>
-                <div class="text-xl md:text-2xl font-semibold">
-                  {{ useMoneyFormatter(product?.total) }}
-                </div>
+              <div class="text-sm md:text-base text-gray-600">
+                {{ $t('statisticsForTheLastTenDays') }}
               </div>
+            </div>
+            <div class="flex items-center justify-center rounded-xl bg-blue-100 p-3">
+              <ShoppingCartIcon class="w-8 h-8 text-blue-600" />
             </div>
           </div>
-          <!-- <div class="flex-1 w-full space-y-4 rounded-3xl bg-slate-50 p-5">
-            <div
-              class="flex flex-row md:flex-col items-center md:items-start space-x-4 md:space-x-0 space-y-0 md:space-y-2">
-              <div class="inline-flex items-center justify-center rounded-xl bg-blue-100 p-3">
-                <MoneyIcon class="w-8 h-8 text-blue-600" />
-              </div>
-              <div>
-                <div class="text-base text-gray-600">
-                  {{ $t('productsPrice') }}
-                </div>
-                <div class="text-xl md:text-2xl font-semibold">
-                  {{ useMoneyFormatter(productStats?.sum) }}
-                </div>
-              </div>
-            </div>
-          </div> -->
-          <div class="flex-1 w-full h-full space-y-4 rounded-3xl bg-slate-50 p-5">
-            <div
-              class="flex flex-row md:flex-col items-center md:items-start space-x-4 md:space-x-0 space-y-0 md:space-y-2">
-              <div class="inline-flex items-center justify-center rounded-xl bg-blue-100 p-3">
-                <UsersIcon class="w-8 h-8 text-blue-600" />
-              </div>
-              <div>
-                <div class="text-base text-gray-600">
-                  {{ $t('numberOfEmployees') }}
-                </div>
-                <div class="text-xl md:text-2xl font-semibold">
-                  {{ cashiersStat.length }}
-                </div>
-              </div>
-            </div>
+          <div class="divide-y divide-gray-100">
+            ...
           </div>
         </div>
       </div>
@@ -758,7 +709,97 @@ watch(
         <apexchart type="donut" height="320" :options="caishersChartOptions" :series="caishersChartSeries">
         </apexchart>
       </div>
-      <div class="flex-1"></div>
+      <!-- <div class="flex-1"></div> -->
+      <div class="flex-1 flex flex-col space-y-4">
+        <div class="flex flex-col md:flex-row md:items-center space-x-0 md:space-x-4 space-y-2 md:space-y-0">
+          <div class="flex-1 w-full space-y-4 rounded-3xl bg-slate-50 p-5">
+            <div
+              class="flex flex-row md:flex-col items-center md:items-start space-x-4 md:space-x-0 space-y-0 md:space-y-2">
+              <div class="inline-flex items-center justify-center rounded-xl bg-blue-100 p-3">
+                <StoreIcon class="w-8 h-8 text-blue-600" />
+              </div>
+              <div>
+                <div class="text-base text-gray-600">
+                  {{ $t('productTypes') }}
+                </div>
+                <div class="text-xl md:text-2xl font-semibold">
+                  {{ productStats?.typeCount }}
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="flex-1 w-full space-y-4 rounded-3xl bg-slate-50 p-5">
+            <div
+              class="flex flex-row md:flex-col items-center md:items-start space-x-4 md:space-x-0 space-y-0  md:space-y-2">
+              <div class="inline-flex items-center justify-center rounded-xl bg-blue-100 p-3">
+                <StoreIcon class="w-8 h-8 text-blue-600" />
+              </div>
+              <div>
+                <div class="text-base text-gray-600">
+                  {{ $t('numberOfProducts') }}
+                </div>
+                <div class="text-xl md:text-2xl font-semibold">
+                  {{ productStats?.quantity }}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="flex flex-col md:flex-row md:items-center space-x-0 md:space-x-4 space-y-2 md:space-y-0">
+          <div v-for="(product, idx) in soldProductPrice" :key="idx" class="flex-1 w-full space-y-4 rounded-3xl bg-slate-50 p-5">
+            <div
+              class="flex flex-row md:flex-col items-center md:items-start space-x-4 md:space-x-0 space-y-0 md:space-y-2">
+              <div class="inline-flex items-center justify-center rounded-xl bg-blue-100 p-3">
+                <DollarIcon class="w-8 h-8 text-blue-600" />
+              </div>
+              <div>
+                <div v-if="product?.period === 'current_month'" class="text-base text-gray-600">
+                  {{ $t('currentMonthsSales') }}
+                </div>
+                <div v-else class="text-base text-gray-600">
+                  {{ $t('previousMonthsSales') }}
+                </div>
+                <div class="text-xl md:text-2xl font-semibold">
+                  {{ useMoneyFormatter(product?.total) }}
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- <div class="flex-1 w-full space-y-4 rounded-3xl bg-slate-50 p-5">
+            <div
+              class="flex flex-row md:flex-col items-center md:items-start space-x-4 md:space-x-0 space-y-0 md:space-y-2">
+              <div class="inline-flex items-center justify-center rounded-xl bg-blue-100 p-3">
+                <MoneyIcon class="w-8 h-8 text-blue-600" />
+              </div>
+              <div>
+                <div class="text-base text-gray-600">
+                  {{ $t('productsPrice') }}
+                </div>
+                <div class="text-xl md:text-2xl font-semibold">
+                  {{ useMoneyFormatter(productStats?.sum) }}
+                </div>
+              </div>
+            </div>
+          </div> -->
+          <div class="flex-1 w-full h-full space-y-4 rounded-3xl bg-slate-50 p-5">
+            <div
+              class="flex flex-row md:flex-col items-center md:items-start space-x-4 md:space-x-0 space-y-0 md:space-y-2">
+              <div class="inline-flex items-center justify-center rounded-xl bg-blue-100 p-3">
+                <UsersIcon class="w-8 h-8 text-blue-600" />
+              </div>
+              <div>
+                <div class="text-base text-gray-600">
+                  {{ $t('numberOfEmployees') }}
+                </div>
+                <div class="text-xl md:text-2xl font-semibold">
+                  {{ cashiersStat.length }}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
+    
   </div>
 </template>
