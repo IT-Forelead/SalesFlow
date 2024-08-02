@@ -30,6 +30,8 @@ const ordersStat = ref([])
 const turnoverStats = ref([])
 const productStats = ref({})
 const bestSellerProductStats = ref([])
+const bestExpensiveProductStats = ref([])
+const bestRevenueProductStats = ref([])
 const dailyTrading = t('dailyTrading')
 const soldProductPrice = ref(0)
 
@@ -476,9 +478,11 @@ onMounted(() => {
       productStats.value = res
     })
   ProductService.getBestSellerStats({
-    limit: 15,
+    limit: 20,
   }).then((res) => {
     bestSellerProductStats.value = res
+    bestExpensiveProductStats.value = res
+    bestRevenueProductStats.value = res
   })
 })
 
@@ -545,7 +549,7 @@ watch(
           <div class="flex items-center justify-between">
             <div class="space-y-0.5">
               <div class="text-base md:text-xl font-semibold">
-                {{ $t('Top expensive product') }}
+                {{ $t('bestExpensiveProducts') }}
               </div>
               <div class="text-sm md:text-base text-gray-600">
                 {{ $t('statisticsForTheLastTenDays') }}
@@ -555,8 +559,31 @@ watch(
               <ShoppingCartIcon class="w-8 h-8 text-blue-600" />
             </div>
           </div>
-          <div class="divide-y divide-gray-100">
-            ...
+          <div class="divide-y divide-gray-100 h-72 overflow-y-auto">
+            <div v-for="(product, idx) in bestExpensiveProductStats" :key="idx"
+              class="flex items-center justify-between py-1.5">
+              <div class="flex items-center space-x-3">
+                <div class="flex items-center justify-center bg-blue-100 w-6 h-6 rounded-lg">
+                  <span class="text-base text-blue-600">
+                    {{ idx + 1 }}
+                  </span>
+                </div>
+                <div>
+                  <div class="text-base font-semibold text-gray-800">
+                    {{ product?.name + ' - ' + product?.packaging }}
+                  </div>
+                  <div class="text-sm text-gray-600">
+                    {{ $t('price') }}:
+                    <span class="text-gray-900">
+                      {{ useMoneyFormatter(product?.price) }}
+                    </span>
+                  </div>
+                </div>
+              </div>
+              <div class="text-xl md:text-2xl font-bold">
+                {{ product?.soldCount }}
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -565,7 +592,7 @@ watch(
           <div class="flex items-center justify-between">
             <div class="space-y-0.5">
               <div class="text-base md:text-xl font-semibold">
-                {{ $t('Top revenue product') }}
+                {{ $t('bestRevenueProducts') }}
               </div>
               <div class="text-sm md:text-base text-gray-600">
                 {{ $t('statisticsForTheLastTenDays') }}
@@ -575,8 +602,31 @@ watch(
               <ShoppingCartIcon class="w-8 h-8 text-blue-600" />
             </div>
           </div>
-          <div class="divide-y divide-gray-100">
-            ...
+          <div class="divide-y divide-gray-100 h-72 overflow-y-auto">
+            <div v-for="(product, idx) in bestRevenueProductStats" :key="idx"
+              class="flex items-center justify-between py-1.5">
+              <div class="flex items-center space-x-3">
+                <div class="flex items-center justify-center bg-blue-100 w-6 h-6 rounded-lg">
+                  <span class="text-base text-blue-600">
+                    {{ idx + 1 }}
+                  </span>
+                </div>
+                <div>
+                  <div class="text-base font-semibold text-gray-800">
+                    {{ product?.name + ' - ' + product?.packaging }}
+                  </div>
+                  <div class="text-sm text-gray-600">
+                    {{ $t('price') }}:
+                    <span class="text-gray-900">
+                      {{ useMoneyFormatter(product?.price) }}
+                    </span>
+                  </div>
+                </div>
+              </div>
+              <div class="text-xl md:text-2xl font-bold">
+                {{ product?.soldCount }}
+              </div>
+            </div>
           </div>
         </div>
       </div>

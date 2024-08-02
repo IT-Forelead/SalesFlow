@@ -374,5 +374,8 @@
   "searchByCashback": "Введидите карту",
   "pleaseEnterCardId": "Пожалуйста, введите карту",
   "incorrectCardId": "Неверный ввод",
-  "cashbackAmount": "Сумма"
+  "cashbackAmount": "Сумма",
+  "bestExpensiveProducts": "Best expensive products",
+  "bestRevenueProducts": "Best revenue products",
+  "statisticsForTheLastTenDays": "Statistics for the last ten days"
 }

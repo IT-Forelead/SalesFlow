@@ -371,5 +371,8 @@
   "searchByCashback": "Картани киритинг",
   "pleaseEnterCardId": "Илтимос, картани киритинг",
   "incorrectCardId": "Нотўғри карта",
-  "cashbackAmount": "Миқдори"
+  "cashbackAmount": "Миқдори",
+  "bestExpensiveProducts": "Best expensive products",
+  "bestRevenueProducts": "Best revenue products",
+  "statisticsForTheLastTenDays": "Statistics for the last ten days"
 }
