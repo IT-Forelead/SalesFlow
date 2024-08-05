@@ -635,23 +635,6 @@ watch(
         <div class="flex flex-col md:flex-row md:items-center md:justify-between px-2 space-y-3 md:space-y-0">
           <div>
             <div class="text-base font-bold text-gray-800">
-              {{ $t('salesStatistics') }}
-            </div>
-            <div class="text-sm text-gray-600">
-              {{ $t('statisticsForTheLastSevenDays') }}
-            </div>
-          </div>
-          <div class="flex items-center justify-center rounded-xl bg-blue-100 p-2">
-            <ChartBarIcon class="w-8 h-8 text-blue-600" />
-          </div>
-        </div>
-        <apexchart type="bar" height="320" :options="salesChartChartOptions" :series="salesChartSeries">
-        </apexchart>
-      </div>
-      <div class="flex-1 bg-slate-50 rounded-3xl p-5">
-        <div class="flex flex-col md:flex-row md:items-center md:justify-between px-2 space-y-3 md:space-y-0">
-          <div>
-            <div class="text-base font-bold text-gray-800">
               {{ $t('profitStatistics') }}
             </div>
             <div v-if="salesChartFilterData === 7" class="text-sm text-gray-600">
@@ -682,7 +665,23 @@ watch(
           </apexchart>
         </div>
       </div>
-      
+      <div class="flex-1 bg-slate-50 rounded-3xl p-5">
+        <div class="flex flex-col md:flex-row md:items-center md:justify-between px-2 space-y-3 md:space-y-0">
+          <div>
+            <div class="text-base font-bold text-gray-800">
+              {{ $t('salesStatistics') }}
+            </div>
+            <div class="text-sm text-gray-600">
+              {{ $t('statisticsForTheLastSevenDays') }}
+            </div>
+          </div>
+          <div class="flex items-center justify-center rounded-xl bg-blue-100 p-2">
+            <ChartBarIcon class="w-8 h-8 text-blue-600" />
+          </div>
+        </div>
+        <apexchart type="bar" height="320" :options="salesChartChartOptions" :series="salesChartSeries">
+        </apexchart>
+      </div>
     </div>
     <div class="flex-1 bg-slate-50 rounded-3xl p-5">
       <div class="flex flex-col md:flex-row md:items-center md:justify-between px-2 space-y-3 md:space-y-0">
