@@ -622,8 +622,8 @@ watch(pageProfit, () => {
               <ShoppingCartIcon class="w-8 h-8 text-blue-600" />
             </div>
           </div>
-          <div class="divide-y divide-gray-100 flex flex-col justify-between h-[55vh]">
-            <div><div v-for="(product, idx) in bestRevenueProductStats" :key="idx"
+          <div class="divide-y divide-gray-100">
+            <div v-for="(product, idx) in bestRevenueProductStats" :key="idx"
               class="flex items-center justify-between py-1.5">
               <div class="flex items-center space-x-3">
                 <div class="flex items-center justify-center bg-blue-100 w-6 h-6 rounded-lg">
@@ -652,8 +652,8 @@ watch(pageProfit, () => {
               <div class="text-xl md:text-2xl font-bold">
                 {{ product?.amount }}
               </div>
-            </div></div>
-            <div><div class="flex items-center justify-between my-6">
+            </div>
+            <div class="flex items-center justify-between my-6">
               <div class="flex items-center space-x-2">
                 <button :disabled="pageRevenue === 1" @click="goToRevenuePage(1)"
                   class="flex items-center justify-center px-3 py-2 text-base font-medium text-slate-900 rounded-lg select-none hover:bg-blue-200 disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
@@ -684,7 +684,7 @@ watch(pageProfit, () => {
                   <CaretDoubleRightIcon class="w-5 h-5" />
                 </button>
               </div>
-            </div></div>
+            </div>
           </div>
         </div>
       </div>
@@ -703,8 +703,8 @@ watch(pageProfit, () => {
               <ShoppingCartIcon class="w-8 h-8 text-blue-600" />
             </div>
           </div>
-          <div class="divide-y divide-gray-100 flex flex-col justify-between  h-[55vh]">
-            <div><div v-for="(product, idx) in bestProfitProductStats" :key="idx"
+          <div class="divide-y divide-gray-100">
+            <div v-for="(product, idx) in bestProfitProductStats" :key="idx"
               class="flex items-center justify-between py-1.5">
               <div class="flex items-center space-x-3">
                 <div class="flex items-center justify-center bg-blue-100 w-6 h-6 rounded-lg">
@@ -733,8 +733,8 @@ watch(pageProfit, () => {
               <div class="text-xl md:text-2xl font-bold">
                 {{ product?.amount }}
               </div>
-            </div></div>
-            <div><div class="flex items-center justify-between my-6">
+            </div>
+            <div class="flex items-center justify-between my-6">
               <div class="flex items-center space-x-2">
                 <button :disabled="pageProfit === 1" @click="goToProfitPage(1)"
                   class="flex items-center justify-center px-3 py-2 text-base font-medium text-slate-900 rounded-lg select-none hover:bg-blue-200 disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
@@ -765,7 +765,7 @@ watch(pageProfit, () => {
                   <CaretDoubleRightIcon class="w-5 h-5" />
                 </button>
               </div>
-            </div></div>
+            </div>
           </div>
         </div>
       </div>
@@ -784,8 +784,8 @@ watch(pageProfit, () => {
               <ShoppingCartIcon class="w-8 h-8 text-blue-600" />
             </div>
           </div>
-          <div class="divide-y divide-gray-100 flex flex-col justify-between  h-[55vh]">
-            <div><div v-for="(product, idx) in bestSellerProductStats" :key="idx"
+          <div class="divide-y divide-gray-100">
+            <div v-for="(product, idx) in bestSellerProductStats" :key="idx"
               class="flex items-center justify-between py-1.5">
               <div class="flex items-center space-x-3">
                 <div class="flex items-center justify-center bg-blue-100 w-6 h-6 rounded-lg">
@@ -814,8 +814,8 @@ watch(pageProfit, () => {
               <div class="text-xl md:text-2xl font-bold">
                 {{ product?.amount }}
               </div>
-            </div></div>
-            <div><div class="flex items-center justify-between my-6">
+            </div>
+           <div class="flex items-center justify-between my-6">
               <div class="flex items-center space-x-2">
                 <button :disabled="pageSell === 1" @click="goToSellPage(1)"
                   class="flex items-center justify-center px-3 py-2 text-base font-medium text-slate-900 rounded-lg select-none hover:bg-blue-200 disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
@@ -846,8 +846,7 @@ watch(pageProfit, () => {
                   <CaretDoubleRightIcon class="w-5 h-5" />
                 </button>
               </div>
-            </div></div>
-
+            </div>
           </div>
         </div>
       </div>
@@ -1070,6 +1069,5 @@ watch(pageProfit, () => {
         </div>
       </div>
     </div>
-    
   </div>
 </template>
