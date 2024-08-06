@@ -374,5 +374,8 @@
   "searchByCashback": "Kartani kiriting",
   "pleaseEnterCardId": "Iltimos, kartani kiriting",
   "incorrectCardId": "Noto'g'ri karta",
-  "cashbackAmount": "Miqdori"
+  "cashbackAmount": "Miqdori",
+  "bestProfitProducts": "Eng foyda sotilgan mahsulotlar",
+  "bestRevenueProducts": "Eng daromad sotilgan mahsulotlar",
+  "statisticsForTheLastTenDays": "So'nggi o'n kunlik statistika"
 }
