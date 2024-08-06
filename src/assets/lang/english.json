@@ -372,7 +372,7 @@
   "pleaseEnterCardId": "Please enter id-card",
   "incorrectCardId": "Incorrect id-card",
   "cashbackAmount": "Cashback amount",
-  "bestExpensiveProducts": "Best expensive products",
+  "bestProfitProducts": "Best profit products",
   "bestRevenueProducts": "Best revenue products",
   "statisticsForTheLastTenDays": "Statistics for the last ten days"
 }

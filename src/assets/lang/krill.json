@@ -372,7 +372,7 @@
   "pleaseEnterCardId": "Илтимос, картани киритинг",
   "incorrectCardId": "Нотўғри карта",
   "cashbackAmount": "Миқдори",
-  "bestExpensiveProducts": "Best expensive products",
-  "bestRevenueProducts": "Best revenue products",
-  "statisticsForTheLastTenDays": "Statistics for the last ten days"
+  "bestProfitProducts": "Энг фойда сотилган маҳсулотлар",
+  "bestRevenueProducts": "Энг даромат сотилган маҳсулотлар",
+  "statisticsForTheLastTenDays": "Сўнгги ўн кунлик статистика"
 }

@@ -19,6 +19,10 @@ import { shortenNumber } from '../mixins/utils'
 import OrderService from '../services/order.service'
 import ProductService from '../services/product.service'
 import { useDropdownStore } from '../store/dropdown.store'
+import CaretDoubleLeftIcon from '@/assets/icons/CaretDoubleLeftIcon.vue'
+import CaretLeftIcon from '@/assets/icons/CaretLeftIcon.vue'
+import CaretRightIcon from '@/assets/icons/CaretRightIcon.vue'
+import CaretDoubleRightIcon from '@/assets/icons/CaretDoubleRightIcon.vue'
 
 const { t } = useI18n()
 
@@ -30,8 +34,8 @@ const ordersStat = ref([])
 const turnoverStats = ref([])
 const productStats = ref({})
 const bestSellerProductStats = ref([])
-const bestExpensiveProductStats = ref([])
 const bestRevenueProductStats = ref([])
+const bestProfitProductStats = ref([])
 const dailyTrading = t('dailyTrading')
 const soldProductPrice = ref(0)
 
@@ -460,6 +464,11 @@ const submitTurnoverStatsFilterData = () => {
   }
 }
 
+const pageSell = ref(1)
+const pageProfit = ref(1)
+const pageRevenue = ref(1)
+const pageSize = 5
+
 onMounted(() => {
   getSoldProductPrice()
   getOrdersStatsFinal()
@@ -477,13 +486,9 @@ onMounted(() => {
     .then((res) => {
       productStats.value = res
     })
-  ProductService.getBestSellerStats({
-    limit: 20,
-  }).then((res) => {
-    bestSellerProductStats.value = res
-    bestExpensiveProductStats.value = res
-    bestRevenueProductStats.value = res
-  })
+    getSells()
+    getProfits()
+    getRevenues()
 })
 
 watch(
@@ -496,6 +501,107 @@ watch(
   { deep: true },
 )
 
+//bestSellerProducts
+const totalSell = ref(0)
+const totalSellPages = computed(() => Math.ceil(totalSell.value / pageSize))
+const displayedSellPageNumbers = computed(() => {
+  const numSellPages = Math.min(4, totalSellPages.value)
+  const startSellPage = Math.max(1, pageSell.value - Math.floor(numSellPages / 2))
+  const endSellPage = Math.min(totalSellPages.value, startSellPage + numSellPages - 1)
+  const pages = []
+  for (let i = startSellPage; i <= endSellPage; i++) {
+    pages.push(i)
+  }
+  return pages
+})
+const goToSellPage = (pageSellNumber) => {
+  if (pageSellNumber >= 1 && pageSellNumber <= totalSellPages.value) {
+    pageSell.value = pageSellNumber
+  }
+}
+const prevSellPage = () => {
+  goToSellPage(pageSell.value - 1)
+}
+const nextSellPage = () => {
+  goToSellPage(pageSell.value + 1)
+}
+const getSells = () => {
+  ProductService.getProductsWithMostSales(pageSell.value, pageSize ).then((res) => {
+    bestSellerProductStats.value = res.data
+    totalSell.value = res.total
+  })
+}
+watch(pageSell, () => {
+  getSells()
+})
+
+//bestRevenueProducts
+const totalRevenue = ref(0)
+const totalRevenuePages = computed(() => Math.ceil(totalRevenue.value / pageSize))
+const displayedRevenuePageNumbers = computed(() => {
+  const numRevenuePages = Math.min(4, totalRevenuePages.value)
+  const startRevenuePage = Math.max(1, pageRevenue.value - Math.floor(numRevenuePages / 2))
+  const endRevenuePage = Math.min(totalRevenuePages.value, startRevenuePage + numRevenuePages - 1)
+  const pages = []
+  for (let i = startRevenuePage; i <= endRevenuePage; i++) {
+    pages.push(i)
+  }
+  return pages
+})
+const goToRevenuePage = (pageRevenueNumber) => {
+  if (pageRevenueNumber >= 1 && pageRevenueNumber <= totalRevenuePages.value) {
+    pageRevenue.value = pageRevenueNumber
+  }
+}
+const prevRevenuePage = () => {
+  goToRevenuePage(pageRevenue.value - 1)
+}
+const nextRevenuePage = () => {
+  goToRevenuePage(pageRevenue.value + 1)
+}
+const getRevenues = () => {
+  ProductService.getProductsWithMostRevenue(pageRevenue.value, pageSize ).then((res) => {
+    bestRevenueProductStats.value = res.data
+    totalRevenue.value = res.total
+  })
+}
+watch(pageRevenue, () => {
+  getRevenues()
+})
+
+//bestProfitProducts
+const totalProfit = ref(0)
+const totalProfitPages = computed(() => Math.ceil(totalProfit.value / pageSize))
+const displayedProfitPageNumbers = computed(() => {
+  const numProfitPages = Math.min(4, totalProfitPages.value)
+  const startProfitPage = Math.max(1, pageProfit.value - Math.floor(numProfitPages / 2))
+  const endProfitPage = Math.min(totalProfitPages.value, startProfitPage + numProfitPages - 1)
+  const pages = []
+  for (let i = startProfitPage; i <= endProfitPage; i++) {
+    pages.push(i)
+  }
+  return pages
+})
+const goToProfitPage = (pageProfitNumber) => {
+  if (pageProfitNumber >= 1 && pageProfitNumber <= totalProfitPages.value) {
+    pageProfit.value = pageProfitNumber
+  }
+}
+const prevProfitPage = () => {
+  goToProfitPage(pageProfit.value - 1)
+}
+const nextProfitPage = () => {
+  goToProfitPage(pageProfit.value + 1)
+}
+const getProfits = () => {
+  ProductService.getProductsWithMostProfit(pageProfit.value, pageSize ).then((res) => {
+    bestProfitProductStats.value = res.data
+    totalProfit.value = res.total
+  })
+}
+watch(pageProfit, () => {
+  getProfits()
+})
 </script>
 
 <template>
@@ -516,7 +622,7 @@ watch(
               <ShoppingCartIcon class="w-8 h-8 text-blue-600" />
             </div>
           </div>
-          <div class="divide-y divide-gray-100 h-72 overflow-y-auto">
+          <div class="divide-y divide-gray-100 h-82 overflow-y-auto">
             <div v-for="(product, idx) in bestSellerProductStats" :key="idx"
               class="flex items-center justify-between py-1.5">
               <div class="flex items-center space-x-3">
@@ -541,47 +647,36 @@ watch(
                 {{ product?.soldCount }}
               </div>
             </div>
-          </div>
-        </div>
-      </div>
-      <div class="flex-1">
-        <div class="rounded-3xl bg-slate-50 p-5 space-y-4">
-          <div class="flex items-center justify-between">
-            <div class="space-y-0.5">
-              <div class="text-base md:text-xl font-semibold">
-                {{ $t('bestExpensiveProducts') }}
-              </div>
-              <div class="text-sm md:text-base text-gray-600">
-                {{ $t('statisticsForTheLastTenDays') }}
-              </div>
-            </div>
-            <div class="flex items-center justify-center rounded-xl bg-blue-100 p-3">
-              <ShoppingCartIcon class="w-8 h-8 text-blue-600" />
-            </div>
-          </div>
-          <div class="divide-y divide-gray-100 h-72 overflow-y-auto">
-            <div v-for="(product, idx) in bestExpensiveProductStats" :key="idx"
-              class="flex items-center justify-between py-1.5">
-              <div class="flex items-center space-x-3">
-                <div class="flex items-center justify-center bg-blue-100 w-6 h-6 rounded-lg">
-                  <span class="text-base text-blue-600">
-                    {{ idx + 1 }}
-                  </span>
+            <div class="flex items-center justify-between my-6">
+              <div class="flex items-center space-x-2">
+                <button :disabled="pageSell === 1" @click="goToSellPage(1)"
+                  class="flex items-center justify-center px-3 py-2 text-base font-medium text-slate-900 rounded-lg select-none hover:bg-blue-200 disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
+                  type="button">
+                  <CaretDoubleLeftIcon class="w-5 h-5" />
+                </button>
+                <button @click="prevSellPage" :disabled="pageSell === 1"
+                  class="flex items-center justify-center px-3 py-2 text-base font-medium text-slate-900 rounded-lg select-none hover:bg-blue-200 disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
+                  type="button">
+                  <CaretLeftIcon class="w-5 h-5" />
+                </button>
+                <div class="flex items-center space-x-2">
+                  <button v-for="pageSellNumber in displayedSellPageNumbers" :key="pageSellNumber" @click="goToSellPage(pageSellNumber)" :class="{
+                    'bg-blue-600 text-white': pageSellNumber === pageSell,
+                    'hover:bg-blue-200': pageSellNumber !== pageSell,
+                  }" class="px-3 py-2 select-none rounded-lg text-slate-900 text-center text-base font-medium transition-all">
+                    {{ pageSellNumber }}
+                  </button>
                 </div>
-                <div>
-                  <div class="text-base font-semibold text-gray-800">
-                    {{ product?.name + ' - ' + product?.packaging }}
-                  </div>
-                  <div class="text-sm text-gray-600">
-                    {{ $t('price') }}:
-                    <span class="text-gray-900">
-                      {{ useMoneyFormatter(product?.price) }}
-                    </span>
-                  </div>
-                </div>
-              </div>
-              <div class="text-xl md:text-2xl font-bold">
-                {{ product?.soldCount }}
+                <button @click="nextSellPage" :disabled="pageSell === totalSellPages"
+                  class="flex items-center gap-2 px-3 py-2 text-base font-medium text-center text-slate-900 rounded-lg select-none hover:bg-blue-200 disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
+                  type="button">
+                  <CaretRightIcon class="w-5 h-5" />
+                </button>
+                <button :disabled="pageSell === totalSellPages" @click="goToSellPage(totalSellPages)"
+                  class="flex items-center gap-2 px-3 py-2 text-base font-medium text-slate-900 rounded-lg select-none hover:bg-blue-200 disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
+                  type="button">
+                  <CaretDoubleRightIcon class="w-5 h-5" />
+                </button>
               </div>
             </div>
           </div>
@@ -602,7 +697,7 @@ watch(
               <ShoppingCartIcon class="w-8 h-8 text-blue-600" />
             </div>
           </div>
-          <div class="divide-y divide-gray-100 h-72 overflow-y-auto">
+          <div class="divide-y divide-gray-100  overflow-y-auto">
             <div v-for="(product, idx) in bestRevenueProductStats" :key="idx"
               class="flex items-center justify-between py-1.5">
               <div class="flex items-center space-x-3">
@@ -625,6 +720,113 @@ watch(
               </div>
               <div class="text-xl md:text-2xl font-bold">
                 {{ product?.soldCount }}
+              </div>
+            </div>
+            <div class="flex items-center justify-between my-6">
+              <div class="flex items-center space-x-2">
+                <button :disabled="pageRevenue === 1" @click="goToRevenuePage(1)"
+                  class="flex items-center justify-center px-3 py-2 text-base font-medium text-slate-900 rounded-lg select-none hover:bg-blue-200 disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
+                  type="button">
+                  <CaretDoubleLeftIcon class="w-5 h-5" />
+                </button>
+                <button @click="prevRevenuePage" :disabled="pageRevenue === 1"
+                  class="flex items-center justify-center px-3 py-2 text-base font-medium text-slate-900 rounded-lg select-none hover:bg-blue-200 disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
+                  type="button">
+                  <CaretLeftIcon class="w-5 h-5" />
+                </button>
+                <div class="flex items-center space-x-2">
+                  <button v-for="pageRevenueNumber in displayedRevenuePageNumbers" :key="pageRevenueNumber" @click="goToRevenuePage(pageRevenueNumber)" :class="{
+                    'bg-blue-600 text-white': pageRevenueNumber === pageRevenue,
+                    'hover:bg-blue-200': pageRevenueNumber !== pageRevenue,
+                  }" class="px-3 py-2 select-none rounded-lg text-slate-900 text-center text-base font-medium transition-all">
+                    {{ pageRevenueNumber }}
+                  </button>
+                </div>
+                <button @click="nextRevenuePage" :disabled="pageRevenue === totalRevenuePages"
+                  class="flex items-center gap-2 px-3 py-2 text-base font-medium text-center text-slate-900 rounded-lg select-none hover:bg-blue-200 disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
+                  type="button">
+                  <CaretRightIcon class="w-5 h-5" />
+                </button>
+                <button :disabled="pageRevenue === totalRevenuePages" @click="goToRevenuePage(totalRevenuePages)"
+                  class="flex items-center gap-2 px-3 py-2 text-base font-medium text-slate-900 rounded-lg select-none hover:bg-blue-200 disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
+                  type="button">
+                  <CaretDoubleRightIcon class="w-5 h-5" />
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="flex-1">
+        <div class="rounded-3xl bg-slate-50 p-5 space-y-4">
+          <div class="flex items-center justify-between">
+            <div class="space-y-0.5">
+              <div class="text-base md:text-xl font-semibold">
+                {{ $t('bestProfitProducts') }}
+              </div>
+              <div class="text-sm md:text-base text-gray-600">
+                {{ $t('statisticsForTheLastTenDays') }}
+              </div>
+            </div>
+            <div class="flex items-center justify-center rounded-xl bg-blue-100 p-3">
+              <ShoppingCartIcon class="w-8 h-8 text-blue-600" />
+            </div>
+          </div>
+          <div class="divide-y divide-gray-100  overflow-y-auto">
+            <div v-for="(product, idx) in bestProfitProductStats" :key="idx"
+              class="flex items-center justify-between py-1.5">
+              <div class="flex items-center space-x-3">
+                <div class="flex items-center justify-center bg-blue-100 w-6 h-6 rounded-lg">
+                  <span class="text-base text-blue-600">
+                    {{ idx + 1 }}
+                  </span>
+                </div>
+                <div>
+                  <div class="text-base font-semibold text-gray-800">
+                    {{ product?.name + ' - ' + product?.packaging }}
+                  </div>
+                  <div class="text-sm text-gray-600">
+                    {{ $t('price') }}:
+                    <span class="text-gray-900">
+                      {{ useMoneyFormatter(product?.price) }}
+                    </span>
+                  </div>
+                </div>
+              </div>
+              <div class="text-xl md:text-2xl font-bold">
+                {{ product?.soldCount }}
+              </div>
+            </div>
+            <div class="flex items-center justify-between my-6">
+              <div class="flex items-center space-x-2">
+                <button :disabled="pageProfit === 1" @click="goToProfitPage(1)"
+                  class="flex items-center justify-center px-3 py-2 text-base font-medium text-slate-900 rounded-lg select-none hover:bg-blue-200 disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
+                  type="button">
+                  <CaretDoubleLeftIcon class="w-5 h-5" />
+                </button>
+                <button @click="prevProfitPage" :disabled="pageProfit === 1"
+                  class="flex items-center justify-center px-3 py-2 text-base font-medium text-slate-900 rounded-lg select-none hover:bg-blue-200 disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
+                  type="button">
+                  <CaretLeftIcon class="w-5 h-5" />
+                </button>
+                <div class="flex items-center space-x-2">
+                  <button v-for="pageProfitNumber in displayedProfitPageNumbers" :key="pageProfitNumber" @click="goToProfitPage(pageProfitNumber)" :class="{
+                    'bg-blue-600 text-white': pageProfitNumber === pageProfit,
+                    'hover:bg-blue-200': pageProfitNumber !== pageProfit,
+                  }" class="px-3 py-2 select-none rounded-lg text-slate-900 text-center text-base font-medium transition-all">
+                    {{ pageProfitNumber }}
+                  </button>
+                </div>
+                <button @click="nextProfitPage" :disabled="pageProfit === totalProfitPages"
+                  class="flex items-center gap-2 px-3 py-2 text-base font-medium text-center text-slate-900 rounded-lg select-none hover:bg-blue-200 disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
+                  type="button">
+                  <CaretRightIcon class="w-5 h-5" />
+                </button>
+                <button :disabled="pageProfit === totalProfitPages" @click="goToProfitPage(totalProfitPages)"
+                  class="flex items-center gap-2 px-3 py-2 text-base font-medium text-slate-900 rounded-lg select-none hover:bg-blue-200 disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
+                  type="button">
+                  <CaretDoubleRightIcon class="w-5 h-5" />
+                </button>
               </div>
             </div>
           </div>
