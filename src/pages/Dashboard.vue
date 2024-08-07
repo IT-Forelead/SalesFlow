@@ -28,7 +28,7 @@ const { t } = useI18n()
 
 const dropdown = ref(null)
 const isLoading = ref(false)
-const salesChartFilterData = ref(7)
+const salesChartFilterData = ref(6)
 const cashiersStat = ref([])
 const ordersStat = ref([])
 const turnoverStats = ref([])
@@ -403,7 +403,7 @@ const turnoverStatsAreaChartChartOptions = computed(() => {
 
 // Caisher Donut Chart
 const caishersChartSeries = computed(() => {
-  return cashiersStat.value?.map((a) => a?.amount)
+  return cashiersStat.value?.map((a) => a?.soldCount)
 })
 
 const caishersChartOptions = computed(() => {
@@ -615,7 +615,9 @@ watch(pageProfit, () => {
                 {{ $t('bestRevenueProducts') }}
               </div>
               <div class="text-sm md:text-base text-gray-600">
-                {{ $t('statisticsForTheLastTenDays') }}
+                {{ $t('beginStatText') }} 
+              <span class="font-bold">{{10+ $t('days') }}</span>
+              {{ $t('endStatText') }} 
               </div>
             </div>
             <div class="flex items-center justify-center rounded-xl bg-blue-100 p-3">
@@ -643,13 +645,13 @@ watch(pageProfit, () => {
                   </div>
                   <div class="text-sm text-blue-500">
                     {{ $t('totalPrice') }}:
-                    <span class="text-blue-600">
+                    <span class="text-blue-600 font-semibold">
                       {{ useMoneyFormatter(product?.totalPrice) }}
                     </span>
                   </div>
                 </div>
               </div>
-              <div class="text-xl md:text-2xl font-bold">
+              <div class="text-xl md:text-2xl font-medium">
                 {{ product?.amount }}
               </div>
             </div>
@@ -698,7 +700,9 @@ watch(pageProfit, () => {
                 {{ $t('bestProfitProducts') }}
               </div>
               <div class="text-sm md:text-base text-gray-600">
-                {{ $t('statisticsForTheLastTenDays') }}
+                {{ $t('beginStatText') }} 
+              <span class="font-bold">{{10+ $t('days') }}</span>
+              {{ $t('endStatText') }} 
               </div>
             </div>
             <div class="flex items-center justify-center rounded-xl bg-blue-100 p-3">
@@ -726,13 +730,13 @@ watch(pageProfit, () => {
                   </div>
                   <div class="text-sm text-blue-500">
                     {{ $t('totalPrice') }}:
-                    <span class="text-blue-600">
+                    <span class="text-blue-600 font-semibold">
                       {{ useMoneyFormatter(product?.totalPrice) }}
                     </span>
                   </div>
                 </div>
               </div>
-              <div class="text-xl md:text-2xl font-bold">
+              <div class="text-xl md:text-2xl font-medium">
                 {{ product?.amount }}
               </div>
             </div>
@@ -782,7 +786,9 @@ watch(pageProfit, () => {
                 {{ $t('bestSellingProducts') }}
               </div>
               <div class="text-sm md:text-base text-gray-600">
-                {{ $t('statisticsForTheLastSevenDays') }}
+                {{ $t('beginStatText') }} 
+              <span class="font-bold">{{10+ $t('days') }}</span>
+              {{ $t('endStatText') }} 
               </div>
             </div>
             <div class="flex items-center justify-center rounded-xl bg-blue-100 p-3">
@@ -810,7 +816,7 @@ watch(pageProfit, () => {
                   </div>
                   <div class="text-sm text-blue-500">
                     {{ $t('totalPrice') }}:
-                    <span class="text-blue-600">
+                    <span class="text-blue-600 font-semibold">
                       {{ useMoneyFormatter(product?.totalPrice) }}
                     </span>
                   </div>
@@ -820,9 +826,7 @@ watch(pageProfit, () => {
                 {{ product?.amount }}
               </div>
             </div>
-
           </div>
-
         </div>
         <div class="flex items-center justify-center my-6">
           <div class="flex items-center space-x-2">
@@ -867,17 +871,21 @@ watch(pageProfit, () => {
             <div class="text-base font-bold text-gray-800">
               {{ $t('profitStatistics') }}
             </div>
-            <div v-if="salesChartFilterData === 7" class="text-sm text-gray-600">
-              {{ $t('statisticsForTheLastSevenDays') }}
+            <div v-if="salesChartFilterData === 6" class="text-sm text-gray-600">
+              {{ $t('beginStatText') }} 
+              <span class="font-bold">{{10+ $t('days') }}</span>
+              {{ $t('endStatText') }} 
             </div>
             <div v-else class="text-sm text-gray-600">
-              {{ $t('statisticsForTheLastThirtyDays') }}
+              {{ $t('beginStatText') }} 
+              <span class="font-bold">{{30+ $t('days') }}</span>
+              {{ $t('endStatText') }} 
             </div>
           </div>
           <div>
             <select v-model="salesChartFilterData"
               class="bg-blue-100 border-none text-slate-900 rounded-lg text-base md:text-lg block w-full h-11">
-              <option value="7">
+              <option value="6">
                 {{ $t('weeklyStatistics') }}
               </option>
               <option value="30">
@@ -886,7 +894,7 @@ watch(pageProfit, () => {
             </select>
           </div>
         </div>
-        <div v-if="salesChartFilterData === 7">
+        <div v-if="salesChartFilterData === 6">
           <apexchart type="bar" height="320" :options="profitChartChartOptions" :series="profitChartSeries">
           </apexchart>
         </div>
@@ -902,7 +910,9 @@ watch(pageProfit, () => {
               {{ $t('salesStatistics') }}
             </div>
             <div class="text-sm text-gray-600">
-              {{ $t('statisticsForTheLastSevenDays') }}
+              {{ $t('beginStatText') }} 
+              <span class="font-bold">{{10+ $t('days') }}</span>
+              {{ $t('endStatText') }} 
             </div>
           </div>
           <div class="flex items-center justify-center rounded-xl bg-blue-100 p-2">
@@ -920,7 +930,9 @@ watch(pageProfit, () => {
             {{ $t('inputAndOutputCostStatistics') }}
           </div>
           <div class="text-sm text-gray-600">
-            {{ $t('statisticsForTheLastThirtyDays') }}
+            {{ $t('beginStatText') }} 
+              <span class="font-bold">{{30+ $t('days') }}</span>
+              {{ $t('endStatText') }} 
           </div>
         </div>
         <div class="relative" ref="dropdown">
@@ -977,7 +989,9 @@ watch(pageProfit, () => {
               {{ $t('cashierStatistics') }}
             </div>
             <div class="text-sm text-gray-600">
-              {{ $t('statisticsForTheLastSevenDays') }}
+              {{ $t('beginStatText') }} 
+              <span class="font-bold">{{10+ $t('days') }}</span>
+              {{ $t('endStatText') }} 
             </div>
           </div>
           <div class="flex items-center justify-center rounded-xl bg-blue-100 p-2">
