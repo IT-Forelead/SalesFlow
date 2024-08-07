@@ -645,7 +645,7 @@ watch(pageProfit, () => {
                   </div>
                   <div class="text-sm text-gray-600">
                     {{ $t('totalPrice') }}:
-                    <span class="text-gray-900">
+                    <span class="text-blue-700 font-medium">
                       {{ useMoneyFormatter(product?.totalPrice) }}
                     </span>
                   </div>
@@ -730,7 +730,7 @@ watch(pageProfit, () => {
                   </div>
                   <div class="text-sm text-gray-600">
                     {{ $t('totalPrice') }}:
-                    <span class="text-gray-900">
+                    <span class="text-blue-700 font-medium">
                       {{ useMoneyFormatter(product?.totalPrice) }}
                     </span>
                   </div>
@@ -816,7 +816,7 @@ watch(pageProfit, () => {
                   </div>
                   <div class="text-sm text-gray-600">
                     {{ $t('totalPrice') }}:
-                    <span class="text-blue-700 font-semibold">
+                    <span class="text-gray-900">
                       {{ useMoneyFormatter(product?.totalPrice) }}
                     </span>
                   </div>
