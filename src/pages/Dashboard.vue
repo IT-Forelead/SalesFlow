@@ -486,9 +486,9 @@ onMounted(() => {
     .then((res) => {
       productStats.value = res
     })
-    getSells()
-    getProfits()
-    getRevenues()
+  getSells()
+  getProfits()
+  getRevenues()
 })
 
 watch(
@@ -526,7 +526,7 @@ const nextSellPage = () => {
   goToSellPage(pageSell.value + 1)
 }
 const getSells = () => {
-  ProductService.getProductsWithMostSales(pageSell.value, pageSize ).then((res) => {
+  ProductService.getProductsWithMostSales(pageSell.value, pageSize).then((res) => {
     bestSellerProductStats.value = res.data
     totalSell.value = res.total
   })
@@ -560,7 +560,7 @@ const nextRevenuePage = () => {
   goToRevenuePage(pageRevenue.value + 1)
 }
 const getRevenues = () => {
-  ProductService.getProductsWithMostRevenue(pageRevenue.value, pageSize ).then((res) => {
+  ProductService.getProductsWithMostRevenue(pageRevenue.value, pageSize).then((res) => {
     bestRevenueProductStats.value = res.data
     totalRevenue.value = res.total
   })
@@ -594,7 +594,7 @@ const nextProfitPage = () => {
   goToProfitPage(pageProfit.value + 1)
 }
 const getProfits = () => {
-  ProductService.getProductsWithMostProfit(pageProfit.value, pageSize ).then((res) => {
+  ProductService.getProductsWithMostProfit(pageProfit.value, pageSize).then((res) => {
     bestProfitProductStats.value = res.data
     totalProfit.value = res.total
   })
@@ -606,9 +606,9 @@ watch(pageProfit, () => {
 
 <template>
   <div class="p-4 md:p-8 space-y-6">
-    <div class="flex flex-col md:flex-row space-x-0 md:space-x-4 space-y-2 md:space-y-0">
-      <div class="flex-1">
-        <div class="rounded-3xl bg-slate-50 p-5 space-y-4">
+    <div class="flex flex-col md:flex-row space-x-0 md:space-x-4 space-y-2 md:space-y-0 mb-24">
+      <div class="flex rounded-3xl bg-slate-50 h-[650px] w-[33vw]  flex-col justify-between">
+        <div class="p-5 space-y-4">
           <div class="flex items-center justify-between">
             <div class="space-y-0.5">
               <div class="text-base md:text-xl font-semibold">
@@ -653,43 +653,45 @@ watch(pageProfit, () => {
                 {{ product?.amount }}
               </div>
             </div>
-            <div class="flex items-center justify-between my-6">
-              <div class="flex items-center space-x-2">
-                <button :disabled="pageRevenue === 1" @click="goToRevenuePage(1)"
-                  class="flex items-center justify-center px-3 py-2 text-base font-medium text-slate-900 rounded-lg select-none hover:bg-blue-200 disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
-                  type="button">
-                  <CaretDoubleLeftIcon class="w-5 h-5" />
-                </button>
-                <button @click="prevRevenuePage" :disabled="pageRevenue === 1"
-                  class="flex items-center justify-center px-3 py-2 text-base font-medium text-slate-900 rounded-lg select-none hover:bg-blue-200 disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
-                  type="button">
-                  <CaretLeftIcon class="w-5 h-5" />
-                </button>
-                <div class="flex items-center space-x-2">
-                  <button v-for="pageRevenueNumber in displayedRevenuePageNumbers" :key="pageRevenueNumber" @click="goToRevenuePage(pageRevenueNumber)" :class="{
-                    'bg-blue-600 text-white': pageRevenueNumber === pageRevenue,
-                    'hover:bg-blue-200': pageRevenueNumber !== pageRevenue,
-                  }" class="px-3 py-2 select-none rounded-lg text-slate-900 text-center text-base font-medium transition-all">
-                    {{ pageRevenueNumber }}
-                  </button>
-                </div>
-                <button @click="nextRevenuePage" :disabled="pageRevenue === totalRevenuePages"
-                  class="flex items-center gap-2 px-3 py-2 text-base font-medium text-center text-slate-900 rounded-lg select-none hover:bg-blue-200 disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
-                  type="button">
-                  <CaretRightIcon class="w-5 h-5" />
-                </button>
-                <button :disabled="pageRevenue === totalRevenuePages" @click="goToRevenuePage(totalRevenuePages)"
-                  class="flex items-center gap-2 px-3 py-2 text-base font-medium text-slate-900 rounded-lg select-none hover:bg-blue-200 disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
-                  type="button">
-                  <CaretDoubleRightIcon class="w-5 h-5" />
-                </button>
-              </div>
+          </div>
+        </div>
+        <div class="flex items-center justify-between my-6">
+          <div class="flex items-center space-x-2">
+            <button :disabled="pageRevenue === 1" @click="goToRevenuePage(1)"
+              class="flex items-center justify-center px-3 py-2 text-base font-medium text-slate-900 rounded-lg select-none hover:bg-blue-200 disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
+              type="button">
+              <CaretDoubleLeftIcon class="w-5 h-5" />
+            </button>
+            <button @click="prevRevenuePage" :disabled="pageRevenue === 1"
+              class="flex items-center justify-center px-3 py-2 text-base font-medium text-slate-900 rounded-lg select-none hover:bg-blue-200 disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
+              type="button">
+              <CaretLeftIcon class="w-5 h-5" />
+            </button>
+            <div class="flex items-center space-x-2">
+              <button v-for="pageRevenueNumber in displayedRevenuePageNumbers" :key="pageRevenueNumber"
+                @click="goToRevenuePage(pageRevenueNumber)" :class="{
+                  'bg-blue-600 text-white': pageRevenueNumber === pageRevenue,
+                  'hover:bg-blue-200': pageRevenueNumber !== pageRevenue,
+                }"
+                class="px-3 py-2 select-none rounded-lg text-slate-900 text-center text-base font-medium transition-all">
+                {{ pageRevenueNumber }}
+              </button>
             </div>
+            <button @click="nextRevenuePage" :disabled="pageRevenue === totalRevenuePages"
+              class="flex items-center gap-2 px-3 py-2 text-base font-medium text-center text-slate-900 rounded-lg select-none hover:bg-blue-200 disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
+              type="button">
+              <CaretRightIcon class="w-5 h-5" />
+            </button>
+            <button :disabled="pageRevenue === totalRevenuePages" @click="goToRevenuePage(totalRevenuePages)"
+              class="flex items-center gap-2 px-3 py-2 text-base font-medium text-slate-900 rounded-lg select-none hover:bg-blue-200 disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
+              type="button">
+              <CaretDoubleRightIcon class="w-5 h-5" />
+            </button>
           </div>
         </div>
       </div>
-      <div class="flex-1">
-        <div class="rounded-3xl bg-slate-50 p-5 space-y-4">
+      <div class="flex rounded-3xl bg-slate-50 h-[650px] w-[33vw]  flex-col justify-between">
+        <div class="p-5 space-y-4">
           <div class="flex items-center justify-between">
             <div class="space-y-0.5">
               <div class="text-base md:text-xl font-semibold">
@@ -734,43 +736,46 @@ watch(pageProfit, () => {
                 {{ product?.amount }}
               </div>
             </div>
-            <div class="flex items-center justify-between my-6">
-              <div class="flex items-center space-x-2">
-                <button :disabled="pageProfit === 1" @click="goToProfitPage(1)"
-                  class="flex items-center justify-center px-3 py-2 text-base font-medium text-slate-900 rounded-lg select-none hover:bg-blue-200 disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
-                  type="button">
-                  <CaretDoubleLeftIcon class="w-5 h-5" />
-                </button>
-                <button @click="prevProfitPage" :disabled="pageProfit === 1"
-                  class="flex items-center justify-center px-3 py-2 text-base font-medium text-slate-900 rounded-lg select-none hover:bg-blue-200 disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
-                  type="button">
-                  <CaretLeftIcon class="w-5 h-5" />
-                </button>
-                <div class="flex items-center space-x-2">
-                  <button v-for="pageProfitNumber in displayedProfitPageNumbers" :key="pageProfitNumber" @click="goToProfitPage(pageProfitNumber)" :class="{
-                    'bg-blue-600 text-white': pageProfitNumber === pageProfit,
-                    'hover:bg-blue-200': pageProfitNumber !== pageProfit,
-                  }" class="px-3 py-2 select-none rounded-lg text-slate-900 text-center text-base font-medium transition-all">
-                    {{ pageProfitNumber }}
-                  </button>
-                </div>
-                <button @click="nextProfitPage" :disabled="pageProfit === totalProfitPages"
-                  class="flex items-center gap-2 px-3 py-2 text-base font-medium text-center text-slate-900 rounded-lg select-none hover:bg-blue-200 disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
-                  type="button">
-                  <CaretRightIcon class="w-5 h-5" />
-                </button>
-                <button :disabled="pageProfit === totalProfitPages" @click="goToProfitPage(totalProfitPages)"
-                  class="flex items-center gap-2 px-3 py-2 text-base font-medium text-slate-900 rounded-lg select-none hover:bg-blue-200 disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
-                  type="button">
-                  <CaretDoubleRightIcon class="w-5 h-5" />
-                </button>
-              </div>
+
+          </div>
+        </div>
+        <div class="flex items-center justify-between my-6">
+          <div class="flex items-center space-x-2">
+            <button :disabled="pageProfit === 1" @click="goToProfitPage(1)"
+              class="flex items-center justify-center px-3 py-2 text-base font-medium text-slate-900 rounded-lg select-none hover:bg-blue-200 disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
+              type="button">
+              <CaretDoubleLeftIcon class="w-5 h-5" />
+            </button>
+            <button @click="prevProfitPage" :disabled="pageProfit === 1"
+              class="flex items-center justify-center px-3 py-2 text-base font-medium text-slate-900 rounded-lg select-none hover:bg-blue-200 disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
+              type="button">
+              <CaretLeftIcon class="w-5 h-5" />
+            </button>
+            <div class="flex items-center space-x-2">
+              <button v-for="pageProfitNumber in displayedProfitPageNumbers" :key="pageProfitNumber"
+                @click="goToProfitPage(pageProfitNumber)" :class="{
+                  'bg-blue-600 text-white': pageProfitNumber === pageProfit,
+                  'hover:bg-blue-200': pageProfitNumber !== pageProfit,
+                }"
+                class="px-3 py-2 select-none rounded-lg text-slate-900 text-center text-base font-medium transition-all">
+                {{ pageProfitNumber }}
+              </button>
             </div>
+            <button @click="nextProfitPage" :disabled="pageProfit === totalProfitPages"
+              class="flex items-center gap-2 px-3 py-2 text-base font-medium text-center text-slate-900 rounded-lg select-none hover:bg-blue-200 disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
+              type="button">
+              <CaretRightIcon class="w-5 h-5" />
+            </button>
+            <button :disabled="pageProfit === totalProfitPages" @click="goToProfitPage(totalProfitPages)"
+              class="flex items-center gap-2 px-3 py-2 text-base font-medium text-slate-900 rounded-lg select-none hover:bg-blue-200 disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
+              type="button">
+              <CaretDoubleRightIcon class="w-5 h-5" />
+            </button>
           </div>
         </div>
       </div>
-      <div class="flex-1">
-        <div class="rounded-3xl bg-slate-50 p-5 space-y-4">
+      <div class="flex rounded-3xl bg-slate-50 h-[650px] w-[33vw]  flex-col justify-between">
+        <div class="p-5 space-y-4">
           <div class="flex items-center justify-between">
             <div class="space-y-0.5">
               <div class="text-base md:text-xl font-semibold">
@@ -815,38 +820,42 @@ watch(pageProfit, () => {
                 {{ product?.amount }}
               </div>
             </div>
-           <div class="flex items-center justify-between my-6">
-              <div class="flex items-center space-x-2">
-                <button :disabled="pageSell === 1" @click="goToSellPage(1)"
-                  class="flex items-center justify-center px-3 py-2 text-base font-medium text-slate-900 rounded-lg select-none hover:bg-blue-200 disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
-                  type="button">
-                  <CaretDoubleLeftIcon class="w-5 h-5" />
-                </button>
-                <button @click="prevSellPage" :disabled="pageSell === 1"
-                  class="flex items-center justify-center px-3 py-2 text-base font-medium text-slate-900 rounded-lg select-none hover:bg-blue-200 disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
-                  type="button">
-                  <CaretLeftIcon class="w-5 h-5" />
-                </button>
-                <div class="flex items-center space-x-2">
-                  <button v-for="pageSellNumber in displayedSellPageNumbers" :key="pageSellNumber" @click="goToSellPage(pageSellNumber)" :class="{
-                    'bg-blue-600 text-white': pageSellNumber === pageSell,
-                    'hover:bg-blue-200': pageSellNumber !== pageSell,
-                  }" class="px-3 py-2 select-none rounded-lg text-slate-900 text-center text-base font-medium transition-all">
-                    {{ pageSellNumber }}
-                  </button>
-                </div>
-                <button @click="nextSellPage" :disabled="pageSell === totalSellPages"
-                  class="flex items-center gap-2 px-3 py-2 text-base font-medium text-center text-slate-900 rounded-lg select-none hover:bg-blue-200 disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
-                  type="button">
-                  <CaretRightIcon class="w-5 h-5" />
-                </button>
-                <button :disabled="pageSell === totalSellPages" @click="goToSellPage(totalSellPages)"
-                  class="flex items-center gap-2 px-3 py-2 text-base font-medium text-slate-900 rounded-lg select-none hover:bg-blue-200 disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
-                  type="button">
-                  <CaretDoubleRightIcon class="w-5 h-5" />
-                </button>
-              </div>
+
+          </div>
+
+        </div>
+        <div class="flex items-center justify-between my-6">
+          <div class="flex items-center space-x-2">
+            <button :disabled="pageSell === 1" @click="goToSellPage(1)"
+              class="flex items-center justify-center px-3 py-2 text-base font-medium text-slate-900 rounded-lg select-none hover:bg-blue-200 disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
+              type="button">
+              <CaretDoubleLeftIcon class="w-5 h-5" />
+            </button>
+            <button @click="prevSellPage" :disabled="pageSell === 1"
+              class="flex items-center justify-center px-3 py-2 text-base font-medium text-slate-900 rounded-lg select-none hover:bg-blue-200 disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
+              type="button">
+              <CaretLeftIcon class="w-5 h-5" />
+            </button>
+            <div class="flex items-center space-x-2">
+              <button v-for="pageSellNumber in displayedSellPageNumbers" :key="pageSellNumber"
+                @click="goToSellPage(pageSellNumber)" :class="{
+                  'bg-blue-600 text-white': pageSellNumber === pageSell,
+                  'hover:bg-blue-200': pageSellNumber !== pageSell,
+                }"
+                class="px-3 py-2 select-none rounded-lg text-slate-900 text-center text-base font-medium transition-all">
+                {{ pageSellNumber }}
+              </button>
             </div>
+            <button @click="nextSellPage" :disabled="pageSell === totalSellPages"
+              class="flex items-center gap-2 px-3 py-2 text-base font-medium text-center text-slate-900 rounded-lg select-none hover:bg-blue-200 disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
+              type="button">
+              <CaretRightIcon class="w-5 h-5" />
+            </button>
+            <button :disabled="pageSell === totalSellPages" @click="goToSellPage(totalSellPages)"
+              class="flex items-center gap-2 px-3 py-2 text-base font-medium text-slate-900 rounded-lg select-none hover:bg-blue-200 disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
+              type="button">
+              <CaretDoubleRightIcon class="w-5 h-5" />
+            </button>
           </div>
         </div>
       </div>
