@@ -377,5 +377,8 @@
   "cashbackAmount": "Miqdori",
   "bestProfitProducts": "Eng foydasi ko'p sotilgan mahsulotlar",
   "bestRevenueProducts": "Eng qimmat sotilgan mahsulotlar",
-  "statisticsForTheLastTenDays": "So'nggi o'n kunlik statistika"
+  "statisticsForTheLastTenDays": "So'nggi o'n kunlik statistika",
+  "beginStatText": "So'nggi  ",
+  "days": "  kunlik",
+  "endStatText": " statistika"
 }
