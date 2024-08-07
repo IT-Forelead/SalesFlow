@@ -375,7 +375,7 @@
   "pleaseEnterCardId": "Пожалуйста, введите карту",
   "incorrectCardId": "Неверный ввод",
   "cashbackAmount": "Сумма",
-  "bestProfitProducts": "Самые прибыльные товары",
-  "bestRevenueProducts": "Самые доходные товары",
+  "bestProfitProducts": "Самые выгодные товары",
+  "bestRevenueProducts": "Самые дорогие товары",
   "statisticsForTheLastTenDays": "Статистика за последние десять дней"
 }
