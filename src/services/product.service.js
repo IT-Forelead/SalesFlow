@@ -40,6 +40,16 @@ class ProductService {
   async getBestSellerStats(data) {
     return AxiosService.post('/product/best-seller/weekly-stats', data)
   }
+  
+  async getProductsWithMostProfit(page, limit) {
+    return AxiosService.get(`/product/stats/profit?page=${page}&limit=${limit}`)
+  }
+  async getProductsWithMostRevenue(page, limit) {
+    return AxiosService.get(`/product/stats/revenue?page=${page}&limit=${limit}`)
+  }
+  async getProductsWithMostSales(page, limit) {
+    return AxiosService.get(`/product/stats/sales?page=${page}&limit=${limit}`)
+  }
   async searchProductBarcodeByParams(data) {
     return AxiosService.post('/product/barcode-search', data)
   }
