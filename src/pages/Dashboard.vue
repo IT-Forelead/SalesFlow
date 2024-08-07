@@ -403,7 +403,7 @@ const turnoverStatsAreaChartChartOptions = computed(() => {
 
 // Caisher Donut Chart
 const caishersChartSeries = computed(() => {
-  return cashiersStat.value?.map((a) => a?.amount)
+  return cashiersStat.value?.map((a) => a?.soldCount)
 })
 
 const caishersChartOptions = computed(() => {
