@@ -57,6 +57,7 @@ const createAgent = () => {
         .then((res) => {
           useAgentStore().clearStore()
           useAgentStore().setAgents(res)
+          useAgentStore().renderkey += 1
         })
     }).catch(() => {
       toast.error(t('errorWhileCreatingAgent'))

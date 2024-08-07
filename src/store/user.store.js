@@ -4,6 +4,7 @@ export const useUserStore = defineStore('user', {
   state: () => ({
     users: [],
     selectedUser: {},
+    renderkey: 0,
   }),
   actions: {
     setUsers(data) {

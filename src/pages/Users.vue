@@ -11,18 +11,17 @@ import UserService from '../services/user.service'
 import { useUserStore } from '../store/user.store.js'
 import { useModalStore } from '../store/modal.store.js'
 import { useI18n } from 'vue-i18n'
+import AgentService from '@/services/agent.service.js'
+import { useAgentStore } from '@/store/agent.store.js'
 
 const { t } = useI18n()
 
 const userStore = useUserStore()
 const globalSearchFromTable = ref('')
 const isLoading = ref(false)
-const renderkey = ref(0)
 
-const users = computed(() => {
-  renderkey.value += 1
-  return userStore.users
-})
+const users = computed(() => userStore.users)
+const renderkey = computed(() => userStore.renderkey)
 
 const getRole = (privileges) => {
   switch (true) {
@@ -137,15 +136,16 @@ const openDeleteUserModal = (data) => {
   useUserStore().setSelectedUser(data)
 }
 
-const getUsers = () => {
+const getUsers = async () => {
   isLoading.value = true
-  UserService.getUsers()
-    .then((res) => {
-      useUserStore().clearStore()
-      useUserStore().setUsers(res)
-    }).finally(() => {
-      isLoading.value = false
-    })
+  try {
+    const res = await UserService.getUsers()
+    useUserStore().clearStore()
+    useUserStore().setUsers(res)
+    useUserStore().renderkey += 1
+  } finally {
+    isLoading.value = false
+  }
 }
 
 getUsers()

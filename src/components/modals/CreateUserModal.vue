@@ -144,6 +144,7 @@ const createUser = () => {
         .then((res) => {
           useUserStore().clearStore()
           useUserStore().setUsers(res)
+          useUserStore().renderkey += 1
         })
     }).catch((err) => {
       toast.error(t('errorWhileCreatingUser'))

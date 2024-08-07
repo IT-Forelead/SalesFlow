@@ -19,12 +19,9 @@ const { t } = useI18n()
 const agentStore = useAgentStore()
 const globalSearchFromTable = ref('')
 const isLoading = ref(false)
-const renderkey = ref(0)
 
-const agents = computed(() => {
-  renderkey.value += 1
-  return agentStore.agents
-})
+const agents = computed(() => agentStore.agents)
+const renderkey = computed(() => agentStore.renderkey)
 
 
 const columns = [
@@ -75,17 +72,17 @@ const openEditAgent = (data) => {
 //   useUserStore().setSelectedUser(data)
 // }
 
-const getAgents = () => {
+const getAgents = async () => {
   isLoading.value = true
-  AgentService.getAgents()
-    .then((res) => {
-      useAgentStore().clearStore()
-      useAgentStore().setAgents(res)
-    }).finally(() => {
-      isLoading.value = false
-    })
+  try {
+    const res = await AgentService.getAgents()
+    useAgentStore().clearStore()
+    useAgentStore().setAgents(res)
+    useAgentStore().renderkey += 1
+  } finally {
+    isLoading.value = false
+  }
 }
-
 getAgents()
 
 </script>
