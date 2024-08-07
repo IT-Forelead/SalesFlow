@@ -374,5 +374,8 @@
   "cashbackAmount": "Миқдори",
   "bestProfitProducts": "Энг фойдаси кўп сотилган маҳсулотлар",
   "bestRevenueProducts": "Энг қиммат сотилган маҳсулотлар",
-  "statisticsForTheLastTenDays": "Сўнгги ўн кунлик статистика"
+  "statisticsForTheLastTenDays": "Сўнгги ўн кунлик статистика",
+  "beginStatText": "Сўнгги  ",
+  "days": "  кунлик",
+  "endStatText": " статистика"
 }
