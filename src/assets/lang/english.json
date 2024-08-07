@@ -374,5 +374,8 @@
   "cashbackAmount": "Cashback amount",
   "bestProfitProducts": "Best profit products",
   "bestRevenueProducts": "Best revenue products",
-  "statisticsForTheLastTenDays": "Statistics for the last ten days"
+  "statisticsForTheLastTenDays": "Statistics for the last ten days",
+  "beginStatText": "Statistics for the last  ",
+  "days": "  days",
+  "endStatText": ""
 }

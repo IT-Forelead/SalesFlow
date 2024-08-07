@@ -606,9 +606,9 @@ watch(pageProfit, () => {
 
 <template>
   <div class="p-4 md:p-8 space-y-6">
-    <div class="flex flex-col md:flex-row space-x-0 md:space-x-4 space-y-2 md:space-y-0 mb-24">
-      <div class="flex rounded-3xl bg-slate-50 min-h-[635px] w-[33vw] flex-col justify-between">
-        <div class="p-5 space-y-4">
+    <div class="flex flex-col md:flex-row space-x-0 md:space-x-4 space-y-2 md:space-y-0">
+      <div class="p-5 flex rounded-3xl bg-slate-50 min-h-[55vh] w-[33vw] flex-col justify-between">
+        <div class="space-y-4">
           <div class="flex items-center justify-between">
             <div class="space-y-0.5">
               <div class="text-base md:text-xl font-semibold">
@@ -643,9 +643,9 @@ watch(pageProfit, () => {
                       {{ useMoneyFormatter(product?.price) }}
                     </span>
                   </div>
-                  <div class="text-sm text-blue-500">
+                  <div class="text-sm text-gray-600">
                     {{ $t('totalPrice') }}:
-                    <span class="text-blue-600 font-semibold">
+                    <span class="text-gray-900">
                       {{ useMoneyFormatter(product?.totalPrice) }}
                     </span>
                   </div>
@@ -657,7 +657,7 @@ watch(pageProfit, () => {
             </div>
           </div>
         </div>
-        <div class="flex items-center justify-center my-6">
+        <div class="flex items-center justify-center ">
           <div class="flex items-center space-x-2">
             <button :disabled="pageRevenue === 1" @click="goToRevenuePage(1)"
               class="flex items-center justify-center px-3 py-2 text-base font-medium text-slate-900 rounded-lg select-none hover:bg-blue-200 disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
@@ -692,8 +692,8 @@ watch(pageProfit, () => {
           </div>
         </div>
       </div>
-      <div class="flex rounded-3xl bg-slate-50 min-h-[635px] w-[33vw] flex-col justify-between">
-        <div class="p-5 space-y-4">
+      <div class="p-5 flex rounded-3xl bg-slate-50 min-h-[55vh] w-[33vw] flex-col justify-between">
+        <div class="space-y-4">
           <div class="flex items-center justify-between">
             <div class="space-y-0.5">
               <div class="text-base md:text-xl font-semibold">
@@ -728,9 +728,9 @@ watch(pageProfit, () => {
                       {{ useMoneyFormatter(product?.price) }}
                     </span>
                   </div>
-                  <div class="text-sm text-blue-500">
+                  <div class="text-sm text-gray-600">
                     {{ $t('totalPrice') }}:
-                    <span class="text-blue-600 font-semibold">
+                    <span class="text-gray-900">
                       {{ useMoneyFormatter(product?.totalPrice) }}
                     </span>
                   </div>
@@ -743,7 +743,7 @@ watch(pageProfit, () => {
 
           </div>
         </div>
-        <div class="flex items-center justify-center my-6">
+        <div class="flex items-center justify-center ">
           <div class="flex items-center space-x-2">
             <button :disabled="pageProfit === 1" @click="goToProfitPage(1)"
               class="flex items-center justify-center px-3 py-2 text-base font-medium text-slate-900 rounded-lg select-none hover:bg-blue-200 disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
@@ -778,8 +778,8 @@ watch(pageProfit, () => {
           </div>
         </div>
       </div>
-      <div class="flex rounded-3xl bg-slate-50 min-h-[635px] w-[33vw] flex-col justify-between">
-        <div class="p-5 space-y-4">
+      <div class="p-5 flex rounded-3xl bg-slate-50 min-h-[55vh] w-[33vw] flex-col justify-between ">
+        <div class="space-y-4">
           <div class="flex items-center justify-between">
             <div class="space-y-0.5">
               <div class="text-base md:text-xl font-semibold">
@@ -814,21 +814,21 @@ watch(pageProfit, () => {
                       {{ useMoneyFormatter(product?.price) }}
                     </span>
                   </div>
-                  <div class="text-sm text-blue-500">
+                  <div class="text-sm text-gray-600">
                     {{ $t('totalPrice') }}:
-                    <span class="text-blue-600 font-semibold">
+                    <span class="text-blue-700 font-semibold">
                       {{ useMoneyFormatter(product?.totalPrice) }}
                     </span>
                   </div>
                 </div>
               </div>
-              <div class="text-xl md:text-2xl font-bold">
+              <div class="text-xl md:text-2xl font-bold text-blue-700">
                 {{ product?.amount }}
               </div>
             </div>
           </div>
         </div>
-        <div class="flex items-center justify-center my-6">
+        <div class="flex items-center justify-center ">
           <div class="flex items-center space-x-2">
             <button :disabled="pageSell === 1" @click="goToSellPage(1)"
               class="flex items-center justify-center px-3 py-2 text-base font-medium text-slate-900 rounded-lg select-none hover:bg-blue-200 disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
