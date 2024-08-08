@@ -60,17 +60,17 @@ const openCashbackInfo = (data) => {
   // useCashbackStore().setSelectedOrder(data)
 }
 
-const getCashbacks = () => {
+const getCashbacks = async () => {
   isLoading.value = true
-  CashbackService.getCashbacks()
-    .then((res) => {
-      useCashbackStore().clearStore()
-      useCashbackStore().setCashbacks(res.data)
-    }).finally(() => {
-      isLoading.value = false
-    })
+  try {
+    const res = await CashbackService.getCashbacks()
+    useCashbackStore().clearStore()
+    useCashbackStore().setCashbacks(res.data)
+    useCashbackStore().renderkey += 1
+  } finally {
+    isLoading.value = false
+  }
 }
-
 getCashbacks()
 
 </script>
