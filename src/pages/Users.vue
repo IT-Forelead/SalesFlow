@@ -36,7 +36,8 @@ const getRole = (privileges) => {
       privileges.includes('view_markets') &&
       privileges.includes('view_orders') &&
       privileges.includes('view_products') &&
-      privileges.includes('view_users'):
+      privileges.includes('view_users') &&
+      privileges.includes('view_wishes'):
       return t('admin')
     case
       privileges.includes('create_agent') &&
@@ -57,7 +58,8 @@ const getRole = (privileges) => {
       privileges.includes('view_orders') &&
       privileges.includes('view_products') &&
       privileges.includes('view_settings') &&
-      privileges.includes('view_users'):
+      privileges.includes('view_users') &&
+      privileges.includes('view_wishes'):
       return t('manager')
     case
       privileges.includes('create_history') &&
@@ -71,7 +73,8 @@ const getRole = (privileges) => {
       privileges.includes('view_agents') &&
       privileges.includes('view_orders') &&
       privileges.includes('view_products')&&
-      privileges.includes('view_settings'):
+      privileges.includes('view_users') &&
+      privileges.includes('view_wishes'):
       return t('cashier')
     default:
       return t('user')

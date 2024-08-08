@@ -92,6 +92,13 @@ const routes = [
     beforeEnter: navigationGuards('view_users'),
   },
   {
+    path: '/wishes',
+    name: 'Wishes',
+    component: () => import('../pages/Wishes.vue'),
+    meta: { layout: 'dashboard' },
+    beforeEnter: navigationGuards('view_users'),
+  },
+  {
     path: '/sale-settings',
     name: 'Sale settings',
     component: () => import('../pages/SaleSettings.vue'),
