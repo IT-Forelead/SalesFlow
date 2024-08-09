@@ -3,6 +3,7 @@ import { ref } from 'vue'
 import moment from 'moment'
 import { computed, h } from 'vue'
 import SearchIcon from '../assets/icons/SearchIcon.vue'
+import EyeIcon from '../assets/icons/EyeIcon.vue'
 import Spinners270RingIcon from '../assets/icons/Spinners270RingIcon.vue'
 import CTable from '../components/common/CTable.vue'
 import UserService from '../services/user.service'
@@ -53,11 +54,25 @@ const columns = [
     accessorFn: row => moment(row.createdAt).format('DD/MM/YYYY H:mm'),
     header: t('createdAt'),
   },
+  {
+    accessorKey: 'actions',
+    header: t('actions'),
+    cell: ({ row }) => h('div', { class: 'flex items-center space-x-2' }, [
+      h('button', {
+        onClick: () => {
+          openCashbackInfo(row.original)
+        },
+      }, [
+        h(EyeIcon, { class: 'w-6 h-6 text-blue-600 hover:scale-105' }),
+      ]),
+    ]),
+    enableSorting: false,
+  },
 ]
 
 const openCashbackInfo = (data) => {
-  // useModalStore().openCashbackInfoModal()
-  // useCashbackStore().setSelectedOrder(data)
+  useModalStore().openCashbackInfoModal()
+  useCashbackStore().setSelectedCashback(data)
 }
 
 const getCashbacks = async () => {
