@@ -12,7 +12,9 @@ import { useModalStore } from '../store/modal.store.js'
 import { useI18n } from 'vue-i18n'
 import { useCashbackStore } from '../store/cashback.store.js'
 import CashbackService from '../services/cashback.service.js'
+import OrderService from '../services/order.service'
 import useMoneyFormatter from '../mixins/currencyFormatter'
+import { useOrderStore } from '../store/order.store'
 
 const { t } = useI18n()
 
@@ -60,7 +62,7 @@ const columns = [
     cell: ({ row }) => h('div', { class: 'flex items-center space-x-2' }, [
       h('button', {
         onClick: () => {
-          openCashbackInfo(row.original)
+          openOrderInfo(row.original)
         },
       }, [
         h(EyeIcon, { class: 'w-6 h-6 text-blue-600 hover:scale-105' }),
@@ -70,9 +72,14 @@ const columns = [
   },
 ]
 
-const openCashbackInfo = (data) => {
-  useModalStore().openCashbackInfoModal()
-  useCashbackStore().setSelectedCashback(data)
+const openOrderInfo = (data) => {
+  OrderService.getOrderById(data.orderId).then((res) => {
+    useOrderStore().setSelectedOrder(res)
+    useOrderStore().fromCashback(true)
+    useModalStore().openOrderInfoModal()
+
+})
+
 }
 
 const getCashbacks = async () => {

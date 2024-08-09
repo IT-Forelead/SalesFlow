@@ -43,7 +43,7 @@ import PhPercent from '../assets/icons/PercentIcon.vue'
 import useMoneyFormatter from '../mixins/currencyFormatter.js'
 import TicketSale from '../assets/icons/TicketSaleIcon.vue'
 import Dialog from 'primevue/dialog'
-import CashbackService from '../services/cashback.service.js'
+import CashbackService from '../services/cashback.service'
 
 const notificationDropdown = ref(null)
 

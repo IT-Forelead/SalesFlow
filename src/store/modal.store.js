@@ -37,7 +37,6 @@ export const useModalStore = defineStore('modal', {
     isOpenCreateTelegramBotModal: false,
     isOpenUtilizeProductModal: false,
     isOpenCardIdModal: false,
-    isOpenCashbackInfoModal: false,
   }),
   actions: {
     openEditTelegramBotModal() {
@@ -237,12 +236,6 @@ export const useModalStore = defineStore('modal', {
     },
     closeCardIdModal() {
       this.isOpenCardIdModal = false
-    },
-    openCashbackInfoModal() {
-      this.isOpenCashbackInfoModal = true
-    },
-    closeCashbackInfoModal() {
-      this.isOpenCashbackInfoModal = false
     },
   }
 })
