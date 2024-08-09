@@ -1,5 +1,5 @@
 <script setup>
-import { computed, onMounted, reactive, ref, watch, watchEffect } from 'vue'
+import { computed, onMounted, reactive, ref, watch, watchEffect, onUnmounted } from 'vue'
 import { vMaska } from 'maska'
 import { toast } from 'vue-sonner'
 import { useRouter } from 'vue-router'
@@ -43,7 +43,47 @@ import PhPercent from '../assets/icons/PercentIcon.vue'
 import useMoneyFormatter from '../mixins/currencyFormatter.js'
 import TicketSale from '../assets/icons/TicketSaleIcon.vue'
 import Dialog from 'primevue/dialog'
-import CashbackService from '../services/cashback.service.js'
+import CashbackService from '../services/cashback.service'
+
+const notificationDropdown = ref(null)
+
+onClickOutside(notificationDropdown, () => {
+  if (useModalStore().isOpenNotification) {
+    useModalStore().toggleNotification()
+  }
+})
+let isMobile = window.innerWidth <= 1024;
+let isDesktop = window.innerWidth > 1024;
+
+const closeSale = () => {
+  if (isMobile) {
+    useSaleStore().toggleSale(true);
+  }
+  useSaleStore().setSaleState(true);
+}
+
+const openSale = () => {
+  if (isMobile) {
+    useSaleStore().toggleSale(false);
+  }
+  useSaleStore().setSaleState(false);
+}
+ 
+const handleResize = () => {
+  isDesktop = window.innerWidth > 10000;
+
+  if (isDesktop) {
+    useSaleStore().setSaleState(true);
+  }
+}
+
+onMounted(() => {
+  window.addEventListener('resize', handleResize);
+});
+
+onUnmounted(() => {
+  window.removeEventListener('resize', handleResize);
+});
 
 const API_URL = import.meta.env.VITE_CHEQUE_API_URL
 const addedToBasket = new Audio('/audios/added-to-basket.mp3')
@@ -525,6 +565,7 @@ const clearSubmitData = () => {
   } else if (activeBasketStatus.value === 'thirdBasket') {
     thirdBasket.value = []
   }
+  localStorage.removeItem("activeBasket")
 }
 
 
@@ -954,17 +995,48 @@ watch(
   () => {
     if (activeBasketStatus.value === 'firstBasket') {
       firstBasket.value = activeBasket.value
+      // localStorage.setItem('firstBasket', JSON.stringify(activeBasket.value))
     } else if (activeBasketStatus.value === 'secondBasket') {
       secondBasket.value = activeBasket.value
+      // localStorage.setItem('secondBasket', JSON.stringify(activeBasket.value))
     } else if (activeBasketStatus.value === 'thirdBasket') {
       thirdBasket.value = activeBasket.value
+      // localStorage.setItem('thirdBasket', JSON.stringify(activeBasket.value))
     }
+    localStorage.setItem('activeBasket', JSON.stringify(activeBasket.value))
   },
   { deep: true },
 )
 
 onMounted(() => {
   useProductStore().clearStore()
+  const localActiveBasket = localStorage.getItem('activeBasket')
+  try {
+    JSON.parse(localActiveBasket); 
+    activeBasket.value.push(...JSON.parse(localActiveBasket))
+  } catch (e) {
+  }
+
+  // const localFirstActiveBasket = localStorage.getItem('firstBasket')
+  // try {
+  //   JSON.parse(localFirstActiveBasket); 
+  //   firstBasket.value.push(...JSON.parse(localFirstActiveBasket))
+  // } catch (e) {
+  // }
+
+  // const localSecondActiveBasket = localStorage.getItem('secondBasket')
+  // try {
+  //   JSON.parse(localSecondActiveBasket); 
+  //   secondBasket.value.push(...JSON.parse(localSecondActiveBasket))
+  // } catch (e) {
+  // }
+
+  // const localThirdActiveBasket = localStorage.getItem('thirdBasket')
+  // try {
+  //   JSON.parse(localThirdActiveBasket); 
+  //   thirdBasket.value.push(...JSON.parse(localThirdActiveBasket))
+  // } catch (e) {
+  // }
   // onFocusSearchInput()
 })
 

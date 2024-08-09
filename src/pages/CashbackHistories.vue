@@ -3,6 +3,7 @@ import { ref } from 'vue'
 import moment from 'moment'
 import { computed, h } from 'vue'
 import SearchIcon from '../assets/icons/SearchIcon.vue'
+import EyeIcon from '../assets/icons/EyeIcon.vue'
 import Spinners270RingIcon from '../assets/icons/Spinners270RingIcon.vue'
 import CTable from '../components/common/CTable.vue'
 import UserService from '../services/user.service'
@@ -11,7 +12,9 @@ import { useModalStore } from '../store/modal.store.js'
 import { useI18n } from 'vue-i18n'
 import { useCashbackStore } from '../store/cashback.store.js'
 import CashbackService from '../services/cashback.service.js'
+import OrderService from '../services/order.service'
 import useMoneyFormatter from '../mixins/currencyFormatter'
+import { useOrderStore } from '../store/order.store'
 
 const { t } = useI18n()
 
@@ -53,24 +56,43 @@ const columns = [
     accessorFn: row => moment(row.createdAt).format('DD/MM/YYYY H:mm'),
     header: t('createdAt'),
   },
+  {
+    accessorKey: 'actions',
+    header: t('actions'),
+    cell: ({ row }) => h('div', { class: 'flex items-center space-x-2' }, [
+      h('button', {
+        onClick: () => {
+          openOrderInfo(row.original)
+        },
+      }, [
+        h(EyeIcon, { class: 'w-6 h-6 text-blue-600 hover:scale-105' }),
+      ]),
+    ]),
+    enableSorting: false,
+  },
 ]
 
-const openCashbackInfo = (data) => {
-  // useModalStore().openCashbackInfoModal()
-  // useCashbackStore().setSelectedOrder(data)
+const openOrderInfo = (data) => {
+  OrderService.getOrderById(data.orderId).then((res) => {
+    useOrderStore().setSelectedOrder(res)
+    useOrderStore().fromCashback(true)
+    useModalStore().openOrderInfoModal()
+
+})
+
 }
 
-const getCashbacks = () => {
+const getCashbacks = async () => {
   isLoading.value = true
-  CashbackService.getCashbacks()
-    .then((res) => {
-      useCashbackStore().clearStore()
-      useCashbackStore().setCashbacks(res.data)
-    }).finally(() => {
-      isLoading.value = false
-    })
+  try {
+    const res = await CashbackService.getCashbacks()
+    useCashbackStore().clearStore()
+    useCashbackStore().setCashbacks(res.data)
+    useCashbackStore().renderkey += 1
+  } finally {
+    isLoading.value = false
+  }
 }
-
 getCashbacks()
 
 </script>

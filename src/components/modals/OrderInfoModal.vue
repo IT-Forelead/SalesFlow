@@ -36,6 +36,11 @@ const selectedOrder = computed(() => {
 })
 
 
+const isFromCashback = computed(() => {
+  return orderStore.isFromCashback
+})
+
+
 onMounted(() => {
   SettingsService.getSettings()
     .then((res) => {
@@ -221,7 +226,8 @@ const refundProducts = () => {
               {{ selectedOrder?.items.reduce((acc, cur) => acc + cur.amount, 0) + ' ' + $t('piece') }}
             </div>
           </li>
-          <li class="flex items-center justify-between py-2">
+          
+          <li  v-if="!isFromCashback" class="flex items-center justify-between py-2">
             <div class="text-base">
               {{ $t('price') }}
             </div>
@@ -229,7 +235,7 @@ const refundProducts = () => {
               {{ useMoneyFormatter(selectedOrder?.initialPrice) }}
             </div>
           </li>
-          <li class="flex items-center justify-between py-2">
+          <li v-if="!isFromCashback" class="flex items-center justify-between py-2">
             <div class="text-base">
               {{ $t('discount') }}
             </div>
@@ -245,7 +251,7 @@ const refundProducts = () => {
               -{{ useMoneyFormatter(selectedOrder?.discountPrice) }}
             </div>
           </li>
-          <li class="flex items-center justify-between py-2">
+          <li  v-if="!isFromCashback" class="flex items-center justify-between py-2">
             <div class="text-base">
               {{ $t('createdAt') }}
             </div>
@@ -253,7 +259,7 @@ const refundProducts = () => {
               {{ moment(selectedOrder?.createdAt).format('DD/MM/YYYY H:mm') }}
             </div>
           </li>
-          <li class="flex items-center justify-between py-2">
+          <li  v-if="!isFromCashback" class="flex items-center justify-between py-2">
             <div class="text-base">
               {{ $t('cashier') }}
             </div>
@@ -261,7 +267,7 @@ const refundProducts = () => {
               {{ selectedOrder?.cashierFirstName + ' ' + selectedOrder?.cashierLastName }}
             </div>
           </li>
-          <li class="flex items-center justify-between py-2">
+          <li v-if="!isFromCashback"  class="flex items-center justify-between py-2">
             <div class="text-base font-semibold text-gray-900">
               {{ $t('totalPayment') }}
             </div>
@@ -282,7 +288,9 @@ const refundProducts = () => {
     </template>
     <template v-slot:footer>
       <CancelButton @click="closeModal" />
-      <button v-if="isRefundLoading" type="button"
+      <div v-if="!isFromCashback" >
+        
+        <button v-if="isRefundLoading" type="button"
               class="inline-flex items-center justify-center ml-2 text-rose-500 bg-white hover:bg-slate-100 focus:ring-4 focus:outline-none focus:ring-slate-300 rounded-xl border border-slate-200 text-sm font-medium px-5 py-2.5 hover:text-rose-600 focus:z-10">
         <Spinners270RingIcon
           class="mr-2 w-5 h-5 text-rose-500 animate-spin" />
@@ -305,7 +313,8 @@ const refundProducts = () => {
               class="inline-flex items-center justify-center ms-3 text-white bg-blue-500 hover:bg-blue-600 focus:ring-4 focus:outline-none focus:ring-slate-300 rounded-xl border border-slate-200 text-sm font-medium px-5 py-2.5 focus:z-10">
         <PrinterIcon class="mr-2 w-5 h-5 text-gray-200 dark:text-gray-600 fill-gray-600 dark:fill-gray-300" />
         <span>{{ $t('printOut') }}</span>
-      </button>
+      </button></div>
+      
     </template>
   </CModal>
 </template>
