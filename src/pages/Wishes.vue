@@ -104,7 +104,7 @@ getWishes()
       <div class="w-full md:w-auto order-1 md:order-2">
         <button @click="useModalStore().openCreateWishModal()"
           class="w-full md:w-auto py-2 px-4 rounded-full text-white text-lg font-medium bg-blue-500 cursor-pointer hover:bg-blue-600">
-          {{ $t('addWish') }}
+          {{ $t('createWish') }}
         </button>
       </div>
     </div>

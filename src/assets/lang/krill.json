@@ -377,5 +377,7 @@
   "statisticsForTheLastTenDays": "Сўнгги ўн кунлик статистика",
   "beginStatText": "Сўнгги  ",
   "days": "  кунлик",
-  "endStatText": " статистика"
+  "endStatText": " статистика",
+  "wishes": "Istaklar",
+  "createWish": "Istakni qo'shish"
 }

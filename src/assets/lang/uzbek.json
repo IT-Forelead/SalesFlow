@@ -380,5 +380,7 @@
   "statisticsForTheLastTenDays": "So'nggi o'n kunlik statistika",
   "beginStatText": "So'nggi  ",
   "days": "  kunlik",
-  "endStatText": " statistika"
+  "endStatText": " statistika",
+  "wishes": "Istaklar",
+  "createWish": "Istakni qo'shish"
 }

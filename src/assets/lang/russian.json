@@ -380,5 +380,7 @@
   "statisticsForTheLastTenDays": "Статистика за последние десять дней",
   "beginStatText": "Статистика за последние ",
   "days": "  дней",
-  "endStatText": ""
+  "endStatText": "",
+  "wishes": "Istaklar",
+  "createWish": "Istakni qo'shish"
 }
