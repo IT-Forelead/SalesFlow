@@ -44,6 +44,8 @@ import useMoneyFormatter from '../mixins/currencyFormatter.js';
 import TicketSale from '../assets/icons/TicketSaleIcon.vue';
 import Dialog from 'primevue/dialog';
 import CashbackService from '../services/cashback.service';
+import CorporateClientsService from '@/services/corporateClients.service.js';
+import { useCorporateClientsStore } from '@/store/corporateClients.store';
 
 const notificationDropdown = ref(null);
 
@@ -106,6 +108,7 @@ const submitData = reactive({
   customerMoney: 0,
   cashbackAmount: null,
   cashbackCustomerId: null,
+  corporateClientId: null,
 });
 
 const hasDiscountToday = ref(false);
@@ -135,6 +138,15 @@ onMounted(() => {
     })
     .catch((err) => {
       console.error('Error fetching holiday discount:', err);
+    });
+  CorporateClientsService.getCorporateClients()
+    .then((res) => {
+      if (res) {
+        useCorporateClientsStore().setCorporateClients(res);
+      }
+    })
+    .catch((err) => {
+      console.error('Error fetching corporate clients:', err);
     })
     .finally(() => {
       isLoading.value = false;
@@ -143,6 +155,7 @@ onMounted(() => {
 
 const realPrice = ref(0);
 const showDebtForm = ref(false);
+const showCorporateClients = ref(false);
 const showDiscountForm = ref(false);
 const searchProductDropdown = ref(null);
 const orderId = ref();
@@ -592,6 +605,7 @@ const createOrder = (printCheck = true) => {
         items: activeBasket.value,
         cashbackAmount: submitData.cashbackAmount,
         cashbackCustomerId: submitData.cashbackCustomerId,
+        corporateClientId: submitData.corporateClientId,
       }),
     )
       .then((orderRes) => {
@@ -648,6 +662,11 @@ const createOrder = (printCheck = true) => {
         isLoadingOrderWithoutPrint.value = false;
       });
   }
+};
+
+const createOrderForCorp = (clientId) => {
+  submitData.corporateClientId = clientId;
+  createOrder(true);
 };
 
 const isLoadingDiscount = ref(false);
@@ -1755,24 +1774,6 @@ const closeCardIdModal = () => {
 
       <div class="space-y-3">
         <div class="py-3 lg:py-0 space-y-1">
-          <!--        <div class="text-base font-medium">-->
-          <!--          {{ $t('paymentType') }}-->
-          <!--        </div>-->
-          <!--        <div class="flex w-full space-x-2 lg:space-x-0 xl:space-x-4 xl:space-y-0 lg:space-y-2 lg:flex-col xl:flex-row">-->
-          <!--          <div-->
-          <!--            class="flex-1 flex flex-col w-full items-center justify-center bg-blue-50 border border-blue-300 rounded-lg py-4">-->
-          <!--            <MoneyIcon class="w-6 h-6 text-blue-500" />-->
-          <!--            <div class="text-lg font-medium text-blue-500">-->
-          <!--              {{ $t('withCash') }}-->
-          <!--            </div>-->
-          <!--          </div>-->
-          <!--          <div class="flex-1 flex flex-col items-center justify-center border rounded-lg py-4">-->
-          <!--            <CreditCardIcon class="w-6 h-6 text-gray-500" />-->
-          <!--            <div class="text-lg font-medium text-center">-->
-          <!--              {{ $t('withPlasticCard') }}-->
-          <!--            </div>-->
-          <!--          </div>-->
-          <!--        </div>-->
           <div
             class="flex w-full space-x-2 lg:space-x-4 xl:space-x-4 xl:space-y-0 lg:space-y-0 flex-row"
           >
@@ -1787,13 +1788,13 @@ const closeCardIdModal = () => {
               </div>
             </div>
             <div
-              @click="showDebtForm = !showDebtForm"
-              :class="showDebtForm ? 'border-blue-300 bg-blue-50' : ''"
+              @click="showCorporateClients = !showCorporateClients"
+              :class="showCorporateClients ? 'border-blue-300 bg-blue-50' : ''"
               class="flex-1 flex flex-col hover:border-blue-300 hover:bg-blue-50 hover:cursor-pointer items-center text-center justify-center border rounded-lg py-4"
             >
               <DebtIcon class="w-6 h-6" />
               <div class="text-lg font-medium">
-                {{ $t('intoDebt') }}
+                {{ $t('corporateClients') }}
               </div>
             </div>
           </div>
@@ -1879,7 +1880,24 @@ const closeCardIdModal = () => {
           </button>
         </div>
         <div class="space-y-6">
-          <div class="space-y-4">
+          <div v-if="showCorporateClients" class="flex flex-col space-y-1">
+            <div class="space-y-4">
+              <div class="text-lg">
+                {{ $t('corporateClients') }}
+              </div>
+              <div class="space-y-2">
+                <button
+                  v-for="client in useCorporateClientsStore().corporateClients"
+                  @click="createOrderForCorp(client.id)"
+                  class="w-full xl:py-3 px-4 lg:py-2 py-3 rounded-lg text-white text-lg font-medium bg-blue-500 cursor-pointer hover:bg-blue-600"
+                >
+                  {{ client.customerName }}
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <div v-else class="space-y-4">
             <div v-if="!isLoadingOrderWithPrint && !isLoadingOrderWithoutPrint" class="space-y-4">
               <div class="flex space-x-4">
                 <button
