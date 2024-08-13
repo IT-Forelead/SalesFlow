@@ -377,5 +377,6 @@
   "statisticsForTheLastTenDays": "Statistics for the last ten days",
   "beginStatText": "Statistics for the last  ",
   "days": "  days",
-  "endStatText": ""
+  "endStatText": "",
+  "corporateClients": "Corporate clients"
 }
