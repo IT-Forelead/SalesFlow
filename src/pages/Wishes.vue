@@ -15,16 +15,12 @@ import BroomIcon from '../assets/icons/BroomIcon.vue'
 import { cleanObjectEmptyFields } from '../mixins/utils'
 
 const { t } = useI18n()
-
 const wishStore = useWishStore()
 const globalSearchFromTable = ref('')
 const isLoading = ref(false)
-
 const page = ref(1)
-const pageSize = 20
-
+const pageSize = 50
 const filterByDropdown = ref(null)
-
 const wishes = computed(() => wishStore.wishes)
 const renderkey = computed(() => wishStore.renderkey)
 
@@ -40,6 +36,10 @@ const columns = [
     header: t('name'),
   },
   {
+    accessorFn: row => `${row.completed}`,
+    header: t('completed'),
+  },
+  {
     accessorKey: 'createdAt',
     accessorFn: row => moment(row.createdAt).format('DD/MM/YYYY H:mm'),
     header: t('createdAt'),
@@ -48,32 +48,28 @@ const columns = [
     accessorKey: 'actions',
     header: t('actions'),
     cell: ({ row }) => h('div', { class: 'flex items-center space-x-2' }, [
-      h('button', { onClick: () => { openEditWish(row.original) } }, [
-        // h(PhPencilIcon, { class: 'w-6 h-6 text-blue-600 hover:scale-105' })
+      h('div', {
+        onClick: () => {
+          row.original.completed = true;
+          checkWish(row.original.completed);
+        },
+      }, [
+        h('input', { type: 'checkbox', class: 'w-6 h-6 text-blue-600 hover:scale-105', checked: row.original.completed }),
       ]),
-      // h('button', { onClick: () => { openDeleteUserModal(row.original) } }, [
-      //   h(PhTrash, { class: 'w-6 h-6 text-red-600 hover:scale-105' })
-      // ]),
     ]),
     enableSorting: false,
   },
-]
+];
 
-// const openEditWish = (data) => {
-//   useWishStore().setSelectedWish(data)
-//   useModalStore().openEditWishModal()
-// }
-
-// const openDeleteUserModal = (data) => {
-//   useModalStore().openDeleteUserModal()
-//   useUserStore().setSelectedUser(data)
-// }
+const checkWish = (newCompletedStatus) => {
+  console.log(newCompletedStatus);
+};
 
 const getWishes = async (filters = {}) => {
   isLoading.value = true
   await WishService.getWishes(
     cleanObjectEmptyFields({ limit: pageSize, page: page.value, ...filters }),
-  ).then( (res) => {
+  ).then((res) => {
     useWishStore().clearStore()
     useWishStore().setWishes(res.data)
     useWishStore().renderkey += 1
@@ -81,12 +77,6 @@ const getWishes = async (filters = {}) => {
 }
 
 getWishes()
-
-const filterData = reactive({
-  createdAt: '',
-  from: '',
-  to: '',
-})
 
 const submitFilterData = async () => {
   isLoading.value = true
@@ -96,6 +86,18 @@ const submitFilterData = async () => {
     await getWishes(filterData)
     useDropdownStore().toggleFilterBy()
   }
+}
+
+const filterData = reactive({
+  createdAt: '',
+  from: '',
+  to: '',
+})
+
+const clearFilterData = () => {
+  filterData.createdAt = ''
+  filterData.from = ''
+  filterData.to = ''
 }
 </script>
 
@@ -113,23 +115,23 @@ const submitFilterData = async () => {
           class="bg-slate-100 border-none w-full text-slate-900 text-base md:text-lg rounded-full block pl-10 py-2 placeholder-slate-400"
           :placeholder="$t('search')">
       </div>
-      
+
       <div class="w-full flex space-x-20 md:w-auto order-1 md:order-2">
         <div class="relative w-auto" ref="filterByDropdown">
-        <div @click="useDropdownStore().toggleFilterBy()"
-               class="border-none select-none text-gray-500 bg-slate-100 rounded-full w-full p-2 px-5 flex items-center hover:bg-gray-200 cursor-pointer space-x-1">
+          <div @click="useDropdownStore().toggleFilterBy()"
+            class="border-none select-none text-gray-500 bg-slate-100 rounded-full w-full p-2 px-5 flex items-center hover:bg-gray-200 cursor-pointer space-x-1">
             <FunnelIcon class="w-5 h-5 text-gray-400" />
             <span>{{ $t('filter') }}</span>
           </div>
           <div v-if="useDropdownStore().isOpenFilterBy"
-               class="absolute bg-white shadow-md rounded-xl w-64 p-3 z-20 space-y-3">
+            class="absolute bg-white shadow-md rounded-xl w-64 p-3 z-20 top-12 right-0 space-y-3">
             <div class="flex-1 space-y-1">
               <label for="from" class="text-base md:text-lg font-medium">
                 {{ $t('from') }}
               </label>
               <input id="from" type="date" v-model="filterData.from"
-                     class="bg-slate-100 border-none text-slate-900 rounded-lg w-full h-11 placeholder-slate-400 placeholder:text-sm md:placeholder:text-lg"
-                     :placeholder="t('enterProductQuantity')">
+                class="bg-slate-100 border-none text-slate-900 rounded-lg w-full h-11 placeholder-slate-400 placeholder:text-sm md:placeholder:text-lg"
+                :placeholder="t('enterProductQuantity')">
             </div>
             <div class="flex-1 space-y-1">
               <label for="to" class="text-base md:text-lg font-medium">
@@ -145,23 +147,24 @@ const submitFilterData = async () => {
                 <BroomIcon class="w-5 h-5 text-white" />
               </div>
               <div v-if="isLoading"
-                 class="w-full bg-blue-600 py-2 select-none text-white rounded-lg flex items-center justify-center">
-              <Spinners270RingIcon
-                class="mr-2 w-5 h-5 text-gray-200 animate-spin dark:text-gray-600 fill-gray-600 dark:fill-gray-300" />
-              <span>{{ $t('loading') }}</span>
-            </div>
-            <div v-else @click="submitFilterData()"
-                 class="w-full bg-blue-500 hover:bg-blue-600 cursor-pointer select-none py-2 text-white rounded-lg flex items-center justify-center">
-              <span>{{ $t('filter') }}</span></div>
+                class="w-full bg-blue-600 py-2 select-none text-white rounded-lg flex items-center justify-center">
+                <Spinners270RingIcon
+                  class="mr-2 w-5 h-5 text-gray-200 animate-spin dark:text-gray-600 fill-gray-600 dark:fill-gray-300" />
+                <span>{{ $t('loading') }}</span>
+              </div>
+              <div v-else @click="submitFilterData()"
+                class="w-full bg-blue-500 hover:bg-blue-600 cursor-pointer select-none py-2 text-white rounded-lg flex items-center justify-center">
+                <span>{{ $t('filter') }}</span>
+              </div>
             </div>
           </div>
-      </div>
+        </div>
         <button @click="useModalStore().openCreateWishModal()"
           class="w-full md:w-auto py-2 px-4 rounded-full text-white text-lg font-medium bg-blue-500 cursor-pointer hover:bg-blue-600">
           {{ $t('createWish') }}
         </button>
       </div>
-      
+
     </div>
     <div v-if="isLoading" class="flex items-center justify-center h-20">
       <Spinners270RingIcon class="w-6 h-6 text-gray-500 animate-spin" />
