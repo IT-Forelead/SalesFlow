@@ -1,24 +1,29 @@
 <script setup>
-import PhPencilIcon from '../assets/icons/EditIcon.vue'
-import PhTrash from '../assets/icons/TrashIcon.vue'
-import { ref } from 'vue'
+import { ref, reactive } from 'vue'
 import moment from 'moment'
 import { computed, h } from 'vue'
 import SearchIcon from '../assets/icons/SearchIcon.vue'
 import Spinners270RingIcon from '../assets/icons/Spinners270RingIcon.vue'
 import CTable from '../components/common/CTable.vue'
-import UserService from '../services/user.service'
-import { useUserStore } from '../store/user.store.js'
 import { useModalStore } from '../store/modal.store.js'
 import { useI18n } from 'vue-i18n'
 import { useWishStore } from '../store/wish.store.js'
 import WishService from '../services/wish.service.js'
+import { useDropdownStore } from '../store/dropdown.store'
+import FunnelIcon from '../assets/icons/FunnelIcon.vue'
+import BroomIcon from '../assets/icons/BroomIcon.vue'
+import { cleanObjectEmptyFields } from '../mixins/utils'
 
 const { t } = useI18n()
 
 const wishStore = useWishStore()
 const globalSearchFromTable = ref('')
 const isLoading = ref(false)
+
+const page = ref(1)
+const pageSize = 20
+
+const filterByDropdown = ref(null)
 
 const wishes = computed(() => wishStore.wishes)
 const renderkey = computed(() => wishStore.renderkey)
@@ -31,16 +36,8 @@ const columns = [
     cell: ({ row }) => `${parseInt(row.id, 10) + 1}`,
   },
   {
-    accessorFn: row => `${row.fullName}`,
-    header: t('fullName'),
-  },
-  {
-    accessorKey: 'phone',
-    header: t('phoneNumber'),
-  },
-  {
-    accessorKey: 'company',
-    header: t('company'),
+    accessorFn: row => `${row.name}`,
+    header: t('name'),
   },
   {
     accessorKey: 'createdAt',
@@ -52,7 +49,7 @@ const columns = [
     header: t('actions'),
     cell: ({ row }) => h('div', { class: 'flex items-center space-x-2' }, [
       h('button', { onClick: () => { openEditWish(row.original) } }, [
-        h(PhPencilIcon, { class: 'w-6 h-6 text-blue-600 hover:scale-105' })
+        // h(PhPencilIcon, { class: 'w-6 h-6 text-blue-600 hover:scale-105' })
       ]),
       // h('button', { onClick: () => { openDeleteUserModal(row.original) } }, [
       //   h(PhTrash, { class: 'w-6 h-6 text-red-600 hover:scale-105' })
@@ -72,19 +69,34 @@ const columns = [
 //   useUserStore().setSelectedUser(data)
 // }
 
-const getWishes = async () => {
+const getWishes = async (filters = {}) => {
   isLoading.value = true
-  try {
-    const res = await WishService.getWishes()
+  await WishService.getWishes(
+    cleanObjectEmptyFields({ limit: pageSize, page: page.value, ...filters }),
+  ).then( (res) => {
     useWishStore().clearStore()
     useWishStore().setWishes(res.data)
     useWishStore().renderkey += 1
-  } finally {
-    isLoading.value = false
-  }
+  }).finally(() => isLoading.value = false)
 }
+
 getWishes()
 
+const filterData = reactive({
+  createdAt: '',
+  from: '',
+  to: '',
+})
+
+const submitFilterData = async () => {
+  isLoading.value = true
+  if (!filterData.from && !filterData.to) {
+    toast.error('Kamida bitta vaqtni tanlang')
+  } else {
+    await getWishes(filterData)
+    useDropdownStore().toggleFilterBy()
+  }
+}
 </script>
 
 <template>
@@ -101,12 +113,55 @@ getWishes()
           class="bg-slate-100 border-none w-full text-slate-900 text-base md:text-lg rounded-full block pl-10 py-2 placeholder-slate-400"
           :placeholder="$t('search')">
       </div>
-      <div class="w-full md:w-auto order-1 md:order-2">
+      
+      <div class="w-full flex space-x-20 md:w-auto order-1 md:order-2">
+        <div class="relative w-auto" ref="filterByDropdown">
+        <div @click="useDropdownStore().toggleFilterBy()"
+               class="border-none select-none text-gray-500 bg-slate-100 rounded-full w-full p-2 px-5 flex items-center hover:bg-gray-200 cursor-pointer space-x-1">
+            <FunnelIcon class="w-5 h-5 text-gray-400" />
+            <span>{{ $t('filter') }}</span>
+          </div>
+          <div v-if="useDropdownStore().isOpenFilterBy"
+               class="absolute bg-white shadow-md rounded-xl w-64 p-3 z-20 space-y-3">
+            <div class="flex-1 space-y-1">
+              <label for="from" class="text-base md:text-lg font-medium">
+                {{ $t('from') }}
+              </label>
+              <input id="from" type="date" v-model="filterData.from"
+                     class="bg-slate-100 border-none text-slate-900 rounded-lg w-full h-11 placeholder-slate-400 placeholder:text-sm md:placeholder:text-lg"
+                     :placeholder="t('enterProductQuantity')">
+            </div>
+            <div class="flex-1 space-y-1">
+              <label for="to" class="text-base md:text-lg font-medium">
+                {{ $t('to') }}
+              </label>
+              <input id="to" type="date" v-model="filterData.to"
+                class="bg-slate-100 border-none text-slate-900 rounded-lg w-full h-11 placeholder-slate-400 placeholder:text-sm md:placeholder:text-lg"
+                :placeholder="t('enterProductQuantity')">
+            </div>
+            <div class="flex items-center space-x-2">
+              <div @click="clearFilterData()"
+                class="bg-blue-500 hover:bg-blue-600 cursor-pointer select-none py-2 px-3 text-white rounded-lg flex items-center justify-center">
+                <BroomIcon class="w-5 h-5 text-white" />
+              </div>
+              <div v-if="isLoading"
+                 class="w-full bg-blue-600 py-2 select-none text-white rounded-lg flex items-center justify-center">
+              <Spinners270RingIcon
+                class="mr-2 w-5 h-5 text-gray-200 animate-spin dark:text-gray-600 fill-gray-600 dark:fill-gray-300" />
+              <span>{{ $t('loading') }}</span>
+            </div>
+            <div v-else @click="submitFilterData()"
+                 class="w-full bg-blue-500 hover:bg-blue-600 cursor-pointer select-none py-2 text-white rounded-lg flex items-center justify-center">
+              <span>{{ $t('filter') }}</span></div>
+            </div>
+          </div>
+      </div>
         <button @click="useModalStore().openCreateWishModal()"
           class="w-full md:w-auto py-2 px-4 rounded-full text-white text-lg font-medium bg-blue-500 cursor-pointer hover:bg-blue-600">
           {{ $t('createWish') }}
         </button>
       </div>
+      
     </div>
     <div v-if="isLoading" class="flex items-center justify-center h-20">
       <Spinners270RingIcon class="w-6 h-6 text-gray-500 animate-spin" />

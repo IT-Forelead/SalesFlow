@@ -5,6 +5,8 @@ export const useWishStore = defineStore('wish', {
     wishes: [],
     selectedWish: {},
     renderkey: 0,
+    totalWishes: 0,
+    currentPage: 1,
   }),
   actions: {
     setWishes(data) {
