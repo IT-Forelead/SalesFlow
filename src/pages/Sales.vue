@@ -261,7 +261,7 @@ const searchProducts = () => {
         } else if (res.data.length === 1) {
           const product = res.data[0];
           let amount = null;
-          if (String(search.value).startsWith('9')) {
+          if (String(search.value).startsWith('999')) {
             const quantity = Number.parseInt(String(search.value).substring(8, 12));
             amount = product.saleType.includes('kg') ? quantity / 1000 : quantity;
           }
