@@ -379,5 +379,8 @@
   "days": "  days",
   "endStatText": "",
   "wishes": "Istaklar",
-  "createWish": "Istakni qo'shish"
+  "createWish": "Create wish",
+  "plsEnterWish": "Please, enter wish",
+  "completed": "Completed",
+  "notCompleted": "Not completed"
 }

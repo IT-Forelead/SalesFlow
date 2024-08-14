@@ -382,5 +382,8 @@
   "days": "  kunlik",
   "endStatText": " statistika",
   "wishes": "Istaklar",
-  "createWish": "Istakni qo'shish"
+  "createWish": "Istakni qo'shish",
+  "plsEnterWish": "Iltimos, istakni kiriting",
+  "completed": "Tugallandi",
+  "notCompleted": "Tugallanmagan"
 }

@@ -379,5 +379,8 @@
   "days": "  кунлик",
   "endStatText": " статистика",
   "wishes": "Istaklar",
-  "createWish": "Istakni qo'shish"
+  "createWish": "Истакни қўшиш",
+  "plsEnterWish": "Илтимос, истакни киритинг",
+  "completed": "Тугалланди",
+  "notCompleted": "Тугалланмаган"
 }

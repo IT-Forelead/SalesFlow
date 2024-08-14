@@ -7,6 +7,7 @@ export const useWishStore = defineStore('wish', {
     renderkey: 0,
     totalWishes: 0,
     currentPage: 1,
+    updateWish: false,
   }),
   actions: {
     setWishes(data) {
@@ -17,6 +18,9 @@ export const useWishStore = defineStore('wish', {
     },
     clearStore() {
       this.wishes = []
+    },
+    updateWish() {
+      this.wishes.push(...data)
     },
   },
 })

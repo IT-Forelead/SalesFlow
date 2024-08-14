@@ -41,7 +41,7 @@ const closeModal = () => {
 
 const createWish = () => {
   if (!submitForm.name) {
-    toast.warning(t('jgghgjhkhjhjhjkh'))
+    toast.warning(t('plsEnterWish'))
   
   } else {
     isLoading.value = true

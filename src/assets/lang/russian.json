@@ -382,5 +382,8 @@
   "days": "  дней",
   "endStatText": "",
   "wishes": "Istaklar",
-  "createWish": "Istakni qo'shish"
+  "createWish": "Создать просьбу",
+  "plsEnterWish": "Пожалуйста, введите просьбу",
+  "completed": "Завершено",
+  "notCompleted": "Не завершено"
 }

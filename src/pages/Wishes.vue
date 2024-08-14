@@ -24,7 +24,6 @@ const filterByDropdown = ref(null)
 const wishes = computed(() => wishStore.wishes)
 const renderkey = computed(() => wishStore.renderkey)
 
-
 const columns = [
   {
     accessorKey: 'id',
@@ -36,8 +35,8 @@ const columns = [
     header: t('name'),
   },
   {
-    accessorFn: row => `${row.completed}`,
-    header: t('completed'),
+    accessorFn: row => `${row.completed ? t('completed') : t('notCompleted')}`,
+    header: t('status'),
   },
   {
     accessorKey: 'createdAt',
@@ -49,10 +48,7 @@ const columns = [
     header: t('actions'),
     cell: ({ row }) => h('div', { class: 'flex items-center space-x-2' }, [
       h('div', {
-        onClick: () => {
-          row.original.completed = true;
-          checkWish(row.original.completed);
-        },
+        onClick: () => updateWish(row.original.id),
       }, [
         h('input', { type: 'checkbox', class: 'w-6 h-6 text-blue-600 hover:scale-105', checked: row.original.completed }),
       ]),
@@ -60,10 +56,6 @@ const columns = [
     enableSorting: false,
   },
 ];
-
-const checkWish = (newCompletedStatus) => {
-  console.log(newCompletedStatus);
-};
 
 const getWishes = async (filters = {}) => {
   isLoading.value = true
@@ -77,6 +69,16 @@ const getWishes = async (filters = {}) => {
 }
 
 getWishes()
+
+const updateWish = (id) => {
+    isLoading.value = true
+    WishService.updateWish({
+      id: id,
+      completed: true,
+    }).then(() => {
+      isLoading.value = false
+      getWishes()
+    })}
 
 const submitFilterData = async () => {
   isLoading.value = true
