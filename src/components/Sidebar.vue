@@ -25,6 +25,9 @@ import OverlayPanel from 'primevue/overlaypanel'
 import XIcon from '../assets/icons/XIcon.vue'
 import TicketSaleIcon from '../assets/icons/TicketSaleIcon.vue'
 import FileLinearIcon from '../assets/icons/FileLinearIcon.vue'
+import WishService from '../services/wish.service.js'
+import { useWishStore } from '../store/wish.store.js'
+import { cleanObjectEmptyFields } from '../mixins/utils'
 
 const { t } = useI18n()
 const router = useRouter()
@@ -33,6 +36,8 @@ const payload = ref({})
 const wishToBuyProductName = ref('')
 const wishToBuyProductModal = ref()
 
+const page = ref(1)
+const pageSize = 50
 const toggleWishToBuyProductModal = (event) => {
   wishToBuyProductModal.value.toggle(event);
 }
@@ -58,8 +63,19 @@ const createWishToBuyProduct = () => {
   if (!wishToBuyProductName.value) {
     toast.warning(t('plsEnterProductName'))
   } else {
-    toast.success("Mahsulot muoffaqiyatli qo'shildi!")
-    toggleWishToBuyProductModal()
+    WishService.createWish({
+      name: wishToBuyProductName.value,
+    }).then(() => {
+      toast.success("Mahsulot muoffaqiyatli qo'shildi!")
+      toggleWishToBuyProductModal()
+      WishService.getWishes(
+        cleanObjectEmptyFields({ limit: pageSize, page: page.value }),
+      ).then((res) => {
+        useWishStore().clearStore()
+        useWishStore().setWishes(res.data)
+        useWishStore().renderkey += 1
+      })
+    })
   }
 }
 

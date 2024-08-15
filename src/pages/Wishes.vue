@@ -1,7 +1,7 @@
 <script setup>
 import { ref, reactive } from 'vue'
 import moment from 'moment'
-import { computed, h } from 'vue'
+import { computed, h, watch } from 'vue'
 import SearchIcon from '../assets/icons/SearchIcon.vue'
 import Spinners270RingIcon from '../assets/icons/Spinners270RingIcon.vue'
 import CTable from '../components/common/CTable.vue'
@@ -48,9 +48,16 @@ const columns = [
     header: t('actions'),
     cell: ({ row }) => h('div', { class: 'flex items-center space-x-2' }, [
       h('div', {
-        onClick: () => updateWish(row.original.id),
+        onClick: () => {
+          row.original.completed = !row.original.completed;
+      updateWish(row.original.id, row.original.completed);
+        },
       }, [
-        h('input', { type: 'checkbox', class: 'w-6 h-6 text-blue-600 hover:scale-105', checked: row.original.completed }),
+      h('input', {
+      type: 'checkbox',
+      class: 'w-6 h-6 text-blue-600 hover:scale-105',
+      checked: row.original.completed,
+    }),
       ]),
     ]),
     enableSorting: false,
@@ -70,11 +77,11 @@ const getWishes = async (filters = {}) => {
 
 getWishes()
 
-const updateWish = (id) => {
+const updateWish = (id, boolean) => {
     isLoading.value = true
     WishService.updateWish({
       id: id,
-      completed: true,
+      completed: boolean ,
     }).then(() => {
       isLoading.value = false
       getWishes()
@@ -108,7 +115,7 @@ const clearFilterData = () => {
     <div class="text-slate-900 text-2xl md:text-3xl font-semibold mb-6">
       {{ $t('wishes') }}
     </div>
-    <div class="flex flex-col md:flex-row items-center justify-between">
+    <div class="flex flex-col space-x-10 md:flex-row items-center">
       <div class="relative w-full md:w-auto my-2 md:mb-0 order-2 md:order-1">
         <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
           <SearchIcon class="w-5 h-5 text-slate-400" />
@@ -161,10 +168,6 @@ const clearFilterData = () => {
             </div>
           </div>
         </div>
-        <button @click="useModalStore().openCreateWishModal()"
-          class="w-full md:w-auto py-2 px-4 rounded-full text-white text-lg font-medium bg-blue-500 cursor-pointer hover:bg-blue-600">
-          {{ $t('createWish') }}
-        </button>
       </div>
 
     </div>
