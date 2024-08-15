@@ -242,6 +242,7 @@ onMounted(() => {
 watch(route, (newRoute) => {
   if (newRoute.query.search) {
     searchFilter.value = newRoute.query.search;
+    page.value = 1
     searchProducts();
   } else {
     searchFilter.value = '';
