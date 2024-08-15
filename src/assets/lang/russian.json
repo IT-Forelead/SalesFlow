@@ -381,5 +381,10 @@
   "beginStatText": "Статистика за последние ",
   "days": "  дней",
   "endStatText": "",
-  "corporateClients": "Клиенты корпоратива"
+  "corporateClients": "Клиенты корпоратива",
+  "wishes": "Предложение",
+  "createWish": "Создать просьбу",
+  "plsEnterWish": "Пожалуйста, введите просьбу",
+  "completed": "Завершено",
+  "notCompleted": "Не завершено"
 }
