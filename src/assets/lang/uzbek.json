@@ -381,10 +381,10 @@
   "beginStatText": "So'nggi  ",
   "days": "  kunlik",
   "endStatText": " statistika",
-  "corporateClients": "Yuridik mijozlar"
+  "corporateClients": "Yuridik mijozlar",
   "wishes": "Istaklar",
   "createWish": "Istakni qo'shish",
   "plsEnterWish": "Iltimos, istakni kiriting",
-  "completed": "Tugallandi",
-  "notCompleted": "Tugallanmagan"
+  "completed": "Hisobga olingan",
+  "notCompleted": "Hisobga olinmagan"
 }
