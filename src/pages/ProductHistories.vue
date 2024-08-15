@@ -224,7 +224,7 @@ const utilizeProduct = (id, quantity) => {
 
 const printLabel = (product) => {
   const quantity = product.saleType.includes('kg') ? 1000 : 1
-  const barcode = !product.barcode ? `9${String(product.serialId).padStart(6, '0')}${String(quantity).padStart(5, '0')}1` : product.barcode
+  const barcode = !product.barcode ? `999${String(product.serialId).padStart(5, '0')}${String(quantity).padStart(4, '0')}1` : product.barcode
   axios
     .post(
       API_URL + '/print-label',
@@ -323,7 +323,7 @@ const searchProducts = (async () => {
     return
   }
   if (!isNaN(trimmedValue)) {
-    if (trimmedValue.startsWith('9')) {
+    if (trimmedValue.startsWith('999')) {
       filters = { name: String(trimmedValue) }
     } else if (isBarcode(trimmedValue)) {
       filters = { barcode: trimmedValue }
