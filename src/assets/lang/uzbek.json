@@ -380,5 +380,11 @@
   "statisticsForTheLastTenDays": "So'nggi o'n kunlik statistika",
   "beginStatText": "So'nggi  ",
   "days": "  kunlik",
-  "endStatText": " statistika"
+  "endStatText": " statistika",
+  "corporateClients": "Yuridik mijozlar",
+  "wishes": "Istaklar",
+  "createWish": "Istakni qo'shish",
+  "plsEnterWish": "Iltimos, istakni kiriting",
+  "completed": "Hisobga olingan",
+  "notCompleted": "Hisobga olinmagan"
 }

@@ -377,5 +377,11 @@
   "statisticsForTheLastTenDays": "Statistics for the last ten days",
   "beginStatText": "Statistics for the last  ",
   "days": "  days",
-  "endStatText": ""
+  "endStatText": "",
+  "corporateClients": "Corporate clients",
+  "wishes": "Istaklar",
+  "createWish": "Create wish",
+  "plsEnterWish": "Please, enter wish",
+  "completed": "Completed",
+  "notCompleted": "Not completed"
 }
