@@ -71,7 +71,7 @@ const getRole = (privileges) => {
       privileges.includes('view_agents') &&
       privileges.includes('view_orders') &&
       privileges.includes('view_products')&&
-      privileges.includes('view_settings'):
+      privileges.includes('view_users'):
       return t('cashier')
     default:
       return t('user')

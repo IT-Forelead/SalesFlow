@@ -24,6 +24,10 @@ import PhUsersThree from '../assets/icons/UsersThreeIcon.vue'
 import OverlayPanel from 'primevue/overlaypanel'
 import XIcon from '../assets/icons/XIcon.vue'
 import TicketSaleIcon from '../assets/icons/TicketSaleIcon.vue'
+import FileLinearIcon from '../assets/icons/FileLinearIcon.vue'
+import WishService from '../services/wish.service.js'
+import { useWishStore } from '../store/wish.store.js'
+import { cleanObjectEmptyFields } from '../mixins/utils'
 
 const { t } = useI18n()
 const router = useRouter()
@@ -32,6 +36,8 @@ const payload = ref({})
 const wishToBuyProductName = ref('')
 const wishToBuyProductModal = ref()
 
+const page = ref(1)
+const pageSize = 50
 const toggleWishToBuyProductModal = (event) => {
   wishToBuyProductModal.value.toggle(event);
 }
@@ -57,8 +63,19 @@ const createWishToBuyProduct = () => {
   if (!wishToBuyProductName.value) {
     toast.warning(t('plsEnterProductName'))
   } else {
-    toast.success("Mahsulot muoffaqiyatli qo'shildi!")
-    toggleWishToBuyProductModal()
+    WishService.createWish({
+      name: wishToBuyProductName.value,
+    }).then(() => {
+      toast.success("Mahsulot muoffaqiyatli qo'shildi!")
+      toggleWishToBuyProductModal()
+      WishService.getWishes(
+        cleanObjectEmptyFields({ limit: pageSize, page: page.value }),
+      ).then((res) => {
+        useWishStore().clearStore()
+        useWishStore().setWishes(res.data)
+        useWishStore().renderkey += 1
+      })
+    })
   }
 }
 
@@ -241,6 +258,16 @@ onMounted(() => {
             </div>
             <div>
               {{ $t('agents') }}
+            </div>
+          </router-link>
+          <router-link v-if="navigationGuard('view_users')" to="/wishes" @click="selectPage()" active-class="active"
+            class="relative h-10 flex items-center w-full hover:bg-blue-300/10 hover:text-blue-600 py-7 text-zinc-400 text-lg font-medium space-x-4 cursor-pointer transition-colors duration-300">
+            <div class="w-1.5 h-12 rounded-r-xl first-child-bg-color mr-2"></div>
+            <div class="flex items-center justify-center rounded-xl w-10 h-10 second-child-bg-color">
+              <FileLinearIcon class="w-6 h-6" />
+            </div>
+            <div>
+              {{ $t('wishes') }}
             </div>
           </router-link>
         </div>

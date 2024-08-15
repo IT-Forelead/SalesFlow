@@ -378,5 +378,10 @@
   "beginStatText": "Сўнгги  ",
   "days": "  кунлик",
   "endStatText": " статистика",
-  "corporateClients": "Юридик мижозлар"
+  "corporateClients": "Юридик мижозлар",
+  "wishes": "Истаклар",
+  "createWish": "Истакни қўшиш",
+  "plsEnterWish": "Илтимос, истакни киритинг",
+  "completed": "Ҳисобга олинган",
+  "notCompleted": "Ҳисобга олинмаган"
 }
