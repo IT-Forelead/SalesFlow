@@ -31,7 +31,7 @@ export const useModalStore = defineStore('modal', {
     isOpenEditProductBarcodeModal: false,
     isOpenCameraScannerModal: false,
     isOpenBarcodeScannerModal: false,
-    isOpenDeleteDebtorModal: false,
+    isOpenDeleteCorporateClientModal: false,
     isOpenDebtInfoModal: false,
     isOpenUploadImageToProductModal: false,
     isOpenCreateTelegramBotModal: false,
@@ -201,11 +201,11 @@ export const useModalStore = defineStore('modal', {
     closeCameraScannerModal() {
       this.isOpenCameraScannerModal = false
     },
-    openDeleteDebtorModal() {
-      this.isOpenDeleteDebtorModal = true
+    openDeleteCorporateClientModal() {
+      this.isOpenDeleteCorporateClientModal = true
     },
-    closeDeleteDebtorModal() {
-      this.isOpenDeleteDebtorModal = false
+    closeDeleteCorporateClientModal() {
+      this.isOpenDeleteCorporateClientModal = false
     },
     openDebtInfoModal() {
       this.isOpenDebtInfoModal = true

@@ -10,9 +10,9 @@ import { useAuthStore } from '../store/auth.store.js'
 import decodeJwt, { parseJwt } from '../mixins/utils.js'
 import { useI18n } from 'vue-i18n'
 import EyeIcon from '../assets/icons/EyeIcon.vue'
-import DebtorsTable from '../components/common/DebtorsTable.vue'
-import { useDebtorStore } from '../store/debtor.store.js'
-import CustomerService from '../services/customer.service.js'
+import CorporateClientsTable from '../components/common/CorporateClientsTable.vue'
+import { useCorporateClientsStore } from '../store/corporateClients.store.js'
+import CorporateClientService from '../services/corporateClients.service'
 import CaretLeftIcon from '../assets/icons/CaretLeftIcon.vue'
 import CaretRightIcon from '../assets/icons/CaretRightIcon.vue'
 import CaretDoubleRightIcon from '../assets/icons/CaretDoubleRightIcon.vue'
@@ -24,10 +24,10 @@ const { t } = useI18n()
 const globalSearchFromTable = ref('')
 const renderKey = ref(0)
 const payload = ref({})
-const debtorStore = useDebtorStore()
-const debtors = computed(() => {
+const corporateClientStore = useCorporateClientsStore()
+const corporateClients = computed(() => {
   renderKey.value += 1
-  return debtorStore.debtors
+  return corporateClientStore.corporateClients
 })
 
 const isLoading = ref(false)
@@ -67,7 +67,7 @@ const columns = [
       // h('button', { onClick: () => { openDebtInfo(row.original) } }, [
       //   h(EyeIcon, { class: 'w-6 h-6 text-blue-600 hover:scale-105' })
       // ]),
-      h('button', { onClick: () => { openDeleteDebtorModal(row.original) } }, [
+      h('button', { onClick: () => { openDeleteCorporateClientModal(row.original) } }, [
         h(TrashIcon, { class: 'w-6 h-6 text-red-600 hover:scale-105' })
       ]),
     ]),
@@ -77,21 +77,21 @@ const columns = [
 
 const openDebtInfo = (data) => {
   useModalStore().openDebtInfoModal()
-  useDebtorStore().setSelectedDebtor(data)
+  useCorporateClientsStore().setSelectedCorporateClient(data)
 }
 
-const openDeleteDebtorModal = (data) => {
-  useModalStore().openDeleteDebtorModal()
-  useDebtorStore().setSelectedDebtor(data)
+const openDeleteCorporateClientModal = (data) => {
+  useModalStore().openDeleteCorporateClientModal()
+  useCorporateClientsStore().setSelectedCorporateClient(data)
 }
 
-const getDebtors = () => {
+const getCorporateClients = () => {
   isLoading.value = true
-  CustomerService.getDebtors(pageSize, page.value)
+  CorporateClientService.getCorporateClients(pageSize, page.value)
     .then((response) => {
-      useDebtorStore().clearStore()
-      total.value = response.total
-      useDebtorStore().setDebtors(response.data)
+      useCorporateClientsStore().clearStore()
+      total.value = response.length
+      useCorporateClientsStore().setCorporateClients(response)
     }).finally(() => {
     isLoading.value = false
   })
@@ -122,10 +122,10 @@ const nextPage = () => {
   goToPage(page.value + 1)
 }
 
-getDebtors()
+getCorporateClients()
 
 watch(page, () => {
-  getDebtors()
+  getCorporateClients()
 })
 
 
@@ -138,7 +138,7 @@ onMounted(() => {
 <template>
   <div class="p-4 md:p-8">
     <div class="text-slate-900 text-2xl md:text-3xl font-semibold mb-6">
-      {{ $t('debtors') }}
+      {{ $t('corporateClients') }}
     </div>
     <div class="flex flex-col md:flex-row items-center justify-between">
       <div class="relative w-full md:w-auto my-2 md:mb-0 order-2 md:order-1">
@@ -153,7 +153,7 @@ onMounted(() => {
     <div v-if="isLoading" class="flex items-center justify-center h-20">
       <Spinners270RingIcon class="w-6 h-6 text-gray-500 animate-spin" />
     </div>
-    <DebtorsTable v-else :data="debtors" :key="renderKey" :columns="columns" :filter="globalSearchFromTable" />
+    <CorporateClientsTable v-else :data="corporateClients" :key="renderKey" :columns="columns" :filter="globalSearchFromTable" />
     <div class="flex items-center justify-between my-6">
       <div class="text-base text-slate-900 font-medium">
         {{ $t('total') }}:

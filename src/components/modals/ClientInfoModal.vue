@@ -8,13 +8,13 @@ import { computed } from 'vue';
 import useMoneyFormatter from '../../mixins/currencyFormatter';
 import moment from 'moment'
 import { useI18n } from 'vue-i18n'
-import { useDebtorStore } from '../../store/debtor.store.js'
+import { useCorporateClientsStore } from '../../store/corporateClients.store'
 
 const { t } = useI18n()
 
-const debtorStore = useDebtorStore()
-const selectedDebtor = computed(() => {
-  return debtorStore.selectedDebtor
+const corporateClientStore = useCorporateClientsStore()
+const selectedCorporateClient = computed(() => {
+  return corporateClientStore.setCorporateClients
 })
 const orderStore = useOrderStore()
 
@@ -37,7 +37,7 @@ const saleTypeShortTranslate = (type) => {
 
 const closeModal = () => {
   useModalStore().closeDebtInfoModal()
-  useDebtorStore().setSelectedDebtor({})
+  useCorporateClientsStore().setSelectedCorporateClient({})
 }
 </script>
 

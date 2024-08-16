@@ -22,8 +22,8 @@ import EditProductModal from './modals/EditProductModal.vue'
 import DeleteUserModal from './modals/DeleteUserModal.vue'
 import EditProductBarcodeModal from './modals/EditProductBarcodeModal.vue'
 import CameraScannerModal from './modals/CameraScannerModal.vue'
-import DeleteDebtorModal from './modals/DeleteDebtorModal.vue'
-import DebtInfoModal from './modals/DebtInfoModal.vue'
+import DeleteCorporateClientModal from './modals/DeleteCorporateClientModal.vue'
+import ClientInfoModal from './modals/ClientInfoModal.vue'
 import CreateLabelModal from './modals/CreateLabelModal.vue'
 import CreateAgentModal from './modals/CreateAgentModal.vue'
 import EditAgentModal from './modals/EditAgentModal.vue'
@@ -115,8 +115,8 @@ onUnmounted(() => {
   <DeleteUserModal/>
   <EditProductBarcodeModal/>
   <CameraScannerModal/>
-  <DeleteDebtorModal/>
-  <DebtInfoModal/>
+  <DeleteCorporateClientModal/>
+  <ClientInfoModal/>
   <CreateLabelModal/>
   <CreateAgentModal/>
   <EditAgentModal/>
