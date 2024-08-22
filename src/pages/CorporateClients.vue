@@ -53,6 +53,7 @@ const columns = [
   },
   {
     accessorKey: 'balance',
+    accessorFn: row => `${useMoneyFormatter(row.balance)}`,
     header: t('balance'),
   },
   {
@@ -65,7 +66,7 @@ const columns = [
     header: t('actions'),
     cell: ({ row }) => h('div', { class: 'flex items-center space-x-10' }, [
     h('button', { onClick: () => { openFillBalance(row.original) } }, [
-        h(DollarIcon, { class: 'w-6 h-6 text-blue-600 hover:scale-105' })
+        h(DollarIcon, { class: 'w-6 h-6 text-green-600 hover:scale-105' })
       ]),
       h('button', { onClick: () => { openDebtInfo(row.original) } }, [
         h(EyeIcon, { class: 'w-6 h-6 text-blue-600 hover:scale-105' })

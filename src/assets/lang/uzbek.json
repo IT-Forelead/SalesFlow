@@ -397,5 +397,9 @@
   "balanceError": "Balans yaratishda xatolik yuz berdi!",
   "all": "Hammasi",
   "debit": "Debit",
-  "credit": "Kredit"
+  "credit": "Kredit",
+  "clientInformation": "Mijozni haqida ma'lumot",
+  "deleteClient": "Mijozni o'chirish",
+  "clientDeletedSuccessfully": "Mijozni o'chirildi",
+  "errorWhileDeletingClient": "Mijozni o'chirish xatolik yuz berdi"
 }
