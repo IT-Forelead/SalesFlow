@@ -10,6 +10,13 @@ import CustomerService from '../../services/customer.service'
 import { useI18n } from 'vue-i18n'
 import { useCorporateClientsStore } from '../../store/corporateClients.store'
 import CorporateClientsService from '../../services/corporateClients.service.js'
+import { Money3 } from 'v-money3'
+
+const moneyConf = {
+  thousands: ' ',
+  suffix: ' UZS',
+  precision: 0,
+}
 
 const { t } = useI18n()
 
@@ -74,9 +81,8 @@ const fillBalance = () => {
               {{ $t('balance') }}
               <span class="text-red-500 mr-2">*</span>
             </label>
-            <input id="amount" type="text" v-model="submitData.amount"
-              class="bg-slate-100 border-none text-slate-900 rounded-lg w-full py-2.5 placeholder-slate-400"
-              :placeholder="t('enterBalance')" />
+            <money3 id="amount" type="text" v-bind="moneyConf" v-model="submitData.amount" class="border-none text-right text-gray-500 bg-slate-100 h-11 rounded-lg w-full text-lg">
+              </money3>
           </div>
           <div class="flex-1">
             <label for="reason" class="text-base font-medium">
@@ -84,7 +90,7 @@ const fillBalance = () => {
               <span class="text-red-500 mr-2">*</span>
             </label>
             <input id="reason" type="text" v-model="submitData.reason"
-              class="bg-slate-100 border-none text-slate-900 rounded-lg w-full py-2.5 placeholder-slate-400"
+               class="border-none text-gray-500 bg-slate-100 h-11 rounded-lg w-full text-lg"
               :placeholder="t('enterReason')" />
           </div>
         </div>
