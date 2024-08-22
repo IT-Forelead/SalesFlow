@@ -374,7 +374,7 @@
   "searchByCashback": "Kartani kiriting",
   "pleaseEnterCardId": "Iltimos, kartani kiriting",
   "incorrectCardId": "Noto'g'ri karta",
-  "cashbackAmount": "Miqdori",
+  "cashbackAmount": "Keshbek",
   "bestProfitProducts": "Eng foydasi ko'p sotilgan mahsulotlar",
   "bestRevenueProducts": "Eng qimmat sotilgan mahsulotlar",
   "statisticsForTheLastTenDays": "So'nggi o'n kunlik statistika",
@@ -401,5 +401,6 @@
   "clientInformation": "Mijozni haqida ma'lumot",
   "deleteClient": "Mijozni o'chirish",
   "clientDeletedSuccessfully": "Mijozni o'chirildi",
-  "errorWhileDeletingClient": "Mijozni o'chirish xatolik yuz berdi"
+  "errorWhileDeletingClient": "Mijozni o'chirish xatolik yuz berdi",
+  "clients": "Mijozlar"
 }

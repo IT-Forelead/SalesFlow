@@ -113,6 +113,13 @@ const routes = [
     beforeEnter: navigationGuards('view_settings'),
   },
   {
+    path: '/clients',
+    name: 'Clients',
+    component: () => import('../pages/Clients.vue'),
+    meta: { layout: 'dashboard' },
+    beforeEnter: navigationGuards('view_settings'),
+  },
+  {
     path: '/cashback-histories',
     name: 'Cashbacks histories',
     component: () => import('../pages/CashbackHistories.vue'),
