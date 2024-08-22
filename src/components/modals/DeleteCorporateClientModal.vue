@@ -7,35 +7,37 @@ import { toast } from 'vue-sonner'
 import { computed, ref } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { useCorporateClientsStore } from '../../store/corporateClients.store.js'
-import CorporateClientService from '../../services/customer.service.js'
+import CorporateClientsService from '../../services/corporateClients.service.js'
 import Spinners270RingIcon from '../../assets/icons/Spinners270RingIcon.vue'
 
 const { t } = useI18n()
 
-const corporateClientStore = useCorporateClientsStore()
+const CorporateClientsStore = useCorporateClientsStore()
 const isLoading = ref(false)
 const selectedCorporateClient = computed(() => {
-    return corporateClientStore.selectedCorporateClient
+    return CorporateClientsStore.selectedClient
 })
 
 const closeModal = () => {
     useModalStore().closeDeleteCorporateClientModal()
-    useCorporateClientsStore().setSelectedCorporateClient({})
 }
 
 const deleteCorporateClient = () => {
   isLoading.value = true
-  CorporateClientService.deleteCorporateClient(selectedCorporateClient.value.id)
+  console.log(selectedCorporateClient.value.id);
+  CorporateClientsService.deleteCorporateClient(selectedCorporateClient.value.id)
     .then(() => {
       toast.success(t('debtDeletedSuccessfully'))
-      CorporateClientService.getCorporateClients(30,1)
+      CorporateClientsService.getCorporateClients(30,1)
         .then((res) => {
           useCorporateClientsStore().clearStore()
-          useCorporateClientsStore().totalCorporateClients = res.total
-          useCorporateClientsStore().setCorporateClients(res.data)
+          useCorporateClientsStore().setCorporateClients(res)
+          useCorporateClientsStore().renderkey += 1
+          
         })
-      isLoading.value = false
-      closeModal()
+        isLoading.value = false
+        closeModal()
+      
     })
     .catch((err) => {
       toast.error(t('errorWhileDeletingDebt'))

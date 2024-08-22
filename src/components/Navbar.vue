@@ -33,6 +33,8 @@ import DiscountInfoModal from './modals/DiscountInfoModal.vue'
 import DeleteHolidayDiscountModal from './modals/DeleteHolidayDiscountModal.vue'
 import DeleteTelegramBotModal from './modals/DeleteTelegramBotModal.vue'
 import EditTelegramBotModal from './modals/EditTelegramBotModal.vue'
+import CreateCorporateClientModal from './modals/CreateCorporateClientModal.vue'
+import FillBalanceModal from './modals/FillBalanceModal.vue'
 
 const notificationDropdown = ref(null)
 
@@ -116,7 +118,7 @@ onUnmounted(() => {
   <EditProductBarcodeModal/>
   <CameraScannerModal/>
   <DeleteCorporateClientModal/>
-  <ClientInfoModal/>
+  <ClientInfoModal />
   <CreateLabelModal/>
   <CreateAgentModal/>
   <EditAgentModal/>
@@ -127,6 +129,9 @@ onUnmounted(() => {
   <EditUpcomingProductStatusModal />
   <DeleteTelegramBotModal />
   <EditTelegramBotModal />
+  <EditTelegramBotModal />
+  <CreateCorporateClientModal />
+  <FillBalanceModal />
 </template>
 
 <style scoped></style>

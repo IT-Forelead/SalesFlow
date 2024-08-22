@@ -386,5 +386,16 @@
   "createWish": "Istakni qo'shish",
   "plsEnterWish": "Iltimos, istakni kiriting",
   "completed": "Hisobga olingan",
-  "notCompleted": "Hisobga olinmagan"
+  "notCompleted": "Hisobga olinmagan",
+  "addClient": "Mijoz qo'shish",
+  "corporateClientAlreadyExist": "Ushbu mijoz allaqachon qo'shilgan!",
+  "balance": "Balans",
+  "fillBalance": "Balansni to'ldirish",
+  "enterBalance": "Balansni kiriting",
+  "enterReason": "Sababi kiriting",
+  "balanceFilled": "Balans to'ldirdi",
+  "balanceError": "Balans yaratishda xatolik yuz berdi!",
+  "all": "Hammasi",
+  "debit": "Debit",
+  "credit": "Kredit"
 }

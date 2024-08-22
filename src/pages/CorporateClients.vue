@@ -10,24 +10,29 @@ import { useAuthStore } from '../store/auth.store.js'
 import decodeJwt, { parseJwt } from '../mixins/utils.js'
 import { useI18n } from 'vue-i18n'
 import EyeIcon from '../assets/icons/EyeIcon.vue'
+import DollarIcon from '../assets/icons/CurrencyCircleDollar.vue'
 import CorporateClientsTable from '../components/common/CorporateClientsTable.vue'
 import { useCorporateClientsStore } from '../store/corporateClients.store.js'
-import CorporateClientService from '../services/corporateClients.service'
+import CorporateClientsService from '../services/corporateClients.service'
 import CaretLeftIcon from '../assets/icons/CaretLeftIcon.vue'
 import CaretRightIcon from '../assets/icons/CaretRightIcon.vue'
 import CaretDoubleRightIcon from '../assets/icons/CaretDoubleRightIcon.vue'
 import CaretDoubleLeftIcon from '../assets/icons/CaretDoubleLeftIcon.vue'
 import useMoneyFormatter from '../mixins/currencyFormatter.js'
-
+import FileLinearIcon from '../assets/icons/FileLinearIcon.vue'
+import CustomerService from '../services/customer.service'
+import { useCustomerStore } from '../store/customer.store';
+import { cleanObjectEmptyFields } from '../mixins/utils'
+ 
 const { t } = useI18n()
 
 const globalSearchFromTable = ref('')
 const renderKey = ref(0)
 const payload = ref({})
-const corporateClientStore = useCorporateClientsStore()
+const CorporateClientsStore = useCorporateClientsStore()
 const corporateClients = computed(() => {
   renderKey.value += 1
-  return corporateClientStore.corporateClients
+  return CorporateClientsStore.corporateClients
 })
 
 const isLoading = ref(false)
@@ -43,17 +48,12 @@ const columns = [
     enableSorting: false,
   },
   {
-    accessorKey: 'fullName',
+    accessorKey: 'customerName',
     header: t('fullName'),
   },
   {
-    accessorKey: 'phone',
-    header: t('phoneNumber'),
-  },
-  {
-    accessorKey: 'remained',
-    header: t('remainDebt'),
-    cell: ({ row }) => useMoneyFormatter(row.original.remained),
+    accessorKey: 'balance',
+    header: t('balance'),
   },
   {
     accessorKey: 'createdAt',
@@ -63,10 +63,14 @@ const columns = [
   {
     accessorKey: 'actions',
     header: t('actions'),
-    cell: ({ row }) => h('div', { class: 'flex items-center space-x-2' }, [
-      // h('button', { onClick: () => { openDebtInfo(row.original) } }, [
-      //   h(EyeIcon, { class: 'w-6 h-6 text-blue-600 hover:scale-105' })
-      // ]),
+    cell: ({ row }) => h('div', { class: 'flex items-center space-x-10' }, [
+    h('button', { onClick: () => { openFillBalance(row.original) } }, [
+        h(DollarIcon, { class: 'w-6 h-6 text-blue-600 hover:scale-105' })
+      ]),
+      h('button', { onClick: () => { openDebtInfo(row.original) } }, [
+        h(EyeIcon, { class: 'w-6 h-6 text-blue-600 hover:scale-105' })
+      ]),
+      
       h('button', { onClick: () => { openDeleteCorporateClientModal(row.original) } }, [
         h(TrashIcon, { class: 'w-6 h-6 text-red-600 hover:scale-105' })
       ]),
@@ -76,18 +80,38 @@ const columns = [
 ]
 
 const openDebtInfo = (data) => {
-  useModalStore().openDebtInfoModal()
-  useCorporateClientsStore().setSelectedCorporateClient(data)
+  useCorporateClientsStore().setSelectedClient(data)
+  getCustomerHistories()
+}
+
+const getCustomerHistories = async () => {
+  isLoading.value = true
+  try {
+    const res = await CustomerService.getCustomerHistoriesByFilter(
+    cleanObjectEmptyFields({
+      customerId: useCorporateClientsStore().selectedClient.customerId
+
+    }))
+    useCustomerStore().setCustomerHistories(res.data)
+    useCustomerStore().renderkey += 1
+  } finally {
+    isLoading.value = false
+    useModalStore().openDebtInfoModal()
+  }
+}
+
+const openCreateCorporateClientModal = () => {
+  useModalStore().openCreateCorporateClientModal()
 }
 
 const openDeleteCorporateClientModal = (data) => {
   useModalStore().openDeleteCorporateClientModal()
-  useCorporateClientsStore().setSelectedCorporateClient(data)
+  useCorporateClientsStore().setSelectedClient(data)
 }
 
 const getCorporateClients = () => {
   isLoading.value = true
-  CorporateClientService.getCorporateClients(pageSize, page.value)
+  CorporateClientsService.getCorporateClients(pageSize, page.value)
     .then((response) => {
       useCorporateClientsStore().clearStore()
       total.value = response.length
@@ -133,12 +157,25 @@ onMounted(() => {
   useAuthStore().setUser(decodeJwt(JSON.parse(localStorage.getItem('session'))?.accessToken))
   payload.value = parseJwt()
 })
+const openFillBalance= (customer) => {
+  console.log('sdfsdfsdfsdfsdfsdfsdfsdf');
+  useCorporateClientsStore().setSelectedClient(customer)
+  useModalStore().openFillBalanceModal()
+}
 </script>
 
 <template>
   <div class="p-4 md:p-8">
-    <div class="text-slate-900 text-2xl md:text-3xl font-semibold mb-6">
+    <div class="flex md:flex-row flex-col items-center justify-between space-y-4 md:space-y-0 mb-6">
+      <div class="text-slate-900 text-2xl md:text-3xl font-semibold">
       {{ $t('corporateClients') }}
+    </div>
+    <div class="w-full md:w-auto order-1 md:order-2 flex space-x-2">
+        <button @click="openCreateCorporateClientModal"
+        class="w-full md:w-auto py-2 px-4 rounded-full text-white text-lg font-medium bg-blue-500 cursor-pointer hover:bg-blue-600">
+          {{ $t('addClient') }}
+        </button>
+    </div>
     </div>
     <div class="flex flex-col md:flex-row items-center justify-between">
       <div class="relative w-full md:w-auto my-2 md:mb-0 order-2 md:order-1">
