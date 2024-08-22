@@ -13,6 +13,7 @@ import CorporateClientsService from '../../services/corporateClients.service.js'
 import { useCorporateClientsStore } from '../../store/corporateClients.store.js'
 import CustomerService from '../../services/customer.service'
 import { useCustomerStore } from '../../store/customer.store.js'
+import PhDownload from '../../assets/icons/DownloadIcon.vue'
 
 const { t } = useI18n()
 
@@ -51,16 +52,12 @@ const columns = [
     accessorKey: 'actions',
     header: t('actions'),
     cell: ({ row }) => h('div', { class: 'flex items-center space-x-2' }, [
-      h('div', {
+      h('button', {
         onClick: () => {
-      createCorporateClient(row.original.id);
+          createCorporateClient(row.original.id)
         },
       }, [
-      h('input', {
-      type: 'checkbox',
-      class: 'w-6 h-6 text-blue-600 hover:scale-105',
-      checked: row.original.completed,
-    }),
+        h(PhDownload, { class: 'w-6 h-6 text-blue-600 hover:scale-105' }),
       ]),
     ]),
     enableSorting: false,
