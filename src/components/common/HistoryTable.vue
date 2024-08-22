@@ -1,16 +1,17 @@
 <script setup>
+import { useProductHistoryStore } from '@/store/productHistory.store.js';
 import {
   FlexRender,
   getCoreRowModel,
   getFilteredRowModel,
   getPaginationRowModel,
-  getSortedRowModel,
   useVueTable,
 } from '@tanstack/vue-table';
 import { ref, watch } from 'vue';
 import { useI18n } from 'vue-i18n'
 
 const { t } = useI18n()
+const productHistoryStore = useProductHistoryStore();
 
 const props = defineProps({
   data: Array,
@@ -33,7 +34,6 @@ const table = useVueTable({
   columns: props.columns,
   getCoreRowModel: getCoreRowModel(),
   getPaginationRowModel: getPaginationRowModel(),
-  getSortedRowModel: getSortedRowModel(),
   getFilteredRowModel: getFilteredRowModel(),
   state: {
     get sorting() {
@@ -43,11 +43,29 @@ const table = useVueTable({
       return props.filter
     },
   },
-  onSortingChange: updaterOrValue => {
+  onSortingChange: async (updaterOrValue) => {
     sorting.value =
       typeof updaterOrValue === 'function'
         ? updaterOrValue(sorting.value)
         : updaterOrValue
+
+    const sortBy = typeof updaterOrValue === 'function'
+      ? updaterOrValue(sorting.value)[0]?.id
+      : updaterOrValue[0]?.id;
+
+    const sortOrder = typeof updaterOrValue === 'function'
+      ? updaterOrValue(sorting.value)[0]?.desc ? 'DESC' : 'ASC'
+      : updaterOrValue[0]?.desc ? 'DESC' : 'ASC';
+
+    // sorting.value = [
+    //   {
+    //     id: sortBy,
+    //     desc: sortOrder === 'DESC',
+    //   },
+    // ];
+
+    // Trigger your store action with the selected sortBy and sortOrder
+    await productHistoryStore.getProductHistories({ sortBy, sortOrder });
   },
   initialState: {
     pagination: {

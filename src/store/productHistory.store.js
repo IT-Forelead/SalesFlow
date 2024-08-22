@@ -1,4 +1,6 @@
-import { defineStore } from 'pinia'
+import { defineStore } from 'pinia';
+import ProductService from '@/services/product.service.js';
+import { cleanObjectEmptyFields } from '@/mixins/utils.js';
 
 export const useProductHistoryStore = defineStore('productHistory', {
   state: () => ({
@@ -7,6 +9,7 @@ export const useProductHistoryStore = defineStore('productHistory', {
     currentPage: 1,
     selectedProductHistory: '',
     utilizeData: {},
+    isLoading: false,
   }),
   actions: {
     setProductHistories(data) {
@@ -23,6 +26,19 @@ export const useProductHistoryStore = defineStore('productHistory', {
     },
     clearStore() {
       this.productHistories = []
+    },
+    async getProductHistories(filters = {}) {
+      this.isLoading = true;
+      try {
+        const res = await ProductService.getProductsDetails(
+          cleanObjectEmptyFields({ limit: 50, page: this.currentPage, ...filters })
+        );
+        this.clearStore();
+        this.totalHistories = res.total;
+        this.setProductHistories(res.data);
+      } finally {
+        this.isLoading = false;
+      }
     },
   },
 })
