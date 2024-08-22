@@ -158,7 +158,6 @@ onMounted(() => {
   payload.value = parseJwt()
 })
 const openFillBalance= (customer) => {
-  console.log('sdfsdfsdfsdfsdfsdfsdfsdf');
   useCorporateClientsStore().setSelectedClient(customer)
   useModalStore().openFillBalanceModal()
 }

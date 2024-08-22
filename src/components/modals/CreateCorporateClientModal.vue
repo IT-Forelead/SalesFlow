@@ -97,7 +97,6 @@ const createCorporateClient = (customerId) => {
   }
 
 const getCustomers = () => {
-  console.log('=============================dfsdfsdfsdfsdfsdfsdf');
   CustomerService.getCustomers(
     cleanObjectEmptyFields({ limit: pageSize, page: page.value }),
   ).then((res) => {
