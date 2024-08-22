@@ -31,12 +31,19 @@ export const useModalStore = defineStore('modal', {
     isOpenEditProductBarcodeModal: false,
     isOpenCameraScannerModal: false,
     isOpenBarcodeScannerModal: false,
-    isOpenDeleteDebtorModal: false,
+    isOpenDeleteCorporateClientModal: false,
     isOpenDebtInfoModal: false,
     isOpenUploadImageToProductModal: false,
     isOpenCreateTelegramBotModal: false,
     isOpenUtilizeProductModal: false,
     isOpenCardIdModal: false,
+    isOpenCreateCorporateClientModal: false,
+
+    isOpenClientInfoModal: false,
+
+    isOpenDeleteCorporateClientModal: false,
+
+    isOpenFillBalanceModal: false,
   }),
   actions: {
     openEditTelegramBotModal() {
@@ -201,11 +208,11 @@ export const useModalStore = defineStore('modal', {
     closeCameraScannerModal() {
       this.isOpenCameraScannerModal = false
     },
-    openDeleteDebtorModal() {
-      this.isOpenDeleteDebtorModal = true
+    openDeleteCorporateClientModal() {
+      this.isOpenDeleteCorporateClientModal = true
     },
-    closeDeleteDebtorModal() {
-      this.isOpenDeleteDebtorModal = false
+    closeDeleteCorporateClientModal() {
+      this.isOpenDeleteCorporateClientModal = false
     },
     openDebtInfoModal() {
       this.isOpenDebtInfoModal = true
@@ -236,6 +243,30 @@ export const useModalStore = defineStore('modal', {
     },
     closeCardIdModal() {
       this.isOpenCardIdModal = false
+    },
+    openCreateCorporateClientModal() {
+      this.isOpenCreateCorporateClientModal = true
+    },
+    closeCreateCorporateClientModal() {
+      this.isOpenCreateCorporateClientModal = false
+    },
+    openClientInfoModal() {
+      this.isOpenClientInfoModal = true
+    },
+    closeClientInfoModal() {
+      this.isOpenClientInfoModal = false
+    },
+    openDeleteCorporateClientModal() {
+      this.isOpenDeleteCorporateClientModal = true
+    },
+    closeDeleteCorporateClientModal() {
+      this.isOpenDeleteCorporateClientModal = false
+    },
+    openFillBalanceModal() {
+      this.isOpenFillBalanceModal = true
+    },
+    closeFillBalanceModal() {
+      this.isOpenFillBalanceModal = false
     },
   }
 })

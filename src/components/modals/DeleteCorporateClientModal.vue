@@ -6,36 +6,38 @@ import WarningCircleBoldIcon from '../../assets/icons/WarningCircleBoldIcon.vue'
 import { toast } from 'vue-sonner'
 import { computed, ref } from 'vue'
 import { useI18n } from 'vue-i18n'
-import { useDebtorStore } from '../../store/debtor.store.js'
-import CustomerService from '../../services/customer.service.js'
+import { useCorporateClientsStore } from '../../store/corporateClients.store.js'
+import CorporateClientsService from '../../services/corporateClients.service.js'
 import Spinners270RingIcon from '../../assets/icons/Spinners270RingIcon.vue'
 
 const { t } = useI18n()
 
-const debtorStore = useDebtorStore()
+const CorporateClientsStore = useCorporateClientsStore()
 const isLoading = ref(false)
-const selectedDebtor = computed(() => {
-    return debtorStore.selectedDebtor
+const selectedCorporateClient = computed(() => {
+    return CorporateClientsStore.selectedClient
 })
 
 const closeModal = () => {
-    useModalStore().closeDeleteDebtorModal()
-    useDebtorStore().setSelectedDebtor({})
+    useModalStore().closeDeleteCorporateClientModal()
 }
 
-const deleteDebtor = () => {
+const deleteCorporateClient = () => {
   isLoading.value = true
-  CustomerService.deleteDebtor(selectedDebtor.value.id)
+  console.log(selectedCorporateClient.value.id);
+  CorporateClientsService.deleteCorporateClient(selectedCorporateClient.value.id)
     .then(() => {
       toast.success(t('debtDeletedSuccessfully'))
-      CustomerService.getDebtors(30,1)
+      CorporateClientsService.getCorporateClients(30,1)
         .then((res) => {
-          useDebtorStore().clearStore()
-          useDebtorStore().totalDebtors = res.total
-          useDebtorStore().setDebtors(res.data)
+          useCorporateClientsStore().clearStore()
+          useCorporateClientsStore().setCorporateClients(res)
+          useCorporateClientsStore().renderkey += 1
+          
         })
-      isLoading.value = false
-      closeModal()
+        isLoading.value = false
+        closeModal()
+      
     })
     .catch((err) => {
       toast.error(t('errorWhileDeletingDebt'))
@@ -43,14 +45,14 @@ const deleteDebtor = () => {
       isLoading.value = false
     })
     .finally(() => {
-      useDebtorStore().clearStore()
+      useCorporateClientsStore().clearStore()
       isLoading.value = false
     })
 }
 </script>
 
 <template>
-    <CModal :is-open="useModalStore().isOpenDeleteDebtorModal" v-if="useModalStore().isOpenDeleteDebtorModal"
+    <CModal :is-open="useModalStore().isOpenDeleteCorporateClientModal" v-if="useModalStore().isOpenDeleteCorporateClientModal"
         @close="closeModal()">
         <template v-slot:header>
             {{ $t('deleteDebt') }}
@@ -67,7 +69,7 @@ const deleteDebtor = () => {
                                 {{ $t('fullName') }}
                             </div>
                             <div class="text-base font-medium">
-                                {{ selectedDebtor?.fullName }}
+                                {{ selectedCorporateClient?.fullName }}
                             </div>
                         </li>
                         <li class="flex items-center justify-between py-2 px-3">
@@ -75,7 +77,7 @@ const deleteDebtor = () => {
                                 {{ $t('phoneNumber') }}
                             </div>
                             <div class="text-base font-medium">
-                              {{selectedDebtor?.phone}}
+                              {{selectedCorporateClient?.phone}}
                             </div>
                         </li>
                         <li class="flex items-center justify-between py-2 px-3">
@@ -83,7 +85,7 @@ const deleteDebtor = () => {
                                 {{ $t('createdAt') }}
                             </div>
                             <div class="text-base font-medium">
-                                {{ moment(selectedDebtor?.createdAt).format('DD/MM/YYYY H:mm') }}
+                                {{ moment(selectedCorporateClient?.createdAt).format('DD/MM/YYYY H:mm') }}
                             </div>
                         </li>
                     </ul>
@@ -108,7 +110,7 @@ const deleteDebtor = () => {
                               {{ $t('yesOfCourse') }}
                             </button>
 
-                            <button v-else @click="deleteDebtor"
+                            <button v-else @click="deleteCorporateClient"
                               class="w-full md:w-auto py-2 px-4 rounded-xl text-white text-base font-medium bg-red-600 cursor-pointer hover:bg-red-700">
                               {{ $t('yesOfCourse') }}
                             </button>

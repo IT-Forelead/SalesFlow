@@ -383,5 +383,16 @@
   "createWish": "Истакни қўшиш",
   "plsEnterWish": "Илтимос, истакни киритинг",
   "completed": "Ҳисобга олинган",
-  "notCompleted": "Ҳисобга олинмаган"
+  "notCompleted": "Ҳисобга олинмаган",
+  "addClient": "Мижоз қўшиш",
+  "corporateClientAlreadyExist": "Ушбу мижоз аллақачон қўшилган!",
+  "balance": "Баланс",
+  "fillBalance": "Балансни тўлдириш",
+  "enterBalance": "Балансни киритинг",
+  "enterReason": "Сабаби киритинг",
+  "balanceFilled": "Баланс тўлдирди",
+  "balanceError": "Баланс яратишда хатолик юз берди!",
+  "all": "Хаммаси",
+  "debit": "Дебит",
+  "credit": "Кредит"
 }

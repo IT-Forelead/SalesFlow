@@ -1888,7 +1888,7 @@ const closeCardIdModal = () => {
               <div class="space-y-2">
                 <button
                   v-for="client in useCorporateClientsStore().corporateClients"
-                  @click="createOrderForCorp(client.id)"
+                  @click="createOrderForCorp(client.id)" :key="client.id"
                   class="w-full xl:py-3 px-4 lg:py-2 py-3 rounded-lg text-white text-lg font-medium bg-blue-500 cursor-pointer hover:bg-blue-600"
                 >
                   {{ client.customerName }}

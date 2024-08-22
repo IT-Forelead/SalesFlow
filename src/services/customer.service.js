@@ -13,6 +13,18 @@ class CustomerService {
   async deleteDebtor(id) {
     return AxiosService.delete(`/customer/delete/lend-sale/${id}`)
   }
+  async getCustomers(filter) {
+    return AxiosService.post(`/customer`, filter)
+  }
+  async getCustomerHistories(id) {
+    return AxiosService.get(`/customer/balance-histories/${id}`)
+  }
+  async getCustomerHistoriesByFilter(filter) {
+    return AxiosService.post(`/customer/balance-histories`, filter)
+  }
+  async fillBalance(data) {
+    return AxiosService.post(`/customer/fill-balance`, data)
+  }
 }
 
 export default new CustomerService()

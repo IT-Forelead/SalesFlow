@@ -383,5 +383,16 @@
   "createWish": "Create wish",
   "plsEnterWish": "Please, enter wish",
   "completed": "Completed",
-  "notCompleted": "Not completed"
+  "notCompleted": "Not completed",
+  "addClient": "Mijoz qo'shish",
+  "balance": "Balans",
+  "corporateClientAlreadyExist": "This client alreay exist!",
+  "fillBalance": "Fill balance",
+  "enterBalance": "Enter balace",
+  "enterReason": "Sababi kiriting",
+  "balanceFilled": "Balans filled",
+  "balanceError": "Balans error!",
+  "all": "All",
+  "debit": "Debit",
+  "credit": "Credit"
 }

@@ -106,9 +106,9 @@ const routes = [
     beforeEnter: navigationGuards('view_settings'),
   },
   {
-    path: '/debtors',
-    name: 'Debtors',
-    component: () => import('../pages/Debtors.vue'),
+    path: '/corporate-clients',
+    name: 'Corporate clients',
+    component: () => import('../pages/CorporateClients.vue'),
     meta: { layout: 'dashboard' },
     beforeEnter: navigationGuards('view_settings'),
   },
