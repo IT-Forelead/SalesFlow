@@ -27,7 +27,7 @@ const deleteCorporateClient = () => {
   console.log(selectedCorporateClient.value.id);
   CorporateClientsService.deleteCorporateClient(selectedCorporateClient.value.id)
     .then(() => {
-      toast.success(t('debtDeletedSuccessfully'))
+      toast.success(t('clientDeletedSuccessfully'))
       CorporateClientsService.getCorporateClients(30,1)
         .then((res) => {
           useCorporateClientsStore().clearStore()
@@ -40,7 +40,7 @@ const deleteCorporateClient = () => {
       
     })
     .catch((err) => {
-      toast.error(t('errorWhileDeletingDebt'))
+      toast.error(t('errorWhileDeletingClient'))
       console.log(err)
       isLoading.value = false
     })
@@ -55,13 +55,13 @@ const deleteCorporateClient = () => {
     <CModal :is-open="useModalStore().isOpenDeleteCorporateClientModal" v-if="useModalStore().isOpenDeleteCorporateClientModal"
         @close="closeModal()">
         <template v-slot:header>
-            {{ $t('deleteDebt') }}
+            {{ $t('deleteClient') }}
         </template>
         <template v-slot:body>
             <div class="space-y-16">
                 <div class="space-y-2">
                     <div class="bg-slate-100 px-3 py-2 text-lg font-medium rounded-xl">
-                        {{ $t('debtInformation') }}
+                        {{ $t('clientInformation') }}
                     </div>
                     <ul class="divide-y divide-slate-100">
                         <li class="flex items-center justify-between py-2 px-3">
@@ -69,15 +69,15 @@ const deleteCorporateClient = () => {
                                 {{ $t('fullName') }}
                             </div>
                             <div class="text-base font-medium">
-                                {{ selectedCorporateClient?.fullName }}
+                                {{ selectedCorporateClient?.customerName }}
                             </div>
                         </li>
                         <li class="flex items-center justify-between py-2 px-3">
                             <div class="text-base">
-                                {{ $t('phoneNumber') }}
+                                {{ $t('balance') }}
                             </div>
                             <div class="text-base font-medium">
-                              {{selectedCorporateClient?.phone}}
+                              {{ selectedCorporateClient?.balance + ' UZS'}} 
                             </div>
                         </li>
                         <li class="flex items-center justify-between py-2 px-3">
