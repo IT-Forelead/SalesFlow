@@ -109,6 +109,7 @@ const printChaqueFunc = (id) => {
 }
 
 const closeModal = () => {
+  useModalStore().openDebtInfoModal()
   useModalStore().closeOrderInfoModal()
   useOrderStore().setSelectedOrder({})
 }

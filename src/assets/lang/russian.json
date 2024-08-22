@@ -386,5 +386,16 @@
   "createWish": "Создать просьбу",
   "plsEnterWish": "Пожалуйста, введите просьбу",
   "completed": "Завершено",
-  "notCompleted": "Не завершено"
+  "notCompleted": "Не завершено",
+  "addClient": "Добавить клиента",
+  "corporateClientAlreadyExist": "Этот клиент уже добавлен!",
+  "balance": "Баланс",
+  "fillBalance": "Пополнение баланса",
+  "enterBalance": "Ввведите баланс",
+  "enterReason": "Введите причину",
+  "balanceFilled": "Баланс пополнен",
+  "balanceError": "Ошибка при пополнении баланса",
+  "all": "Все",
+  "debit": "Дебит",
+  "credit": "Кредит"
 }
