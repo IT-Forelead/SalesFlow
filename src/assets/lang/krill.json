@@ -394,5 +394,10 @@
   "balanceError": "Баланс яратишда хатолик юз берди!",
   "all": "Хаммаси",
   "debit": "Дебит",
-  "credit": "Кредит"
+  "credit": "Кредит",
+  "clientInformation": "Мижозни ҳақида маълумот",
+  "deleteClient": "Мижозни ўчириш",
+  "clientDeletedSuccessfully": "Мижозни ўчирилди",
+  "errorWhileDeletingClient": "Мижозни ўчириш хатолик юз берди",
+  "clients": "Клиентлар"
 }
