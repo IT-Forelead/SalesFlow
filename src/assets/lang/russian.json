@@ -397,5 +397,10 @@
   "balanceError": "Ошибка при пополнении баланса",
   "all": "Все",
   "debit": "Дебит",
-  "credit": "Кредит"
+  "credit": "Кредит",
+  "clientInformation": "Информация о клиенте",
+  "deleteClient": "Удалить клиента",
+  "clientDeletedSuccessfully": "Клиент удален",
+  "errorWhileDeletingClient": "Ошибка при удалении клиента",
+  "clients": "Клиенты"
 }

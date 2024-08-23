@@ -385,14 +385,19 @@
   "completed": "Completed",
   "notCompleted": "Not completed",
   "addClient": "Mijoz qo'shish",
-  "balance": "Balans",
+  "balance": "Balance",
   "corporateClientAlreadyExist": "This client alreay exist!",
   "fillBalance": "Fill balance",
   "enterBalance": "Enter balace",
   "enterReason": "Sababi kiriting",
-  "balanceFilled": "Balans filled",
-  "balanceError": "Balans error!",
+  "balanceFilled": "Balance filled",
+  "balanceError": "Balance error!",
   "all": "All",
   "debit": "Debit",
-  "credit": "Credit"
+  "credit": "Credit",
+  "clientInformation": "Client information",
+  "deleteClient": "Delete client",
+  "clientDeletedSuccessfully": "Client deleted successfully",
+  "errorWhileDeletingClient": "Error while deleting client",
+  "clients": "Clients"
 }
