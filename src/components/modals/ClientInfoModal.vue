@@ -53,7 +53,7 @@ const columns = [
     cell: ({ row }) =>
       h('div', { class: 'flex items-center' }, 
       [row.original.type == 'CREDIT' ?
-        h('span', { class: 'text-red-500'}, `${row.original.type}`) : [row.original.type == 'DEBIT' ? h('span', { class: 'text-green-500'}, `${row.original.type}`) : `${row.original.type}`]]),
+        h('span', { class: 'text-red-500'}, t('credit')) : [row.original.type == 'DEBIT' ? h('span', { class: 'text-green-500'}, t('debit')) : `${row.original.type}`]]),
   },
   {
     header: t('quantity'),
@@ -67,7 +67,7 @@ const columns = [
     cell: ({ row }) =>
       h('div', { class: 'flex items-center' }, 
       [row.original.type == 'CREDIT' ?
-        h('span', { class: 'text-red-500'}, `${row.original.reason}`) : [row.original.type == 'DEBIT' ? h('span', { class: 'text-green-500'}, `${row.original.reason}`) : `${row.original.reason}`]]),
+        h('span', { class: 'text-red-500'}, t('ordered')) : [row.original.type == 'DEBIT' ? h('span', { class: 'text-green-500'}, `${row.original.reason}`) : `${row.original.reason}`]]),
   },
   {
     header: t('createdAt'),
