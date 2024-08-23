@@ -666,7 +666,7 @@ const createOrder = (printCheck = true) => {
 
 const createOrderForCorp = (clientId) => {
   submitData.corporateClientId = clientId;
-  createOrder(true);
+  createOrder(false);
 };
 
 const isLoadingDiscount = ref(false);
@@ -1886,7 +1886,7 @@ const closeCardIdModal = () => {
                 {{ $t('corporateClients') }}
               </div>
               <div class="space-y-2">
-                <button
+                <button :disabled="isLoadingOrderWithoutPrint"
                   v-for="client in useCorporateClientsStore().corporateClients"
                   @click="createOrderForCorp(client.id)" :key="client.id"
                   class="w-full xl:py-3 px-4 lg:py-2 py-3 rounded-lg text-white text-lg font-medium bg-blue-500 cursor-pointer hover:bg-blue-600"
