@@ -399,5 +399,8 @@
   "deleteClient": "Мижозни ўчириш",
   "clientDeletedSuccessfully": "Мижозни ўчирилди",
   "errorWhileDeletingClient": "Мижозни ўчириш хатолик юз берди",
-  "clients": "Клиентлар"
+  "clients": "Клиентлар",
+  "hourlyTrading": "Соатлик савдо",
+  "hourlyStat": "Соатлик статистика",
+  "hourly": "Соат ўртача "
 }

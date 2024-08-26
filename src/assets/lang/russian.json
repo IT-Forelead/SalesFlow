@@ -402,5 +402,8 @@
   "deleteClient": "Удалить клиента",
   "clientDeletedSuccessfully": "Клиент удален",
   "errorWhileDeletingClient": "Ошибка при удалении клиента",
-  "clients": "Клиенты"
+  "clients": "Клиенты",
+  "hourlyTrading": "Часовая торговля",
+  "hourlyStat": "Часовая статистика",
+  "hourly": "Средняя почасовая "
 }

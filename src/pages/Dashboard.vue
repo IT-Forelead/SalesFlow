@@ -38,6 +38,8 @@ const bestRevenueProductStats = ref([])
 const bestProfitProductStats = ref([])
 const dailyTrading = t('dailyTrading')
 const soldProductPrice = ref(0)
+const hourlyTrading = t('hourlyTrading')
+const hourlySales = ref([])
 
 const filterData = reactive({
   startDate: '',
@@ -401,6 +403,13 @@ const turnoverStatsAreaChartChartOptions = computed(() => {
   }
 })
 
+const hourlySaleChartSeries = computed(() => [
+  {
+    name: hourlyTrading,
+    data: hourlySales.value?.map((item) => item.revenue),
+  },
+])
+
 // Caisher Donut Chart
 const caishersChartSeries = computed(() => {
   return cashiersStat.value?.map((a) => a?.soldCount)
@@ -423,6 +432,89 @@ const caishersChartOptions = computed(() => {
         },
       },
     }],
+  }
+})
+
+const hourlySaleChartOptions = computed(() => {
+  return {
+    legend: {
+      labels: {
+        colors: ['#8e8da4'],
+      },
+    },
+    chart: {
+      height: 350,
+      type: 'area',
+      zoom: {
+        enabled: false,
+      },
+      toolbar: {
+        show: false,
+      },
+    },
+    dataLabels: {
+      enabled: false,
+    },
+    stroke: {
+      curve: 'smooth',
+    },
+    xaxis: {
+      categories: hourlySales.value?.map((item) => item.hour),
+      type: 'date',
+      labels: {
+        style: {
+          fontSize: '12px',
+          colors: '#8e8da4',
+          
+        },
+        formatter: function (val) {
+          return val + ':00'
+        }
+      },
+      tooltip: {
+        enabled: true,
+      },
+      axisBorder: {
+        show: false,
+      },
+      axisTicks: {
+        show: false,
+      },
+    },
+    yaxis: {
+      tickAmount: 6,
+      floating: false,
+      labels: {
+        show: true,
+        formatter: function (val) {
+          return useMoneyFormatter(val)
+        },
+        style: {
+          colors: '#8e8da4',
+        },
+        offsetY: 0,
+        offsetX: 0,
+      },
+      axisBorder: {
+        show: false,
+      },
+      axisTicks: {
+        show: true,
+      },
+    },
+    fill: {
+      opacity: 0.5,
+    },
+    grid: {
+      yaxis: {
+        lines: {
+          offsetX: -30,
+        },
+      },
+      padding: {
+        left: 20,
+      },
+    },
   }
 })
 
@@ -482,6 +574,10 @@ onMounted(() => {
   }).then((res) => {
     turnoverStats.value = res
   })
+  OrderService.getHourlySales()
+    .then((res) => {
+      hourlySales.value = res
+    })
   ProductService.getProductStats()
     .then((res) => {
       productStats.value = res
@@ -605,6 +701,24 @@ watch(pageProfit, () => {
 </script>
 
 <template>
+  <div class="flex-1 bg-slate-50 rounded-3xl p-5">
+      <div class="flex flex-col md:flex-row md:items-center md:justify-between px-2 space-y-3 md:space-y-0">
+        <div>
+          <div class="text-base font-bold text-gray-800">
+            {{ $t('hourlyStat') }}
+          </div>
+          <div class="text-sm text-gray-600">
+            <span>{{' ' + $t('hourly') }}</span>
+            <span class="lowercase">{{ $t('beginStatText') }} </span>
+              <span class="font-bold">{{'10 ' + $t('days') }}</span>
+              {{ $t('endStatText') }} 
+          </div>
+        </div>
+      </div>
+      <apexchart type="area" height="320" :options="hourlySaleChartOptions"
+        :series="hourlySaleChartSeries">
+      </apexchart>
+    </div>
   <div class="p-4 md:p-8 space-y-6">
     <div class="flex flex-col md:flex-row space-x-0 md:space-x-4 space-y-2 md:space-y-0">
       <div class="p-5 flex rounded-3xl bg-slate-50 min-h-[55vh] w-[33vw] flex-col justify-between">
