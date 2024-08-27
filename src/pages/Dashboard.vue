@@ -415,7 +415,7 @@ const hourlySaleChartSeries = computed(() => [
 const cashbackRedeemsChartSeries = computed(() => [
   {
     name: dailyTrading,
-    data: cashbackRedeems.value?.map((item) => item.redeemed).slice(-7),
+    data: cashbackRedeems.value?.map((item) => item.redeemed)
   },
 ])
 
@@ -544,9 +544,7 @@ const cashbackSaleChartOptions = computed(() => {
         columnWidth: '60%',
         dataLabels: {
           position: 'top',
-          formatter: function (val) {
-            return shortenNumber(val)
-          },
+          
         },
       },
     },
@@ -572,7 +570,7 @@ const cashbackSaleChartOptions = computed(() => {
           fontSize: '12px',
         },
         formatter: function (val) {
-          return moment(val).format('D-MMMM')
+          return moment(val).format('D-MMM')
         },
       },
       tooltip: {
@@ -812,7 +810,7 @@ watch(pageProfit, () => {
           <apexchart type="area" height="320" :options="hourlySaleChartOptions" :series="hourlySaleChartSeries">
           </apexchart>
         </div>
-        <div class="w-auto bg-slate-50 rounded-3xl">
+        <div class="w-[30vw] bg-slate-50 rounded-3xl">
           <div class="flex flex-col md:flex-row md:items-center md:justify-between px-2 space-y-3 md:space-y-0">
             <div>
               <div class="text-base font-bold text-gray-800">
