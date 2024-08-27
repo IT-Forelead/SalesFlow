@@ -47,7 +47,8 @@ const getRole = (privileges) => {
     privileges.includes('create_order') &&
     privileges.includes('find_order') &&
     privileges.includes('view_orders') &&
-    privileges.includes('view_markets'):
+    privileges.includes('view_markets') &&
+    privileges.includes('create_market'):
       return t('manager')
     case
     privileges.includes('dashboard') &&
