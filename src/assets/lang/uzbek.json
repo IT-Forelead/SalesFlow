@@ -402,5 +402,9 @@
   "deleteClient": "Mijozni o'chirish",
   "clientDeletedSuccessfully": "Mijozni o'chirildi",
   "errorWhileDeletingClient": "Mijozni o'chirish xatolik yuz berdi",
-  "clients": "Mijozlar"
+  "clients": "Mijozlar",
+  "hourlyTrading": "Soatlik savdo",
+  "hourlyStat": "Soatlik statistika",
+  "hourly": "Soat o'rtacha ",
+  "cashbackStat": "Keshbek statistika"
 }
