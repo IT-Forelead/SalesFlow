@@ -415,7 +415,7 @@ const hourlySaleChartSeries = computed(() => [
 
 const cashbackRedeemsChartSeries = computed(() => [
   {
-    name: redeemsTrading,
+    name: dailyTrading,
     data: cashbackRedeems.value?.map((item) => item.redeemed).slice(-7),
   },
 ])
