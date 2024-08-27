@@ -41,7 +41,6 @@ const dailyTrading = t('dailyTrading')
 const soldProductPrice = ref(0)
 const hourlyTrading = t('hourlyTrading')
 const hourlySales = ref([])
-const redeemsTrading = t('redeemsTrading')
 const cashbackRedeems = ref([])
 
 const filterData = reactive({
@@ -527,14 +526,8 @@ const hourlySaleChartOptions = computed(() => {
   }
 })
 
-
 const cashbackSaleChartOptions = computed(() => {
   return {
-    legend: {
-      labels: {
-        colors: ['#8e8da4'],
-      },
-    },
     chart: {
       height: 350,
       type: 'bar',
@@ -545,11 +538,31 @@ const cashbackSaleChartOptions = computed(() => {
         show: false,
       },
     },
-    dataLabels: {
-      enabled: false,
+    plotOptions: {
+      bar: {
+        borderRadius: 5,
+        columnWidth: '60%',
+        dataLabels: {
+          position: 'top',
+          formatter: function (val) {
+            return shortenNumber(val)
+          },
+        },
+      },
     },
-    stroke: {
-      curve: 'smooth',
+    dataLabels: {
+      enabled: true,
+      offsetY: -20,
+      style: {
+        fontSize: '14px',
+        colors: ['#304758'],
+      },
+      formatter: function (val) {
+        return shortenNumber(val)
+      },
+    },
+    legend: {
+      show: false,
     },
     xaxis: {
       categories: cashbackRedeems.value?.map((item) => item.date),
@@ -557,11 +570,10 @@ const cashbackSaleChartOptions = computed(() => {
       labels: {
         style: {
           fontSize: '12px',
-          colors: '#8e8da4',
         },
         formatter: function (val) {
           return moment(val).format('D-MMMM')
-        }
+        },
       },
       tooltip: {
         enabled: true,
@@ -573,7 +585,6 @@ const cashbackSaleChartOptions = computed(() => {
         show: false,
       },
     },
-    
     yaxis: {
       axisBorder: {
         show: false,
@@ -588,19 +599,8 @@ const cashbackSaleChartOptions = computed(() => {
         },
       },
     },
-
-    fill: {
-      opacity: 0.5,
-    },
     grid: {
-      yaxis: {
-        lines: {
-          offsetX: -30,
-        },
-      },
-      padding: {
-        left: 20,
-      },
+      show: false,
     },
   }
 })
@@ -816,7 +816,7 @@ watch(pageProfit, () => {
           <div class="flex flex-col md:flex-row md:items-center md:justify-between px-2 space-y-3 md:space-y-0">
             <div>
               <div class="text-base font-bold text-gray-800">
-                {{ $t('Keshbek statistika') }}
+                {{ $t('cashbackStat') }}
               </div>
               <div class="text-sm text-gray-600">
                 {{ $t('beginStatText') }}
