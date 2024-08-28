@@ -23,6 +23,7 @@ import CaretDoubleLeftIcon from '@/assets/icons/CaretDoubleLeftIcon.vue'
 import CaretLeftIcon from '@/assets/icons/CaretLeftIcon.vue'
 import CaretRightIcon from '@/assets/icons/CaretRightIcon.vue'
 import CaretDoubleRightIcon from '@/assets/icons/CaretDoubleRightIcon.vue'
+import CashbackService from '../services/cashback.service'
 
 const { t } = useI18n()
 
@@ -38,6 +39,9 @@ const bestRevenueProductStats = ref([])
 const bestProfitProductStats = ref([])
 const dailyTrading = t('dailyTrading')
 const soldProductPrice = ref(0)
+const hourlyTrading = t('hourlyTrading')
+const hourlySales = ref([])
+const cashbackRedeems = ref([])
 
 const filterData = reactive({
   startDate: '',
@@ -401,6 +405,20 @@ const turnoverStatsAreaChartChartOptions = computed(() => {
   }
 })
 
+const hourlySaleChartSeries = computed(() => [
+  {
+    name: hourlyTrading,
+    data: hourlySales.value?.map((item) => item.revenue),
+  },
+])
+
+const cashbackRedeemsChartSeries = computed(() => [
+  {
+    name: dailyTrading,
+    data: cashbackRedeems.value?.map((item) => item.redeemed)
+  },
+])
+
 // Caisher Donut Chart
 const caishersChartSeries = computed(() => {
   return cashiersStat.value?.map((a) => a?.soldCount)
@@ -423,6 +441,165 @@ const caishersChartOptions = computed(() => {
         },
       },
     }],
+  }
+})
+
+const hourlySaleChartOptions = computed(() => {
+  return {
+    legend: {
+      labels: {
+        colors: ['#8e8da4'],
+      },
+    },
+    chart: {
+      height: 350,
+      type: 'area',
+      zoom: {
+        enabled: false,
+      },
+      toolbar: {
+        show: false,
+      },
+    },
+    dataLabels: {
+      enabled: false,
+    },
+    stroke: {
+      curve: 'smooth',
+    },
+    xaxis: {
+      categories: hourlySales.value?.map((item) => item.hour),
+      type: 'date',
+      labels: {
+        style: {
+          fontSize: '12px',
+          colors: '#8e8da4',
+        },
+        formatter: function (val) {
+          return val + ':00'
+        }
+      },
+      tooltip: {
+        enabled: true,
+      },
+      axisBorder: {
+        show: false,
+      },
+      axisTicks: {
+        show: false,
+      },
+    },
+    yaxis: {
+      tickAmount: 6,
+      floating: false,
+      labels: {
+        show: true,
+        formatter: function (val) {
+          return useMoneyFormatter(val)
+        },
+        style: {
+          colors: '#8e8da4',
+        },
+        offsetY: 0,
+        offsetX: 0,
+      },
+      axisBorder: {
+        show: false,
+      },
+      axisTicks: {
+        show: true,
+      },
+    },
+    fill: {
+      opacity: 0.5,
+    },
+    grid: {
+      yaxis: {
+        lines: {
+          offsetX: -30,
+        },
+      },
+      padding: {
+        left: 20,
+      },
+    },
+  }
+})
+
+const cashbackSaleChartOptions = computed(() => {
+  return {
+    chart: {
+      height: 350,
+      type: 'bar',
+      zoom: {
+        enabled: false,
+      },
+      toolbar: {
+        show: false,
+      },
+    },
+    plotOptions: {
+      bar: {
+        borderRadius: 5,
+        columnWidth: '60%',
+        dataLabels: {
+          position: 'top',
+          
+        },
+      },
+    },
+    dataLabels: {
+      enabled: true,
+      offsetY: -20,
+      style: {
+        fontSize: '14px',
+        colors: ['#304758'],
+      },
+      formatter: function (val) {
+        return shortenNumber(val)
+      },
+    },
+    legend: {
+      show: false,
+    },
+    xaxis: {
+      categories: cashbackRedeems.value?.map((item) => item.date),
+      type: 'date',
+      labels: {
+        style: {
+          fontSize: '12px',
+        },
+        formatter: function (val) {
+          return moment(val).format('D-MMM')
+        },
+      },
+      tooltip: {
+        enabled: true,
+      },
+      axisBorder: {
+        show: false,
+      },
+      axisTicks: {
+        show: false,
+      },
+    },
+    yaxis: {
+      axisBorder: {
+        show: false,
+      },
+      axisTicks: {
+        show: false,
+      },
+      labels: {
+        show: false,
+        formatter: function (val) {
+          return Number.parseInt(val)
+        },
+      },
+    },
+    grid: {
+      show: false,
+    },
   }
 })
 
@@ -482,6 +659,14 @@ onMounted(() => {
   }).then((res) => {
     turnoverStats.value = res
   })
+  OrderService.getHourlySales()
+    .then((res) => {
+      hourlySales.value = res
+    })
+  CashbackService.getCashbackRedeems()
+    .then((res) => {
+      cashbackRedeems.value = res
+    })
   ProductService.getProductStats()
     .then((res) => {
       productStats.value = res
@@ -607,6 +792,47 @@ watch(pageProfit, () => {
 <template>
   <div class="p-4 md:p-8 space-y-6">
     <div class="flex flex-col md:flex-row space-x-0 md:space-x-4 space-y-2 md:space-y-0">
+      <div class="p-5 flex rounded-3xl w-full bg-slate-50 min-h-[45vh] justify-between">
+        <div class="w-[60vw] min-h-[45vh] bg-slate-50 rounded-3xl">
+          <div class="flex flex-col md:flex-row md:items-center md:justify-between px-2 space-y-3 md:space-y-0">
+            <div>
+              <div class="text-base font-bold text-gray-800">
+                {{ $t('hourlyStat') }}
+              </div>
+              <div class="text-sm text-gray-600">
+                <span>{{ ' ' + $t('hourly') }}</span>
+                <span class="lowercase">{{ $t('beginStatText') }} </span>
+                <span class="font-bold">{{ '10 ' + $t('days') }}</span>
+                {{ $t('endStatText') }}
+              </div>
+            </div>
+          </div>
+          <apexchart type="area" height="320" :options="hourlySaleChartOptions" :series="hourlySaleChartSeries">
+          </apexchart>
+        </div>
+        <div class="w-[30vw] bg-slate-50 rounded-3xl">
+          <div class="flex flex-col md:flex-row md:items-center md:justify-between px-2 space-y-3 md:space-y-0">
+            <div>
+              <div class="text-base font-bold text-gray-800">
+                {{ $t('cashbackStat') }}
+              </div>
+              <div class="text-sm text-gray-600">
+                {{ $t('beginStatText') }}
+                <span class="font-bold">{{ 10 + $t('days') }}</span>
+                {{ $t('endStatText') }}
+              </div>
+            </div>
+            <div class="flex items-center justify-center rounded-xl bg-blue-100 p-2">
+              <ChartBarIcon class="w-8 h-8 text-blue-600" />
+            </div>
+          </div>
+          <apexchart type="bar" height="320" :options="cashbackSaleChartOptions" :series="cashbackRedeemsChartSeries">
+          </apexchart>
+        </div>
+
+      </div>
+    </div>
+    <div class="flex flex-col md:flex-row space-x-0 md:space-x-4 space-y-2 md:space-y-0">
       <div class="p-5 flex rounded-3xl bg-slate-50 min-h-[55vh] w-[33vw] flex-col justify-between">
         <div class="space-y-4">
           <div class="flex items-center justify-between">
@@ -615,9 +841,9 @@ watch(pageProfit, () => {
                 {{ $t('bestRevenueProducts') }}
               </div>
               <div class="text-sm md:text-base text-gray-600">
-                {{ $t('beginStatText') }} 
-              <span class="font-bold">{{10+ $t('days') }}</span>
-              {{ $t('endStatText') }} 
+                {{ $t('beginStatText') }}
+                <span class="font-bold">{{ 10 + $t('days') }}</span>
+                {{ $t('endStatText') }}
               </div>
             </div>
             <div class="flex items-center justify-center rounded-xl bg-blue-100 p-3">
@@ -700,9 +926,9 @@ watch(pageProfit, () => {
                 {{ $t('bestProfitProducts') }}
               </div>
               <div class="text-sm md:text-base text-gray-600">
-                {{ $t('beginStatText') }} 
-              <span class="font-bold">{{10+ $t('days') }}</span>
-              {{ $t('endStatText') }} 
+                {{ $t('beginStatText') }}
+                <span class="font-bold">{{ 10 + $t('days') }}</span>
+                {{ $t('endStatText') }}
               </div>
             </div>
             <div class="flex items-center justify-center rounded-xl bg-blue-100 p-3">
@@ -786,9 +1012,9 @@ watch(pageProfit, () => {
                 {{ $t('bestSellingProducts') }}
               </div>
               <div class="text-sm md:text-base text-gray-600">
-                {{ $t('beginStatText') }} 
-              <span class="font-bold">{{10+ $t('days') }}</span>
-              {{ $t('endStatText') }} 
+                {{ $t('beginStatText') }}
+                <span class="font-bold">{{ 10 + $t('days') }}</span>
+                {{ $t('endStatText') }}
               </div>
             </div>
             <div class="flex items-center justify-center rounded-xl bg-blue-100 p-3">
@@ -872,14 +1098,14 @@ watch(pageProfit, () => {
               {{ $t('profitStatistics') }}
             </div>
             <div v-if="salesChartFilterData === 6" class="text-sm text-gray-600">
-              {{ $t('beginStatText') }} 
-              <span class="font-bold">{{10+ $t('days') }}</span>
-              {{ $t('endStatText') }} 
+              {{ $t('beginStatText') }}
+              <span class="font-bold">{{ 10 + $t('days') }}</span>
+              {{ $t('endStatText') }}
             </div>
             <div v-else class="text-sm text-gray-600">
-              {{ $t('beginStatText') }} 
-              <span class="font-bold">{{30+ $t('days') }}</span>
-              {{ $t('endStatText') }} 
+              {{ $t('beginStatText') }}
+              <span class="font-bold">{{ 30 + $t('days') }}</span>
+              {{ $t('endStatText') }}
             </div>
           </div>
           <div>
@@ -910,9 +1136,9 @@ watch(pageProfit, () => {
               {{ $t('salesStatistics') }}
             </div>
             <div class="text-sm text-gray-600">
-              {{ $t('beginStatText') }} 
-              <span class="font-bold">{{10+ $t('days') }}</span>
-              {{ $t('endStatText') }} 
+              {{ $t('beginStatText') }}
+              <span class="font-bold">{{ 10 + $t('days') }}</span>
+              {{ $t('endStatText') }}
             </div>
           </div>
           <div class="flex items-center justify-center rounded-xl bg-blue-100 p-2">
@@ -930,9 +1156,9 @@ watch(pageProfit, () => {
             {{ $t('inputAndOutputCostStatistics') }}
           </div>
           <div class="text-sm text-gray-600">
-            {{ $t('beginStatText') }} 
-              <span class="font-bold">{{30+ $t('days') }}</span>
-              {{ $t('endStatText') }} 
+            {{ $t('beginStatText') }}
+            <span class="font-bold">{{ 30 + $t('days') }}</span>
+            {{ $t('endStatText') }}
           </div>
         </div>
         <div class="relative" ref="dropdown">
@@ -989,9 +1215,9 @@ watch(pageProfit, () => {
               {{ $t('cashierStatistics') }}
             </div>
             <div class="text-sm text-gray-600">
-              {{ $t('beginStatText') }} 
-              <span class="font-bold">{{10+ $t('days') }}</span>
-              {{ $t('endStatText') }} 
+              {{ $t('beginStatText') }}
+              <span class="font-bold">{{ 10 + $t('days') }}</span>
+              {{ $t('endStatText') }}
             </div>
           </div>
           <div class="flex items-center justify-center rounded-xl bg-blue-100 p-2">
@@ -1038,7 +1264,8 @@ watch(pageProfit, () => {
           </div>
         </div>
         <div class="flex flex-col md:flex-row md:items-center space-x-0 md:space-x-4 space-y-2 md:space-y-0">
-          <div v-for="(product, idx) in soldProductPrice" :key="idx" class="flex-1 w-full space-y-4 rounded-3xl bg-slate-50 p-5">
+          <div v-for="(product, idx) in soldProductPrice" :key="idx"
+            class="flex-1 w-full space-y-4 rounded-3xl bg-slate-50 p-5">
             <div
               class="flex flex-row md:flex-col items-center md:items-start space-x-4 md:space-x-0 space-y-0 md:space-y-2">
               <div class="inline-flex items-center justify-center rounded-xl bg-blue-100 p-3">
@@ -1057,22 +1284,7 @@ watch(pageProfit, () => {
               </div>
             </div>
           </div>
-          <!-- <div class="flex-1 w-full space-y-4 rounded-3xl bg-slate-50 p-5">
-            <div
-              class="flex flex-row md:flex-col items-center md:items-start space-x-4 md:space-x-0 space-y-0 md:space-y-2">
-              <div class="inline-flex items-center justify-center rounded-xl bg-blue-100 p-3">
-                <MoneyIcon class="w-8 h-8 text-blue-600" />
-              </div>
-              <div>
-                <div class="text-base text-gray-600">
-                  {{ $t('productsPrice') }}
-                </div>
-                <div class="text-xl md:text-2xl font-semibold">
-                  {{ useMoneyFormatter(productStats?.sum) }}
-                </div>
-              </div>
-            </div>
-          </div> -->
+
           <div class="flex-1 w-full h-full space-y-4 rounded-3xl bg-slate-50 p-5">
             <div
               class="flex flex-row md:flex-col items-center md:items-start space-x-4 md:space-x-0 space-y-0 md:space-y-2">

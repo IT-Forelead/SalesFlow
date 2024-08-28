@@ -127,6 +127,13 @@ const routes = [
     beforeEnter: navigationGuards('view_settings'),
   },
   {
+    path: '/ip-banned',
+    name: 'IP banned',
+    component: () => import('../pages/IPBanned.vue'),
+    meta: { layout: 'dashboard' },
+    beforeEnter: navigationGuards('create_market'),
+  },
+  {
     path: '/customer-form/:orderId',
     name: 'Customer form',
     component: () => import('../pages/CustomerForm.vue'),

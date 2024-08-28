@@ -35,6 +35,7 @@ import DeleteTelegramBotModal from './modals/DeleteTelegramBotModal.vue'
 import EditTelegramBotModal from './modals/EditTelegramBotModal.vue'
 import CreateCorporateClientModal from './modals/CreateCorporateClientModal.vue'
 import FillBalanceModal from './modals/FillBalanceModal.vue'
+import DeleteIPBanModal from './modals/DeleteIPBanModal.vue'
 
 const notificationDropdown = ref(null)
 
@@ -132,6 +133,7 @@ onUnmounted(() => {
   <EditTelegramBotModal />
   <CreateCorporateClientModal />
   <FillBalanceModal />
+  <DeleteIPBanModal />
 </template>
 
 <style scoped></style>

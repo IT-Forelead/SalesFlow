@@ -399,5 +399,15 @@
   "deleteClient": "Delete client",
   "clientDeletedSuccessfully": "Client deleted successfully",
   "errorWhileDeletingClient": "Error while deleting client",
-  "clients": "Clients"
+  "clients": "Clients",
+  "hourlyTrading": "Soatlik savdo",
+  "hourlyStat": "Soatlik statistika",
+  "hourly": "Soat o'rtacha ",
+  "cashbackStat": "Keshbek statistika",
+  "ipBanned": "IP bloqlangan",
+  "ipAddress": "IP manzil",
+  "deleteIPBan": "IP bloq o'chirish",
+  "ipBanDeletedSuccessfully": "IP bloq o'chirildi",
+  "errorWhileDeletingIPBan": "IP bloq o'chirish xatolik yuz berdi",
+  "dontSellExpireProducts": "Expired products cannot be sold"
 }

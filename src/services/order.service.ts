@@ -45,6 +45,9 @@ class OrderService {
   async getMarketLocationByOrderId(orderId: string) {
     return PublicAxiosService.get<GeoLocation>(`/order/location/${orderId}`);
   }
+  async getHourlySales() {
+    return AxiosService.get('/order/hourly-sales');
+  }
 }
 
 export default new OrderService();

@@ -402,5 +402,15 @@
   "deleteClient": "Mijozni o'chirish",
   "clientDeletedSuccessfully": "Mijozni o'chirildi",
   "errorWhileDeletingClient": "Mijozni o'chirish xatolik yuz berdi",
-  "clients": "Mijozlar"
+  "clients": "Mijozlar",
+  "hourlyTrading": "Soatlik savdo",
+  "hourlyStat": "Soatlik statistika",
+  "hourly": "Soat o'rtacha ",
+  "cashbackStat": "Keshbek statistika",
+  "ipBanned": "IP bloqlangan",
+  "ipAddress": "IP manzil",
+  "deleteIPBan": "IP bloq o'chirish",
+  "ipBanDeletedSuccessfully": "IP bloq o'chirildi",
+  "errorWhileDeletingIPBan": "IP bloq o'chirish xatolik yuz berdi",
+  "dontSellExpireProducts": "Muddati tugagan mahsulotlarni sotish mumkin emas!"
 }

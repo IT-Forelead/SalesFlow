@@ -184,6 +184,7 @@ const discount = ref(0);
 const onDebtFocus = ref(null);
 const onCustomerMoneyFocus = ref(0);
 const onCashbackFocus = ref(null);
+const expirationDate = ref();
 // const onDebtFocus = ref(null)
 
 const setDiscountValue = (value) => {
@@ -344,6 +345,7 @@ const addProductToCart = (product, amount) => {
           saleType: product?.saleType,
           amount: amount,
           serialId: product?.serialId,
+          expirationDate: product?.expirationDate,
         });
       } else if (product?.saleType === 'kg' && product?.rest < 0.1 && product?.rest > 0) {
         console.log(product?.rest);
@@ -356,6 +358,7 @@ const addProductToCart = (product, amount) => {
           saleType: product?.saleType,
           amount: product?.rest,
           serialId: product?.serialId,
+          expirationDate: product?.expirationDate,
         });
       } else if (product?.saleType === 'kg') {
         activeBasket.value.push({
@@ -367,6 +370,7 @@ const addProductToCart = (product, amount) => {
           saleType: product?.saleType,
           amount: 0.1,
           serialId: product?.serialId,
+          expirationDate: product?.expirationDate,
         });
       } else if (product?.saleType === 'litre' && product?.rest <= 0.1 && product?.rest > 0) {
         activeBasket.value.push({
@@ -377,6 +381,7 @@ const addProductToCart = (product, amount) => {
           quantity: product?.rest,
           saleType: product?.saleType,
           amount: product?.rest,
+          expirationDate: product?.expirationDate,
         });
       } else if (product?.saleType === 'litre') {
         activeBasket.value.push({
@@ -387,6 +392,7 @@ const addProductToCart = (product, amount) => {
           quantity: product?.rest,
           saleType: product?.saleType,
           amount: 0.5,
+          expirationDate: product?.expirationDate,
         });
       } else {
         activeBasket.value.push({
@@ -398,6 +404,7 @@ const addProductToCart = (product, amount) => {
           saleType: product?.saleType,
           amount: 1,
           serialId: product?.serialId,
+          expirationDate: product?.expirationDate,
         });
       }
       addedToBasket.play();
@@ -656,8 +663,12 @@ const createOrder = (printCheck = true) => {
         isLoadingOrderWithPrint.value = false;
         isLoadingOrderWithoutPrint.value = false;
       })
-      .catch(() => {
-        toast.error(t('errorWhileCreatingOrder'));
+      .catch((err) => {
+        if (err.response.data == "We don't sell expired products!"){
+          toast.error(t('dontSellExpireProducts'))
+        } else {
+          toast.error(t('errorWhileCreatingOrder'))
+        }
         isLoadingOrderWithPrint.value = false;
         isLoadingOrderWithoutPrint.value = false;
       });
@@ -740,6 +751,14 @@ watch(
     realPrice.value = activeBasket.value
       .map((product) => product?.price * roundFloatToTwoDecimal(product?.amount))
       .reduce((accumulator, currentValue) => accumulator + currentValue, 0);
+  },
+  { deep: true },
+);
+watch(
+  () => expirationDate.value,
+  () => {
+    expirationDate.value = activeBasket.value
+      .map((product) => product?.expirationDate )
   },
   { deep: true },
 );
@@ -1528,6 +1547,18 @@ const closeCardIdModal = () => {
                           {{ $t('remainingAmount') }}:
                           <span class="text-red-500 text-sm md:text-base">
                             {{ roundFloatToTwoDecimal(product?.quantity - product?.amount) }}
+                          </span>
+                        </div>
+                        <div v-if="Date.now() >= new Date(product.expirationDate)">
+                          {{ $t('expirationDate') }}:
+                          <span class="text-red-500 text-sm md:text-base">
+                            {{ product?.expirationDate }}
+                          </span>
+                        </div>
+                        <div v-else>
+                          {{ $t('expirationDate') }}:
+                          <span class="text-sm md:text-base">
+                            {{ product?.expirationDate }}
                           </span>
                         </div>
                       </div>
