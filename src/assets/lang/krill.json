@@ -403,5 +403,10 @@
   "hourlyTrading": "Соатлик савдо",
   "hourlyStat": "Соатлик статистика",
   "hourly": "Соат ўртача ",
-  "cashbackStat": "Кэшбэк статистика"
+  "cashbackStat": "Кэшбэк статистика",
+  "ipBanned": "IP блоқланган",
+  "ipAddress": "IP манзил",
+  "deleteIPBan": "IP блоқ ўчириш",
+  "ipBanDeletedSuccessfully": "IP блоқ ўчирилди",
+  "errorWhileDeletingIPBan": "IP блоқ ўчириш хатолик юз берди"
 }
