@@ -411,5 +411,6 @@
   "ipAddress": "IP адрес",
   "deleteIPBan": "Удалить IP блок",
   "ipBanDeletedSuccessfully": "IP блок удален",
-  "errorWhileDeletingIPBan": "Ошибка при удалении IP блока"
+  "errorWhileDeletingIPBan": "Ошибка при удалении IP блока",
+  "dontSellExpireProducts": "Товары с истекшим сроком годности не могут быть проданы!"
 }

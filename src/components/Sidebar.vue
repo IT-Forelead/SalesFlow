@@ -288,7 +288,7 @@ onMounted(() => {
               <PhUserSwitch class="w-6 h-6" />
             </div>
             <div>
-              {{ $t('IP banned') }}
+              {{ $t('ipBanned') }}
             </div>
           </router-link>
         </div>
