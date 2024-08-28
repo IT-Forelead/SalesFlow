@@ -406,5 +406,10 @@
   "hourlyTrading": "Часовая торговля",
   "hourlyStat": "Часовая статистика",
   "hourly": "Средняя почасовая ",
-  "cashbackStat": "Статистика кэшбэков"
+  "cashbackStat": "Статистика кэшбэков",
+  "ipBanned": "Заблоченные IP",
+  "ipAddress": "IP адрес",
+  "deleteIPBan": "Удалить IP блок",
+  "ipBanDeletedSuccessfully": "IP блок удален",
+  "errorWhileDeletingIPBan": "Ошибка при удалении IP блока"
 }

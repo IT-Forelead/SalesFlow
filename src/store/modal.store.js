@@ -38,12 +38,10 @@ export const useModalStore = defineStore('modal', {
     isOpenUtilizeProductModal: false,
     isOpenCardIdModal: false,
     isOpenCreateCorporateClientModal: false,
-
     isOpenClientInfoModal: false,
-
     isOpenDeleteCorporateClientModal: false,
-
     isOpenFillBalanceModal: false,
+    isOpenDeleteIPBanModal: false
   }),
   actions: {
     openEditTelegramBotModal() {
@@ -267,6 +265,12 @@ export const useModalStore = defineStore('modal', {
     },
     closeFillBalanceModal() {
       this.isOpenFillBalanceModal = false
+    },
+    openDeleteIPBanModal() {
+      this.isOpenDeleteIPBanModal = true
+    },
+    closeDeleteIPBanModal() {
+      this.isOpenDeleteIPBanModal = false
     },
   }
 })
