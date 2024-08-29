@@ -1,5 +1,5 @@
 <script setup>
-import CModal from '../common/CModal.vue'
+import OrderModal from '../common/OrderModal.vue'
 import { useModalStore } from '../../store/modal.store'
 import ImageIcon from '../../assets/icons/ImageIcon.vue'
 import PrinterIcon from '../../assets/icons/PrinterIcon.vue'
@@ -108,8 +108,9 @@ const printChaqueFunc = (id) => {
   })
 }
 
+const zIndexVal = ref(2000)
 const closeModal = () => {
-  useModalStore().openDebtInfoModal()
+ // useModalStore().openDebtInfoModal()
   useModalStore().closeOrderInfoModal()
   useOrderStore().setSelectedOrder({})
 }
@@ -157,7 +158,7 @@ const refundProducts = () => {
 </script>
 
 <template>
-  <CModal :is-open="useModalStore().isOpenOrderInfoModal" v-if="useModalStore().isOpenOrderInfoModal"
+  <OrderModal :is-open="useModalStore().isOpenOrderInfoModal" v-if="useModalStore().isOpenOrderInfoModal" :zIndex ="zIndexVal"
           @close="closeModal">
     <template v-slot:header>
       {{ $t('salesDetails') }}
@@ -317,6 +318,6 @@ const refundProducts = () => {
       </button></div>
       
     </template>
-  </CModal>
+  </OrderModal>
 </template>
 
