@@ -409,5 +409,6 @@
   "deleteIPBan": "IP bloq o'chirish",
   "ipBanDeletedSuccessfully": "IP bloq o'chirildi",
   "errorWhileDeletingIPBan": "IP bloq o'chirish xatolik yuz berdi",
-  "dontSellExpireProducts": "Expired products cannot be sold"
+  "dontSellExpireProducts": "Expired products cannot be sold",
+  "qrTrading": "QR scanners count"
 }
