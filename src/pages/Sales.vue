@@ -576,6 +576,7 @@ const clearSubmitData = () => {
   activeBasket.value = [];
   submitData.cashbackAmount = null;
   submitData.cashbackCustomerId = null;
+  submitData.corporateClientId = null;
   if (activeBasketStatus.value === 'firstBasket') {
     firstBasket.value = [];
   } else if (activeBasketStatus.value === 'secondBasket') {
