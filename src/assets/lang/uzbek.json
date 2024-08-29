@@ -412,5 +412,6 @@
   "deleteIPBan": "IP bloq o'chirish",
   "ipBanDeletedSuccessfully": "IP bloq o'chirildi",
   "errorWhileDeletingIPBan": "IP bloq o'chirish xatolik yuz berdi",
-  "dontSellExpireProducts": "Muddati tugagan mahsulotlarni sotish mumkin emas!"
+  "dontSellExpireProducts": "Muddati tugagan mahsulotlarni sotish mumkin emas!",
+  "qrTrading": "QR skanerlar soni"
 }

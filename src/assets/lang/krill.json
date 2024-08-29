@@ -409,6 +409,6 @@
   "deleteIPBan": "IP блоқ ўчириш",
   "ipBanDeletedSuccessfully": "IP блоқ ўчирилди",
   "errorWhileDeletingIPBan": "IP блоқ ўчириш хатолик юз берди",
-  "dontSellExpireProducts": "Муддати тугаган маҳсулотларни сотиш мумкин эмас!"
-
+  "dontSellExpireProducts": "Муддати тугаган маҳсулотларни сотиш мумкин эмас!",
+  "qrTrading": "QR сканерлар сони"
 }
