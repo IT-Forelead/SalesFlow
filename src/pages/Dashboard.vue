@@ -42,6 +42,7 @@ const soldProductPrice = ref(0)
 const hourlyTrading = t('hourlyTrading')
 const hourlySales = ref([])
 const cashbackRedeems = ref([])
+const qrTrading = t('qrTrading')
 
 const filterData = reactive({
   startDate: '',
@@ -414,7 +415,7 @@ const hourlySaleChartSeries = computed(() => [
 
 const cashbackRedeemsChartSeries = computed(() => [
   {
-    name: dailyTrading,
+    name: qrTrading,
     data: cashbackRedeems.value?.map((item) => item.redeemed)
   },
 ])
