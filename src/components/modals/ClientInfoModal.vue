@@ -99,7 +99,6 @@ const closeModal = () => {
 }
   
 const openOrderInfo = (data) => {
-  useModalStore().closeDebtInfoModal()
   OrderService.getOrderById(data.orderId).then((res) => {
     useOrderStore().setSelectedOrder(res)
     useOrderStore().fromCashback(true)
