@@ -32,7 +32,6 @@ export async function refreshToken() {
     return session
   } catch (error) {
     if (error?.response?.status === 403) {
-      alert('Your session has been expired!')
       removeItemsFromLocalStorage(['session', 'user'])
         .then(() => {
           window.location.reload()
