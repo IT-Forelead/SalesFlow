@@ -8,6 +8,7 @@ export const useOrderStore = defineStore('order', {
     currentPage: 1,
     params: {},
     isFromCashback: false,
+    renderkey: 0,
   }),
   actions: {
     setOrders(data) {

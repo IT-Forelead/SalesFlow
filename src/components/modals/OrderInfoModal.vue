@@ -8,18 +8,19 @@ import Spinners270RingIcon from '../../assets/icons/Spinners270RingIcon.vue'
 import CancelButton from '../buttons/CancelButton.vue'
 import { useOrderStore } from '../../store/order.store'
 import OrderService from '../../services/order.service'
-import { computed, onMounted, ref } from 'vue'
+import { computed, onMounted, ref, watch } from 'vue'
 import useMoneyFormatter from '../../mixins/currencyFormatter'
 import moment from 'moment'
 import axios from 'axios'
 import { useI18n } from 'vue-i18n'
 import { toast } from 'vue-sonner'
 import SettingsService from '../../services/settings.service.js'
-import HolidayDiscountService from '../../services/holidayDiscount.service.js'
 
 const API_URL = import.meta.env.VITE_CHEQUE_API_URL
 
 const { t } = useI18n()
+
+const renderKey = computed(() => orderStore.renderkey)
 
 const orderStore = useOrderStore()
 const qrCode = ref()
@@ -35,11 +36,13 @@ const selectedOrder = computed(() => {
   return orderStore.selectedOrder
 })
 
+const selectedProductIds = ref([])
+
+const quantity = ref(0)
 
 const isFromCashback = computed(() => {
   return orderStore.isFromCashback
 })
-
 
 onMounted(() => {
   SettingsService.getSettings()
@@ -111,20 +114,86 @@ const printChaqueFunc = (id) => {
 const zIndexVal = ref(2000)
 const closeModal = () => {
  // useModalStore().openDebtInfoModal()
+  selectedProductIds.value = []
   useModalStore().closeOrderInfoModal()
   useOrderStore().setSelectedOrder({})
 }
 
-const selectedProductIds = ref([])
+const closeModalWithRefresh = () => {
+ // useModalStore().openDebtInfoModal()
+  selectedProductIds.value = []
+  useModalStore().closeOrderInfoModal()
+  useOrderStore().setSelectedOrder({})
+  
+  OrderService.getOrders( currentPage.value , 50, {...params.value} )
+    .then((res) => {
+      useOrderStore().clearStore()
+      useOrderStore().totalOrders = res.total
+      useOrderStore().setOrders(res.data)
+      
+    })
+}
 
-const toggleProductSelection = (id) => {
-  if (selectedProductIds.value.includes(id)) {
-    selectedProductIds.value = selectedProductIds.value.filter((productId) => productId !== id)
+const refundSum = ref(0)
+
+const toggleProductSelection = (item) => {
+  if (selectedProductIds.value.includes(item.id)) {
+    selectedProductIds.value = selectedProductIds.value.filter((productId) => productId !== item.id)
+    refundSum.value = item.price
+    quantity.value += item.amount
+    selectedOrder.value.initialPrice += item.price
+
   } else {
-    selectedProductIds.value.push(id)
+    selectedProductIds.value.push(item.id)
+    refundSum.value = item.price * (-1)
+    quantity.value -= item.amount
+    selectedOrder.value.initialPrice -= item.price
   }
 }
 
+watch(
+  () => selectedProductIds.value,
+  () => {
+    
+    const totalPrice = selectedOrder.value.totalPrice
+    const paymentReceived = selectedOrder.value.paymentReceived
+
+    
+    
+    const refundSumWithDiscount = refundSum.value - (refundSum.value * selectedOrder.value.discountPercent) / 100
+    
+    selectedOrder.value.paymentReceived = paymentReceived + refundSumWithDiscount 
+    
+    selectedOrder.value.totalPrice = totalPrice + refundSumWithDiscount
+    
+    selectedOrder.value.discountPrice = selectedOrder.value.discountPercent > 0 ? selectedOrder.value.initialPrice - selectedOrder.value.totalPrice : 0
+
+    
+  },
+  { deep: true },
+);
+
+watch(
+  () => selectedOrder.value.items,
+  () => {
+    if (selectedOrder.value.items) {
+    quantity.value = selectedOrder.value.items.filter(i => !i.refunded).reduce((acc, cur) => acc + cur.amount, 0)
+    selectedOrder.value.initialPrice = selectedOrder.value.items.filter(i => !i.refunded).reduce((acc, cur) => acc + cur.price, 0)
+    } else {
+      quantity.value = 0
+    }
+  },
+  { deep: true },
+);
+
+watch(
+  () => selectedOrder.value.initialPrice,
+  () => {
+    selectedOrder.value.discountPrice = selectedOrder.value.discountPercent > 0 ? selectedOrder.value.initialPrice - selectedOrder.value.totalPrice : 0
+  }
+)
+
+//
 const refundProducts = () => {
   isRefundLoading.value = true
   const orderId = selectedOrder.value.id
@@ -159,7 +228,7 @@ const refundProducts = () => {
 
 <template>
   <OrderModal :is-open="useModalStore().isOpenOrderInfoModal" v-if="useModalStore().isOpenOrderInfoModal" :zIndex ="zIndexVal"
-          @close="closeModal">
+          @close="closeModalWithRefresh" :key="renderKey">
     <template v-slot:header>
       {{ $t('salesDetails') }}
     </template>
@@ -180,7 +249,7 @@ const refundProducts = () => {
               <tr
                 v-for="(product, idx) in selectedOrder?.items"
                 :key="idx"
-                @click="!product.refunded && toggleProductSelection(product.id)"
+                @click="!product.refunded && toggleProductSelection(product)"
                 :class="{
                     'bg-blue-200 rounded-xl': selectedProductIds.includes(product.id) && !product.refunded,
                     'bg-red-200': product.refunded
@@ -225,7 +294,7 @@ const refundProducts = () => {
               {{ $t('numberOfProducts') }}
             </div>
             <div class="text-base font-medium">
-              {{ selectedOrder?.items.reduce((acc, cur) => acc + cur.amount, 0) + ' ' + $t('piece') }}
+              {{ quantity  + ' ' + $t('piece') }}
             </div>
           </li>
           
@@ -271,7 +340,7 @@ const refundProducts = () => {
           </li>
           <li v-if="!isFromCashback"  class="flex items-center justify-between py-2">
             <div class="text-base font-semibold text-gray-900">
-              {{ $t('totalPayment') }}
+              {{ $t('totalPrice') }}
             </div>
             <div class="text-lg font-semibold text-gray-900">
               {{ useMoneyFormatter(selectedOrder?.totalPrice) }}
@@ -281,15 +350,18 @@ const refundProducts = () => {
             <div class="text-base font-semibold text-gray-900">
               {{ $t('paymentReceived') }}
             </div>
-            <div class="text-lg font-semibold text-gray-900">
+            <div class="text-lg font-semibold text-gray-900" v-if="selectedOrder?.paymentReceived > 0">
               {{ useMoneyFormatter(selectedOrder?.paymentReceived) }}
+            </div>
+            <div class="text-lg font-semibold text-gray-900"  v-else >
+              {{ useMoneyFormatter(0) }}
             </div>
           </li>
         </ul>
       </div>
     </template>
     <template v-slot:footer>
-      <CancelButton @click="closeModal" />
+      <CancelButton @click="closeModalWithRefresh" />
       <div v-if="!isFromCashback" >
         
         <button v-if="isRefundLoading" type="button"
