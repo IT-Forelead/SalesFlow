@@ -327,8 +327,10 @@ const searchProducts = (async () => {
       filters = { name: String(trimmedValue) }
     } else if (isBarcode(trimmedValue)) {
       filters = { barcode: trimmedValue }
+    } else if (/^\d{1,8}$/.test(trimmedValue)) {
+      filters = {serialId: parseInt(trimmedValue)}
     } else {
-      filters = { serialId: trimmedValue }
+      filters = { name: trimmedValue }
     }
   } else {
     filters = { name: trimmedValue }
