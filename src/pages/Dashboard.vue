@@ -830,8 +830,8 @@ watch(pageProfit, () => {
 <template>
   <div class="p-4 md:p-8 space-y-6">
     <div class="flex flex-col md:flex-row space-x-0 md:space-x-4 space-y-2 md:space-y-0">
-      <div class="p-5 flex rounded-3xl w-full bg-slate-50 min-h-[45vh] justify-between">
-        <div class="w-[60vw] min-h-[45vh] bg-slate-50 rounded-3xl">
+      <div class="p-5 flex rounded-3xl w-[50vw] bg-slate-50 justify-between">
+        <div class="w-[50vw] min-h-[45vh] bg-slate-50 rounded-3xl">
           <div class="flex flex-col md:flex-row md:items-center md:justify-between px-2 space-y-3 md:space-y-0">
             <div>
               <div class="text-base font-bold text-gray-800">
@@ -848,7 +848,8 @@ watch(pageProfit, () => {
           <apexchart type="area" height="320" :options="hourlySaleChartOptions" :series="hourlySaleChartSeries">
           </apexchart>
         </div>
-        <div class="w-[30vw] bg-slate-50 rounded-3xl">
+      </div>
+      <div class="p-5 rounded-3xl bg-slate-50 w-full">
           <div class="flex flex-col md:flex-row md:items-center md:justify-between px-2 space-y-3 md:space-y-0">
             <div>
               <div class="text-base font-bold text-gray-800">
@@ -867,11 +868,9 @@ watch(pageProfit, () => {
           <apexchart type="bar" height="320" :options="cashbackSaleChartOptions" :series="cashbackRedeemsChartSeries">
           </apexchart>
         </div>
-
-      </div>
     </div>
-    <div class="flex flex-col md:flex-row space-x-0 md:space-x-4 space-y-2 md:space-y-0">
-      <div class="p-5 flex rounded-3xl bg-slate-50 min-h-[55vh] w-[33vw] flex-col justify-between">
+    <div class="flex flex-col md:flex-row space-x-0 md:space-x-4 space-y-2 md:space-y-0 overflow-x-auto">
+      <div class="p-5 flex rounded-3xl bg-slate-50 min-h-[55vh] w-[25vw] flex-col justify-between">
         <div class="space-y-4">
           <div class="flex items-center justify-between">
             <div class="space-y-0.5">
@@ -956,7 +955,7 @@ watch(pageProfit, () => {
           </div>
         </div>
       </div>
-      <div class="p-5 flex rounded-3xl bg-slate-50 min-h-[55vh] w-[33vw] flex-col justify-between">
+      <div class="p-5 flex rounded-3xl bg-slate-50 min-h-[55vh] w-[25vw] flex-col justify-between">
         <div class="space-y-4">
           <div class="flex items-center justify-between">
             <div class="space-y-0.5">
@@ -1042,7 +1041,7 @@ watch(pageProfit, () => {
           </div>
         </div>
       </div>
-      <div class="p-5 flex rounded-3xl bg-slate-50 min-h-[55vh] w-[33vw] flex-col justify-between ">
+      <div class="p-5 flex rounded-3xl bg-slate-50 min-h-[55vh] w-[25vw] flex-col justify-between ">
         <div class="space-y-4">
           <div class="flex items-center justify-between">
             <div class="space-y-0.5">
@@ -1127,7 +1126,7 @@ watch(pageProfit, () => {
           </div>
         </div>
       </div>
-      <div class="p-5 flex rounded-3xl bg-slate-50 min-h-[55vh] w-[33vw] flex-col justify-between ">
+      <div class="p-5 flex rounded-3xl bg-slate-50 min-h-[55vh] w-[25vw] flex-col justify-between ">
         <div class="space-y-4">
           <div class="flex items-center justify-between">
             <div class="space-y-0.5">
