@@ -66,6 +66,9 @@ class ProductService {
   async getUploadedImage(assetId) {
     return AxiosService.get(`/assets/${assetId}`)
   }
+  async getProductsWithoutSales(page, limit) {
+    return AxiosService.get(`/product/stats/without-sales?page=${page}&limit=${limit}`)
+  }
 }
 
 export default new ProductService()
