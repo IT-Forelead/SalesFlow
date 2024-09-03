@@ -410,5 +410,7 @@
   "ipBanDeletedSuccessfully": "IP bloq o'chirildi",
   "errorWhileDeletingIPBan": "IP bloq o'chirish xatolik yuz berdi",
   "dontSellExpireProducts": "Expired products cannot be sold",
-  "qrTrading": "QR scanners count"
+  "qrTrading": "QR scanners count",
+  "worstSellingProducts": "Worst selling products",
+  "lastDays": "Days since last sale"
 }

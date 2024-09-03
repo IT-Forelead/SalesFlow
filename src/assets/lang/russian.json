@@ -413,5 +413,7 @@
   "ipBanDeletedSuccessfully": "IP блок удален",
   "errorWhileDeletingIPBan": "Ошибка при удалении IP блока",
   "dontSellExpireProducts": "Товары с истекшим сроком годности не могут быть проданы!",
-  "qrTrading": "Количество QR-сканеров"
+  "qrTrading": "Количество QR-сканеров",
+  "worstSellingProducts": "Непроданные товары",
+  "lastDays": "Прошло дней с последней продажи"
 }
