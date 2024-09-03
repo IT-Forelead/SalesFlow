@@ -43,6 +43,7 @@ const hourlyTrading = t('hourlyTrading')
 const hourlySales = ref([])
 const cashbackRedeems = ref([])
 const qrTrading = t('qrTrading')
+const worstSellerProductStats = ref([])
 
 const filterData = reactive({
   startDate: '',
@@ -642,6 +643,7 @@ const submitTurnoverStatsFilterData = () => {
   }
 }
 
+const pageWorstSell = ref(1)
 const pageSell = ref(1)
 const pageProfit = ref(1)
 const pageRevenue = ref(1)
@@ -675,6 +677,7 @@ onMounted(() => {
   getSells()
   getProfits()
   getRevenues()
+  getWorstSells()
 })
 
 watch(
@@ -719,6 +722,40 @@ const getSells = () => {
 }
 watch(pageSell, () => {
   getSells()
+})
+
+//worstSellerProducts
+const totalWorstSell = ref(0)
+const totalWorstSellPages = computed(() => Math.ceil(totalWorstSell.value / pageSize))
+const displayedWorstSellPageNumbers = computed(() => {
+  const numWorstSellPages = Math.min(4, totalWorstSellPages.value)
+  const startWorstSellPage = Math.max(1, pageWorstSell.value - Math.floor(numWorstSellPages / 2))
+  const endWorstSellPage = Math.min(totalWorstSellPages.value, startWorstSellPage + numWorstSellPages - 1)
+  const pages = []
+  for (let i = startWorstSellPage; i <= endWorstSellPage; i++) {
+    pages.push(i)
+  }
+  return pages
+})
+const goToWorstSellPage = (pageWorstSellNumber) => {
+  if (pageWorstSellNumber >= 1 && pageWorstSellNumber <= totalWorstSellPages.value) {
+    pageWorstSell.value = pageWorstSellNumber
+  }
+}
+const prevWorstSellPage = () => {
+  goToWorstSellPage(pageWorstSell.value - 1)
+}
+const nextWorstSellPage = () => {
+  goToWorstSellPage(pageWorstSell.value + 1)
+}
+const getWorstSells = () => {
+  ProductService.getProductsWithoutSales(pageWorstSell.value, pageSize).then((res) => {
+    worstSellerProductStats.value = res.data
+    totalWorstSell.value = res.total
+  })
+}
+watch(pageWorstSell, () => {
+  getWorstSells()
 })
 
 //bestRevenueProducts
@@ -1083,6 +1120,88 @@ watch(pageProfit, () => {
               <CaretRightIcon class="w-5 h-5" />
             </button>
             <button :disabled="pageSell === totalSellPages" @click="goToSellPage(totalSellPages)"
+              class="flex items-center gap-2 px-3 py-2 text-base font-medium text-slate-900 rounded-lg select-none hover:bg-blue-200 disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
+              type="button">
+              <CaretDoubleRightIcon class="w-5 h-5" />
+            </button>
+          </div>
+        </div>
+      </div>
+      <div class="p-5 flex rounded-3xl bg-slate-50 min-h-[55vh] w-[33vw] flex-col justify-between ">
+        <div class="space-y-4">
+          <div class="flex items-center justify-between">
+            <div class="space-y-0.5">
+              <div class="text-base md:text-xl font-semibold">
+                {{ $t('worstSellingProducts') }}
+              </div>
+              <div class="text-sm md:text-base text-gray-600">
+                {{ $t('beginStatText') }}
+                <span class="font-bold">{{ 10 + $t('days') }}</span>
+                {{ $t('endStatText') }}
+              </div>
+            </div>
+            <div class="flex items-center justify-center rounded-xl bg-blue-100 p-3">
+              <ShoppingCartIcon class="w-8 h-8 text-blue-600" />
+            </div>
+          </div>
+          <div class="divide-y divide-gray-100">
+            <div v-for="(product, idx) in worstSellerProductStats" :key="idx"
+              class="flex items-center justify-between py-1.5">
+              <div class="flex items-center space-x-3">
+                <div class="flex items-center justify-center bg-blue-100 w-6 h-6 rounded-lg">
+                  <span class="text-base text-blue-600">
+                    {{ (pageWorstSell - 1) * pageSize + idx + 1 }}
+                  </span>
+                </div>
+                <div>
+                  <div class="text-base font-semibold text-gray-800">
+                    {{ product?.name + ' - ' + product?.packaging }}
+                  </div>
+                  <div class="text-sm text-gray-600">
+                    {{ $t('barcode') }}:
+                    <span class="text-gray-900">
+                      {{ (product?.barcode) }}
+                    </span>
+                  </div>
+                  <div class="text-sm text-gray-600">
+                    {{ $t('lastDays') }}:
+                    <span class="text-gray-900">
+                      {{ (product?.daysSinceLastSale) }}
+                    </span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="flex items-center justify-center ">
+          <div class="flex items-center space-x-2">
+            <button :disabled="pageWorstSell === 1" @click="goToWorstSellPage(1)"
+              class="flex items-center justify-center px-3 py-2 text-base font-medium text-slate-900 rounded-lg select-none hover:bg-blue-200 disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
+              type="button">
+              <CaretDoubleLeftIcon class="w-5 h-5" />
+            </button>
+            <button @click="prevWorstSellPage" :disabled="pageWorstSell === 1"
+              class="flex items-center justify-center px-3 py-2 text-base font-medium text-slate-900 rounded-lg select-none hover:bg-blue-200 disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
+              type="button">
+              <CaretLeftIcon class="w-5 h-5" />
+            </button>
+            <div class="flex items-center space-x-2">
+              <button v-for="pageWorstSellNumber in displayedWorstSellPageNumbers" :key="pageWorstSellNumber"
+                @click="goToWorstSellPage(pageWorstSellNumber)" :class="{
+                  'bg-blue-600 text-white': pageWorstSellNumber === Worst,
+                  'hover:bg-blue-200': pageWorstSellNumber !== pageWorstSell,
+                }"
+                class="px-3 py-2 select-none rounded-lg text-slate-900 text-center text-base font-medium transition-all">
+                {{ pageWorstSellNumber }}
+              </button>
+            </div>
+            <button @click="nextWorstSellPage" :disabled="pageWorstSell === totalSellPages"
+              class="flex items-center gap-2 px-3 py-2 text-base font-medium text-center text-slate-900 rounded-lg select-none hover:bg-blue-200 disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
+              type="button">
+              <CaretRightIcon class="w-5 h-5" />
+            </button>
+            <button :disabled="pageWorstSell === totalWorstSellPages" @click="goToWorstSellPage(totalWorstSellPages)"
               class="flex items-center gap-2 px-3 py-2 text-base font-medium text-slate-900 rounded-lg select-none hover:bg-blue-200 disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
               type="button">
               <CaretDoubleRightIcon class="w-5 h-5" />

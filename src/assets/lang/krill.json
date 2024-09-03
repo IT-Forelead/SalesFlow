@@ -410,5 +410,7 @@
   "ipBanDeletedSuccessfully": "IP блоқ ўчирилди",
   "errorWhileDeletingIPBan": "IP блоқ ўчириш хатолик юз берди",
   "dontSellExpireProducts": "Муддати тугаган маҳсулотларни сотиш мумкин эмас!",
-  "qrTrading": "QR сканерлар сони"
+  "qrTrading": "QR сканерлар сони",
+  "worstSellingProducts": "Сотилмаган маҳсулотлар",
+  "lastDays": "Охирги марта кун олдин сотилган"
 }
