@@ -1,6 +1,6 @@
 <script setup>
 import { vMaska } from 'maska'
-import { reactive, ref, computed, h} from 'vue'
+import { reactive, ref, computed, h, onMounted} from 'vue'
 import { toast } from 'vue-sonner'
 import Spinners270RingIcon from '../../assets/icons/Spinners270RingIcon.vue'
 import { cleanObjectEmptyFields } from '../../mixins/utils'
@@ -104,8 +104,6 @@ const getCustomers = () => {
 }
 
 getCustomers()
-
-
 
 </script>
 <template>
