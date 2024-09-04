@@ -196,34 +196,39 @@ watch(
 
 //
 const refundProducts = () => {
-  isRefundLoading.value = true
-  const orderId = selectedOrder.value.id
-  const totalPrice = selectedOrder.value.totalPrice
-  const paymentReceived = selectedOrder.value.paymentReceived
-  OrderService.refundItems({
-    orderId,
-    totalPrice,
-    paymentReceived,
-    items: selectedProductIds.value,
-  }).then(() => {
-    selectedProductIds.value = []
-    toast.success(t('refundedSuccessfully'))
-    OrderService.getOrders( currentPage.value , 50, {...params.value} )
+  console.log(selectedProductIds.value.length);
+  if (selectedProductIds.value.length == 0) {
+    toast.error(t('errorWhileRefunding'))
+  } else {
+    isRefundLoading.value = true
+    const orderId = selectedOrder.value.id
+    const totalPrice = selectedOrder.value.totalPrice
+    const paymentReceived = selectedOrder.value.paymentReceived
+    OrderService.refundItems({
+      orderId,
+      totalPrice,
+      paymentReceived,
+      items: selectedProductIds.value,
+    }).then(() => {
+      selectedProductIds.value = []
+      toast.success(t('refundedSuccessfully'))
+      OrderService.getOrders( currentPage.value , 50, {...params.value} )
       .then((res) => {
         useOrderStore().clearStore()
         useOrderStore().totalOrders = res.total
         useOrderStore().setOrders(res.data)
       }).finally(() => {
+        isRefundLoading.value = false
+      })
+      closeModal()
+    }).catch((error) => {
+      selectedProductIds.value = []
+      console.error('Refund failed:', error)
+      toast.error(t('errorWhileRefunding'))
+    }).finally(() => {
       isRefundLoading.value = false
     })
-    closeModal()
-  }).catch((error) => {
-    selectedProductIds.value = []
-    console.error('Refund failed:', error)
-    toast.error(t('errorWhileRefunding'))
-  }).finally(() => {
-    isRefundLoading.value = false
-  })
+  }
 }
 </script>
 
