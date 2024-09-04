@@ -274,7 +274,7 @@ const searchProducts = () => {
           useProductStore().setProducts(res.data);
         }
       });
-    } else if (!isNaN(search.value) && Number.isInteger(+search.value)) {
+    } else if (!isNaN(search.value) && ((/^\d{1,8}$/.test(+search.value)))) { 
       ProductService.getProductsDetails(
         cleanObjectEmptyFields({
           serialId: +search.value,
