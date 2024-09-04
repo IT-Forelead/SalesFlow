@@ -869,8 +869,8 @@ watch(pageProfit, () => {
           </apexchart>
         </div>
     </div>
-    <div class="flex flex-col md:flex-row space-x-0 md:space-x-4 space-y-2 md:space-y-0 overflow-x-auto">
-      <div class="p-5 flex rounded-3xl bg-slate-50 min-h-[55vh] w-[25vw] flex-col justify-between">
+    <div class="flex flex-col md:flex-row space-x-0 md:space-x-4 space-y-2 md:space-y-0 h-[67vh]">
+      <div class="p-5 flex rounded-3xl bg-slate-50 w-[25vw] flex-col justify-between">
         <div class="space-y-4">
           <div class="flex items-center justify-between">
             <div class="space-y-0.5">
@@ -908,7 +908,7 @@ watch(pageProfit, () => {
                   </div>
                   <div class="text-sm text-gray-600">
                     {{ $t('totalPrice') }}:
-                    <span class="text-blue-700 font-medium">
+                    <span class="text-blue-700 font-semibold">
                       {{ useMoneyFormatter(product?.totalPrice) }}
                     </span>
                   </div>
@@ -955,7 +955,7 @@ watch(pageProfit, () => {
           </div>
         </div>
       </div>
-      <div class="p-5 flex rounded-3xl bg-slate-50 min-h-[55vh] w-[25vw] flex-col justify-between">
+      <div class="p-5 flex rounded-3xl bg-slate-50 w-[25vw] flex-col justify-between">
         <div class="space-y-4">
           <div class="flex items-center justify-between">
             <div class="space-y-0.5">
@@ -993,7 +993,7 @@ watch(pageProfit, () => {
                   </div>
                   <div class="text-sm text-gray-600">
                     {{ $t('totalPrice') }}:
-                    <span class="text-blue-700 font-medium">
+                    <span class="text-blue-700 font-semibold">
                       {{ useMoneyFormatter(product?.totalPrice) }}
                     </span>
                   </div>
@@ -1003,7 +1003,6 @@ watch(pageProfit, () => {
                 {{ product?.amount }}
               </div>
             </div>
-
           </div>
         </div>
         <div class="flex items-center justify-center ">
@@ -1041,7 +1040,7 @@ watch(pageProfit, () => {
           </div>
         </div>
       </div>
-      <div class="p-5 flex rounded-3xl bg-slate-50 min-h-[55vh] w-[25vw] flex-col justify-between ">
+      <div class="p-5 flex rounded-3xl bg-slate-50 w-[25vw] flex-col justify-between ">
         <div class="space-y-4">
           <div class="flex items-center justify-between">
             <div class="space-y-0.5">
@@ -1126,7 +1125,7 @@ watch(pageProfit, () => {
           </div>
         </div>
       </div>
-      <div class="p-5 flex rounded-3xl bg-slate-50 min-h-[55vh] w-[25vw] flex-col justify-between ">
+      <div class="p-5 flex rounded-3xl bg-slate-50 w-[20vw] flex-col justify-between ">
         <div class="space-y-4">
           <div class="flex items-center justify-between">
             <div class="space-y-0.5">
@@ -1164,7 +1163,7 @@ watch(pageProfit, () => {
                   </div>
                   <div class="text-sm text-gray-600">
                     {{ $t('lastDays') }}:
-                    <span class="text-gray-900">
+                    <span class="text-red-700 font-semibold">
                       {{ (product?.daysSinceLastSale) }}
                     </span>
                   </div>
