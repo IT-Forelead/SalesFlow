@@ -130,6 +130,7 @@ const columns = [
 
 const openOrderInfo = (data) => {
   useModalStore().openOrderInfoModal()
+ // useOrderStore().renderkey = useOrderStore().renderkey + 1
   useOrderStore().setSelectedOrder(data)
   useOrderStore().fromCashback(false)
 }

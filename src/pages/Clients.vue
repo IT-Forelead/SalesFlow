@@ -52,12 +52,8 @@ const columns = [
   {
     accessorKey: 'phone',
     header: t('phoneNumber'),
-  },  
-  {
-    accessorKey: 'balance',
-    accessorFn: row => `${useMoneyFormatter(row.balance)}`,
-    header: t('balance'),
   },
+  
   {
     accessorKey: 'cashback',
     accessorFn: row => `${useMoneyFormatter(row.cashback)}`,
@@ -70,13 +66,15 @@ const columns = [
   },  
 ]
 
-const getCustomers = () => {
+const getCustomers = (filters = {}) => {
   isLoading.value = true
-  CustomerService.getCustomers(pageSize, page.value)
+  console.log(page.value)
+  console.log(pageSize)
+  CustomerService.getCustomers({ limit: pageSize, page: page.value, ...filters })
     .then((response) => {
       useCustomerStore().clearStore()
-      total.value = response.length
-      useCustomerStore().setCustomers(response)
+      total.value = response.total
+      useCustomerStore().setCustomers(response.data)
     }).finally(() => {
     isLoading.value = false
   })
@@ -112,7 +110,6 @@ getCustomers()
 watch(page, () => {
   getCustomers()
 })
-
 
 onMounted(() => {
   useAuthStore().setUser(decodeJwt(JSON.parse(localStorage.getItem('session'))?.accessToken))
