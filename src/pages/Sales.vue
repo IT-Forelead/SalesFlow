@@ -598,6 +598,8 @@ const clearAndClose = () => {
 const createOrder = (printCheck = true) => {
   if (activeBasket.value.length === 0) {
     toast.error('Tanlangan mahsulotlar mavjud emas!');
+  } else if (activeBasket.value.filter(p => Date.now() >= new Date(p.expirationDate)).length > 0) {
+    toast.error(t('dontSellExpireProducts'))
   } else {
     if (printCheck) {
       isLoadingOrderWithPrint.value = true;
