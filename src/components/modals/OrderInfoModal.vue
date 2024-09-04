@@ -94,6 +94,7 @@ const printChaqueFunc = (id) => {
       market: res?.marketName,
       paid: res?.paymentReceived,
       price: res?.initialPrice,
+      qrCode: res?.qrCode,
       products: res?.items.map((item) => {
         return {
           count: item?.amount,

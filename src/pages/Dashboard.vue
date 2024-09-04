@@ -1188,14 +1188,14 @@ watch(pageProfit, () => {
             <div class="flex items-center space-x-2">
               <button v-for="pageWorstSellNumber in displayedWorstSellPageNumbers" :key="pageWorstSellNumber"
                 @click="goToWorstSellPage(pageWorstSellNumber)" :class="{
-                  'bg-blue-600 text-white': pageWorstSellNumber === Worst,
+                  'bg-blue-600 text-white': pageWorstSellNumber === pageWorstSell,
                   'hover:bg-blue-200': pageWorstSellNumber !== pageWorstSell,
                 }"
                 class="px-3 py-2 select-none rounded-lg text-slate-900 text-center text-base font-medium transition-all">
                 {{ pageWorstSellNumber }}
               </button>
             </div>
-            <button @click="nextWorstSellPage" :disabled="pageWorstSell === totalSellPages"
+            <button @click="nextWorstSellPage" :disabled="pageWorstSell === totalWorstSellPages"
               class="flex items-center gap-2 px-3 py-2 text-base font-medium text-center text-slate-900 rounded-lg select-none hover:bg-blue-200 disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
               type="button">
               <CaretRightIcon class="w-5 h-5" />
