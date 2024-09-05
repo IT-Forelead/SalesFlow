@@ -31,6 +31,13 @@ const columns = [
     cell: ({ row }) => `${parseInt(row.id, 10) + 1}`,
   },
   {
+    accessorKey: 'asset',
+    header: t('image'),
+    cell: ({ row }) =>
+      h('div', { class: 'flex items-center' }, [row.original.asset ?
+        h('img', { src: `${row.original.asset.url}`, class: 'w-12 h-auto rounded', alt: '#' }) : h('span')]),
+  },
+  {
     accessorFn: row => `${row.name}`,
     header: t('name'),
   },
