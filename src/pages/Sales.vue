@@ -607,8 +607,10 @@ const createOrder = (printCheck = true) => {
       isLoadingOrderWithoutPrint.value = true;
     }
     if
-    (activeBasket.value.filter(p => p.expirationDate == null)) {
-      toast.warning(t('expirationSold'))
+    (activeBasket.value.filter(p => p.expirationDate == null).length > 0) {
+      setTimeout(() => {
+        toast.warning(t('expirationSold'))
+      }, 2000) 
     }
     OrderService.createOrder(
       cleanObjectEmptyFields({
@@ -625,9 +627,7 @@ const createOrder = (printCheck = true) => {
       .then((orderRes) => {
         orderId.value = orderRes.orderId;
         isCashbackUsed.value = false;
-        setTimeout(() => {
-          toast.success(t('saleWasMadeSuccessfully'));
-        }, 1000)   
+        toast.success(t('saleWasMadeSuccessfully'));
         soldSuccess.play();
         if (boundaryPrice.value !== 0 && totalPrice.value >= boundaryPrice.value) {
           orderId.value = orderRes.orderId;
