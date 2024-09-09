@@ -415,5 +415,6 @@
   "dontSellExpireProducts": "Muddati tugagan mahsulotlarni sotish mumkin emas!",
   "qrTrading": "QR skanerlar soni",
   "worstSellingProducts": "Sotilmagan mahsulotlar",
-  "lastDays": "Oxirgi marta kun oldin sotilgan"
+  "lastDays": "Oxirgi marta kun oldin sotilgan",
+  "expirationSold": "Muddati ko'rsatilmagan mahsulot sotildi"
 }

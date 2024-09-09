@@ -598,13 +598,17 @@ const clearAndClose = () => {
 const createOrder = (printCheck = true) => {
   if (activeBasket.value.length === 0) {
     toast.error('Tanlangan mahsulotlar mavjud emas!');
-  } else if (activeBasket.value.filter(p => Date.now() >= new Date(p.expirationDate)).length > 0) {
+  } else if (activeBasket.value.filter(p => p.expirationDate != null && Date.now() >= new Date(p.expirationDate)).length > 0) {
     toast.error(t('dontSellExpireProducts'))
   } else {
     if (printCheck) {
       isLoadingOrderWithPrint.value = true;
     } else {
       isLoadingOrderWithoutPrint.value = true;
+    }
+    if
+    (activeBasket.value.filter(p => p.expirationDate == null)) {
+      toast.warning(t('expirationSold'))
     }
     OrderService.createOrder(
       cleanObjectEmptyFields({
@@ -621,7 +625,9 @@ const createOrder = (printCheck = true) => {
       .then((orderRes) => {
         orderId.value = orderRes.orderId;
         isCashbackUsed.value = false;
-        toast.success(t('saleWasMadeSuccessfully'));
+        setTimeout(() => {
+          toast.success(t('saleWasMadeSuccessfully'));
+        }, 1000)   
         soldSuccess.play();
         if (boundaryPrice.value !== 0 && totalPrice.value >= boundaryPrice.value) {
           orderId.value = orderRes.orderId;
