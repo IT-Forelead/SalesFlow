@@ -171,7 +171,7 @@ const isLoadingSearchProducts = ref(false);
 const isLoadingOrderWithPrint = ref(false);
 const isLoadingOrderWithoutPrint = ref(false);
 // const selectedProducts = ref([])
-const activeBasketStatus = ref('firstBasket');
+const activeBasketStatus = ref('');
 const activeBasket = ref([]);
 const firstBasket = ref([]);
 const secondBasket = ref([]);
@@ -1072,13 +1072,13 @@ watch(
   () => {
     if (activeBasketStatus.value === 'firstBasket') {
       firstBasket.value = activeBasket.value;
-      // localStorage.setItem('firstBasket', JSON.stringify(activeBasket.value))
+      localStorage.setItem('firstBasket', JSON.stringify(activeBasket.value))
     } else if (activeBasketStatus.value === 'secondBasket') {
       secondBasket.value = activeBasket.value;
-      // localStorage.setItem('secondBasket', JSON.stringify(activeBasket.value))
+      localStorage.setItem('secondBasket', JSON.stringify(activeBasket.value))
     } else if (activeBasketStatus.value === 'thirdBasket') {
       thirdBasket.value = activeBasket.value;
-      // localStorage.setItem('thirdBasket', JSON.stringify(activeBasket.value))
+      localStorage.setItem('thirdBasket', JSON.stringify(activeBasket.value))
     }
     localStorage.setItem('activeBasket', JSON.stringify(activeBasket.value));
   },
@@ -1093,26 +1093,26 @@ onMounted(() => {
     activeBasket.value.push(...JSON.parse(localActiveBasket));
   } catch (e) {}
 
-  // const localFirstActiveBasket = localStorage.getItem('firstBasket')
-  // try {
-  //   JSON.parse(localFirstActiveBasket);
-  //   firstBasket.value.push(...JSON.parse(localFirstActiveBasket))
-  // } catch (e) {
-  // }
+  const localFirstActiveBasket = localStorage.getItem('firstBasket')
+  try {
+    JSON.parse(localFirstActiveBasket);
+    firstBasket.value.push(...JSON.parse(localFirstActiveBasket))
+  } catch (e) {
+  }
 
-  // const localSecondActiveBasket = localStorage.getItem('secondBasket')
-  // try {
-  //   JSON.parse(localSecondActiveBasket);
-  //   secondBasket.value.push(...JSON.parse(localSecondActiveBasket))
-  // } catch (e) {
-  // }
+  const localSecondActiveBasket = localStorage.getItem('secondBasket')
+  try {
+    JSON.parse(localSecondActiveBasket);
+    secondBasket.value.push(...JSON.parse(localSecondActiveBasket))
+  } catch (e) {
+  }
 
-  // const localThirdActiveBasket = localStorage.getItem('thirdBasket')
-  // try {
-  //   JSON.parse(localThirdActiveBasket);
-  //   thirdBasket.value.push(...JSON.parse(localThirdActiveBasket))
-  // } catch (e) {
-  // }
+  const localThirdActiveBasket = localStorage.getItem('thirdBasket')
+  try {
+    JSON.parse(localThirdActiveBasket);
+    thirdBasket.value.push(...JSON.parse(localThirdActiveBasket))
+  } catch (e) {
+  }
   // onFocusSearchInput()
 });
 
