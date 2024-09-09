@@ -17,8 +17,6 @@ const props = defineProps({
   zIndex: Number,
 })
 
-// console.log(props.zIndex)
-
 const whenPressEsc = (event) => {
   if (event.key === 'Escape') {
     close()
