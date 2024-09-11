@@ -36,6 +36,8 @@ import EditTelegramBotModal from './modals/EditTelegramBotModal.vue'
 import CreateCorporateClientModal from './modals/CreateCorporateClientModal.vue'
 import FillBalanceModal from './modals/FillBalanceModal.vue'
 import DeleteIPBanModal from './modals/DeleteIPBanModal.vue'
+import CreateInvestorModal from './modals/CreateInvestorModal.vue'
+import InvestorInfoModal from './modals/InvestorInfoModal.vue'
 
 const notificationDropdown = ref(null)
 
@@ -134,6 +136,8 @@ onUnmounted(() => {
   <CreateCorporateClientModal />
   <FillBalanceModal />
   <DeleteIPBanModal />
+  <CreateInvestorModal />
+  <InvestorInfoModal />
 </template>
 
 <style scoped></style>

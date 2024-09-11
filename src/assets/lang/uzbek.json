@@ -416,5 +416,17 @@
   "qrTrading": "QR skanerlar soni",
   "worstSellingProducts": "Sotilmagan mahsulotlar",
   "lastDays": "Oxirgi marta kun oldin sotilgan",
-  "expirationSold": "Muddati ko'rsatilmagan mahsulot sotildi"
+  "expirationSold": "Muddati ko'rsatilmagan mahsulot sotildi",
+  "investors": "Investors",
+  "createInvestor": "Create investors",
+  "invest": "Invest",
+  "investDailyIncome": "Invest daily income",
+  "invests": "Invests",
+  "createInvest": "Create invest",
+  "amount": "Amount",
+  "rate": "Rate",
+  "available": "Available",
+  "availabilityCount": "Availability count",
+  "withdrawn": "Withdrawn",
+  "totalEarned": "Total earned"
 }
