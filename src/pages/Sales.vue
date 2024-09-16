@@ -171,7 +171,7 @@ const isLoadingSearchProducts = ref(false);
 const isLoadingOrderWithPrint = ref(false);
 const isLoadingOrderWithoutPrint = ref(false);
 // const selectedProducts = ref([])
-const activeBasketStatus = ref('');
+const activeBasketStatus = ref('firstBasket');
 const activeBasket = ref([]);
 const firstBasket = ref([]);
 const secondBasket = ref([]);
@@ -566,7 +566,7 @@ const clearSearchInput = () => {
   // onFocusSearchInput()
 };
 
-const clearSubmitData = () => {
+const clearSubmitData = () => {  
   submitData.discountPercent = '';
   submitData.discountReason = '';
   discount.value = '';
@@ -1087,13 +1087,17 @@ watch(
       localStorage.setItem('thirdBasket', JSON.stringify(activeBasket.value))
     }
     localStorage.setItem('activeBasket', JSON.stringify(activeBasket.value));
+    localStorage.setItem('activeBasketStatus', JSON.stringify(activeBasketStatus.value));
   },
   { deep: true },
 );
 
 onMounted(() => {
   useProductStore().clearStore();
-  const localActiveBasket = localStorage.getItem('activeBasket');
+  const localActiveBasketStatusJson = localStorage.getItem('activeBasketStatus');
+  const localActiveBasket = localStorage.getItem('activeBasket')
+  activeBasketStatus.value = localActiveBasketStatusJson ?   JSON.parse(localActiveBasketStatusJson) : activeBasketStatus.value
+  
   try {
     JSON.parse(localActiveBasket);
     activeBasket.value.push(...JSON.parse(localActiveBasket));
@@ -1482,7 +1486,7 @@ const closeCardIdModal = () => {
             @click="changeBasketStatus(basket.id)"
             class="px-4 py-2 inline-flex flex-col xl:flex-row sm:flex items-center leading-none border-b-2 rounded-xl"
             :class="
-              activeBasketStatus === basket.id
+              activeBasketStatus == basket.id
                 ? 'bg-slate-100 border-blue-500'
                 : 'bg-slate-50 border-slate-200 cursor-pointer'
             "
@@ -1490,12 +1494,12 @@ const closeCardIdModal = () => {
             <BasketIcon
               class="w-6 h-6 mr-2"
               :class="
-                activeBasketStatus === basket.id ? 'text-blue-500 text-sm' : 'text-gray-500 text-sm'
+                activeBasketStatus == basket.id ? 'text-blue-500 text-sm' : 'text-gray-500 text-sm'
               "
             />
             <span
               :class="
-                activeBasketStatus === basket.id ? 'text-blue-500 text-sm' : 'text-gray-900 text-sm'
+                activeBasketStatus == basket.id ? 'text-blue-500 text-sm' : 'text-gray-900 text-sm'
               "
             >
               {{ basket.name }}
