@@ -28,7 +28,12 @@ import FileLinearIcon from '../assets/icons/FileLinearIcon.vue'
 import WishService from '../services/wish.service.js'
 import { useWishStore } from '../store/wish.store.js'
 import { cleanObjectEmptyFields } from '../mixins/utils'
-import PhUserSwitch from '../assets/icons/UserSwitchIcon.vue'
+import PhLockKey from '../assets/icons/LockKey.vue'
+import InvestIcon from '../assets/icons/InvestIcon.vue'
+import InvestorIcon from '../assets/icons/InvestorIcon.vue'
+import InvestPlanIcon from '../assets/icons/InvestPlanIcon.vue'
+import ClientIcon from '../assets/icons/ClientIcon.vue'
+import ClientCorpIcon from '../assets/icons/ClientCorpIcon.vue'
 
 const { t } = useI18n()
 const router = useRouter()
@@ -245,7 +250,7 @@ onMounted(() => {
           class="relative h-10 flex items-center w-full hover:bg-blue-300/10 hover:text-blue-600 py-5 text-zinc-400 text-lg font-medium space-x-4 cursor-pointer transition-colors duration-300">
             <div class="w-1.5 h-12 rounded-r-xl first-child-bg-color mr-2"></div>
             <div class="flex h-10 items-center justify-center rounded-xl w-10 second-child-bg-color">
-              <DebtIcon class="w-6 h-6" />
+              <ClientCorpIcon class="w-6 h-6" />
             </div>
             <div>
               {{ $t('corporateClients') }}
@@ -255,7 +260,7 @@ onMounted(() => {
           class="relative h-10 flex items-center w-full hover:bg-blue-300/10 hover:text-blue-600 py-5 text-zinc-400 text-lg font-medium space-x-4 cursor-pointer transition-colors duration-300">
             <div class="w-1.5 h-12 rounded-r-xl first-child-bg-color mr-2"></div>
             <div class="flex h-10 items-center justify-center rounded-xl w-10 second-child-bg-color">
-              <DebtIcon class="w-6 h-6" />
+              <ClientIcon class="w-6 h-6" />
             </div>
             <div>
               {{ $t('clients') }}
@@ -285,7 +290,7 @@ onMounted(() => {
           class="relative h-10 flex items-center w-full hover:bg-blue-300/10 hover:text-blue-600 py-5 text-zinc-400 text-lg font-medium space-x-4 cursor-pointer transition-colors duration-300">
             <div class="w-1.5 h-12 rounded-r-xl first-child-bg-color mr-2"></div>
             <div class="flex h-10 items-center justify-center rounded-xl w-10 second-child-bg-color">
-              <PhUserSwitch class="w-6 h-6" />
+              <PhLockKey class="w-6 h-6" />
             </div>
             <div>
               {{ $t('ipBanned') }}
@@ -295,20 +300,30 @@ onMounted(() => {
           class="relative h-10 flex items-center w-full hover:bg-blue-300/10 hover:text-blue-600 py-5 text-zinc-400 text-lg font-medium space-x-4 cursor-pointer transition-colors duration-300">
             <div class="w-1.5 h-12 rounded-r-xl first-child-bg-color mr-2"></div>
             <div class="flex h-10 items-center justify-center rounded-xl w-10 second-child-bg-color">
-              <PhUserSwitch class="w-6 h-6" />
+              <InvestorIcon class="w-6 h-6" />
             </div>
             <div>
               {{ $t('investors') }}
             </div>
           </router-link>
-          <router-link v-if="navigationGuard('view_investors')" to="/invests" @click="selectPage()" active-class="active"
+          <router-link v-if="navigationGuard('view_invests')" to="/invests" @click="selectPage()" active-class="active"
           class="relative h-10 flex items-center w-full hover:bg-blue-300/10 hover:text-blue-600 py-5 text-zinc-400 text-lg font-medium space-x-4 cursor-pointer transition-colors duration-300">
             <div class="w-1.5 h-12 rounded-r-xl first-child-bg-color mr-2"></div>
             <div class="flex h-10 items-center justify-center rounded-xl w-10 second-child-bg-color">
-              <PhUserSwitch class="w-6 h-6" />
+              <InvestIcon class="w-6 h-6" />
             </div>
             <div>
               {{ $t('invests') }}
+            </div>
+          </router-link>
+          <router-link v-if="navigationGuard('view_invest_plans')" to="/invest-plans" @click="selectPage()" active-class="active"
+          class="relative h-10 flex items-center w-full hover:bg-blue-300/10 hover:text-blue-600 py-5 text-zinc-400 text-lg font-medium space-x-4 cursor-pointer transition-colors duration-300">
+            <div class="w-1.5 h-12 rounded-r-xl first-child-bg-color mr-2"></div>
+            <div class="flex h-10 items-center justify-center rounded-xl w-10 second-child-bg-color">
+              <InvestPlanIcon class="w-6 h-6" />
+            </div>
+            <div>
+              {{ $t('investPlans') }}
             </div>
           </router-link>
         </div>

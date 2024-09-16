@@ -1,5 +1,4 @@
 <script setup>
-import EyeIcon from '../assets/icons/EyeIcon.vue'
 import { ref } from 'vue'
 import moment from 'moment'
 import { computed, h } from 'vue'
@@ -8,17 +7,15 @@ import Spinners270RingIcon from '../assets/icons/Spinners270RingIcon.vue'
 import CTable from '../components/common/CTable.vue'
 import { useModalStore } from '../store/modal.store.js'
 import { useI18n } from 'vue-i18n'
-import { useInvestorStore } from '../store/investor.store.js'
 import { useInvestStore } from '../store/invest.store.js'
-import InvestorService from '../services/investor.service.js'
 import InvestService from '../services/invest.service.js'
 
 const { t } = useI18n()
-const investorStore = useInvestorStore()
+const investStore = useInvestStore()
 const globalSearchFromTable = ref('')
 const isLoading = ref(false)
-const investors = computed(() => investorStore.investors)
-const renderkey = computed(() => investorStore.renderkey)
+const investPlans = computed(() => investStore.investPlans)
+const renderkey = computed(() => investStore.renderkey)
 
 const columns = [
   {
@@ -28,63 +25,43 @@ const columns = [
     enableSorting: false,
   },
   {
-    accessorKey: 'fullName',
-    header: t('fullName'),
+    accessorKey: 'amount',
+    header: t('amount'),
   },
   {
-    accessorKey: 'phone',
-    header: t('phoneNumber'),
+    accessorKey: 'rate',
+    header: t('ratePercent'),
+  },
+  {
+    accessorKey: 'availabilityCount',
+    header: t('availabilityCount'),
   },
   {
     accessorKey: 'createdAt',
     accessorFn: row => moment(row.createdAt).format('DD/MM/YYYY H:mm'),
     header: t('createdAt'),
   },
-  {
-    accessorKey: 'actions',
-    header: t('actions'),
-    cell: ({ row }) => h('div', { class: 'flex items-center space-x-2' }, [
-      h('button', { onClick: () => { openInvestorInfo(row.original) } }, [
-        h(EyeIcon, { class: 'w-6 h-6 text-blue-600 hover:scale-105' })
-      ]),
-    ]),
-    enableSorting: false,
-  },
 ]
 
-const openInvestorInfo = async (data) => {
-console.log(data);
-
-  useInvestorStore().setSelectedInvestor(data)
-  try {
-    const res = await InvestService.getInvestsByFilters({ investorId: data.id})
-    useInvestStore().clearStore()
-    useInvestStore().setInvests(res.data)
-    useInvestorStore().renderkey += 1
-  } finally {
-    useModalStore().openInvestorInfoModal()
-  } 
-}
-
-const getBalances = async () => {
+const getPlans = async (filter) => {
   isLoading.value = true
   try {
-    const res = await InvestorService.getInvestorsByFilter({})
-    useInvestorStore().clearStore()
-    useInvestorStore().setInvestors(res.data)
-    useInvestorStore().renderkey += 1
+    const res = await InvestService.getPlans(filter)
+    useInvestStore().clearStore()
+    useInvestStore().setInvestPlans(res.data)
+    useInvestStore().renderkey += 1
   } finally {
     isLoading.value = false
   }
 }
-getBalances()
+getPlans({})
 
 </script>
 
 <template>
   <div class="p-4 md:p-8">
     <div class="text-slate-900 text-2xl md:text-3xl font-semibold mb-6">
-      {{ $t('investors') }}
+      {{ $t('investPlans') }}
     </div>
     <div class="flex flex-col md:flex-row items-center justify-between">
       <div class="relative w-full md:w-auto my-2 md:mb-0 order-2 md:order-1">
@@ -96,15 +73,15 @@ getBalances()
           :placeholder="$t('search')">
       </div>
       <div class="w-full md:w-auto order-1 md:order-2">
-        <button @click="useModalStore().openCreateInvestorModal()"
+        <button @click="useModalStore().openCreateInvestPlanModal()"
           class="w-full md:w-auto py-2 px-4 rounded-full text-white text-lg font-medium bg-blue-500 cursor-pointer hover:bg-blue-600">
-          {{ $t('createInvestor') }}
+          {{ $t('createPlan') }}
         </button>
       </div>
     </div>
     <div v-if="isLoading" class="flex items-center justify-center h-20">
       <Spinners270RingIcon class="w-6 h-6 text-gray-500 animate-spin" />
     </div>
-    <CTable :key="renderkey" v-else :data="investors" :columns="columns" :filter="globalSearchFromTable" />
+    <CTable :key="renderkey" v-else :data="investPlans" :columns="columns" :filter="globalSearchFromTable" />
   </div>
 </template>

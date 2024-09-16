@@ -16,5 +16,6 @@ export const useInvestorStore = defineStore('investor', {
     clearStore() {
       this.investors = []
     },
+    //
   },
 })

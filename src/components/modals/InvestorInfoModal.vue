@@ -1,30 +1,22 @@
 <script setup>
 import CModal from '../common/CModal.vue'
 import { useModalStore } from '../../store/modal.store'
-import ImageIcon from '../../assets/icons/ImageIcon.vue'
 import EyeIcon from '../../assets/icons/EyeIcon.vue'
 import CancelButton from '../buttons/CancelButton.vue'
 import { computed, ref, h, reactive} from 'vue';
-import useMoneyFormatter from '../../mixins/currencyFormatter';
 import moment from 'moment'
 import { useI18n } from 'vue-i18n'
-import { useCorporateClientsStore } from '../../store/corporateClients.store'
-import corporateClientsService from '../../services/corporateClients.service';
-import CustomerService from '../../services/customer.service';
 import MTable from '../../components/common/MTable.vue'
-import { useCustomerStore } from '../../store/customer.store';
-import { useOrderStore } from '../../store/order.store';
-import OrderService from '../../services/order.service';
+import { useInvestStore } from '../../store/invest.store';
+import InvestService from '../../services/invest.service';
 import { useDropdownStore } from '../../store/dropdown.store'
-import FunnelIcon from '@/assets/icons/FunnelIcon.vue'
 import { onClickOutside } from '@vueuse/core'
-import { cleanObjectEmptyFields } from '../../mixins/utils'
 
-const renderKey = computed(() => customerStore.renderkey)
+const renderKey = computed(() => investStore.renderkey)
 const { t } = useI18n()
-const corporateClientsStore = useCorporateClientsStore()
-const customerStore = useCustomerStore()
-const histories = computed(() => customerStore.customerHistories)
+const investStore = useInvestStore()
+// const investorStore = useInvestorStore()
+const invests = computed(() => investStore.invests)
 const filterByDropdown = ref(null)
 
 onClickOutside(filterByDropdown, () => {
@@ -33,61 +25,45 @@ onClickOutside(filterByDropdown, () => {
   }
 })
 
-const selectedClient = computed(() => {
-  return corporateClientsStore.selectedClient
-})
-
-const filterByOption = ref(t('all'))
+// const selectedInvestor = computed(() => {
+//   return investorStore.selectedInvestor
+// })
 
 const columns = [
-  {
+{
     accessorKey: 'id',
     header: t('n'),
-    cell: ({ row }) =>
-      h('div', { class: 'flex items-center' }, 
-      [row.original.type == 'CREDIT' ?
-        h('span', { class: 'text-red-500'}, `${parseInt(row.id, 10) + 1}`) : [row.original.type == 'DEBIT' ? h('span', { class: 'text-green-500'}, `${parseInt(row.id, 10) + 1}`) :  `${parseInt(row.id, 10) + 1}`]]),
+    cell: ({ row }) => `${parseInt(row.id, 10) + 1}`,
   },
   {
-    header: t('type'),
-    cell: ({ row }) =>
-      h('div', { class: 'flex items-center' }, 
-      [row.original.type == 'CREDIT' ?
-        h('span', { class: 'text-red-500'}, t('credit')) : [row.original.type == 'DEBIT' ? h('span', { class: 'text-green-500'}, t('debit')) : `${row.original.type}`]]),
+    accessorKey: 'amount',
+    header: t('amount'),
   },
   {
-    header: t('quantity'),
-    cell: ({ row }) =>
-      h('div', { class: 'flex items-center' }, 
-      [row.original.type == 'CREDIT' ?
-        h('span', { class: 'text-red-500'}, `${useMoneyFormatter(row.original.amount)}`) : [row.original.type == 'DEBIT' ? h('span', { class: 'text-green-500'}, `${useMoneyFormatter(row.original.amount)}`) : `${useMoneyFormatter(row.original.amount)}`]]),
+    accessorKey: 'rate',
+    header: t('ratePercent'),
   },
   {
-    header: t('reason'),
-    cell: ({ row }) =>
-      h('div', { class: 'flex items-center' }, 
-      [row.original.type == 'CREDIT' ?
-        h('span', { class: 'text-red-500'}, t('ordered')) : [row.original.type == 'DEBIT' ? h('span', { class: 'text-green-500'}, `${row.original.reason}`) : `${row.original.reason}`]]),
+    accessorKey: 'status',
+    header: t('status'),
   },
   {
+    accessorKey: 'activatedAt',
+    header: t('activatedAt'),
+  },
+  {
+    accessorKey: 'createdAt',
+    accessorFn: row => moment(row.createdAt).format('DD/MM/YYYY H:mm'),
     header: t('createdAt'),
-    cell: ({ row }) =>
-      h('div', { class: 'flex items-center' }, 
-      [row.original.type == 'CREDIT' ?
-        h('span', { class: 'text-red-500'}, moment(row.original.createdAt).format('DD/MM/YYYY H:mm')) : [row.original.type == 'DEBIT' ? h('span', { class: 'text-green-500'}, moment(row.original.createdAt).format('DD/MM/YYYY H:mm')) : moment(row.original.createdAt).format('DD/MM/YYYY H:mm')]]),
   },
   {
     accessorKey: 'actions',
     header: t('actions'),
-    cell: ({ row }) => h('div', { class: 'flex items-center space-x-2' }, 
-    [row.original.type == 'CREDIT' ?
-      h('button', {
-        onClick: () => {
-          openInvestInfo(row.original)
-        },
-      }, [
-        h(EyeIcon, { class: 'w-6 h-6 text-blue-600 hover:scale-105' }),
-      ]) : h('span')
+    cell: ({ row }) => h('div', { class: 'flex items-center space-x-2' }, [
+      h('button', { onClick: () => { openInvestDaily(row.original) } }, [
+        h(EyeIcon, { class: 'w-6 h-6 text-blue-600 hover:scale-105' })
+      ]),
+    
     ]),
     enableSorting: false,
   },
@@ -95,63 +71,44 @@ const columns = [
 
 const closeModal = () => {
   useModalStore().closeInvestorInfoModal()
-  filterByOption.value = t('all')
 }
   
-const openOrderInfo = (data) => {
-  OrderService.getOrderById(data.orderId).then((res) => {
-    useOrderStore().setSelectedOrder(res)
-    useOrderStore().fromCashback(true)
-    useModalStore().openOrderInfoModal()
-
-})}
-
-const getBalanceHistoriesByFilter = (filter) => {
-  useDropdownStore().toggleFilterBy()
-  CustomerService.getCustomerHistoriesByFilter(
-    cleanObjectEmptyFields({
-      customerId: useCorporateClientsStore().selectedClient.customerId,
-      type: filter,
-    }),
-  ).then((res) => {
-    customerStore.setCustomerHistories(res.data)
-    customerStore.renderkey += 1
+const openInvestDaily = (data) => {
+  InvestService.getInvestDailyByFilters({
+    investId: data.id,
+    investorId: data.investorId,
+    startDate: data.startDate,
+    endDate: data.endDate,
+    minAmount: data.minAmount,
+    maxAmount: data.maxAmount,
+    limit: data.limit,
+    page: data.page
+  }).then((res) => {
+    useInvestStore().setInvestDaily(res.data)
+    useModalStore().openInvestDailyModal()
   })
 }
+
+// const getInvestsByFilter = (filter) => {
+//   useDropdownStore().toggleFilterBy()
+//   InvestService.getInvestsByFilter(
+//     cleanObjectEmptyFields({
+//       investorId: useInvestStore().selectedInvest.investorId,
+//     }),
+//   ).then((res) => {
+//     investStore.setInvests(res.data)
+//     investStore.renderkey += 1
+//   })
+// }
 </script>
 
 <template>
   <CModal :is-open="useModalStore().isOpenInvestorInfoModal" v-if="useModalStore().isOpenInvestorInfoModal" @close=closeModal>
     <template v-slot:header>
-      {{ $t('invest') }}
+      {{ $t('invests') }}
     </template>
     <template v-slot:body>
-      <div class="flex justify-end w-full" ref="filterByDropdown">
-          <div @click="useDropdownStore().toggleFilterBy()"
-            class="flex justify-end w-min  border-none select-none text-gray-500 bg-slate-100 rounded-full p-2 px-5 items-center hover:bg-gray-200 cursor-pointer space-x-1">
-            <FunnelIcon class="w-5 h-5 text-gray-400" />
-            <span>{{ filterByOption || $t('filter') }}</span>
-          </div>
-          <div v-if="useDropdownStore().isOpenFilterBy"
-            class="absolute bg-slate-50 shadow-md rounded-xl w-52 p-3 z-20 top-[130px] right-0 space-y-3">
-            <ul>
-              <li @click="getBalanceHistoriesByFilter(); filterByOption = $t('all')"
-                class="px-2 py-1 text-sm hover:bg-slate-100 rounded cursor-pointer">
-                {{ $t('all') }}
-              </li>
-              <li @click="getBalanceHistoriesByFilter('DEBIT'); filterByOption = $t('debit')"
-                class="px-2 py-1 text-sm hover:bg-slate-100 rounded cursor-pointer">
-                {{ $t('debit') }}
-              </li>
-              <li @click="getBalanceHistoriesByFilter('CREDIT'); filterByOption = $t('credit')"
-                class="px-2 py-1 text-sm hover:bg-slate-100 rounded cursor-pointer">
-                {{ $t('credit') }}
-              </li>
-            </ul>
-          </div>
-        </div>
-      <MTable :data="histories" :columns="columns" :key="renderKey" />
-
+      <MTable :data="invests" :columns="columns" :key="renderKey" />
     </template>
     <template v-slot:footer>
       <CancelButton @click="closeModal" />

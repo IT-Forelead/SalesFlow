@@ -1,17 +1,20 @@
 import { AxiosService } from './axios.service'
 
 class InvestService {
-  async getByFilters(filters) {
-    return AxiosService.post('/invest/create', filters)
+  async getInvestsByFilters(filter) {
+    return AxiosService.post('/invests', filter)
   }
-  async changeInvest(data) {
-    return AxiosService.patch('/invest/create', data)
+  async getInvestDailyByFilters(filter) {
+    return AxiosService.post('/invests/incomes', filter)
   }
-  async getInvests() {
-    return AxiosService.post('/invests/plans/create')
+  async changeStatus(data) {
+    return AxiosService.patch('/invests', data)
   }
-  async getInvest(id) {
-    return AxiosService.post(`/invests/plans`)
+  async createPlan(data) {
+    return AxiosService.post('/invests/plans/create', data)
+  }
+  async getPlans(filter) {
+    return AxiosService.post(`/invests/plans`, filter)
   }
 }
 

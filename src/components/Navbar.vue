@@ -37,7 +37,10 @@ import CreateCorporateClientModal from './modals/CreateCorporateClientModal.vue'
 import FillBalanceModal from './modals/FillBalanceModal.vue'
 import DeleteIPBanModal from './modals/DeleteIPBanModal.vue'
 import CreateInvestorModal from './modals/CreateInvestorModal.vue'
+import CreateInvestPlanModal from './modals/CreateInvestPlanModal.vue'
 import InvestorInfoModal from './modals/InvestorInfoModal.vue'
+import InvestDailyModal from './modals/InvestDailyModal.vue'
+import EditInvestStatusModal from './modals/EditInvestStatusModal.vue'
 
 const notificationDropdown = ref(null)
 
@@ -137,7 +140,10 @@ onUnmounted(() => {
   <FillBalanceModal />
   <DeleteIPBanModal />
   <CreateInvestorModal />
+  <CreateInvestPlanModal />
   <InvestorInfoModal />
+  <InvestDailyModal />
+  <EditInvestStatusModal />
 </template>
 
 <style scoped></style>

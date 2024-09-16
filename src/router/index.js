@@ -145,7 +145,14 @@ const routes = [
     name: 'Invests',
     component: () => import('../pages/Invests.vue'),
     meta: { layout: 'dashboard' },
-    beforeEnter: navigationGuards('view_investors'),
+    beforeEnter: navigationGuards('view_invests'),
+  },
+  {
+    path: '/invest-plans',
+    name: 'Invest plans',
+    component: () => import('../pages/InvestPlans.vue'),
+    meta: { layout: 'dashboard' },
+    beforeEnter: navigationGuards('view_invest_plans'),
   },
   {
     path: '/customer-form/:orderId',
