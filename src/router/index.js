@@ -134,6 +134,27 @@ const routes = [
     beforeEnter: navigationGuards('create_market'),
   },
   {
+    path: '/investors',
+    name: 'Investors',
+    component: () => import('../pages/Investors.vue'),
+    meta: { layout: 'dashboard' },
+    beforeEnter: navigationGuards('view_investors'),
+  },
+  {
+    path: '/invests',
+    name: 'Invests',
+    component: () => import('../pages/Invests.vue'),
+    meta: { layout: 'dashboard' },
+    beforeEnter: navigationGuards('view_invests'),
+  },
+  {
+    path: '/invest-plans',
+    name: 'Invest plans',
+    component: () => import('../pages/InvestPlans.vue'),
+    meta: { layout: 'dashboard' },
+    beforeEnter: navigationGuards('view_invest_plans'),
+  },
+  {
     path: '/customer-form/:orderId',
     name: 'Customer form',
     component: () => import('../pages/CustomerForm.vue'),

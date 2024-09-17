@@ -68,8 +68,6 @@ const columns = [
 
 const getCustomers = (filters = {}) => {
   isLoading.value = true
-  console.log(page.value)
-  console.log(pageSize)
   CustomerService.getCustomers({ limit: pageSize, page: page.value, ...filters })
     .then((response) => {
       useCustomerStore().clearStore()
