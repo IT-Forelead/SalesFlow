@@ -18,16 +18,20 @@ const investStore = useInvestStore()
 // const investorStore = useInvestorStore()
 const invests = computed(() => investStore.invests)
 const filterByDropdown = ref(null)
+const capitalize = (word) => {
+  const [firstLetter, ...rest] = word.split('');
+  const upperCaseLetter = firstLetter.toUpperCase();
+  if (firstLetter === upperCaseLetter) {
+    return;
+  }
+  return firstLetter.toUpperCase() + rest.join('');
+}
 
 onClickOutside(filterByDropdown, () => {
   if (useDropdownStore().isOpenFilterBy) {
     useDropdownStore().toggleFilterBy()
   }
 })
-
-// const selectedInvestor = computed(() => {
-//   return investorStore.selectedInvestor
-// })
 
 const columns = [
 {
@@ -45,6 +49,7 @@ const columns = [
   },
   {
     accessorKey: 'status',
+    accessorFn: row => capitalize(row.status),
     header: t('status'),
   },
   {

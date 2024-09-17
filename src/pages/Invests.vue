@@ -20,11 +20,9 @@ const invests = computed(() => investStore.invests)
 const capitalize = (word) => {
   const [firstLetter, ...rest] = word.split('');
   const upperCaseLetter = firstLetter.toUpperCase();
-
   if (firstLetter === upperCaseLetter) {
     return;
   }
-
   return firstLetter.toUpperCase() + rest.join('');
 }
 const renderkey = computed(() => investStore.renderkey)

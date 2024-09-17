@@ -14,18 +14,13 @@ const renderKey = computed(() => investStore.renderkey)
 const { t } = useI18n()
 const investStore = useInvestStore()
 const filterByDropdown = ref(null)
+const filterByOption = ref(t('all'))
 
 onClickOutside(filterByDropdown, () => {
   if (useDropdownStore().isOpenFilterBy) {
     useDropdownStore().toggleFilterBy()
   }
 })
-
-// const selectedInvest = computed(() => {
-//   return investStore.selectedInvest
-// })
-
-const filterByOption = ref(t('all'))
 
 const columns = [
 {
