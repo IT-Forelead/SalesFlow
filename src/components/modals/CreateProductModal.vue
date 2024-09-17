@@ -195,6 +195,7 @@ const searchProductBarcodes = () => {
         isSearching.value = false
       }, 3000)
     }).finally(() => {
+      if (searchProductBarcode.value.trim().length > 0) {
       ProductService.searchProductBarcodeByParams({
         search: searchProductBarcode.value,
       }).then((res) => {
@@ -218,6 +219,22 @@ const searchProductBarcodes = () => {
           useBarcodeStore().setDecodedBarcode('')
         }
       })
+    } else {
+      toast.error(t('errorGettingProduct'))
+        setTimeout(() => {
+          isSearching.value = false
+        }, 3000)
+        if (productBarcodes.value.length === 0) {
+          toast.info(t('thereIsNoSuchBarcodeProduct'))
+          clearSubmitData()
+          submitData.barcode = searchProductBarcode.value
+        } else if (productBarcodes.value.length === 1) {
+            useBarcodeStore().setDecodedBarcode('')
+          productBarcode.value = productBarcodes.value[0]
+        } else {
+          useBarcodeStore().setDecodedBarcode('')
+        }
+      }
     });
   }
 }
@@ -228,12 +245,16 @@ const selectedProductBarcode = (product) => {
 }
 
 const whenPressEnter = (e) => {
-  if (e.keyCode === 13) searchProductBarcodes()
+  if (e.keyCode === 13) {
+    searchProductBarcodes()
+  }
 }
 
 
 watchEffect(() => {
-  if (onSearchFocus.value) onSearchFocus.value.focus()
+  if (onSearchFocus.value) {
+   onSearchFocus.value.focus()
+  }
 })
 
 watch(
