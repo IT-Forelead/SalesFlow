@@ -196,7 +196,6 @@ watch(
 
 //
 const refundProducts = () => {
-  console.log(selectedProductIds.value.length);
   if (selectedProductIds.value.length == 0) {
     toast.error(t('errorWhileRefunding'))
   } else {

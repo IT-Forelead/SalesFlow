@@ -53,8 +53,6 @@ const columns = [
 ]
 
 const openInvestorInfo = async (data) => {
-console.log(data);
-
   useInvestorStore().setSelectedInvestor(data)
   try {
     const res = await InvestService.getInvestsByFilters({ investorId: data.id})

@@ -48,23 +48,6 @@ const closeModal = () => {
   filterByOption.value = t('all')
 }
 
-// const getInvestDailyByFilters = (filter) => {
-//   console.log( 'useInvestStore().selectedInvest.investId')
-//   console.log( useInvestStore().selectedInvest.investId)
-  
-//   InvestService.getInvestDailyByFilters(
-//     cleanObjectEmptyFields({
-//       investId: useInvestStore().selectedInvest.investId,
-//     }),
-//   ).then((res) => {
-//     console.log(res);
-    
-//     investStore.setInvestDaily(res.data)
-//     investStore.renderkey += 1
-//   })
-// }
-// getInvestDailyByFilters({})
-
 </script>
 
 <template>
