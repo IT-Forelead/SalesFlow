@@ -41,7 +41,12 @@ export const useModalStore = defineStore('modal', {
     isOpenClientInfoModal: false,
     isOpenDeleteCorporateClientModal: false,
     isOpenFillBalanceModal: false,
-    isOpenDeleteIPBanModal: false
+    isOpenDeleteIPBanModal: false,
+    isOpenCreateInvestorModal: false,
+    isOpenInvestorInfoModal: false,
+    isOpenCreateInvestPlanModal: false,
+    isOpenInvestDailyModal: false,
+    isOpenEditInvestStatusModal: false
   }),
   actions: {
     openEditTelegramBotModal() {
@@ -271,6 +276,36 @@ export const useModalStore = defineStore('modal', {
     },
     closeDeleteIPBanModal() {
       this.isOpenDeleteIPBanModal = false
+    },
+    openCreateInvestorModal() {
+      this.isOpenCreateInvestorModal = true
+    },
+    closeCreateInvestorModal() {
+      this.isOpenCreateInvestorModal = false
+    },
+    openInvestorInfoModal() {
+      this.isOpenInvestorInfoModal = true
+    },
+    closeInvestorInfoModal() {
+      this.isOpenInvestorInfoModal = false
+    },
+    openEditInvestStatusModal() {
+      this.isOpenEditInvestStatusModal = true
+    },
+    closeEditInvestStatusModal() {
+      this.isOpenEditInvestStatusModal = false
+    },
+    openInvestDailyModal() {
+      this.isOpenInvestDailyModal = true
+    },
+    closeInvestDailyModal() {
+      this.isOpenInvestDailyModal = false
+    },
+    openCreateInvestPlanModal() {
+      this.isOpenCreateInvestPlanModal = true
+    },
+    closeCreateInvestPlanModal() {
+      this.isOpenCreateInvestPlanModal = false
     },
   }
 })

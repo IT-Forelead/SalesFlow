@@ -416,5 +416,17 @@
   "qrTrading": "QR skanerlar soni",
   "worstSellingProducts": "Sotilmagan mahsulotlar",
   "lastDays": "Oxirgi marta kun oldin sotilgan",
-  "expirationSold": "Muddati ko'rsatilmagan mahsulot sotildi"
+  "expirationSold": "Muddati ko'rsatilmagan mahsulot sotildi",
+  "investors": "Investorlar",
+  "createInvestor":"Investor yaratish",
+  "investDailyIncome": "Investitsiyalarning kunlik daromadi",
+  "invests": "Investitsiya",
+  "editInvestStatus": "Investitsiya holatini o'zgartirish",
+  "amount": "Miqdor",
+  "ratePercent": "Foiz stavkasi",
+  "availabilityCount": "Mavjud joylar soni",
+  "activatedAt": "Faol",
+  "investPlans": "Investitsiya rejalari",
+  "createPlan": "Reja qo'shish",
+  "thisPhoneNumberAlreadyExist": "Ushbu telefon raqami allaqachon qo'shilgan!"
 }

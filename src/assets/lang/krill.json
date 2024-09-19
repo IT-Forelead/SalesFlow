@@ -413,5 +413,18 @@
   "qrTrading": "QR сканерлар сони",
   "worstSellingProducts": "Сотилмаган маҳсулотлар",
   "lastDays": "Охирги марта кун олдин сотилган",
-  "expirationSold": "Муддати кўрсатилмаган маҳсулот сотилди"
+  "expirationSold": "Муддати кўрсатилмаган маҳсулот сотилди",
+  "investors": "Инвесторлар",
+  "createInvestor":"Investor яратиш",
+  "investDailyIncome": "Инвестицияларнинг кунлик даромади",
+  "invests": "Инвестиция",
+  "едитинвесцтатус": "Инвестиция ҳолатини ўзгартириш",
+  "amount": "Миқдор",
+  "ratePercent": "Фоиз ставкаси",
+  "aviabilityCount": "Мавжуд жойлар сони",
+  "activatedAt": "Фаол",
+  "investPlans": "Инвестиция режалари",
+  "createPlan": "Режа қўшиш",
+  "thisPhoneNumberAlreadyExist": "Ушбу телефон рақами аллақачон қўшилган!"
+
 }
