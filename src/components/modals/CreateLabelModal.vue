@@ -72,7 +72,7 @@ const createLabel = () => {
   } else {
     isLoading.value = true
     const product = productBarcode.value
-    const quantity = product.saleType.includes('kg')
+    const quantity = product.saleType.includes('kg') || product.saleType.includes('litre')
         ? Math.floor(parseFloat(submitData.quantity) * 1000)
         : submitData.quantity
     const barcode = !product.barcode ? `999${String(product.serialId).padStart(5, '0')}${String(quantity).padStart(4, '0')}1` : submitData.barcode

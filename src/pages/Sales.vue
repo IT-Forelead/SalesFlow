@@ -264,7 +264,7 @@ const searchProducts = () => {
           let amount = null;
           if (String(search.value).startsWith('999')) {
             const quantity = Number.parseInt(String(search.value).substring(8, 12));
-            amount = product.saleType.includes('kg') ? quantity / 1000 : quantity;
+            amount = product.saleType.includes('kg') || product.saleType.includes('litre') ? quantity / 1000 : quantity;
           }
           addProductToCart(product, amount);
           isLoadingSearchProducts.value = false;

@@ -179,7 +179,7 @@ const searchProductBarcodes = () => {
       filter.name = searchProductBarcode.value
     }
 
-    ProductService.getProductsDetails({
+    ProductService.getProducts({
       limit: 20,
       page: 1,
       minRemaining: 0,

@@ -223,7 +223,7 @@ const utilizeProduct = (id, quantity) => {
 }
 
 const printLabel = (product) => {
-  const quantity = product.saleType.includes('kg') ? 1000 : 1
+  const quantity = product.saleType.includes('kg') || product.saleType.includes('litre')  ? 1000 : 1
   const barcode = !product.barcode ? `999${String(product.serialId).padStart(5, '0')}${String(quantity).padStart(4, '0')}1` : product.barcode
   axios
     .post(
