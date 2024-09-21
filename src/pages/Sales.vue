@@ -598,7 +598,7 @@ const clearAndClose = () => {
 const createOrder = (printCheck = true) => {
   if (activeBasket.value.length === 0) {
     toast.error('Tanlangan mahsulotlar mavjud emas!');
-  } else if (activeBasket.value.filter(p => p.expirationDate != null && Date.now() >= new Date(p.expirationDate)).length > 0) {
+  } else if (activeBasket.value.filter(p => p.expirationDate != null && new Date().setHours(0,0,0,0) > new Date(p.expirationDate)).length > 0) {
     toast.error(t('dontSellExpireProducts'))
   } else {
     if (printCheck) {
@@ -1562,7 +1562,7 @@ const closeCardIdModal = () => {
                             {{ roundFloatToTwoDecimal(product?.quantity - product?.amount) }}
                           </span>
                         </div>
-                        <div v-if="Date.now() >= new Date(product.expirationDate)">
+                        <div v-if="new Date().setHours(0,0,0,0) > new Date(product.expirationDate)">
                           {{ $t('expirationDate') }}:
                           <span class="text-red-500 text-sm md:text-base">
                             {{ product?.expirationDate }}
