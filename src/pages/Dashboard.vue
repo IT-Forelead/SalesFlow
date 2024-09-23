@@ -1134,7 +1134,7 @@ watch(pageProfit, () => {
               </div>
               <div class="text-sm md:text-base text-gray-600">
                 {{ $t('beginStatText') }}
-                <span class="font-bold">{{ 10 + $t('days') }}</span>
+                <span class="font-bold lowercase">{{ $t('worstSellingProducts') }}</span>
                 {{ $t('endStatText') }}
               </div>
             </div>
