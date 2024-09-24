@@ -261,8 +261,6 @@ watch(
   () => productBarcode.value,
   (data) => {
     if (data) {
-      console.log(data);
-      
       submitData.barcode = data?.barcode
       submitData.name = data?.trademark
       submitData.packaging = data?.packaging
