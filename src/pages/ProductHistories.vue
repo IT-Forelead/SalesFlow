@@ -28,9 +28,12 @@ import InputSwitch from 'primevue/inputswitch';
 import { useProductStore } from '../store/product.store.js'
 import { isBarcode } from '../mixins/barcodeFormatter'
 import UtilizeIcon from '../assets/icons/UtilizeIcon.vue'
-
 import ConfirmDialog from 'primevue/confirmdialog';
 import { useConfirm } from "primevue/useconfirm";
+import {
+  roundFloatToTwoDecimal,
+} from '../mixins/utils';
+
 
 const { t } = useI18n()
 const API_URL = import.meta.env.VITE_CHEQUE_API_URL
@@ -124,6 +127,7 @@ const columns = [
   {
     accessorKey: 'quantity',
     header: t('quantity'),
+    cell: ({ row }) => roundFloatToTwoDecimal(row.original.quantity),
   },
   {
     accessorKey: 'sold',

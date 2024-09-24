@@ -24,6 +24,9 @@ import CaretLeftIcon from '@/assets/icons/CaretLeftIcon.vue'
 import CaretRightIcon from '@/assets/icons/CaretRightIcon.vue'
 import CaretDoubleRightIcon from '@/assets/icons/CaretDoubleRightIcon.vue'
 import CashbackService from '../services/cashback.service'
+import {
+  roundFloatToTwoDecimal,
+} from '../mixins/utils';
 
 const { t } = useI18n()
 
@@ -915,7 +918,7 @@ watch(pageProfit, () => {
                 </div>
               </div>
               <div class="text-xl md:text-2xl font-medium">
-                {{ product?.amount }}
+                {{ roundFloatToTwoDecimal(product?.amount) }}
               </div>
             </div>
           </div>
@@ -1000,7 +1003,7 @@ watch(pageProfit, () => {
                 </div>
               </div>
               <div class="text-xl md:text-2xl font-medium">
-                {{ product?.amount }}
+                {{ roundFloatToTwoDecimal(product?.amount) }}
               </div>
             </div>
           </div>
@@ -1085,7 +1088,7 @@ watch(pageProfit, () => {
                 </div>
               </div>
               <div class="text-xl md:text-2xl font-bold text-blue-700">
-                {{ product?.amount }}
+                {{ roundFloatToTwoDecimal(product?.amount) }}
               </div>
             </div>
           </div>
