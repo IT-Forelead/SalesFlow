@@ -135,7 +135,7 @@ const createProduct = () => {
       }),
     ).then(() => {
       toast.success(t('productAddedSuccessfully'))
-      ProductService.getProducts({ limit: pageSize, page: currentPage1.value })
+      ProductService.getProductsDetails({ limit: pageSize, page: currentPage1.value })
         .then((res) => {
           useProductStore().clearStore()
           useProductStore().total = res.total
@@ -179,7 +179,7 @@ const searchProductBarcodes = () => {
       filter.name = searchProductBarcode.value
     }
 
-    ProductService.getProducts({
+    ProductService.getProductsDetails({
       limit: 20,
       page: 1,
       minRemaining: 0,
@@ -261,6 +261,8 @@ watch(
   () => productBarcode.value,
   (data) => {
     if (data) {
+      console.log(data);
+      
       submitData.barcode = data?.barcode
       submitData.name = data?.trademark
       submitData.packaging = data?.packaging
