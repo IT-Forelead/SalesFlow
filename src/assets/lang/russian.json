@@ -428,5 +428,6 @@
   "activatedAt": "Активно",
   "investPlans": "Планы инвестиции",
   "createPlan": "Создать план",
-  "thisPhoneNumberAlreadyExist": "Этот номер уже существует!"
+  "thisPhoneNumberAlreadyExist": "Этот номер уже существует!",
+  "expectedTime": "Ожидаемое время"
 }

@@ -147,16 +147,17 @@ const columns = [
       ]),
   },
   {
+    accessorKey: 'date',
     header: t('date'),
     cell: ({ row }) =>
       h('div', { class: 'space-y-1' }, [
         h('div', { class: 'flex items-center space-x-1' }, [
-          h('div', { class: 'text-sm text-gray-500' }, t('arrivalTime') + ': '),
-          h('div', { class: 'text-base text-gray-900' }, moment(row.expectedTime).format('DD/MM/YYYY')),
+          h('div', { class: 'text-sm text-gray-500' }, t('expectedTime') + ': '),
+          h('div', { class: 'text-base text-gray-900' }, row.original.expectedTime ? moment(row.original.expectedTime).format('DD/MM/YYYY') : null),
         ]),
         h('div', { class: 'flex items-center space-x-1' }, [
-          h('div', { class: 'text-sm text-gray-500' }, t('receivedAt') + ': '),
-          h('div', { class: 'text-base text-gray-900' }, row.arrivalTime ? moment(row.arrivalTime).format('DD/MM/YYYY H:mm') : ''),
+          h('div', { class: 'text-sm text-gray-500' }, t('arrivalTime') + ': '),
+          h('div', { class: 'text-base text-gray-900' }, row.original.arrivalTime ? moment(row.original.arrivalTime).format('DD/MM/YYYY') : null),
         ]),
       ]),
   },
