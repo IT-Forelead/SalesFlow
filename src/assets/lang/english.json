@@ -425,5 +425,6 @@
   "activatedAt": "Activated At",
   "investPlans": "Invest plans",
   "createPlan": "Create invest plan",
-  "thisPhoneNumberAlreadyExist": "Ushbu telefon raqami allaqachon qo'shilgan!"
+  "thisPhoneNumberAlreadyExist": "Ushbu telefon raqami allaqachon qo'shilgan!",
+  "expectedTime": "Expected time"
 }
