@@ -233,7 +233,7 @@ const searchProducts = () => {
     }).then((res) => {
       if (res.data.length === 0) {
         toast.info(t('thereIsNoSuchBarcodeProduct'))
-        clearSubmitData()
+        // clearSubmitData()
         submitData.barcode = searchProduct.value
       } else if (res.length === 1) {
         useBarcodeStore().setDecodedBarcode('')

@@ -428,5 +428,6 @@
   "activatedAt": "Faol",
   "investPlans": "Investitsiya rejalari",
   "createPlan": "Reja qo'shish",
-  "thisPhoneNumberAlreadyExist": "Ushbu telefon raqami allaqachon qo'shilgan!"
+  "thisPhoneNumberAlreadyExist": "Ushbu telefon raqami allaqachon qo'shilgan!",
+  "expectedTime": "Kutilgan vaqt"
 }
