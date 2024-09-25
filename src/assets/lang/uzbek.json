@@ -429,5 +429,6 @@
   "investPlans": "Investitsiya rejalari",
   "createPlan": "Reja qo'shish",
   "thisPhoneNumberAlreadyExist": "Ushbu telefon raqami allaqachon qo'shilgan!",
-  "expectedTime": "Kutilgan vaqt"
+  "expectedTime": "Kutilgan vaqt",
+  "duplicates": "Duplikatlar"
 }
