@@ -111,7 +111,7 @@ const createProduct = () => {
     toast.warning(t('plsEnterProductPackaging'))
   } else if (!submitData.saleType) {
     toast.warning(t('plsSelectSaleType'))
-  } else if (submitData.quantity < 0) {
+  } else if (!submitData.quantity || submitData.quantity < 0) {
     toast.warning(t('plsEnterProductQuantity'))
   } else if (!selectedAgent.value?.id) {
     toast.warning(t('plsSelectAgent'))
@@ -135,7 +135,7 @@ const createProduct = () => {
       }),
     ).then(() => {
       toast.success(t('productAddedSuccessfully'))
-      ProductService.getProducts({ limit: pageSize, page: currentPage1.value })
+      ProductService.getProductsDetails({ limit: pageSize, page: currentPage1.value })
         .then((res) => {
           useProductStore().clearStore()
           useProductStore().total = res.total
@@ -529,7 +529,7 @@ const calculateExpirationDate = (months) => {
                 {{ $t('quantity') }}
                 <span class="text-red-500 mr-2">*</span>
               </label>
-              <input id="quantity" type="number" v-model="submitData.quantity"
+              <input id="quantity" type="number" min="0" v-model="submitData.quantity"
                      class="bg-slate-100 border-none text-slate-900 rounded-lg w-full h-11 placeholder-slate-400 placeholder:text-sm md:placeholder:text-lg"
                      :placeholder="t('enterProductQuantity')">
             </div>

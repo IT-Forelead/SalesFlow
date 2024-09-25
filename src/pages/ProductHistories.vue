@@ -28,9 +28,12 @@ import InputSwitch from 'primevue/inputswitch';
 import { useProductStore } from '../store/product.store.js'
 import { isBarcode } from '../mixins/barcodeFormatter'
 import UtilizeIcon from '../assets/icons/UtilizeIcon.vue'
-
 import ConfirmDialog from 'primevue/confirmdialog';
 import { useConfirm } from "primevue/useconfirm";
+import {
+  roundFloatToTwoDecimal,
+} from '../mixins/utils';
+
 
 const { t } = useI18n()
 const API_URL = import.meta.env.VITE_CHEQUE_API_URL
@@ -124,6 +127,7 @@ const columns = [
   {
     accessorKey: 'quantity',
     header: t('quantity'),
+    cell: ({ row }) => roundFloatToTwoDecimal(row.original.quantity),
   },
   {
     accessorKey: 'sold',
@@ -223,7 +227,7 @@ const utilizeProduct = (id, quantity) => {
 }
 
 const printLabel = (product) => {
-  const quantity = product.saleType.includes('kg') ? 1000 : 1
+  const quantity = product.saleType.includes('kg') || product.saleType.includes('litre')  ? 1000 : 1
   const barcode = !product.barcode ? `999${String(product.serialId).padStart(5, '0')}${String(quantity).padStart(4, '0')}1` : product.barcode
   axios
     .post(

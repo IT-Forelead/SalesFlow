@@ -417,5 +417,18 @@
   "worstSellingProducts": "Непроданные товары",
   "lastDays": "Прошло дней с последней продажи",
   "expirationSold": "Продан товар без срока годности",
+  "investors": "Инвесторы",
+  "createInvestor": "Создать инвестора",
+  "investDailyIncome": "Ежедневный доход инвестиции",
+  "invests": "Инвестиции",
+  "editInvestStatus": "Изменить статус инвестиции",
+  "amount": "Сумма",
+  "ratePercent": "Процентная ставка",
+  "availabilityCount": "Количество доступных мест",
+  "activatedAt": "Активно",
+  "investPlans": "Планы инвестиции",
+  "createPlan": "Создать план",
+  "thisPhoneNumberAlreadyExist": "Этот номер уже существует!",
+  "expectedTime": "Ожидаемое время",
   "duplicates": "Дубликаты"
 }

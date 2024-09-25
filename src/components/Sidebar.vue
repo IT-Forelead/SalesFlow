@@ -28,7 +28,12 @@ import FileLinearIcon from '../assets/icons/FileLinearIcon.vue'
 import WishService from '../services/wish.service.js'
 import { useWishStore } from '../store/wish.store.js'
 import { cleanObjectEmptyFields } from '../mixins/utils'
-import PhUserSwitch from '../assets/icons/UserSwitchIcon.vue'
+import PhLockKey from '../assets/icons/LockKey.vue'
+import InvestIcon from '../assets/icons/InvestIcon.vue'
+import InvestorIcon from '../assets/icons/InvestorIcon.vue'
+import InvestPlanIcon from '../assets/icons/InvestPlanIcon.vue'
+import ClientIcon from '../assets/icons/ClientIcon.vue'
+import ClientCorpIcon from '../assets/icons/ClientCorpIcon.vue'
 
 const { t } = useI18n()
 const router = useRouter()
@@ -128,7 +133,7 @@ onMounted(() => {
           <router-link v-if="navigationGuard('create_product')" to="/sales" @click="selectPage()" active-class="active"
             class="relative h-10 flex items-center w-full hover:bg-blue-300/10 hover:text-blue-600 py-5 text-zinc-400 text-lg font-medium space-x-4 cursor-pointer transition-colors duration-300">
             <div class="w-1.5 h-12 rounded-r-xl first-child-bg-color mr-2"></div>
-            <div class="flex items-center justify-center rounded-xl w-10 h-10 second-child-bg-color">
+            <div class="flex h-10 items-center justify-center rounded-xl w-10 second-child-bg-color">
               <MoneyIcon class="w-6 h-6" />
             </div>
             <div>
@@ -138,7 +143,7 @@ onMounted(() => {
           <router-link to="/products" @click="selectPage()" active-class="active"
             class="relative h-10 flex items-center w-full hover:bg-blue-300/10 hover:text-blue-600 py-5 text-zinc-400 text-lg font-medium space-x-4 cursor-pointer transition-colors duration-300">
             <div class="w-1.5 h-12 rounded-r-xl first-child-bg-color mr-2"></div>
-            <div class="flex items-center justify-center rounded-xl w-10 h-10 second-child-bg-color">
+            <div class="flex h-10 items-center justify-center rounded-xl w-10 second-child-bg-color">
               <PhShoppingCart class="w-6 h-6" />
             </div>
             <div>
@@ -149,7 +154,7 @@ onMounted(() => {
             active-class="active"
             class="relative h-10 flex items-center w-full hover:bg-blue-300/10 hover:text-blue-600 py-5 text-zinc-400 text-lg font-medium space-x-4 cursor-pointer transition-colors duration-300">
             <div class="w-1.5 h-12 rounded-r-xl first-child-bg-color mr-2"></div>
-            <div class="flex items-center justify-center rounded-xl w-10 h-10 second-child-bg-color">
+            <div class="flex h-10 items-center justify-center rounded-xl w-10 second-child-bg-color">
               <ProductHistoryIcon class="w-6 h-6" />
             </div>
             <div>
@@ -160,7 +165,7 @@ onMounted(() => {
             active-class="active"
             class="relative h-10 flex items-center w-full hover:bg-blue-300/10 hover:text-blue-600 py-5 text-zinc-400 text-lg font-medium space-x-4 cursor-pointer transition-colors duration-300">
             <div class="w-1.5 h-12 rounded-r-xl first-child-bg-color mr-2"></div>
-            <div class="flex items-center justify-center rounded-xl w-10 h-10 second-child-bg-color">
+            <div class="flex h-10 items-center justify-center rounded-xl w-10 second-child-bg-color">
               <PhShoppingCart class="w-6 h-6" />
             </div>
             <div>
@@ -171,7 +176,7 @@ onMounted(() => {
             active-class="active"
             class="relative h-10 flex items-center w-full hover:bg-blue-300/10 hover:text-blue-600 py-5 text-zinc-400 text-lg font-medium space-x-4 cursor-pointer transition-colors duration-300">
             <div class="w-1.5 h-12 rounded-r-xl first-child-bg-color mr-2"></div>
-            <div class="flex items-center justify-center rounded-xl w-10 h-10 second-child-bg-color">
+            <div class="flex h-10 items-center justify-center rounded-xl w-10 second-child-bg-color">
               <PhPercent class="w-6 h-6" />
             </div>
             <div>
@@ -182,7 +187,7 @@ onMounted(() => {
             active-class="active"
             class="relative h-10 flex items-center w-full hover:bg-blue-300/10 hover:text-blue-600 py-5 text-zinc-400 text-lg font-medium space-x-4 cursor-pointer transition-colors duration-300">
             <div class="w-1.5 h-12 rounded-r-xl first-child-bg-color mr-2"></div>
-            <div class="flex items-center justify-center rounded-xl w-10 h-10 second-child-bg-color">
+            <div class="flex h-10 items-center justify-center rounded-xl w-10 second-child-bg-color">
               <TicketSaleIcon class="w-6 h-6" />
             </div>
             <div>
@@ -192,7 +197,7 @@ onMounted(() => {
           <router-link to="/orders" @click="selectPage()" active-class="active"
             class="relative h-10 flex items-center w-full hover:bg-blue-300/10 hover:text-blue-600 py-5 text-zinc-400 text-lg font-medium space-x-4 cursor-pointer transition-colors duration-300">
             <div class="w-1.5 h-12 rounded-r-xl first-child-bg-color mr-2"></div>
-            <div class="flex items-center justify-center rounded-xl w-10 h-10 second-child-bg-color">
+            <div class="flex h-10 items-center justify-center rounded-xl w-10 second-child-bg-color">
               <PhShoppingCart class="w-6 h-6" />
             </div>
             <div>
@@ -202,7 +207,7 @@ onMounted(() => {
           <router-link v-if="navigationGuard('view_markets')" to="/markets" @click="selectPage()" active-class="active"
             class="relative h-10 flex items-center w-full hover:bg-blue-300/10 hover:text-blue-600 py-5 text-zinc-400 text-lg font-medium space-x-4 cursor-pointer transition-colors duration-300">
             <div class="w-1.5 h-12 rounded-r-xl first-child-bg-color mr-2"></div>
-            <div class="flex items-center justify-center rounded-xl w-10 h-10 second-child-bg-color">
+            <div class="flex h-10 items-center justify-center rounded-xl w-10 second-child-bg-color">
               <StoreIcon class="w-6 h-6" />
             </div>
             <div>
@@ -212,7 +217,7 @@ onMounted(() => {
           <router-link v-if="navigationGuard('view_users')" to="/users" @click="selectPage()" active-class="active"
             class="relative h-10 flex items-center w-full hover:bg-blue-300/10 hover:text-blue-600 py-5 text-zinc-400 text-lg font-medium space-x-4 cursor-pointer transition-colors duration-300">
             <div class="w-1.5 h-12 rounded-r-xl first-child-bg-color mr-2"></div>
-            <div class="flex items-center justify-center rounded-xl w-10 h-10 second-child-bg-color">
+            <div class="flex h-10 items-center justify-center rounded-xl w-10 second-child-bg-color">
               <UsersIcon class="w-6 h-6" />
             </div>
             <div>
@@ -223,7 +228,7 @@ onMounted(() => {
             active-class="active"
             class="relative h-10 flex items-center w-full hover:bg-blue-300/10 hover:text-blue-600 py-5 text-zinc-400 text-lg font-medium space-x-4 cursor-pointer transition-colors duration-300">
             <div class="w-1.5 h-12 rounded-r-xl first-child-bg-color mr-2"></div>
-            <div class="flex items-center justify-center rounded-xl w-10 h-10 second-child-bg-color">
+            <div class="flex h-10 items-center justify-center rounded-xl w-10 second-child-bg-color">
               <PhBarcodeIcon class="w-6 h-6" />
             </div>
             <div>
@@ -243,9 +248,9 @@ onMounted(() => {
           </router-link>
           <router-link v-if="navigationGuard('view_settings')" to="/sale-settings" @click="selectPage()"
             active-class="active"
-            class="relative h-10 flex items-center w-full hover:bg-blue-300/10 hover:text-blue-600 py-7 text-zinc-400 text-lg font-medium space-x-4 cursor-pointer transition-colors duration-300">
+            class="relative h-10 flex items-center w-full hover:bg-blue-300/10 hover:text-blue-600 py-5 text-zinc-400 text-lg font-medium space-x-4 cursor-pointer transition-colors duration-300">
             <div class="w-1.5 h-12 rounded-r-xl first-child-bg-color mr-2"></div>
-            <div class="flex items-center justify-center rounded-xl w-10 h-10 second-child-bg-color">
+            <div class="flex h-10 items-center justify-center rounded-xl w-10 second-child-bg-color">
               <SettingsIcon class="w-6 h-6" />
             </div>
             <div>
@@ -253,29 +258,29 @@ onMounted(() => {
             </div>
           </router-link>
           <router-link v-if="navigationGuard('view_settings')" to="/corporate-clients" @click="selectPage()" active-class="active"
-            class="relative h-10 flex items-center w-full hover:bg-blue-300/10 hover:text-blue-600 py-7 text-zinc-400 text-lg font-medium space-x-4 cursor-pointer transition-colors duration-300">
+          class="relative h-10 flex items-center w-full hover:bg-blue-300/10 hover:text-blue-600 py-5 text-zinc-400 text-lg font-medium space-x-4 cursor-pointer transition-colors duration-300">
             <div class="w-1.5 h-12 rounded-r-xl first-child-bg-color mr-2"></div>
-            <div class="flex items-center justify-center rounded-xl w-10 h-10 second-child-bg-color">
-              <DebtIcon class="w-6 h-6" />
+            <div class="flex h-10 items-center justify-center rounded-xl w-10 second-child-bg-color">
+              <ClientCorpIcon class="w-6 h-6" />
             </div>
             <div>
               {{ $t('corporateClients') }}
             </div>
           </router-link>
           <router-link v-if="navigationGuard('view_settings')" to="/clients" @click="selectPage()" active-class="active"
-            class="relative h-10 flex items-center w-full hover:bg-blue-300/10 hover:text-blue-600 py-7 text-zinc-400 text-lg font-medium space-x-4 cursor-pointer transition-colors duration-300">
+          class="relative h-10 flex items-center w-full hover:bg-blue-300/10 hover:text-blue-600 py-5 text-zinc-400 text-lg font-medium space-x-4 cursor-pointer transition-colors duration-300">
             <div class="w-1.5 h-12 rounded-r-xl first-child-bg-color mr-2"></div>
-            <div class="flex items-center justify-center rounded-xl w-10 h-10 second-child-bg-color">
-              <DebtIcon class="w-6 h-6" />
+            <div class="flex h-10 items-center justify-center rounded-xl w-10 second-child-bg-color">
+              <ClientIcon class="w-6 h-6" />
             </div>
             <div>
               {{ $t('clients') }}
             </div>
           </router-link>
           <router-link v-if="navigationGuard('view_agents')" to="/agents" @click="selectPage()" active-class="active"
-            class="relative h-10 flex items-center w-full hover:bg-blue-300/10 hover:text-blue-600 py-7 text-zinc-400 text-lg font-medium space-x-4 cursor-pointer transition-colors duration-300">
+          class="relative h-10 flex items-center w-full hover:bg-blue-300/10 hover:text-blue-600 py-5 text-zinc-400 text-lg font-medium space-x-4 cursor-pointer transition-colors duration-300">
             <div class="w-1.5 h-12 rounded-r-xl first-child-bg-color mr-2"></div>
-            <div class="flex items-center justify-center rounded-xl w-10 h-10 second-child-bg-color">
+            <div class="flex h-10 items-center justify-center rounded-xl w-10 second-child-bg-color">
               <PhUsersThree class="w-6 h-6" />
             </div>
             <div>
@@ -283,9 +288,9 @@ onMounted(() => {
             </div>
           </router-link>
           <router-link v-if="navigationGuard('view_users')" to="/wishes" @click="selectPage()" active-class="active"
-            class="relative h-10 flex items-center w-full hover:bg-blue-300/10 hover:text-blue-600 py-7 text-zinc-400 text-lg font-medium space-x-4 cursor-pointer transition-colors duration-300">
+          class="relative h-10 flex items-center w-full hover:bg-blue-300/10 hover:text-blue-600 py-5 text-zinc-400 text-lg font-medium space-x-4 cursor-pointer transition-colors duration-300">
             <div class="w-1.5 h-12 rounded-r-xl first-child-bg-color mr-2"></div>
-            <div class="flex items-center justify-center rounded-xl w-10 h-10 second-child-bg-color">
+            <div class="flex h-10 items-center justify-center rounded-xl w-10 second-child-bg-color">
               <FileLinearIcon class="w-6 h-6" />
             </div>
             <div>
@@ -293,13 +298,43 @@ onMounted(() => {
             </div>
           </router-link>
           <router-link v-if="navigationGuard('create_market')" to="/ip-banned" @click="selectPage()" active-class="active"
-            class="relative h-10 flex items-center w-full hover:bg-blue-300/10 hover:text-blue-600 py-7 text-zinc-400 text-lg font-medium space-x-4 cursor-pointer transition-colors duration-300">
+          class="relative h-10 flex items-center w-full hover:bg-blue-300/10 hover:text-blue-600 py-5 text-zinc-400 text-lg font-medium space-x-4 cursor-pointer transition-colors duration-300">
             <div class="w-1.5 h-12 rounded-r-xl first-child-bg-color mr-2"></div>
-            <div class="flex items-center justify-center rounded-xl w-10 h-10 second-child-bg-color">
-              <PhUserSwitch class="w-6 h-6" />
+            <div class="flex h-10 items-center justify-center rounded-xl w-10 second-child-bg-color">
+              <PhLockKey class="w-6 h-6" />
             </div>
             <div>
               {{ $t('ipBanned') }}
+            </div>
+          </router-link>
+          <router-link v-if="navigationGuard('view_investors')" to="/investors" @click="selectPage()" active-class="active"
+          class="relative h-10 flex items-center w-full hover:bg-blue-300/10 hover:text-blue-600 py-5 text-zinc-400 text-lg font-medium space-x-4 cursor-pointer transition-colors duration-300">
+            <div class="w-1.5 h-12 rounded-r-xl first-child-bg-color mr-2"></div>
+            <div class="flex h-10 items-center justify-center rounded-xl w-10 second-child-bg-color">
+              <InvestorIcon class="w-6 h-6" />
+            </div>
+            <div>
+              {{ $t('investors') }}
+            </div>
+          </router-link>
+          <router-link v-if="navigationGuard('view_invests')" to="/invests" @click="selectPage()" active-class="active"
+          class="relative h-10 flex items-center w-full hover:bg-blue-300/10 hover:text-blue-600 py-5 text-zinc-400 text-lg font-medium space-x-4 cursor-pointer transition-colors duration-300">
+            <div class="w-1.5 h-12 rounded-r-xl first-child-bg-color mr-2"></div>
+            <div class="flex h-10 items-center justify-center rounded-xl w-10 second-child-bg-color">
+              <InvestIcon class="w-6 h-6" />
+            </div>
+            <div>
+              {{ $t('invests') }}
+            </div>
+          </router-link>
+          <router-link v-if="navigationGuard('view_invest_plans')" to="/invest-plans" @click="selectPage()" active-class="active"
+          class="relative h-10 flex items-center w-full hover:bg-blue-300/10 hover:text-blue-600 py-5 text-zinc-400 text-lg font-medium space-x-4 cursor-pointer transition-colors duration-300">
+            <div class="w-1.5 h-12 rounded-r-xl first-child-bg-color mr-2"></div>
+            <div class="flex h-10 items-center justify-center rounded-xl w-10 second-child-bg-color">
+              <InvestPlanIcon class="w-6 h-6" />
+            </div>
+            <div>
+              {{ $t('investPlans') }}
             </div>
           </router-link>
         </div>

@@ -65,9 +65,9 @@ const columns = [
   {
     header: t('reason'),
     cell: ({ row }) =>
-      h('div', { class: 'flex items-center' }, 
+      h('div', { class: 'flex items-center whitespace-normal items-center w-36 ' }, 
       [row.original.type == 'CREDIT' ?
-        h('span', { class: 'text-red-500'}, t('ordered')) : [row.original.type == 'DEBIT' ? h('span', { class: 'text-green-500'}, `${row.original.reason}`) : `${row.original.reason}`]]),
+        h('span', { class: 'text-red-500'}, t('ordered')) : [row.original.type == 'DEBIT' ? h('span', { class: 'text-green-500 h-[24px] overflow-y-hidden hover:h-auto  items-center '}, `${(row.original.reason)}`) : `${row.original.reason}`]]),
   },
   {
     header: t('createdAt'),
