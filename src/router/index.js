@@ -57,6 +57,13 @@ const routes = [
     beforeEnter: navigationGuards('dashboard'),
   },
   {
+    path: '/barcode-duplicates',
+    name: 'barcode-duplicates',
+    component: () => import('../pages/BarcodeDuplicates.vue'),
+    meta: { layout: 'dashboard' },
+    beforeEnter: navigationGuards('dashboard'),
+  },
+  {
     path: '/orders',
     name: 'Orders',
     component: () => import('../pages/Orders.vue'),

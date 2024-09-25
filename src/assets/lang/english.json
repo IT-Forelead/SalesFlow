@@ -412,5 +412,6 @@
   "dontSellExpireProducts": "Expired products cannot be sold",
   "qrTrading": "QR scanners count",
   "worstSellingProducts": "Worst selling products",
-  "lastDays": "Days since last sale"
+  "lastDays": "Days since last sale",
+  "duplicates": "Duplicates"
 }

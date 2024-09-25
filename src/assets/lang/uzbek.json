@@ -416,5 +416,6 @@
   "qrTrading": "QR skanerlar soni",
   "worstSellingProducts": "Sotilmagan mahsulotlar",
   "lastDays": "Oxirgi marta kun oldin sotilgan",
-  "expirationSold": "Muddati ko'rsatilmagan mahsulot sotildi"
+  "expirationSold": "Muddati ko'rsatilmagan mahsulot sotildi",
+  "duplicates": "Duplikatlar"
 }
