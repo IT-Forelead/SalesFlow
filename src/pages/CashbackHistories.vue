@@ -85,7 +85,7 @@ const openOrderInfo = (data) => {
 const getCashbacks = async () => {
   isLoading.value = true
   try {
-    const res = await CashbackService.getCashbacks()
+    const res = await CashbackService.getCashbacks({})
     useCashbackStore().clearStore()
     useCashbackStore().setCashbacks(res.data)
     useCashbackStore().renderkey += 1

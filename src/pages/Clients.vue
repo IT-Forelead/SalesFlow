@@ -19,6 +19,7 @@ import CaretDoubleLeftIcon from '../assets/icons/CaretDoubleLeftIcon.vue'
 import useMoneyFormatter from '../mixins/currencyFormatter.js'
 import FileLinearIcon from '../assets/icons/FileLinearIcon.vue'
 import CustomerService from '../services/customer.service'
+import CashbackService from '../services/cashback.service'
 import { useCustomerStore } from '../store/customer.store';
 import { cleanObjectEmptyFields } from '../mixins/utils'
  
@@ -63,8 +64,42 @@ const columns = [
     accessorKey: 'createdAt',
     accessorFn: row => moment(row.createdAt).format('DD/MM/YYYY H:mm'),
     header: t('createdAt'),
-  },  
+  },
+  {
+    accessorKey: 'actions',
+    header: t('actions'),
+    cell: ({ row }) => h('div', { class: 'flex items-center space-x-2' }, [
+      h('button', { onClick: () => { openCashbackHistory(row.original) } }, [
+        h(EyeIcon, { class: 'w-6 h-6 text-blue-600 hover:scale-105' })
+      ]),
+    ]),
+    enableSorting: false,
+  },
 ]
+
+const openCashbackHistory = (data) => {
+  console.log(data);
+//  useCustomerStore().setSelectedCustomer(data)
+  getCustomerHistories(data)
+}
+
+const getCustomerHistories = async (data) => {
+  console.log(data)
+  console.log(data)
+  isLoading.value = true
+  try {
+    const res = await CashbackService.getCashbacks(
+    cleanObjectEmptyFields({
+      customerId: data.id
+
+    }))
+    useCustomerStore().setCustomerHistories(res.data)
+    useCustomerStore().renderkey += 1
+  } finally {
+    isLoading.value = false
+    useModalStore().openCashbackHistoryModal()
+  }
+}
 
 const getCustomers = (filters = {}) => {
   isLoading.value = true

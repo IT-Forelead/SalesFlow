@@ -41,6 +41,7 @@ import CreateInvestPlanModal from './modals/CreateInvestPlanModal.vue'
 import InvestorInfoModal from './modals/InvestorInfoModal.vue'
 import InvestDailyModal from './modals/InvestDailyModal.vue'
 import EditInvestStatusModal from './modals/EditInvestStatusModal.vue'
+import CashbackHistoryModal from './modals/CashbackHistoryModal.vue'
 
 const notificationDropdown = ref(null)
 
@@ -144,6 +145,7 @@ onUnmounted(() => {
   <InvestorInfoModal />
   <InvestDailyModal />
   <EditInvestStatusModal />
+  <CashbackHistoryModal />
 </template>
 
 <style scoped></style>
