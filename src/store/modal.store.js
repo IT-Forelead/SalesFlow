@@ -46,7 +46,8 @@ export const useModalStore = defineStore('modal', {
     isOpenInvestorInfoModal: false,
     isOpenCreateInvestPlanModal: false,
     isOpenInvestDailyModal: false,
-    isOpenEditInvestStatusModal: false
+    isOpenEditInvestStatusModal: false,
+    isOpenCashbackHistoryModal: false
   }),
   actions: {
     openEditTelegramBotModal() {
@@ -307,5 +308,11 @@ export const useModalStore = defineStore('modal', {
     closeCreateInvestPlanModal() {
       this.isOpenCreateInvestPlanModal = false
     },
+    openCashbackHistoryModal() {
+      this.isOpenCashbackHistoryModal = true
+    },
+    closeCashbackHistoryModal() {
+      this.isOpenCashbackHistoryModal = false
+    }
   }
 })
