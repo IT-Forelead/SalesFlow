@@ -86,8 +86,9 @@ const getCashbacks = async () => {
   isLoading.value = true
   try {
     const res = await CashbackService.getCashbacks({})
+    const sortedCashbacks = res.data.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
     useCashbackStore().clearStore()
-    useCashbackStore().setCashbacks(res.data)
+    useCashbackStore().setCashbacks(sortedCashbacks)
     useCashbackStore().renderkey += 1
   } finally {
     isLoading.value = false

@@ -426,5 +426,6 @@
   "investPlans": "Инвестиция режалари",
   "createPlan": "Режа қўшиш",
   "thisPhoneNumberAlreadyExist": "Ушбу телефон рақами аллақачон қўшилган!",
-  "expectedTime": "Кутилган вақт"
+  "expectedTime": "Кутилган вақт",
+  "duplicates": "Дубликатлар"
 }
