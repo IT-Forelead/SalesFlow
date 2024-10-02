@@ -6,10 +6,13 @@ export const useProductStore = defineStore('product', {
     total:0,
     currentPage: 1,
     barcodesTotal:0,
+    dublicatesTotal:0,
     productBarcodes: [],
     selectedProduct: {},
     selectedBarcodes:{},
     searchFilter:{},
+    barcodeDuplicates: [],
+    selectedDuplicates:{},
   }),
   actions: {
     setProducts(data) {
@@ -17,6 +20,9 @@ export const useProductStore = defineStore('product', {
     },
     setProductBarcodes(data) {
       this.productBarcodes.push(...data)
+    },
+    setBarcodeDuplicates(data) {
+      this.barcodeDuplicates.push(...data)
     },
     setSelectedProduct(data) {
       this.selectedProduct = data
@@ -27,9 +33,14 @@ export const useProductStore = defineStore('product', {
     setSelectedBarcodes(data) {
       this.selectedBarcodes = data
     },
+    setSelectedDuplicates(data) {
+      this.selectedDuplicates = data
+    },
     clearStore() {
       this.products = []
       this.productBarcodes = []
+      this.barcodeDuplicates = []
+      this.selectedBarcodes = {}
     },
   },
 })
