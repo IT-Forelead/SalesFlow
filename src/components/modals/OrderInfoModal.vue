@@ -161,7 +161,7 @@ watch(
 
     
     
-    const refundSumWithDiscount = refundSum.value - (refundSum.value * selectedOrder.value.discountPercent) / 100
+    const refundSumWithDiscount = selectedOrder.value.discountPercent > 0 ? refundSum.value - (refundSum.value * selectedOrder.value.discountPercent) / 100 : 0    
     
     selectedOrder.value.paymentReceived = paymentReceived + refundSumWithDiscount 
     
