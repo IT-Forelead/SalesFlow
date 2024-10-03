@@ -412,10 +412,8 @@ watch(page, async () => {
 watch(currentPage, async () => {
   if (currentPage.value == 0) {
     productHistoryStore.currentPage = 1
-    
   }
   await getProductHistories(filterData)
-  
 })
 
 watch(searchFilter, async () => {
