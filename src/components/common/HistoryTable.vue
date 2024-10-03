@@ -9,16 +9,18 @@ import {
 } from '@tanstack/vue-table';
 import { ref, watch } from 'vue';
 import { useI18n } from 'vue-i18n'
+import { useProductHistoryStore } from '../../store/productHistory.store.js'
 
 const { t } = useI18n()
 
+const productHistoryStore = useProductHistoryStore()
 const props = defineProps({
   data: Array,
   columns: Array,
   filter: String,
 })
 
-const sorting = ref([])
+const sorting = ref(productHistoryStore.sorting)
 const data = ref()
 
 watch(() => props.data, (val) => {
@@ -48,6 +50,8 @@ const table = useVueTable({
       typeof updaterOrValue === 'function'
         ? updaterOrValue(sorting.value)
         : updaterOrValue
+    productHistoryStore.setSorting(sorting.value)
+    productHistoryStore.currentPage = 0
   },
   initialState: {
     pagination: {
