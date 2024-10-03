@@ -598,6 +598,8 @@ const clearAndClose = () => {
 const createOrder = (printCheck = true) => {
   if (activeBasket.value.length === 0) {
     toast.error('Tanlangan mahsulotlar mavjud emas!');
+  } else if (submitData.paymentReceived < 0) {
+    toast.error(t('enterCorrectPayment'))
   } else if (activeBasket.value.filter(p => p.expirationDate != null && new Date().setHours(0,0,0,0) > new Date(p.expirationDate)).length > 0) {
     toast.error(t('dontSellExpireProducts'))
   } else {
