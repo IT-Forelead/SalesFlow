@@ -356,7 +356,7 @@
   "edit": "Tahrirlash",
   "botNotFound": "Bot topilmadi!",
   "plsExpirationDate": "Kirim-chiqim betda tugash muddatini kiriting!",
-  "enterDebt": "Qarz qiriting",
+  "enterDebt": "Qarz kiriting",
   "paidBy": "Kim to'ladi",
   "selectPaidBy": "Kim to'laganini kiriting",
   "terminal" : "Terminal",
@@ -430,5 +430,6 @@
   "createPlan": "Reja qo'shish",
   "thisPhoneNumberAlreadyExist": "Ushbu telefon raqami allaqachon qo'shilgan!",
   "expectedTime": "Kutilgan vaqt",
-  "duplicates": "Duplikatlar"
+  "duplicates": "Duplikatlar",
+  "enterCorrectPayment": "To'g'ri qabul qilingan to'lov kiriting"
 }

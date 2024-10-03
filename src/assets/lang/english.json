@@ -427,5 +427,6 @@
   "createPlan": "Create invest plan",
   "thisPhoneNumberAlreadyExist": "Ushbu telefon raqami allaqachon qo'shilgan!",
   "expectedTime": "Expected time",
-  "duplicates": "Duplicates"
+  "duplicates": "Duplicates",
+  "enterCorrectPayment": "Enter correct payment"
 }

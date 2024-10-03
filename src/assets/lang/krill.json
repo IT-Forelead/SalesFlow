@@ -427,5 +427,6 @@
   "createPlan": "Режа қўшиш",
   "thisPhoneNumberAlreadyExist": "Ушбу телефон рақами аллақачон қўшилган!",
   "expectedTime": "Кутилган вақт",
-  "duplicates": "Дубликатлар"
+  "duplicates": "Дубликатлар",
+  "enterCorrectPayment": "Тўғри қабул қилинган тўлов киритинг"
 }
