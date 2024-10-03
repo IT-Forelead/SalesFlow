@@ -109,6 +109,7 @@ const columns = [
   {
     accessorKey: 'serialId',
     header: t('serialId'),
+    enableSorting: false,
   },
   {
     accessorKey: 'name',
@@ -132,19 +133,22 @@ const columns = [
   {
     accessorKey: 'sold',
     header: t('sold'),
+    enableSorting: false,
   },
   {
     accessorKey: 'historyType',
     header: t('type'),
     cell: ({ row }) => getHistoryType(row.original.historyType),
+    enableSorting: false,
   },
   {
     accessorKey: 'purchasePrice',
     header: t('purchasePrice'),
     cell: ({ row }) => useMoneyFormatter(row.original.purchasePrice),
+    enableSorting: false,
   },
   {
-    accessorKey: 'salePrice',
+    accessorKey: 'price',
     header: t('salePrice'),
     cell: ({ row }) => useMoneyFormatter(row.original.price),
   },
@@ -152,14 +156,17 @@ const columns = [
     accessorKey: 'percent',
     header: t('percent'),
     cell: ({ row }) => calcPercentOfSale(row.original.purchasePrice, row.original.price) + '%',
+    enableSorting: false,
   },
   {
-    accessorKey: 'productionDate',
+    accessorKey: 'production_date',
     header: t('productionDate'),
+    cell: ({ row }) => row.original.productionDate,
   },
   {
-    accessorKey: 'expirationDate',
+    accessorKey: 'expiration_date',
     header: t('expirationDate'),
+    cell: ({ row }) => row.original.expirationDate,
   },
   {
     accessorKey: 'actions',
@@ -266,6 +273,11 @@ const openUtilizeProductModal = (id, rest) => {
 
 const getProductHistories = async (filters = {}) => {
   isLoading.value = true
+  const sorting = ref(productHistoryStore.sorting)
+  if (sorting.value.length > 0) {
+    filters.sortBy = sorting.value[0].id
+    filters.sortOrder = sorting.value[0].desc ? "DESC" : "ASC"
+  }
   await ProductService.getProductsDetails(
     cleanObjectEmptyFields({ limit: pageSize, page: page.value, ...filters }),
   ).then((res) => {
@@ -394,6 +406,13 @@ const displayedPageNumbers = computed(() => {
 });
 
 watch(page, async () => {
+  await getProductHistories(filterData)
+})
+
+watch(currentPage, async () => {
+  if (currentPage.value == 0) {
+    productHistoryStore.currentPage = 1
+  }
   await getProductHistories(filterData)
 })
 

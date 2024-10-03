@@ -553,7 +553,7 @@ const calculateExpirationDate = (months) => {
             </div>
             <div class="flex-1 space-y-1">
               <label for="price" class="text-base md:text-lg font-medium">
-                {{ $t('price') }}
+                {{ $t('salePrice') }}
                 <span class="text-red-500 mr-2">*</span>
               </label>
               <money3 v-model.number="submitData.price" v-bind="moneyConf" id="price"
