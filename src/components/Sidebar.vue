@@ -20,6 +20,7 @@ import ProductHistoryIcon from '../assets/icons/ProductHistoryIcon.vue'
 import SettingsIcon from '../assets/icons/SettingsIcon.vue'
 import CaretDownIcon from '../assets/icons/CaretDownIcon.vue'
 import SelectOptionLanguage from './inputs/SelectOptionLanguage.vue'
+import SelectOptionTheme from './inputs/SelectOptionTheme.vue'
 import PhUsersThree from '../assets/icons/UsersThreeIcon.vue'
 import OverlayPanel from 'primevue/overlaypanel'
 import XIcon from '../assets/icons/XIcon.vue'
@@ -356,14 +357,15 @@ onMounted(() => {
         </div>
         <div class="flex items-center space-x-3 px-4">
           <SelectOptionLanguage />
-          <div
+          <SelectOptionTheme />
+          <!-- <div
             class="flex-1 flex items-center justify-between rounded-lg bg-white p-2 cursor-pointer hover:bg-gray-100">
             <div class="flex items-center space-x-1">
               <SunIcon class="w-5 h-5 text-gray-500" />
               <span>Light</span>
             </div>
             <CaretDownIcon class="w-3 h-3" />
-          </div>
+          </div> -->
         </div>
         <div class="text-xs text-center text-slate-400">
           Copyright &copy; {{ new Date().getFullYear() }} <a href="https://it-forelead.uz"
