@@ -34,6 +34,7 @@ import InvestorIcon from '../assets/icons/InvestorIcon.vue'
 import InvestPlanIcon from '../assets/icons/InvestPlanIcon.vue'
 import ClientIcon from '../assets/icons/ClientIcon.vue'
 import ClientCorpIcon from '../assets/icons/ClientCorpIcon.vue'
+import PhPriceList from '../assets/icons/PriceListIcon.vue'
 
 const { t } = useI18n()
 const router = useRouter()
@@ -291,7 +292,7 @@ onMounted(() => {
           class="relative h-10 flex items-center w-full hover:bg-blue-300/10 hover:text-blue-600 py-5 text-zinc-400 text-lg font-medium space-x-4 cursor-pointer transition-colors duration-300">
             <div class="w-1.5 h-12 rounded-r-xl first-child-bg-color mr-2"></div>
             <div class="flex h-10 items-center justify-center rounded-xl w-10 second-child-bg-color">
-              <PhUsersThree class="w-6 h-6" />
+              <PhPriceList class="w-6 h-6" />
             </div>
             <div>
               {{ $t('priceLists') }}
