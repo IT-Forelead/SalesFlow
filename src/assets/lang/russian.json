@@ -431,5 +431,10 @@
   "thisPhoneNumberAlreadyExist": "Этот номер уже существует!",
   "expectedTime": "Ожидаемое время",
   "duplicates": "Дубликаты",
-  "enterCorrectPayment": "Введите оплату"
+  "enterCorrectPayment": "Введите оплату",
+  "priceLists": "Прайс-лист",
+  "createPrice": "Создать список",
+  "priceAddedSuccessfully": "Прайс-лист создан!",
+  "errorWhileCreatingPrice": "Ошибка при создании прайс-листа",
+  "enterImage": "Пожалуйста, введите изображение"
 }

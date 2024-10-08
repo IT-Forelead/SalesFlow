@@ -428,5 +428,11 @@
   "thisPhoneNumberAlreadyExist": "Ushbu telefon raqami allaqachon qo'shilgan!",
   "expectedTime": "Expected time",
   "duplicates": "Duplicates",
-  "enterCorrectPayment": "Enter correct payment"
+  "enterCorrectPayment": "Enter correct payment",
+  "priceLists": "Price list",
+  "createPrice": "Create price",
+  "priceAddedSuccessfully": "Price added successfully!",
+  "errorWhileCreatingPrice": "Error while creating price",
+  "upcomingProductId": "Upcoming productId",
+  "enterImage": "Please, enter image"
 }
