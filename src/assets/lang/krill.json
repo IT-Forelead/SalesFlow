@@ -428,5 +428,10 @@
   "thisPhoneNumberAlreadyExist": "Ушбу телефон рақами аллақачон қўшилган!",
   "expectedTime": "Кутилган вақт",
   "duplicates": "Дубликатлар",
-  "enterCorrectPayment": "Тўғри қабул қилинган тўлов киритинг"
+  "enterCorrectPayment": "Тўғри қабул қилинган тўлов киритинг",
+  "priceLists": "Нархлар рўйхати",
+  "createPrice": "Рўйхати яратиш",
+  "priceAddedSuccessfully": "Нарх рўйхати яратилди!",
+  "errorWhileCreatingPrice": "Нарх рўйхати хатолик юз берди",
+  "enterImage": "Илтимос, расмни киритинг"
 }

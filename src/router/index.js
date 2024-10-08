@@ -162,6 +162,13 @@ const routes = [
     beforeEnter: navigationGuards('view_invest_plans'),
   },
   {
+    path: '/price-lists',
+    name: 'Price lists',
+    component: () => import('../pages/PriceLists.vue'),
+    meta: { layout: 'dashboard' },
+    beforeEnter: navigationGuards('view_orders'),
+  },
+  {
     path: '/customer-form/:orderId',
     name: 'Customer form',
     component: () => import('../pages/CustomerForm.vue'),
