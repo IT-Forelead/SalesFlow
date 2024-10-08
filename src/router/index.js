@@ -75,7 +75,7 @@ const routes = [
     name: 'Agents',
     component: () => import('../pages/Agents.vue'),
     meta: { layout: 'dashboard' },
-    beforeEnter: navigationGuards('view_orders'),
+    beforeEnter: navigationGuards('view_agents'),
   },
   {
     path: '/markets',
@@ -166,7 +166,7 @@ const routes = [
     name: 'Price lists',
     component: () => import('../pages/PriceLists.vue'),
     meta: { layout: 'dashboard' },
-    beforeEnter: navigationGuards('view_orders'),
+    beforeEnter: navigationGuards('view_agents'),
   },
   {
     path: '/customer-form/:orderId',
