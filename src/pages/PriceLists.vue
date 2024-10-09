@@ -32,8 +32,7 @@ const columns = [
     cell: ({ row }) =>
       h('div', { class: 'flex items-center' },
         [row.original.asset ?
-          h(Image, { src: `${row.original.asset.url}`, alt: '', preview: '', class: 'w-10 h-10 backdrop-blur-[2px] bg-gray-900/70 ' }) : h('span')]),
-
+          h(Image, { src: `${row.original.asset.url}`, alt: '', preview: '', class: 'w-10 h-min' }) : h('span')]),
   },
   {
     accessorKey: 'company',
