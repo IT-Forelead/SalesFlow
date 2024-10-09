@@ -191,7 +191,7 @@ const createMinimalPriceSettings = () => {
 
 <template>
   <div class="p-8">
-    <div class="text-slate-900 text-3xl font-semibold mb-4">Sotuv sozlama</div>
+    <div class="dark:text-white text-3xl font-semibold mb-4">Sotuv sozlama</div>
     <TabView class="tabview-custom">
       <TabPanel>
         <template #header>
@@ -211,7 +211,7 @@ const createMinimalPriceSettings = () => {
             <div class="flex-1">
               <button v-if="isLoadingPercent" class="text-white text-base flex items-center rounded-xl px-4 py-2.5 bg-blue-500 hover:bg-blue-600 absolute bottom-0">
                 <Spinners270RingIcon
-                  class="mr-2 w-5 h-5 text-gray-200 animate-spin dark:text-gray-600 fill-gray-600 dark:fill-gray-300" />
+                  class="mr-2 w-5 h-5 text-gray-200 animate-spin dark:dark:text-white fill-gray-600 dark:fill-gray-300" />
                 {{ $t('save')}}
               </button>
               <div v-else class="flex-1">
@@ -238,7 +238,7 @@ const createMinimalPriceSettings = () => {
               <div class="flex-1">
                 <button @click="createBoundaryPrice" class="text-white text-base flex items-center rounded-xl px-4 py-2.5 bg-blue-500 hover:bg-blue-600">
                   <Spinners270RingIcon v-if="isLoadingMinimalPrice"
-                                       class="mr-2 w-5 h-5 text-gray-200 animate-spin dark:text-gray-600 fill-gray-600 dark:fill-gray-300" />
+                                       class="mr-2 w-5 h-5 text-gray-200 animate-spin dark:dark:text-white fill-gray-600 dark:fill-gray-300" />
                   {{ $t('save')}}</button>
               </div>
           </div>
@@ -253,7 +253,7 @@ const createMinimalPriceSettings = () => {
             <div class="flex-1">
               <button @click="createMinimalPriceSettings" class="text-white text-base flex items-center rounded-xl px-4 py-2.5 bg-blue-500 hover:bg-blue-600">
                 <Spinners270RingIcon v-if="isLoadingHolidayDiscount"
-                  class="mr-2 w-5 h-5 text-gray-200 animate-spin dark:text-gray-600 fill-gray-600 dark:fill-gray-300" />
+                  class="mr-2 w-5 h-5 text-gray-200 animate-spin dark:dark:text-white fill-gray-600 dark:fill-gray-300" />
                 {{ $t('save')}}</button>
             </div>
           </div>
@@ -266,16 +266,16 @@ const createMinimalPriceSettings = () => {
           </div>
         </template>
         <div class="p-2">
-          <div class="text-slate-900 text-2xl md:text-3xl font-semibold mb-6">
+          <div class="dark:text-white text-2xl md:text-3xl font-semibold mb-6">
             {{ $t('telegramBots') }}
           </div>
           <div class="flex flex-col md:flex-row items-center justify-between">
             <div class="relative w-full md:w-auto my-2 md:mb-0 order-2 md:order-1">
               <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                <SearchIcon class="w-5 h-5 text-slate-400" />
+                <SearchIcon class="w-5 h-5 dark:text-white" />
               </div>
               <input type="search" v-model="globalSearchFromTable"
-                     class="bg-slate-100 border-none w-full text-slate-900 text-base md:text-lg rounded-full block pl-10 py-2 placeholder-slate-400"
+                     class="bg-slate-100 border-none w-full dark:text-white text-base md:text-lg rounded-full block pl-10 py-2 placeholder-slate-400"
                      placeholder="Search everything...">
             </div>
             <div class="w-full md:w-auto order-1 md:order-2">

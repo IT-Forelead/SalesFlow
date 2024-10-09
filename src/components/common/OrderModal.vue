@@ -52,18 +52,18 @@ watch(() => props.isOpen, (newValue) => {
   <div v-if="isOpen || isClosing" @click="handleBackgroundClick"
     class="fixed top-0 right-0 bottom-0 left-0 z-40 backdrop-blur-[2px] bg-gray-900/70 flex justify-end"></div>
   <div
-    :class="[{ 'slide-in-right': isOpen && !isClosing, 'slide-out-right': isClosing }, 'z-50 bg-white fixed right-0  md:rounded-l-2xl shadow-xl min-h-screen md:w-[900px] w-full']"
+    :class="[{ 'slide-in-right': isOpen && !isClosing, 'slide-out-right': isClosing }, 'z-50 dark:bg-slate-600 fixed right-0  md:rounded-l-2xl shadow-xl min-h-screen md:w-[900px] w-full']"
     :style="{ zIndex: props.zIndex }">
     <!-- Modal content -->
     <!-- Modal header -->
     <div class="w-full flex items-center justify-between md:justify-start p-3 md:p-3 border-b rounded-t">
       <div class="md:pr-4 order-last md:order-none">
         <button @click="close" type="button"
-          class="text-slate-400 bg-transparent hover:bg-red-100 transition duration-100 hover:text-red-500 rounded-full w-8 h-8 ms-auto inline-flex justify-center items-center">
+          class="dark:text-white bg-transparent hover:bg-red-100 transition duration-100 hover:text-red-500 rounded-full w-8 h-8 ms-auto inline-flex justify-center items-center">
           <PhX class="w-5 h-5" />
         </button>
       </div>
-      <h3 class="text-xl font-bold text-slate-900 order-first md:order-none">
+      <h3 class="text-xl font-bold dark:text-white order-first md:order-none">
         <slot name="header">
           This is the default title!
         </slot>

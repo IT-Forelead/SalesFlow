@@ -840,7 +840,7 @@ watch(pageProfit, () => {
               <div class="text-base font-bold text-gray-800">
                 {{ $t('hourlyStat') }}
               </div>
-              <div class="text-sm text-gray-600">
+              <div class="text-sm dark:text-white">
                 <span>{{ ' ' + $t('hourly') }}</span>
                 <span class="lowercase">{{ $t('beginStatText') }} </span>
                 <span class="font-bold">{{ '10 ' + $t('days') }}</span>
@@ -858,13 +858,13 @@ watch(pageProfit, () => {
               <div class="text-base font-bold text-gray-800">
                 {{ $t('cashbackStat') }}
               </div>
-              <div class="text-sm text-gray-600">
+              <div class="text-sm dark:text-white">
                 {{ $t('beginStatText') }}
                 <span class="font-bold">{{ 10 + $t('days') }}</span>
                 {{ $t('endStatText') }}
               </div>
             </div>
-            <div class="flex items-center justify-center rounded-xl bg-blue-100 dark:bg-red-200 p-2">
+            <div class="flex items-center justify-center rounded-xl bg-blue-100 dark:bg-aqua-200 p-2">
               <ChartBarIcon class="w-8 h-8 text-blue-600" />
             </div>
           </div>
@@ -880,13 +880,13 @@ watch(pageProfit, () => {
               <div class="text-base md:text-xl font-semibold">
                 {{ $t('bestRevenueProducts') }}
               </div>
-              <div class="text-sm md:text-base text-gray-600">
+              <div class="text-sm md:text-base dark:text-white">
                 {{ $t('beginStatText') }}
                 <span class="font-bold">{{ 10 + $t('days') }}</span>
                 {{ $t('endStatText') }}
               </div>
             </div>
-            <div class="flex items-center justify-center rounded-xl bg-blue-100 dark:bg-red-200 p-3">
+            <div class="flex items-center justify-center rounded-xl bg-blue-100 dark:bg-aqua-200 p-3">
               <ShoppingCartIcon class="w-8 h-8 text-blue-600" />
             </div>
           </div>
@@ -894,7 +894,7 @@ watch(pageProfit, () => {
             <div v-for="(product, idx) in bestRevenueProductStats" :key="idx"
               class="flex items-center justify-between py-1.5">
               <div class="flex items-center space-x-3">
-                <div class="flex items-center justify-center bg-blue-100 dark:bg-red-200 w-6 h-6 rounded-lg">
+                <div class="flex items-center justify-center bg-blue-100 dark:bg-aqua-200 w-6 h-6 rounded-lg">
                   <span class="text-base text-blue-600">
                     {{ (pageRevenue - 1) * pageSize + idx + 1 }}
                   </span>
@@ -903,13 +903,13 @@ watch(pageProfit, () => {
                   <div class="text-base font-semibold text-gray-800">
                     {{ product?.name + ' - ' + product?.packaging }}
                   </div>
-                  <div class="text-sm text-gray-600">
+                  <div class="text-sm dark:text-white">
                     {{ $t('price') }}:
                     <span class="text-gray-900">
                       {{ useMoneyFormatter(product?.price) }}
                     </span>
                   </div>
-                  <div class="text-sm text-gray-600">
+                  <div class="text-sm dark:text-white">
                     {{ $t('totalPrice') }}:
                     <span class="text-blue-700 font-semibold">
                       {{ useMoneyFormatter(product?.totalPrice) }}
@@ -926,12 +926,12 @@ watch(pageProfit, () => {
         <div class="flex items-center justify-center ">
           <div class="flex items-center space-x-2">
             <button :disabled="pageRevenue === 1" @click="goToRevenuePage(1)"
-              class="flex items-center justify-center px-3 py-2 text-base font-medium text-slate-900 rounded-lg select-none hover:bg-blue-200 disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
+              class="flex items-center justify-center px-3 py-2 text-base font-medium dark:text-white rounded-lg select-none hover:bg-blue-200 disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
               type="button">
               <CaretDoubleLeftIcon class="w-5 h-5" />
             </button>
             <button @click="prevRevenuePage" :disabled="pageRevenue === 1"
-              class="flex items-center justify-center px-3 py-2 text-base font-medium text-slate-900 rounded-lg select-none hover:bg-blue-200 disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
+              class="flex items-center justify-center px-3 py-2 text-base font-medium dark:text-white rounded-lg select-none hover:bg-blue-200 disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
               type="button">
               <CaretLeftIcon class="w-5 h-5" />
             </button>
@@ -941,17 +941,17 @@ watch(pageProfit, () => {
                   'bg-blue-600 text-white': pageRevenueNumber === pageRevenue,
                   'hover:bg-blue-200': pageRevenueNumber !== pageRevenue,
                 }"
-                class="px-3 py-2 select-none rounded-lg text-slate-900 text-center text-base font-medium transition-all">
+                class="px-3 py-2 select-none rounded-lg dark:text-white text-center text-base font-medium transition-all">
                 {{ pageRevenueNumber }}
               </button>
             </div>
             <button @click="nextRevenuePage" :disabled="pageRevenue === totalRevenuePages"
-              class="flex items-center gap-2 px-3 py-2 text-base font-medium text-center text-slate-900 rounded-lg select-none hover:bg-blue-200 disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
+              class="flex items-center gap-2 px-3 py-2 text-base font-medium text-center dark:text-white rounded-lg select-none hover:bg-blue-200 disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
               type="button">
               <CaretRightIcon class="w-5 h-5" />
             </button>
             <button :disabled="pageRevenue === totalRevenuePages" @click="goToRevenuePage(totalRevenuePages)"
-              class="flex items-center gap-2 px-3 py-2 text-base font-medium text-slate-900 rounded-lg select-none hover:bg-blue-200 disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
+              class="flex items-center gap-2 px-3 py-2 text-base font-medium dark:text-white rounded-lg select-none hover:bg-blue-200 disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
               type="button">
               <CaretDoubleRightIcon class="w-5 h-5" />
             </button>
@@ -965,13 +965,13 @@ watch(pageProfit, () => {
               <div class="text-base md:text-xl font-semibold">
                 {{ $t('bestProfitProducts') }}
               </div>
-              <div class="text-sm md:text-base text-gray-600">
+              <div class="text-sm md:text-base dark:text-white">
                 {{ $t('beginStatText') }}
                 <span class="font-bold">{{ 10 + $t('days') }}</span>
                 {{ $t('endStatText') }}
               </div>
             </div>
-            <div class="flex items-center justify-center rounded-xl bg-blue-100 dark:bg-red-200 p-3">
+            <div class="flex items-center justify-center rounded-xl bg-blue-100 dark:bg-aqua-200 p-3">
               <ShoppingCartIcon class="w-8 h-8 text-blue-600" />
             </div>
           </div>
@@ -979,7 +979,7 @@ watch(pageProfit, () => {
             <div v-for="(product, idx) in bestProfitProductStats" :key="idx"
               class="flex items-center justify-between py-1.5">
               <div class="flex items-center space-x-3">
-                <div class="flex items-center justify-center bg-blue-100 dark:bg-red-200 w-6 h-6 rounded-lg">
+                <div class="flex items-center justify-center bg-blue-100 dark:bg-aqua-200 w-6 h-6 rounded-lg">
                   <span class="text-base text-blue-600">
                     {{ (pageProfit - 1) * pageSize + idx + 1 }}
                   </span>
@@ -988,13 +988,13 @@ watch(pageProfit, () => {
                   <div class="text-base font-semibold text-gray-800">
                     {{ product?.name + ' - ' + product?.packaging }}
                   </div>
-                  <div class="text-sm text-gray-600">
+                  <div class="text-sm dark:text-white">
                     {{ $t('price') }}:
                     <span class="text-gray-900">
                       {{ useMoneyFormatter(product?.price) }}
                     </span>
                   </div>
-                  <div class="text-sm text-gray-600">
+                  <div class="text-sm dark:text-white">
                     {{ $t('totalPrice') }}:
                     <span class="text-blue-700 font-semibold">
                       {{ useMoneyFormatter(product?.totalPrice) }}
@@ -1011,12 +1011,12 @@ watch(pageProfit, () => {
         <div class="flex items-center justify-center ">
           <div class="flex items-center space-x-2">
             <button :disabled="pageProfit === 1" @click="goToProfitPage(1)"
-              class="flex items-center justify-center px-3 py-2 text-base font-medium text-slate-900 rounded-lg select-none hover:bg-blue-200 disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
+              class="flex items-center justify-center px-3 py-2 text-base font-medium dark:text-white rounded-lg select-none hover:bg-blue-200 disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
               type="button">
               <CaretDoubleLeftIcon class="w-5 h-5" />
             </button>
             <button @click="prevProfitPage" :disabled="pageProfit === 1"
-              class="flex items-center justify-center px-3 py-2 text-base font-medium text-slate-900 rounded-lg select-none hover:bg-blue-200 disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
+              class="flex items-center justify-center px-3 py-2 text-base font-medium dark:text-white rounded-lg select-none hover:bg-blue-200 disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
               type="button">
               <CaretLeftIcon class="w-5 h-5" />
             </button>
@@ -1026,17 +1026,17 @@ watch(pageProfit, () => {
                   'bg-blue-600 text-white': pageProfitNumber === pageProfit,
                   'hover:bg-blue-200': pageProfitNumber !== pageProfit,
                 }"
-                class="px-3 py-2 select-none rounded-lg text-slate-900 text-center text-base font-medium transition-all">
+                class="px-3 py-2 select-none rounded-lg dark:text-white text-center text-base font-medium transition-all">
                 {{ pageProfitNumber }}
               </button>
             </div>
             <button @click="nextProfitPage" :disabled="pageProfit === totalProfitPages"
-              class="flex items-center gap-2 px-3 py-2 text-base font-medium text-center text-slate-900 rounded-lg select-none hover:bg-blue-200 disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
+              class="flex items-center gap-2 px-3 py-2 text-base font-medium text-center dark:text-white rounded-lg select-none hover:bg-blue-200 disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
               type="button">
               <CaretRightIcon class="w-5 h-5" />
             </button>
             <button :disabled="pageProfit === totalProfitPages" @click="goToProfitPage(totalProfitPages)"
-              class="flex items-center gap-2 px-3 py-2 text-base font-medium text-slate-900 rounded-lg select-none hover:bg-blue-200 disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
+              class="flex items-center gap-2 px-3 py-2 text-base font-medium dark:text-white rounded-lg select-none hover:bg-blue-200 disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
               type="button">
               <CaretDoubleRightIcon class="w-5 h-5" />
             </button>
@@ -1050,13 +1050,13 @@ watch(pageProfit, () => {
               <div class="text-base md:text-xl font-semibold">
                 {{ $t('bestSellingProducts') }}
               </div>
-              <div class="text-sm md:text-base text-gray-600">
+              <div class="text-sm md:text-base dark:text-white">
                 {{ $t('beginStatText') }}
                 <span class="font-bold">{{ 10 + $t('days') }}</span>
                 {{ $t('endStatText') }}
               </div>
             </div>
-            <div class="flex items-center justify-center rounded-xl bg-blue-100 dark:bg-red-200 p-3">
+            <div class="flex items-center justify-center rounded-xl bg-blue-100 dark:bg-aqua-200 p-3">
               <ShoppingCartIcon class="w-8 h-8 text-blue-600" />
             </div>
           </div>
@@ -1064,7 +1064,7 @@ watch(pageProfit, () => {
             <div v-for="(product, idx) in bestSellerProductStats" :key="idx"
               class="flex items-center justify-between py-1.5">
               <div class="flex items-center space-x-3">
-                <div class="flex items-center justify-center bg-blue-100 dark:bg-red-200 w-6 h-6 rounded-lg">
+                <div class="flex items-center justify-center bg-blue-100 dark:bg-aqua-200 w-6 h-6 rounded-lg">
                   <span class="text-base text-blue-600">
                     {{ (pageSell - 1) * pageSize + idx + 1 }}
                   </span>
@@ -1073,13 +1073,13 @@ watch(pageProfit, () => {
                   <div class="text-base font-semibold text-gray-800">
                     {{ product?.name + ' - ' + product?.packaging }}
                   </div>
-                  <div class="text-sm text-gray-600">
+                  <div class="text-sm dark:text-white">
                     {{ $t('price') }}:
                     <span class="text-gray-900">
                       {{ useMoneyFormatter(product?.price) }}
                     </span>
                   </div>
-                  <div class="text-sm text-gray-600">
+                  <div class="text-sm dark:text-white">
                     {{ $t('totalPrice') }}:
                     <span class="text-gray-900">
                       {{ useMoneyFormatter(product?.totalPrice) }}
@@ -1096,12 +1096,12 @@ watch(pageProfit, () => {
         <div class="flex items-center justify-center ">
           <div class="flex items-center space-x-2">
             <button :disabled="pageSell === 1" @click="goToSellPage(1)"
-              class="flex items-center justify-center px-3 py-2 text-base font-medium text-slate-900 rounded-lg select-none hover:bg-blue-200 disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
+              class="flex items-center justify-center px-3 py-2 text-base font-medium dark:text-white rounded-lg select-none hover:bg-blue-200 disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
               type="button">
               <CaretDoubleLeftIcon class="w-5 h-5" />
             </button>
             <button @click="prevSellPage" :disabled="pageSell === 1"
-              class="flex items-center justify-center px-3 py-2 text-base font-medium text-slate-900 rounded-lg select-none hover:bg-blue-200 disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
+              class="flex items-center justify-center px-3 py-2 text-base font-medium dark:text-white rounded-lg select-none hover:bg-blue-200 disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
               type="button">
               <CaretLeftIcon class="w-5 h-5" />
             </button>
@@ -1111,17 +1111,17 @@ watch(pageProfit, () => {
                   'bg-blue-600 text-white': pageSellNumber === pageSell,
                   'hover:bg-blue-200': pageSellNumber !== pageSell,
                 }"
-                class="px-3 py-2 select-none rounded-lg text-slate-900 text-center text-base font-medium transition-all">
+                class="px-3 py-2 select-none rounded-lg dark:text-white text-center text-base font-medium transition-all">
                 {{ pageSellNumber }}
               </button>
             </div>
             <button @click="nextSellPage" :disabled="pageSell === totalSellPages"
-              class="flex items-center gap-2 px-3 py-2 text-base font-medium text-center text-slate-900 rounded-lg select-none hover:bg-blue-200 disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
+              class="flex items-center gap-2 px-3 py-2 text-base font-medium text-center dark:text-white rounded-lg select-none hover:bg-blue-200 disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
               type="button">
               <CaretRightIcon class="w-5 h-5" />
             </button>
             <button :disabled="pageSell === totalSellPages" @click="goToSellPage(totalSellPages)"
-              class="flex items-center gap-2 px-3 py-2 text-base font-medium text-slate-900 rounded-lg select-none hover:bg-blue-200 disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
+              class="flex items-center gap-2 px-3 py-2 text-base font-medium dark:text-white rounded-lg select-none hover:bg-blue-200 disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
               type="button">
               <CaretDoubleRightIcon class="w-5 h-5" />
             </button>
@@ -1135,13 +1135,13 @@ watch(pageProfit, () => {
               <div class="text-base md:text-xl font-semibold">
                 {{ $t('worstSellingProducts') }}
               </div>
-              <div class="text-sm md:text-base text-gray-600">
+              <div class="text-sm md:text-base dark:text-white">
                 {{ $t('beginStatText') }}
                 <span class="font-bold lowercase">{{ $t('worstSellingProducts') }}</span>
                 {{ $t('endStatText') }}
               </div>
             </div>
-            <div class="flex items-center justify-center rounded-xl bg-blue-100 dark:bg-red-200 p-3">
+            <div class="flex items-center justify-center rounded-xl bg-blue-100 dark:bg-aqua-200 p-3">
               <ShoppingCartIcon class="w-8 h-8 text-blue-600" />
             </div>
           </div>
@@ -1149,7 +1149,7 @@ watch(pageProfit, () => {
             <div v-for="(product, idx) in worstSellerProductStats" :key="idx"
               class="flex items-center justify-between py-1.5">
               <div class="flex items-center space-x-3">
-                <div class="flex items-center justify-center bg-blue-100 dark:bg-red-200 w-6 h-6 rounded-lg">
+                <div class="flex items-center justify-center bg-blue-100 dark:bg-aqua-200 w-6 h-6 rounded-lg">
                   <span class="text-base text-blue-600">
                     {{ (pageWorstSell - 1) * pageSize + idx + 1 }}
                   </span>
@@ -1158,13 +1158,13 @@ watch(pageProfit, () => {
                   <div class="text-base font-semibold text-gray-800">
                     {{ product?.name + ' - ' + product?.packaging }}
                   </div>
-                  <div class="text-sm text-gray-600">
+                  <div class="text-sm dark:text-white">
                     {{ $t('barcode') }}:
                     <span class="text-gray-900">
                       {{ (product?.barcode) }}
                     </span>
                   </div>
-                  <div class="text-sm text-gray-600">
+                  <div class="text-sm dark:text-white">
                     {{ $t('lastDays') }}:
                     <span class="text-red-700 font-semibold">
                       {{ (product?.daysSinceLastSale) }}
@@ -1178,12 +1178,12 @@ watch(pageProfit, () => {
         <div class="flex items-center justify-center ">
           <div class="flex items-center space-x-2">
             <button :disabled="pageWorstSell === 1" @click="goToWorstSellPage(1)"
-              class="flex items-center justify-center px-3 py-2 text-base font-medium text-slate-900 rounded-lg select-none hover:bg-blue-200 disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
+              class="flex items-center justify-center px-3 py-2 text-base font-medium dark:text-white rounded-lg select-none hover:bg-blue-200 disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
               type="button">
               <CaretDoubleLeftIcon class="w-5 h-5" />
             </button>
             <button @click="prevWorstSellPage" :disabled="pageWorstSell === 1"
-              class="flex items-center justify-center px-3 py-2 text-base font-medium text-slate-900 rounded-lg select-none hover:bg-blue-200 disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
+              class="flex items-center justify-center px-3 py-2 text-base font-medium dark:text-white rounded-lg select-none hover:bg-blue-200 disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
               type="button">
               <CaretLeftIcon class="w-5 h-5" />
             </button>
@@ -1193,17 +1193,17 @@ watch(pageProfit, () => {
                   'bg-blue-600 text-white': pageWorstSellNumber === pageWorstSell,
                   'hover:bg-blue-200': pageWorstSellNumber !== pageWorstSell,
                 }"
-                class="px-3 py-2 select-none rounded-lg text-slate-900 text-center text-base font-medium transition-all">
+                class="px-3 py-2 select-none rounded-lg dark:text-white text-center text-base font-medium transition-all">
                 {{ pageWorstSellNumber }}
               </button>
             </div>
             <button @click="nextWorstSellPage" :disabled="pageWorstSell === totalWorstSellPages"
-              class="flex items-center gap-2 px-3 py-2 text-base font-medium text-center text-slate-900 rounded-lg select-none hover:bg-blue-200 disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
+              class="flex items-center gap-2 px-3 py-2 text-base font-medium text-center dark:text-white rounded-lg select-none hover:bg-blue-200 disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
               type="button">
               <CaretRightIcon class="w-5 h-5" />
             </button>
             <button :disabled="pageWorstSell === totalWorstSellPages" @click="goToWorstSellPage(totalWorstSellPages)"
-              class="flex items-center gap-2 px-3 py-2 text-base font-medium text-slate-900 rounded-lg select-none hover:bg-blue-200 disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
+              class="flex items-center gap-2 px-3 py-2 text-base font-medium dark:text-white rounded-lg select-none hover:bg-blue-200 disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
               type="button">
               <CaretDoubleRightIcon class="w-5 h-5" />
             </button>
@@ -1218,12 +1218,12 @@ watch(pageProfit, () => {
             <div class="text-base font-bold text-gray-800">
               {{ $t('profitStatistics') }}
             </div>
-            <div v-if="salesChartFilterData === 6" class="text-sm text-gray-600">
+            <div v-if="salesChartFilterData === 6" class="text-sm dark:text-white">
               {{ $t('beginStatText') }}
               <span class="font-bold">{{ 10 + $t('days') }}</span>
               {{ $t('endStatText') }}
             </div>
-            <div v-else class="text-sm text-gray-600">
+            <div v-else class="text-sm dark:text-white">
               {{ $t('beginStatText') }}
               <span class="font-bold">{{ 30 + $t('days') }}</span>
               {{ $t('endStatText') }}
@@ -1231,7 +1231,7 @@ watch(pageProfit, () => {
           </div>
           <div>
             <select v-model="salesChartFilterData"
-              class="bg-blue-100 dark:bg-red-200 border-none text-slate-900 rounded-lg text-base md:text-lg block w-full h-11">
+              class="bg-blue-100 dark:bg-aqua-200 border-none dark:text-white rounded-lg text-base md:text-lg block w-full h-11">
               <option value="6">
                 {{ $t('weeklyStatistics') }}
               </option>
@@ -1256,13 +1256,13 @@ watch(pageProfit, () => {
             <div class="text-base font-bold text-gray-800">
               {{ $t('salesStatistics') }}
             </div>
-            <div class="text-sm text-gray-600">
+            <div class="text-sm dark:text-white">
               {{ $t('beginStatText') }}
               <span class="font-bold">{{ 10 + $t('days') }}</span>
               {{ $t('endStatText') }}
             </div>
           </div>
-          <div class="flex items-center justify-center rounded-xl bg-blue-100 dark:bg-red-200 p-2">
+          <div class="flex items-center justify-center rounded-xl bg-blue-100 dark:bg-aqua-200 p-2">
             <ChartBarIcon class="w-8 h-8 text-blue-600" />
           </div>
         </div>
@@ -1276,7 +1276,7 @@ watch(pageProfit, () => {
           <div class="text-base font-bold text-gray-800">
             {{ $t('inputAndOutputCostStatistics') }}
           </div>
-          <div class="text-sm text-gray-600">
+          <div class="text-sm dark:text-white">
             {{ $t('beginStatText') }}
             <span class="font-bold">{{ 30 + $t('days') }}</span>
             {{ $t('endStatText') }}
@@ -1284,19 +1284,19 @@ watch(pageProfit, () => {
         </div>
         <div class="relative" ref="dropdown">
           <div @click="useDropdownStore().toggleFilterBy()"
-            class="border-none select-none text-gray-900 bg-white shadow rounded-lg w-full p-2 px-5 flex items-center hover:bg-gray-100 cursor-pointer space-x-1">
+            class="border-none select-none text-gray-900 dark:bg-slate-600 shadow rounded-lg w-full p-2 px-5 flex items-center hover:bg-gray-100 cursor-pointer space-x-1">
             <FunnelIcon class="w-5 h-5 text-gray-400" />
             <span>{{ $t('filter') }}</span>
           </div>
           <div v-if="useDropdownStore().isOpenFilterBy"
-            class="absolute bg-white shadow rounded-xl p-3 z-20 top-12 right-0 space-y-3">
+            class="absolute dark:bg-slate-600 shadow rounded-xl p-3 z-20 top-12 right-0 space-y-3">
             <div class="flex items-center space-x-1">
               <label for="">
                 {{ $t('from') }}
                 <input v-model="filterData.startDate" type="date"
                   class="border-none text-gray-500 bg-gray-100 rounded-lg w-full" />
               </label>
-              <ArrowDownIcon class="-rotate-90 text-gray-600 mt-6" />
+              <ArrowDownIcon class="-rotate-90 dark:text-white mt-6" />
               <label for="">
                 {{ $t('to') }}
                 <input v-model="filterData.endDate" type="date"
@@ -1312,7 +1312,7 @@ watch(pageProfit, () => {
                 <div v-if="isLoading"
                   class="w-full bg-blue-600 py-3 select-none text-white rounded-lg flex items-center justify-center">
                   <Spinners270RingIcon
-                    class="mr-2 w-5 h-5 text-gray-200 animate-spin dark:text-gray-600 fill-gray-600 dark:fill-gray-300" />
+                    class="mr-2 w-5 h-5 text-gray-200 animate-spin dark:dark:text-white fill-gray-600 dark:fill-gray-300" />
                   <span>{{ $t('loading') }}</span>
                 </div>
                 <div v-else @click="submitTurnoverStatsFilterData()"
@@ -1335,13 +1335,13 @@ watch(pageProfit, () => {
             <div class="text-base font-bold text-gray-800">
               {{ $t('cashierStatistics') }}
             </div>
-            <div class="text-sm text-gray-600">
+            <div class="text-sm dark:text-white">
               {{ $t('beginStatText') }}
               <span class="font-bold">{{ 10 + $t('days') }}</span>
               {{ $t('endStatText') }}
             </div>
           </div>
-          <div class="flex items-center justify-center rounded-xl bg-blue-100 dark:bg-red-200 p-2">
+          <div class="flex items-center justify-center rounded-xl bg-blue-100 dark:bg-aqua-200 p-2">
             <ChartDonutIcon class="w-8 h-8 text-blue-600" />
           </div>
         </div>
@@ -1354,11 +1354,11 @@ watch(pageProfit, () => {
           <div class="flex-1 w-full space-y-4 rounded-3xl bg-slate-50 p-5">
             <div
               class="flex flex-row md:flex-col items-center md:items-start space-x-4 md:space-x-0 space-y-0 md:space-y-2">
-              <div class="inline-flex items-center justify-center rounded-xl bg-blue-100 dark:bg-red-200 p-3">
+              <div class="inline-flex items-center justify-center rounded-xl bg-blue-100 dark:bg-aqua-200 p-3">
                 <StoreIcon class="w-8 h-8 text-blue-600" />
               </div>
               <div>
-                <div class="text-base text-gray-600">
+                <div class="text-base dark:text-white">
                   {{ $t('productTypes') }}
                 </div>
                 <div class="text-xl md:text-2xl font-semibold">
@@ -1370,11 +1370,11 @@ watch(pageProfit, () => {
           <div class="flex-1 w-full space-y-4 rounded-3xl bg-slate-50 p-5">
             <div
               class="flex flex-row md:flex-col items-center md:items-start space-x-4 md:space-x-0 space-y-0  md:space-y-2">
-              <div class="inline-flex items-center justify-center rounded-xl bg-blue-100 dark:bg-red-200 p-3">
+              <div class="inline-flex items-center justify-center rounded-xl bg-blue-100 dark:bg-aqua-200 p-3">
                 <StoreIcon class="w-8 h-8 text-blue-600" />
               </div>
               <div>
-                <div class="text-base text-gray-600">
+                <div class="text-base dark:text-white">
                   {{ $t('numberOfProducts') }}
                 </div>
                 <div class="text-xl md:text-2xl font-semibold">
@@ -1389,14 +1389,14 @@ watch(pageProfit, () => {
             class="flex-1 w-full space-y-4 rounded-3xl bg-slate-50 p-5">
             <div
               class="flex flex-row md:flex-col items-center md:items-start space-x-4 md:space-x-0 space-y-0 md:space-y-2">
-              <div class="inline-flex items-center justify-center rounded-xl bg-blue-100 dark:bg-red-200 p-3">
+              <div class="inline-flex items-center justify-center rounded-xl bg-blue-100 dark:bg-aqua-200 p-3">
                 <DollarIcon class="w-8 h-8 text-blue-600" />
               </div>
               <div>
-                <div v-if="product?.period === 'current_month'" class="text-base text-gray-600">
+                <div v-if="product?.period === 'current_month'" class="text-base dark:text-white">
                   {{ $t('currentMonthsSales') }}
                 </div>
-                <div v-else class="text-base text-gray-600">
+                <div v-else class="text-base dark:text-white">
                   {{ $t('previousMonthsSales') }}
                 </div>
                 <div class="text-xl md:text-2xl font-semibold">
@@ -1409,11 +1409,11 @@ watch(pageProfit, () => {
           <div class="flex-1 w-full h-full space-y-4 rounded-3xl bg-slate-50 p-5">
             <div
               class="flex flex-row md:flex-col items-center md:items-start space-x-4 md:space-x-0 space-y-0 md:space-y-2">
-              <div class="inline-flex items-center justify-center rounded-xl bg-blue-100 dark:bg-red-200 p-3">
+              <div class="inline-flex items-center justify-center rounded-xl bg-blue-100 dark:bg-aqua-200 p-3">
                 <UsersIcon class="w-8 h-8 text-blue-600" />
               </div>
               <div>
-                <div class="text-base text-gray-600">
+                <div class="text-base dark:text-white">
                   {{ $t('numberOfEmployees') }}
                 </div>
                 <div class="text-xl md:text-2xl font-semibold">

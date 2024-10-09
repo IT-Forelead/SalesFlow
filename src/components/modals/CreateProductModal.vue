@@ -438,15 +438,15 @@ const calculateExpirationDate = (months) => {
     <template v-slot:body>
       <div class="relative mb-8">
         <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-          <SearchIcon class="w-5 h-5 text-slate-400" />
+          <SearchIcon class="w-5 h-5 dark:text-white" />
         </div>
         <input type="search" v-model="searchProductBarcode" ref="onSearchFocus" v-on:keypress="whenPressEnter($event)"
-               class="bg-slate-100 border-none text-slate-900 rounded-lg w-full h-12 pl-10 placeholder-slate-400 placeholder:text-sm md:placeholder:text-lg"
+               class="bg-slate-100 border-none dark:text-white rounded-lg w-full h-12 pl-10 placeholder-slate-400 placeholder:text-sm md:placeholder:text-lg"
                :placeholder="t('searchByProductNameOrBarcode')">
         <div class="absolute inset-y-0 right-0 flex items-center space-x-2">
           <div @click="useModalStore().openCameraScannerModal()"
-               class="flex items-center justify-center w-8 h-8 rounded-lg hover:bg-white cursor-pointer">
-            <BarcodeIcon class="w-6 h-6 text-slate-900" />
+               class="flex items-center justify-center w-8 h-8 rounded-lg hover:dark:bg-slate-600 cursor-pointer">
+            <BarcodeIcon class="w-6 h-6 dark:text-white" />
           </div>
           <button type="button" @click="searchProductBarcodes()"
                   class="px-4 bg-[#0167F3] text-white rounded-lg text-base h-full md:text-lg cursor-pointer">
@@ -456,7 +456,7 @@ const calculateExpirationDate = (months) => {
         <div v-if="productBarcodes.length > 0" class="absolute top-16 left-0 bg-transparent w-full space-y-2 z-[2000]">
           <ScrollPanel style="height: 600px;">
             <div v-for="(product, idx) in productBarcodes" :key="idx" @click="selectedProductBarcode(product)"
-                 class="flex items-center justify-between bg-white border shadow-sm rounded-xl px-3 py-2 w-full cursor-pointer hover:bg-slate-100">
+                 class="flex items-center justify-between dark:bg-slate-600 border shadow-sm rounded-xl px-3 py-2 w-full cursor-pointer hover:bg-slate-100">
               <div class="flex items-center space-x-3">
                 <div class="flex items-center justify-center bg-slate-200 w-10 h-10 rounded-lg">
                   <ImageIcon class="text-gray-500 w-8 h-8" />
@@ -486,7 +486,7 @@ const calculateExpirationDate = (months) => {
                 <span class="text-red-500 mr-2">*</span>
               </label>
               <input id="name" type="text" v-model="submitData.name"
-                     class="bg-slate-100 border-none text-slate-900 rounded-lg w-full py-2.5 placeholder-slate-400 placeholder:text-sm md:placeholder:text-lg"
+                     class="bg-slate-100 border-none dark:text-white rounded-lg w-full py-2.5 placeholder-slate-400 placeholder:text-sm md:placeholder:text-lg"
                      :placeholder="t('enterProductName')">
             </div>
             <div class="flex-1">
@@ -494,7 +494,7 @@ const calculateExpirationDate = (months) => {
                 {{ $t('barcode') }}
               </label>
               <input id="barcode" type="text" v-model="submitData.barcode"
-                     class="bg-slate-100 border-none text-slate-900 rounded-lg w-full py-2.5 placeholder-slate-400 placeholder:text-sm md:placeholder:text-lg"
+                     class="bg-slate-100 border-none dark:text-white rounded-lg w-full py-2.5 placeholder-slate-400 placeholder:text-sm md:placeholder:text-lg"
                      :placeholder="t('enterProductBarcode')">
             </div>
           </div>
@@ -505,7 +505,7 @@ const calculateExpirationDate = (months) => {
                 <span class="text-red-500 mr-2">*</span>
               </label>
               <input id="default-value" type="text" v-model="submitData.packaging"
-                     class="bg-slate-100 border-none text-slate-900 rounded-lg w-full h-11 placeholder-slate-400 placeholder:text-sm md:placeholder:text-lg"
+                     class="bg-slate-100 border-none dark:text-white rounded-lg w-full h-11 placeholder-slate-400 placeholder:text-sm md:placeholder:text-lg"
                      :placeholder="t('enterProductPackaging')">
             </div>
             <div class="flex-1 space-y-1">
@@ -514,7 +514,7 @@ const calculateExpirationDate = (months) => {
                 <span class="text-red-500 mr-2">*</span>
               </label>
               <select id="default-type" v-model="submitData.saleType"
-                      class="bg-slate-100 border-none text-slate-900 rounded-lg text-base md:text-lg block w-full h-11">
+                      class="bg-slate-100 border-none dark:text-white rounded-lg text-base md:text-lg block w-full h-11">
                 <option value="" selected>{{ $t('selectType') }}</option>
                 <option value="amount">Donali</option>
                 <option value="kg">Kilogrammli</option>
@@ -530,7 +530,7 @@ const calculateExpirationDate = (months) => {
                 <span class="text-red-500 mr-2">*</span>
               </label>
               <input id="quantity" type="number" min="0" v-model="submitData.quantity"
-                     class="bg-slate-100 border-none text-slate-900 rounded-lg w-full h-11 placeholder-slate-400 placeholder:text-sm md:placeholder:text-lg"
+                     class="bg-slate-100 border-none dark:text-white rounded-lg w-full h-11 placeholder-slate-400 placeholder:text-sm md:placeholder:text-lg"
                      :placeholder="t('enterProductQuantity')">
             </div>
             <div class="flex-1 space-y-1">
@@ -567,7 +567,7 @@ const calculateExpirationDate = (months) => {
                 {{ $t('productionDate') }}
               </label>
               <input id="quantity" type="date" v-model="submitData.productionDate"
-                     class="bg-slate-100 border-none text-slate-900 rounded-lg w-full h-11 placeholder-slate-400 placeholder:text-sm md:placeholder:text-lg"
+                     class="bg-slate-100 border-none dark:text-white rounded-lg w-full h-11 placeholder-slate-400 placeholder:text-sm md:placeholder:text-lg"
                      :placeholder="t('enterProductQuantity')">
             </div>
             <div class="flex-1 space-y-1">
@@ -575,7 +575,7 @@ const calculateExpirationDate = (months) => {
                 {{ $t('expirationDate') }}
               </label>
               <input id="quantity" type="date" v-model="submitData.expirationDate"
-                     class="bg-slate-100 border-none text-slate-900 rounded-lg w-full h-11 placeholder-slate-400 placeholder:text-sm md:placeholder:text-lg">
+                     class="bg-slate-100 border-none dark:text-white rounded-lg w-full h-11 placeholder-slate-400 placeholder:text-sm md:placeholder:text-lg">
             </div>
           </div>
           <div class="space-x-3.5 space-y-2 md:text-left text-center">
@@ -583,7 +583,7 @@ const calculateExpirationDate = (months) => {
               v-for="months in [1, 3, 6, 9, 12, 24]" :key="months"
               @click="calculateExpirationDate(months)"
               type="button"
-              class="text-slate-600 bg-white hover:bg-slate-100 focus:ring-4 focus:outline-none focus:ring-slate-300 rounded-xl border border-slate-200 text-sm font-medium px-4 py-2.5 hover:text-slate-900 lowercase"
+              class="text-slate-600 dark:bg-slate-600 hover:bg-slate-100 focus:ring-4 focus:outline-none focus:ring-slate-300 rounded-xl border border-slate-200 text-sm font-medium px-4 py-2.5 hover:dark:text-white lowercase"
             >+ {{ months }} {{ t("month") }}</button>
           </div>
           <div class="flex flex-col md:flex-row md:items-center space-y-2 md:space-y-0 md:space-x-4">
@@ -606,7 +606,7 @@ const calculateExpirationDate = (months) => {
                           <span class="text-red-500 mr-2">*</span>
                         </label>
                         <input id="agent-fullName" type="text" v-model="submitAgentForm.fullName"
-                               class="bg-slate-100 placeholder:line-clamp-2 border-none text-slate-900 rounded-lg w-full py-2.5 placeholder-slate-400"
+                               class="bg-slate-100 placeholder:line-clamp-2 border-none dark:text-white rounded-lg w-full py-2.5 placeholder-slate-400"
                                :placeholder="t('enterFullName')">
                       </div>
                       <div class="flex-1">
@@ -616,7 +616,7 @@ const calculateExpirationDate = (months) => {
                         </label>
                         <input id="phone" type="text" v-model="submitAgentForm.phone" v-maska
                                data-maska="+998(##) ###-##-##"
-                               class="bg-slate-100 border-none text-slate-900 rounded-lg w-full py-2.5 placeholder-slate-400"
+                               class="bg-slate-100 border-none dark:text-white rounded-lg w-full py-2.5 placeholder-slate-400"
                                placeholder="+998(00) 000-00-00">
                       </div>
                       <div class="flex-1">
@@ -625,7 +625,7 @@ const calculateExpirationDate = (months) => {
                           <span class="text-red-500 mr-2">*</span>
                         </label>
                         <input id="company" type="text" v-model="submitAgentForm.company"
-                               class="bg-slate-100 border-none text-slate-900 rounded-lg w-full py-2.5 placeholder-slate-400"
+                               class="bg-slate-100 border-none dark:text-white rounded-lg w-full py-2.5 placeholder-slate-400"
                                :placeholder="t('enterCompany')">
                       </div>
                     </div>
@@ -663,7 +663,7 @@ const calculateExpirationDate = (months) => {
       <button v-if="isLoading"
               class="inline-flex items-center justify-center ms-3 text-white bg-blue-600 focus:ring-4 focus:outline-none focus:ring-slate-300 rounded-xl border border-slate-200 text-sm font-medium px-5 py-2.5 focus:z-10 cursor-default">
         <Spinners270RingIcon
-          class="mr-2 w-5 h-5 text-gray-200 animate-spin dark:text-gray-600 fill-gray-600 dark:fill-gray-300" />
+          class="mr-2 w-5 h-5 text-gray-200 animate-spin dark:dark:text-white fill-gray-600 dark:fill-gray-300" />
         {{ $t('create') }}
       </button>
       <button v-else @click="createProduct()" type="button"

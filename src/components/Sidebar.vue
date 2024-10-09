@@ -103,15 +103,15 @@ onMounted(() => {
       :class="useSidebarStore().isOpenSidebar ? 'opacity-100' : 'opacity-0 pointer-events-none'" @click="closeSidebar">
     </div>
     <div id="sidebar" ref="sidebar"
-      class="flex justify-between flex-col bg-slate-100 absolute z-40 left-0 top-0 lg:static border-r lg:left-auto lg:top-auto lg:translate-x-0 min-h-screen w-72 md:w-64 2xl:w-72 shrink-0 transition-all duration-200 ease-in-out"
+      class="flex justify-between flex-col bg-slate-700 absolute z-40 left-0 top-0 lg:static border-r lg:left-auto lg:top-auto lg:translate-x-0 min-h-screen w-72 md:w-64 2xl:w-72 shrink-0 transition-all duration-200 ease-in-out"
       :class="useSidebarStore().isOpenSidebar ? 'translate-x-0' : '-translate-x-64'">
       <div>
       <div class="h-20 flex justify-around">
-        <div class="flex space-x-1 items-center justify-center">
+        <div class="flex space-x-1 items-center justify-center ">
           <img src="/images/logo.svg" class="w-12 h-12" alt="#">
           <div class="text-3xl font-extrabold">
             <span class="text-[#0167f3]">Sales</span>
-            <span class="text-black">Flow</span>
+            <span class="dark:text-white">Flow</span>
           </div>
         </div>
         <div class="flex items-center justify-end">
@@ -350,7 +350,7 @@ onMounted(() => {
           <OverlayPanel ref="wishToBuyProductModal">
             <div class="w-96">
               <input v-model="wishToBuyProductName" id="login" type="text" v-on:keypress="whenPressEnter($event)"
-                class="bg-slate-100 border-none text-slate-900 rounded-lg w-full py-2.5 placeholder-slate-400"
+                class="bg-slate-100 border-none dark:text-white rounded-lg w-full py-2.5 placeholder-slate-400"
                 :placeholder="t('enterProductName')">
             </div>
           </OverlayPanel>
@@ -359,7 +359,7 @@ onMounted(() => {
           <SelectOptionLanguage />
           <SelectOptionTheme />
           <!-- <div
-            class="flex-1 flex items-center justify-between rounded-lg bg-white p-2 cursor-pointer hover:bg-gray-100">
+            class="flex-1 flex items-center justify-between rounded-lg dark:bg-slate-900 p-2 cursor-pointer hover:bg-gray-100">
             <div class="flex items-center space-x-1">
               <SunIcon class="w-5 h-5 text-gray-500" />
               <span>Light</span>
@@ -367,7 +367,7 @@ onMounted(() => {
             <CaretDownIcon class="w-3 h-3" />
           </div> -->
         </div>
-        <div class="text-xs text-center text-slate-400">
+        <div class="text-xs text-center dark:text-white">
           Copyright &copy; {{ new Date().getFullYear() }} <a href="https://it-forelead.uz"
             class="hover:underline">IT-Forelead</a>.
           <br />

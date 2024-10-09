@@ -471,7 +471,7 @@ const openPopup = (event, id, quantity, name) => {
     },
     ricon: 'icon-delete',
     rejectLabel: t('no'),
-    rejectClass: 'text-slate-600 bg-white hover:bg-slate-100 focus:outline-none focus:ring-white rounded-xl border border-slate-200 text-sm font-medium px-5 py-2.5 hover:text-slate-900',
+    rejectClass: 'text-slate-600 dark:bg-slate-600 hover:bg-slate-100 focus:outline-none focus:ring-white rounded-xl border border-slate-200 text-sm font-medium px-5 py-2.5 hover:dark:text-white',
     acceptLabel: t('yesOfCourse'),
     acceptClass: 'ml-4 text-white bg-blue-500 hover:bg-blue-600 focus:ring-4 focus:outline-none focus:ring-white rounded-xl border border-slate-200 text-sm font-medium px-5 py-2.5',
     accept: () => {
@@ -489,7 +489,7 @@ const onChange = (event) => {
   <div class="p-4 md:p-8">
     <ConfirmDialog />
     <div class="flex md:flex-row flex-col items-center justify-between space-y-4 md:space-y-0 mb-6">
-      <div class="text-slate-900 text-2xl md:text-3xl font-semibold">
+      <div class="dark:text-white text-2xl md:text-3xl font-semibold">
         {{ $t('incomeExpense') }}
       </div>
       <div class="w-full md:w-auto order-1 md:order-2 flex space-x-2">
@@ -506,10 +506,10 @@ const onChange = (event) => {
     <div class="flex md:flex-row flex-col items-center justify-between">
       <div class="relative w-full md:w-auto my-2 md:mb-0 order-2 md:order-1">
         <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-          <SearchIcon class="w-5 h-5 text-slate-400" />
+          <SearchIcon class="w-5 h-5 dark:text-white" />
         </div>
         <input type="search" v-model="searchFilter"   @keyup.enter="searchProducts" ref="onSearchFocus"
-               class="bg-slate-100 border-none w-full text-slate-900 text-base md:text-lg rounded-full block pl-10 py-2 placeholder-slate-400"
+               class="bg-slate-100 border-none w-full dark:text-white text-base md:text-lg rounded-full block pl-10 py-2 placeholder-slate-400"
                placeholder="Search everything...">
       </div>
       <div class="w-full md:w-auto order-1 md:order-2 flex space-x-2">
@@ -520,13 +520,13 @@ const onChange = (event) => {
             <span>{{ $t('filter') }}</span>
           </div>
           <div v-if="useDropdownStore().isOpenFilterBy"
-               class="absolute bg-white shadow-md rounded-xl w-64 p-3 z-20 top-12 right-0 space-y-3">
+               class="absolute dark:bg-slate-600 shadow-md rounded-xl w-64 p-3 z-20 top-12 right-0 space-y-3">
             <div class="flex-1 space-y-1">
               <label for="startExpirationDate" class="text-base md:text-lg font-medium">
                 {{ $t('from') }}
               </label>
               <input id="startExpirationDate" type="date" v-model="filterData.startExpirationDate"
-                     class="bg-slate-100 border-none text-slate-900 rounded-lg w-full h-11 placeholder-slate-400 placeholder:text-sm md:placeholder:text-lg"
+                     class="bg-slate-100 border-none dark:text-white rounded-lg w-full h-11 placeholder-slate-400 placeholder:text-sm md:placeholder:text-lg"
                      :placeholder="t('enterProductQuantity')">
             </div>
             <div class="flex-1 space-y-1">
@@ -534,7 +534,7 @@ const onChange = (event) => {
                 {{ $t('to') }}
               </label>
               <input id="endExpirationDate" type="date" v-model="filterData.endExpirationDate"
-                class="bg-slate-100 border-none text-slate-900 rounded-lg w-full h-11 placeholder-slate-400 placeholder:text-sm md:placeholder:text-lg"
+                class="bg-slate-100 border-none dark:text-white rounded-lg w-full h-11 placeholder-slate-400 placeholder:text-sm md:placeholder:text-lg"
                 :placeholder="t('enterProductQuantity')">
             </div>
             <div class="flex items-center space-x-2">
@@ -545,7 +545,7 @@ const onChange = (event) => {
               <div v-if="isLoading"
                  class="w-full bg-blue-600 py-2 select-none text-white rounded-lg flex items-center justify-center">
               <Spinners270RingIcon
-                class="mr-2 w-5 h-5 text-gray-200 animate-spin dark:text-gray-600 fill-gray-600 dark:fill-gray-300" />
+                class="mr-2 w-5 h-5 text-gray-200 animate-spin dark:dark:text-white fill-gray-600 dark:fill-gray-300" />
               <span>{{ $t('loading') }}</span>
             </div>
             <div v-else @click="submitFilterData()"
@@ -561,7 +561,7 @@ const onChange = (event) => {
             <span>{{ sortByOption || $t('sorting') }}</span>
           </div>
           <div v-if="useDropdownStore().isOpenSortBy"
-            class="absolute bg-white shadow-md rounded-xl w-52 p-3 z-20 top-18 right-0 space-y-3">
+            class="absolute dark:bg-slate-600 shadow-md rounded-xl w-52 p-3 z-20 top-18 right-0 space-y-3">
             <ul>
               <li @click="resetSortData(); sortByOption = $t('standard')"
                 class="px-2 py-1 text-sm hover:bg-slate-100 rounded cursor-pointer">
@@ -621,35 +621,35 @@ const onChange = (event) => {
     </div>
     <HistoryTable v-else :data="productsHistories" :key="renderKey" :columns="columns" />
     <div class="flex items-center justify-between my-6">
-      <div class="text-base text-slate-900 font-medium">
+      <div class="text-base dark:text-white font-medium">
         {{ $t('total') }}:
         {{ total }}
       </div>
       <div class="flex items-center space-x-2">
         <button :disabled="page === 1" @click="goToPage(1)"
-                class="flex items-center justify-center px-3 py-2 text-base font-medium text-slate-900 rounded-lg select-none hover:bg-blue-200 disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
+                class="flex items-center justify-center px-3 py-2 text-base font-medium dark:text-white rounded-lg select-none hover:bg-blue-200 disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
                 type="button">
           <CaretDoubleLeftIcon class="w-5 h-5" />
         </button>
         <button @click="prevPage" :disabled="page === 1"
-                class="flex items-center justify-center px-3 py-2 text-base font-medium text-slate-900 rounded-lg select-none hover:bg-blue-200 disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
+                class="flex items-center justify-center px-3 py-2 text-base font-medium dark:text-white rounded-lg select-none hover:bg-blue-200 disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
                 type="button">
           <CaretLeftIcon class="w-5 h-5" />
         </button>
         <div class="flex items-center space-x-2">
           <button v-for="pageNumber in displayedPageNumbers" :key="pageNumber" @click="goToPage(pageNumber)"
                   :class="{ 'bg-blue-600 text-white': pageNumber === page, 'hover:bg-blue-200': pageNumber !== page }"
-                  class="px-3 py-2 select-none rounded-lg text-slate-900 text-center text-base font-medium transition-all">
+                  class="px-3 py-2 select-none rounded-lg dark:text-white text-center text-base font-medium transition-all">
             {{ pageNumber }}
           </button>
         </div>
         <button @click="nextPage" :disabled="page === totalPages"
-                class="flex items-center gap-2 px-3 py-2 text-base font-medium text-center text-slate-900 rounded-lg select-none hover:bg-blue-200 disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
+                class="flex items-center gap-2 px-3 py-2 text-base font-medium text-center dark:text-white rounded-lg select-none hover:bg-blue-200 disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
                 type="button">
           <CaretRightIcon class="w-5 h-5" />
         </button>
         <button :disabled="page === totalPages" @click="goToPage(totalPages)"
-                class="flex items-center gap-2 px-3 py-2 text-base font-medium text-slate-900 rounded-lg select-none hover:bg-blue-200 disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
+                class="flex items-center gap-2 px-3 py-2 text-base font-medium dark:text-white rounded-lg select-none hover:bg-blue-200 disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
                 type="button">
           <CaretDoubleRightIcon class="w-5 h-5" />
         </button>

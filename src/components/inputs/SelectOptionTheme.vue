@@ -91,7 +91,7 @@ onMounted(() => {
   <div class="relative flex-1" ref="dropdown">
     <div
       @click="useDropdownStore().openSelectTheme()"
-      class="flex items-center justify-between rounded-lg bg-white dark:bg-gray-700 p-2 dark:text-white cursor-pointer hover:bg-gray-100"
+      class="flex items-center justify-between rounded-lg dark:bg-slate-600 dark:bg-gray-700 p-2 dark:text-white cursor-pointer hover:bg-gray-100"
     >
       <div class="flex items-center space-x-1">
         <component :is="currentThemeIcon" class="w-5 h-5 dark:text-white" />
@@ -101,7 +101,7 @@ onMounted(() => {
     </div>
     <ul
       v-if="useDropdownStore().isOpenSelectTheme"
-      class="absolute w-full bg-white dark:bg-gray-700 dark:text-white shadow rounded-md z-20 bottom-12 right-0 divide-y divide-gray-200"
+      class="absolute w-full dark:bg-slate-600 dark:bg-gray-700 dark:text-white shadow rounded-md z-20 bottom-12 right-0 divide-y divide-gray-200"
     >
       <li
         v-for="(theme, idx) in list"

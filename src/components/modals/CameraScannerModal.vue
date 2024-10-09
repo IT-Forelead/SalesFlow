@@ -124,7 +124,7 @@ watch(
                 {{ $t('barcodeScanning') }}
             </div>
             <button @click="useModalStore().closeCameraScannerModal()"
-                class="text-gray-600 bg-gray-100 hover:bg-gray-800 hover:text-gray-300 transition-all duration-300 rounded-full text-sm p-1.5 ml-auto inline-flex items-center dark:hover:bg-gray-600 dark:hover:text-white">
+                class="dark:text-white bg-gray-100 hover:bg-gray-800 hover:text-gray-300 transition-all duration-300 rounded-full text-sm p-1.5 ml-auto inline-flex items-center dark:hover:bg-gray-600 dark:hover:text-white">
                 <XIcon />
             </button>
         </div>
@@ -132,7 +132,7 @@ watch(
             <!-- camera rotate -->
             <div v-if="videoDevices?.devices?.length < 2"
                 class="flex items-center justify-center bg-gray-950 w-12 h-12 rounded-full">
-                <CameraRotateIcon class="w-7 h-7 text-gray-700" />
+                <CameraRotateIcon class="w-7 h-7 dark:text-white" />
             </div>
             <div v-else @click="switchInputDevice()"
                 class="flex items-center justify-center bg-gray-950 w-12 h-12 rounded-full cursor-pointer">
@@ -144,11 +144,11 @@ watch(
                 <CornersOutIcon class="w-7 h-7 text-white" />
             </div>
             <div v-else class="flex items-center justify-center bg-gray-950 w-12 h-12 rounded-full">
-                <CornersOutIcon class="w-7 h-7 text-gray-700" />
+                <CornersOutIcon class="w-7 h-7 dark:text-white" />
             </div>
             <!-- rotate -->
             <div v-if="!landscape" class="flex items-center justify-center bg-gray-950 w-12 h-12 rounded-full">
-                <SmartphoneRotateIcon class="w-7 h-7 text-gray-700" />
+                <SmartphoneRotateIcon class="w-7 h-7 dark:text-white" />
             </div>
             <div v-else-if="landscape" @click="screenRotate()"
                 class="flex items-center justify-center bg-gray-950 w-12 h-12 rounded-full cursor-pointer">
@@ -161,7 +161,7 @@ watch(
                 <LightningSlashIcon v-else class="w-7 h-7 text-white" />
             </div>
             <div v-else class="flex items-center justify-center bg-gray-950 w-12 h-12 rounded-full">
-                <LightningIcon class="w-7 h-7 text-gray-700" />
+                <LightningIcon class="w-7 h-7 dark:text-white" />
             </div>
         </div>
         <div class="relative flex items-center justify-center">

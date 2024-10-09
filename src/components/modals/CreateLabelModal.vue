@@ -204,15 +204,15 @@ watch(
     <template v-slot:body>
       <div class="relative mb-8">
         <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-          <SearchIcon class="w-5 h-5 text-slate-400" />
+          <SearchIcon class="w-5 h-5 dark:text-white" />
         </div>
         <input type="search" v-model="search" ref="onSearchFocus" v-on:keypress="whenPressEnter($event)"
-               class="bg-slate-100 border-none text-slate-900 rounded-lg w-full h-12 pl-10 placeholder-slate-400 placeholder:text-sm md:placeholder:text-lg"
+               class="bg-slate-100 border-none dark:text-white rounded-lg w-full h-12 pl-10 placeholder-slate-400 placeholder:text-sm md:placeholder:text-lg"
                :placeholder="t('searchByProductNameOrBarcode')" />
         <div class="absolute inset-y-0 right-0 flex items-center space-x-2">
           <div @click="useModalStore().openCameraScannerModal()"
-               class="flex items-center justify-center w-8 h-8 rounded-lg hover:bg-white cursor-pointer">
-            <BarcodeIcon class="w-6 h-6 text-slate-900" />
+               class="flex items-center justify-center w-8 h-8 rounded-lg hover:dark:bg-slate-600 cursor-pointer">
+            <BarcodeIcon class="w-6 h-6 dark:text-white" />
           </div>
           <button type="button" @click="searchProducts()"
                   class="px-4 bg-[#0167F3] text-white rounded-lg text-base h-full md:text-lg cursor-pointer">
@@ -223,7 +223,7 @@ watch(
         <div v-if="productBarcodes.length > 0" class="absolute top-16 left-0 bg-transparent w-full space-y-2 z-[2000]">
           <ScrollPanel style="height: 600px;">
             <div v-for="(product, idx) in productBarcodes" :key="idx" @click="selectedProduct(product)"
-                 class="flex items-center justify-between bg-white border shadow-sm rounded-xl px-3 py-2 w-full cursor-pointer hover:bg-slate-100">
+                 class="flex items-center justify-between dark:bg-slate-600 border shadow-sm rounded-xl px-3 py-2 w-full cursor-pointer hover:bg-slate-100">
               <div class="flex items-center space-x-3">
                 <div class="flex items-center justify-center bg-slate-200 w-10 h-10 rounded-lg">
                   <ImageIcon class="text-gray-500 w-8 h-8" />
@@ -252,7 +252,7 @@ watch(
               <span class="text-red-500 mr-2">*</span>
             </label>
             <input id="name" disabled type="text" v-model="submitData.name"
-                   class="bg-slate-100 border-none text-slate-900 rounded-lg w-full py-2.5 placeholder-slate-400 placeholder:text-sm md:placeholder:text-lg"
+                   class="bg-slate-100 border-none dark:text-white rounded-lg w-full py-2.5 placeholder-slate-400 placeholder:text-sm md:placeholder:text-lg"
                    :placeholder="t('productName')" />
           </div>
           <div class="flex-1">
@@ -260,7 +260,7 @@ watch(
               {{ $t('barcode') }}
             </label>
             <input id="barcode" disabled type="text" v-model="submitData.barcode"
-                   class="bg-slate-100 border-none text-slate-900 rounded-lg w-full py-2.5 placeholder-slate-400 placeholder:text-sm md:placeholder:text-lg"
+                   class="bg-slate-100 border-none dark:text-white rounded-lg w-full py-2.5 placeholder-slate-400 placeholder:text-sm md:placeholder:text-lg"
                    :placeholder="t('barcode')" />
           </div>
         </div>
@@ -271,7 +271,7 @@ watch(
               <span class="text-red-500 mr-2">*</span>
             </label>
             <input id="quantity" type="number" v-model="submitData.quantity"
-                   class="bg-slate-100 border-none text-slate-900 rounded-lg w-full h-11 placeholder-slate-400 placeholder:text-sm md:placeholder:text-lg"
+                   class="bg-slate-100 border-none dark:text-white rounded-lg w-full h-11 placeholder-slate-400 placeholder:text-sm md:placeholder:text-lg"
                    :placeholder="t('enterProductQuantity')" />
           </div>
           <div class="flex-1 space-y-1">
@@ -289,7 +289,7 @@ watch(
               <span class="text-red-500 mr-2">*</span>
             </label>
             <input id="count" type="number" v-model="submitData.count"
-                   class="bg-slate-100 border-none text-slate-900 rounded-lg w-full h-11 placeholder-slate-400 placeholder:text-sm md:placeholder:text-lg"
+                   class="bg-slate-100 border-none dark:text-white rounded-lg w-full h-11 placeholder-slate-400 placeholder:text-sm md:placeholder:text-lg"
                    :placeholder="t('enterProductQuantity')" />
           </div>
         </div>
@@ -300,7 +300,7 @@ watch(
       <button v-if="isLoading"
               class="inline-flex items-center justify-center ms-3 text-white bg-blue-600 focus:ring-4 focus:outline-none focus:ring-slate-300 rounded-xl border border-slate-200 text-sm font-medium px-5 py-2.5 focus:z-10 cursor-default">
         <Spinners270RingIcon
-          class="mr-2 w-5 h-5 text-gray-200 animate-spin dark:text-gray-600 fill-gray-600 dark:fill-gray-300" />
+          class="mr-2 w-5 h-5 text-gray-200 animate-spin dark:dark:text-white fill-gray-600 dark:fill-gray-300" />
         {{ $t('create') }}
       </button>
       <button v-else @click="createLabel()" type="button"

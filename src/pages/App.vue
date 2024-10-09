@@ -29,10 +29,10 @@ onMounted(() => {
                         <img src="/images/logo.svg" class="w-12 h-12" alt="#">
                         <div class="text-4xl font-extrabold">
                             <span class="text-[#0167f3]">Sales</span>
-                            <span class="text-black">Flow</span>
+                            <span class="dark:text-white">Flow</span>
                         </div>
                     </div>
-                    <p class="mt-6 text-lg text-gray-600">
+                    <p class="mt-6 text-lg dark:text-white">
                         Ushbu dastur yordamida mobil telefoninggiz orqali
                         market.iflead.uz tizimidagi ko'plab funksiyalardan foydalanishingiz mumkun.
                         Hozirda mobil dasturimiz faqat Android foydalanuvchilari uchgun mavjud.
@@ -116,7 +116,7 @@ onMounted(() => {
                                                 stroke-linejoin="round"></path>
                                         </svg>
                                     </div>
-                                    <div class="mt-6 flex-auto rounded-t-2xl bg-white">
+                                    <div class="mt-6 flex-auto rounded-t-2xl dark:bg-slate-600">
                                         <div class="p-4">
                                             <div class="flex gap-2">
                                                 <div class="text-base leading-6 text-gray-900">

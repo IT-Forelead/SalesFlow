@@ -119,16 +119,16 @@ const clearFilterData = () => {
 
 <template>
   <div class="p-4 md:p-8">
-    <div class="text-slate-900 text-2xl md:text-3xl font-semibold mb-6">
+    <div class="dark:text-white text-2xl md:text-3xl font-semibold mb-6">
       {{ $t('wishes') }}
     </div>
     <div class="flex flex-col space-x-10 md:flex-row items-center">
       <div class="relative w-full md:w-auto my-2 md:mb-0 order-2 md:order-1">
         <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-          <SearchIcon class="w-5 h-5 text-slate-400" />
+          <SearchIcon class="w-5 h-5 dark:text-white" />
         </div>
         <input type="search" v-model="globalSearchFromTable"
-          class="bg-slate-100 border-none w-full text-slate-900 text-base md:text-lg rounded-full block pl-10 py-2 placeholder-slate-400"
+          class="bg-slate-100 border-none w-full dark:text-white text-base md:text-lg rounded-full block pl-10 py-2 placeholder-slate-400"
           :placeholder="$t('search')">
       </div>
 
@@ -140,13 +140,13 @@ const clearFilterData = () => {
             <span>{{ $t('filter') }}</span>
           </div>
           <div v-if="useDropdownStore().isOpenFilterBy"
-            class="absolute bg-white shadow-md rounded-xl w-64 p-3 z-20 top-12 right-0 space-y-3">
+            class="absolute dark:bg-slate-600 shadow-md rounded-xl w-64 p-3 z-20 top-12 right-0 space-y-3">
             <div class="flex-1 space-y-1">
               <label for="from" class="text-base md:text-lg font-medium">
                 {{ $t('from') }}
               </label>
               <input id="from" type="date" v-model="filterData.from"
-                class="bg-slate-100 border-none text-slate-900 rounded-lg w-full h-11 placeholder-slate-400 placeholder:text-sm md:placeholder:text-lg"
+                class="bg-slate-100 border-none dark:text-white rounded-lg w-full h-11 placeholder-slate-400 placeholder:text-sm md:placeholder:text-lg"
                 :placeholder="t('enterProductQuantity')">
             </div>
             <div class="flex-1 space-y-1">
@@ -154,7 +154,7 @@ const clearFilterData = () => {
                 {{ $t('to') }}
               </label>
               <input id="to" type="date" v-model="filterData.to"
-                class="bg-slate-100 border-none text-slate-900 rounded-lg w-full h-11 placeholder-slate-400 placeholder:text-sm md:placeholder:text-lg"
+                class="bg-slate-100 border-none dark:text-white rounded-lg w-full h-11 placeholder-slate-400 placeholder:text-sm md:placeholder:text-lg"
                 :placeholder="t('enterProductQuantity')">
             </div>
             <div class="flex items-center space-x-2">
@@ -165,7 +165,7 @@ const clearFilterData = () => {
               <div v-if="isLoading"
                 class="w-full bg-blue-600 py-2 select-none text-white rounded-lg flex items-center justify-center">
                 <Spinners270RingIcon
-                  class="mr-2 w-5 h-5 text-gray-200 animate-spin dark:text-gray-600 fill-gray-600 dark:fill-gray-300" />
+                  class="mr-2 w-5 h-5 text-gray-200 animate-spin dark:dark:text-white fill-gray-600 dark:fill-gray-300" />
                 <span>{{ $t('loading') }}</span>
               </div>
               <div v-else @click="submitFilterData()"

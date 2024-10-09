@@ -291,10 +291,10 @@ const openCreateProductModal = () => {
       <div class="flex space-x-1 space-y-2 md:space-y-0 md:flex-row flex-col mb-6 justify-between">
         <div class="relative w-full md:w-[calc(100%-13rem)]">
           <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-            <SearchIcon class="w-5 h-5 text-slate-400" />
+            <SearchIcon class="w-5 h-5 dark:text-white" />
           </div>
           <input type="search" v-model="searchProduct" ref="onSearchFocus" v-on:keypress="whenPressEnter($event)"
-                 class="bg-slate-100 border-none text-slate-900 rounded-lg w-full h-12 pl-10 placeholder-slate-400 placeholder:text-sm md:placeholder:text-lg"
+                 class="bg-slate-100 border-none dark:text-white rounded-lg w-full h-12 pl-10 placeholder-slate-400 placeholder:text-sm md:placeholder:text-lg"
                  :placeholder="t('searchByProductNameOrBarcode')">
           <div class="absolute inset-y-0 right-0 flex items-center space-x-2">
             <button type="button" @click="searchProducts()"
@@ -310,7 +310,7 @@ const openCreateProductModal = () => {
         <div v-if="productBarcodes.length > 0" class="absolute top-36 px-4 left-0 bg-transparent w-full space-y-2 z-[2000]">
           <ScrollPanel style="height: 600px;">
             <div v-for="(product, idx) in productBarcodes" :key="idx" @click="selectProduct(product)"
-              class="flex items-center justify-between bg-white border shadow-sm rounded-xl px-3 py-2 w-full cursor-pointer hover:bg-slate-100">
+              class="flex items-center justify-between dark:bg-slate-600 border shadow-sm rounded-xl px-3 py-2 w-full cursor-pointer hover:bg-slate-100">
               <div class="flex items-center space-x-3">
                 <div class="flex items-center justify-center bg-slate-200 w-10 h-10 rounded-lg">
                   <ImageIcon class="text-gray-500 w-8 h-8" />
@@ -333,7 +333,7 @@ const openCreateProductModal = () => {
       </div>
 
         <div v-if="selectedProducts.length" class="overflow-y-auto overflow-x-auto h-96">
-          <h4 class="text-slate-900 text-xl font-semibold">
+          <h4 class="dark:text-white text-xl font-semibold">
             {{ $t('products') }}
           </h4>
           <table class="min-w-full divide-y divide-gray-200">
@@ -353,7 +353,7 @@ const openCreateProductModal = () => {
               </th>
             </tr>
             </thead>
-            <tbody class="bg-white divide-y divide-gray-200">
+            <tbody class="dark:bg-slate-600 divide-y divide-gray-200">
             <tr v-for="(product, idx) in selectedProducts" :key="idx">
               <td class="px-6 py-4 whitespace-nowrap">
                 <div class="flex items-center">
@@ -368,7 +368,7 @@ const openCreateProductModal = () => {
                 </div>
               </td>
               <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                <input type="number" v-model="product.quantity" class="w-24 bg-slate-100 border-none text-slate-900 rounded-lg text-base md:text-lg block h-10">
+                <input type="number" v-model="product.quantity" class="w-24 bg-slate-100 border-none dark:text-white rounded-lg text-base md:text-lg block h-10">
               </td>
               <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
                 <TrashIcon @click="removeProduct(product)" class="w-6 h-6 text-rose-500 cursor-pointer transform hover:scale-105" />
@@ -396,7 +396,7 @@ const openCreateProductModal = () => {
               <span class="text-red-500 mr-2">*</span>
             </label>
             <select id="default-type" v-model="submitData.paymentType"
-              class="bg-slate-100 border-none text-slate-900 rounded-lg text-base md:text-lg block w-full h-11">
+              class="bg-slate-100 border-none dark:text-white rounded-lg text-base md:text-lg block w-full h-11">
               <option value="" selected>{{ $t('selectType') }}</option>
               <option value="cash">{{ $t('cash') }}</option>
               <option value="terminal">{{ $t('terminal') }}</option>
@@ -424,7 +424,7 @@ const openCreateProductModal = () => {
                         <span class="text-red-500 mr-2">*</span>
                       </label>
                       <input id="agent-fullName" type="text" v-model="submitAgentForm.fullName"
-                        class="bg-slate-100 placeholder:line-clamp-2 border-none text-slate-900 rounded-lg w-full py-2.5 placeholder-slate-400"
+                        class="bg-slate-100 placeholder:line-clamp-2 border-none dark:text-white rounded-lg w-full py-2.5 placeholder-slate-400"
                         :placeholder="t('enterFullName')">
                     </div>
                     <div class="flex-1">
@@ -434,7 +434,7 @@ const openCreateProductModal = () => {
                       </label>
                       <input id="phone" type="text" v-model="submitAgentForm.phone" v-maska
                         data-maska="+998(##) ###-##-##"
-                        class="bg-slate-100 border-none text-slate-900 rounded-lg w-full py-2.5 placeholder-slate-400"
+                        class="bg-slate-100 border-none dark:text-white rounded-lg w-full py-2.5 placeholder-slate-400"
                         placeholder="+998(00) 000-00-00">
                     </div>
                     <div class="flex-1">
@@ -443,7 +443,7 @@ const openCreateProductModal = () => {
                         <span class="text-red-500 mr-2">*</span>
                       </label>
                       <input id="company" type="text" v-model="submitAgentForm.company"
-                        class="bg-slate-100 border-none text-slate-900 rounded-lg w-full py-2.5 placeholder-slate-400"
+                        class="bg-slate-100 border-none dark:text-white rounded-lg w-full py-2.5 placeholder-slate-400"
                         :placeholder="t('enterCompany')">
                     </div>
                   </div>
@@ -476,7 +476,7 @@ const openCreateProductModal = () => {
       <button v-if="isLoading"
         class="inline-flex items-center justify-center ms-3 text-white bg-blue-600 focus:ring-4 focus:outline-none focus:ring-slate-300 rounded-xl border border-slate-200 text-sm font-medium px-5 py-2.5 focus:z-10 cursor-default">
         <Spinners270RingIcon
-          class="mr-2 w-5 h-5 text-gray-200 animate-spin dark:text-gray-600 fill-gray-600 dark:fill-gray-300" />
+          class="mr-2 w-5 h-5 text-gray-200 animate-spin dark:dark:text-white fill-gray-600 dark:fill-gray-300" />
         {{ $t('create') }}
       </button>
       <button v-else @click="createUpcomingProduct()" type="button"
