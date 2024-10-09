@@ -1,19 +1,14 @@
 <script setup>
-import PhPencilIcon from '../assets/icons/EditIcon.vue'
-import PhTrash from '../assets/icons/TrashIcon.vue'
 import { ref } from 'vue'
-import moment from 'moment'
 import { computed, h } from 'vue'
 import SearchIcon from '../assets/icons/SearchIcon.vue'
 import Spinners270RingIcon from '../assets/icons/Spinners270RingIcon.vue'
 import CTable from '../components/common/CTable.vue'
-import UserService from '../services/user.service'
-import { useUserStore } from '../store/user.store.js'
 import { useModalStore } from '../store/modal.store.js'
 import { useI18n } from 'vue-i18n'
 import { usePriceStore } from '../store/price.store.js'
 import PriceService from '../services/price.service.js'
-import Dialog from 'primevue/dialog';
+import Image from 'primevue/image';
 
 const { t } = useI18n()
 
@@ -35,14 +30,10 @@ const columns = [
     accessorKey: 'asset',
     header: t('image'),
     cell: ({ row }) =>
-      h('div', { class: 'flex items-center' }, [
-        h('div', {
-          onClick: () => {
-            openImageModal(row.original);
-          },
-        }, [row.original.asset ?
-          h('img', { src: `${row.original.asset.url}`, class: 'hover:cursor-pointer w-12 h-auto rounded', alt: '#' }) : h('span')]),
-      ]),
+      h('div', { class: 'flex items-center' },
+        [row.original.asset ?
+          h(Image, { src: `${row.original.asset.url}`, alt: '', preview: '', class: 'w-10 h-10 backdrop-blur-[2px] bg-gray-900/70 ' }) : h('span')]),
+
   },
   {
     accessorKey: 'company',
@@ -54,11 +45,6 @@ const columns = [
   }
 ]
 
-const openImageModal = (data) => {
-  useModalStore().openImageModal()
-  usePriceStore().setSelectedPrice(data)
-}
-
 const page = ref(1)
 const pageSize = 50
 
@@ -66,8 +52,9 @@ const getPrices = async () => {
   isLoading.value = true
   try {
     const res = await PriceService.getPrices({ limit: pageSize, page: page.value })
+    const sortedPrices = res.data.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
     usePriceStore().clearStore()
-    usePriceStore().setPrices(res.data)
+    usePriceStore().setPrices(sortedPrices)
     usePriceStore().renderkey += 1
   } finally {
     isLoading.value = false
@@ -76,6 +63,15 @@ const getPrices = async () => {
 getPrices()
 
 </script>
+<style>
+/* .p-image-mask {
+    --maskbg: rgba(0, 0, 0, 0.6);
+} */
+
+.p-image-action.p-link {
+  color: #ffffff;
+}
+</style>
 
 <template>
   <div class="p-4 md:p-8">
@@ -99,11 +95,6 @@ getPrices()
         </button>
       </div>
     </div>
-    <Dialog v-model:visible="useModalStore().isOpenImageModal" modal :closable="true">
-      <div class="h-auto w-[20vw] flex flex-col space-y-10 items-center">
-        <img :src="usePriceStore().selectedPrice.asset.url">
-      </div>
-    </Dialog>
     <div v-if="isLoading && !useModalStore().isOpenImageModal" class="flex items-center justify-center h-20">
       <Spinners270RingIcon class="w-6 h-6 text-gray-500 animate-spin" />
     </div>

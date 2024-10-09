@@ -49,9 +49,10 @@ const createPrice = () => {
       isLoading.value = false
       PriceService.getPrices()
         .then((res) => {
+          const sortedPrices = res.data.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
           usePriceStore().clearStore()
           usePriceStore().setTotal(res.total)
-          usePriceStore().setPrices(res.data)
+          usePriceStore().setPrices(sortedPrices)
           usePriceStore().renderkey += 1
         })
     }).catch(() => {
@@ -68,7 +69,7 @@ const createPriceForm = () => {
   } else if (!submitForm.description) {
     toast.warning(t('enterDescription'))
   } else if (!submitForm.image) {
-    toast.warning(t('plsEnterImage'))
+    toast.warning(t('enterImage'))
   } else {
     isLoading.value = true
     const formData = new FormData()
