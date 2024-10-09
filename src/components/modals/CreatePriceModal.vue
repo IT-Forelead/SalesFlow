@@ -39,36 +39,35 @@ const closeModal = () => {
 
 const createPrice = () => {
   PriceService.createPrice(
-      cleanObjectEmptyFields({
-        company: submitForm.company,
-        description: submitForm.description,
-        assetId: submitForm.assetId,
-      }),
-    ).then(() => {
-      toast.success(t('priceAddedSuccessfully'))
-      isLoading.value = false
-      PriceService.getPrices()
-        .then((res) => {
-          usePriceStore().clearStore()
-          usePriceStore().setTotal(res.total)
-          usePriceStore().setPrices(res.data)
-          usePriceStore().renderkey += 1
-        })
-    }).catch(() => {
-      toast.error(t('errorWhileCreatingPrice'))
-      isLoading.value = false
-    })
-    closeModal()
-  }
+    cleanObjectEmptyFields({
+      company: submitForm.company,
+      description: submitForm.description,
+      assetId: submitForm.assetId,
+    }),
+  ).then(() => {
+    toast.success(t('priceAddedSuccessfully'))
+    isLoading.value = false
+    PriceService.getPrices()
+      .then((res) => {
+        const sortedPrices = res.data.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
+        usePriceStore().clearStore()
+        usePriceStore().setTotal(res.total)
+        usePriceStore().setPrices(sortedPrices)
+        usePriceStore().renderkey += 1
+      })
+  }).catch(() => {
+    toast.error(t('errorWhileCreatingPrice'))
+    isLoading.value = false
+  })
+  closeModal()
+}
 
 
 const createPriceForm = () => {
   if (!submitForm.company) {
     toast.warning(t('plsEnterCompany'))
-  } else if (!submitForm.description) {
-    toast.warning(t('enterDescription'))
   } else if (!submitForm.image) {
-    toast.warning(t('plsEnterImage'))
+    toast.warning(t('enterImage'))
   } else {
     isLoading.value = true
     const formData = new FormData()
@@ -83,12 +82,12 @@ const createPriceForm = () => {
           toast.error(t('thereWasAnErrorUploadingThePhoto'))
           isLoading.value = false
         })
-        
+
     } else {
       createPrice()
     }
-    
-}
+
+  }
 }
 
 
@@ -145,7 +144,6 @@ function getImage(e) {
           <div class="flex-1">
             <label for="description" class="text-base font-medium">
               {{ $t('description') }}
-              <span class="text-red-500 mr-2">*</span>
             </label>
             <input id="description" type="text" v-model="submitForm.description"
               class="bg-slate-100 border-none text-slate-900 rounded-lg w-full py-2.5 placeholder-slate-400"
