@@ -231,9 +231,9 @@
   "errorWhileDeletingAgent": "Agenti o'chirishda xatolik yuz berdi!",
   "addAgent": "Agent qo'shish",
   "plsEnterFullName": "Iltimos, familiya va ismni kiriting!",
-  "plsEnterCompany": "Iltimos, kompaniya kiriting!",
+  "plsEnterCompany": "Iltimos, kompaniya nomini kiriting!",
   "company": "Kompaniya",
-  "enterCompany": "Kompaniya kiriting",
+  "enterCompany": "Kompaniya nomini kiriting",
   "editAgent": "Agentni tahrirlash",
   "agentEditedSuccessfully": "Agent muvaffaqiyatli tahrir qildi!",
   "errorWhileEditingAgent": "Agentni tahrirlashda xatolik yuz berdi!",
@@ -433,8 +433,8 @@
   "duplicates": "Duplikatlar",
   "enterCorrectPayment": "To'g'ri qabul qilingan to'lov kiriting",
   "priceLists": "Narxlar ro'yxati",
-  "createPrice": "Ro'yxati yaratish",
-  "priceAddedSuccessfully": "Narx ro'yxati yaratildi!",
-  "errorWhileCreatingPrice": "Narx ro'yxati xatolik yuz berdi",
+  "createPrice": "Ro'yxat yaratish",
+  "priceAddedSuccessfully": "Narxlar ro'yxati yaratildi!",
+  "errorWhileCreatingPrice": "Narxlar ro'yxati yaratishda xatolik yuz berdi",
   "enterImage": "Iltimos, rasmni kiriting"
 }
