@@ -29,6 +29,7 @@ const columns = [
     accessorKey: 'id',
     header: t('n'),
     cell: ({ row }) => `${parseInt(row.id, 10) + 1}`,
+    enableSorting: false,
   },
   {
     accessorFn: row => `${row.fullName}`,

@@ -29,11 +29,13 @@ const columns = [
   {
     accessorKey: 'id',
     header: t('n'),
+    enableSorting: false,
     cell: ({ row }) => `${parseInt(row.id, 10) + 1}`,
   },
   {
     accessorKey: 'asset',
     header: t('image'),
+    enableSorting: false,
     cell: ({ row }) =>
       h('div', { class: 'w-12 h-12 flex items-center overflow-hidden border border-gray-300' },
         [row.original.asset ?
@@ -47,11 +49,11 @@ const columns = [
     accessorFn: row => `${row.completed ? t('completed') : t('notCompleted')}`,
     header: t('status'),
   },
-  // {
-  //   accessorKey: 'createdAt',
-  //   accessorFn: row => moment(row.createdAt).format('DD/MM/YYYY H:mm'),
-  //   header: t('createdAt'),
-  // },
+  {
+    accessorKey: 'createdAt',
+    accessorFn: row => moment(row.createdAt).format('DD/MM/YYYY H:mm'),
+    header: t('createdAt'),
+  },
   {
     accessorKey: 'actions',
     header: t('actions'),
@@ -118,6 +120,16 @@ const clearFilterData = () => {
   filterData.to = ''
 }
 </script>
+<style>
+/* .p-image-mask {
+    --maskbg: rgba(0, 0, 0, 0.6);
+} */
+
+.p-image-action.p-link {
+  color: #ffffff;
+}
+
+</style>
 
 <template>
   <div class="p-4 md:p-8">

@@ -5,6 +5,7 @@ import cars from '/public/cars.json'
 import EditProductModal from '../components/modals/EditProductModal.vue'
 import DeleteProductModal from '../components/modals/DeleteProductModal.vue'
 import SearchIcon from '../assets/icons/SearchIcon.vue'
+import moment from 'moment'
 
 const globaleSearchFromTable = ref('')
 
@@ -29,6 +30,11 @@ const columns = [
   {
     accessorKey: 'price',
     header: 'Narxi',
+  },
+  {
+    accessorKey: 'createdAt',
+    accessorFn: row => moment(row.createdAt).format('DD/MM/YYYY H:mm'),
+    header: t('createdAt'),
   },
   {
     accessorKey: 'edit',

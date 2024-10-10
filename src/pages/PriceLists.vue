@@ -9,6 +9,7 @@ import { useI18n } from 'vue-i18n'
 import { usePriceStore } from '../store/price.store.js'
 import PriceService from '../services/price.service.js'
 import Image from 'primevue/image';
+import moment from 'moment'
 
 const { t } = useI18n()
 
@@ -24,11 +25,13 @@ const columns = [
   {
     accessorKey: 'id',
     header: t('n'),
+    enableSorting: false,
     cell: ({ row }) => `${parseInt(row.id, 10) + 1}`,
   },
   {
     accessorKey: 'asset',
     header: t('image'),
+    enableSorting: false,
     cell: ({ row }) =>
       h('div', { class: 'w-12 h-12 flex items-center overflow-hidden border border-gray-300' },
         [row.original.asset ?
@@ -42,11 +45,11 @@ const columns = [
     accessorKey: 'description',
     header: t('description')
   },
-  // {
-  //   accessorKey: 'createdAt',
-  //   accessorFn: row => moment(row.createdAt).format('DD/MM/YYYY H:mm'),
-  //   header: t('createdAt'),
-  // },
+  {
+    accessorKey: 'createdAt',
+    accessorFn: row => moment(row.createdAt).format('DD/MM/YYYY H:mm'),
+    header: t('createdAt'),
+  },
 ]
 
 const page = ref(1)

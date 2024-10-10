@@ -26,10 +26,16 @@ const columns = [
     accessorKey: 'id',
     header: t('n'),
     cell: ({ row }) => `${parseInt(row.id, 10) + 1}`,
+    enableSorting: false,
   },
   {
     accessorFn: row => `${row}`,
     header: t('ipAddress'),
+  },
+  {
+    accessorKey: 'createdAt',
+    accessorFn: row => moment(row.createdAt).format('DD/MM/YYYY H:mm'),
+    header: t('createdAt'),
   },
   {
     accessorKey: 'actions',
