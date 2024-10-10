@@ -19,6 +19,7 @@ import decodeJwt, { parseJwt } from '../mixins/utils.js'
 import { useRoute, useRouter } from 'vue-router'
 import { isBarcode } from '../mixins/barcodeFormatter'
 import Image from 'primevue/image'
+import moment from 'moment'
 
 const { t } = useI18n()
 const route = useRoute()
@@ -80,6 +81,7 @@ const columns = [
   {
     accessorKey: 'asset',
     header: t('image'),
+    enableSorting: false,
     cell: ({ row }) =>
       h('div', { class: 'w-12 h-12 flex items-center overflow-hidden border border-gray-300' },
         [row.original.asset ?
@@ -112,11 +114,11 @@ const columns = [
     accessorFn: row => `${useMoneyFormatter(row.price)}`,
     header: t('price'),
   },
-  // {
-  //   accessorKey: 'createdAt',
-  //   accessorFn: row => moment(row.createdAt).format('DD/MM/YYYY H:mm'),
-  //   header: t('createdAt'),
-  // },
+  {
+    accessorKey: 'createdAt',
+    accessorFn: row => moment(row.createdAt).format('DD/MM/YYYY H:mm'),
+    header: t('createdAt'),
+  },
   {
     accessorKey: 'actions',
     header: t('actions'),
@@ -263,6 +265,16 @@ watchEffect(() => {
   }
 })
 </script>
+<style>
+/* .p-image-mask {
+    --maskbg: rgba(0, 0, 0, 0.6);
+} */
+
+.p-image-action.p-link {
+  color: #ffffff;
+}
+
+</style>
 
 <template>
   <div class="p-4 md:p-8">

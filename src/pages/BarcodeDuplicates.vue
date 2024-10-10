@@ -12,6 +12,7 @@ import CaretLeftIcon from '../assets/icons/CaretLeftIcon.vue'
 import BarcodesTable from '../components/common/BarcodesTable.vue'
 import EditIcon from '../assets/icons/EditIcon.vue'
 import { useI18n } from 'vue-i18n'
+import moment from 'moment'
 
 const { t } = useI18n()
 
@@ -67,6 +68,11 @@ const columns = [
   {
     accessorKey: 'year',
     header: t('year'),
+  },
+  {
+    accessorKey: 'createdAt',
+    accessorFn: row => moment(row.createdAt).format('DD/MM/YYYY H:mm'),
+    header: t('createdAt'),
   },
   {
     accessorKey: 'actions',

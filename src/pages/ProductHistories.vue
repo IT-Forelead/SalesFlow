@@ -33,7 +33,7 @@ import { useConfirm } from "primevue/useconfirm";
 import {
   roundFloatToTwoDecimal,
 } from '../mixins/utils';
-
+import moment from 'moment'
 
 const { t } = useI18n()
 const API_URL = import.meta.env.VITE_CHEQUE_API_URL
@@ -167,6 +167,11 @@ const columns = [
     accessorKey: 'expiration_date',
     header: t('expirationDate'),
     cell: ({ row }) => row.original.expirationDate,
+  },
+  {
+    accessorKey: 'createdAt',
+    accessorFn: row => moment(row.createdAt).format('DD/MM/YYYY H:mm'),
+    header: t('createdAt'),
   },
   {
     accessorKey: 'actions',
