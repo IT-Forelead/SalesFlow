@@ -30,9 +30,9 @@ const columns = [
     accessorKey: 'asset',
     header: t('image'),
     cell: ({ row }) =>
-      h('div', { class: 'flex items-center' },
+      h('div', { class: 'w-12 h-12 flex items-center overflow-hidden border border-gray-300' },
         [row.original.asset ?
-          h(Image, { src: `${row.original.asset.url}`, alt: '', preview: '', class: 'w-10 h-min' }) : h('span')]),
+          h(Image, { src: `${row.original.asset.url}`, alt: '#', preview: '' }) : h('span')]),
   },
   {
     accessorKey: 'company',
@@ -41,7 +41,12 @@ const columns = [
   {
     accessorKey: 'description',
     header: t('description')
-  }
+  },
+  // {
+  //   accessorKey: 'createdAt',
+  //   accessorFn: row => moment(row.createdAt).format('DD/MM/YYYY H:mm'),
+  //   header: t('createdAt'),
+  // },
 ]
 
 const page = ref(1)
@@ -70,6 +75,7 @@ getPrices()
 .p-image-action.p-link {
   color: #ffffff;
 }
+
 </style>
 
 <template>

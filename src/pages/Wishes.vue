@@ -13,6 +13,7 @@ import { useDropdownStore } from '../store/dropdown.store'
 import FunnelIcon from '../assets/icons/FunnelIcon.vue'
 import BroomIcon from '../assets/icons/BroomIcon.vue'
 import { cleanObjectEmptyFields } from '../mixins/utils'
+import Image from 'primevue/image'
 
 const { t } = useI18n()
 const wishStore = useWishStore()
@@ -34,8 +35,9 @@ const columns = [
     accessorKey: 'asset',
     header: t('image'),
     cell: ({ row }) =>
-      h('div', { class: 'flex items-center' }, [row.original.asset ?
-        h('img', { src: `${row.original.asset.url}`, class: 'w-12 h-auto rounded', alt: '#' }) : h('span')]),
+      h('div', { class: 'w-12 h-12 flex items-center overflow-hidden border border-gray-300' },
+        [row.original.asset ?
+          h(Image, { src: `${row.original.asset.url}`, alt: '#', preview: '' }) : h('span')]),
   },
   {
     accessorFn: row => `${row.name}`,
@@ -45,11 +47,11 @@ const columns = [
     accessorFn: row => `${row.completed ? t('completed') : t('notCompleted')}`,
     header: t('status'),
   },
-  {
-    accessorKey: 'createdAt',
-    accessorFn: row => moment(row.createdAt).format('DD/MM/YYYY H:mm'),
-    header: t('createdAt'),
-  },
+  // {
+  //   accessorKey: 'createdAt',
+  //   accessorFn: row => moment(row.createdAt).format('DD/MM/YYYY H:mm'),
+  //   header: t('createdAt'),
+  // },
   {
     accessorKey: 'actions',
     header: t('actions'),
