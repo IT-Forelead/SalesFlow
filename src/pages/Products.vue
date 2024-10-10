@@ -18,6 +18,7 @@ import { useAuthStore } from '../store/auth.store.js'
 import decodeJwt, { parseJwt } from '../mixins/utils.js'
 import { useRoute, useRouter } from 'vue-router'
 import { isBarcode } from '../mixins/barcodeFormatter'
+import Image from 'primevue/image'
 
 const { t } = useI18n()
 const route = useRoute()
@@ -80,8 +81,9 @@ const columns = [
     accessorKey: 'asset',
     header: t('image'),
     cell: ({ row }) =>
-      h('div', { class: 'flex items-center' }, [row.original.asset ?
-        h('img', { src: `${row.original.asset.url}`, class: 'w-12 h-auto rounded', alt: '#' }) : h('span')]),
+      h('div', { class: 'w-12 h-12 flex items-center overflow-hidden border border-gray-300' },
+        [row.original.asset ?
+          h(Image, { src: `${row.original.asset.url}`, alt: '#', preview: '' }) : h('span')]),
   },
   {
     accessorKey: 'name',
@@ -110,6 +112,11 @@ const columns = [
     accessorFn: row => `${useMoneyFormatter(row.price)}`,
     header: t('price'),
   },
+  // {
+  //   accessorKey: 'createdAt',
+  //   accessorFn: row => moment(row.createdAt).format('DD/MM/YYYY H:mm'),
+  //   header: t('createdAt'),
+  // },
   {
     accessorKey: 'actions',
     header: t('actions'),
