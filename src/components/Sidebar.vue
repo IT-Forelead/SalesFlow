@@ -109,8 +109,8 @@ onMounted(() => {
       <div class="h-20 flex justify-around">
         <div class="flex space-x-1 items-center justify-center">
           <img src="/images/logo.svg" class="w-12 h-12" alt="#">
-          <div class="text-3xl font-extrabold">
-            <span class="text-[#0167f3]">Sales</span>
+          <div class="text-3xl font-extrabold cursor-default">
+            <span class="text- text-[#0167f3]">Sales</span>
             <span class="text-black">Flow</span>
           </div>
         </div>
