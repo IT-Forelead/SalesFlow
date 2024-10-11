@@ -884,7 +884,7 @@ watch(pageProfit, () => {
           </apexchart>
         </div>
     </div>
-    <div class="flex flex-col md:flex-row space-x-0 md:space-x-4 space-y-2 md:space-y-0 h-[67vh]">
+    <div class="flex flex-col md:flex-row space-x-0 md:space-x-4 space-y-2 md:space-y-0 h-auto overflow-y-auto">
       <div class="p-5 flex rounded-3xl bg-slate-50 w-[25vw] flex-col justify-between">
         <div class="space-y-4">
           <div class="flex items-center justify-between">
@@ -935,7 +935,7 @@ watch(pageProfit, () => {
             </div>
           </div>
         </div>
-        <div class="flex items-center justify-center ">
+        <div class="w-min flex items-center justify-center ">
           <div class="flex items-center space-x-2">
             <button :disabled="pageRevenue === 1" @click="goToRevenuePage(1)"
               class="flex items-center justify-center px-3 py-2 text-base font-medium text-slate-900 rounded-lg select-none hover:bg-blue-200 disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
@@ -1020,7 +1020,7 @@ watch(pageProfit, () => {
             </div>
           </div>
         </div>
-        <div class="flex items-center justify-center ">
+        <div class="w-min flex items-center justify-center ">
           <div class="flex items-center space-x-2">
             <button :disabled="pageProfit === 1" @click="goToProfitPage(1)"
               class="flex items-center justify-center px-3 py-2 text-base font-medium text-slate-900 rounded-lg select-none hover:bg-blue-200 disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
@@ -1105,7 +1105,7 @@ watch(pageProfit, () => {
             </div>
           </div>
         </div>
-        <div class="flex items-center justify-center ">
+        <div class="w-min flex items-center justify-center ">
           <div class="flex items-center space-x-2">
             <button :disabled="pageSell === 1" @click="goToSellPage(1)"
               class="flex items-center justify-center px-3 py-2 text-base font-medium text-slate-900 rounded-lg select-none hover:bg-blue-200 disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
@@ -1140,7 +1140,7 @@ watch(pageProfit, () => {
           </div>
         </div>
       </div>
-      <div class="p-5 flex rounded-3xl bg-slate-50 w-[20vw] flex-col justify-between ">
+      <div class="p-5 flex rounded-3xl bg-slate-50 w-[25vw] flex-col justify-between ">
         <div class="space-y-4">
           <div class="flex items-center justify-between">
             <div class="space-y-0.5">
@@ -1187,7 +1187,7 @@ watch(pageProfit, () => {
             </div>
           </div>
         </div>
-        <div class="flex items-center justify-center ">
+        <div class="w-min flex items-center justify-center ">
           <div class="flex items-center space-x-2">
             <button :disabled="pageWorstSell === 1" @click="goToWorstSellPage(1)"
               class="flex items-center justify-center px-3 py-2 text-base font-medium text-slate-900 rounded-lg select-none hover:bg-blue-200 disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
