@@ -666,9 +666,21 @@ onMounted(() => {
     turnoverStats.value = res
   })
   OrderService.getHourlySales()
-    .then((res) => {
-      hourlySales.value = res
-    })
+  .then((res) => {
+    const hours = Array.from({ length: 18 }, (_, i) => i + 7);
+        const revenueByHour = res.reduce((acc, item) => {
+      acc[item.hour] = item.revenue;
+      return acc;
+    }, {});
+    const completeHourlySales = hours.map(hour => ({
+      hour: hour === 24 ? '0' : hour.toString(),
+      revenue: revenueByHour[hour] || 0
+    }));
+    hourlySales.value = completeHourlySales;
+  })
+  .catch(error => {
+    console.error(error);
+  });
   CashbackService.getCashbackRedeems()
     .then((res) => {
       cashbackRedeems.value = res
