@@ -884,7 +884,7 @@ watch(pageProfit, () => {
           </apexchart>
         </div>
     </div>
-    <div class="flex flex-col md:flex-row space-x-0 md:space-x-4 space-y-2 md:space-y-0 h-auto overflow-y-auto">
+    <div class="flex w-full justify-between flex-col md:flex-row space-x-0 md:space-x-4 space-y-2 md:space-y-0 h-auto overflow-y-auto">
       <div class="p-5 flex rounded-3xl bg-slate-50 w-auto flex-col justify-between">
         <div class="space-y-4">
           <div class="flex items-center justify-between">
@@ -1055,7 +1055,7 @@ watch(pageProfit, () => {
           </div>
         </div>
       </div>
-      <div class="p-5 flex rounded-3xl bg-slate-50 w-auto flex-col justify-between ">
+      <div class="p-5 flex rounded-3xl bg-slate-50 w-auto flex-col justify-between">
         <div class="space-y-4">
           <div class="flex items-center justify-between">
             <div class="space-y-0.5">
@@ -1140,7 +1140,7 @@ watch(pageProfit, () => {
           </div>
         </div>
       </div>
-      <div class="p-5 flex rounded-3xl bg-slate-50 w-auto flex-col justify-between ">
+      <div class="p-5 flex rounded-3xl bg-slate-50 w-auto flex-col justify-between">
         <div class="space-y-4">
           <div class="flex items-center justify-between">
             <div class="space-y-0.5">
@@ -1167,7 +1167,7 @@ watch(pageProfit, () => {
                   </span>
                 </div>
                 <div>
-                  <div class="text-base font-semibold text-gray-800">
+                  <div class="text-base font-semibold whitespace-normal text-gray-800">
                     {{ product?.name + ' - ' + product?.packaging }}
                   </div>
                   <div class="text-sm text-gray-600">
