@@ -885,7 +885,7 @@ watch(pageProfit, () => {
         </div>
     </div>
     <div class="flex flex-col md:flex-row space-x-0 md:space-x-4 space-y-2 md:space-y-0 h-auto overflow-y-auto">
-      <div class="p-5 flex rounded-3xl bg-slate-50 w-[25vw] flex-col justify-between">
+      <div class="p-5 flex rounded-3xl bg-slate-50 w-auto flex-col justify-between">
         <div class="space-y-4">
           <div class="flex items-center justify-between">
             <div class="space-y-0.5">
@@ -970,7 +970,7 @@ watch(pageProfit, () => {
           </div>
         </div>
       </div>
-      <div class="p-5 flex rounded-3xl bg-slate-50 w-[25vw] flex-col justify-between">
+      <div class="p-5 flex rounded-3xl bg-slate-50 w-auto flex-col justify-between">
         <div class="space-y-4">
           <div class="flex items-center justify-between">
             <div class="space-y-0.5">
@@ -1055,7 +1055,7 @@ watch(pageProfit, () => {
           </div>
         </div>
       </div>
-      <div class="p-5 flex rounded-3xl bg-slate-50 w-[25vw] flex-col justify-between ">
+      <div class="p-5 flex rounded-3xl bg-slate-50 w-auto flex-col justify-between ">
         <div class="space-y-4">
           <div class="flex items-center justify-between">
             <div class="space-y-0.5">
@@ -1140,7 +1140,7 @@ watch(pageProfit, () => {
           </div>
         </div>
       </div>
-      <div class="p-5 flex rounded-3xl bg-slate-50 w-[25vw] flex-col justify-between ">
+      <div class="p-5 flex rounded-3xl bg-slate-50 w-auto flex-col justify-between ">
         <div class="space-y-4">
           <div class="flex items-center justify-between">
             <div class="space-y-0.5">
@@ -1161,7 +1161,7 @@ watch(pageProfit, () => {
             <div v-for="(product, idx) in worstSellerProductStats" :key="idx"
               class="flex items-center justify-between py-1.5">
               <div class="flex items-center space-x-3">
-                <div class="flex items-center justify-center bg-blue-100 w-6 h-6 rounded-lg">
+                <div class="flex items-center justify-center bg-blue-100 w-auto h-6 rounded-lg">
                   <span class="text-base text-blue-600">
                     {{ (pageWorstSell - 1) * pageSize + idx + 1 }}
                   </span>
