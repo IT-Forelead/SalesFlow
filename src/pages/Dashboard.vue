@@ -549,7 +549,7 @@ const cashbackSaleChartOptions = computed(() => {
         columnWidth: '60%',
         dataLabels: {
           position: 'top',
-          
+
         },
       },
     },
@@ -666,21 +666,21 @@ onMounted(() => {
     turnoverStats.value = res
   })
   OrderService.getHourlySales()
-  .then((res) => {
-    const hours = Array.from({ length: 18 }, (_, i) => i + 7);
-        const revenueByHour = res.reduce((acc, item) => {
-      acc[item.hour] = item.revenue;
-      return acc;
-    }, {});
-    const completeHourlySales = hours.map(hour => ({
-      hour: hour === 24 ? '0' : hour.toString(),
-      revenue: revenueByHour[hour] || 0
-    }));
-    hourlySales.value = completeHourlySales;
-  })
-  .catch(error => {
-    console.error(error);
-  });
+    .then((res) => {
+      const hours = Array.from({ length: 18 }, (_, i) => i + 7);
+      const revenueByHour = res.reduce((acc, item) => {
+        acc[item.hour] = item.revenue;
+        return acc;
+      }, {});
+      const completeHourlySales = hours.map(hour => ({
+        hour: hour === 24 ? '0' : hour.toString(),
+        revenue: revenueByHour[hour] || 0
+      }));
+      hourlySales.value = completeHourlySales;
+    })
+    .catch(error => {
+      console.error(error);
+    });
   CashbackService.getCashbackRedeems()
     .then((res) => {
       cashbackRedeems.value = res
@@ -865,27 +865,28 @@ watch(pageProfit, () => {
         </div>
       </div>
       <div class="p-5 rounded-3xl bg-slate-50 w-full">
-          <div class="flex flex-col md:flex-row md:items-center md:justify-between px-2 space-y-3 md:space-y-0">
-            <div>
-              <div class="text-base font-bold text-gray-800">
-                {{ $t('cashbackStat') }}
-              </div>
-              <div class="text-sm text-gray-600">
-                {{ $t('beginStatText') }}
-                <span class="font-bold">{{ 10 + $t('days') }}</span>
-                {{ $t('endStatText') }}
-              </div>
+        <div class="flex flex-col md:flex-row md:items-center md:justify-between px-2 space-y-3 md:space-y-0">
+          <div>
+            <div class="text-base font-bold text-gray-800">
+              {{ $t('cashbackStat') }}
             </div>
-            <div class="flex items-center justify-center rounded-xl bg-blue-100 p-2">
-              <ChartBarIcon class="w-8 h-8 text-blue-600" />
+            <div class="text-sm text-gray-600">
+              {{ $t('beginStatText') }}
+              <span class="font-bold">{{ 10 + $t('days') }}</span>
+              {{ $t('endStatText') }}
             </div>
           </div>
-          <apexchart type="bar" height="320" :options="cashbackSaleChartOptions" :series="cashbackRedeemsChartSeries">
-          </apexchart>
+          <div class="flex items-center justify-center rounded-xl bg-blue-100 p-2">
+            <ChartBarIcon class="w-8 h-8 text-blue-600" />
+          </div>
         </div>
+        <apexchart type="bar" height="320" :options="cashbackSaleChartOptions" :series="cashbackRedeemsChartSeries">
+        </apexchart>
+      </div>
     </div>
-    <div class="flex w-full justify-between flex-col md:flex-row space-x-0 md:space-x-4 space-y-2 md:space-y-0 h-auto overflow-y-auto">
-      <div class="p-5 flex rounded-3xl bg-slate-50 w-auto flex-col justify-between">
+    <div
+      class="flex w-full justify-between flex-col md:flex-row space-x-0 md:space-x-4 space-y-2 md:space-y-0 h-auto overflow-y-auto">
+      <div class="p-5 flex flex-1 rounded-3xl bg-slate-50 flex-col justify-between">
         <div class="space-y-4">
           <div class="flex items-center justify-between">
             <div class="space-y-0.5">
@@ -970,7 +971,7 @@ watch(pageProfit, () => {
           </div>
         </div>
       </div>
-      <div class="p-5 flex rounded-3xl bg-slate-50 w-auto flex-col justify-between">
+      <div class="p-5 flex flex-1 rounded-3xl bg-slate-50 flex-col justify-between">
         <div class="space-y-4">
           <div class="flex items-center justify-between">
             <div class="space-y-0.5">
@@ -1055,7 +1056,7 @@ watch(pageProfit, () => {
           </div>
         </div>
       </div>
-      <div class="p-5 flex rounded-3xl bg-slate-50 w-auto flex-col justify-between">
+      <div class="p-5 flex flex-1 rounded-3xl bg-slate-50 flex-col justify-between">
         <div class="space-y-4">
           <div class="flex items-center justify-between">
             <div class="space-y-0.5">
@@ -1140,7 +1141,7 @@ watch(pageProfit, () => {
           </div>
         </div>
       </div>
-      <div class="p-5 flex rounded-3xl bg-slate-50 w-auto flex-col justify-between">
+      <div class="p-5 flex flex-1 rounded-3xl bg-slate-50 flex-col justify-between">
         <div class="space-y-4">
           <div class="flex items-center justify-between">
             <div class="space-y-0.5">
