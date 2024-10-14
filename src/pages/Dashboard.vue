@@ -846,7 +846,7 @@ watch(pageProfit, () => {
   <div class="p-4 md:p-8 space-y-6">
     <div class="flex flex-col md:flex-row space-x-0 md:space-x-4 space-y-2 md:space-y-0">
       <div class="p-5 flex rounded-3xl w-[50vw] bg-slate-50 justify-between">
-        <div class="w-[50vw] min-h-[45vh] bg-slate-50 rounded-3xl">
+        <div class="w-[50vw] bg-slate-50 rounded-3xl">
           <div class="flex flex-col md:flex-row md:items-center md:justify-between px-2 space-y-3 md:space-y-0">
             <div>
               <div class="text-base font-bold text-gray-800">
