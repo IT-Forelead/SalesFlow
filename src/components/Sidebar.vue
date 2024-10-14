@@ -103,7 +103,7 @@ onMounted(() => {
       :class="useSidebarStore().isOpenSidebar ? 'opacity-100' : 'opacity-0 pointer-events-none'" @click="closeSidebar">
     </div>
     <div id="sidebar" ref="sidebar"
-      class="flex justify-between flex-col bg-slate-700 absolute z-40 left-0 top-0 lg:static border-r lg:left-auto lg:top-auto lg:translate-x-0 min-h-screen w-72 md:w-64 2xl:w-72 shrink-0 transition-all duration-200 ease-in-out"
+      class="flex justify-between flex-col dark:bg-slate-700 absolute z-40 left-0 top-0 lg:static border-r lg:left-auto lg:top-auto lg:translate-x-0 min-h-screen w-72 md:w-64 2xl:w-72 shrink-0 transition-all duration-200 ease-in-out"
       :class="useSidebarStore().isOpenSidebar ? 'translate-x-0' : '-translate-x-64'">
       <div>
       <div class="h-20 flex justify-around">
@@ -122,7 +122,7 @@ onMounted(() => {
         <div class="space-y-8 overflow-y-auto xl:h-[67vh] lg:h-[50vh] py-4">
           <div class="relative space-y-1 md:overflow-visible overflow-y-auto max-h-[400px]">
           <router-link v-if="navigationGuard('dashboard')" to="/dashboard" @click="selectPage()" active-class="active"
-            class="relative h-10 flex items-center w-full hover:bg-blue-300/10 hover:text-blue-600 py-5 text-zinc-400 text-lg font-medium space-x-4 cursor-pointer transition-colors duration-300">
+            class="relative h-10 flex items-center w-full hover:bg-blue-300/10 hover:text-blue-600 py-5 dark:text-zinc-200 text-lg font-medium space-x-4 cursor-pointer transition-colors duration-300">
             <div class="w-1.5 h-12 rounded-r-xl first-child-bg-color mr-2"></div>
             <div class="flex h-10 items-center justify-center rounded-xl w-10 second-child-bg-color">
               <HouseIcon class="w-6 h-6" />
@@ -132,7 +132,7 @@ onMounted(() => {
             </div>
           </router-link>
           <router-link v-if="navigationGuard('create_product')" to="/sales" @click="selectPage()" active-class="active"
-            class="relative h-10 flex items-center w-full hover:bg-blue-300/10 hover:text-blue-600 py-5 text-zinc-400 text-lg font-medium space-x-4 cursor-pointer transition-colors duration-300">
+            class="relative h-10 flex items-center w-full hover:bg-blue-300/10 hover:text-blue-600 py-5 dark:text-zinc-200 text-lg font-medium space-x-4 cursor-pointer transition-colors duration-300">
             <div class="w-1.5 h-12 rounded-r-xl first-child-bg-color mr-2"></div>
             <div class="flex h-10 items-center justify-center rounded-xl w-10 second-child-bg-color">
               <MoneyIcon class="w-6 h-6" />
@@ -142,7 +142,7 @@ onMounted(() => {
             </div>
           </router-link>
           <router-link to="/products" @click="selectPage()" active-class="active"
-            class="relative h-10 flex items-center w-full hover:bg-blue-300/10 hover:text-blue-600 py-5 text-zinc-400 text-lg font-medium space-x-4 cursor-pointer transition-colors duration-300">
+            class="relative h-10 flex items-center w-full hover:bg-blue-300/10 hover:text-blue-600 py-5 dark:text-zinc-200 text-lg font-medium space-x-4 cursor-pointer transition-colors duration-300">
             <div class="w-1.5 h-12 rounded-r-xl first-child-bg-color mr-2"></div>
             <div class="flex h-10 items-center justify-center rounded-xl w-10 second-child-bg-color">
               <PhShoppingCart class="w-6 h-6" />
@@ -153,7 +153,7 @@ onMounted(() => {
           </router-link>
           <router-link v-if="navigationGuard('view_histories')" to="/product-histories" @click="selectPage()"
             active-class="active"
-            class="relative h-10 flex items-center w-full hover:bg-blue-300/10 hover:text-blue-600 py-5 text-zinc-400 text-lg font-medium space-x-4 cursor-pointer transition-colors duration-300">
+            class="relative h-10 flex items-center w-full hover:bg-blue-300/10 hover:text-blue-600 py-5 dark:text-zinc-200 text-lg font-medium space-x-4 cursor-pointer transition-colors duration-300">
             <div class="w-1.5 h-12 rounded-r-xl first-child-bg-color mr-2"></div>
             <div class="flex h-10 items-center justify-center rounded-xl w-10 second-child-bg-color">
               <ProductHistoryIcon class="w-6 h-6" />
@@ -164,7 +164,7 @@ onMounted(() => {
           </router-link>
           <router-link v-if="navigationGuard('view_histories')" to="/upcoming-products" @click="selectPage()"
             active-class="active"
-            class="relative h-10 flex items-center w-full hover:bg-blue-300/10 hover:text-blue-600 py-5 text-zinc-400 text-lg font-medium space-x-4 cursor-pointer transition-colors duration-300">
+            class="relative h-10 flex items-center w-full hover:bg-blue-300/10 hover:text-blue-600 py-5 dark:text-zinc-200 text-lg font-medium space-x-4 cursor-pointer transition-colors duration-300">
             <div class="w-1.5 h-12 rounded-r-xl first-child-bg-color mr-2"></div>
             <div class="flex h-10 items-center justify-center rounded-xl w-10 second-child-bg-color">
               <PhShoppingCart class="w-6 h-6" />
@@ -175,7 +175,7 @@ onMounted(() => {
           </router-link>
           <router-link to="/discounts" @click="selectPage()"
             active-class="active"
-            class="relative h-10 flex items-center w-full hover:bg-blue-300/10 hover:text-blue-600 py-5 text-zinc-400 text-lg font-medium space-x-4 cursor-pointer transition-colors duration-300">
+            class="relative h-10 flex items-center w-full hover:bg-blue-300/10 hover:text-blue-600 py-5 dark:text-zinc-200 text-lg font-medium space-x-4 cursor-pointer transition-colors duration-300">
             <div class="w-1.5 h-12 rounded-r-xl first-child-bg-color mr-2"></div>
             <div class="flex h-10 items-center justify-center rounded-xl w-10 second-child-bg-color">
               <PhPercent class="w-6 h-6" />
@@ -186,7 +186,7 @@ onMounted(() => {
           </router-link>
           <router-link to="/cashback-histories" @click="selectPage()"
             active-class="active"
-            class="relative h-10 flex items-center w-full hover:bg-blue-300/10 hover:text-blue-600 py-5 text-zinc-400 text-lg font-medium space-x-4 cursor-pointer transition-colors duration-300">
+            class="relative h-10 flex items-center w-full hover:bg-blue-300/10 hover:text-blue-600 py-5 dark:text-zinc-200 text-lg font-medium space-x-4 cursor-pointer transition-colors duration-300">
             <div class="w-1.5 h-12 rounded-r-xl first-child-bg-color mr-2"></div>
             <div class="flex h-10 items-center justify-center rounded-xl w-10 second-child-bg-color">
               <TicketSaleIcon class="w-6 h-6" />
@@ -196,7 +196,7 @@ onMounted(() => {
             </div>
           </router-link>
           <router-link to="/orders" @click="selectPage()" active-class="active"
-            class="relative h-10 flex items-center w-full hover:bg-blue-300/10 hover:text-blue-600 py-5 text-zinc-400 text-lg font-medium space-x-4 cursor-pointer transition-colors duration-300">
+            class="relative h-10 flex items-center w-full hover:bg-blue-300/10 hover:text-blue-600 py-5 dark:text-zinc-200 text-lg font-medium space-x-4 cursor-pointer transition-colors duration-300">
             <div class="w-1.5 h-12 rounded-r-xl first-child-bg-color mr-2"></div>
             <div class="flex h-10 items-center justify-center rounded-xl w-10 second-child-bg-color">
               <PhShoppingCart class="w-6 h-6" />
@@ -206,7 +206,7 @@ onMounted(() => {
             </div>
           </router-link>
           <router-link v-if="navigationGuard('view_markets')" to="/markets" @click="selectPage()" active-class="active"
-            class="relative h-10 flex items-center w-full hover:bg-blue-300/10 hover:text-blue-600 py-5 text-zinc-400 text-lg font-medium space-x-4 cursor-pointer transition-colors duration-300">
+            class="relative h-10 flex items-center w-full hover:bg-blue-300/10 hover:text-blue-600 py-5 dark:text-zinc-200 text-lg font-medium space-x-4 cursor-pointer transition-colors duration-300">
             <div class="w-1.5 h-12 rounded-r-xl first-child-bg-color mr-2"></div>
             <div class="flex h-10 items-center justify-center rounded-xl w-10 second-child-bg-color">
               <StoreIcon class="w-6 h-6" />
@@ -216,7 +216,7 @@ onMounted(() => {
             </div>
           </router-link>
           <router-link v-if="navigationGuard('view_users')" to="/users" @click="selectPage()" active-class="active"
-            class="relative h-10 flex items-center w-full hover:bg-blue-300/10 hover:text-blue-600 py-5 text-zinc-400 text-lg font-medium space-x-4 cursor-pointer transition-colors duration-300">
+            class="relative h-10 flex items-center w-full hover:bg-blue-300/10 hover:text-blue-600 py-5 dark:text-zinc-200 text-lg font-medium space-x-4 cursor-pointer transition-colors duration-300">
             <div class="w-1.5 h-12 rounded-r-xl first-child-bg-color mr-2"></div>
             <div class="flex h-10 items-center justify-center rounded-xl w-10 second-child-bg-color">
               <UsersIcon class="w-6 h-6" />
@@ -227,7 +227,7 @@ onMounted(() => {
           </router-link>
           <router-link v-if="navigationGuard('view_barcodes')" to="/product-barcodes" @click="selectPage()"
             active-class="active"
-            class="relative h-10 flex items-center w-full hover:bg-blue-300/10 hover:text-blue-600 py-5 text-zinc-400 text-lg font-medium space-x-4 cursor-pointer transition-colors duration-300">
+            class="relative h-10 flex items-center w-full hover:bg-blue-300/10 hover:text-blue-600 py-5 dark:text-zinc-200 text-lg font-medium space-x-4 cursor-pointer transition-colors duration-300">
             <div class="w-1.5 h-12 rounded-r-xl first-child-bg-color mr-2"></div>
             <div class="flex h-10 items-center justify-center rounded-xl w-10 second-child-bg-color">
               <PhBarcodeIcon class="w-6 h-6" />
@@ -238,7 +238,7 @@ onMounted(() => {
           </router-link>
           <router-link v-if="navigationGuard('view_barcodes')" to="/barcode-duplicates" @click="selectPage()"
             active-class="active"
-            class="relative h-10 flex items-center w-full hover:bg-blue-300/10 hover:text-blue-600 py-5 text-zinc-400 text-lg font-medium space-x-4 cursor-pointer transition-colors duration-300">
+            class="relative h-10 flex items-center w-full hover:bg-blue-300/10 hover:text-blue-600 py-5 dark:text-zinc-200 text-lg font-medium space-x-4 cursor-pointer transition-colors duration-300">
             <div class="w-1.5 h-12 rounded-r-xl first-child-bg-color mr-2"></div>
             <div class="flex items-center justify-center rounded-xl w-10 h-10 second-child-bg-color">
               <PhBarcodeIcon class="w-6 h-6" />
@@ -249,7 +249,7 @@ onMounted(() => {
           </router-link>
           <router-link v-if="navigationGuard('view_settings')" to="/sale-settings" @click="selectPage()"
             active-class="active"
-            class="relative h-10 flex items-center w-full hover:bg-blue-300/10 hover:text-blue-600 py-5 text-zinc-400 text-lg font-medium space-x-4 cursor-pointer transition-colors duration-300">
+            class="relative h-10 flex items-center w-full hover:bg-blue-300/10 hover:text-blue-600 py-5 dark:text-zinc-200 text-lg font-medium space-x-4 cursor-pointer transition-colors duration-300">
             <div class="w-1.5 h-12 rounded-r-xl first-child-bg-color mr-2"></div>
             <div class="flex h-10 items-center justify-center rounded-xl w-10 second-child-bg-color">
               <SettingsIcon class="w-6 h-6" />
@@ -259,7 +259,7 @@ onMounted(() => {
             </div>
           </router-link>
           <router-link v-if="navigationGuard('view_settings')" to="/corporate-clients" @click="selectPage()" active-class="active"
-          class="relative h-10 flex items-center w-full hover:bg-blue-300/10 hover:text-blue-600 py-5 text-zinc-400 text-lg font-medium space-x-4 cursor-pointer transition-colors duration-300">
+          class="relative h-10 flex items-center w-full hover:bg-blue-300/10 hover:text-blue-600 py-5 dark:text-zinc-200 text-lg font-medium space-x-4 cursor-pointer transition-colors duration-300">
             <div class="w-1.5 h-12 rounded-r-xl first-child-bg-color mr-2"></div>
             <div class="flex h-10 items-center justify-center rounded-xl w-10 second-child-bg-color">
               <ClientCorpIcon class="w-6 h-6" />
@@ -269,7 +269,7 @@ onMounted(() => {
             </div>
           </router-link>
           <router-link v-if="navigationGuard('view_settings')" to="/clients" @click="selectPage()" active-class="active"
-          class="relative h-10 flex items-center w-full hover:bg-blue-300/10 hover:text-blue-600 py-5 text-zinc-400 text-lg font-medium space-x-4 cursor-pointer transition-colors duration-300">
+          class="relative h-10 flex items-center w-full hover:bg-blue-300/10 hover:text-blue-600 py-5 dark:text-zinc-200 text-lg font-medium space-x-4 cursor-pointer transition-colors duration-300">
             <div class="w-1.5 h-12 rounded-r-xl first-child-bg-color mr-2"></div>
             <div class="flex h-10 items-center justify-center rounded-xl w-10 second-child-bg-color">
               <ClientIcon class="w-6 h-6" />
@@ -279,7 +279,7 @@ onMounted(() => {
             </div>
           </router-link>
           <router-link v-if="navigationGuard('view_agents')" to="/agents" @click="selectPage()" active-class="active"
-          class="relative h-10 flex items-center w-full hover:bg-blue-300/10 hover:text-blue-600 py-5 text-zinc-400 text-lg font-medium space-x-4 cursor-pointer transition-colors duration-300">
+          class="relative h-10 flex items-center w-full hover:bg-blue-300/10 hover:text-blue-600 py-5 dark:text-zinc-200 text-lg font-medium space-x-4 cursor-pointer transition-colors duration-300">
             <div class="w-1.5 h-12 rounded-r-xl first-child-bg-color mr-2"></div>
             <div class="flex h-10 items-center justify-center rounded-xl w-10 second-child-bg-color">
               <PhUsersThree class="w-6 h-6" />
@@ -289,7 +289,7 @@ onMounted(() => {
             </div>
           </router-link>
           <router-link v-if="navigationGuard('view_users')" to="/wishes" @click="selectPage()" active-class="active"
-          class="relative h-10 flex items-center w-full hover:bg-blue-300/10 hover:text-blue-600 py-5 text-zinc-400 text-lg font-medium space-x-4 cursor-pointer transition-colors duration-300">
+          class="relative h-10 flex items-center w-full hover:bg-blue-300/10 hover:text-blue-600 py-5 dark:text-zinc-200 text-lg font-medium space-x-4 cursor-pointer transition-colors duration-300">
             <div class="w-1.5 h-12 rounded-r-xl first-child-bg-color mr-2"></div>
             <div class="flex h-10 items-center justify-center rounded-xl w-10 second-child-bg-color">
               <FileLinearIcon class="w-6 h-6" />
@@ -299,7 +299,7 @@ onMounted(() => {
             </div>
           </router-link>
           <router-link v-if="navigationGuard('create_market')" to="/ip-banned" @click="selectPage()" active-class="active"
-          class="relative h-10 flex items-center w-full hover:bg-blue-300/10 hover:text-blue-600 py-5 text-zinc-400 text-lg font-medium space-x-4 cursor-pointer transition-colors duration-300">
+          class="relative h-10 flex items-center w-full hover:bg-blue-300/10 hover:text-blue-600 py-5 dark:text-zinc-200 text-lg font-medium space-x-4 cursor-pointer transition-colors duration-300">
             <div class="w-1.5 h-12 rounded-r-xl first-child-bg-color mr-2"></div>
             <div class="flex h-10 items-center justify-center rounded-xl w-10 second-child-bg-color">
               <PhLockKey class="w-6 h-6" />
@@ -309,7 +309,7 @@ onMounted(() => {
             </div>
           </router-link>
           <router-link v-if="navigationGuard('view_investors')" to="/investors" @click="selectPage()" active-class="active"
-          class="relative h-10 flex items-center w-full hover:bg-blue-300/10 hover:text-blue-600 py-5 text-zinc-400 text-lg font-medium space-x-4 cursor-pointer transition-colors duration-300">
+          class="relative h-10 flex items-center w-full hover:bg-blue-300/10 hover:text-blue-600 py-5 dark:text-zinc-200 text-lg font-medium space-x-4 cursor-pointer transition-colors duration-300">
             <div class="w-1.5 h-12 rounded-r-xl first-child-bg-color mr-2"></div>
             <div class="flex h-10 items-center justify-center rounded-xl w-10 second-child-bg-color">
               <InvestorIcon class="w-6 h-6" />
@@ -319,7 +319,7 @@ onMounted(() => {
             </div>
           </router-link>
           <router-link v-if="navigationGuard('view_invests')" to="/invests" @click="selectPage()" active-class="active"
-          class="relative h-10 flex items-center w-full hover:bg-blue-300/10 hover:text-blue-600 py-5 text-zinc-400 text-lg font-medium space-x-4 cursor-pointer transition-colors duration-300">
+          class="relative h-10 flex items-center w-full hover:bg-blue-300/10 hover:text-blue-600 py-5 dark:text-zinc-200 text-lg font-medium space-x-4 cursor-pointer transition-colors duration-300">
             <div class="w-1.5 h-12 rounded-r-xl first-child-bg-color mr-2"></div>
             <div class="flex h-10 items-center justify-center rounded-xl w-10 second-child-bg-color">
               <InvestIcon class="w-6 h-6" />
@@ -329,7 +329,7 @@ onMounted(() => {
             </div>
           </router-link>
           <router-link v-if="navigationGuard('view_invest_plans')" to="/invest-plans" @click="selectPage()" active-class="active"
-          class="relative h-10 flex items-center w-full hover:bg-blue-300/10 hover:text-blue-600 py-5 text-zinc-400 text-lg font-medium space-x-4 cursor-pointer transition-colors duration-300">
+          class="relative h-10 flex items-center w-full hover:bg-blue-300/10 hover:text-blue-600 py-5 dark:text-zinc-200 text-lg font-medium space-x-4 cursor-pointer transition-colors duration-300">
             <div class="w-1.5 h-12 rounded-r-xl first-child-bg-color mr-2"></div>
             <div class="flex h-10 items-center justify-center rounded-xl w-10 second-child-bg-color">
               <InvestPlanIcon class="w-6 h-6" />
@@ -361,7 +361,7 @@ onMounted(() => {
           <!-- <div
             class="flex-1 flex items-center justify-between rounded-lg dark:bg-slate-900 p-2 cursor-pointer hover:bg-gray-100">
             <div class="flex items-center space-x-1">
-              <SunIcon class="w-5 h-5 text-gray-500" />
+              <SunIcon class="w-5 h-5 dark:text-zinc-300" />
               <span>Light</span>
             </div>
             <CaretDownIcon class="w-3 h-3" />

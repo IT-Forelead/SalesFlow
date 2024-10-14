@@ -243,7 +243,7 @@ const refundProducts = () => {
           <div class="overflow-hidden overflow-y-scroll h-[300px] border-0">
             <table class="md:min-w-full text-sm">
               <thead>
-              <tr class="bg-slate-100 font-medium text-gray-900">
+              <tr class="bg-slate-100 font-medium dark:text-zinc-200">
                 <th class="px-3 py-2 text-left rounded-l-xl text-sm md:text-base"></th>
                 <th class="px-3 py-2 text-left text-sm md:text-base">{{ $t('product') }}</th>
                 <th class="px-3 py-2 text-sm md:text-base">{{ $t('quantity') }}</th>
@@ -267,13 +267,13 @@ const refundProducts = () => {
                 <td class="px-3 py-2 whitespace-nowrap">
                   <div class="flex items-center space-x-3">
                     <div class="flex items-center justify-center bg-slate-100 md:w-12 md:h-12 w-8 h-8 rounded-lg">
-                      <ImageIcon class="text-gray-500 w-6 h-6" />
+                      <ImageIcon class="dark:text-zinc-300 w-6 h-6" />
                     </div>
                     <div>
                       <div class="text-sm md:text-base font-semibold text-gray-800">
                         {{ product?.productName + ' - ' + product?.packaging }}
                       </div>
-                      <div class="text-sm md:text-base font-medium text-gray-500">
+                      <div class="text-sm md:text-base font-medium dark:text-zinc-300">
                         {{ $t('price') }}:
                         <span class="dark:text-white">
                             {{ useMoneyFormatter(product?.salePrice) }}
@@ -344,21 +344,21 @@ const refundProducts = () => {
             </div>
           </li>
           <li v-if="!isFromCashback"  class="flex items-center justify-between py-2">
-            <div class="text-base font-semibold text-gray-900">
+            <div class="text-base font-semibold dark:text-zinc-200">
               {{ $t('totalPrice') }}
             </div>
-            <div class="text-lg font-semibold text-gray-900">
+            <div class="text-lg font-semibold dark:text-zinc-200">
               {{ useMoneyFormatter(selectedOrder?.totalPrice) }}
             </div>
           </li>
           <li class="flex items-center justify-between py-2">
-            <div class="text-base font-semibold text-gray-900">
+            <div class="text-base font-semibold dark:text-zinc-200">
               {{ $t('paymentReceived') }}
             </div>
-            <div class="text-lg font-semibold text-gray-900" v-if="selectedOrder?.paymentReceived > 0">
+            <div class="text-lg font-semibold dark:text-zinc-200" v-if="selectedOrder?.paymentReceived > 0">
               {{ useMoneyFormatter(selectedOrder?.paymentReceived) }}
             </div>
-            <div class="text-lg font-semibold text-gray-900"  v-else >
+            <div class="text-lg font-semibold dark:text-zinc-200"  v-else >
               {{ useMoneyFormatter(0) }}
             </div>
           </li>

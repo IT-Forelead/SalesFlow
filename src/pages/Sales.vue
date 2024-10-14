@@ -1392,13 +1392,13 @@ const closeCardIdModal = () => {
             >
               <div class="flex items-center space-x-3">
                 <div class="flex items-center justify-center bg-slate-200 w-10 h-10 rounded-lg">
-                  <ImageIcon class="text-gray-500 w-8 h-8" />
+                  <ImageIcon class="dark:text-zinc-300 w-8 h-8" />
                 </div>
                 <div>
                   <div class="text-base font-semibold text-gray-800">
                     {{ product?.name + ' - ' + product?.packaging }}
                   </div>
-                  <div class="text-base font-medium text-gray-500">
+                  <div class="text-base font-medium dark:text-zinc-300">
                     {{ product?.barcode }}
                   </div>
                 </div>
@@ -1407,7 +1407,7 @@ const closeCardIdModal = () => {
                 <div class="text-base font-semibold text-gray-800">
                   {{ useMoneyFormatter(product?.price) }}
                 </div>
-                <div class="text-base font-medium text-gray-500">
+                <div class="text-base font-medium dark:text-zinc-300">
                   {{ $t('quantity') }}:
                   <span class="dark:text-white">
                     {{ product?.rest }}
@@ -1496,12 +1496,12 @@ const closeCardIdModal = () => {
             <BasketIcon
               class="w-6 h-6 mr-2"
               :class="
-                activeBasketStatus == basket.id ? 'text-blue-500 text-sm' : 'text-gray-500 text-sm'
+                activeBasketStatus == basket.id ? 'text-blue-500 text-sm' : 'dark:text-zinc-300 text-sm'
               "
             />
             <span
               :class="
-                activeBasketStatus == basket.id ? 'text-blue-500 text-sm' : 'text-gray-900 text-sm'
+                activeBasketStatus == basket.id ? 'text-blue-500 text-sm' : 'dark:text-zinc-200 text-sm'
               "
             >
               {{ basket.name }}
@@ -1514,7 +1514,7 @@ const closeCardIdModal = () => {
         <div class="min-w-full lg:h-[55vh] xl:h-[66vh] overflow-y-auto overflow-x-auto rounded-xl">
           <table class="md:min-w-full divide-y-8 divide-white">
             <thead>
-              <tr class="bg-slate-100 text-base font-semibold text-gray-900 h-12">
+              <tr class="bg-slate-100 text-base font-semibold dark:text-zinc-200 h-12">
                 <th class="px-3 py-2 text-left rounded-l-xl text-sm md:text-base">
                   {{ $t('product') }}
                 </th>
@@ -1545,7 +1545,7 @@ const closeCardIdModal = () => {
                     <div
                       class="flex items-center justify-center bg-slate-200 md:w-12 md:h-12 w-8 h-8 rounded-lg"
                     >
-                      <ImageIcon class="text-gray-500 w-6 h-6" />
+                      <ImageIcon class="dark:text-zinc-300 w-6 h-6" />
                     </div>
                     <div>
                       <div
@@ -1553,7 +1553,7 @@ const closeCardIdModal = () => {
                       >
                         {{ product?.name + ' - ' + product?.packaging }}
                       </div>
-                      <div class="text-sm md:text-base font-medium text-gray-500">
+                      <div class="text-sm md:text-base font-medium dark:text-zinc-300">
                         {{ $t('price') }}:
                         <span class="dark:text-white text-sm md:text-base">
                           {{ useMoneyFormatter(product?.price) }}
@@ -1721,7 +1721,7 @@ const closeCardIdModal = () => {
             <div class="text-base dark:text-white">
               {{ $t('numberOfProducts') }}
             </div>
-            <div class="text-base font-semibold text-gray-900">
+            <div class="text-base font-semibold dark:text-zinc-200">
               {{ activeBasket.length + ' ' + $t('piece') }}
             </div>
           </div>
@@ -1729,7 +1729,7 @@ const closeCardIdModal = () => {
             <div class="text-base dark:text-white">
               {{ $t('price') }}
             </div>
-            <div class="text-base font-semibold text-gray-900">
+            <div class="text-base font-semibold dark:text-zinc-200">
               {{ useMoneyFormatter(Math.round(totalPrice / 100) * 100) }}
             </div>
           </div>
@@ -1737,7 +1737,7 @@ const closeCardIdModal = () => {
             <div class="text-base dark:text-white">
               {{ $t('discount') }}
             </div>
-            <div class="text-base font-semibold text-gray-900">
+            <div class="text-base font-semibold dark:text-zinc-200">
               {{ submitData.discountPercent }} %
             </div>
           </div>
@@ -1760,10 +1760,10 @@ const closeCardIdModal = () => {
           </div>
         </div>
         <div class="flex items-center justify-between mt-2 pt-3 border-t border-dashed">
-          <div class="text-xl font-semibold text-gray-900">
+          <div class="text-xl font-semibold dark:text-zinc-200">
             {{ $t('total') }}
           </div>
-          <div class="text-xl font-semibold text-gray-900">
+          <div class="text-xl font-semibold dark:text-zinc-200">
             {{
               Math.round((totalPrice - (totalPrice * submitData.discountPercent) / 100) / 100) *
                 100 -
@@ -1791,7 +1791,7 @@ const closeCardIdModal = () => {
           id="price"
           ref="onTotalFocus"
           @blur="totalReFocus()"
-          class="border-none text-right text-gray-500 bg-slate-100 rounded-lg w-full text-lg"
+          class="border-none text-right dark:text-zinc-300 bg-slate-100 rounded-lg w-full text-lg"
         />
       </div>
       <div class="space-y-1" @click="a">
@@ -1805,7 +1805,7 @@ const closeCardIdModal = () => {
             ref="onCustomerMoneyFocus"
             @blur="customerMoneyReFocus()"
             v-bind="moneyConf"
-            class="border-none text-right text-gray-500 bg-slate-100 rounded-lg w-full text-lg"
+            class="border-none text-right dark:text-zinc-300 bg-slate-100 rounded-lg w-full text-lg"
           />
         </div>
       </div>
@@ -1858,7 +1858,7 @@ const closeCardIdModal = () => {
                 type="number"
                 ref="onDiscountFocus"
                 @blur="discountReFocus()"
-                class="border-none text-right text-gray-500 bg-slate-100 rounded-lg w-full text-lg"
+                class="border-none text-right dark:text-zinc-300 bg-slate-100 rounded-lg w-full text-lg"
               />
               <div class="flex space-x-3 my-3 justify-end">
                 <button
@@ -1897,7 +1897,7 @@ const closeCardIdModal = () => {
                   v-model="submitData.discountReason"
                   ref="onDiscountReasonFocus"
                   @blur="discountReasonReFocus()"
-                  class="border-none text-left text-gray-500 bg-slate-100 rounded-lg w-full text-lg"
+                  class="border-none text-left dark:text-zinc-300 bg-slate-100 rounded-lg w-full text-lg"
                 />
               </div>
               <div class="mt-5">
@@ -2047,7 +2047,7 @@ const closeCardIdModal = () => {
                     id="debtor-price"
                     ref="onDebtFocus"
                     @blur="debtReFocus()"
-                    class="border-none text-right text-gray-500 bg-slate-100 rounded-lg w-full text-lg"
+                    class="border-none text-right dark:text-zinc-300 bg-slate-100 rounded-lg w-full text-lg"
                   ></money3>
                 </div>
               </div>

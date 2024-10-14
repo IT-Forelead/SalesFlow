@@ -116,7 +116,7 @@ const deleteHolidayDiscount = () => {
               <div
                 class="flex py-4 flex-col md:flex-row items-center justify-center md:justify-between space-y-4 md:space-y-0 md:space-x-4">
                 <button type="button" @click="closeModal()"
-                  class="w-full md:w-auto py-2 px-4 rounded-xl text-gray-900 text-base font-medium bg-slate-50 cursor-pointer hover:bg-slate-200 border md:flex-1">
+                  class="w-full md:w-auto py-2 px-4 rounded-xl dark:text-zinc-200 text-base font-medium bg-slate-50 cursor-pointer hover:bg-slate-200 border md:flex-1">
                   {{ $t('no') }}
                 </button>
 

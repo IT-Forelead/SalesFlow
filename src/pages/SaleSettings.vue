@@ -206,7 +206,7 @@ const createMinimalPriceSettings = () => {
                 {{ $t('percentage')}}
               </label>
               <input type="number" id="percentage" v-model="submitData.percentage" :placeholder="$t('enterPercentage')"
-                     class="border-none text-right text-gray-500 bg-slate-100 h-11 rounded-lg w-full text-lg" />
+                     class="border-none text-right dark:text-zinc-300 bg-slate-100 h-11 rounded-lg w-full text-lg" />
             </div>
             <div class="flex-1">
               <button v-if="isLoadingPercent" class="text-white text-base flex items-center rounded-xl px-4 py-2.5 bg-blue-500 hover:bg-blue-600 absolute bottom-0">
@@ -233,7 +233,7 @@ const createMinimalPriceSettings = () => {
                 {{ $t('boundaryPrice')}}
               </label>
               <money3 v-bind="moneyConf" id="price" v-model="submitData.boundaryPrice"
-                       class="border-none text-right text-gray-500 bg-slate-100 h-11 rounded-lg w-full text-lg">
+                       class="border-none text-right dark:text-zinc-300 bg-slate-100 h-11 rounded-lg w-full text-lg">
               </money3>
               <div class="flex-1">
                 <button @click="createBoundaryPrice" class="text-white text-base flex items-center rounded-xl px-4 py-2.5 bg-blue-500 hover:bg-blue-600">
@@ -248,7 +248,7 @@ const createMinimalPriceSettings = () => {
               {{ $t('minimalPriceForHolidayDiscount')}}
             </label>
             <money3 v-bind="moneyConf" id="price" v-model="submitData.minimalPrice"
-                    class="border-none text-right text-gray-500 bg-slate-100 h-11 rounded-lg w-full text-lg">
+                    class="border-none text-right dark:text-zinc-300 bg-slate-100 h-11 rounded-lg w-full text-lg">
             </money3>
             <div class="flex-1">
               <button @click="createMinimalPriceSettings" class="text-white text-base flex items-center rounded-xl px-4 py-2.5 bg-blue-500 hover:bg-blue-600">
@@ -285,7 +285,7 @@ const createMinimalPriceSettings = () => {
             </div>
           </div>
           <div v-if="isLoadingBots" class="flex items-center justify-center h-20">
-            <Spinners270RingIcon class="w-6 h-6 text-gray-500 animate-spin" />
+            <Spinners270RingIcon class="w-6 h-6 dark:text-zinc-300 animate-spin" />
           </div>
           <CTable v-else :data="telegramBots" :key="renderKey" :columns="columns" :filter="globalSearchFromTable" />
         </div>

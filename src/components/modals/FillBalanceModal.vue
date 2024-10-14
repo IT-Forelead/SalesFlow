@@ -81,7 +81,7 @@ const fillBalance = () => {
               {{ $t('balance') }}
               <span class="text-red-500 mr-2">*</span>
             </label>
-            <money3 id="amount" type="text" v-bind="moneyConf" v-model="submitData.amount" class="border-none text-right text-gray-500 bg-slate-100 h-11 rounded-lg w-full text-lg">
+            <money3 id="amount" type="text" v-bind="moneyConf" v-model="submitData.amount" class="border-none text-right dark:text-zinc-300 bg-slate-100 h-11 rounded-lg w-full text-lg">
               </money3>
           </div>
           <div class="flex-1">
@@ -90,7 +90,7 @@ const fillBalance = () => {
               <span class="text-red-500 mr-2">*</span>
             </label>
             <input id="reason" type="text" v-model="submitData.reason"
-               class="border-none text-gray-500 bg-slate-100 h-11 rounded-lg w-full text-lg"
+               class="border-none dark:text-zinc-300 bg-slate-100 h-11 rounded-lg w-full text-lg"
               :placeholder="t('enterReason')" />
           </div>
         </div>

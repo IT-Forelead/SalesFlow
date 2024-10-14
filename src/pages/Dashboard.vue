@@ -118,7 +118,7 @@ const profitChartChartOptions = computed(() => {
       offsetY: -20,
       style: {
         fontSize: '14px',
-        colors: ['#304758'],
+        colors: ['#4A90E2'],
       },
       formatter: function (val) {
         return shortenNumber(val)
@@ -132,6 +132,7 @@ const profitChartChartOptions = computed(() => {
       labels: {
         style: {
           fontSize: '12px',
+          colors: '#4A90E2',
         },
         formatter: function (val) {
           return moment(val).format('D-MMMM')
@@ -196,7 +197,7 @@ const salesChartChartOptions = computed(() => {
       offsetY: -20,
       style: {
         fontSize: '14px',
-        colors: ['#304758'],
+        colors: ['#4A90E2'],
       },
       formatter: function (val) {
         return shortenNumber(val)
@@ -210,6 +211,7 @@ const salesChartChartOptions = computed(() => {
       labels: {
         style: {
           fontSize: '12px',
+          colors: '#4A90E2',
         },
         formatter: function (val) {
           return moment(val).format('D-MMMM')
@@ -356,8 +358,8 @@ const turnoverStatsAreaChartChartOptions = computed(() => {
       type: 'date',
       labels: {
         style: {
-          fontSize: '12px',
-          colors: '#8e8da4',
+          fontSize: '13px',
+          colors: '#4A90E2',
         },
         formatter: function (val) {
           return moment(val).format('D-MMM')
@@ -382,7 +384,8 @@ const turnoverStatsAreaChartChartOptions = computed(() => {
           return useMoneyFormatter(val)
         },
         style: {
-          colors: '#8e8da4',
+          fontSize: '12px',
+          colors: '#4A90E2',
         },
         offsetY: 0,
         offsetX: 0,
@@ -448,7 +451,6 @@ const caishersChartOptions = computed(() => {
     }],
   }
 })
-
 const hourlySaleChartOptions = computed(() => {
   return {
     legend: {
@@ -477,8 +479,8 @@ const hourlySaleChartOptions = computed(() => {
       type: 'date',
       labels: {
         style: {
-          fontSize: '12px',
-          colors: '#8e8da4',
+          fontSize: '14px',
+          colors: '#4A90E2',
         },
         formatter: function (val) {
           return val + ':00'
@@ -503,7 +505,8 @@ const hourlySaleChartOptions = computed(() => {
           return useMoneyFormatter(val)
         },
         style: {
-          colors: '#8e8da4',
+          fontSize: '12px',
+          colors: '#4A90E2',
         },
         offsetY: 0,
         offsetX: 0,
@@ -558,7 +561,7 @@ const cashbackSaleChartOptions = computed(() => {
       offsetY: -20,
       style: {
         fontSize: '14px',
-        colors: ['#304758'],
+        colors: ['#4A90E2'],
       },
       formatter: function (val) {
         return shortenNumber(val)
@@ -573,6 +576,7 @@ const cashbackSaleChartOptions = computed(() => {
       labels: {
         style: {
           fontSize: '12px',
+           colors: '#4A90E2',
         },
         formatter: function (val) {
           return moment(val).format('D-MMM')
@@ -833,15 +837,15 @@ watch(pageProfit, () => {
 <template>
   <div class="p-4 md:p-8 space-y-6">
     <div class="flex flex-col md:flex-row space-x-0 md:space-x-4 space-y-2 md:space-y-0">
-      <div class="p-5 flex rounded-3xl w-[50vw] bg-slate-50 justify-between">
-        <div class="w-[50vw] min-h-[45vh] bg-slate-50 rounded-3xl">
+      <div class="p-5 flex rounded-3xl w-[50vw] dark:bg-slate-600 justify-between">
+        <div class="w-[50vw] min-h-[45vh] dark:bg-slate-600 dark:text-white rounded-3xl">
           <div class="flex flex-col md:flex-row md:items-center md:justify-between px-2 space-y-3 md:space-y-0">
             <div>
-              <div class="text-base font-bold text-gray-800">
+              <div class="text-base font-bold dark:text-zinc-100">
                 {{ $t('hourlyStat') }}
               </div>
               <div class="text-sm dark:text-white">
-                <span>{{ ' ' + $t('hourly') }}</span>
+                <span >{{ ' ' + $t('hourly') }}</span>
                 <span class="lowercase">{{ $t('beginStatText') }} </span>
                 <span class="font-bold">{{ '10 ' + $t('days') }}</span>
                 {{ $t('endStatText') }}
@@ -852,10 +856,10 @@ watch(pageProfit, () => {
           </apexchart>
         </div>
       </div>
-      <div class="p-5 rounded-3xl bg-slate-50 w-full">
+      <div class="p-5 rounded-3xl  dark:bg-slate-600 w-full">
           <div class="flex flex-col md:flex-row md:items-center md:justify-between px-2 space-y-3 md:space-y-0">
             <div>
-              <div class="text-base font-bold text-gray-800">
+              <div class="text-base font-bold dark:text-zinc-100">
                 {{ $t('cashbackStat') }}
               </div>
               <div class="text-sm dark:text-white">
@@ -872,8 +876,8 @@ watch(pageProfit, () => {
           </apexchart>
         </div>
     </div>
-    <div class="flex flex-col md:flex-row space-x-0 md:space-x-4 space-y-2 md:space-y-0 h-[67vh]">
-      <div class="p-5 flex rounded-3xl bg-slate-50 w-[25vw] flex-col justify-between">
+    <div class="flex flex-col md:flex-row space-x-0 md:space-x-4 space-y-2 dark:text-white md:space-y-0 h-[67vh]">
+      <div class="p-5 flex rounded-3xl dark:bg-slate-600 w-[25vw] flex-col justify-between">
         <div class="space-y-4">
           <div class="flex items-center justify-between">
             <div class="space-y-0.5">
@@ -895,17 +899,17 @@ watch(pageProfit, () => {
               class="flex items-center justify-between py-1.5">
               <div class="flex items-center space-x-3">
                 <div class="flex items-center justify-center bg-blue-100 dark:bg-aqua-200 w-6 h-6 rounded-lg">
-                  <span class="text-base text-blue-600">
+                  <span class="text-base  text-blue-600">
                     {{ (pageRevenue - 1) * pageSize + idx + 1 }}
                   </span>
                 </div>
                 <div>
-                  <div class="text-base font-semibold text-gray-800">
+                  <div class="text-base font-semibold dark:text-zinc-100">
                     {{ product?.name + ' - ' + product?.packaging }}
                   </div>
                   <div class="text-sm dark:text-white">
                     {{ $t('price') }}:
-                    <span class="text-gray-900">
+                    <span class="dark:text-zinc-200">
                       {{ useMoneyFormatter(product?.price) }}
                     </span>
                   </div>
@@ -958,7 +962,7 @@ watch(pageProfit, () => {
           </div>
         </div>
       </div>
-      <div class="p-5 flex rounded-3xl bg-slate-50 w-[25vw] flex-col justify-between">
+      <div class="p-5 flex rounded-3xl dark:bg-slate-600 w-[25vw] flex-col justify-between">
         <div class="space-y-4">
           <div class="flex items-center justify-between">
             <div class="space-y-0.5">
@@ -985,12 +989,12 @@ watch(pageProfit, () => {
                   </span>
                 </div>
                 <div>
-                  <div class="text-base font-semibold text-gray-800">
+                  <div class="text-base font-semibold dark:text-zinc-100">
                     {{ product?.name + ' - ' + product?.packaging }}
                   </div>
                   <div class="text-sm dark:text-white">
                     {{ $t('price') }}:
-                    <span class="text-gray-900">
+                    <span class="dark:text-zinc-200">
                       {{ useMoneyFormatter(product?.price) }}
                     </span>
                   </div>
@@ -1043,7 +1047,7 @@ watch(pageProfit, () => {
           </div>
         </div>
       </div>
-      <div class="p-5 flex rounded-3xl bg-slate-50 w-[25vw] flex-col justify-between ">
+      <div class="p-5 flex rounded-3xl dark:bg-slate-600 w-[25vw] flex-col justify-between ">
         <div class="space-y-4">
           <div class="flex items-center justify-between">
             <div class="space-y-0.5">
@@ -1070,18 +1074,18 @@ watch(pageProfit, () => {
                   </span>
                 </div>
                 <div>
-                  <div class="text-base font-semibold text-gray-800">
+                  <div class="text-base font-semibold dark:text-zinc-100">
                     {{ product?.name + ' - ' + product?.packaging }}
                   </div>
                   <div class="text-sm dark:text-white">
                     {{ $t('price') }}:
-                    <span class="text-gray-900">
+                    <span class="dark:text-zinc-200">
                       {{ useMoneyFormatter(product?.price) }}
                     </span>
                   </div>
                   <div class="text-sm dark:text-white">
                     {{ $t('totalPrice') }}:
-                    <span class="text-gray-900">
+                    <span class="dark:text-zinc-200">
                       {{ useMoneyFormatter(product?.totalPrice) }}
                     </span>
                   </div>
@@ -1128,7 +1132,7 @@ watch(pageProfit, () => {
           </div>
         </div>
       </div>
-      <div class="p-5 flex rounded-3xl bg-slate-50 w-[20vw] flex-col justify-between ">
+      <div class="p-5 flex rounded-3xl dark:bg-slate-600 w-[20vw] flex-col justify-between ">
         <div class="space-y-4">
           <div class="flex items-center justify-between">
             <div class="space-y-0.5">
@@ -1155,12 +1159,12 @@ watch(pageProfit, () => {
                   </span>
                 </div>
                 <div>
-                  <div class="text-base font-semibold text-gray-800">
+                  <div class="text-base font-semibold dark:text-zinc-100">
                     {{ product?.name + ' - ' + product?.packaging }}
                   </div>
                   <div class="text-sm dark:text-white">
                     {{ $t('barcode') }}:
-                    <span class="text-gray-900">
+                    <span class="dark:text-zinc-200">
                       {{ (product?.barcode) }}
                     </span>
                   </div>
@@ -1212,10 +1216,10 @@ watch(pageProfit, () => {
       </div>
     </div>
     <div class="flex flex-col md:flex-row space-x-0 md:space-x-4 space-y-2 md:space-y-0">
-      <div class="flex-1 bg-slate-50 rounded-3xl p-5">
+      <div class="flex-1 dark:bg-slate-600 rounded-3xl p-5">
         <div class="flex flex-col md:flex-row md:items-center md:justify-between px-2 space-y-3 md:space-y-0">
           <div>
-            <div class="text-base font-bold text-gray-800">
+            <div class="text-base font-bold dark:text-zinc-100">
               {{ $t('profitStatistics') }}
             </div>
             <div v-if="salesChartFilterData === 6" class="text-sm dark:text-white">
@@ -1231,7 +1235,7 @@ watch(pageProfit, () => {
           </div>
           <div>
             <select v-model="salesChartFilterData"
-              class="bg-blue-100 dark:bg-aqua-200 border-none dark:text-white rounded-lg text-base md:text-lg block w-full h-11">
+              class="bg-blue-100 dark:bg-slate-700 border-none dark:text-white rounded-lg text-base md:text-lg block w-full h-11">
               <option value="6">
                 {{ $t('weeklyStatistics') }}
               </option>
@@ -1250,10 +1254,10 @@ watch(pageProfit, () => {
           </apexchart>
         </div>
       </div>
-      <div class="flex-1 bg-slate-50 rounded-3xl p-5">
+      <div class="flex-1 dark:bg-slate-600 rounded-3xl p-5">
         <div class="flex flex-col md:flex-row md:items-center md:justify-between px-2 space-y-3 md:space-y-0">
           <div>
-            <div class="text-base font-bold text-gray-800">
+            <div class="text-base font-bold dark:text-zinc-100">
               {{ $t('salesStatistics') }}
             </div>
             <div class="text-sm dark:text-white">
@@ -1270,10 +1274,10 @@ watch(pageProfit, () => {
         </apexchart>
       </div>
     </div>
-    <div class="flex-1 bg-slate-50 rounded-3xl p-5">
+    <div class="flex-1 dark:bg-slate-600 rounded-3xl p-5">
       <div class="flex flex-col md:flex-row md:items-center md:justify-between px-2 space-y-3 md:space-y-0">
         <div>
-          <div class="text-base font-bold text-gray-800">
+          <div class="text-base font-bold dark:text-zinc-100">
             {{ $t('inputAndOutputCostStatistics') }}
           </div>
           <div class="text-sm dark:text-white">
@@ -1284,8 +1288,8 @@ watch(pageProfit, () => {
         </div>
         <div class="relative" ref="dropdown">
           <div @click="useDropdownStore().toggleFilterBy()"
-            class="border-none select-none text-gray-900 dark:bg-slate-600 shadow rounded-lg w-full p-2 px-5 flex items-center hover:bg-gray-100 cursor-pointer space-x-1">
-            <FunnelIcon class="w-5 h-5 text-gray-400" />
+            class="border-none select-none dark:text-zinc-200 dark:bg-slate-600 shadow rounded-lg w-full p-2 px-5 flex items-center hover:bg-gray-100 cursor-pointer space-x-1">
+            <FunnelIcon class="w-5 h-5 dark:text-zinc-50" />
             <span>{{ $t('filter') }}</span>
           </div>
           <div v-if="useDropdownStore().isOpenFilterBy"
@@ -1294,25 +1298,25 @@ watch(pageProfit, () => {
               <label for="">
                 {{ $t('from') }}
                 <input v-model="filterData.startDate" type="date"
-                  class="border-none text-gray-500 bg-gray-100 rounded-lg w-full" />
+                  class="border-none dark:text-zinc-50 bg-gray-100 rounded-lg w-full" />
               </label>
               <ArrowDownIcon class="-rotate-90 dark:text-white mt-6" />
               <label for="">
                 {{ $t('to') }}
                 <input v-model="filterData.endDate" type="date"
-                  class="border-none text-gray-500 bg-gray-100 rounded-lg w-full" />
+                  class="border-none dark:text-zinc-50 bg-gray-100 rounded-lg w-full" />
               </label>
             </div>
             <div class="flex items-center space-x-2">
               <div @click="cleanFilterData()"
-                class="basis-1/3 w-full bg-slate-100 hover:bg-slate-300 cursor-pointer select-none py-3 text-gray-900 rounded-lg flex items-center justify-center">
+                class="basis-1/3 w-full bg-slate-100 hover:bg-slate-300 cursor-pointer select-none py-3 dark:text-zinc-200 rounded-lg flex items-center justify-center">
                 <span>{{ $t('cleaning') }}</span>
               </div>
               <div class="basis-2/3">
                 <div v-if="isLoading"
                   class="w-full bg-blue-600 py-3 select-none text-white rounded-lg flex items-center justify-center">
                   <Spinners270RingIcon
-                    class="mr-2 w-5 h-5 text-gray-200 animate-spin dark:dark:text-white fill-gray-600 dark:fill-gray-300" />
+                    class="mr-2 w-5 h-5 dark:text-zinc-100 animate-spin dark:text-white fill-gray-600 dark:fill-gray-300" />
                   <span>{{ $t('loading') }}</span>
                 </div>
                 <div v-else @click="submitTurnoverStatsFilterData()"
@@ -1329,10 +1333,10 @@ watch(pageProfit, () => {
       </apexchart>
     </div>
     <div class="flex flex-col md:flex-row space-x-0 md:space-x-4 space-y-2 md:space-y-0">
-      <div class="flex-1 bg-slate-50 rounded-3xl p-5">
+      <div class="flex-1 dark:bg-slate-600 rounded-3xl p-5">
         <div class="flex items-center justify-between px-2">
           <div>
-            <div class="text-base font-bold text-gray-800">
+            <div class="text-base font-bold dark:text-zinc-100">
               {{ $t('cashierStatistics') }}
             </div>
             <div class="text-sm dark:text-white">
@@ -1351,7 +1355,7 @@ watch(pageProfit, () => {
       <!-- <div class="flex-1"></div> -->
       <div class="flex-1 flex flex-col space-y-4">
         <div class="flex flex-col md:flex-row md:items-center space-x-0 md:space-x-4 space-y-2 md:space-y-0">
-          <div class="flex-1 w-full space-y-4 rounded-3xl bg-slate-50 p-5">
+          <div class="flex-1 w-full space-y-4 rounded-3xl dark:bg-slate-600 p-5">
             <div
               class="flex flex-row md:flex-col items-center md:items-start space-x-4 md:space-x-0 space-y-0 md:space-y-2">
               <div class="inline-flex items-center justify-center rounded-xl bg-blue-100 dark:bg-aqua-200 p-3">
@@ -1361,13 +1365,13 @@ watch(pageProfit, () => {
                 <div class="text-base dark:text-white">
                   {{ $t('productTypes') }}
                 </div>
-                <div class="text-xl md:text-2xl font-semibold">
+                <div class="text-xl md:text-2xl dark:text-white font-semibold">
                   {{ productStats?.typeCount }}
                 </div>
               </div>
             </div>
           </div>
-          <div class="flex-1 w-full space-y-4 rounded-3xl bg-slate-50 p-5">
+          <div class="flex-1 w-full space-y-4 rounded-3xl dark:bg-slate-600 p-5">
             <div
               class="flex flex-row md:flex-col items-center md:items-start space-x-4 md:space-x-0 space-y-0  md:space-y-2">
               <div class="inline-flex items-center justify-center rounded-xl bg-blue-100 dark:bg-aqua-200 p-3">
@@ -1377,7 +1381,7 @@ watch(pageProfit, () => {
                 <div class="text-base dark:text-white">
                   {{ $t('numberOfProducts') }}
                 </div>
-                <div class="text-xl md:text-2xl font-semibold">
+                <div class="text-xl md:text-2xl dark:text-white font-semibold">
                   {{ productStats?.quantity }}
                 </div>
               </div>
@@ -1386,7 +1390,7 @@ watch(pageProfit, () => {
         </div>
         <div class="flex flex-col md:flex-row md:items-center space-x-0 md:space-x-4 space-y-2 md:space-y-0">
           <div v-for="(product, idx) in soldProductPrice" :key="idx"
-            class="flex-1 w-full space-y-4 rounded-3xl bg-slate-50 p-5">
+            class="flex-1 w-full space-y-4 rounded-3xl dark:bg-slate-600 p-5">
             <div
               class="flex flex-row md:flex-col items-center md:items-start space-x-4 md:space-x-0 space-y-0 md:space-y-2">
               <div class="inline-flex items-center justify-center rounded-xl bg-blue-100 dark:bg-aqua-200 p-3">
@@ -1399,14 +1403,14 @@ watch(pageProfit, () => {
                 <div v-else class="text-base dark:text-white">
                   {{ $t('previousMonthsSales') }}
                 </div>
-                <div class="text-xl md:text-2xl font-semibold">
+                <div class="text-xl md:text-2xl dark:text-white font-semibold">
                   {{ useMoneyFormatter(product?.total) }}
                 </div>
               </div>
             </div>
           </div>
 
-          <div class="flex-1 w-full h-full space-y-4 rounded-3xl bg-slate-50 p-5">
+          <div class="flex-1 w-full h-full space-y-4 rounded-3xl dark:bg-slate-600 p-5">
             <div
               class="flex flex-row md:flex-col items-center md:items-start space-x-4 md:space-x-0 space-y-0 md:space-y-2">
               <div class="inline-flex items-center justify-center rounded-xl bg-blue-100 dark:bg-aqua-200 p-3">
@@ -1416,7 +1420,7 @@ watch(pageProfit, () => {
                 <div class="text-base dark:text-white">
                   {{ $t('numberOfEmployees') }}
                 </div>
-                <div class="text-xl md:text-2xl font-semibold">
+                <div class="text-xl md:text-2xl dark:text-white font-semibold">
                   {{ cashiersStat.length }}
                 </div>
               </div>

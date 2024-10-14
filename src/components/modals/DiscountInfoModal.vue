@@ -56,8 +56,8 @@ const calculateDiscountPrice = computed(() => {
                 {{ discount.percentage }} %</p>
             </div>
             <p class="mt-6 flex items-center flex-col space-y-4">
-              <span class="line-through text-4xl font-sans text-gray-500/70">{{ useMoneyFormatter(totalPrice) }}</span>
-              <span class="text-5xl font-bold tracking-tight text-gray-900">{{ useMoneyFormatter(calculateDiscountPrice) }}</span>
+              <span class="line-through text-4xl font-sans dark:text-zinc-300/70">{{ useMoneyFormatter(totalPrice) }}</span>
+              <span class="text-5xl font-bold tracking-tight dark:text-zinc-200">{{ useMoneyFormatter(calculateDiscountPrice) }}</span>
             </p>
           </div>
         </div>

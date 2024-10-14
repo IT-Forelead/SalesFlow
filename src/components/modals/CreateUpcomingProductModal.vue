@@ -313,13 +313,13 @@ const openCreateProductModal = () => {
               class="flex items-center justify-between dark:bg-slate-600 border shadow-sm rounded-xl px-3 py-2 w-full cursor-pointer hover:bg-slate-100">
               <div class="flex items-center space-x-3">
                 <div class="flex items-center justify-center bg-slate-200 w-10 h-10 rounded-lg">
-                  <ImageIcon class="text-gray-500 w-8 h-8" />
+                  <ImageIcon class="dark:text-zinc-300 w-8 h-8" />
                 </div>
                 <div>
                   <div class="text-base font-semibold text-gray-800">
                     {{ product?.name + ' - ' + product?.packaging }}
                   </div>
-                  <div class="text-base font-medium text-gray-500">
+                  <div class="text-base font-medium dark:text-zinc-300">
                     {{ product?.saleType }}
                   </div>
                 </div>
@@ -339,16 +339,16 @@ const openCreateProductModal = () => {
           <table class="min-w-full divide-y divide-gray-200">
             <thead class="bg-gray-100">
             <tr>
-              <th class="rounded-l-xl px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">
+              <th class="rounded-l-xl px-6 py-3 text-left text-xs font-medium dark:text-zinc-300 uppercase">
                 {{ $t('image') }}
               </th>
-              <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">
+              <th class="px-6 py-3 text-left text-xs font-medium dark:text-zinc-300 uppercase">
                 {{ $t('product') }}
               </th>
-              <th class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase">
+              <th class="px-6 py-3 text-right text-xs font-medium dark:text-zinc-300 uppercase">
                 {{ $t('quantity') }}
               </th>
-              <th class="px-6 py-3 rounded-r-xl text-right text-xs font-medium text-gray-500 uppercase">
+              <th class="px-6 py-3 rounded-r-xl text-right text-xs font-medium dark:text-zinc-300 uppercase">
                 {{ $t('actions') }}
               </th>
             </tr>
@@ -358,12 +358,12 @@ const openCreateProductModal = () => {
               <td class="px-6 py-4 whitespace-nowrap">
                 <div class="flex items-center">
                   <div class="flex-shrink-0 h-10 w-10">
-                    <ImageIcon class="text-gray-500 w-8 h-8" />
+                    <ImageIcon class="dark:text-zinc-300 w-8 h-8" />
                   </div>
                 </div>
               </td>
               <td class="px-6 py-4 whitespace-nowrap">
-                <div class="text-sm font-medium text-gray-900">
+                <div class="text-sm font-medium dark:text-zinc-200">
                   {{ product?.name + ' - ' + product?.packaging }}
                 </div>
               </td>
@@ -387,7 +387,7 @@ const openCreateProductModal = () => {
               <span class="text-red-500 mr-2">*</span>
             </label>
             <money3 v-model.number="submitData.price" v-bind="moneyConf" id="price"
-              class="border-none text-right text-gray-500 bg-slate-100 h-11 rounded-lg w-full text-lg">
+              class="border-none text-right dark:text-zinc-300 bg-slate-100 h-11 rounded-lg w-full text-lg">
             </money3>
           </div>
           <div class="flex-1 space-y-1">

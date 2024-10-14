@@ -114,7 +114,7 @@ getCashbacks()
       </div>
     </div>
     <div v-if="isLoading" class="flex items-center justify-center h-20">
-      <Spinners270RingIcon class="w-6 h-6 text-gray-500 animate-spin" />
+      <Spinners270RingIcon class="w-6 h-6 dark:text-zinc-300 animate-spin" />
     </div>
     <CTable v-else :data="cashbacks" :key="renderkey" :columns="columns" :filter="globalSearchFromTable" />
   </div>

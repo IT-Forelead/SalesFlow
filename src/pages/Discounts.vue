@@ -235,13 +235,13 @@ const changeAllDiscounts = () => {
                 <div class="flex items-center justify-center bg-slate-200 w-10 h-10 rounded-lg">
                   <img v-if="product.asset" :src="product.asset.url" class="w-12 h-auto rounded" alt="image">
 
-                          <ImageIcon v-else class="text-gray-500 w-6 h-6" />
+                          <ImageIcon v-else class="dark:text-zinc-300 w-6 h-6" />
                 </div>
                 <div>
                   <div class="text-base font-semibold text-gray-800">
                     {{ product?.name + ' - ' + product?.packaging }}
                   </div>
-                  <div class="text-base font-medium text-gray-500">
+                  <div class="text-base font-medium dark:text-zinc-300">
                     {{ product?.barcode }}
                   </div>
                 </div>
@@ -250,7 +250,7 @@ const changeAllDiscounts = () => {
                 <div class="text-base font-semibold text-gray-800">
                   {{ useMoneyFormatter(product?.price) }}
                 </div>
-                <div class="text-base font-medium text-gray-500">
+                <div class="text-base font-medium dark:text-zinc-300">
                   {{ $t('quantity') }}:
                   <span class="dark:text-white">
                     {{ product?.quantity - product?.sold }}
@@ -278,7 +278,7 @@ const changeAllDiscounts = () => {
             <ScrollPanel class="w-full h-[500px] rounded-xl">
               <table class="md:min-w-full divide-y-8 divide-white">
                 <thead>
-                  <tr class="bg-slate-100 text-base font-semibold text-gray-900 h-12">
+                  <tr class="bg-slate-100 text-base font-semibold dark:text-zinc-200 h-12">
                     <th class="px-3 py-2 text-left rounded-l-xl text-sm md:text-base">
                       {{ $t('product') }}
                     </th>
@@ -302,14 +302,14 @@ const changeAllDiscounts = () => {
                           
                           <img v-if="product.asset" :src="product.asset.url" class="w-12 h-auto rounded">
 
-                          <ImageIcon v-else class="text-gray-500 w-6 h-6" />
+                          <ImageIcon v-else class="dark:text-zinc-300 w-6 h-6" />
                         </div>
                         <div>
                           <div
                             class="text-sm md:text-base font-semibold text-gray-800 max-w-full whitespace-break-spaces">
                             {{ product?.name + ' - ' + product?.packaging }}
                           </div>
-                          <div class="text-sm md:text-base font-medium text-gray-500">
+                          <div class="text-sm md:text-base font-medium dark:text-zinc-300">
                             {{ $t('price') }}:
                             <span class="dark:text-white text-sm md:text-base">
                               {{ useMoneyFormatter(product?.price) }}
@@ -330,7 +330,7 @@ const changeAllDiscounts = () => {
                     <td class="px-3 py-2 whitespace-nowrap">
                       <div class="flex justify-center">
                         <money3 v-model.number="product.price" @blur="setPrice(product)" v-bind="moneyConf" id="price"
-                          class="w-40 border border-slate-200 cursor-pointer text-right text-gray-500 bg-slate-100 h-12 rounded-lg text-lg">
+                          class="w-40 border border-slate-200 cursor-pointer text-right dark:text-zinc-300 bg-slate-100 h-12 rounded-lg text-lg">
                         </money3>
                       </div>
                     </td>

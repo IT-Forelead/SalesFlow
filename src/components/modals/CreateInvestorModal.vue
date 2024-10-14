@@ -120,9 +120,9 @@ const createInvestor = () => {
                 class="bg-slate-100 border-none dark:text-white rounded-lg w-full py-2.5 placeholder-slate-400"
                 :placeholder="t('enterPassword')">
               <EyeIcon v-if="hidePassword" @click="togglePassword()"
-                class="text-gray-500 dark:text-gray-500 absolute z-10 top-1/2 -translate-y-1/2 right-3 w-5 h-5 cursor-pointer" />
+                class="dark:text-zinc-300 dark:dark:text-zinc-300 absolute z-10 top-1/2 -translate-y-1/2 right-3 w-5 h-5 cursor-pointer" />
               <EyeSlashIcon v-else @click="togglePassword()"
-                class="text-gray-500 dark:text-gray-500 absolute z-10 top-1/2 -translate-y-1/2 right-3 w-5 h-5 cursor-pointer" />
+                class="dark:text-zinc-300 dark:dark:text-zinc-300 absolute z-10 top-1/2 -translate-y-1/2 right-3 w-5 h-5 cursor-pointer" />
             </div>
           </div>
           <div class="flex-1">
@@ -136,9 +136,9 @@ const createInvestor = () => {
                 class="bg-slate-100 border-none dark:text-white rounded-lg w-full py-2.5 placeholder-slate-400"
                 :placeholder="t('enterThePasswordAgain')">
               <EyeIcon v-if="hidePassword" @click="togglePassword()"
-                class="text-gray-500 dark:text-gray-500 absolute z-10 top-1/2 -translate-y-1/2 right-3 w-5 h-5 cursor-pointer" />
+                class="dark:text-zinc-300 dark:dark:text-zinc-300 absolute z-10 top-1/2 -translate-y-1/2 right-3 w-5 h-5 cursor-pointer" />
               <EyeSlashIcon v-else @click="togglePassword()"
-                class="text-gray-500 dark:text-gray-500 absolute z-10 top-1/2 -translate-y-1/2 right-3 w-5 h-5 cursor-pointer" />
+                class="dark:text-zinc-300 dark:dark:text-zinc-300 absolute z-10 top-1/2 -translate-y-1/2 right-3 w-5 h-5 cursor-pointer" />
             </div>
           </div>
         </div>

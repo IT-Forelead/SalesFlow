@@ -53,12 +53,12 @@ const columns = [
     cell: ({ row }) =>
       h('div', { class: 'space-y-1' }, [
         h('div', { class: 'flex items-center space-x-1' }, [
-          h('div', { class: 'text-sm text-gray-500' }, t('count') + ': '),
-          h('div', { class: 'text-base text-gray-900' }, row.original.items.reduce((acc, cur) => acc + (cur.saleType == "amount" ? cur.amount : 1), 0) + " " + t('piece')),
+          h('div', { class: 'text-sm dark:text-zinc-300' }, t('count') + ': '),
+          h('div', { class: 'text-base dark:text-zinc-200' }, row.original.items.reduce((acc, cur) => acc + (cur.saleType == "amount" ? cur.amount : 1), 0) + " " + t('piece')),
         ]),
         h('div', { class: 'flex items-center space-x-1' }, [
-          h('div', { class: 'text-sm text-gray-500' }, t('price') + ': '),
-          h('div', { class: 'text-base text-gray-900' }, useMoneyFormatter(row.original.initialPrice)),
+          h('div', { class: 'text-sm dark:text-zinc-300' }, t('price') + ': '),
+          h('div', { class: 'text-base dark:text-zinc-200' }, useMoneyFormatter(row.original.initialPrice)),
         ]),
       ]),
   },
@@ -70,12 +70,12 @@ const columns = [
         (row.original.discountPercent) ?
           h('div', { class: 'space-y-1' }, [
             h('div', { class: 'flex items-center space-x-1' }, [
-              h('div', { class: 'text-sm text-gray-500' }, t('percent') + ': '),
-              h('div', { class: 'text-base text-gray-900' }, row.original.discountPercent + '%'),
+              h('div', { class: 'text-sm dark:text-zinc-300' }, t('percent') + ': '),
+              h('div', { class: 'text-base dark:text-zinc-200' }, row.original.discountPercent + '%'),
             ]),
             h('div', { class: 'flex items-center space-x-1' }, [
-              h('div', { class: 'text-sm text-gray-500' }, t('discountAmount') + ': '),
-              h('div', { class: 'text-base text-gray-900' }, useMoneyFormatter(row.original.discountPrice)),
+              h('div', { class: 'text-sm dark:text-zinc-300' }, t('discountAmount') + ': '),
+              h('div', { class: 'text-base dark:text-zinc-200' }, useMoneyFormatter(row.original.discountPrice)),
             ]),
           ])
           : h('span', '-'),
@@ -87,12 +87,12 @@ const columns = [
     cell: ({ row }) =>
       h('div', { class: 'space-y-1' }, [
         h('div', { class: 'flex items-center space-x-1' }, [
-          h('div', { class: 'text-sm text-gray-500' }, t('total') + ': '),
-          h('div', { class: 'text-base text-gray-900' }, useMoneyFormatter(row.original.totalPrice)),
+          h('div', { class: 'text-sm dark:text-zinc-300' }, t('total') + ': '),
+          h('div', { class: 'text-base dark:text-zinc-200' }, useMoneyFormatter(row.original.totalPrice)),
         ]),
         h('div', { class: 'flex items-center space-x-1' }, [
-          h('div', { class: 'text-sm text-gray-500' }, t('accepted') + ': '),
-          h('div', { class: 'text-base text-gray-900' }, useMoneyFormatter(row.original.paymentReceived)),
+          h('div', { class: 'text-sm dark:text-zinc-300' }, t('accepted') + ': '),
+          h('div', { class: 'text-base dark:text-zinc-200' }, useMoneyFormatter(row.original.paymentReceived)),
         ]),
       ]),
   },
@@ -106,7 +106,7 @@ const columns = [
           const packagingWords = item.packaging.split(' ');
           const truncatedPackaging = packagingWords.slice(0, 3).join(' ') + (packagingWords.length > 2 ? '...' : '');
           return h('div', { key: index, class: 'flex items-center space-x-1' }, [
-            h('p', { class: 'text-base text-gray-900' }, productName),
+            h('p', { class: 'text-base dark:text-zinc-200' }, productName),
             h('p', { class: 'text-sm dark:text-white' }, truncatedPackaging),
           ]);
         }),
@@ -250,7 +250,7 @@ watch(page, () => {
       </div>
     </div>
     <div v-if="isLoading" class="flex items-center justify-center h-20">
-      <Spinners270RingIcon class="w-6 h-6 text-gray-500 animate-spin" />
+      <Spinners270RingIcon class="w-6 h-6 dark:text-zinc-300 animate-spin" />
     </div>
     <OrdersTable v-else :data="orders" :key="renderKey" :columns="columns" />
     <div class="flex items-center justify-between my-6">

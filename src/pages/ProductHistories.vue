@@ -515,7 +515,7 @@ const onChange = (event) => {
       <div class="w-full md:w-auto order-1 md:order-2 flex space-x-2">
         <div class="relative w-auto" ref="filterByDropdown">
           <div @click="useDropdownStore().toggleFilterBy()"
-               class="border-none select-none text-gray-500 bg-slate-100 rounded-full w-full p-2 px-5 flex items-center hover:bg-gray-200 cursor-pointer space-x-1">
+               class="border-none select-none dark:text-zinc-300 bg-slate-100 rounded-full w-full p-2 px-5 flex items-center hover:bg-gray-200 cursor-pointer space-x-1">
             <FunnelIcon class="w-5 h-5 text-gray-400" />
             <span>{{ $t('filter') }}</span>
           </div>
@@ -556,7 +556,7 @@ const onChange = (event) => {
         </div>
         <div class="relative w-auto" ref="sortByDropdown">
           <div @click="useDropdownStore().toggleSortBy()"
-            class="border-none select-none text-gray-500 bg-slate-100 rounded-full w-full p-2 px-5 flex items-center hover:bg-gray-200 cursor-pointer space-x-1">
+            class="border-none select-none dark:text-zinc-300 bg-slate-100 rounded-full w-full p-2 px-5 flex items-center hover:bg-gray-200 cursor-pointer space-x-1">
             <FunnelIcon class="w-5 h-5 text-gray-400" />
             <span>{{ sortByOption || $t('sorting') }}</span>
           </div>
@@ -617,7 +617,7 @@ const onChange = (event) => {
       </div>
     </div>
     <div v-if="isLoading" class="flex items-center justify-center h-20">
-      <Spinners270RingIcon class="w-6 h-6 text-gray-500 animate-spin" />
+      <Spinners270RingIcon class="w-6 h-6 dark:text-zinc-300 animate-spin" />
     </div>
     <HistoryTable v-else :data="productsHistories" :key="renderKey" :columns="columns" />
     <div class="flex items-center justify-between my-6">

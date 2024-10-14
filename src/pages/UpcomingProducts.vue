@@ -108,7 +108,7 @@ const columns = [
           const productQuantity = item.quantity;
           const productSaleType = item.saleType;
           return h('div', { key: index, class: 'flex items-center space-x-1' }, [
-            h('p', { class: 'text-base text-gray-900' }, productName + " - " + packagingWords + " (" + productQuantity + " " + saleTypeTranslate(productSaleType) + ")"),
+            h('p', { class: 'text-base dark:text-zinc-200' }, productName + " - " + packagingWords + " (" + productQuantity + " " + saleTypeTranslate(productSaleType) + ")"),
           ]);
         }),
       ]),
@@ -133,16 +133,16 @@ const columns = [
     cell: ({ row }) =>
       h('div', { class: 'space-y-1' }, [
         h('div', { class: 'flex items-center space-x-1' }, [
-          h('div', { class: 'text-sm text-gray-500' }, t('paymentType') + ': '),
-          h('div', { class: 'text-base text-gray-900' }, paymentTypeTranslate(row.original.paymentType)),
+          h('div', { class: 'text-sm dark:text-zinc-300' }, t('paymentType') + ': '),
+          h('div', { class: 'text-base dark:text-zinc-200' }, paymentTypeTranslate(row.original.paymentType)),
         ]),
         h('div', { class: 'flex items-center space-x-1' }, [
-          h('div', { class: 'text-sm text-gray-500' }, t('paymentStatus') + ': '),
-          h('div', { class: 'text-base text-gray-900' }, paymentStatusTranslate(row.original.paymentStatus)),
+          h('div', { class: 'text-sm dark:text-zinc-300' }, t('paymentStatus') + ': '),
+          h('div', { class: 'text-base dark:text-zinc-200' }, paymentStatusTranslate(row.original.paymentStatus)),
         ]),
         row.original.paidBy ? h('div', { class: 'flex items-center space-x-1' }, [
-          h('div', { class: 'text-sm text-gray-500' }, t('paidBy') + ': '),
-          h('div', { class: 'text-base text-gray-900' }, row.original.paidBy),
+          h('div', { class: 'text-sm dark:text-zinc-300' }, t('paidBy') + ': '),
+          h('div', { class: 'text-base dark:text-zinc-200' }, row.original.paidBy),
         ]): null,
       ]),
   },
@@ -152,12 +152,12 @@ const columns = [
     cell: ({ row }) =>
       h('div', { class: 'space-y-1' }, [
         h('div', { class: 'flex items-center space-x-1' }, [
-          h('div', { class: 'text-sm text-gray-500' }, t('expectedTime') + ': '),
-          h('div', { class: 'text-base text-gray-900' }, row.original.expectedTime ? moment(row.original.expectedTime).format('DD/MM/YYYY') : null),
+          h('div', { class: 'text-sm dark:text-zinc-300' }, t('expectedTime') + ': '),
+          h('div', { class: 'text-base dark:text-zinc-200' }, row.original.expectedTime ? moment(row.original.expectedTime).format('DD/MM/YYYY') : null),
         ]),
         h('div', { class: 'flex items-center space-x-1' }, [
-          h('div', { class: 'text-sm text-gray-500' }, t('arrivalTime') + ': '),
-          h('div', { class: 'text-base text-gray-900' }, row.original.arrivalTime ? moment(row.original.arrivalTime).format('DD/MM/YYYY') : null),
+          h('div', { class: 'text-sm dark:text-zinc-300' }, t('arrivalTime') + ': '),
+          h('div', { class: 'text-base dark:text-zinc-200' }, row.original.arrivalTime ? moment(row.original.arrivalTime).format('DD/MM/YYYY') : null),
         ]),
       ]),
   },
@@ -309,7 +309,7 @@ watch(route, (newRoute) => {
     </div>
 
     <div v-if="isLoading" class="flex items-center justify-center h-20">
-      <Spinners270RingIcon class="w-6 h-6 text-gray-500 animate-spin" />
+      <Spinners270RingIcon class="w-6 h-6 dark:text-zinc-300 animate-spin" />
     </div>
     <ProductsTable v-else :data="products" :key="renderKey" :columns="columns" :filter="globalSearchFromTable" />
 
