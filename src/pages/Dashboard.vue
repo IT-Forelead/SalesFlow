@@ -886,7 +886,7 @@ watch(pageProfit, () => {
     </div>
     <div
       class="flex w-full justify-between flex-col md:flex-row space-x-0 md:space-x-4 space-y-2 md:space-y-0 h-auto overflow-y-auto">
-      <div class="p-5 flex flex-1 rounded-3xl bg-slate-50 flex-col justify-between">
+      <div class="p-5 flex flex-1 rounded-3xl bg-slate-50 h-[650px] flex-col justify-between">
         <div class="space-y-4">
           <div class="flex items-center justify-between">
             <div class="space-y-0.5">
@@ -971,7 +971,7 @@ watch(pageProfit, () => {
           </div>
         </div>
       </div>
-      <div class="p-5 flex flex-1 rounded-3xl bg-slate-50 flex-col justify-between">
+      <div class="p-5 flex flex-1 rounded-3xl bg-slate-50 h-[650px] flex-col justify-between">
         <div class="space-y-4">
           <div class="flex items-center justify-between">
             <div class="space-y-0.5">
@@ -1056,7 +1056,7 @@ watch(pageProfit, () => {
           </div>
         </div>
       </div>
-      <div class="p-5 flex flex-1 rounded-3xl bg-slate-50 flex-col justify-between">
+      <div class="p-5 flex flex-1 rounded-3xl bg-slate-50 h-[650px] flex-col justify-between">
         <div class="space-y-4">
           <div class="flex items-center justify-between">
             <div class="space-y-0.5">
@@ -1141,7 +1141,7 @@ watch(pageProfit, () => {
           </div>
         </div>
       </div>
-      <div class="p-5 flex flex-1 rounded-3xl bg-slate-50 flex-col justify-between">
+      <div class="p-5 flex flex-1 rounded-3xl bg-slate-50 h-[650px] flex-col justify-between">
         <div class="space-y-4">
           <div class="flex items-center justify-between">
             <div class="space-y-0.5">
