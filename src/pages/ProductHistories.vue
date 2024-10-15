@@ -172,6 +172,7 @@ const columns = [
     accessorKey: 'createdAt',
     accessorFn: row => moment(row.createdAt).format('DD/MM/YYYY H:mm'),
     header: t('createdAt'),
+    enableSorting: false,
   },
   {
     accessorKey: 'actions',

@@ -319,10 +319,13 @@ const addProductToCart = (product, amount) => {
         if (amount) {
           return { ...item, amount: item.amount + amount };
         } else if (item.saleType === 'kg') {
+          addedToBasket.play();
           return { ...item, amount: roundFloatToOneDecimal(item.amount + 0.1) };
         } else if (item.saleType === 'litre') {
+          addedToBasket.play();
           return { ...item, amount: roundFloatToOneDecimal(item.amount + 0.5) };
         } else {
+          addedToBasket.play();
           return { ...item, amount: item.amount + 1 };
         }
       } else if (item.productId === product.id) {
@@ -1511,7 +1514,7 @@ const closeCardIdModal = () => {
       </div>
 
       <div v-if="activeBasket.length > 0" class="py-2 align-middle">
-        <div class="min-w-full lg:h-[55vh] xl:h-[66vh] overflow-y-auto overflow-x-auto rounded-xl">
+        <div class="min-w-full md:max-h-[90vh] xl:max-h-[77vh] lg:max-h-[62vh] 2xl:max-h-[80vh] xxl:max-h-[77vh] overflow-y-auto overflow-x-auto rounded-xl">
           <table class="md:min-w-full divide-y-8 divide-white">
             <thead>
               <tr class="bg-slate-100 text-base font-semibold text-gray-900 h-12">
@@ -1536,7 +1539,7 @@ const closeCardIdModal = () => {
               <tr
                 :class="{ 'bg-blue-100': selectP === product }"
                 @click="selectProduct(product)"
-                v-for="(product, idx) in activeBasket"
+                v-for="(product, idx) in activeBasket.slice().reverse()"
                 :key="idx"
                 class="overflow-x-auto overflow-y-auto"
               >
