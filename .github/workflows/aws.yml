@@ -30,7 +30,7 @@ jobs:
 
       - name: Build and tag docker image to Amazon ECR
         run: |
-          docker build -t $AWS_ECR_REPOSITORY_URI:latest -t $AWS_ECR_REPOSITORY_URI:$IMAGE_TAG -f build/Dockerfile .
+          docker build -t $AWS_ECR_REPOSITORY_URI:latest -t $AWS_ECR_REPOSITORY_URI:$IMAGE_TAG .
 
       - name: Push docker images to Amazon ECR
         run: |
