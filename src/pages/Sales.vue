@@ -315,19 +315,32 @@ const searchProducts = () => {
 const addProductToCart = (product, amount) => {
   if (activeBasket.value.find((p) => p?.productId === product?.id)) {
     activeBasket.value = activeBasket.value.map((item) => {
-      if (item.productId === product.id && product?.quantity > item.amount) {
+      if (item.productId === product.id && product?.rest <= item.amount) {
+        toast.error(t('productIsOutOfStore'));
+        productOutOfStore.play();
+        return item;
+      } else if (item.productId === product.id && product?.rest > item.amount) {
+        let updatedAmount;
+
+        // Определяем обновленное количество в зависимости от типа продукта
         if (amount) {
-          return { ...item, amount: item.amount + amount };
+          updatedAmount = item.amount + amount;
         } else if (item.saleType === 'kg') {
-          addedToBasket.play();
-          return { ...item, amount: roundFloatToOneDecimal(item.amount + 0.1) };
+          updatedAmount = roundFloatToOneDecimal(item.amount + 0.1);
         } else if (item.saleType === 'litre') {
-          addedToBasket.play();
-          return { ...item, amount: roundFloatToOneDecimal(item.amount + 0.5) };
+          updatedAmount = roundFloatToOneDecimal(item.amount + 0.5);
         } else {
-          addedToBasket.play();
-          return { ...item, amount: item.amount + 1 };
+          updatedAmount = item.amount + 1;
         }
+
+        // Обновляем продукт
+        const updatedProduct = { ...item, amount: updatedAmount };
+
+        // Перемещаем обновленный продукт в начало списка
+        activeBasket.value.unshift(activeBasket.value.splice(activeBasket.value.indexOf(item), 1)[0]);
+
+        addedToBasket.play();
+        return updatedProduct;
       } else if (item.productId === product.id) {
         toast.error(t('productIsOutOfStore'));
         productOutOfStore.play();
@@ -338,78 +351,38 @@ const addProductToCart = (product, amount) => {
     });
   } else {
     if (product?.rest >= 0) {
+      let newAmount;
+
+      // Определяем количество при добавлении нового продукта
       if (amount) {
-        activeBasket.value.push({
-          productId: product?.id,
-          name: product?.name,
-          packaging: product?.packaging,
-          price: product?.price,
-          quantity: product?.rest,
-          saleType: product?.saleType,
-          amount: amount,
-          serialId: product?.serialId,
-          expirationDate: product?.expirationDate,
-        });
+        newAmount = amount;
       } else if (product?.saleType === 'kg' && product?.rest < 0.1 && product?.rest > 0) {
-        console.log(product?.rest);
-        activeBasket.value.push({
-          productId: product?.id,
-          name: product?.name,
-          packaging: product?.packaging,
-          price: product?.price,
-          quantity: product?.rest,
-          saleType: product?.saleType,
-          amount: product?.rest,
-          serialId: product?.serialId,
-          expirationDate: product?.expirationDate,
-        });
+        newAmount = product?.rest;
       } else if (product?.saleType === 'kg') {
-        activeBasket.value.push({
-          productId: product?.id,
-          name: product?.name,
-          packaging: product?.packaging,
-          price: product?.price,
-          quantity: product?.rest,
-          saleType: product?.saleType,
-          amount: 0.1,
-          serialId: product?.serialId,
-          expirationDate: product?.expirationDate,
-        });
+        newAmount = 0.1;
       } else if (product?.saleType === 'litre' && product?.rest <= 0.1 && product?.rest > 0) {
-        activeBasket.value.push({
-          productId: product?.id,
-          name: product?.name,
-          packaging: product?.packaging,
-          price: product?.price,
-          quantity: product?.rest,
-          saleType: product?.saleType,
-          amount: product?.rest,
-          expirationDate: product?.expirationDate,
-        });
+        newAmount = product?.rest;
       } else if (product?.saleType === 'litre') {
-        activeBasket.value.push({
-          productId: product?.id,
-          name: product?.name,
-          packaging: product?.packaging,
-          price: product?.price,
-          quantity: product?.rest,
-          saleType: product?.saleType,
-          amount: 0.5,
-          expirationDate: product?.expirationDate,
-        });
+        newAmount = 0.5;
       } else {
-        activeBasket.value.push({
-          productId: product?.id,
-          name: product?.name,
-          packaging: product?.packaging,
-          price: product?.price,
-          quantity: product?.rest,
-          saleType: product?.saleType,
-          amount: 1,
-          serialId: product?.serialId,
-          expirationDate: product?.expirationDate,
-        });
+        newAmount = 1;
       }
+
+      activeBasket.value.push({
+        productId: product?.id,
+        name: product?.name,
+        packaging: product?.packaging,
+        price: product?.price,
+        quantity: product?.rest,
+        saleType: product?.saleType,
+        amount: newAmount,
+        serialId: product?.serialId,
+        expirationDate: product?.expirationDate,
+      });
+
+      // Перемещаем новый продукт в начало списка
+      activeBasket.value.unshift(activeBasket.value.pop());
+
       addedToBasket.play();
     } else {
       toast.error('Mahsulot sotuvda mavjud emas!');
@@ -1539,7 +1512,7 @@ const closeCardIdModal = () => {
               <tr
                 :class="{ 'bg-blue-100': selectP === product }"
                 @click="selectProduct(product)"
-                v-for="(product, idx) in activeBasket.slice().reverse()"
+                v-for="(product, idx) in activeBasket"
                 :key="idx"
                 class="overflow-x-auto overflow-y-auto"
               >

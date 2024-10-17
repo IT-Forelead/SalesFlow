@@ -133,6 +133,7 @@ const columns = [
   {
     accessorKey: 'sold',
     header: t('sold'),
+    cell: ({ row }) => roundFloatToTwoDecimal(row.original.sold),
     enableSorting: false,
   },
   {
