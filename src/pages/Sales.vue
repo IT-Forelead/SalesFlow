@@ -90,6 +90,7 @@ onUnmounted(() => {
 const API_URL = import.meta.env.VITE_CHEQUE_API_URL;
 const addedToBasket = new Audio('/audios/added-to-basket.mp3');
 const notFoundProduct = new Audio('/audios/not-found.mp3');
+const expiredProduct = new Audio('/audios/not-found.mp3');
 const soldSuccess = new Audio('/audios/sold-success.mp3');
 const productOutOfStore = new Audio('/audios/product-is-out-of-store.mp3');
 const { t } = useI18n();
@@ -313,54 +314,60 @@ const searchProducts = () => {
 };
 
 const addProductToCart = (product, amount) => {
-  if (activeBasket.value.find((p) => p?.productId === product?.id)) {
-    activeBasket.value = activeBasket.value.map((item) => {
-      if (item.productId === product.id && product?.rest <= item.amount) {
-        toast.error(t('productIsOutOfStore'));
-        productOutOfStore.play();
-        return item;
-      } else if (item.productId === product.id && product?.rest > item.amount) {
-        let updatedAmount;
+  const existingProductIndex = activeBasket.value.findIndex((p) => p?.productId === product?.id);
 
-        // Определяем обновленное количество в зависимости от типа продукта
-        if (amount) {
-          updatedAmount = item.amount + amount;
-        } else if (item.saleType === 'kg') {
-          updatedAmount = roundFloatToOneDecimal(item.amount + 0.1);
-        } else if (item.saleType === 'litre') {
-          updatedAmount = roundFloatToOneDecimal(item.amount + 0.5);
-        } else {
-          updatedAmount = item.amount + 1;
-        }
+  if (existingProductIndex !== -1) {
+    // Продукт уже в корзине
+    const existingProduct = activeBasket.value[existingProductIndex];
 
-        // Обновляем продукт
-        const updatedProduct = { ...item, amount: updatedAmount };
+    // Проверяем наличие остатка
+    if (product?.rest <= existingProduct.amount) {
+      toast.error(t('productIsOutOfStore'));
+      productOutOfStore.play();
+      clearSearchInput(); // Закрываем поиск
+      return; // Не обновляем продукт, если его недостаточно
+    } else {
+      let updatedAmount;
 
-        // Перемещаем обновленный продукт в начало списка
-        activeBasket.value.unshift(activeBasket.value.splice(activeBasket.value.indexOf(item), 1)[0]);
-
-        addedToBasket.play();
-        return updatedProduct;
-      } else if (item.productId === product.id) {
-        toast.error(t('productIsOutOfStore'));
-        productOutOfStore.play();
-        return item;
+      // Определяем обновленное количество в зависимости от типа продукта
+      if (amount) {
+        updatedAmount = existingProduct.amount + amount;
+      } else if (existingProduct.saleType === 'kg') {
+        updatedAmount = roundFloatToOneDecimal(existingProduct.amount + 0.1);
+      } else if (existingProduct.saleType === 'litre') {
+        updatedAmount = roundFloatToOneDecimal(existingProduct.amount + 0.5);
       } else {
-        return item;
+        updatedAmount = existingProduct.amount + 1;
       }
-    });
+
+      // Обновляем продукт
+      const updatedProduct = { ...existingProduct, amount: updatedAmount };
+
+      // Проверяем срок годности
+      if (updatedProduct.expirationDate && new Date().setHours(0, 0, 0, 0) > new Date(updatedProduct.expirationDate)) {
+        expiredProduct.play();
+      } else {
+        addedToBasket.play();
+      }
+
+      // Удаляем старый продукт и добавляем обновленный на первое место
+      activeBasket.value.splice(existingProductIndex, 1); // Удаляем старый продукт
+      activeBasket.value.unshift(updatedProduct); // Добавляем обновленный продукт в начало
+      clearSearchInput(); // Закрываем поиск
+    }
   } else {
-    if (product?.rest >= 0) {
+    // Логика для добавления нового продукта
+    if (product?.rest > 0) {
       let newAmount;
 
       // Определяем количество при добавлении нового продукта
       if (amount) {
         newAmount = amount;
-      } else if (product?.saleType === 'kg' && product?.rest < 0.1 && product?.rest > 0) {
+      } else if (product?.saleType === 'kg' && product?.rest < 0.1) {
         newAmount = product?.rest;
       } else if (product?.saleType === 'kg') {
         newAmount = 0.1;
-      } else if (product?.saleType === 'litre' && product?.rest <= 0.1 && product?.rest > 0) {
+      } else if (product?.saleType === 'litre' && product?.rest <= 0.1) {
         newAmount = product?.rest;
       } else if (product?.saleType === 'litre') {
         newAmount = 0.5;
@@ -368,7 +375,7 @@ const addProductToCart = (product, amount) => {
         newAmount = 1;
       }
 
-      activeBasket.value.push({
+      const newProduct = {
         productId: product?.id,
         name: product?.name,
         packaging: product?.packaging,
@@ -378,18 +385,24 @@ const addProductToCart = (product, amount) => {
         amount: newAmount,
         serialId: product?.serialId,
         expirationDate: product?.expirationDate,
-      });
+      };
 
-      // Перемещаем новый продукт в начало списка
-      activeBasket.value.unshift(activeBasket.value.pop());
+      // Проверяем срок годности нового продукта
+      if (newProduct.expirationDate && new Date().setHours(0, 0, 0, 0) > new Date(newProduct.expirationDate)) {
+        expiredProduct.play();
+      } else {
+        addedToBasket.play();
+      }
 
-      addedToBasket.play();
+      // Добавляем новый продукт в начало списка
+      activeBasket.value.unshift(newProduct);
+      clearSearchInput(); // Закрываем поиск
     } else {
       toast.error('Mahsulot sotuvda mavjud emas!');
       productOutOfStore.play();
+      clearSearchInput(); // Закрываем поиск
     }
   }
-  clearSearchInput();
 };
 
 const selectProduct = (product) => {
@@ -1542,7 +1555,13 @@ const closeCardIdModal = () => {
                         </div>
                         <div v-if="new Date().setHours(0,0,0,0) > new Date(product.expirationDate)">
                           {{ $t('expirationDate') }}:
-                          <span class="text-red-500 text-sm md:text-base">
+                          <span class="text-red-600 text-sm md:text-base">
+                            {{ product?.expirationDate }}
+                          </span>
+                        </div>
+                        <div v-else-if="new Date().setHours(0,0,0,0) == new Date(product.expirationDate).setHours(0,0,0,0)">
+                          {{ $t('expirationDate') }}:
+                          <span class="text-orange-400 text-sm md:text-base">
                             {{ product?.expirationDate }}
                           </span>
                         </div>
