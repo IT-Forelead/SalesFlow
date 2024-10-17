@@ -335,9 +335,9 @@ const addProductToCart = (product, amount) => {
         } else {
           updatedAmount = product?.rest;
         }
-      } else if (existingProduct.saleType === 'kg') {
-        if (product?.rest >= existingProduct.amount + 0.1) {
-          updatedAmount = (existingProduct.amount + 0.1);
+      } else if (existingProduct.saleType === 'litre') {
+        if (product?.rest >= existingProduct.amount + 0.5) {
+          updatedAmount = (existingProduct.amount + 0.5);
         } else {
           updatedAmount = product?.rest;
         }
@@ -1559,7 +1559,7 @@ const closeCardIdModal = () => {
                         </div>
                         <div v-else-if="new Date().setHours(0,0,0,0) == new Date(product.expirationDate).setHours(0,0,0,0)">
                           {{ $t('expirationDate') }}:
-                          <span class="text-orange-400 text-sm md:text-base">
+                          <span class="text-orange-300 text-sm md:text-base">
                             {{ product?.expirationDate }}
                           </span>
                         </div>
