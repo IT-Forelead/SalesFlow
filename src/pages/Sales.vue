@@ -317,19 +317,16 @@ const addProductToCart = (product, amount) => {
   const existingProductIndex = activeBasket.value.findIndex((p) => p?.productId === product?.id);
 
   if (existingProductIndex !== -1) {
-    // Продукт уже в корзине
     const existingProduct = activeBasket.value[existingProductIndex];
 
-    // Проверяем наличие остатка
     if (product?.rest <= existingProduct.amount) {
       toast.error(t('productIsOutOfStore'));
       productOutOfStore.play();
-      clearSearchInput(); // Закрываем поиск
-      return; // Не обновляем продукт, если его недостаточно
+      clearSearchInput(); 
+      return; 
     } else {
       let updatedAmount;
 
-      // Определяем обновленное количество в зависимости от типа продукта
       if (amount) {
         updatedAmount = existingProduct.amount + amount;
       } else if (existingProduct.saleType === 'kg') {
@@ -348,27 +345,22 @@ const addProductToCart = (product, amount) => {
         updatedAmount = existingProduct.amount + 1;
       }
 
-      // Обновляем продукт
       const updatedProduct = { ...existingProduct, amount: updatedAmount };
 
-      // Проверяем срок годности
       if (updatedProduct.expirationDate && new Date().setHours(0, 0, 0, 0) > new Date(updatedProduct.expirationDate)) {
         expiredProduct.play();
       } else {
         addedToBasket.play();
       }
 
-      // Удаляем старый продукт и добавляем обновленный на первое место
-      activeBasket.value.splice(existingProductIndex, 1); // Удаляем старый продукт
-      activeBasket.value.unshift(updatedProduct); // Добавляем обновленный продукт в начало
-      clearSearchInput(); // Закрываем поиск
+      activeBasket.value.splice(existingProductIndex, 1); 
+      activeBasket.value.unshift(updatedProduct);
+      clearSearchInput(); 
     }
   } else {
-    // Логика для добавления нового продукта
     if (product?.rest > 0) {
       let newAmount;
 
-      // Определяем количество при добавлении нового продукта
       if (amount) {
         newAmount = amount;
       } else if (product?.saleType === 'kg' && product?.rest < 0.1) {
@@ -395,20 +387,18 @@ const addProductToCart = (product, amount) => {
         expirationDate: product?.expirationDate,
       };
 
-      // Проверяем срок годности нового продукта
       if (newProduct.expirationDate && new Date().setHours(0, 0, 0, 0) > new Date(newProduct.expirationDate)) {
         expiredProduct.play();
       } else {
         addedToBasket.play();
       }
 
-      // Добавляем новый продукт в начало списка
       activeBasket.value.unshift(newProduct);
-      clearSearchInput(); // Закрываем поиск
+      clearSearchInput();
     } else {
       toast.error('Mahsulot sotuvda mavjud emas!');
       productOutOfStore.play();
-      clearSearchInput(); // Закрываем поиск
+      clearSearchInput();
     }
   }
 };
