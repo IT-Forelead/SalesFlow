@@ -335,9 +335,9 @@ const addProductToCart = (product, amount) => {
         } else {
           updatedAmount = product?.rest;
         }
-      } else if (existingProduct.saleType === 'kg') {
-        if (product?.rest >= existingProduct.amount + 0.1) {
-          updatedAmount = (existingProduct.amount + 0.1);
+      } else if (existingProduct.saleType === 'litre') {
+        if (product?.rest >= existingProduct.amount + 0.5) {
+          updatedAmount = (existingProduct.amount + 0.5);
         } else {
           updatedAmount = product?.rest;
         }
