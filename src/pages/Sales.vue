@@ -333,9 +333,17 @@ const addProductToCart = (product, amount) => {
       if (amount) {
         updatedAmount = existingProduct.amount + amount;
       } else if (existingProduct.saleType === 'kg') {
-        updatedAmount = roundFloatToOneDecimal(existingProduct.amount + 0.1);
-      } else if (existingProduct.saleType === 'litre') {
-        updatedAmount = roundFloatToOneDecimal(existingProduct.amount + 0.5);
+        if (product?.rest >= existingProduct.amount + 0.1) {
+          updatedAmount = (existingProduct.amount + 0.1);
+        } else {
+          updatedAmount = product?.rest;
+        }
+      } else if (existingProduct.saleType === 'kg') {
+        if (product?.rest >= existingProduct.amount + 0.1) {
+          updatedAmount = (existingProduct.amount + 0.1);
+        } else {
+          updatedAmount = product?.rest;
+        }
       } else {
         updatedAmount = existingProduct.amount + 1;
       }
