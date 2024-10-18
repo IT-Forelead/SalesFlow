@@ -1329,7 +1329,7 @@ const closeCardIdModal = () => {
     v-if="products.length > 0"
     class="fixed top-0 right-0 bottom-0 left-0 z-40 backdrop-blur-[2px] bg-gray-900/70"
   ></div>
-  <div class="flex flex-col md:flex-row">
+  <div class="flex max-h-screen overflow-hidden flex-col md:flex-row">
     <div class="flex-auto md:w-2/3 w-full space-y-4 py-8 px-4 md:px-8">
       <div class="flex items-center space-x-2 pb-2">
         <div class="relative flex-auto z-50">
@@ -1498,7 +1498,7 @@ const closeCardIdModal = () => {
       </div>
 
       <div v-if="activeBasket.length > 0" class="py-2 align-middle">
-        <div class="min-w-full md:max-h-[90vh] xl:max-h-[77vh] lg:max-h-[62vh] 2xl:max-h-[80vh] xxl:max-h-[77vh] overflow-y-auto overflow-x-auto rounded-xl">
+        <div class="min-w-full max-h-svh pb-44 overflow-y-auto overflow-x-auto rounded-xl">
           <table class="md:min-w-full divide-y-8 divide-white">
             <thead>
               <tr class="bg-slate-100 text-base font-semibold text-gray-900 h-12">
@@ -1521,12 +1521,8 @@ const closeCardIdModal = () => {
             </thead>
             <tbody class="bg-slate-100 divide-y-8 divide-white">
               <tr
-                :class="{ 'bg-blue-100': selectP === product }"
-                @click="selectProduct(product)"
-                v-for="(product, idx) in activeBasket"
-                :key="idx"
-                class="overflow-x-auto overflow-y-auto"
-              >
+                :class="{ 'bg-red-100': product.expirationDate && new Date().setHours(0, 0, 0, 0) > new Date(product.expirationDate),
+                'bg-blue-100': selectP === product }" @click="selectProduct(product)" v-for="(product, idx) in  activeBasket" :key="idx" class="overflow-x-auto overflow-y-auto">
                 <td class="px-3 py-2 whitespace-nowrap rounded-l-xl">
                   <div class="flex items-center space-x-3">
                     <div
@@ -1547,7 +1543,7 @@ const closeCardIdModal = () => {
                         </span>
                         <div v-if="product.quantity <= 15">
                           {{ $t('remainingAmount') }}:
-                          <span class="text-red-500 text-sm md:text-base">
+                          <span class="text-red-600 text-sm md:text-base">
                             {{ roundFloatToTwoDecimal(product?.quantity - product?.amount) }}
                           </span>
                         </div>
