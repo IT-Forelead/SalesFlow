@@ -173,9 +173,9 @@ onMounted(() => {
                 class="border appearance-none text-sm rounded-lg block w-full p-2.5 dark:bg-slate-600 dark:bg-[#0D1117] border-gray-200 dark:border-[#30363D] placeholder-gray-400 dark:text-zinc-200 dark:text-white focus:outline-none  focus:ring-blue-500 focus:border-blue-500"
                 :placeholder="$t('enterYourPassword')" @keyup.enter="login()">
               <EyeIcon v-if="hidePassword" @click="togglePassword()"
-                class="dark:text-zinc-300 dark:dark:text-zinc-300 absolute z-10 top-1/2 -translate-y-1/2 right-3 w-5 h-5 cursor-pointer" />
+                class="dark:text-zinc-300 dark:text-zinc-300 absolute z-10 top-1/2 -translate-y-1/2 right-3 w-5 h-5 cursor-pointer" />
               <EyeSlashIcon v-else @click="togglePassword()"
-                class="dark:text-zinc-300 dark:dark:text-zinc-300 absolute z-10 top-1/2 -translate-y-1/2 right-3 w-5 h-5 cursor-pointer" />
+                class="dark:text-zinc-300 dark:text-zinc-300 absolute z-10 top-1/2 -translate-y-1/2 right-3 w-5 h-5 cursor-pointer" />
             </div>
           </div>
         </div>
@@ -183,7 +183,7 @@ onMounted(() => {
           class="inline-flex items-center justify-center rounded-lg p-2.5 text-base font-semibold bg-blue-600 text-white mt-8 w-full cursor-default"
           type="submit">
           <Spinners270RingIcon
-            class="mr-2 w-5 h-5 text-gray-200 animate-spin dark:dark:text-white fill-gray-600 dark:fill-gray-300" />
+            class="mr-2 w-5 h-5 text-gray-200 animate-spin dark:text-white fill-gray-600 dark:fill-gray-300" />
           <span>
             {{ $t('signin') }}
           </span>

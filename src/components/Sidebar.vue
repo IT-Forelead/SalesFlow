@@ -108,14 +108,14 @@ onMounted(() => {
       <div>
       <div class="h-20 flex justify-around">
         <div class="flex space-x-1 items-center justify-center ">
-          <img src="/images/logo.svg" class="w-12 h-12" alt="#">
+          <img src="/images/logo.svg" class="w-12 h-12 " alt="#">
           <div class="text-3xl font-extrabold">
             <span class="text-[#0167f3]">Sales</span>
             <span class="dark:text-white">Flow</span>
           </div>
         </div>
         <div class="flex items-center justify-end">
-          <XIcon class="w-6 h-6 mt-1 hover:text-[#0167f3] cursor-pointer" @click="closeBar"/>
+          <XIcon class="w-6 h-6 mt-1 hover:text-[#0167f3] dark:text-white cursor-pointer" @click="closeBar"/>
         </div>
       </div>
       <ProfileDropDown />

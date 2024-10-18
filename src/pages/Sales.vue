@@ -1347,7 +1347,7 @@ const closeCardIdModal = () => {
       <div class="flex items-center space-x-2 pb-2">
         <div class="relative flex-auto z-50">
           <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-            <SearchIcon class="w-5 h-5 dark:text-white" />
+            <SearchIcon class="w-5 h-5 text-black" />
           </div>
           <input
             id="globle-search"
@@ -1356,7 +1356,7 @@ const closeCardIdModal = () => {
             type="search"
             @blur="reFocus()"
             ref="onSearchFocus"
-            class="bg-slate-100 border-none dark:text-white text-base md:text-lg rounded-xl block w-full h-12 pl-10 py-2 placeholder-slate-400 placeholder:text-sm md:placeholder:text-lg lg:placeholder:text-base"
+            class="bg-slate-100 border-none text-black text-base md:text-lg rounded-xl block w-full h-12 pl-10 py-2 placeholder-slate-400 placeholder:text-sm md:placeholder:text-lg lg:placeholder:text-base"
             :placeholder="t('searchByProductNameOrBarcode')"
           />
           <div
@@ -1496,12 +1496,12 @@ const closeCardIdModal = () => {
             <BasketIcon
               class="w-6 h-6 mr-2"
               :class="
-                activeBasketStatus == basket.id ? 'text-blue-500 text-sm' : 'dark:text-zinc-300 text-sm'
+                activeBasketStatus == basket.id ? 'text-blue-500 text-sm' : 'text-black text-sm'
               "
             />
             <span
               :class="
-                activeBasketStatus == basket.id ? 'text-blue-500 text-sm' : 'dark:text-zinc-200 text-sm'
+                activeBasketStatus == basket.id ? 'text-blue-500 text-sm' : 'text-black text-sm'
               "
             >
               {{ basket.name }}
@@ -1713,7 +1713,7 @@ const closeCardIdModal = () => {
       class="flex-auto overflow-y-auto md:w-1/3 w-full border-l h-dvh py-8 px-4 md:px-8 space-y-4"
     >
       <div class="space-y-2">
-        <h3 class="text-xl font-semibold">
+        <h3 class="text-xl dark:text-zinc-200 font-semibold">
           {{ $t('salesDetails') }}
         </h3>
         <div class="pb-3 space-y-1">
@@ -1725,7 +1725,7 @@ const closeCardIdModal = () => {
               {{ activeBasket.length + ' ' + $t('piece') }}
             </div>
           </div>
-          <div class="flex items-center justify-between">
+          <div class="flex items-center  justify-between">
             <div class="text-base dark:text-white">
               {{ $t('price') }}
             </div>
@@ -1782,7 +1782,7 @@ const closeCardIdModal = () => {
         </div>
       </div>
       <div class="space-y-1" @click="b">
-        <label class="text-base font-medium">
+        <label class="text-base dark:text-zinc-200 font-medium">
           {{ $t('paymentReceived') }}
         </label>
         <money3
@@ -1791,11 +1791,11 @@ const closeCardIdModal = () => {
           id="price"
           ref="onTotalFocus"
           @blur="totalReFocus()"
-          class="border-none text-right dark:text-zinc-300 bg-slate-100 rounded-lg w-full text-lg"
+          class="border-none text-right dark:text-black bg-slate-100 rounded-lg w-full text-lg"
         />
       </div>
       <div class="space-y-1" @click="a">
-        <label class="text-base font-medium">
+        <label class="text-base dark:text-zinc-200 font-medium">
           {{ $t('customerMoney') }}
         </label>
         <div>
@@ -1805,7 +1805,7 @@ const closeCardIdModal = () => {
             ref="onCustomerMoneyFocus"
             @blur="customerMoneyReFocus()"
             v-bind="moneyConf"
-            class="border-none text-right dark:text-zinc-300 bg-slate-100 rounded-lg w-full text-lg"
+            class="border-none text-right dark:text-black bg-slate-100 rounded-lg w-full text-lg"
           />
         </div>
       </div>
@@ -1826,7 +1826,7 @@ const closeCardIdModal = () => {
             <div
               @click="showDiscountForm = !showDiscountForm"
               :class="showDiscountForm ? 'border-blue-300 bg-blue-50' : ''"
-              class="flex-1 hover:bg-blue-50 hover:cursor-pointer flex flex-col w-full items-center text-center justify-center border rounded-lg py-4"
+              class="flex-1 hover:bg-blue-200 bg-blue-50 hover:border-blue-300  hover:cursor-pointer flex flex-col w-full items-center text-center justify-center border rounded-lg py-4"
             >
               <PhPercent class="w-6 h-6" />
               <div class="text-lg font-medium">
@@ -1836,7 +1836,7 @@ const closeCardIdModal = () => {
             <div
               @click="showCorporateClients = !showCorporateClients"
               :class="showCorporateClients ? 'border-blue-300 bg-blue-50' : ''"
-              class="flex-1 flex flex-col hover:border-blue-300 hover:bg-blue-50 hover:cursor-pointer items-center text-center justify-center border rounded-lg py-4"
+              class="flex-1 flex flex-col hover:bg-blue-200 bg-blue-50 hover:border-blue-300 hover:cursor-pointer items-center text-center justify-center border rounded-lg py-4"
             >
               <DebtIcon class="w-6 h-6" />
               <div class="text-lg font-medium">
@@ -1920,7 +1920,7 @@ const closeCardIdModal = () => {
             class="flex items-center justify-center px-6 w-full uppercase animate-pulse py-5 bg-gradient-to-r from-blue-500 to-green-500 text-white font-semibold text-lg rounded-full shadow-md hover:shadow-lg transition duration-300 transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-opacity-75"
           >
             <Spinners270RingIcon
-              class="mr-2 w-5 h-5 text-white animate-spin dark:dark:text-white fill-gray-600 dark:fill-gray-300"
+              class="mr-2 w-5 h-5 text-white animate-spin dark:text-white fill-gray-600 dark:fill-gray-300"
             />
             chegirma %
           </button>
@@ -1955,7 +1955,7 @@ const closeCardIdModal = () => {
                 </button>
                 <button
                   @click="createOrder(false)"
-                  class="w-full xl:py-3 px-4 lg:py-2 py-3 rounded-lg text-lg font-medium cursor-pointer bg-blue-50 border border-blue-300 text-blue-500 hover:bg-blue-100"
+                  class="w-full xl:py-3 px-4 lg:py-2 py-3 rounded-lg text-lg font-medium cursor-pointer bg-blue-50 border border-blue-300 text-blue-500 hover:bg-blue-200"
                 >
                   {{ $t('payment') }}
                   <BillCrossIcon class="ml-2 h-6 w-6 inline" />
@@ -1969,7 +1969,7 @@ const closeCardIdModal = () => {
                   class="flex items-center justify-center w-full xl:py-3 px-4 lg:py-2 py-3 rounded-lg text-white text-lg font-medium bg-blue-600"
                 >
                   <Spinners270RingIcon
-                    class="mr-2 w-5 h-5 text-gray-200 animate-spin dark:dark:text-white fill-gray-600 dark:fill-gray-300"
+                    class="mr-2 w-5 h-5 text-gray-200 animate-spin dark:text-white fill-gray-600 dark:fill-gray-300"
                   />
                   {{ $t('payment') }}
                 </button>
@@ -1985,7 +1985,7 @@ const closeCardIdModal = () => {
                   class="flex items-center justify-center w-full xl:py-3 px-4 lg:py-2 py-3 rounded-lg text-lg font-medium cursor-pointer bg-blue-50 border border-blue-300 text-blue-500 hover:bg-blue-100"
                 >
                   <Spinners270RingIcon
-                    class="mr-2 w-5 h-5 text-blue-500 animate-spin dark:dark:text-white fill-gray-600 dark:fill-gray-300"
+                    class="mr-2 w-5 h-5 text-blue-500 animate-spin dark:text-white fill-gray-600 dark:fill-gray-300"
                   />
                   {{ $t('payment') }}
                 </button>
@@ -2059,7 +2059,7 @@ const closeCardIdModal = () => {
                 class="w-full xl:py-3 px-4 lg:py-2 py-3 rounded-lg text-white flex items-center justify-center text-lg font-medium bg-blue-500 cursor-pointer hover:bg-blue-600"
               >
                 <Spinners270RingIcon
-                  class="mr-2 w-5 h-5 text-gray-200 animate-spin dark:dark:text-white fill-gray-600 dark:fill-gray-300"
+                  class="mr-2 w-5 h-5 text-gray-200 animate-spin dark:text-white fill-gray-600 dark:fill-gray-300"
                 />
                 {{ $t('intoDebt') }}
               </button>
@@ -2118,7 +2118,7 @@ const closeCardIdModal = () => {
                 class="inline-flex items-center justify-center ms-3 text-white bg-blue-600 focus:ring-4 focus:outline-none focus:ring-slate-300 rounded-xl border border-slate-200 text-sm font-medium px-5 py-2.5 focus:z-10 cursor-default"
               >
                 <Spinners270RingIcon
-                  class="mr-2 w-5 h-5 text-gray-200 animate-spin dark:dark:text-white fill-gray-600 dark:fill-gray-300"
+                  class="mr-2 w-5 h-5 text-gray-200 animate-spin dark:text-white fill-gray-600 dark:fill-gray-300"
                 />
                 {{ $t('create') }}
               </button>

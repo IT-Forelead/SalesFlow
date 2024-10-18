@@ -204,10 +204,10 @@ watch(
     <template v-slot:body>
       <div class="relative mb-8">
         <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-          <SearchIcon class="w-5 h-5 dark:text-white" />
+          <SearchIcon class="w-5 h-5" />
         </div>
         <input type="search" v-model="search" ref="onSearchFocus" v-on:keypress="whenPressEnter($event)"
-               class="bg-slate-100 border-none dark:text-white rounded-lg w-full h-12 pl-10 placeholder-slate-400 placeholder:text-sm md:placeholder:text-lg"
+               class="bg-slate-100 border-none rounded-lg w-full h-12 pl-10 placeholder-slate-400 placeholder:text-sm md:placeholder:text-lg"
                :placeholder="t('searchByProductNameOrBarcode')" />
         <div class="absolute inset-y-0 right-0 flex items-center space-x-2">
           <div @click="useModalStore().openCameraScannerModal()"
@@ -247,49 +247,49 @@ watch(
       <div class="space-y-2 md:space-y-4">
         <div class="flex flex-col md:flex-row md:items-center space-y-2 md:space-y-0 md:space-x-4">
           <div class="flex-1">
-            <label for="name" class="text-base md:text-lg font-medium">
+            <label for="name" class="text-base dark:text-white md:text-lg font-medium">
               {{ $t('productName') }}
               <span class="text-red-500 mr-2">*</span>
             </label>
             <input id="name" disabled type="text" v-model="submitData.name"
-                   class="bg-slate-100 border-none dark:text-white rounded-lg w-full py-2.5 placeholder-slate-400 placeholder:text-sm md:placeholder:text-lg"
+                   class="bg-slate-100 border-none rounded-lg w-full py-2.5 placeholder-slate-400 placeholder:text-sm md:placeholder:text-lg"
                    :placeholder="t('productName')" />
           </div>
           <div class="flex-1">
-            <label for="barcode" class="text-base md:text-lg font-medium">
+            <label for="barcode" class="text-base dark:text-white md:text-lg font-medium">
               {{ $t('barcode') }}
             </label>
             <input id="barcode" disabled type="text" v-model="submitData.barcode"
-                   class="bg-slate-100 border-none dark:text-white rounded-lg w-full py-2.5 placeholder-slate-400 placeholder:text-sm md:placeholder:text-lg"
+                   class="bg-slate-100 border-none rounded-lg w-full py-2.5 placeholder-slate-400 placeholder:text-sm md:placeholder:text-lg"
                    :placeholder="t('barcode')" />
           </div>
         </div>
         <div class="flex flex-col md:flex-row md:items-center space-y-2 md:space-y-0 md:space-x-4">
           <div class="flex-1 space-y-1">
-            <label for="quantity" class="text-base md:text-lg font-medium">
+            <label for="quantity" class="text-base dark:text-white md:text-lg font-medium">
               {{ $t('quantity') }} {{ productBarcode.saleType && `(${productBarcode.saleType})` }}
               <span class="text-red-500 mr-2">*</span>
             </label>
             <input id="quantity" type="number" v-model="submitData.quantity"
-                   class="bg-slate-100 border-none dark:text-white rounded-lg w-full h-11 placeholder-slate-400 placeholder:text-sm md:placeholder:text-lg"
+                   class="bg-slate-100 border-none rounded-lg w-full h-11 placeholder-slate-400 placeholder:text-sm md:placeholder:text-lg"
                    :placeholder="t('enterProductQuantity')" />
           </div>
           <div class="flex-1 space-y-1">
-            <label for="totalPrice" class="text-base md:text-lg font-medium">
+            <label for="totalPrice" class="text-base dark:text-white md:text-lg font-medium">
               {{ $t('totalPrice') }}
               <span class="text-red-500 mr-2">*</span>
             </label>
             <money3 v-model.number="submitData.totalPrice" v-bind="moneyConf" id="totalPrice"
-                    class="border-none text-right dark:text-zinc-300 bg-slate-100 h-11 rounded-lg w-full text-lg">
+                    class="border-none text-right bg-slate-100 h-11 rounded-lg w-full text-lg">
             </money3>
           </div>
           <div class="flex-1 space-y-1">
-            <label for="count" class="text-base md:text-lg font-medium">
+            <label for="count" class="text-base dark:text-white md:text-lg font-medium">
               {{ $t('countOfLabel') }}
               <span class="text-red-500 mr-2">*</span>
             </label>
             <input id="count" type="number" v-model="submitData.count"
-                   class="bg-slate-100 border-none dark:text-white rounded-lg w-full h-11 placeholder-slate-400 placeholder:text-sm md:placeholder:text-lg"
+                   class="bg-slate-100 border-none rounded-lg w-full h-11 placeholder-slate-400 placeholder:text-sm md:placeholder:text-lg"
                    :placeholder="t('enterProductQuantity')" />
           </div>
         </div>
@@ -300,7 +300,7 @@ watch(
       <button v-if="isLoading"
               class="inline-flex items-center justify-center ms-3 text-white bg-blue-600 focus:ring-4 focus:outline-none focus:ring-slate-300 rounded-xl border border-slate-200 text-sm font-medium px-5 py-2.5 focus:z-10 cursor-default">
         <Spinners270RingIcon
-          class="mr-2 w-5 h-5 text-gray-200 animate-spin dark:dark:text-white fill-gray-600 dark:fill-gray-300" />
+          class="mr-2 w-5 h-5 text-gray-200 animate-spin dark:text-white fill-gray-600 dark:fill-gray-300" />
         {{ $t('create') }}
       </button>
       <button v-else @click="createLabel()" type="button"

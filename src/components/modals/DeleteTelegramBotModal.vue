@@ -64,7 +64,7 @@ const deleteTelegramBot = () => {
             {{ $t('botInformation') }}
           </div>
           <ul class="divide-y divide-slate-100">
-            <li class="flex items-center justify-between py-2 px-3">
+            <li class="flex items-center dark:text-white justify-between py-2 px-3">
               <div class="text-base">
                 {{ $t('type') }}
               </div>
@@ -72,7 +72,7 @@ const deleteTelegramBot = () => {
                 {{ selectedBot.type }}
               </div>
             </li>
-            <li class="flex items-center justify-between py-2 px-3">
+            <li class="flex items-center dark:text-white justify-between py-2 px-3">
               <div class="text-base">
                 {{ $t('status') }}
               </div>
@@ -80,7 +80,7 @@ const deleteTelegramBot = () => {
                 {{ selectedBot?.active ? $t('active') : $t('inactive') }}
               </div>
             </li>
-            <li class="flex items-center justify-between py-2 px-3">
+            <li class="flex items-center dark:text-white justify-between py-2 px-3">
               <div class="text-base">
                 {{ $t('description') }}
               </div>
@@ -100,14 +100,14 @@ const deleteTelegramBot = () => {
               <div
                 class="flex py-4 flex-col md:flex-row items-center justify-center md:justify-between space-y-4 md:space-y-0 md:space-x-4">
                 <button type="button" @click="closeModal()"
-                  class="w-full md:w-auto py-2 px-4 rounded-xl dark:text-zinc-200 text-base font-medium bg-slate-50 cursor-pointer hover:bg-slate-200 border md:flex-1">
+                  class="w-full md:w-auto py-2 px-4 rounded-xl text-base font-medium bg-slate-50 cursor-pointer hover:bg-slate-200 border md:flex-1">
                   {{ $t('no') }}
                 </button>
 
                 <button v-if="isLoading"
                         class="inline-flex items-center justify-center w-full md:w-auto py-2 px-4 rounded-xl text-white text-base font-medium bg-red-600 cursor-pointer hover:bg-red-700">
                   <Spinners270RingIcon
-                    class="mr-2 w-5 h-5 text-gray-200 animate-spin dark:dark:text-white fill-gray-600 dark:fill-gray-300" />
+                    class="mr-2 w-5 h-5 text-gray-200 animate-spin dark:text-white fill-gray-600 dark:fill-gray-300" />
                   {{ $t('yesOfCourse') }}
                 </button>
 

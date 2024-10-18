@@ -52,7 +52,7 @@ const columns = [
     header: t('actions'),
     cell: ({ row }) => h('div', { class: 'flex items-center space-x-2' }, [
       h('button', { onClick: () => { openEditAgent(row.original) } }, [
-        h(PhPencilIcon, { class: 'w-6 h-6 text-blue-600 hover:scale-105' })
+        h(PhPencilIcon, { class: 'w-6 h-6 text-blue-500 hover:scale-105' })
       ]),
       // h('button', { onClick: () => { openDeleteUserModal(row.original) } }, [
       //   h(PhTrash, { class: 'w-6 h-6 text-red-600 hover:scale-105' })
@@ -95,10 +95,10 @@ getAgents()
     <div class="flex flex-col md:flex-row items-center justify-between">
       <div class="relative w-full md:w-auto my-2 md:mb-0 order-2 md:order-1">
         <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-          <SearchIcon class="w-5 h-5 dark:text-white" />
+          <SearchIcon class="w-5 h-5" />
         </div>
         <input type="search" v-model="globalSearchFromTable"
-          class="bg-slate-100 border-none w-full dark:text-white text-base md:text-lg rounded-full block pl-10 py-2 placeholder-slate-400"
+          class="bg-slate-100 border-none w-full text-base md:text-lg rounded-full block pl-10 py-2 placeholder-slate-400"
           :placeholder="$t('search')">
       </div>
       <div class="w-full md:w-auto order-1 md:order-2">

@@ -85,7 +85,7 @@ const closeModal = () => {
               {{ $t('userInformation') }}
             </div>
             <ul class="divide-y divide-slate-100">
-              <li class="flex items-center justify-between py-2 px-3">
+              <li class="flex items-center dark:text-white justify-between py-2 px-3">
                 <div class="text-base">
                   {{ $t('user') }}
                 </div>
@@ -93,7 +93,7 @@ const closeModal = () => {
                   {{ selectedUser.firstname}} {{ selectedUser.lastname}}
                 </div>
               </li>
-              <li class="flex items-center justify-between py-2 px-3">
+              <li class="flex items-center dark:text-white justify-between py-2 px-3">
                 <div class="text-base">
                   {{ $t('login') }}
                 </div>
@@ -101,7 +101,7 @@ const closeModal = () => {
                   {{ selectedUser.login }}
                 </div>
               </li>
-              <li class="flex items-center justify-between py-2 px-3">
+              <li class="flex items-center dark:text-white justify-between py-2 px-3">
                 <div class="text-base">
                   {{ $t('phone') }}
                 </div>
@@ -109,7 +109,7 @@ const closeModal = () => {
                   {{ selectedUser.phone }}
                 </div>
               </li>
-              <li class="flex items-center justify-between py-2 px-3">
+              <li class="flex items-center dark:text-white justify-between py-2 px-3">
                 <div class="text-base">
                   {{ $t('role') }}
                 </div>
@@ -117,7 +117,7 @@ const closeModal = () => {
                   {{ getRole(selectedUser.privileges) }}
                 </div>
               </li>
-              <li class="flex items-center justify-between py-2 px-3">
+              <li class="flex items-center dark:text-white justify-between py-2 px-3">
                 <div class="text-base">
                   {{ $t('createdAt') }}
                 </div>
@@ -136,7 +136,7 @@ const closeModal = () => {
                 </h3>
                 <div class="flex flex-col md:flex-row items-center justify-center md:justify-between space-y-4 md:space-y-0 md:space-x-4">
                   <button type="button" @click="closeModal()"
-                          class="w-full md:w-auto py-2 px-4 rounded-xl dark:text-zinc-200 text-base font-medium bg-slate-50 cursor-pointer hover:bg-slate-200 border md:flex-1">
+                          class="w-full md:w-auto py-2 px-4 rounded-xl text-base font-medium bg-slate-50 cursor-pointer hover:bg-slate-200 border md:flex-1">
                           {{ $t('no') }}
                   </button>
                   <button

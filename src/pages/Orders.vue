@@ -121,7 +121,7 @@ const columns = [
           openOrderInfo(row.original)
         },
       }, [
-        h(EyeIcon, { class: 'w-6 h-6 text-blue-600 hover:scale-105' }),
+        h(EyeIcon, { class: 'w-6 h-6 text-blue-500 hover:scale-105' }),
       ]),
     ]),
     enableSorting: false,
@@ -241,10 +241,10 @@ watch(page, () => {
     <div class="flex items-center justify-between my-2">
       <div class="relative w-full md:w-auto mb-2 md:mb-0 flex items-center space-x-2">
         <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
-          <SearchIcon class="w-5 h-5 dark:text-white" />
+          <SearchIcon class="w-5 h-5 " />
         </div>
         <input type="search" v-model="globalSearchFromTable"
-          class="bg-slate-100 border-none w-full dark:text-white text-base md:text-lg rounded-full block pl-10 py-2 placeholder-slate-400"
+          class="bg-slate-100 border-none w-full text-base md:text-lg rounded-full block pl-10 py-2 placeholder-slate-400"
           placeholder="Search everything...">
         <Calendar v-model="dateFrom" :date-format="'dd/mm/yy'" showIcon iconDisplay="input" :input-class="'rounded-2xl border-none bg-slate-100 dark:text-white text-base md:text-lg'" placeholder="Select date" />
       </div>

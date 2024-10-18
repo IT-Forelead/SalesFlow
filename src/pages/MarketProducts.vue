@@ -47,10 +47,10 @@ const columns = [
     <div class="flex items-center justify-between my-2">
       <div class="relative">
         <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-          <SearchIcon class="w-5 h-5 dark:text-white" />
+          <SearchIcon class="w-5 h-5" />
         </div>
         <input type="search" v-model="globaleSearchFromTable"
-          class="bg-slate-100 border-none dark:text-white text-base md:text-lg rounded-full block pl-10 py-2 placeholder-slate-400"
+          class="bg-slate-100 border-none text-base md:text-lg rounded-full block pl-10 py-2 placeholder-slate-400"
           placeholder="Search everything...">
       </div>
       <div>

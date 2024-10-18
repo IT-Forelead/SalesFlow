@@ -58,7 +58,7 @@ const columns = [
       const barcode = row.original.barcode
       const uniqueBarcodes = Array.from(new Set(productStore.productBarcodes.map(item => item.barcode)))
       const indexInUniqueBarcodes = uniqueBarcodes.indexOf(barcode)
-      const color = indexInUniqueBarcodes % 2 === 0 ? 'black' : 'blue'
+      const color = indexInUniqueBarcodes % 2 === 0 ? 'dark:white' : 'gray'
       return h('span', {
         style: { color },
       }, barcode)
@@ -73,7 +73,7 @@ const columns = [
     header: t('actions'),
     cell: ({ row }) => h('div', { class: 'flex justify-center items-center space-x-2' }, [
       h('button', { onClick: () => { openEditProductBarcodeModal(row.original) } }, [
-        h(EditIcon, { class: 'w-6 h-6 text-blue-600 hover:scale-105' })
+        h(EditIcon, { class: 'w-6 h-6 text-blue-500 hover:scale-105' })
       ]),
     ]),
     enableSorting: false,
@@ -134,10 +134,10 @@ watch(page, () => {
     <div class="flex flex-col md:flex-row items-center justify-between">
       <div class="relative w-full md:w-auto my-2 md:mb-0 order-2 md:order-1">
         <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-          <SearchIcon class="w-5 h-5 dark:text-white" />
+          <SearchIcon class="w-5 h-5" />
         </div>
         <input type="search" v-model="globalSearchFromTable"
-          class="bg-slate-100 border-none w-full dark:text-white text-base md:text-lg rounded-full block pl-10 py-2 placeholder-slate-400"
+          class="bg-slate-100 border-none w-full text-base md:text-lg rounded-full block pl-10 py-2 placeholder-slate-400"
           placeholder="Search everything..." />
       </div>
       <div class="w-full md:w-auto order-1 md:order-2">

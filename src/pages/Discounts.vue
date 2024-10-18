@@ -210,11 +210,11 @@ const changeAllDiscounts = () => {
       <div class="flex items-center space-x-2 pb-2">
         <div class="relative flex-auto z-30">
           <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-            <SearchIcon class="w-5 h-50 dark:text-white" />
+            <SearchIcon class="w-5 h-50" />
           </div>
           <input id="globle-search" v-model="search" v-on:keypress="whenPressEnter($event)" type="search"
             ref="onSearchFocus"
-            class="bg-slate-100 border-none dark:text-white text-base md:text-lg rounded-xl block w-full h-12 pl-10 py-2 placeholder-slate-400 placeholder:text-sm md:placeholder:text-lg lg:placeholder:text-base"
+            class="bg-slate-100 border-none  text-base md:text-lg rounded-xl block w-full h-12 pl-10 py-2 placeholder-slate-400 placeholder:text-sm md:placeholder:text-lg lg:placeholder:text-base"
             :placeholder="t('searchByProductNameOrBarcode')" />
           <div v-if="search" @click="clearSearchInput()"
             class="absolute inset-y-0 right-20 p-1 flex items-center cursor-pointer">
@@ -349,7 +349,7 @@ const changeAllDiscounts = () => {
               <button v-if="isLoadingSend"
                 class="inline-flex items-center justify-center w-40 py-2 px-4 rounded-lg text-white text-base bg-blue-500 cursor-pointer hover:bg-blue-600">
                 <Spinners270RingIcon
-                  class="mr-2 w-5 h-5 text-gray-200 animate-spin dark:dark:text-white fill-gray-600 dark:fill-gray-300" />
+                  class="mr-2 w-5 h-5 text-gray-200 animate-spin dark:text-white fill-gray-600 dark:fill-gray-300" />
                 {{ $t('send') }}
               </button>
               <button v-else
@@ -364,7 +364,7 @@ const changeAllDiscounts = () => {
       </div>
       <div v-else class="flex flex-col items-center justify-center border-2 border-dashed h-96 rounded-3xl space-y-1">
 
-        <div class="text-slate-600 text-base text-center">
+        <div class="dark:text-white text-base text-center">
           {{ $t('searchForProductsOrScanProducts') }}
         </div>
       </div>

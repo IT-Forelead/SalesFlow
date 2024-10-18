@@ -915,7 +915,7 @@ watch(pageProfit, () => {
                   </div>
                   <div class="text-sm dark:text-white">
                     {{ $t('totalPrice') }}:
-                    <span class="text-blue-700 font-semibold">
+                    <span class="dark:text-white font-semibold">
                       {{ useMoneyFormatter(product?.totalPrice) }}
                     </span>
                   </div>
@@ -1000,7 +1000,7 @@ watch(pageProfit, () => {
                   </div>
                   <div class="text-sm dark:text-white">
                     {{ $t('totalPrice') }}:
-                    <span class="text-blue-700 font-semibold">
+                    <span class="dark:text-white font-semibold">
                       {{ useMoneyFormatter(product?.totalPrice) }}
                     </span>
                   </div>
@@ -1085,13 +1085,13 @@ watch(pageProfit, () => {
                   </div>
                   <div class="text-sm dark:text-white">
                     {{ $t('totalPrice') }}:
-                    <span class="dark:text-zinc-200">
+                    <span class="dark:text-white font-semibold">
                       {{ useMoneyFormatter(product?.totalPrice) }}
                     </span>
                   </div>
                 </div>
               </div>
-              <div class="text-xl md:text-2xl font-bold text-blue-700">
+              <div class="text-xl md:text-2xl font-bold dark:text-white">
                 {{ roundFloatToTwoDecimal(product?.amount) }}
               </div>
             </div>
@@ -1170,7 +1170,7 @@ watch(pageProfit, () => {
                   </div>
                   <div class="text-sm dark:text-white">
                     {{ $t('lastDays') }}:
-                    <span class="text-red-700 font-semibold">
+                    <span class="dark:text-red-400 font-semibold">
                       {{ (product?.daysSinceLastSale) }}
                     </span>
                   </div>

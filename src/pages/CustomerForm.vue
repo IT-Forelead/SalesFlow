@@ -123,7 +123,7 @@ const createSale = () => {
           </div>
         </div>
         <button v-if="isLoading" class="inline-flex items-center justify-center rounded-lg p-2.5 text-base font-semibold bg-blue-600 text-white mt-8 w-full cursor-default" type="submit">
-          <Spinners270RingIcon class="mr-2 w-5 h-5 text-gray-200 animate-spin dark:dark:text-white fill-gray-600 dark:fill-gray-300" />
+          <Spinners270RingIcon class="mr-2 w-5 h-5 text-gray-200 animate-spin dark:text-white fill-gray-600 dark:fill-gray-300" />
           <span> {{ $t('create') }} </span>
         </button>
         <button v-else @click="createSale()" class="inline-flex items-center justify-center rounded-lg p-2.5 text-base font-semibold bg-blue-500 text-white hover:bg-blue-600 mt-8 w-full cursor-pointer" type="submit">{{ $t('create') }}</button>

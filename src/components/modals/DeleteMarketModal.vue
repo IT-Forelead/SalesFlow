@@ -34,7 +34,7 @@ const closeModal = () => {
                         {{ $t('storeInformation') }}
                     </div>
                     <ul class="divide-y divide-slate-100">
-                        <li class="flex items-center justify-between py-2 px-3">
+                        <li class="flex items-center dark:text-white justify-between py-2 px-3">
                             <div class="text-base">
                                 {{ $t('storeName') }}
                             </div>
@@ -42,7 +42,7 @@ const closeModal = () => {
                                 {{ selectedMarket?.name }}
                             </div>
                         </li>
-                        <li class="flex items-center justify-between py-2 px-3">
+                        <li class="flex items-center dark:text-white justify-between py-2 px-3">
                             <div class="text-base">
                                 {{ $t('address') }}
                             </div>
@@ -50,7 +50,7 @@ const closeModal = () => {
                                 {{ selectedMarket?.address }}
                             </div>
                         </li>
-                        <li class="flex items-center justify-between py-2 px-3">
+                        <li class="flex items-center dark:text-white justify-between py-2 px-3">
                             <div class="text-base">
                                 {{ $t('createdAt') }}
                             </div>
@@ -69,7 +69,7 @@ const closeModal = () => {
                             </h3>
                           <div class="flex flex-col md:flex-row items-center justify-center md:justify-between space-y-4 md:space-y-0 md:space-x-4">
                             <button type="button" @click="closeModal()"
-                                    class="w-full md:w-auto py-2 px-4 rounded-xl dark:text-zinc-200 text-base font-medium bg-slate-50 cursor-pointer hover:bg-slate-200 border md:flex-1">
+                                    class="w-full md:w-auto py-2 px-4 rounded-xl0 text-base font-medium bg-slate-50 cursor-pointer hover:bg-slate-200 border md:flex-1">
                                     {{ $t('no') }}
                             </button>
                             <button
