@@ -45,21 +45,11 @@ const capitalizeFirstLetter = (string) => {
 }
 
 const changeTheme = (theme) => {
-  console.log(theme);
   currentTheme.value = theme.id
-  console.log('1');
 
   localStorage.setItem('theme', theme.id)
-  console.log('2');
 
-  // i18n.global.locale.value = theme.id
-  console.log('3');
-  console.log(t('title'));
-
-  // document.getElementsByTagName('title')[0].innerHTML = t('title')
-  console.log('4');
   useDropdownStore().closeSelectTheme()
-  console.log('5');
   var x = document.getElementById('app');
   if (x.classList.contains('dark')) {
     x.classList.remove('dark');
@@ -72,7 +62,6 @@ const changeTheme = (theme) => {
 
 watch(currentTheme, (newValue) => {
   const theme = list.find((item) => item.id === newValue)
- // document.getElementById('app').className = theme ? theme.id : 'dark'
   document.documentElement.className = theme ? theme.id : 'dark'
 })
 
@@ -80,10 +69,8 @@ onMounted(() => {
   const savedTheme = localStorage.getItem('theme')
   const defaultTheme = list.find((theme) => theme.id === savedTheme)
   currentTheme.value = defaultTheme ? defaultTheme.id : 'dark'
- // document.getElementsByTagName('title')[0].innerHTML = t('title')
   const theme = list.find((item) => item.id === currentTheme.value)
   document.documentElement.className = theme ? theme.id : 'dark'
- // document.getElementById('app').className = theme ? theme.id : 'dark'
 })
 </script>
 

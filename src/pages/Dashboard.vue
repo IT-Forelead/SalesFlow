@@ -1431,3 +1431,8 @@ watch(pageProfit, () => {
     </div>
   </div>
 </template>
+<!-- <style scoped>
+.apexcharts-legend-text {
+  color: red !important; /* Переопределение встроенного стиля */
+}
+</style> -->
