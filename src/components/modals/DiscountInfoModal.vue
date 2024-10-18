@@ -52,7 +52,7 @@ const calculateDiscountPrice = computed(() => {
           <div class="ring-2 ring-green-500 rounded-3xl w-full p-8 xl:p-10">
             <div class="flex items-center justify-between gap-x-4">
               <h3 id="tier-extended" class="text-green-500 text-3xl font-semibold leading-8 uppercase">{{ $t('discount') }}</h3>
-              <p class="rounded-full bg-green-600/10 px-3 py-6 text-3xl font-semibold leading-5 text-green-600">
+              <p class="rounded-full bg-green-600/10 px-3 py-6 text-3xl font-semibold leading-5 dark:text-green-500 text-green-600">
                 {{ discount.percentage }} %</p>
             </div>
             <p class="mt-6 flex items-center flex-col space-y-4">
