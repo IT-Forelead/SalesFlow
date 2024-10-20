@@ -552,7 +552,7 @@ const cashbackSaleChartOptions = computed(() => {
         columnWidth: '60%',
         dataLabels: {
           position: 'top',
-          
+
         },
       },
     },
@@ -671,8 +671,20 @@ onMounted(() => {
   })
   OrderService.getHourlySales()
     .then((res) => {
-      hourlySales.value = res
+      const hours = Array.from({ length: 18 }, (_, i) => i + 7);
+      const revenueByHour = res.reduce((acc, item) => {
+        acc[item.hour] = item.revenue;
+        return acc;
+      }, {});
+      const completeHourlySales = hours.map(hour => ({
+        hour: hour === 24 ? '0' : hour.toString(),
+        revenue: revenueByHour[hour] || 0
+      }));
+      hourlySales.value = completeHourlySales;
     })
+    .catch(error => {
+      console.error(error);
+    });
   CashbackService.getCashbackRedeems()
     .then((res) => {
       cashbackRedeems.value = res
@@ -838,7 +850,7 @@ watch(pageProfit, () => {
   <div class="p-4 md:p-8 space-y-6">
     <div class="flex flex-col md:flex-row space-x-0 md:space-x-4 space-y-2 md:space-y-0">
       <div class="p-5 flex rounded-3xl w-[50vw] dark:bg-slate-600 justify-between">
-        <div class="w-[50vw] min-h-[45vh] dark:bg-slate-600 dark:text-white rounded-3xl">
+        <div class="w-[50vw] dark:bg-slate-600 dark:text-white rounded-3xl">
           <div class="flex flex-col md:flex-row md:items-center md:justify-between px-2 space-y-3 md:space-y-0">
             <div>
               <div class="text-base font-bold dark:text-zinc-100">
@@ -857,27 +869,28 @@ watch(pageProfit, () => {
         </div>
       </div>
       <div class="p-5 rounded-3xl  dark:bg-slate-600 w-full">
-          <div class="flex flex-col md:flex-row md:items-center md:justify-between px-2 space-y-3 md:space-y-0">
-            <div>
-              <div class="text-base font-bold dark:text-zinc-100">
-                {{ $t('cashbackStat') }}
-              </div>
-              <div class="text-sm dark:text-white">
-                {{ $t('beginStatText') }}
-                <span class="font-bold">{{ 10 + $t('days') }}</span>
-                {{ $t('endStatText') }}
-              </div>
+        <div class="flex flex-col md:flex-row md:items-center md:justify-between px-2 space-y-3 md:space-y-0">
+          <div>
+            <div class="text-base font-bold dark:text-zinc-100">
+              {{ $t('cashbackStat') }}
             </div>
-            <div class="flex items-center justify-center rounded-xl bg-blue-100 dark:bg-aqua-200 p-2">
-              <ChartBarIcon class="w-8 h-8 text-blue-600" />
+            <div class="text-sm dark:text-white">
+              {{ $t('beginStatText') }}
+              <span class="font-bold">{{ 10 + $t('days') }}</span>
+              {{ $t('endStatText') }}
             </div>
           </div>
-          <apexchart type="bar" height="320" :options="cashbackSaleChartOptions" :series="cashbackRedeemsChartSeries">
-          </apexchart>
+          <div class="flex items-center justify-center rounded-xl bg-blue-100 dark:bg-aqua-200 p-2">
+            <ChartBarIcon class="w-8 h-8 text-blue-600" />
+          </div>
         </div>
+        <apexchart type="bar" height="320" :options="cashbackSaleChartOptions" :series="cashbackRedeemsChartSeries">
+        </apexchart>
+      </div>
     </div>
-    <div class="flex flex-col md:flex-row space-x-0 md:space-x-4 space-y-2 dark:text-white md:space-y-0 h-[67vh]">
-      <div class="p-5 flex rounded-3xl dark:bg-slate-600 w-[25vw] flex-col justify-between">
+    <div
+      class="flex w-full justify-between flex-col md:flex-row space-x-0 md:space-x-4 space-y-2  dark:text-white md:space-y-0 h-auto overflow-y-auto">
+      <div class="p-5 flex flex-1 rounded-3xl dark:bg-slate-600 h-[650px] flex-col justify-between">
         <div class="space-y-4">
           <div class="flex items-center justify-between">
             <div class="space-y-0.5">
@@ -927,7 +940,7 @@ watch(pageProfit, () => {
             </div>
           </div>
         </div>
-        <div class="flex items-center justify-center ">
+        <div class="w-min flex items-center justify-center ">
           <div class="flex items-center space-x-2">
             <button :disabled="pageRevenue === 1" @click="goToRevenuePage(1)"
               class="flex items-center justify-center px-3 py-2 text-base font-medium dark:text-white rounded-lg select-none hover:bg-blue-200 disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
@@ -962,7 +975,7 @@ watch(pageProfit, () => {
           </div>
         </div>
       </div>
-      <div class="p-5 flex rounded-3xl dark:bg-slate-600 w-[25vw] flex-col justify-between">
+      <div class="p-5 flex flex-1 rounded-3xl dark:bg-slate-600 h-[650px] flex-col justify-between">
         <div class="space-y-4">
           <div class="flex items-center justify-between">
             <div class="space-y-0.5">
@@ -1012,7 +1025,7 @@ watch(pageProfit, () => {
             </div>
           </div>
         </div>
-        <div class="flex items-center justify-center ">
+        <div class="w-min flex items-center justify-center ">
           <div class="flex items-center space-x-2">
             <button :disabled="pageProfit === 1" @click="goToProfitPage(1)"
               class="flex items-center justify-center px-3 py-2 text-base font-medium dark:text-white rounded-lg select-none hover:bg-blue-200 disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
@@ -1047,7 +1060,7 @@ watch(pageProfit, () => {
           </div>
         </div>
       </div>
-      <div class="p-5 flex rounded-3xl dark:bg-slate-600 w-[25vw] flex-col justify-between ">
+      <div class="p-5 flex flex-1 rounded-3xl dark:bg-slate-600 h-[650px] flex-col justify-between">
         <div class="space-y-4">
           <div class="flex items-center justify-between">
             <div class="space-y-0.5">
@@ -1097,7 +1110,7 @@ watch(pageProfit, () => {
             </div>
           </div>
         </div>
-        <div class="flex items-center justify-center ">
+        <div class="w-min flex items-center justify-center ">
           <div class="flex items-center space-x-2">
             <button :disabled="pageSell === 1" @click="goToSellPage(1)"
               class="flex items-center justify-center px-3 py-2 text-base font-medium dark:text-white rounded-lg select-none hover:bg-blue-200 disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
@@ -1132,7 +1145,7 @@ watch(pageProfit, () => {
           </div>
         </div>
       </div>
-      <div class="p-5 flex rounded-3xl dark:bg-slate-600 w-[20vw] flex-col justify-between ">
+      <div class="p-5 flex flex-1 rounded-3xl dark:bg-slate-600 h-[650px] flex-col justify-between">
         <div class="space-y-4">
           <div class="flex items-center justify-between">
             <div class="space-y-0.5">
@@ -1153,13 +1166,13 @@ watch(pageProfit, () => {
             <div v-for="(product, idx) in worstSellerProductStats" :key="idx"
               class="flex items-center justify-between py-1.5">
               <div class="flex items-center space-x-3">
-                <div class="flex items-center justify-center bg-blue-100 dark:bg-aqua-200 w-6 h-6 rounded-lg">
+                <div class="flex items-center justify-center bg-blue-100 dark:bg-aqua-200 w-auto h-6 rounded-lg">
                   <span class="text-base text-blue-600">
                     {{ (pageWorstSell - 1) * pageSize + idx + 1 }}
                   </span>
                 </div>
                 <div>
-                  <div class="text-base font-semibold dark:text-zinc-100">
+                  <div class="text-base font-semibold whitespace-normal dark:text-zinc-100">
                     {{ product?.name + ' - ' + product?.packaging }}
                   </div>
                   <div class="text-sm dark:text-white">
@@ -1179,7 +1192,7 @@ watch(pageProfit, () => {
             </div>
           </div>
         </div>
-        <div class="flex items-center justify-center ">
+        <div class="w-min flex items-center justify-center ">
           <div class="flex items-center space-x-2">
             <button :disabled="pageWorstSell === 1" @click="goToWorstSellPage(1)"
               class="flex items-center justify-center px-3 py-2 text-base font-medium dark:text-white rounded-lg select-none hover:bg-blue-200 disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"

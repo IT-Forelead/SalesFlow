@@ -35,6 +35,7 @@ import InvestorIcon from '../assets/icons/InvestorIcon.vue'
 import InvestPlanIcon from '../assets/icons/InvestPlanIcon.vue'
 import ClientIcon from '../assets/icons/ClientIcon.vue'
 import ClientCorpIcon from '../assets/icons/ClientCorpIcon.vue'
+import PhPriceList from '../assets/icons/PriceListIcon.vue'
 
 const { t } = useI18n()
 const router = useRouter()
@@ -107,9 +108,9 @@ onMounted(() => {
       :class="useSidebarStore().isOpenSidebar ? 'translate-x-0' : '-translate-x-64'">
       <div>
       <div class="h-20 flex justify-around">
-        <div class="flex space-x-1 items-center justify-center ">
-          <img src="/images/logo.svg" class="w-12 h-12 " alt="#">
-          <div class="text-3xl font-extrabold">
+        <div class="flex space-x-1 items-center justify-center">
+          <img src="/images/logo.svg" class="w-12 h-12" alt="#">
+          <div class="text-3xl font-extrabold cursor-default">
             <span class="text-[#0167f3]">Sales</span>
             <span class="dark:text-white">Flow</span>
           </div>
@@ -286,6 +287,16 @@ onMounted(() => {
             </div>
             <div>
               {{ $t('agents') }}
+            </div>
+          </router-link>
+          <router-link v-if="navigationGuard('view_agents')" to="/price-lists" @click="selectPage()" active-class="active"
+          class="relative h-10 flex items-center w-full hover:bg-blue-300/10 hover:text-blue-600 py-5 text-zinc-400 text-lg font-medium space-x-4 cursor-pointer transition-colors duration-300">
+            <div class="w-1.5 h-12 rounded-r-xl first-child-bg-color mr-2"></div>
+            <div class="flex h-10 items-center justify-center rounded-xl w-10 second-child-bg-color">
+              <PhPriceList class="w-6 h-6" />
+            </div>
+            <div>
+              {{ $t('priceLists') }}
             </div>
           </router-link>
           <router-link v-if="navigationGuard('view_users')" to="/wishes" @click="selectPage()" active-class="active"

@@ -16,6 +16,7 @@ import Vauchers from '../components/vaucher/HolidayDiscount.vue'
 import EditIcon from '../assets/icons/EditIcon.vue'
 import TrashIcon from '../assets/icons/TrashIcon.vue'
 import { useProductStore } from '../store/product.store.js'
+import moment from 'moment'
 
 const { t } = useI18n()
 const isLoading = ref(false)
@@ -62,7 +63,7 @@ const statusBot = (active) => {
 const columns = [
   {
     accessorKey: 'id',
-    header: t('n'),
+    header: () => h('div', { class: 'cursor-default'}, t('n')),
     cell: ({ row }) => `${parseInt(row.id, 10) + 1}`,
     enableSorting: false,
   },
@@ -75,6 +76,11 @@ const columns = [
       const status = statusBot(row.active)
       return h('span', { class: `px-2 py-1 rounded ${status.class}` }, status.text)
     },
+  },
+  {
+    accessorKey: 'createdAt',
+    accessorFn: row => moment(row.createdAt).format('DD/MM/YYYY H:mm'),
+    header: t('createdAt'),
   },
   {
     accessorKey: 'actions',

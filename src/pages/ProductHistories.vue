@@ -33,7 +33,7 @@ import { useConfirm } from "primevue/useconfirm";
 import {
   roundFloatToTwoDecimal,
 } from '../mixins/utils';
-
+import moment from 'moment'
 
 const { t } = useI18n()
 const API_URL = import.meta.env.VITE_CHEQUE_API_URL
@@ -102,7 +102,7 @@ const getHistoryType = (historyType) => {
 const columns = [
   {
     accessorKey: 'id',
-    header: t('n'),
+    header: () => h('div', { class: 'cursor-default'}, t('n')),
     enableSorting: false,
     cell: ({ row }) => `${parseInt(row.id, 10) + 1}`,
   },
@@ -133,6 +133,7 @@ const columns = [
   {
     accessorKey: 'sold',
     header: t('sold'),
+    cell: ({ row }) => roundFloatToTwoDecimal(row.original.sold),
     enableSorting: false,
   },
   {
@@ -167,6 +168,12 @@ const columns = [
     accessorKey: 'expiration_date',
     header: t('expirationDate'),
     cell: ({ row }) => row.original.expirationDate,
+  },
+  {
+    accessorKey: 'createdAt',
+    accessorFn: row => moment(row.createdAt).format('DD/MM/YYYY H:mm'),
+    header: t('createdAt'),
+    enableSorting: false,
   },
   {
     accessorKey: 'actions',

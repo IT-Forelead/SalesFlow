@@ -90,6 +90,7 @@ onUnmounted(() => {
 const API_URL = import.meta.env.VITE_CHEQUE_API_URL;
 const addedToBasket = new Audio('/audios/added-to-basket.mp3');
 const notFoundProduct = new Audio('/audios/not-found.mp3');
+const expiredProduct = new Audio('/audios/not-found.mp3');
 const soldSuccess = new Audio('/audios/sold-success.mp3');
 const productOutOfStore = new Audio('/audios/product-is-out-of-store.mp3');
 const { t } = useI18n();
@@ -313,107 +314,93 @@ const searchProducts = () => {
 };
 
 const addProductToCart = (product, amount) => {
-  if (activeBasket.value.find((p) => p?.productId === product?.id)) {
-    activeBasket.value = activeBasket.value.map((item) => {
-      if (item.productId === product.id && product?.quantity > item.amount) {
-        if (amount) {
-          return { ...item, amount: item.amount + amount };
-        } else if (item.saleType === 'kg') {
-          return { ...item, amount: roundFloatToOneDecimal(item.amount + 0.1) };
-        } else if (item.saleType === 'litre') {
-          return { ...item, amount: roundFloatToOneDecimal(item.amount + 0.5) };
-        } else {
-          return { ...item, amount: item.amount + 1 };
-        }
-      } else if (item.productId === product.id) {
-        toast.error(t('productIsOutOfStore'));
-        productOutOfStore.play();
-        return item;
-      } else {
-        return item;
-      }
-    });
-  } else {
-    if (product?.rest >= 0) {
+  const existingProductIndex = activeBasket.value.findIndex((p) => p?.productId === product?.id);
+
+  if (existingProductIndex !== -1) {
+    const existingProduct = activeBasket.value[existingProductIndex];
+
+    if (product?.rest <= existingProduct.amount) {
+      toast.error(t('productIsOutOfStore'));
+      productOutOfStore.play();
+      clearSearchInput(); 
+      return; 
+    } else {
+      let updatedAmount;
+
       if (amount) {
-        activeBasket.value.push({
-          productId: product?.id,
-          name: product?.name,
-          packaging: product?.packaging,
-          price: product?.price,
-          quantity: product?.rest,
-          saleType: product?.saleType,
-          amount: amount,
-          serialId: product?.serialId,
-          expirationDate: product?.expirationDate,
-        });
-      } else if (product?.saleType === 'kg' && product?.rest < 0.1 && product?.rest > 0) {
-        console.log(product?.rest);
-        activeBasket.value.push({
-          productId: product?.id,
-          name: product?.name,
-          packaging: product?.packaging,
-          price: product?.price,
-          quantity: product?.rest,
-          saleType: product?.saleType,
-          amount: product?.rest,
-          serialId: product?.serialId,
-          expirationDate: product?.expirationDate,
-        });
-      } else if (product?.saleType === 'kg') {
-        activeBasket.value.push({
-          productId: product?.id,
-          name: product?.name,
-          packaging: product?.packaging,
-          price: product?.price,
-          quantity: product?.rest,
-          saleType: product?.saleType,
-          amount: 0.1,
-          serialId: product?.serialId,
-          expirationDate: product?.expirationDate,
-        });
-      } else if (product?.saleType === 'litre' && product?.rest <= 0.1 && product?.rest > 0) {
-        activeBasket.value.push({
-          productId: product?.id,
-          name: product?.name,
-          packaging: product?.packaging,
-          price: product?.price,
-          quantity: product?.rest,
-          saleType: product?.saleType,
-          amount: product?.rest,
-          expirationDate: product?.expirationDate,
-        });
-      } else if (product?.saleType === 'litre') {
-        activeBasket.value.push({
-          productId: product?.id,
-          name: product?.name,
-          packaging: product?.packaging,
-          price: product?.price,
-          quantity: product?.rest,
-          saleType: product?.saleType,
-          amount: 0.5,
-          expirationDate: product?.expirationDate,
-        });
+        updatedAmount = existingProduct.amount + amount;
+      } else if (existingProduct.saleType === 'kg') {
+        if (product?.rest >= existingProduct.amount + 0.1) {
+          updatedAmount = (existingProduct.amount + 0.1);
+        } else {
+          updatedAmount = product?.rest;
+        }
+      } else if (existingProduct.saleType === 'litre') {
+        if (product?.rest >= existingProduct.amount + 0.5) {
+          updatedAmount = (existingProduct.amount + 0.5);
+        } else {
+          updatedAmount = product?.rest;
+        }
       } else {
-        activeBasket.value.push({
-          productId: product?.id,
-          name: product?.name,
-          packaging: product?.packaging,
-          price: product?.price,
-          quantity: product?.rest,
-          saleType: product?.saleType,
-          amount: 1,
-          serialId: product?.serialId,
-          expirationDate: product?.expirationDate,
-        });
+        updatedAmount = existingProduct.amount + 1;
       }
-      addedToBasket.play();
+
+      const updatedProduct = { ...existingProduct, amount: updatedAmount };
+
+      if (updatedProduct.expirationDate && new Date().setHours(0, 0, 0, 0) > new Date(updatedProduct.expirationDate)) {
+        expiredProduct.play();
+      } else {
+        addedToBasket.play();
+      }
+
+      activeBasket.value.splice(existingProductIndex, 1); 
+      activeBasket.value.unshift(updatedProduct);
+      clearSearchInput(); 
+    }
+  } else {
+    if (product?.rest > 0) {
+      let newAmount;
+
+      if (amount) {
+        newAmount = amount;
+      } else if (product?.saleType === 'kg' && product?.rest < 0.1) {
+        newAmount = product?.rest;
+      } else if (product?.saleType === 'kg') {
+        newAmount = 0.1;
+      } else if (product?.saleType === 'litre' && product?.rest <= 0.1) {
+        newAmount = product?.rest;
+      } else if (product?.saleType === 'litre') {
+        newAmount = 0.5;
+      } else {
+        newAmount = 1;
+      }
+
+      const newProduct = {
+        productId: product?.id,
+        name: product?.name,
+        packaging: product?.packaging,
+        price: product?.price,
+        quantity: product?.rest,
+        saleType: product?.saleType,
+        amount: newAmount,
+        serialId: product?.serialId,
+        expirationDate: product?.expirationDate,
+      };
+
+      if (newProduct.expirationDate && new Date().setHours(0, 0, 0, 0) > new Date(newProduct.expirationDate)) {
+        expiredProduct.play();
+      } else {
+        addedToBasket.play();
+      }
+
+      activeBasket.value.unshift(newProduct);
+      clearSearchInput();
     } else {
       toast.error('Mahsulot sotuvda mavjud emas!');
       productOutOfStore.play();
+      clearSearchInput();
     }
   }
-  clearSearchInput();
 };
 
 const selectProduct = (product) => {
@@ -1342,7 +1329,7 @@ const closeCardIdModal = () => {
     v-if="products.length > 0"
     class="fixed top-0 right-0 bottom-0 left-0 z-40 backdrop-blur-[2px] bg-gray-900/70"
   ></div>
-  <div class="flex flex-col md:flex-row">
+  <div class="flex max-h-screen overflow-hidden flex-col md:flex-row">
     <div class="flex-auto md:w-2/3 w-full space-y-4 py-8 px-4 md:px-8">
       <div class="flex items-center space-x-2 pb-2">
         <div class="relative flex-auto z-50">
@@ -1511,7 +1498,7 @@ const closeCardIdModal = () => {
       </div>
 
       <div v-if="activeBasket.length > 0" class="py-2 align-middle">
-        <div class="min-w-full lg:h-[55vh] xl:h-[66vh] overflow-y-auto overflow-x-auto rounded-xl">
+        <div class="min-w-full max-h-svh pb-44 overflow-y-auto overflow-x-auto rounded-xl">
           <table class="md:min-w-full divide-y-8 divide-white">
             <thead>
               <tr class="bg-slate-100 text-base font-semibold dark:text-zinc-200 h-12">
@@ -1534,12 +1521,8 @@ const closeCardIdModal = () => {
             </thead>
             <tbody class="bg-slate-100 divide-y-8 divide-white">
               <tr
-                :class="{ 'bg-blue-100': selectP === product }"
-                @click="selectProduct(product)"
-                v-for="(product, idx) in activeBasket"
-                :key="idx"
-                class="overflow-x-auto overflow-y-auto"
-              >
+                :class="{ 'bg-red-100': product.expirationDate && new Date().setHours(0, 0, 0, 0) > new Date(product.expirationDate),
+                'bg-blue-100': selectP === product }" @click="selectProduct(product)" v-for="(product, idx) in  activeBasket" :key="idx" class="overflow-x-auto overflow-y-auto">
                 <td class="px-3 py-2 whitespace-nowrap rounded-l-xl">
                   <div class="flex items-center space-x-3">
                     <div
@@ -1560,13 +1543,19 @@ const closeCardIdModal = () => {
                         </span>
                         <div v-if="product.quantity <= 15">
                           {{ $t('remainingAmount') }}:
-                          <span class="text-red-500 text-sm md:text-base">
+                          <span class="text-red-600 text-sm md:text-base">
                             {{ roundFloatToTwoDecimal(product?.quantity - product?.amount) }}
                           </span>
                         </div>
                         <div v-if="new Date().setHours(0,0,0,0) > new Date(product.expirationDate)">
                           {{ $t('expirationDate') }}:
-                          <span class="text-red-500 text-sm md:text-base">
+                          <span class="text-red-600 text-sm md:text-base">
+                            {{ product?.expirationDate }}
+                          </span>
+                        </div>
+                        <div v-else-if="new Date().setHours(0,0,0,0) == new Date(product.expirationDate).setHours(0,0,0,0)">
+                          {{ $t('expirationDate') }}:
+                          <span class="text-orange-400 text-sm md:text-base">
                             {{ product?.expirationDate }}
                           </span>
                         </div>

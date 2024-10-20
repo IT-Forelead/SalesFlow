@@ -18,6 +18,8 @@ import { useAuthStore } from '../store/auth.store.js'
 import decodeJwt, { parseJwt } from '../mixins/utils.js'
 import { useRoute, useRouter } from 'vue-router'
 import { isBarcode } from '../mixins/barcodeFormatter'
+import Image from 'primevue/image'
+import moment from 'moment'
 
 const { t } = useI18n()
 const route = useRoute()
@@ -72,16 +74,18 @@ const saleTypeShortTranslate = (type) => {
 const columns = [
   {
     accessorKey: 'id',
-    header: t('n'),
+    header: () => h('div', { class: 'cursor-default'}, t('n')),
     enableSorting: false,
     cell: ({ row }) => `${parseInt(row.id, 10) + 1}`,
   },
   {
     accessorKey: 'asset',
     header: t('image'),
+    enableSorting: false,
     cell: ({ row }) =>
-      h('div', { class: 'flex items-center' }, [row.original.asset ?
-        h('img', { src: `${row.original.asset.url}`, class: 'w-12 h-auto rounded', alt: '#' }) : h('span')]),
+      h('div', { class: 'w-12 h-12 flex items-center overflow-hidden border border-gray-300' },
+        [row.original.asset ?
+          h(Image, { src: `${row.original.asset.url}`, alt: '#', preview: '' }) : h('span')]),
   },
   {
     accessorKey: 'name',
@@ -109,6 +113,11 @@ const columns = [
     accessorKey: 'price',
     accessorFn: row => `${useMoneyFormatter(row.price)}`,
     header: t('price'),
+  },
+  {
+    accessorKey: 'createdAt',
+    accessorFn: row => moment(row.createdAt).format('DD/MM/YYYY H:mm'),
+    header: t('createdAt'),
   },
   {
     accessorKey: 'actions',
@@ -256,6 +265,16 @@ watchEffect(() => {
   }
 })
 </script>
+<style>
+/* .p-image-mask {
+    --maskbg: rgba(0, 0, 0, 0.6);
+} */
+
+.p-image-action.p-link {
+  color: #ffffff;
+}
+
+</style>
 
 <template>
   <div class="p-4 md:p-8">
