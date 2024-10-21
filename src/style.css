@@ -29,3 +29,13 @@
 .active div {
   @apply text-blue-700;
 }
+.dark .active div.first-child-bg-color {
+  @apply bg-blue-400;
+}
+.dark .active div.second-child-bg-color {
+  @apply bg-blue-400/10;
+}
+
+.dark .active div {
+  @apply text-blue-400;
+}

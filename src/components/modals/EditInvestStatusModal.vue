@@ -91,7 +91,7 @@ watch(
                 <span class="text-red-500 mr-2">*</span>
               </label>
               <select id="status" v-model="selectedInvest.status"
-                class="bg-slate-100 border-none text-slate-900 rounded-lg block w-full">
+                class="bg-slate-100 border-none dark:text-white rounded-lg block w-full">
                 <option value="" selected>{{ $t('selectStatus') }}</option>
                 <option v-for="(status, idx) in statuses" :key="idx" :value="status">
                   {{ capitalize(status) }}
@@ -106,7 +106,7 @@ watch(
       <button v-if="isLoading" type="button"
         class="inline-flex items-center justify-center ms-3 text-white bg-blue-600 focus:ring-4 focus:outline-none focus:ring-slate-300 rounded-xl border border-slate-200 text-sm font-medium px-5 py-2.5 focus:z-10 cursor-default">
         <Spinners270RingIcon
-          class="mr-2 w-5 h-5 text-gray-200 animate-spin dark:text-gray-600 fill-gray-600 dark:fill-gray-300" />
+          class="mr-2 w-5 h-5 text-gray-200 animate-spin dark:text-white fill-gray-600 dark:fill-gray-300" />
         {{ $t('save') }}
       </button>
       <button v-else @click="editInvestStatus()" type="button"

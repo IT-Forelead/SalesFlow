@@ -44,7 +44,7 @@ const calculateDiscountPrice = computed(() => {
     pt:root:class="!border-0"
   >
     <template #container>
-      <div class="flex flex-col px-8 py-8 gap-6 bg-white animate__animated animate__bounceIn"
+      <div class="flex flex-col px-8 py-8 gap-6 dark:bg-slate-600 animate__animated animate__bounceIn"
            style="border-radius: 12px; position: relative;">
         <h1 class="text-2xl font-bold text-center text-green-500">Tabriklaymiz!!!</h1>
         <h1 class="text-2xl font-bold text-center text-green-500">Siz bayram aksiyamiz g'olibiga aylandingiz!</h1>
@@ -56,8 +56,8 @@ const calculateDiscountPrice = computed(() => {
                 {{ discount.percentage }} %</p>
             </div>
             <p class="mt-6 flex items-center flex-col space-y-4">
-              <span class="line-through text-4xl font-sans text-gray-500/70">{{ useMoneyFormatter(totalPrice) }}</span>
-              <span class="text-5xl font-bold tracking-tight text-gray-900">{{ useMoneyFormatter(calculateDiscountPrice) }}</span>
+              <span class="line-through text-4xl font-sans dark:text-zinc-300/70">{{ useMoneyFormatter(totalPrice) }}</span>
+              <span class="text-5xl font-bold tracking-tight dark:text-zinc-200">{{ useMoneyFormatter(calculateDiscountPrice) }}</span>
             </p>
           </div>
         </div>

@@ -210,11 +210,11 @@ const changeAllDiscounts = () => {
       <div class="flex items-center space-x-2 pb-2">
         <div class="relative flex-auto z-50">
           <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-            <SearchIcon class="w-5 h-50 text-slate-400" />
+            <SearchIcon class="w-5 h-50" />
           </div>
           <input id="globle-search" v-model="search" v-on:keypress="whenPressEnter($event)" type="search"
             ref="onSearchFocus"
-            class="bg-slate-100 border-none text-slate-900 text-base md:text-lg rounded-xl block w-full h-12 pl-10 py-2 placeholder-slate-400 placeholder:text-sm md:placeholder:text-lg lg:placeholder:text-base"
+            class="bg-slate-100 border-none  text-base md:text-lg rounded-xl block w-full h-12 pl-10 py-2 placeholder-slate-400 placeholder:text-sm md:placeholder:text-lg lg:placeholder:text-base"
             :placeholder="t('searchByProductNameOrBarcode')" />
           <div v-if="search" @click="clearSearchInput()"
             class="absolute inset-y-0 right-20 p-1 flex items-center cursor-pointer">
@@ -230,18 +230,18 @@ const changeAllDiscounts = () => {
           <ScrollPanel v-if="products.length > 0" ref="searchProductDropdown"
             class="h-[500px] flex flex-row absolute top-16 left-0 bg-transparent w-full space-y-2 ">
             <div v-for="(product, idx) in products" :key="idx" @click="addProduct(product)"
-              class="flex items-center justify-between bg-white border shadow-sm rounded-xl px-3 py-2 my-2 w-full cursor-pointer hover:bg-slate-100">
+              class="flex items-center justify-between dark:bg-slate-600 border shadow-sm rounded-xl px-3 py-2 my-2 w-full cursor-pointer hover:bg-slate-100">
               <div class="flex items-center space-x-3">
                 <div class="flex items-center justify-center bg-slate-200 w-10 h-10 rounded-lg">
                   <img v-if="product.asset" :src="product.asset.url" class="w-12 h-auto rounded" alt="image">
 
-                          <ImageIcon v-else class="text-gray-500 w-6 h-6" />
+                          <ImageIcon v-else class="dark:text-zinc-300 w-6 h-6" />
                 </div>
                 <div>
                   <div class="text-base font-semibold text-gray-800">
                     {{ product?.name + ' - ' + product?.packaging }}
                   </div>
-                  <div class="text-base font-medium text-gray-500">
+                  <div class="text-base font-medium dark:text-zinc-300">
                     {{ product?.barcode }}
                   </div>
                 </div>
@@ -250,9 +250,9 @@ const changeAllDiscounts = () => {
                 <div class="text-base font-semibold text-gray-800">
                   {{ useMoneyFormatter(product?.price) }}
                 </div>
-                <div class="text-base font-medium text-gray-500">
+                <div class="text-base font-medium dark:text-zinc-300">
                   {{ $t('quantity') }}:
-                  <span class="text-gray-700">
+                  <span class="dark:text-white">
                     {{ product?.quantity - product?.sold }}
                   </span>
                 </div>
@@ -278,7 +278,7 @@ const changeAllDiscounts = () => {
             <ScrollPanel class="w-full h-[500px] rounded-xl">
               <table class="md:min-w-full divide-y-8 divide-white">
                 <thead>
-                  <tr class="bg-slate-100 text-base font-semibold text-gray-900 h-12">
+                  <tr class="bg-slate-100 text-base font-semibold dark:text-zinc-200 h-12">
                     <th class="px-3 py-2 text-left rounded-l-xl text-sm md:text-base">
                       {{ $t('product') }}
                     </th>
@@ -302,16 +302,16 @@ const changeAllDiscounts = () => {
                           
                           <img v-if="product.asset" :src="product.asset.url" class="w-12 h-auto rounded">
 
-                          <ImageIcon v-else class="text-gray-500 w-6 h-6" />
+                          <ImageIcon v-else class="dark:text-zinc-300 w-6 h-6" />
                         </div>
                         <div>
                           <div
                             class="text-sm md:text-base font-semibold text-gray-800 max-w-full whitespace-break-spaces">
                             {{ product?.name + ' - ' + product?.packaging }}
                           </div>
-                          <div class="text-sm md:text-base font-medium text-gray-500">
+                          <div class="text-sm md:text-base font-medium dark:text-zinc-300">
                             {{ $t('price') }}:
-                            <span class="text-gray-700 text-sm md:text-base">
+                            <span class="dark:text-white text-sm md:text-base">
                               {{ useMoneyFormatter(product?.price) }}
                             </span>
                           </div>
@@ -322,7 +322,7 @@ const changeAllDiscounts = () => {
                     <td class="px-3 py-2 whitespace-nowrap">
                       <div class="flex justify-center space-x-2 items-center">
                         <input v-model="product.discount" @blur="setDiscount($event, product)"
-                          class="bg-slate-100 border border-slate-200 cursor-pointer text-slate-900 rounded-lg w-20 h-12 pl-4 py-2 placeholder-slate-400"
+                          class="bg-slate-100 border border-slate-200 cursor-pointer dark:text-white rounded-lg w-20 h-12 pl-4 py-2 placeholder-slate-400"
                           type="number" placeholder="0">
                         <span>%</span>
                       </div>
@@ -330,7 +330,7 @@ const changeAllDiscounts = () => {
                     <td class="px-3 py-2 whitespace-nowrap">
                       <div class="flex justify-center">
                         <money3 v-model.number="product.price" @blur="setPrice(product)" v-bind="moneyConf" id="price"
-                          class="w-40 border border-slate-200 cursor-pointer text-right text-gray-500 bg-slate-100 h-12 rounded-lg text-lg">
+                          class="w-40 border border-slate-200 cursor-pointer text-right dark:text-zinc-300 bg-slate-100 h-12 rounded-lg text-lg">
                         </money3>
                       </div>
                     </td>
@@ -349,7 +349,7 @@ const changeAllDiscounts = () => {
               <button v-if="isLoadingSend"
                 class="inline-flex items-center justify-center w-40 py-2 px-4 rounded-lg text-white text-base bg-blue-500 cursor-pointer hover:bg-blue-600">
                 <Spinners270RingIcon
-                  class="mr-2 w-5 h-5 text-gray-200 animate-spin dark:text-gray-600 fill-gray-600 dark:fill-gray-300" />
+                  class="mr-2 w-5 h-5 text-gray-200 animate-spin dark:text-white fill-gray-600 dark:fill-gray-300" />
                 {{ $t('send') }}
               </button>
               <button v-else
@@ -364,7 +364,7 @@ const changeAllDiscounts = () => {
       </div>
       <div v-else class="flex flex-col items-center justify-center border-2 border-dashed h-96 rounded-3xl space-y-1">
 
-        <div class="text-slate-600 text-base text-center">
+        <div class="dark:text-white text-base text-center">
           {{ $t('searchForProductsOrScanProducts') }}
         </div>
       </div>
