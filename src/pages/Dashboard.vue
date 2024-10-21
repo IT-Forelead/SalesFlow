@@ -1329,7 +1329,7 @@ watch(pageProfit, () => {
                 <div v-if="isLoading"
                   class="w-full bg-blue-600 py-3 select-none text-white rounded-lg flex items-center justify-center">
                   <Spinners270RingIcon
-                    class="mr-2 w-5 h-5 dark:text-zinc-100 animate-spin dark:text-white fill-gray-600 dark:fill-gray-300" />
+                    class="mr-2 w-5 h-5 animate-spin dark:text-white fill-gray-600 dark:fill-gray-300" />
                   <span>{{ $t('loading') }}</span>
                 </div>
                 <div v-else @click="submitTurnoverStatsFilterData()"
