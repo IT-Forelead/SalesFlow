@@ -19,6 +19,7 @@ import CaretDoubleLeftIcon from '../assets/icons/CaretDoubleLeftIcon.vue'
 import useMoneyFormatter from '../mixins/currencyFormatter.js'
 import FileLinearIcon from '../assets/icons/FileLinearIcon.vue'
 import CustomerService from '../services/customer.service'
+import CashbackService from '../services/cashback.service'
 import { useCustomerStore } from '../store/customer.store';
 import { cleanObjectEmptyFields } from '../mixins/utils'
  
@@ -41,7 +42,7 @@ const total = ref(0)
 const columns = [
   {
     accessorKey: 'id',
-    header: t('n'),
+    header: () => h('div', { class: 'cursor-default'}, t('n')),
     cell: ({ row }) => `${parseInt(row.id, 10) + 1}`,
     enableSorting: false,
   },
@@ -63,8 +64,42 @@ const columns = [
     accessorKey: 'createdAt',
     accessorFn: row => moment(row.createdAt).format('DD/MM/YYYY H:mm'),
     header: t('createdAt'),
-  },  
+  },
+  {
+    accessorKey: 'actions',
+    header: t('actions'),
+    cell: ({ row }) => h('div', { class: 'flex items-center space-x-2' }, [
+      h('button', { onClick: () => { openCashbackHistory(row.original) } }, [
+        h(EyeIcon, { class: 'w-6 h-6 text-blue-500 hover:scale-105' })
+      ]),
+    ]),
+    enableSorting: false,
+  },
 ]
+
+const openCashbackHistory = (data) => {
+  console.log(data);
+//  useCustomerStore().setSelectedCustomer(data)
+  getCustomerHistories(data)
+}
+
+const getCustomerHistories = async (data) => {
+  console.log(data)
+  console.log(data)
+  isLoading.value = true
+  try {
+    const res = await CashbackService.getCashbacks(
+    cleanObjectEmptyFields({
+      customerId: data.id
+
+    }))
+    useCustomerStore().setCustomerHistories(res.data)
+    useCustomerStore().renderkey += 1
+  } finally {
+    isLoading.value = false
+    useModalStore().openCashbackHistoryModal()
+  }
+}
 
 const getCustomers = (filters = {}) => {
   isLoading.value = true
@@ -119,7 +154,7 @@ onMounted(() => {
 <template>
   <div class="p-4 md:p-8">
     <div class="flex md:flex-row flex-col items-center justify-between space-y-4 md:space-y-0 mb-6">
-      <div class="text-slate-900 text-2xl md:text-3xl font-semibold">
+      <div class="dark:text-white text-2xl md:text-3xl font-semibold">
       {{ $t('clients') }}
     </div>
    
@@ -127,15 +162,15 @@ onMounted(() => {
     <div class="flex flex-col md:flex-row items-center justify-between">
       <div class="relative w-full md:w-auto my-2 md:mb-0 order-2 md:order-1">
         <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-          <SearchIcon class="w-5 h-5 text-slate-400" />
+          <SearchIcon class="w-5 h-5" />
         </div>
         <input type="search" v-model="globalSearchFromTable"
-               class="bg-slate-100 border-none w-full text-slate-900 text-base md:text-lg rounded-full block pl-10 py-2 placeholder-slate-400"
+               class="bg-slate-100 border-none w-full text-base md:text-lg rounded-full block pl-10 py-2 placeholder-slate-400"
                placeholder="Search everything...">
       </div>
     </div>
     <div v-if="isLoading" class="flex items-center justify-center h-20">
-      <Spinners270RingIcon class="w-6 h-6 text-gray-500 animate-spin" />
+      <Spinners270RingIcon class="w-6 h-6 dark:text-zinc-300 animate-spin" />
     </div>
     <CTable v-else :data="customers" :key="renderKey" :columns="columns" :filter="globalSearchFromTable" />
     

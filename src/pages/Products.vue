@@ -18,6 +18,8 @@ import { useAuthStore } from '../store/auth.store.js'
 import decodeJwt, { parseJwt } from '../mixins/utils.js'
 import { useRoute, useRouter } from 'vue-router'
 import { isBarcode } from '../mixins/barcodeFormatter'
+import Image from 'primevue/image'
+import moment from 'moment'
 
 const { t } = useI18n()
 const route = useRoute()
@@ -72,16 +74,18 @@ const saleTypeShortTranslate = (type) => {
 const columns = [
   {
     accessorKey: 'id',
-    header: t('n'),
+    header: () => h('div', { class: 'cursor-default'}, t('n')),
     enableSorting: false,
     cell: ({ row }) => `${parseInt(row.id, 10) + 1}`,
   },
   {
     accessorKey: 'asset',
     header: t('image'),
+    enableSorting: false,
     cell: ({ row }) =>
-      h('div', { class: 'flex items-center' }, [row.original.asset ?
-        h('img', { src: `${row.original.asset.url}`, class: 'w-12 h-auto rounded', alt: '#' }) : h('span')]),
+      h('div', { class: 'w-12 h-12 flex items-center overflow-hidden border border-gray-300' },
+        [row.original.asset ?
+          h(Image, { src: `${row.original.asset.url}`, alt: '#', preview: '' }) : h('span')]),
   },
   {
     accessorKey: 'name',
@@ -111,6 +115,11 @@ const columns = [
     header: t('price'),
   },
   {
+    accessorKey: 'createdAt',
+    accessorFn: row => moment(row.createdAt).format('DD/MM/YYYY H:mm'),
+    header: t('createdAt'),
+  },
+  {
     accessorKey: 'actions',
     header: t('actions'),
     cell: ({ row }) => h('div', { class: 'flex items-center space-x-2' }, [
@@ -119,7 +128,7 @@ const columns = [
           openEditProductModal(row.original)
         },
       }, [
-        h(EditIcon, { class: 'w-6 h-6 text-blue-600 hover:scale-105' }),
+        h(EditIcon, { class: 'w-6 h-6 text-blue-500 hover:scale-105' }),
       ]),
       h('div', [navigationGuard('delete_product') ?
         h('button', {
@@ -127,7 +136,7 @@ const columns = [
             openDeleteProductModal(row.original, searchFilter.value)
           },
         }, [
-          h(TrashIcon, { class: 'w-6 h-6 text-red-600 hover:scale-105' }),
+          h(TrashIcon, { class: 'w-6 h-6 text-red-500 hover:scale-105' }),
         ]) : h('span')]),
     ]),
     enableSorting: false,
@@ -256,19 +265,29 @@ watchEffect(() => {
   }
 })
 </script>
+<style>
+/* .p-image-mask {
+    --maskbg: rgba(0, 0, 0, 0.6);
+} */
+
+.p-image-action.p-link {
+  color: #ffffff;
+}
+
+</style>
 
 <template>
   <div class="p-4 md:p-8">
-    <div class="text-slate-900 text-2xl md:text-3xl font-semibold mb-6">
+    <div class="dark:text-white text-2xl md:text-3xl font-semibold mb-6">
       {{ $t('products') }}
     </div>
     <div class="flex flex-col md:flex-row items-center justify-between">
       <div class="relative w-full md:w-auto my-2 md:mb-0 order-2 md:order-1">
         <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-          <SearchIcon class="w-5 h-5 text-slate-400" />
+          <SearchIcon class="w-5 h-5 text-black" />
         </div>
         <input type="search" v-model="searchFilter" ref="onSearchFocus"
-          class="bg-slate-100 border-none w-full text-slate-900 text-base md:text-lg rounded-full block pl-10 py-2 placeholder-slate-400"
+          class="bg-slate-100 border-none w-full text-black text-base md:text-lg rounded-full block pl-10 py-2 placeholder-slate-400"
           placeholder="Search everything...">
       </div>
       <div class="w-full md:w-auto order-1 md:order-2 flex space-x-2">
@@ -280,40 +299,40 @@ watchEffect(() => {
     </div>
 
     <div v-if="isLoading" class="flex items-center justify-center h-20">
-      <Spinners270RingIcon class="w-6 h-6 text-gray-500 animate-spin" />
+      <Spinners270RingIcon class="w-6 h-6 dark:text-zinc-300 animate-spin" />
     </div>
     <ProductsTable v-else :data="products" :key="renderKey" :columns="columns" :filter="globalSearchFromTable" />
 
     <div class="flex items-center justify-between my-6">
-      <div class="text-base text-slate-900 font-medium">
+      <div class="text-base dark:text-white font-medium">
         {{ $t('total') }}:
         {{ total }}
       </div>
       <div class="flex items-center space-x-2">
         <button :disabled="page === 1" @click="goToPage(1)"
-          class="flex items-center justify-center px-3 py-2 text-base font-medium text-slate-900 rounded-lg select-none hover:bg-blue-200 disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
+          class="flex items-center justify-center px-3 py-2 text-base font-medium dark:text-white rounded-lg select-none hover:bg-blue-200 disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
           type="button">
           <CaretDoubleLeftIcon class="w-5 h-5" />
         </button>
         <button @click="prevPage" :disabled="page === 1"
-          class="flex items-center justify-center px-3 py-2 text-base font-medium text-slate-900 rounded-lg select-none hover:bg-blue-200 disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
+          class="flex items-center justify-center px-3 py-2 text-base font-medium dark:text-white rounded-lg select-none hover:bg-blue-200 disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
           type="button">
           <CaretLeftIcon class="w-5 h-5" />
         </button>
         <div class="flex items-center space-x-2">
           <button v-for="pageNumber in displayedPageNumbers" :key="pageNumber" @click="goToPage(pageNumber)"
             :class="{ 'bg-blue-600 text-white': pageNumber === page, 'hover:bg-blue-200': pageNumber !== page }"
-            class="px-3 py-2 select-none rounded-lg text-slate-900 text-center text-base font-medium transition-all">
+            class="px-3 py-2 select-none rounded-lg dark:text-white text-center text-base font-medium transition-all">
             {{ pageNumber }}
           </button>
         </div>
         <button @click="nextPage" :disabled="page === totalPages"
-          class="flex items-center gap-2 px-3 py-2 text-base font-medium text-center text-slate-900 rounded-lg select-none hover:bg-blue-200 disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
+          class="flex items-center gap-2 px-3 py-2 text-base font-medium text-center dark:text-white rounded-lg select-none hover:bg-blue-200 disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
           type="button">
           <CaretRightIcon class="w-5 h-5" />
         </button>
         <button :disabled="page === totalPages" @click="goToPage(totalPages)"
-          class="flex items-center gap-2 px-3 py-2 text-base font-medium text-slate-900 rounded-lg select-none hover:bg-blue-200 disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
+          class="flex items-center gap-2 px-3 py-2 text-base font-medium dark:text-white rounded-lg select-none hover:bg-blue-200 disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
           type="button">
           <CaretDoubleRightIcon class="w-5 h-5" />
         </button>

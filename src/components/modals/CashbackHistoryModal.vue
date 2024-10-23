@@ -24,7 +24,7 @@ const renderKey = computed(() => customerStore.renderkey)
 const { t } = useI18n()
 const corporateClientsStore = useCorporateClientsStore()
 const customerStore = useCustomerStore()
-const histories = computed(() => customerStore.customerHistories)
+const cashbackHistories = computed(() => customerStore.customerHistories)
 const filterByDropdown = ref(null)
 
 onClickOutside(filterByDropdown, () => {
@@ -63,54 +63,24 @@ const columns = [
         h('span', { class: 'text-red-500'}, `${useMoneyFormatter(row.original.amount)}`) : [row.original.type == 'DEBIT' ? h('span', { class: 'text-green-500'}, `${useMoneyFormatter(row.original.amount)}`) : `${useMoneyFormatter(row.original.amount)}`]]),
   },
   {
-    header: t('reason'),
-    cell: ({ row }) =>
-      h('div', { class: 'flex items-center w-36 overflow-hidden relative' },
-      [row.original.type == 'CREDIT' ?
-        h('span', { class: 'text-red-500' }, t('ordered')) : row.original.type == 'DEBIT' ? h('span', { class: 'text-green-500 overflow-hidden text-ellipsis whitespace-nowrap transition-all duration-300 max-h-6 hover:max-h-full hover:whitespace-normal' }, `${row.original.reason}`) : `${row.original.reason}`])
-  },
-  {
     header: t('createdAt'),
     cell: ({ row }) =>
       h('div', { class: 'flex items-center' }, 
       [row.original.type == 'CREDIT' ?
         h('span', { class: 'text-red-500'}, moment(row.original.createdAt).format('DD/MM/YYYY H:mm')) : [row.original.type == 'DEBIT' ? h('span', { class: 'text-green-500'}, moment(row.original.createdAt).format('DD/MM/YYYY H:mm')) : moment(row.original.createdAt).format('DD/MM/YYYY H:mm')]]),
   },
-  {
-    accessorKey: 'actions',
-    header: t('actions'),
-    cell: ({ row }) => h('div', { class: 'flex items-center space-x-2' }, 
-    [row.original.type == 'CREDIT' ?
-      h('button', {
-        onClick: () => {
-          openOrderInfo(row.original)
-        },
-      }, [
-        h(EyeIcon, { class: 'w-6 h-6 text-blue-500 hover:scale-105' }),
-      ]) : h('span')
-    ]),
-    enableSorting: false,
-  },
 ]
 
 const closeModal = () => {
-  useModalStore().closeDebtInfoModal()
+  useModalStore().closeCashbackHistoryModal()
   filterByOption.value = t('all')
 }
-  
-const openOrderInfo = (data) => {
-  OrderService.getOrderById(data.orderId).then((res) => {
-    useOrderStore().setSelectedOrder(res)
-    useOrderStore().fromCashback(true)
-    useModalStore().openOrderInfoModal()
-
-})}
 
 const getBalanceHistoriesByFilter = (filter) => {
   useDropdownStore().toggleFilterBy()
   CustomerService.getCustomerHistoriesByFilter(
     cleanObjectEmptyFields({
-      customerId: useCorporateClientsStore().selectedClient.customerId,
+      customerId: useCustomerStore().setCustomerHistories(data),
       type: filter,
     }),
   ).then((res) => {
@@ -121,9 +91,9 @@ const getBalanceHistoriesByFilter = (filter) => {
 </script>
 
 <template>
-  <CModal :is-open="useModalStore().isOpenDebtInfoModal" v-if="useModalStore().isOpenDebtInfoModal" @close=closeModal>
+  <CModal :is-open="useModalStore().isOpenCashbackHistoryModal" v-if="useModalStore().isOpenCashbackHistoryModal" @close=closeModal>
     <template v-slot:header>
-      {{ $t('clientInformation') }}
+      {{ $t('cashbackHistories') }}
     </template>
     <template v-slot:body>
       <div class="flex justify-end w-full" ref="filterByDropdown">
@@ -150,7 +120,7 @@ const getBalanceHistoriesByFilter = (filter) => {
             </ul>
           </div>
         </div>
-      <MTable :data="histories" :columns="columns" :key="renderKey" />
+      <MTable :data="cashbackHistories" :columns="columns" :key="renderKey" />
 
     </template>
     <template v-slot:footer>

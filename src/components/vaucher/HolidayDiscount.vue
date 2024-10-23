@@ -73,16 +73,16 @@ getHolidayDiscounts()
 </script>
 
 <template>
-  <div class="text-slate-900 text-2xl md:text-3xl font-semibold mb-6">
+  <div class="text-2xl md:text-3xl font-semibold mb-6">
     {{ $t('holidayDiscounts') }}
   </div>
   <div class="flex flex-col md:flex-row items-center justify-between">
     <div class="relative w-full md:w-auto my-2 md:mb-0 order-2 md:order-1">
       <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-        <SearchIcon class="w-5 h-5 text-slate-400" />
+        <SearchIcon class="w-5 h-5" />
       </div>
       <input type="search" v-model="globalSearchFromTable"
-             class="bg-slate-100 border-none w-full text-slate-900 text-base md:text-lg rounded-full block pl-10 py-2 placeholder-slate-400"
+             class="dark:bg-slate-500 bg-slate-100 border-none w-full text-base md:text-lg rounded-full block pl-10 py-2 placeholder-slate-400"
              placeholder="Search everything...">
     </div>
     <div class="w-full md:w-auto order-1 md:order-2">
@@ -92,7 +92,7 @@ getHolidayDiscounts()
     </div>
   </div>
   <div v-if="isLoading" class="flex items-center justify-center h-20">
-    <Spinners270RingIcon class="w-6 h-6 text-gray-500 animate-spin" />
+    <Spinners270RingIcon class="w-6 h-6 dark:text-zinc-300 animate-spin" />
   </div>
   <CTable v-else :data="holidayDiscounts" :key="renderKey" :columns="columns" :filter="globalSearchFromTable" />
 </template>

@@ -9,16 +9,18 @@ import {
 } from '@tanstack/vue-table';
 import { ref, watch } from 'vue';
 import { useI18n } from 'vue-i18n'
+import { useProductHistoryStore } from '../../store/productHistory.store.js'
 
 const { t } = useI18n()
 
+const productHistoryStore = useProductHistoryStore()
 const props = defineProps({
   data: Array,
   columns: Array,
   filter: String,
 })
 
-const sorting = ref([])
+const sorting = ref(productHistoryStore.sorting)
 const data = ref()
 
 watch(() => props.data, (val) => {
@@ -48,6 +50,8 @@ const table = useVueTable({
       typeof updaterOrValue === 'function'
         ? updaterOrValue(sorting.value)
         : updaterOrValue
+    productHistoryStore.setSorting(sorting.value)
+    productHistoryStore.currentPage = 0
   },
   initialState: {
     pagination: {
@@ -65,7 +69,7 @@ const table = useVueTable({
           <thead>
             <tr v-for="headerGroup in table.getHeaderGroups()" :key="headerGroup.id">
               <th v-for="header in headerGroup.headers" :key="header.id" scope="col"
-                class="px-3 py-3.5 text-left text-slate-400 text-base font-medium" :class="{
+                class="px-3 py-3.5 text-left dark:text-white text-base font-medium" :class="{
                   'cursor-pointer select-none': header.column.getCanSort(),
                 }" @click="header.column.getToggleSortingHandler()?.($event)">
                 <FlexRender :render="header.column.columnDef.header" :props="header.getContext()" />
@@ -76,7 +80,7 @@ const table = useVueTable({
           <tbody class="divide-y divide-gray-200">
             <tr v-for="row in table.getRowModel().rows" :key="row.id">
               <td v-for="cell in row.getVisibleCells()" :key="cell.id"
-                class="whitespace-nowrap px-3 py-3 text-neutral-800 text-base font-normal">
+                class="whitespace-nowrap px-3 py-3 dark:text-white text-base font-normal">
                 <FlexRender :render="cell.column.columnDef.cell" :props="cell.getContext()" />
               </td>
             </tr>

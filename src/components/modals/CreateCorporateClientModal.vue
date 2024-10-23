@@ -57,7 +57,7 @@ const columns = [
           createCorporateClient(row.original.id)
         },
       }, [
-        h(PhDownload, { class: 'w-6 h-6 text-blue-600 hover:scale-105' }),
+        h(PhDownload, { class: 'w-6 h-6 text-blue-500 hover:scale-105' }),
       ]),
     ]),
     enableSorting: false,

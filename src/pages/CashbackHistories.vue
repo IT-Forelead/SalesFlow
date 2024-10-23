@@ -32,8 +32,9 @@ const cashbacks = computed(() => {
 const columns = [
   {
     accessorKey: 'id',
-    header: t('n'),
+    header: () => h('div', { class: 'cursor-default'}, t('n')),
     cell: ({ row }) => `${parseInt(row.id, 10) + 1}`,
+    enableSorting: false,
   },
   {
     accessorFn: row => `${row.customer.fullName}`,
@@ -65,7 +66,7 @@ const columns = [
           openOrderInfo(row.original)
         },
       }, [
-        h(EyeIcon, { class: 'w-6 h-6 text-blue-600 hover:scale-105' }),
+        h(EyeIcon, { class: 'w-6 h-6 text-blue-500 hover:scale-105' }),
       ]),
     ]),
     enableSorting: false,
@@ -85,7 +86,7 @@ const openOrderInfo = (data) => {
 const getCashbacks = async () => {
   isLoading.value = true
   try {
-    const res = await CashbackService.getCashbacks()
+    const res = await CashbackService.getCashbacks({})
     const sortedCashbacks = res.data.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
     useCashbackStore().clearStore()
     useCashbackStore().setCashbacks(sortedCashbacks)
@@ -100,21 +101,21 @@ getCashbacks()
 
 <template>
   <div class="p-4 md:p-8">
-    <div class="text-slate-900 text-2xl md:text-3xl font-semibold mb-6">
+    <div class="dark:text-white text-2xl md:text-3xl font-semibold mb-6">
       {{ $t('cashbackHistories') }}
     </div>
     <div class="flex flex-col md:flex-row items-center justify-between">
       <div class="relative w-full md:w-auto my-2 md:mb-0 order-2 md:order-1">
         <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-          <SearchIcon class="w-5 h-5 text-slate-400" />
+          <SearchIcon class="w-5 h-5 " />
         </div>
         <input type="search" v-model="globalSearchFromTable"
-          class="bg-slate-100 border-none w-full text-slate-900 text-base md:text-lg rounded-full block pl-10 py-2 placeholder-slate-400"
+          class="bg-slate-100 border-none w-full text-base md:text-lg rounded-full block pl-10 py-2 placeholder-slate-400"
           :placeholder="$t('search')">
       </div>
     </div>
     <div v-if="isLoading" class="flex items-center justify-center h-20">
-      <Spinners270RingIcon class="w-6 h-6 text-gray-500 animate-spin" />
+      <Spinners270RingIcon class="w-6 h-6 dark:text-zinc-300 animate-spin" />
     </div>
     <CTable v-else :data="cashbacks" :key="renderkey" :columns="columns" :filter="globalSearchFromTable" />
   </div>

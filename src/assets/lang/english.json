@@ -427,5 +427,12 @@
   "createPlan": "Create invest plan",
   "thisPhoneNumberAlreadyExist": "Ushbu telefon raqami allaqachon qo'shilgan!",
   "expectedTime": "Expected time",
-  "duplicates": "Duplicates"
+  "duplicates": "Duplicates",
+  "enterCorrectPayment": "Enter correct payment",
+  "priceLists": "Price list",
+  "createPrice": "Create price",
+  "priceAddedSuccessfully": "Price added successfully!",
+  "errorWhileCreatingPrice": "Error while creating price",
+  "upcomingProductId": "Upcoming productId",
+  "enterImage": "Please, enter image"
 }

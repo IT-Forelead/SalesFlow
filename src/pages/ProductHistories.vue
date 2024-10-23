@@ -33,7 +33,7 @@ import { useConfirm } from "primevue/useconfirm";
 import {
   roundFloatToTwoDecimal,
 } from '../mixins/utils';
-
+import moment from 'moment'
 
 const { t } = useI18n()
 const API_URL = import.meta.env.VITE_CHEQUE_API_URL
@@ -102,13 +102,14 @@ const getHistoryType = (historyType) => {
 const columns = [
   {
     accessorKey: 'id',
-    header: t('n'),
+    header: () => h('div', { class: 'cursor-default'}, t('n')),
     enableSorting: false,
     cell: ({ row }) => `${parseInt(row.id, 10) + 1}`,
   },
   {
     accessorKey: 'serialId',
     header: t('serialId'),
+    enableSorting: false,
   },
   {
     accessorKey: 'name',
@@ -132,19 +133,23 @@ const columns = [
   {
     accessorKey: 'sold',
     header: t('sold'),
+    cell: ({ row }) => roundFloatToTwoDecimal(row.original.sold),
+    enableSorting: false,
   },
   {
     accessorKey: 'historyType',
     header: t('type'),
     cell: ({ row }) => getHistoryType(row.original.historyType),
+    enableSorting: false,
   },
   {
     accessorKey: 'purchasePrice',
     header: t('purchasePrice'),
     cell: ({ row }) => useMoneyFormatter(row.original.purchasePrice),
+    enableSorting: false,
   },
   {
-    accessorKey: 'salePrice',
+    accessorKey: 'price',
     header: t('salePrice'),
     cell: ({ row }) => useMoneyFormatter(row.original.price),
   },
@@ -152,14 +157,23 @@ const columns = [
     accessorKey: 'percent',
     header: t('percent'),
     cell: ({ row }) => calcPercentOfSale(row.original.purchasePrice, row.original.price) + '%',
+    enableSorting: false,
   },
   {
-    accessorKey: 'productionDate',
+    accessorKey: 'production_date',
     header: t('productionDate'),
+    cell: ({ row }) => row.original.productionDate,
   },
   {
-    accessorKey: 'expirationDate',
+    accessorKey: 'expiration_date',
     header: t('expirationDate'),
+    cell: ({ row }) => row.original.expirationDate,
+  },
+  {
+    accessorKey: 'createdAt',
+    accessorFn: row => moment(row.createdAt).format('DD/MM/YYYY H:mm'),
+    header: t('createdAt'),
+    enableSorting: false,
   },
   {
     accessorKey: 'actions',
@@ -170,21 +184,21 @@ const columns = [
           createDuplicateProductModal(row.original)
         },
       }, [
-        h(CopyIcon, { class: 'w-6 h-6 text-blue-600 hover:scale-105' }),
+        h(CopyIcon, { class: 'w-6 h-6 text-blue-500 hover:scale-105' }),
       ]),
       h('button', {
         onClick: () => {
           openEditProductModalHistory(row.original)
         },
       }, [
-        h(EditIcon, { class: 'w-6 h-6 text-blue-600 hover:scale-105' }),
+        h(EditIcon, { class: 'w-6 h-6 text-blue-500 hover:scale-105' }),
       ]),
       h('button', {
         onClick: () => {
           printLabel(row.original)
         },
       }, [
-        h(PrinterIcon, { class: 'w-6 h-6 text-blue-600 hover:scale-105' }),
+        h(PrinterIcon, { class: 'w-6 h-6 text-blue-500 hover:scale-105' }),
       ]),
       // h('button', {
       //   onClick: () => {
@@ -194,7 +208,7 @@ const columns = [
       //   // h(TrashIcon, { class: 'w-6 h-6 text-red-600 hover:scale-105' }),
       // ]),
       h('abbr', { title: t('utilize') }, [
-        h(UtilizeIcon, { onClick: ($event) => { openPopup($event, row.original.id, row.original.rest, row.original.name) }, class: 'w-6 h-6 text-blue-600 hover:scale-105 cursor-pointer' }, {
+        h(UtilizeIcon, { onClick: ($event) => { openPopup($event, row.original.id, row.original.rest, row.original.name) }, class: 'w-6 h-6 text-blue-500 hover:scale-105 cursor-pointer' }, {
           modelValue: switchStates[row.original.id],
           'onUpdate:modelValue': (value) => {
             switchStates[row.original.id] = value;
@@ -266,6 +280,11 @@ const openUtilizeProductModal = (id, rest) => {
 
 const getProductHistories = async (filters = {}) => {
   isLoading.value = true
+  const sorting = ref(productHistoryStore.sorting)
+  if (sorting.value.length > 0) {
+    filters.sortBy = sorting.value[0].id
+    filters.sortOrder = sorting.value[0].desc ? "DESC" : "ASC"
+  }
   await ProductService.getProductsDetails(
     cleanObjectEmptyFields({ limit: pageSize, page: page.value, ...filters }),
   ).then((res) => {
@@ -397,6 +416,13 @@ watch(page, async () => {
   await getProductHistories(filterData)
 })
 
+watch(currentPage, async () => {
+  if (currentPage.value == 0) {
+    productHistoryStore.currentPage = 1
+  }
+  await getProductHistories(filterData)
+})
+
 watch(searchFilter, async () => {
   if (searchFilter.value === '') {
     await getProductHistories({ limit: pageSize, page: currentPage.value })
@@ -452,7 +478,7 @@ const openPopup = (event, id, quantity, name) => {
     },
     ricon: 'icon-delete',
     rejectLabel: t('no'),
-    rejectClass: 'text-slate-600 bg-white hover:bg-slate-100 focus:outline-none focus:ring-white rounded-xl border border-slate-200 text-sm font-medium px-5 py-2.5 hover:text-slate-900',
+    rejectClass: 'dark:text-white dark:bg-slate-600 hover:dark:bg-slate-500 focus:outline-none focus:ring-white rounded-xl border border-slate-200 text-sm font-medium px-5 py-2.5',
     acceptLabel: t('yesOfCourse'),
     acceptClass: 'ml-4 text-white bg-blue-500 hover:bg-blue-600 focus:ring-4 focus:outline-none focus:ring-white rounded-xl border border-slate-200 text-sm font-medium px-5 py-2.5',
     accept: () => {
@@ -470,7 +496,7 @@ const onChange = (event) => {
   <div class="p-4 md:p-8">
     <ConfirmDialog />
     <div class="flex md:flex-row flex-col items-center justify-between space-y-4 md:space-y-0 mb-6">
-      <div class="text-slate-900 text-2xl md:text-3xl font-semibold">
+      <div class="dark:text-white text-2xl md:text-3xl font-semibold">
         {{ $t('incomeExpense') }}
       </div>
       <div class="w-full md:w-auto order-1 md:order-2 flex space-x-2">
@@ -487,35 +513,35 @@ const onChange = (event) => {
     <div class="flex md:flex-row flex-col items-center justify-between">
       <div class="relative w-full md:w-auto my-2 md:mb-0 order-2 md:order-1">
         <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-          <SearchIcon class="w-5 h-5 text-slate-400" />
+          <SearchIcon class="w-5 h-5 text-black" />
         </div>
         <input type="search" v-model="searchFilter"   @keyup.enter="searchProducts" ref="onSearchFocus"
-               class="bg-slate-100 border-none w-full text-slate-900 text-base md:text-lg rounded-full block pl-10 py-2 placeholder-slate-400"
+               class="bg-slate-100 border-none w-full text-black text-base md:text-lg rounded-full block pl-10 py-2 placeholder-slate-400"
                placeholder="Search everything...">
       </div>
       <div class="w-full md:w-auto order-1 md:order-2 flex space-x-2">
         <div class="relative w-auto" ref="filterByDropdown">
           <div @click="useDropdownStore().toggleFilterBy()"
-               class="border-none select-none text-gray-500 bg-slate-100 rounded-full w-full p-2 px-5 flex items-center hover:bg-gray-200 cursor-pointer space-x-1">
-            <FunnelIcon class="w-5 h-5 text-gray-400" />
+               class="border-none select-none text-gray-600 bg-slate-100 rounded-full w-full p-2 px-5 flex items-center hover:bg-gray-200 cursor-pointer space-x-1">
+            <FunnelIcon class="w-5 h-5 text-gray-600" />
             <span>{{ $t('filter') }}</span>
           </div>
           <div v-if="useDropdownStore().isOpenFilterBy"
-               class="absolute bg-white shadow-md rounded-xl w-64 p-3 z-20 top-12 right-0 space-y-3">
+               class="absolute bg-white dark:bg-slate-500 shadow-md rounded-xl w-64 p-3 z-20 top-12 right-0 space-y-3">
             <div class="flex-1 space-y-1">
-              <label for="startExpirationDate" class="text-base md:text-lg font-medium">
+              <label for="startExpirationDate" class="text-base dark:text-white md:text-lg font-medium">
                 {{ $t('from') }}
               </label>
               <input id="startExpirationDate" type="date" v-model="filterData.startExpirationDate"
-                     class="bg-slate-100 border-none text-slate-900 rounded-lg w-full h-11 placeholder-slate-400 placeholder:text-sm md:placeholder:text-lg"
+                     class="bg-slate-100 border-none text-black rounded-lg w-full h-11 placeholder-slate-400 placeholder:text-sm md:placeholder:text-lg"
                      :placeholder="t('enterProductQuantity')">
             </div>
             <div class="flex-1 space-y-1">
-              <label for="endExpirationDate" class="text-base md:text-lg font-medium">
+              <label for="endExpirationDate" class="text-base dark:text-white md:text-lg font-medium">
                 {{ $t('to') }}
               </label>
               <input id="endExpirationDate" type="date" v-model="filterData.endExpirationDate"
-                class="bg-slate-100 border-none text-slate-900 rounded-lg w-full h-11 placeholder-slate-400 placeholder:text-sm md:placeholder:text-lg"
+                class="bg-slate-100 border-none text-black rounded-lg w-full h-11 placeholder-slate-400 placeholder:text-sm md:placeholder:text-lg"
                 :placeholder="t('enterProductQuantity')">
             </div>
             <div class="flex items-center space-x-2">
@@ -526,7 +552,7 @@ const onChange = (event) => {
               <div v-if="isLoading"
                  class="w-full bg-blue-600 py-2 select-none text-white rounded-lg flex items-center justify-center">
               <Spinners270RingIcon
-                class="mr-2 w-5 h-5 text-gray-200 animate-spin dark:text-gray-600 fill-gray-600 dark:fill-gray-300" />
+                class="mr-2 w-5 h-5 text-gray-200 animate-spin dark:text-white fill-gray-600 dark:fill-gray-300" />
               <span>{{ $t('loading') }}</span>
             </div>
             <div v-else @click="submitFilterData()"
@@ -537,59 +563,59 @@ const onChange = (event) => {
         </div>
         <div class="relative w-auto" ref="sortByDropdown">
           <div @click="useDropdownStore().toggleSortBy()"
-            class="border-none select-none text-gray-500 bg-slate-100 rounded-full w-full p-2 px-5 flex items-center hover:bg-gray-200 cursor-pointer space-x-1">
-            <FunnelIcon class="w-5 h-5 text-gray-400" />
+            class="border-none select-none text-gray-600 bg-slate-100 rounded-full w-full p-2 px-5 flex items-center hover:bg-gray-200 cursor-pointer space-x-1">
+            <FunnelIcon class="w-5 h-5 text-gray-600" />
             <span>{{ sortByOption || $t('sorting') }}</span>
           </div>
           <div v-if="useDropdownStore().isOpenSortBy"
-            class="absolute bg-white shadow-md rounded-xl w-52 p-3 z-20 top-18 right-0 space-y-3">
+            class="absolute bg-white dark:bg-slate-500 shadow-md rounded-xl w-52 p-3 z-20 top-18 right-0 space-y-3">
             <ul>
               <li @click="resetSortData(); sortByOption = $t('standard')"
-                class="px-2 py-1 text-sm hover:bg-slate-100 rounded cursor-pointer">
+                class="px-2 py-1 text-sm dark:text-white hover:bg-slate-100 hover:dark:bg-slate-700 rounded cursor-pointer">
                 {{ $t('standard') }}
               </li>
               <li @click="getRemainingProducts(true); sortByOption = $t('remainingProducts')"
-                class="px-2 py-1 text-sm hover:bg-slate-100 rounded cursor-pointer">
+                class="px-2 py-1 text-sm dark:text-white hover:bg-slate-100 hover:dark:bg-slate-700 rounded cursor-pointer">
                 {{ $t('remainingProducts') }}
               </li>
               <li @click="getSort('name', 'ASC'); sortByOption = $t('byName') + ' (A-Z)'"
-                class="px-2 py-1 text-sm hover:bg-slate-100 rounded cursor-pointer">
+                class="px-2 py-1 text-sm dark:text-white hover:bg-slate-100 hover:dark:bg-slate-700 rounded cursor-pointer">
                 {{ $t('byName') }} (A-Z)
               </li>
               <li @click="getSort('name', 'DESC'); sortByOption = $t('byName') + ' (Z-A)'"
-                class="px-2 py-1 text-sm hover:bg-slate-100 rounded cursor-pointer">
+                class="px-2 py-1 text-sm dark:text-white dark:text-white hover:bg-slate-100 hover:dark:bg-slate-700 rounded cursor-pointer">
                 {{ $t('byName') }} (Z-A)
               </li>
               <li @click="getSort('price', 'ASC'); sortByOption = $t('byPrice') + ' (arzoni)'"
-                class="px-2 py-1 text-sm hover:bg-slate-100 rounded cursor-pointer">
+                class="px-2 py-1 text-sm dark:text-white hover:bg-slate-100 hover:dark:bg-slate-700 rounded cursor-pointer">
                 {{ $t('byPrice') }} (arzoni)
               </li>
               <li @click="getSort('price', 'DESC'); sortByOption = $t('byPrice') + ' (qimmati)'"
-                class="px-2 py-1 text-sm hover:bg-slate-100 rounded cursor-pointer">
+                class="px-2 py-1 text-sm dark:text-white hover:bg-slate-100 hover:dark:bg-slate-700 rounded cursor-pointer">
                 {{ $t('byPrice') }} (qimmati)
               </li>
               <li @click="getSort('quantity', 'ASC'); sortByOption = $t('byQuantity') + ' (ozi)'"
-                class="px-2 py-1 text-sm hover:bg-slate-100 rounded cursor-pointer">
+                class="px-2 py-1 text-sm dark:text-white hover:bg-slate-100 hover:dark:bg-slate-700 rounded cursor-pointer">
                 {{ $t('byQuantity') }} (ozi)
               </li>
               <li @click="getSort('quantity', 'DESC'); sortByOption = $t('byQuantity') + ` (ko'pi)`"
-                class="px-2 py-1 text-sm hover:bg-slate-100 rounded cursor-pointer">
+                class="px-2 py-1 text-sm dark:text-white hover:bg-slate-100 hover:dark:bg-slate-700 rounded cursor-pointer">
                 {{ $t('byQuantity') }} `ko'pi`
               </li>
               <li @click="getSort('production_date', 'ASC'); sortByOption = $t('byProductionDate') + ' (eski)'"
-                class="px-2 py-1 text-sm hover:bg-slate-100 rounded cursor-pointer">
+                class="px-2 py-1 text-sm dark:text-white hover:bg-slate-100 hover:dark:bg-slate-700 rounded cursor-pointer">
                 {{ $t('byProductionDate') }} (eski)
               </li>
               <li @click="getSort('production_date', 'DESC'); sortByOption = $t('byProductionDate') + ' (yangi)'"
-                class="px-2 py-1 text-sm hover:bg-slate-100 rounded cursor-pointer">
+                class="px-2 py-1 text-sm dark:text-white hover:bg-slate-100 hover:dark:bg-slate-700 rounded cursor-pointer">
                 {{ $t('byProductionDate') }} (yangi)
               </li>
               <li @click="getSort('expiration_date', 'ASC'); sortByOption = $t  ('byExpirationDate') + ' (eski)'"
-                class="px-2 py-1 text-sm hover:bg-slate-100 rounded cursor-pointer">
+                class="px-2 py-1 text-sm dark:text-white hover:bg-slate-100 hover:dark:bg-slate-700 rounded cursor-pointer">
                 {{ $t('byExpirationDate') }} (eski)
               </li>
               <li @click="getSort('expiration_date', 'DESC'); sortByOption = $t('byExpirationDate') + ' (yangi)'"
-                class="px-2 py-1 text-sm hover:bg-slate-100 rounded cursor-pointer">
+                class="px-2 py-1 text-sm dark:text-white hover:bg-slate-100 hover:dark:bg-slate-700 rounded cursor-pointer">
                 {{ $t('byExpirationDate') }} (yangi)
               </li>
             </ul>
@@ -598,39 +624,39 @@ const onChange = (event) => {
       </div>
     </div>
     <div v-if="isLoading" class="flex items-center justify-center h-20">
-      <Spinners270RingIcon class="w-6 h-6 text-gray-500 animate-spin" />
+      <Spinners270RingIcon class="w-6 h-6 dark:text-zinc-300 animate-spin" />
     </div>
     <HistoryTable v-else :data="productsHistories" :key="renderKey" :columns="columns" />
     <div class="flex items-center justify-between my-6">
-      <div class="text-base text-slate-900 font-medium">
+      <div class="text-base dark:text-white font-medium">
         {{ $t('total') }}:
         {{ total }}
       </div>
       <div class="flex items-center space-x-2">
         <button :disabled="page === 1" @click="goToPage(1)"
-                class="flex items-center justify-center px-3 py-2 text-base font-medium text-slate-900 rounded-lg select-none hover:bg-blue-200 disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
+                class="flex items-center justify-center px-3 py-2 text-base font-medium dark:text-white rounded-lg select-none hover:bg-blue-200 disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
                 type="button">
           <CaretDoubleLeftIcon class="w-5 h-5" />
         </button>
         <button @click="prevPage" :disabled="page === 1"
-                class="flex items-center justify-center px-3 py-2 text-base font-medium text-slate-900 rounded-lg select-none hover:bg-blue-200 disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
+                class="flex items-center justify-center px-3 py-2 text-base font-medium dark:text-white rounded-lg select-none hover:bg-blue-200 disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
                 type="button">
           <CaretLeftIcon class="w-5 h-5" />
         </button>
         <div class="flex items-center space-x-2">
           <button v-for="pageNumber in displayedPageNumbers" :key="pageNumber" @click="goToPage(pageNumber)"
                   :class="{ 'bg-blue-600 text-white': pageNumber === page, 'hover:bg-blue-200': pageNumber !== page }"
-                  class="px-3 py-2 select-none rounded-lg text-slate-900 text-center text-base font-medium transition-all">
+                  class="px-3 py-2 select-none rounded-lg dark:text-white text-center text-base font-medium transition-all">
             {{ pageNumber }}
           </button>
         </div>
         <button @click="nextPage" :disabled="page === totalPages"
-                class="flex items-center gap-2 px-3 py-2 text-base font-medium text-center text-slate-900 rounded-lg select-none hover:bg-blue-200 disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
+                class="flex items-center gap-2 px-3 py-2 text-base font-medium text-center dark:text-white rounded-lg select-none hover:bg-blue-200 disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
                 type="button">
           <CaretRightIcon class="w-5 h-5" />
         </button>
         <button :disabled="page === totalPages" @click="goToPage(totalPages)"
-                class="flex items-center gap-2 px-3 py-2 text-base font-medium text-slate-900 rounded-lg select-none hover:bg-blue-200 disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
+                class="flex items-center gap-2 px-3 py-2 text-base font-medium dark:text-white rounded-lg select-none hover:bg-blue-200 disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
                 type="button">
           <CaretDoubleRightIcon class="w-5 h-5" />
         </button>

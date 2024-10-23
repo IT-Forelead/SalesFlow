@@ -7,6 +7,7 @@ export const useProductHistoryStore = defineStore('productHistory', {
     currentPage: 1,
     selectedProductHistory: '',
     utilizeData: {},
+    sorting: [],
   }),
   actions: {
     setProductHistories(data) {
@@ -20,6 +21,9 @@ export const useProductHistoryStore = defineStore('productHistory', {
         id: id,
         quantity: quantity,
       }
+    },
+    setSorting(data) {
+      this.sorting = data
     },
     clearStore() {
       this.productHistories = []

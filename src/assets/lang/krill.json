@@ -231,9 +231,9 @@
   "errorWhileDeletingAgent": "Агентни ўчиришда хатолик юз берди",
   "addAgent": "Агент қўшиш",
   "plsEnterFullName": "Илтимос, фамилия ва исмни киритинг!",
-  "plsEnterCompany": "Илтимос, компанияни киритинг!",
+  "plsEnterCompany": "Илтимос, компания номини киритинг!",
   "company": "Компания",
-  "enterCompany": "Компания киритинг",
+  "enterCompany": "Компания номини киритинг",
   "editAgent": "Агентни таҳрирлаш",
   "agentEditedSuccessfully": "Агент муваффақиятли таҳрир қилди!",
   "errorWhileEditingAgent": "Агентни таҳрирлашда хатолик юз берди",
@@ -427,5 +427,11 @@
   "createPlan": "Режа қўшиш",
   "thisPhoneNumberAlreadyExist": "Ушбу телефон рақами аллақачон қўшилган!",
   "expectedTime": "Кутилган вақт",
-  "duplicates": "Дубликатлар"
+  "duplicates": "Дубликатлар",
+  "enterCorrectPayment": "Тўғри қабул қилинган тўлов киритинг",
+  "priceLists": "Нархлар рўйхати",
+  "createPrice": "Рўйхат яратиш",
+  "priceAddedSuccessfully": "Нархлар рўйхати яратилди!",
+  "errorWhileCreatingPrice": "Нархлар рўйхати яратишда хатолик юз берди",
+  "enterImage": "Илтимос, расмни киритинг"
 }
