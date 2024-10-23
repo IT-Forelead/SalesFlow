@@ -96,7 +96,7 @@ onMounted(() => {
         @click="changeTheme(theme)"
         class="hover:bg-gray-200 dark:hover:bg-gray-500 cursor-pointer p-2 flex items-center space-x-2"
       >
-        <component :is="theme.icon" class="w-5 h-5 dark:text-zinc-300 dark:text-white" />
+        <component :is="theme.icon" class="w-5 h-5 dark:text-white" />
         <span class="text-sm">{{ theme.name }}</span>
       </li>
     </ul>
