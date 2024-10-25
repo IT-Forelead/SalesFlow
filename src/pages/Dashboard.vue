@@ -1396,6 +1396,22 @@ watch(pageProfit, () => {
               </div>
             </div>
           </div>
+          <div class="flex-1 w-full h-full space-y-4 rounded-3xl bg-slate-50 p-5">
+            <div
+              class="flex flex-row md:flex-col items-center md:items-start space-x-4 md:space-x-0 space-y-0 md:space-y-2">
+              <div class="inline-flex items-center justify-center rounded-xl bg-blue-100 p-3">
+                <DollarIcon class="w-8 h-8 text-blue-600" />
+              </div>
+              <div>
+                <div class="text-base text-gray-600">
+                  {{ $t('total') }}
+                </div>
+                <div class="text-xl md:text-2xl font-semibold">
+                  {{ useMoneyFormatter(productStats.sum) }}
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
         <div class="flex flex-col md:flex-row md:items-center space-x-0 md:space-x-4 space-y-2 md:space-y-0">
           <div v-for="(product, idx) in soldProductPrice" :key="idx"
