@@ -275,7 +275,7 @@ const searchProducts = () => {
           useProductStore().setProducts(res.data);
         }
       });
-    } else if (!isNaN(search.value) && ((/^\d{1,8}$/.test(+search.value)))) {
+    } else if (!isNaN(search.value) && ((/^\d{1,8}$/.test(+search.value)))) { 
       ProductService.getProductsDetails(
         cleanObjectEmptyFields({
           serialId: +search.value,
@@ -322,8 +322,8 @@ const addProductToCart = (product, amount) => {
     if (product?.rest <= existingProduct.amount) {
       toast.error(t('productIsOutOfStore'));
       productOutOfStore.play();
-      clearSearchInput();
-      return;
+      clearSearchInput(); 
+      return; 
     } else {
       let updatedAmount;
 
@@ -353,9 +353,9 @@ const addProductToCart = (product, amount) => {
         addedToBasket.play();
       }
 
-      activeBasket.value.splice(existingProductIndex, 1);
+      activeBasket.value.splice(existingProductIndex, 1); 
       activeBasket.value.unshift(updatedProduct);
-      clearSearchInput();
+      clearSearchInput(); 
     }
   } else {
     if (product?.rest > 0) {
@@ -553,7 +553,7 @@ const clearSearchInput = () => {
   // onFocusSearchInput()
 };
 
-const clearSubmitData = () => {
+const clearSubmitData = () => {  
   submitData.discountPercent = '';
   submitData.discountReason = '';
   discount.value = '';
@@ -599,7 +599,7 @@ const createOrder = (printCheck = true) => {
     (activeBasket.value.filter(p => p.expirationDate == null).length > 0) {
       setTimeout(() => {
         toast.warning(t('expirationSold'))
-      }, 2000)
+      }, 2000) 
     }
     OrderService.createOrder(
       cleanObjectEmptyFields({
@@ -1086,7 +1086,7 @@ onMounted(() => {
   const localActiveBasketStatusJson = localStorage.getItem('activeBasketStatus');
   const localActiveBasket = localStorage.getItem('activeBasket')
   activeBasketStatus.value = localActiveBasketStatusJson ?   JSON.parse(localActiveBasketStatusJson) : activeBasketStatus.value
-
+  
   try {
     JSON.parse(localActiveBasket);
     activeBasket.value.push(...JSON.parse(localActiveBasket));
