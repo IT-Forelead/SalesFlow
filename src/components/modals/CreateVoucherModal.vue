@@ -15,8 +15,8 @@ const { t } = useI18n()
 const isLoading = ref(false)
 
 const submitForm = reactive({
-  amount: '',
-  count: '',
+  amount: 0,
+  count: 0,
   expireDate: '',
 })
 
@@ -38,7 +38,7 @@ const createVoucher = () => {
   } else if (!submitForm.count) {
     toast.warning(t('plsEnterCount'))
   } else if (!submitForm.expireDate) {
-    toast.warning(t('plsEnterExpireDate'))
+    toast.warning(t('plsEnterExpirationDate'))
   } else {
     isLoading.value = true
     VoucherService.createVoucher(
@@ -50,7 +50,7 @@ const createVoucher = () => {
     ).then(() => {
       toast.success(t('voucherAddedSuccessfully'))
       isLoading.value = false
-      VoucherService.getVouchers()
+      VoucherService.getVouchers({})
         .then((res) => {
           useVoucherStore().clearStore()
           useVoucherStore().setVouchers(res)
@@ -69,7 +69,7 @@ const createVoucher = () => {
   <CModal :is-open="useModalStore().isOpenCreateVoucherModal" v-if="useModalStore().isOpenCreateVoucherModal"
             @close=closeModal>
       <template v-slot:header>
-        {{ $t('createVoucher') }}
+        {{ $t('addVoucher') }}
       </template>
       <template v-slot:body>
         <div class="space-y-4">
@@ -79,9 +79,9 @@ const createVoucher = () => {
                 {{ $t('amount') }}
                 <span class="text-red-500 mr-2">*</span>
               </label>
-              <input id="firstname" type="text" v-model="submitForm.amount"
+              <input id="amount" type="number" v-model="submitForm.amount"
                      class="bg-slate-100 border-none text-slate-900 rounded-lg w-full py-2.5 placeholder-slate-400"
-                     :placeholder="t('enterAmount')">
+                     :placeholder="t('plsEnterAmount')">
             </div>
           </div>
           <div class="flex items-center space-x-4">
@@ -90,15 +90,15 @@ const createVoucher = () => {
                 {{ $t('count') }}
                 <span class="text-red-500 mr-2">*</span>
               </label>
-              <input id="count" type="text" v-model="submitForm.count"
+              <input id="count" type="number" v-model="submitForm.count"
                      class="bg-slate-100 border-none text-slate-900 rounded-lg w-full py-2.5 placeholder-slate-400"
-                     :placeholder="t('enterCount')">
+                     :placeholder="t('plsEnterCount')">
             </div>
             <div class="flex-1 space-y-1">
-              <label for="price" class="text-base md:text-lg font-medium">
-                {{ $t('expireDate') }}
+              <label for="expireDate" class="text-base md:text-lg font-medium">
+                {{ $t('expirationDate') }}
               </label>
-              <input id="quantity" type="date"
+              <input id="expireDate" type="date" v-model="submitForm.expireDate"
                      class="bg-slate-100 border-none text-slate-900 rounded-lg w-full h-11 placeholder-slate-400 placeholder:text-sm md:placeholder:text-lg">
             </div>
           </div>

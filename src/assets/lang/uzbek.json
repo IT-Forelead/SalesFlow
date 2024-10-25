@@ -436,5 +436,9 @@
   "createPrice": "Ro'yxat yaratish",
   "priceAddedSuccessfully": "Narxlar ro'yxati yaratildi!",
   "errorWhileCreatingPrice": "Narxlar ro'yxati yaratishda xatolik yuz berdi",
-  "enterImage": "Iltimos, rasmni kiriting"
+  "enterImage": "Iltimos, rasmni kiriting",
+  "vouchers": "Vouchers",
+  "addVoucher": "Add voucher",
+  "plsEnterAmount": "Moqdorni kiriting",
+  "plsEnterCount": "Soni kiriting"
 }

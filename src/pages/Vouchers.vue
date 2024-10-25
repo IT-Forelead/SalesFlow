@@ -40,7 +40,7 @@ const columns = [
   },
   {
     accessorKey: 'expireDate',
-    header: t('expireDate'),
+    header: t('expirationDate'),
   },
   {
     accessorKey: 'createdAt',
@@ -60,6 +60,7 @@ const getAllVouchers = () => {
       isLoading.value = false
     })
 }
+getAllVouchers()
 
 </script>
 
