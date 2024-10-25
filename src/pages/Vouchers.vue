@@ -7,22 +7,21 @@ import { computed, h } from 'vue'
 import SearchIcon from '../assets/icons/SearchIcon.vue'
 import Spinners270RingIcon from '../assets/icons/Spinners270RingIcon.vue'
 import CTable from '../components/common/CTable.vue'
-import UserService from '../services/user.service'
-import { useUserStore } from '../store/user.store.js'
 import { useModalStore } from '../store/modal.store.js'
 import { useI18n } from 'vue-i18n'
-import { useAgentStore } from '../store/agent.store.js'
-import AgentService from '../services/agent.service.js'
+import { useVoucherStore } from '../store/voucher.store.js'
+import VoucherService from '../services/voucher.service.js'
 
 const { t } = useI18n()
+const page = ref(1)
+const pageSize = 30
 
-const agentStore = useAgentStore()
+const voucherStore = useVoucherStore()
 const globalSearchFromTable = ref('')
 const isLoading = ref(false)
 
-const agents = computed(() => agentStore.agents)
-const renderkey = computed(() => agentStore.renderkey)
-
+const vouchers = computed(() => voucherStore.vouchers)
+const renderkey = computed(() => voucherStore.renderkey)
 
 const columns = [
   {
@@ -32,66 +31,43 @@ const columns = [
     enableSorting: false,
   },
   {
-    accessorFn: row => `${row.fullName}`,
-    header: t('fullName'),
+    accessorFn: row => `${row.amount}`,
+    header: t('amount'),
   },
   {
-    accessorKey: 'phone',
-    header: t('phoneNumber'),
+    accessorKey: 'count',
+    header: t('count'),
   },
   {
-    accessorKey: 'company',
-    header: t('company'),
+    accessorKey: 'expireDate',
+    header: t('expirationDate'),
   },
   {
     accessorKey: 'createdAt',
     accessorFn: row => moment(row.createdAt).format('DD/MM/YYYY H:mm'),
     header: t('createdAt'),
   },
-  {
-    accessorKey: 'actions',
-    header: t('actions'),
-    cell: ({ row }) => h('div', { class: 'flex items-center space-x-2' }, [
-      h('button', { onClick: () => { openEditAgent(row.original) } }, [
-        h(PhPencilIcon, { class: 'w-6 h-6 text-blue-600 hover:scale-105' })
-      ]),
-      // h('button', { onClick: () => { openDeleteUserModal(row.original) } }, [
-      //   h(PhTrash, { class: 'w-6 h-6 text-red-600 hover:scale-105' })
-      // ]),
-    ]),
-    enableSorting: false,
-  },
 ]
 
-const openEditAgent = (data) => {
-  useAgentStore().setSelectedAgent(data)
-  useModalStore().openEditAgentModal()
-}
-
-// const openDeleteUserModal = (data) => {
-//   useModalStore().openDeleteUserModal()
-//   useUserStore().setSelectedUser(data)
-// }
-
-const getAgents = async () => {
+const getAllVouchers = () => {
   isLoading.value = true
-  try {
-    const res = await AgentService.getAgents()
-    useAgentStore().clearStore()
-    useAgentStore().setAgents(res)
-    useAgentStore().renderkey += 1
-  } finally {
-    isLoading.value = false
-  }
+  VoucherService.getAllVouchers(pageSize, page.value)
+    .then((res) => {
+      useVoucherStore().clearStore()
+      useVoucherStore().vouchersTotal = res.total
+      useVoucherStore().setVouchers(res.data)
+    }).finally(() => {
+      isLoading.value = false
+    })
 }
-getAgents()
+getAllVouchers()
 
 </script>
 
 <template>
   <div class="p-4 md:p-8">
     <div class="text-slate-900 text-2xl md:text-3xl font-semibold mb-6">
-      {{ $t('agents') }}
+      {{ $t('vouchers') }}
     </div>
     <div class="flex flex-col md:flex-row items-center justify-between">
       <div class="relative w-full md:w-auto my-2 md:mb-0 order-2 md:order-1">
@@ -103,15 +79,15 @@ getAgents()
           :placeholder="$t('search')">
       </div>
       <div class="w-full md:w-auto order-1 md:order-2">
-        <button @click="useModalStore().openCreateAgentModal()"
+        <button @click="useModalStore().openCreateVoucherModal()"
           class="w-full md:w-auto py-2 px-4 rounded-full text-white text-lg font-medium bg-blue-500 cursor-pointer hover:bg-blue-600">
-          {{ $t('addAgent') }}
+          {{ $t('addVoucher') }}
         </button>
       </div>
     </div>
     <div v-if="isLoading" class="flex items-center justify-center h-20">
       <Spinners270RingIcon class="w-6 h-6 text-gray-500 animate-spin" />
     </div>
-    <CTable :key="renderkey" v-else :data="agents" :columns="columns" :filter="globalSearchFromTable" />
+    <CTable :key="renderkey" v-else :data="vouchers" :columns="columns" :filter="globalSearchFromTable" />
   </div>
 </template>

@@ -8,59 +8,56 @@ import { useModalStore } from '../../store/modal.store.js'
 import CancelButton from '../buttons/CancelButton.vue'
 import CModal from '../common/CModal.vue'
 import { useI18n } from 'vue-i18n'
-import AgentService from '../../services/agent.service.js'
-import { useAgentStore } from '../../store/agent.store.js'
+import VoucherService from '../../services/voucher.service.js'
+import { useVoucherStore } from '../../store/voucher.store.js'
 
 const { t } = useI18n()
-const phoneRegex = /\+998[1-9][\d]{8}/
-
 const isLoading = ref(false)
 
 const submitForm = reactive({
-  fullName: '',
-  phone: '',
-  company: '',
+  amount: 0,
+  count: 0,
+  expireDate: '',
 })
 
 const clearForm = () => {
-  submitForm.fullName = ''
-  submitForm.phone = ''
-  submitForm.company = ''
+  submitForm.amount = ''
+  submitForm.count = ''
+  submitForm.expireDate = ''
 }
 
 const closeModal = () => {
-  useModalStore().closeCreateAgentModal()
+  useModalStore().closeCreateVoucherModal()
   clearForm()
 }
 
-const createAgent = () => {
-  if (!submitForm.fullName) {
-    toast.warning(t('plsEnterFullName'))
-  } else if (!submitForm.phone) {
-    toast.warning(t('plsEnterPhoneNumber'))
-  } else if (submitForm.phone && !phoneRegex.test(submitForm.phone.replace(/([() -])/g, ''))) {
-    toast.warning(t('plsEnterValidPhoneNumber'))
-  } else if (!submitForm.company) {
-    toast.warning(t('plsEnterCompany'))
+const createVoucher = () => {
+  if (!submitForm.amount) {
+    toast.warning(t('plsEnterAmount'))
+  
+  } else if (!submitForm.count) {
+    toast.warning(t('plsEnterCount'))
+  } else if (!submitForm.expireDate) {
+    toast.warning(t('plsEnterExpirationDate'))
   } else {
     isLoading.value = true
-    AgentService.createAgent(
+    VoucherService.createVoucher(
       cleanObjectEmptyFields({
-        fullName: submitForm.fullName,
-        company: submitForm.company,
-        phone: submitForm.phone.replace(/([() -])/g, ''),
+        amount: submitForm.amount,
+        count: submitForm.count,
+        expireDate: submitForm.expireDate,
       }),
     ).then(() => {
-      toast.success(t('agentAddedSuccessfully'))
+      toast.success(t('voucherAddedSuccessfully'))
       isLoading.value = false
-      AgentService.getAgents()
+      VoucherService.getAllVouchers(30, 1)
         .then((res) => {
-          useAgentStore().clearStore()
-          useAgentStore().setAgents(res)
-          useAgentStore().renderkey += 1
+          useVoucherStore().clearStore()
+          useVoucherStore().setVouchers(res.data)
+          useVoucherStore().renderkey += 1
         })
     }).catch(() => {
-      toast.error(t('errorWhileCreatingAgent'))
+      toast.error(t('errorWhileCreatingVoucher'))
       isLoading.value = false
     })
     closeModal()
@@ -69,42 +66,40 @@ const createAgent = () => {
 
 </script>
 <template>
-  <CModal :is-open="useModalStore().isOpenCreateAgentModal" v-if="useModalStore().isOpenCreateAgentModal"
+  <CModal :is-open="useModalStore().isOpenCreateVoucherModal" v-if="useModalStore().isOpenCreateVoucherModal"
             @close=closeModal>
       <template v-slot:header>
-        {{ $t('createAgent') }}
+        {{ $t('addVoucher') }}
       </template>
       <template v-slot:body>
         <div class="space-y-4">
           <div class="flex items-center space-x-4">
             <div class="flex-1">
               <label for="firstname" class="text-base font-medium">
-                {{ $t('fullName') }}
+                {{ $t('amount') }}
                 <span class="text-red-500 mr-2">*</span>
               </label>
-              <input id="firstname" type="text" v-model="submitForm.fullName"
+              <input id="amount" type="number" v-model="submitForm.amount"
                      class="bg-slate-100 border-none text-slate-900 rounded-lg w-full py-2.5 placeholder-slate-400"
-                     :placeholder="t('enterFullName')">
+                     :placeholder="t('plsEnterAmount')">
             </div>
           </div>
           <div class="flex items-center space-x-4">
             <div class="flex-1">
-              <label for="company" class="text-base font-medium">
-                {{ $t('company') }}
+              <label for="count" class="text-base font-medium">
+                {{ $t('count') }}
                 <span class="text-red-500 mr-2">*</span>
               </label>
-              <input id="company" type="text" v-model="submitForm.company"
+              <input id="count" type="number" v-model="submitForm.count"
                      class="bg-slate-100 border-none text-slate-900 rounded-lg w-full py-2.5 placeholder-slate-400"
-                     :placeholder="t('enterCompany')">
+                     :placeholder="t('plsEnterCount')">
             </div>
-            <div class="flex-1">
-              <label for="phone" class="text-base font-medium">
-                {{ $t('phone') }}
-                <span class="text-red-500 mr-2">*</span>
+            <div class="flex-1 space-y-1">
+              <label for="expireDate" class="text-base md:text-lg font-medium">
+                {{ $t('expirationDate') }}
               </label>
-              <input id="phone" type="text" v-model="submitForm.phone" v-maska data-maska="+998(##) ###-##-##"
-                     class="bg-slate-100 border-none text-slate-900 rounded-lg w-full py-2.5 placeholder-slate-400"
-                     placeholder="+998(00) 000-00-00">
+              <input id="expireDate" type="date" v-model="submitForm.expireDate"
+                     class="bg-slate-100 border-none text-slate-900 rounded-lg w-full h-11 placeholder-slate-400 placeholder:text-sm md:placeholder:text-lg">
             </div>
           </div>
         </div>
@@ -117,7 +112,7 @@ const createAgent = () => {
             class="mr-2 w-5 h-5 text-gray-200 animate-spin dark:text-gray-600 fill-gray-600 dark:fill-gray-300" />
           {{ $t('create') }}
         </button>
-        <button v-else @click="createAgent()" type="button"
+        <button v-else @click="createVoucher()" type="button"
                 class="ms-3 text-white bg-blue-500 hover:bg-blue-600 focus:ring-4 focus:outline-none focus:ring-slate-300 rounded-xl border border-slate-200 text-sm font-medium px-5 py-2.5 focus:z-10">
           {{ $t('create') }}
         </button>

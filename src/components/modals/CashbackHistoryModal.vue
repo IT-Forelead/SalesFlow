@@ -98,7 +98,7 @@ const getBalanceHistoriesByFilter = (filter) => {
     <template v-slot:body>
       <div class="flex justify-end w-full" ref="filterByDropdown">
           <div @click="useDropdownStore().toggleFilterBy()"
-            class="flex justify-end w-min  border-none select-none dark:text-zinc-300 bg-slate-100 rounded-full p-2 px-5 items-center hover:bg-gray-200 cursor-pointer space-x-1">
+            class="flex justify-end w-min  border-none select-none text-gray-500 bg-slate-100 rounded-full p-2 px-5 items-center hover:bg-gray-200 cursor-pointer space-x-1">
             <FunnelIcon class="w-5 h-5 text-gray-400" />
             <span>{{ filterByOption || $t('filter') }}</span>
           </div>

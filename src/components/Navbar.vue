@@ -43,6 +43,7 @@ import InvestDailyModal from './modals/InvestDailyModal.vue'
 import EditInvestStatusModal from './modals/EditInvestStatusModal.vue'
 import CashbackHistoryModal from './modals/CashbackHistoryModal.vue'
 import CreatePriceModal from './modals/CreatePriceModal.vue'
+import CreateVoucherModal from './modals/CreateVoucherModal.vue'
 
 const notificationDropdown = ref(null)
 
@@ -80,7 +81,6 @@ const handleResize = () => {
 onMounted(() => {
   const savedTheme = localStorage.getItem('theme')
   document.documentElement.className = savedTheme ? savedTheme : 'dark'
-
   window.addEventListener('resize', handleResize);
 });
 
@@ -91,10 +91,10 @@ onUnmounted(() => {
 
 <template>
   <div v-if="!useSidebarStore().isOpenSidebar"
-    class="sticky flex items-center w-full px-6 py-4 dark:bg-slate-600 border-b border-gray-200 shadow-7xl lg:block">
+    class="sticky flex items-center w-full px-6 py-4 bg-white border-b border-gray-200 shadow-7xl lg:block">
     <div class="flex space-x-4 items-center">
       <div v-if="!useSidebarStore().isOpenSidebar" @click="closeSidebar"
-        class="flex items-center justify-center w-8 h-8 rounded-lg cursor-pointer hover:bg-gray-100 dark:text-white dark:hover:bg-gray-500">
+        class="flex items-center justify-center w-8 h-8 rounded-lg cursor-pointer hover:bg-gray-100">
         <HamburgerMenuOutlineIcon class="w-6 h-6" />
       </div>
       <div v-else-if="useSidebarStore().isOpenSidebar" @click="openSidebar"
@@ -105,7 +105,7 @@ onUnmounted(() => {
         <img src="/images/logo.svg" class="w-10 h-10" alt="#">
         <div class="text-2xl font-extrabold">
           <span class="text-[#0167f3]">Sale</span>
-          <span class="dark:text-white">Flow</span>
+          <span class="text-black">Flow</span>
         </div>
       </div>
     </div>
@@ -151,6 +151,7 @@ onUnmounted(() => {
   <EditInvestStatusModal />
   <CashbackHistoryModal />
   <CreatePriceModal />
+  <CreateVoucherModal />
 </template>
 
 <style scoped></style>

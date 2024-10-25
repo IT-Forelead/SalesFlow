@@ -433,5 +433,11 @@
   "createPrice": "Рўйхат яратиш",
   "priceAddedSuccessfully": "Нархлар рўйхати яратилди!",
   "errorWhileCreatingPrice": "Нархлар рўйхати яратишда хатолик юз берди",
-  "enterImage": "Илтимос, расмни киритинг"
+  "enterImage": "Илтимос, расмни киритинг",
+  "vouchers": "Ваучерлар",
+  "addVoucher": "Ваучер қўшиш",
+  "plsEnterAmount": "Моқдорни киритинг",
+  "plsEnterCount": "Сони киритинг",
+  "voucherAddedSuccessfully": "Ваучер яратилди!",
+  "errorWhileCreatingVoucher": "Ваучер яратишда хатолик юз берди"
 }
