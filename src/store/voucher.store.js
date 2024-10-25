@@ -4,6 +4,7 @@ export const useVoucherStore = defineStore('voucher', {
   state: () => ({
     vouchers: [],
     selectedVoucher: {},
+    vouchersTotal:0,
     renderkey: 0,
   }),
   actions: {

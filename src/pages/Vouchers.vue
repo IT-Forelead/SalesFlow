@@ -52,10 +52,10 @@ const columns = [
 const getAllVouchers = () => {
   isLoading.value = true
   VoucherService.getAllVouchers(pageSize, page.value)
-    .then((response) => {
+    .then((res) => {
       useVoucherStore().clearStore()
-      useVoucherStore().barcodesTotal = response.total
-      useVoucherStore().setVouchers(response.data)
+      useVoucherStore().vouchersTotal = res.total
+      useVoucherStore().setVouchers(res.data)
     }).finally(() => {
       isLoading.value = false
     })

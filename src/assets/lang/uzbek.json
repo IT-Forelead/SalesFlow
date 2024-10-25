@@ -437,8 +437,10 @@
   "priceAddedSuccessfully": "Narxlar ro'yxati yaratildi!",
   "errorWhileCreatingPrice": "Narxlar ro'yxati yaratishda xatolik yuz berdi",
   "enterImage": "Iltimos, rasmni kiriting",
-  "vouchers": "Vouchers",
-  "addVoucher": "Add voucher",
+  "vouchers": "Vaucherlar",
+  "addVoucher": "Vaucher qo'shish",
   "plsEnterAmount": "Moqdorni kiriting",
-  "plsEnterCount": "Soni kiriting"
+  "plsEnterCount": "Soni kiriting",
+  "voucherAddedSuccessfully": "Vaucher yaratildi!",
+  "errorWhileCreatingVoucher": "Vaucher yaratishda xatolik yuz berdi"
 }

@@ -50,10 +50,10 @@ const createVoucher = () => {
     ).then(() => {
       toast.success(t('voucherAddedSuccessfully'))
       isLoading.value = false
-      VoucherService.getVouchers({})
+      VoucherService.getAllVouchers(30, 1)
         .then((res) => {
           useVoucherStore().clearStore()
-          useVoucherStore().setVouchers(res)
+          useVoucherStore().setVouchers(res.data)
           useVoucherStore().renderkey += 1
         })
     }).catch(() => {
