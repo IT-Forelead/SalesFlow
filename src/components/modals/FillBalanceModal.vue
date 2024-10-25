@@ -77,20 +77,20 @@ const fillBalance = () => {
       <div class="space-y-4">
         <div class="flex items-center space-x-4">
           <div class="flex-1">
-            <label for="amount" class="text-base dark:text-white font-medium">
+            <label for="amount" class="text-base font-medium">
               {{ $t('balance') }}
               <span class="text-red-500 mr-2">*</span>
             </label>
-            <money3 id="amount" type="text" v-bind="moneyConf" v-model="submitData.amount" class="border-none text-right bg-slate-100 h-11 rounded-lg w-full text-lg">
+            <money3 id="amount" type="text" v-bind="moneyConf" v-model="submitData.amount" class="border-none text-right text-gray-500 bg-slate-100 h-11 rounded-lg w-full text-lg">
               </money3>
           </div>
           <div class="flex-1">
-            <label for="reason" class="text-base dark:text-white font-medium">
+            <label for="reason" class="text-base font-medium">
               {{ $t('reason') }}
               <span class="text-red-500 mr-2">*</span>
             </label>
             <input id="reason" type="text" v-model="submitData.reason"
-               class="border-none bg-slate-100 h-11 rounded-lg w-full text-lg"
+               class="border-none text-gray-500 bg-slate-100 h-11 rounded-lg w-full text-lg"
               :placeholder="t('enterReason')" />
           </div>
         </div>
@@ -101,7 +101,7 @@ const fillBalance = () => {
       <button v-if="isLoading" type="bSearchIconutton"
         class="inline-flex items-center justify-center ms-3 text-white bg-blue-600 focus:ring-4 focus:outline-none focus:ring-slate-300 rounded-xl border border-slate-200 text-sm font-medium px-5 py-2.5 focus:z-10 cursor-default">
         <Spinners270RingIcon
-          class="mr-2 w-5 h-5 text-gray-200 animate-spin dark:text-white fill-gray-600 dark:fill-gray-300" />
+          class="mr-2 w-5 h-5 text-gray-200 animate-spin dark:text-gray-600 fill-gray-600 dark:fill-gray-300" />
         {{ $t('create') }}
       </button>
       <button v-else @click="fillBalance()" type="button"

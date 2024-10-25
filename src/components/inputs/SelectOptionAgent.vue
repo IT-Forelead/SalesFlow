@@ -75,7 +75,7 @@ const getSearchResult = (options) => {
         {{ $t('selectAgent') }}
       </div>
       <ChevronRightIcon @click="useDropdownStore().openAgentDropdown()" v-if="!selectedOption"
-        class="absolute right-2.5 z-10 rotate-90 cursor-pointer dark:text-white" />
+        class="absolute right-2.5 z-10 rotate-90 cursor-pointer text-gray-600" />
       <XIcon @click="clearSelectedOptionData()" v-if="selectedOption"
         class="absolute right-2.5 z-10 cursor-pointer bg-gray-500 hover:bg-gray-600 text-white rounded-full p-1" />
       <div v-if="!search && useDropdownStore().isOpenAgentDropdown"
