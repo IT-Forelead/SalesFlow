@@ -119,7 +119,7 @@ function getImage(e) {
             </span>
           </label>
           <label v-else for="dropzone-file"
-            class="relative flex items-center justify-center w-28 h-28 max-w-lg mx-auto text-center border-2 rounded-lg cursor-pointer">
+            class="relative flex items-center justify-center w-28 h-28 dark:text-white max-w-lg mx-auto text-center border-2 rounded-lg cursor-pointer">
             <img :src="selectedImage" class="object-cover w-28 h-28 rounded-lg" alt="#" />
             <input id="dropzone-file" type="file" class="hidden" name="image" @change="getImage" />
             <span
@@ -131,7 +131,7 @@ function getImage(e) {
         <div class="flex items-center space-x-4">
 
           <div class="flex-1">
-            <label for="company" class="text-base font-medium">
+            <label for="company" class="text-base dark:text-white font-medium">
               {{ $t('company') }}
               <span class="text-red-500 mr-2">*</span>
             </label>
@@ -142,7 +142,7 @@ function getImage(e) {
         </div>
         <div class="flex items-center space-x-4">
           <div class="flex-1">
-            <label for="description" class="text-base font-medium">
+            <label for="description" class="text-base dark:text-white font-medium">
               {{ $t('description') }}
             </label>
             <input id="description" type="text" v-model="submitForm.description"

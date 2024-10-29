@@ -294,7 +294,7 @@ const openCreateProductModal = () => {
             <SearchIcon class="w-5 h-5" />
           </div>
           <input type="search" v-model="searchProduct" ref="onSearchFocus" v-on:keypress="whenPressEnter($event)"
-                 class="bg-slate-100 border-none rounded-lg w-full h-12 pl-10 placeholder-slate-400 placeholder:text-sm md:placeholder:text-lg"
+                 class="bg-slate-100 border-none text-slate-900 rounded-lg w-full h-12 pl-10 placeholder-slate-400 placeholder:text-sm md:placeholder:text-lg"
                  :placeholder="t('searchByProductNameOrBarcode')">
           <div class="absolute inset-y-0 right-0 flex items-center space-x-2">
             <button type="button" @click="searchProducts()"
@@ -310,16 +310,16 @@ const openCreateProductModal = () => {
         <div v-if="productBarcodes.length > 0" class="absolute top-36 px-4 left-0 bg-transparent w-full space-y-2 z-[2000]">
           <ScrollPanel style="height: 600px;">
             <div v-for="(product, idx) in productBarcodes" :key="idx" @click="selectProduct(product)"
-              class="flex items-center justify-between dark:bg-slate-600 border shadow-sm rounded-xl px-3 py-2 w-full cursor-pointer hover:bg-slate-100">
+              class="flex items-center justify-between bg-white dark:bg-slate-600 border shadow-sm rounded-xl px-3 py-2 w-full cursor-pointer hover:bg-slate-100">
               <div class="flex items-center space-x-3">
                 <div class="flex items-center justify-center bg-slate-200 w-10 h-10 rounded-lg">
-                  <ImageIcon class="dark:text-zinc-300 w-8 h-8" />
+                  <ImageIcon class="text-gray-500 dark:text-zinc-300 w-8 h-8" />
                 </div>
                 <div>
                   <div class="text-base font-semibold text-gray-800">
                     {{ product?.name + ' - ' + product?.packaging }}
                   </div>
-                  <div class="text-base font-medium dark:text-zinc-300">
+                  <div class="text-base font-medium text-gray-500 dark:text-zinc-300">
                     {{ product?.saleType }}
                   </div>
                 </div>
@@ -333,42 +333,42 @@ const openCreateProductModal = () => {
       </div>
 
         <div v-if="selectedProducts.length" class="overflow-y-auto overflow-x-auto h-96">
-          <h4 class="dark:text-white text-xl font-semibold">
+          <h4 class=" text-slate-900dark:text-white text-xl font-semibold">
             {{ $t('products') }}
           </h4>
           <table class="min-w-full divide-y divide-gray-200">
             <thead class="bg-gray-100">
             <tr>
-              <th class="rounded-l-xl px-6 py-3 text-left text-xs font-medium dark:text-zinc-300 uppercase">
+              <th class="rounded-l-xl px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-zinc-300 uppercase">
                 {{ $t('image') }}
               </th>
-              <th class="px-6 py-3 text-left text-xs font-medium dark:text-zinc-300 uppercase">
+              <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-zinc-300 uppercase">
                 {{ $t('product') }}
               </th>
-              <th class="px-6 py-3 text-right text-xs font-medium dark:text-zinc-300 uppercase">
+              <th class="px-6 py-3 text-right text-xs font- text-gray-500 dark:text-zinc-300 uppercase">
                 {{ $t('quantity') }}
               </th>
-              <th class="px-6 py-3 rounded-r-xl text-right text-xs font-medium dark:text-zinc-300 uppercase">
+              <th class="px-6 py-3 rounded-r-xl text-right text-xs font-medium text-gray-500 dark:text-zinc-300 uppercase">
                 {{ $t('actions') }}
               </th>
             </tr>
             </thead>
-            <tbody class="dark:bg-slate-600 divide-y divide-gray-200">
+            <tbody class="bg-white dark:bg-slate-600 divide-y divide-gray-200">
             <tr v-for="(product, idx) in selectedProducts" :key="idx">
               <td class="px-6 py-4 whitespace-nowrap">
                 <div class="flex items-center">
                   <div class="flex-shrink-0 h-10 w-10">
-                    <ImageIcon class="dark:text-zinc-300 w-8 h-8" />
+                    <ImageIcon class="text-gray-500 dark:text-zinc-300 w-8 h-8" />
                   </div>
                 </div>
               </td>
               <td class="px-6 py-4 whitespace-nowrap">
-                <div class="text-sm font-medium dark:text-zinc-200">
+                <div class="text-sm font-medium text-gray-900 dark:text-zinc-200">
                   {{ product?.name + ' - ' + product?.packaging }}
                 </div>
               </td>
               <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                <input type="number" v-model="product.quantity" class="w-24 bg-slate-100 border-none dark:text-white rounded-lg text-base md:text-lg block h-10">
+                <input type="number" v-model="product.quantity" class="w-24 bg-slate-100 border-none text-gray-900 dark:text-white rounded-lg text-base md:text-lg block h-10">
               </td>
               <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
                 <TrashIcon @click="removeProduct(product)" class="w-6 h-6 text-rose-500 cursor-pointer transform hover:scale-105" />
@@ -387,7 +387,7 @@ const openCreateProductModal = () => {
               <span class="text-red-500 mr-2">*</span>
             </label>
             <money3 v-model.number="submitData.price" v-bind="moneyConf" id="price"
-              class="border-none text-right bg-slate-100 h-11 rounded-lg w-full text-lg">
+              class="border-none text-right text-gray-500 bg-slate-100 h-11 rounded-lg w-full text-lg">
             </money3>
           </div>
           <div class="flex-1 space-y-1">
@@ -396,7 +396,7 @@ const openCreateProductModal = () => {
               <span class="text-red-500 mr-2">*</span>
             </label>
             <select id="default-type" v-model="submitData.paymentType"
-              class="bg-slate-100 border-none rounded-lg text-base md:text-lg block w-full h-11">
+              class="bg-slate-100 border-none text-slate-900 rounded-lg text-base md:text-lg block w-full h-11">
               <option value="" selected>{{ $t('selectType') }}</option>
               <option value="cash">{{ $t('cash') }}</option>
               <option value="terminal">{{ $t('terminal') }}</option>
@@ -424,7 +424,7 @@ const openCreateProductModal = () => {
                         <span class="text-red-500 mr-2">*</span>
                       </label>
                       <input id="agent-fullName" type="text" v-model="submitAgentForm.fullName"
-                        class="bg-slate-100 placeholder:line-clamp-2 border-none dark:text-white rounded-lg w-full py-2.5 placeholder-slate-400"
+                        class="bg-slate-100 placeholder:line-clamp-2 border-none text-slate-900 dark:text-white rounded-lg w-full py-2.5 placeholder-slate-400"
                         :placeholder="t('enterFullName')">
                     </div>
                     <div class="flex-1">
@@ -434,7 +434,7 @@ const openCreateProductModal = () => {
                       </label>
                       <input id="phone" type="text" v-model="submitAgentForm.phone" v-maska
                         data-maska="+998(##) ###-##-##"
-                        class="bg-slate-100 border-none dark:text-white rounded-lg w-full py-2.5 placeholder-slate-400"
+                        class="bg-slate-100 border-none text-slate-900 dark:text-white rounded-lg w-full py-2.5 placeholder-slate-400"
                         placeholder="+998(00) 000-00-00">
                     </div>
                     <div class="flex-1">
@@ -443,7 +443,7 @@ const openCreateProductModal = () => {
                         <span class="text-red-500 mr-2">*</span>
                       </label>
                       <input id="company" type="text" v-model="submitAgentForm.company"
-                        class="bg-slate-100 border-none dark:text-white rounded-lg w-full py-2.5 placeholder-slate-400"
+                        class="bg-slate-100 border-none text-slate-900 dark:text-white rounded-lg w-full py-2.5 placeholder-slate-400"
                         :placeholder="t('enterCompany')">
                     </div>
                   </div>

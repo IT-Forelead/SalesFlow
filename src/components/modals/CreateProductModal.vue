@@ -456,16 +456,16 @@ const calculateExpirationDate = (months) => {
         <div v-if="productBarcodes.length > 0" class="absolute top-16 left-0 bg-transparent w-full space-y-2 z-[2000]">
           <ScrollPanel style="height: 600px;">
             <div v-for="(product, idx) in productBarcodes" :key="idx" @click="selectedProductBarcode(product)"
-                 class="flex items-center justify-between dark:bg-slate-600 border shadow-sm rounded-xl px-3 py-2 w-full cursor-pointer hover:bg-slate-100">
+                 class="flex items-center justify-between bg-white dark:bg-slate-600 border shadow-sm rounded-xl px-3 py-2 w-full cursor-pointer hover:bg-slate-100">
               <div class="flex items-center space-x-3">
                 <div class="flex items-center justify-center bg-slate-200 w-10 h-10 rounded-lg">
-                  <ImageIcon class="dark:text-zinc-300 w-8 h-8" />
+                  <ImageIcon class="text-gray-500 dark:text-zinc-300 w-8 h-8" />
                 </div>
                 <div>
                   <div class="text-base font-semibold text-gray-800">
                     {{ product?.trademark + ' - ' + product?.packaging }}
                   </div>
-                  <div class="text-base font-medium dark:text-zinc-300">
+                  <div class="text-base font-medium text-gray-500 dark:text-zinc-300">
                     {{ product?.type_code }}
                   </div>
                 </div>
@@ -486,7 +486,7 @@ const calculateExpirationDate = (months) => {
                 <span class="text-red-500 mr-2">*</span>
               </label>
               <input id="name" type="text" v-model="submitData.name"
-                     class="bg-slate-100 border-none rounded-lg w-full py-2.5 placeholder-slate-400 placeholder:text-sm md:placeholder:text-lg"
+                     class="bg-slate-100 border-none text-slate-900 rounded-lg w-full py-2.5 placeholder-slate-400 placeholder:text-sm md:placeholder:text-lg"
                      :placeholder="t('enterProductName')">
             </div>
             <div class="flex-1">
@@ -494,7 +494,7 @@ const calculateExpirationDate = (months) => {
                 {{ $t('barcode') }}
               </label>
               <input id="barcode" type="text" v-model="submitData.barcode"
-                     class="bg-slate-100 border-none rounded-lg w-full py-2.5 placeholder-slate-400 placeholder:text-sm md:placeholder:text-lg"
+                     class="bg-slate-100 border-none text-slate-900 rounded-lg w-full py-2.5 placeholder-slate-400 placeholder:text-sm md:placeholder:text-lg"
                      :placeholder="t('enterProductBarcode')">
             </div>
           </div>
@@ -505,7 +505,7 @@ const calculateExpirationDate = (months) => {
                 <span class="text-red-500 mr-2">*</span>
               </label>
               <input id="default-value" type="text" v-model="submitData.packaging"
-                     class="bg-slate-100 border-none rounded-lg w-full h-11 placeholder-slate-400 placeholder:text-sm md:placeholder:text-lg"
+                     class="bg-slate-100 border-none text-slate-900 rounded-lg w-full h-11 placeholder-slate-400 placeholder:text-sm md:placeholder:text-lg"
                      :placeholder="t('enterProductPackaging')">
             </div>
             <div class="flex-1 space-y-1">
@@ -514,7 +514,7 @@ const calculateExpirationDate = (months) => {
                 <span class="text-red-500 mr-2">*</span>
               </label>
               <select id="default-type" v-model="submitData.saleType"
-                      class="bg-slate-100 border-none rounded-lg text-base md:text-lg block w-full h-11">
+                      class="bg-slate-100 border-none text-slate-900 rounded-lg text-base md:text-lg block w-full h-11">
                 <option value="" selected>{{ $t('selectType') }}</option>
                 <option value="amount">Donali</option>
                 <option value="kg">Kilogrammli</option>
@@ -530,7 +530,7 @@ const calculateExpirationDate = (months) => {
                 <span class="text-red-500 mr-2">*</span>
               </label>
               <input id="quantity" type="number" min="0" v-model="submitData.quantity"
-                     class="bg-slate-100 border-none rounded-lg w-full h-11 placeholder-slate-400 placeholder:text-sm md:placeholder:text-lg"
+                     class="bg-slate-100 border-none text-slate-900 rounded-lg w-full h-11 placeholder-slate-400 placeholder:text-sm md:placeholder:text-lg"
                      :placeholder="t('enterProductQuantity')">
             </div>
             <div class="flex-1 space-y-1">
@@ -538,7 +538,7 @@ const calculateExpirationDate = (months) => {
                 {{ $t('fullPrice') }}
               </label>
               <money3 v-model.number="submitData.boxPrice" v-bind="moneyConf" id="boxPrice"
-                      class="border-none text-right bg-slate-100 h-11 rounded-lg w-full text-lg">
+                      class="border-none text-right text-slate-900 bg-slate-100 h-11 rounded-lg w-full text-lg">
               </money3>
             </div>
           </div>
@@ -548,7 +548,7 @@ const calculateExpirationDate = (months) => {
                 {{ $t('purchasePrice') }}
               </label>
               <money3 v-model.number="submitData.purchasePrice" v-bind="moneyConf" id="purchasePrice"
-                      class="border-none text-right bg-slate-100 h-11 rounded-lg w-full text-lg">
+                      class="border-none text-right text-slate-900 bg-slate-100 h-11 rounded-lg w-full text-lg">
               </money3>
             </div>
             <div class="flex-1 space-y-1">
@@ -557,7 +557,7 @@ const calculateExpirationDate = (months) => {
                 <span class="text-red-500 mr-2">*</span>
               </label>
               <money3 v-model.number="submitData.price" v-bind="moneyConf" id="price"
-                      class="border-none text-right bg-slate-100 h-11 rounded-lg w-full text-lg">
+                      class="border-none text-right text-gray-500 bg-slate-100 h-11 rounded-lg w-full text-lg">
               </money3>
             </div>
           </div>
@@ -567,7 +567,7 @@ const calculateExpirationDate = (months) => {
                 {{ $t('productionDate') }}
               </label>
               <input id="quantity" type="date" v-model="submitData.productionDate"
-                     class="bg-slate-100 border-none rounded-lg w-full h-11 placeholder-slate-400 placeholder:text-sm md:placeholder:text-lg"
+                     class="bg-slate-100 border-none text-slate-900 rounded-lg w-full h-11 placeholder-slate-400 placeholder:text-sm md:placeholder:text-lg"
                      :placeholder="t('enterProductQuantity')">
             </div>
             <div class="flex-1 space-y-1">
@@ -575,7 +575,7 @@ const calculateExpirationDate = (months) => {
                 {{ $t('expirationDate') }}
               </label>
               <input id="quantity" type="date" v-model="submitData.expirationDate"
-                     class="bg-slate-100 border-none rounded-lg w-full h-11 placeholder-slate-400 placeholder:text-sm md:placeholder:text-lg">
+                     class="bg-slate-100 border-none text-slate-900 rounded-lg w-full h-11 placeholder-slate-400 placeholder:text-sm md:placeholder:text-lg">
             </div>
           </div>
           <div class="space-x-3.5 space-y-2 md:text-left text-center">
@@ -583,7 +583,7 @@ const calculateExpirationDate = (months) => {
               v-for="months in [1, 3, 6, 9, 12, 24]" :key="months"
               @click="calculateExpirationDate(months)"
               type="button"
-              class="dark:text-white text-slate-600 dark:bg-slate-600 hover:dark:bg-slate-400 hover:bg-slate-200 focus:ring-4 focus:outline-none focus:ring-slate-300 rounded-xl border border-slate-200 text-sm font-medium px-4 py-2.5 hover:dark:text-white lowercase"
+              class="dark:text-white text-slate-600 bg-white dark:bg-slate-600  hover:dark:bg-slate-400 hover:bg-slate-200 focus:ring-4 focus:outline-none focus:ring-slate-300 rounded-xl border border-slate-200 text-sm font-medium px-4 py-2.5 hover:dark:text-white lowercase"
             >+ {{ months }} {{ t("month") }}</button>
           </div>
           <div class="flex flex-col md:flex-row md:items-center space-y-2 md:space-y-0 md:space-x-4">
@@ -616,7 +616,7 @@ const calculateExpirationDate = (months) => {
                         </label>
                         <input id="phone" type="text" v-model="submitAgentForm.phone" v-maska
                                data-maska="+998(##) ###-##-##"
-                               class="bg-slate-100 border-none dark:text-white rounded-lg w-full py-2.5 placeholder-slate-400"
+                               class="bg-slate-100 border- text-slate-900 dark:text-white rounded-lg w-full py-2.5 placeholder-slate-400"
                                placeholder="+998(00) 000-00-00">
                       </div>
                       <div class="flex-1">
@@ -625,7 +625,7 @@ const calculateExpirationDate = (months) => {
                           <span class="text-red-500 mr-2">*</span>
                         </label>
                         <input id="company" type="text" v-model="submitAgentForm.company"
-                               class="bg-slate-100 border-none dark:text-white rounded-lg w-full py-2.5 placeholder-slate-400"
+                               class="bg-slate-100 border-none text-slate-900 dark:text-white rounded-lg w-full py-2.5 placeholder-slate-400"
                                :placeholder="t('enterCompany')">
                       </div>
                     </div>

@@ -174,7 +174,7 @@ watch(
               <span class="text-red-500 mr-2">*</span>
             </label>
             <input id="name" type="text" v-model="submitData.name"
-              class="bg-slate-100 border-none text-black rounded-lg w-full py-2.5 placeholder-slate-400"
+              class="bg-slate-100 border-none text-slate-900 rounded-lg w-full py-2.5 placeholder-slate-400"
               :placeholder="t('enterProductName')" />
           </div>
           <div class="flex-1">
@@ -182,7 +182,7 @@ watch(
               {{ $t('barcode') }}
             </label>
             <input id="barcode" type="text" v-model="submitData.barcode"
-              class="bg-slate-100 border-none text-black rounded-lg w-full py-2.5 placeholder-slate-400"
+              class="bg-slate-100 border-none text-slate-900 rounded-lg w-full py-2.5 placeholder-slate-400"
               :placeholder="t('enterProductBarcode')" />
           </div>
         </div>
@@ -193,7 +193,7 @@ watch(
               <span class="text-red-500 mr-2">*</span>
             </label>
             <input id="packaging" type="text" v-model="submitData.packaging"
-              class="bg-slate-100 border-none text-black rounded-lg w-full py-2.5 placeholder-slate-400"
+              class="bg-slate-100 border-none text-slate-900 rounded-lg w-full py-2.5 placeholder-slate-400"
               :placeholder="t('enterProductPackaging')" />
           </div>
           <div class="flex-1">
@@ -202,7 +202,7 @@ watch(
               <span class="text-red-500 mr-2">*</span>
             </label>
             <select id="default-type" v-model="submitData.saleType"
-              class="bg-slate-100 border-none text-black rounded-lg block w-full h-11">
+              class="bg-slate-100 border-none text-slate-900 rounded-lg block w-full h-11">
               <option value="" selected>{{ $t('selectType') }}</option>
               <option value="amount">Donali</option>
               <option value="kg">Kilogrammli</option>

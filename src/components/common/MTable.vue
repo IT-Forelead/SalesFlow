@@ -82,7 +82,7 @@ const displayedPageNumbers = computed(() => {
           <thead>
             <tr v-for="headerGroup in table.getHeaderGroups()" :key="headerGroup.id">
               <th v-for="header in headerGroup.headers" :key="header.id" scope="col"
-                class="px-3 py-3.5 text-left dark:text-white text-base font-medium" :class="{
+                class="px-3 py-3.5 text-left text-slate-400 dark:text-white text-base font-medium" :class="{
                   'cursor-pointer select-none': header.column.getCanSort(),
                 }" @click="header.column.getToggleSortingHandler()?.($event)">
                 <FlexRender :render="header.column.columnDef.header" :props="header.getContext()" />
@@ -93,7 +93,7 @@ const displayedPageNumbers = computed(() => {
           <tbody class="divide-y divide-gray-200">
             <tr v-for="row in table.getRowModel().rows" :key="row.id">
               <td v-for="cell in row.getVisibleCells()" :key="cell.id"
-                class="whitespace-nowrap px-3 py-3 dark:text-white text-base font-normal">
+                class="whitespace-nowrap px-3 py-3 text-neutral-800 dark:text-white text-base font-normal">
                 <FlexRender :render="cell.column.columnDef.cell" :props="cell.getContext()" />
               </td>
             </tr>

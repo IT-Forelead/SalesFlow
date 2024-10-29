@@ -154,7 +154,7 @@ const clearFilterData = () => {
             <span>{{ $t('filter') }}</span>
           </div>
           <div v-if="useDropdownStore().isOpenFilterBy"
-            class="absolute dark:bg-slate-600 shadow-md rounded-xl w-64 p-3 z-20 top-12 right-0 space-y-3">
+            class="absolute bg-white dark:bg-slate-600 shadow-md rounded-xl w-64 p-3 z-20 top-12 right-0 space-y-3">
             <div class="flex-1 space-y-1">
               <label for="from" class="text-base dark:text-white md:text-lg font-medium">
                 {{ $t('from') }}

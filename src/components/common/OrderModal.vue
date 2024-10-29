@@ -59,11 +59,11 @@ watch(() => props.isOpen, (newValue) => {
     <div class="w-full flex items-center justify-between md:justify-start p-3 md:p-3 border-b rounded-t">
       <div class="md:pr-4 order-last md:order-none">
         <button @click="close" type="button"
-          class="dark:text-white bg-transparent hover:bg-red-100 transition duration-100 hover:text-red-500 rounded-full w-8 h-8 ms-auto inline-flex justify-center items-center">
+          class="text-slate-400 dark:text-white bg-transparent hover:bg-red-100 transition duration-100 hover:text-red-500 rounded-full w-8 h-8 ms-auto inline-flex justify-center items-center">
           <PhX class="w-5 h-5" />
         </button>
       </div>
-      <h3 class="text-xl font-bold dark:text-white order-first md:order-none">
+      <h3 class="text-xl font-bold text-slate-900 dark:text-white order-first md:order-none">
         <slot name="header">
           This is the default title!
         </slot>

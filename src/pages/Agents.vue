@@ -99,7 +99,7 @@ getAgents()
           <SearchIcon class="w-5 h-5" />
         </div>
         <input type="search" v-model="globalSearchFromTable"
-          class="bg-slate-100 border-none w-full text-base md:text-lg rounded-full block pl-10 py-2 placeholder-slate-400"
+          class="bg-slate-100 border- text-slate-900 w-full text-base md:text-lg rounded-full block pl-10 py-2 placeholder-slate-400"
           :placeholder="$t('search')">
       </div>
       <div class="w-full md:w-auto order-1 md:order-2">
@@ -110,7 +110,7 @@ getAgents()
       </div>
     </div>
     <div v-if="isLoading" class="flex items-center justify-center h-20">
-      <Spinners270RingIcon class="w-6 h-6 dark:text-zinc-300 animate-spin" />
+      <Spinners270RingIcon class="w-6 h-6 text-gray-500 dark:text-zinc-300 animate-spin" />
     </div>
     <CTable :key="renderkey" v-else :data="agents" :columns="columns" :filter="globalSearchFromTable" />
   </div>

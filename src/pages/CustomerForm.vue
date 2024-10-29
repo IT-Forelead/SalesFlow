@@ -106,10 +106,10 @@ const createSale = () => {
     <div class="mx-auto flex w-full max-w-2xl flex-col px-4 sm:px-6" v-if="isOrderExists ">
       <div class="relative mt-12 sm:mt-16 z-[1]">
         <svg viewBox="0 0 1090 1090" aria-hidden="true" fill="none" preserveAspectRatio="none" width="1090" height="1090" class="absolute -top-7 left-1/2 -z-10 h-[788px] -translate-x-1/2 stroke-gray-300/30 dark:stroke-gray-600/30 [mask-image:linear-gradient(to_bottom,white_20%,transparent_75%)] sm:-top-9 sm:h-auto"></svg>
-        <div class="mt-3 text-center text-lg dark:text-white dark:text-[#e6edf3]">
+        <div class="mt-3 text-center text-lg text-gray-600 dark:text-white dark:text-[#e6edf3]">
         </div>
       </div>
-      <div class="-mx-2 z-[2] mt-10 flex-auto dark:bg-slate-600 dark:bg-[#161B22] px-4 py-10 shadow-2xl shadow-gray-900/10 dark:shadow-gray-500/10 sm:mx-0 sm:flex-none sm:rounded-5xl sm:p-24 rounded-3xl">
+      <div class="-mx-2 z-[2] mt-10 flex-auto bg-white dark:bg-slate-600 dark:bg-[#161B22] px-4 py-10 shadow-2xl shadow-gray-900/10 dark:shadow-gray-500/10 sm:mx-0 sm:flex-none sm:rounded-5xl sm:p-24 rounded-3xl">
         <div class="space-y-6">
           <div>
             <label for="fullName" class="mb-2 block text-base font-semibold dark:text-zinc-200 dark:text-[#e6edf3]"> {{ $t('fullName')}} </label>

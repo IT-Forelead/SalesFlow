@@ -290,7 +290,7 @@ onMounted(() => {
             </div>
           </router-link>
           <router-link v-if="navigationGuard('view_agents')" to="/price-lists" @click="selectPage()" active-class="active"
-          class="relative h-10 flex items-center w-full hover:bg-blue-300/10 hover:text-blue-600 py-5 text-zinc-400 text-lg font-medium space-x-4 cursor-pointer transition-colors duration-300">
+          class="relative h-10 flex items-center w-full hover:bg-blue-300/10 hover:text-blue-600 py-5 text-zinc-400 dark:text-zinc-200 text-lg font-medium space-x-4 cursor-pointer transition-colors duration-300">
             <div class="w-1.5 h-12 rounded-r-xl first-child-bg-color mr-2"></div>
             <div class="flex h-10 items-center justify-center rounded-xl w-10 second-child-bg-color">
               <PhPriceList class="w-6 h-6" />
@@ -361,7 +361,7 @@ onMounted(() => {
           <OverlayPanel ref="wishToBuyProductModal">
             <div class="w-96">
               <input v-model="wishToBuyProductName" id="login" type="text" v-on:keypress="whenPressEnter($event)"
-                class="bg-slate-100 border-none dark:text-white rounded-lg w-full py-2.5 placeholder-slate-400"
+                class="bg-slate-100 border-none text-slate-900 dark:text-white rounded-lg w-full py-2.5 placeholder-slate-400"
                 :placeholder="t('enterProductName')">
             </div>
           </OverlayPanel>
@@ -370,15 +370,15 @@ onMounted(() => {
           <SelectOptionLanguage />
           <SelectOptionTheme />
           <!-- <div
-            class="flex-1 flex items-center justify-between rounded-lg dark:bg-slate-900 p-2 cursor-pointer hover:bg-gray-100">
+            class="flex-1 flex items-center justify-between rounded-lg bg-white dark:bg-slate-900 p-2 cursor-pointer hover:bg-gray-100">
             <div class="flex items-center space-x-1">
-              <SunIcon class="w-5 h-5 dark:text-zinc-300" />
+              <SunIcon class="w-5 h-5 text-gray-500 dark:text-zinc-300" />
               <span>Light</span>
             </div>
             <CaretDownIcon class="w-3 h-3" />
           </div> -->
         </div>
-        <div class="text-xs text-center dark:text-white">
+        <div class="text-xs text-center text-slate-400 dark:text-white">
           Copyright &copy; {{ new Date().getFullYear() }} <a href="https://it-forelead.uz"
             class="hover:underline">IT-Forelead</a>.
           <br />

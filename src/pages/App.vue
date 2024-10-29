@@ -32,7 +32,7 @@ onMounted(() => {
                             <span class="dark:text-white">Flow</span>
                         </div>
                     </div>
-                    <p class="mt-6 text-lg dark:text-white">
+                    <p class="mt-6 text-lg text-gray-600 dark:text-white">
                         Ushbu dastur yordamida mobil telefoninggiz orqali
                         market.iflead.uz tizimidagi ko'plab funksiyalardan foydalanishingiz mumkun.
                         Hozirda mobil dasturimiz faqat Android foydalanuvchilari uchgun mavjud.
@@ -116,7 +116,7 @@ onMounted(() => {
                                                 stroke-linejoin="round"></path>
                                         </svg>
                                     </div>
-                                    <div class="mt-6 flex-auto rounded-t-2xl dark:bg-slate-600">
+                                    <div class="mt-6 flex-auto rounded-t-2xl bg-white dark:bg-slate-600">
                                         <div class="p-4">
                                             <div class="flex gap-2">
                                                 <div class="text-base leading-6 dark:text-zinc-200">
@@ -134,7 +134,7 @@ onMounted(() => {
                                                         Shtrix-kod orqali mahsulot qo'shish
                                                     </div>
                                                 </div>
-                                                <div class="mt-6 text-xs dark:text-zinc-300">
+                                                <div class="mt-6 text-xs text-gray-500 dark:text-zinc-300">
                                                     Shtrix-kodni skanerlash
                                                 </div>
                                                 <div class="mt-3 rounded-lg bg-gray-50 ring-1 ring-inset ring-black/5">

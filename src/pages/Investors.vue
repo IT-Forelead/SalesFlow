@@ -61,7 +61,7 @@ const openInvestorInfo = async (data) => {
     useInvestorStore().renderkey += 1
   } finally {
     useModalStore().openInvestorInfoModal()
-  } 
+  }
 }
 
 const getBalances = async () => {
@@ -101,7 +101,7 @@ getBalances()
       </div>
     </div>
     <div v-if="isLoading" class="flex items-center justify-center h-20">
-      <Spinners270RingIcon class="w-6 h-6 dark:text-zinc-300 animate-spin" />
+      <Spinners270RingIcon class="w-6 h-6 text-gray-500 dark:text-zinc-300 animate-spin" />
     </div>
     <CTable :key="renderkey" v-else :data="investors" :columns="columns" :filter="globalSearchFromTable" />
   </div>

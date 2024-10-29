@@ -1334,7 +1334,7 @@ const closeCardIdModal = () => {
       <div class="flex items-center space-x-2 pb-2">
         <div class="relative flex-auto z-50">
           <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-            <SearchIcon class="w-5 h-5 text-black" />
+            <SearchIcon class="w-5 h-5" />
           </div>
           <input
             id="globle-search"
@@ -1375,14 +1375,14 @@ const closeCardIdModal = () => {
               v-for="(product, idx) in products"
               :key="idx"
               @click="addProductToCart(product)"
-              class="flex items-center justify-between dark:bg-slate-600 border shadow-sm rounded-xl px-3 py-2 my-2 w-full cursor-pointer hover:bg-slate-100"
+              class="flex items-center justify-between bg-white dark:bg-slate-600 border shadow-sm rounded-xl px-3 py-2 my-2 w-full cursor-pointer hover:bg-slate-100"
             >
               <div class="flex items-center space-x-3">
                 <div class="flex items-center justify-center bg-slate-200 w-10 h-10 rounded-lg">
-                  <ImageIcon class="dark:text-zinc-300 w-8 h-8" />
+                  <ImageIcon class="text-gray-500 w-8 h-8" />
                 </div>
                 <div>
-                  <div class="text-base font-semibold text-gray-800">
+                  <div class="text-base font-semibold dark:text-white text-gray-800">
                     {{ product?.name + ' - ' + product?.packaging }}
                   </div>
                   <div class="text-base font-medium dark:text-zinc-300">
@@ -1391,12 +1391,12 @@ const closeCardIdModal = () => {
                 </div>
               </div>
               <div>
-                <div class="text-base font-semibold text-gray-800">
+                <div class="text-base font-semibold dark:text-white text-gray-800">
                   {{ useMoneyFormatter(product?.price) }}
                 </div>
-                <div class="text-base font-medium dark:text-zinc-300">
+                <div class="text-base font-medium text-gray-500 dark:text-zinc-300">
                   {{ $t('quantity') }}:
-                  <span class="dark:text-white">
+                  <span class="text-gray-700 dark:text-white">
                     {{ product?.rest }}
                   </span>
                 </div>
@@ -1499,9 +1499,9 @@ const closeCardIdModal = () => {
 
       <div v-if="activeBasket.length > 0" class="py-2 align-middle">
         <div class="min-w-full max-h-svh pb-44 overflow-y-auto overflow-x-auto rounded-xl">
-          <table class="md:min-w-full divide-y-8 divide-white">
+          <table class="md:min-w-full dark:bg-gray-600 divide-y-8 divide-white">
             <thead>
-              <tr class="bg-slate-100 text-base font-semibold dark:text-zinc-200 h-12">
+              <tr class="bg-slate-100 text-base font-semibold dark:bg-gray-600 dark:text-zinc-200 h-12">
                 <th class="px-3 py-2 text-left rounded-l-xl text-sm md:text-base">
                   {{ $t('product') }}
                 </th>
@@ -1519,16 +1519,16 @@ const closeCardIdModal = () => {
                 </th>
               </tr>
             </thead>
-            <tbody class="bg-slate-100 divide-y-8 divide-white">
+            <tbody class="bg-slate-100 divide-y-8 dark:bg-gray-600 divide-white">
               <tr
                 :class="{ 'bg-red-100': product.expirationDate && new Date().setHours(0, 0, 0, 0) > new Date(product.expirationDate),
                 'bg-blue-100': selectP === product }" @click="selectProduct(product)" v-for="(product, idx) in  activeBasket" :key="idx" class="overflow-x-auto overflow-y-auto">
                 <td class="px-3 py-2 whitespace-nowrap rounded-l-xl">
                   <div class="flex items-center space-x-3">
                     <div
-                      class="flex items-center justify-center bg-slate-200 md:w-12 md:h-12 w-8 h-8 rounded-lg"
+                      class="flex items-center justify-center dark:bg-slate-700 bg-slate-200 md:w-12 md:h-12 w-8 h-8 rounded-lg"
                     >
-                      <ImageIcon class="dark:text-zinc-300 w-6 h-6" />
+                      <ImageIcon class="gray-500 dark:text-zinc-300 w-6 h-6" />
                     </div>
                     <div>
                       <div
@@ -1536,9 +1536,9 @@ const closeCardIdModal = () => {
                       >
                         {{ product?.name + ' - ' + product?.packaging }}
                       </div>
-                      <div class="text-sm md:text-base font-medium dark:text-zinc-300">
+                      <div class="text-sm md:text-base text-gray-500 font-medium dark:text-zinc-300">
                         {{ $t('price') }}:
-                        <span class="dark:text-white text-sm md:text-base">
+                        <span class="text-gray-700 dark:text-white text-sm md:text-base">
                           {{ useMoneyFormatter(product?.price) }}
                         </span>
                         <div v-if="product.quantity <= 15">
@@ -1572,19 +1572,19 @@ const closeCardIdModal = () => {
                 <td class="px-3 py-2 text-center whitespace-nowrap">
                   {{ product?.serialId }}
                 </td>
-                <td class="px-3 py-2 text-center whitespace-nowrap">
+                <td class="px-3 py-2 text-center dark:bg-gray-600 whitespace-nowrap">
                   <div class="flex justify-center">
                     <div class="flex items-center justify-between w-36 rounded-xl p-1">
                       <div
                         @click="reduceCountOfProducts(product)"
                         v-if="reduceCountChecking(product)"
-                        class="flex items-center justify-center w-8 h-8 dark:bg-slate-600 text-blue-700 shadow-sm hover:bg-slate-200 cursor-pointer rounded-xl"
+                        class="flex items-center justify-center w-8 h-8 bg-white dark:bg-slate-600 text-blue-700 shadow-sm hover:bg-slate-200 cursor-pointer rounded-xl"
                       >
                         <MinusIcon class="w-4 h-4" />
                       </div>
                       <div
                         v-else
-                        class="flex items-center justify-center w-8 h-8 dark:bg-slate-600 dark:text-white cursor-default rounded-xl"
+                        class="flex items-center justify-center w-8 h-8 bg-white text-slate-700 dark:bg-slate-600 dark:text-white cursor-default rounded-xl"
                       >
                         <MinusIcon class="w-4 h-4" />
                       </div>

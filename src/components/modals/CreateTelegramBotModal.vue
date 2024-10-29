@@ -77,7 +77,7 @@ const createTelegramBot = () => {
               <span class="text-red-500 mr-2">*</span>
             </label>
             <select id="type" v-model="submitData.type"
-                    class="bg-slate-100 border-none rounded-lg w-full py-2.5">
+                    class="bg-slate-100 border-none text-slate-900 rounded-lg w-full py-2.5">
               <option value="" disabled>{{ t('plsSelectBotType') }}</option>
               <option value="admin">Admin</option>
               <option value="agent">Agent</option>
@@ -89,7 +89,7 @@ const createTelegramBot = () => {
               {{ $t('chatId') }}
             </label>
             <input id="chatId" type="text" v-model="submitData.chatId"
-                   class="bg-slate-100 border-none rounded-lg w-full py-2.5 placeholder-slate-400"
+                   class="bg-slate-100 border-none text-slate-900 rounded-lg w-full py-2.5 placeholder-slate-400"
                    :placeholder="t('enterChatId')" />
           </div>
         </div>
@@ -99,7 +99,7 @@ const createTelegramBot = () => {
             <span class="text-red-500 mr-2">*</span>
           </label>
           <input id="token" type="text" v-model="submitData.token"
-                 class="bg-slate-100 border-none rounded-lg w-full py-2.5 placeholder-slate-400"
+                 class="bg-slate-100 border-none text-slate-900 rounded-lg w-full py-2.5 placeholder-slate-400"
                  :placeholder="t('enterBotToken')" />
         </div>
         <div class="flex-1">
@@ -107,7 +107,7 @@ const createTelegramBot = () => {
             {{ $t('description') }}
           </label>
           <textarea id="description" type="text" v-model="submitData.description"
-                 class="bg-slate-100 border-none rounded-lg w-full py-2.5 placeholder-slate-400"
+                 class="bg-slate-100 border-none text-slate-900 rounded-lg w-full py-2.5 placeholder-slate-400"
                  :placeholder="t('enterDescription')" />
         </div>
       </div>

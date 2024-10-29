@@ -83,7 +83,7 @@ const createAgent = () => {
                 <span class="text-red-500 mr-2">*</span>
               </label>
               <input id="firstname" type="text" v-model="submitForm.fullName"
-                     class="bg-slate-100 border-none rounded-lg w-full py-2.5 placeholder-slate-400"
+                     class="bg-slate-100 border-none text-slate-900 rounded-lg w-full py-2.5 placeholder-slate-400"
                      :placeholder="t('enterFullName')">
             </div>
           </div>
@@ -94,7 +94,7 @@ const createAgent = () => {
                 <span class="text-red-500 mr-2">*</span>
               </label>
               <input id="company" type="text" v-model="submitForm.company"
-                     class="bg-slate-100 border-none rounded-lg w-full py-2.5 placeholder-slate-400"
+                     class="bg-slate-100 border-none text-slate-900 rounded-lg w-full py-2.5 placeholder-slate-400"
                      :placeholder="t('enterCompany')">
             </div>
             <div class="flex-1">
@@ -103,7 +103,7 @@ const createAgent = () => {
                 <span class="text-red-500 mr-2">*</span>
               </label>
               <input id="phone" type="text" v-model="submitForm.phone" v-maska data-maska="+998(##) ###-##-##"
-                     class="bg-slate-100 border-none rounded-lg w-full py-2.5 placeholder-slate-400"
+                     class="bg-slate-100 border-none text-slate-900 rounded-lg w-full py-2.5 placeholder-slate-400"
                      placeholder="+998(00) 000-00-00">
             </div>
           </div>

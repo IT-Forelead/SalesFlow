@@ -42,7 +42,7 @@ const columns = [
     header: t('actions'),
     cell: ({ row }) => h('div', { class: 'flex items-center space-x-2' }, [
       h('button', { onClick: () => { openDeleteIPBanModal(row.original) } }, [
-        h(PhLockKeyOpen, { class: 'w-6 h-6 dark:text-green-400 text-green-600 hover:scale-105' })
+        h(PhLockKeyOpen, { class: 'w-6 h-6 text-green-600 dark:text-green-400 text-green-600 hover:scale-105' })
       ]),
     ]),
     enableSorting: false,

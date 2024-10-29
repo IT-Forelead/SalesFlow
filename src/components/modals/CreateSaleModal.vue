@@ -54,14 +54,14 @@ const createSale = () => {
               Familiya va Ismi
               <span class="text-red-500 mr-2">*</span>
             </label>
-            <input id="fullName" type="text" v-model="submitData.fullName" class="bg-slate-100 border-none dark:text-white rounded-lg w-full py-2.5 placeholder-slate-400" placeholder="Famliya va ismini kiriting" />
+            <input id="fullName" type="text" v-model="submitData.fullName" class="bg-slate-100 border-none text-slate-900 dark:text-white rounded-lg w-full py-2.5 placeholder-slate-400" placeholder="Famliya va ismini kiriting" />
           </div>
           <div class="flex-1">
             <label for="phone" class="text-base font-medium">
               Telefon raqam
               <span class="text-red-500 mr-2">*</span>
             </label>
-            <input id="phone" type="text" v-model="submitData.phone" class="bg-slate-100 border-none dark:text-white rounded-lg w-full py-2.5 placeholder-slate-400" placeholder="Telefon raqamni kiriting" />
+            <input id="phone" type="text" v-model="submitData.phone" class="bg-slate-100 border-none text-slate-900 dark:text-white rounded-lg w-full py-2.5 placeholder-slate-400" placeholder="Telefon raqamni kiriting" />
           </div>
         </div>
       </div>

@@ -71,7 +71,7 @@ const createMarket = () => {
               <span class="text-red-500 mr-2">*</span>
             </label>
             <input id="name" type="text" v-model="submitData.name"
-              class="bg-slate-100 border-none rounded-lg w-full py-2.5 placeholder-slate-400"
+              class="bg-slate-100 border-none text-slate-900 rounded-lg w-full py-2.5 placeholder-slate-400"
               :placeholder="t('enterStoreName')" />
           </div>
           <div class="flex-1">
@@ -80,7 +80,7 @@ const createMarket = () => {
               <span class="text-red-500 mr-2">*</span>
             </label>
             <input id="name" type="text" v-model="submitData.address"
-              class="bg-slate-100 border-none rounded-lg w-full py-2.5 placeholder-slate-400"
+              class="bg-slate-100 border-none text-slate-900 rounded-lg w-full py-2.5 placeholder-slate-400"
               :placeholder="t('enterStoreAddress')" />
           </div>
         </div>
