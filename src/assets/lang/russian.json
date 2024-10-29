@@ -436,5 +436,11 @@
   "createPrice": "Создать список",
   "priceAddedSuccessfully": "Прайс-лист создан!",
   "errorWhileCreatingPrice": "Ошибка при создании прайс-листа",
-  "enterImage": "Пожалуйста, введите изображение"
+  "enterImage": "Пожалуйста, введите изображение",
+  "vouchers":"Ваучеры",
+  "addVoucher": "Добавить ваучер",
+  "plsEnterAmount":"Введите сумму",
+  "plsEnterCount":"Введите номер",
+  "voucherAddedSuccessfully": "Ваучер создан!",
+  "errorWhileCreatingVoucher": "Ошибка при создании ваучера"
 }

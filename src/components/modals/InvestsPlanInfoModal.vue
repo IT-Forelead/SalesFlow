@@ -30,10 +30,10 @@ const isLoading = ref(false)
                 class="bg-slate-100 border-none text-slate-900 rounded-lg w-full py-2.5 placeholder-slate-400"
                 :placeholder="t('enterFullName')">
             </div>
-            
+
           </div>
           <div class="flex items-center space-x-4">
-            
+
             <div class="flex-1">
               <label for="phone" class="text-base font-medium">
                 {{ $t('phone') }}
@@ -44,7 +44,7 @@ const isLoading = ref(false)
                 placeholder="+998(00) 000-00-00">
             </div>
           </div>
-          
+
           <div class="flex items-center space-x-4">
             <div class="flex-1">
               <label for="password" class="text-base font-medium">
