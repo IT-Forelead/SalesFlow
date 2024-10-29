@@ -299,7 +299,7 @@ const changeAllDiscounts = () => {
                     <td class="px-3 py-2 whitespace-nowrap rounded-l-xl">
                       <div class="flex items-center space-x-3">
                         <div class="flex items-center justify-center bg-slate-200 md:w-12 md:h-12 w-8 h-8 rounded-lg">
-
+                          
                           <img v-if="product.asset" :src="product.asset.url" class="w-12 h-auto rounded">
 
                           <ImageIcon v-else class="text-gray-500 w-6 h-6" />

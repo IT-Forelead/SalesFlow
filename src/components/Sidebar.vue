@@ -20,7 +20,6 @@ import ProductHistoryIcon from '../assets/icons/ProductHistoryIcon.vue'
 import SettingsIcon from '../assets/icons/SettingsIcon.vue'
 import CaretDownIcon from '../assets/icons/CaretDownIcon.vue'
 import SelectOptionLanguage from './inputs/SelectOptionLanguage.vue'
-import SelectOptionTheme from './inputs/SelectOptionTheme.vue'
 import PhUsersThree from '../assets/icons/UsersThreeIcon.vue'
 import OverlayPanel from 'primevue/overlaypanel'
 import XIcon from '../assets/icons/XIcon.vue'
@@ -289,16 +288,6 @@ onMounted(() => {
               {{ $t('agents') }}
             </div>
           </router-link>
-          <router-link v-if="navigationGuard('view_agents')" to="/vouchers" @click="selectPage()" active-class="active"
-          class="relative h-10 flex items-center w-full hover:bg-blue-300/10 hover:text-blue-600 py-5 text-zinc-400 text-lg font-medium space-x-4 cursor-pointer transition-colors duration-300">
-            <div class="w-1.5 h-12 rounded-r-xl first-child-bg-color mr-2"></div>
-            <div class="flex h-10 items-center justify-center rounded-xl w-10 second-child-bg-color">
-              <PhUsersThree class="w-6 h-6" />
-            </div>
-            <div>
-              {{ $t('vouchers') }}
-            </div>
-          </router-link>
           <router-link v-if="navigationGuard('view_agents')" to="/price-lists" @click="selectPage()" active-class="active"
           class="relative h-10 flex items-center w-full hover:bg-blue-300/10 hover:text-blue-600 py-5 text-zinc-400 text-lg font-medium space-x-4 cursor-pointer transition-colors duration-300">
             <div class="w-1.5 h-12 rounded-r-xl first-child-bg-color mr-2"></div>
@@ -378,7 +367,6 @@ onMounted(() => {
         </div>
         <div class="flex items-center space-x-3 px-4">
           <SelectOptionLanguage />
-          <!-- <SelectOptionTheme /> -->
           <div
             class="flex-1 flex items-center justify-between rounded-lg bg-white p-2 cursor-pointer hover:bg-gray-100">
             <div class="flex items-center space-x-1">

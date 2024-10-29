@@ -434,11 +434,5 @@
   "priceAddedSuccessfully": "Price added successfully!",
   "errorWhileCreatingPrice": "Error while creating price",
   "upcomingProductId": "Upcoming productId",
-  "enterImage": "Please, enter image",
-  "vouchers": "Vouchers",
-  "addVoucher": "Add voucher",
-  "plsEnterAmount": "Enter amount",
-  "plsEnterCount": "Enter count",
-  "voucherAddedSuccessfully": "Voucher added successfully!",
-  "errorWhileCreatingVoucher": "Error while creating voucher"
+  "enterImage": "Please, enter image"
 }
