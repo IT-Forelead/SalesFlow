@@ -61,7 +61,7 @@ const openInvestorInfo = async (data) => {
     useInvestorStore().renderkey += 1
   } finally {
     useModalStore().openInvestorInfoModal()
-  }
+  } 
 }
 
 const getBalances = async () => {

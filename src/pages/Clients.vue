@@ -157,7 +157,7 @@ onMounted(() => {
       <div class="text-slate-900 text-2xl md:text-3xl font-semibold">
       {{ $t('clients') }}
     </div>
-
+   
     </div>
     <div class="flex flex-col md:flex-row items-center justify-between">
       <div class="relative w-full md:w-auto my-2 md:mb-0 order-2 md:order-1">

@@ -49,8 +49,7 @@ export const useModalStore = defineStore('modal', {
     isOpenEditInvestStatusModal: false,
     isOpenCashbackHistoryModal: false,
     isOpenCreatePriceModal: false,
-    isOpenImageModal: false,
-    isOpenCreateVoucherModal: false
+    isOpenImageModal: false
   }),
   actions: {
     openEditTelegramBotModal() {
@@ -328,12 +327,6 @@ export const useModalStore = defineStore('modal', {
     },
     closeImageModal() {
       this.isOpenImageModal = false
-    },
-    openCreateVoucherModal() {
-      this.isOpenCreateVoucherModal = true
-    },
-    closeCreateVoucherModal() {
-      this.isOpenCreateVoucherModal = false
     }
   }
 })
