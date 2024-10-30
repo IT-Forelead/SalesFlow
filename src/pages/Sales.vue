@@ -1499,9 +1499,9 @@ const closeCardIdModal = () => {
 
       <div v-if="activeBasket.length > 0" class="py-2 align-middle">
         <div class="min-w-full max-h-svh pb-44 overflow-y-auto overflow-x-auto rounded-xl">
-          <table class="md:min-w-full dark:bg-gray-600 divide-y-8 divide-white">
+          <table class="md:min-w-full dark:bg-gray-600 divide-y-8 dark:divide-slate-600 divide-white">
             <thead>
-              <tr class="bg-slate-100 text-base font-semibold dark:bg-gray-600 dark:text-zinc-200 h-12">
+              <tr class="bg-slate-100 text-base  dark:text-red-500 font-semibold dark:bg-gray-500 dark:text-zinc-200 h-12">
                 <th class="px-3 py-2 text-left rounded-l-xl text-sm md:text-base">
                   {{ $t('product') }}
                 </th>
@@ -1519,10 +1519,10 @@ const closeCardIdModal = () => {
                 </th>
               </tr>
             </thead>
-            <tbody class="bg-slate-100 divide-y-8 dark:bg-gray-600 divide-white">
+            <tbody class="bg-slate-100 divide-y-8 dark:divide-slate-600 dark:bg-gray-500 divide-white">
               <tr
                 :class="{ 'bg-red-100': product.expirationDate && new Date().setHours(0, 0, 0, 0) > new Date(product.expirationDate),
-                'bg-blue-100': selectP === product }" @click="selectProduct(product)" v-for="(product, idx) in  activeBasket" :key="idx" class="overflow-x-auto overflow-y-auto">
+                'bg-blue-100 dark:bg-gray-600': selectP === product }" @click="selectProduct(product)" v-for="(product, idx) in  activeBasket" :key="idx" class="overflow-x-auto overflow-y-auto">
                 <td class="px-3 py-2 whitespace-nowrap rounded-l-xl">
                   <div class="flex items-center space-x-3">
                     <div
@@ -1532,7 +1532,7 @@ const closeCardIdModal = () => {
                     </div>
                     <div>
                       <div
-                        class="text-sm md:text-base font-semibold text-gray-800 max-w-full whitespace-break-spaces"
+                        class="text-sm md:text-base font-semibold dark:text-white text-gray-800 max-w-full whitespace-break-spaces"
                       >
                         {{ product?.name + ' - ' + product?.packaging }}
                       </div>
@@ -1543,7 +1543,7 @@ const closeCardIdModal = () => {
                         </span>
                         <div v-if="product.quantity <= 15">
                           {{ $t('remainingAmount') }}:
-                          <span class="text-red-600 text-sm md:text-base">
+                          <span class="text-red-600 text-sm dark:text-red-400 md:text-base">
                             {{ roundFloatToTwoDecimal(product?.quantity - product?.amount) }}
                           </span>
                         </div>
@@ -1569,22 +1569,22 @@ const closeCardIdModal = () => {
                     </div>
                   </div>
                 </td>
-                <td class="px-3 py-2 text-center whitespace-nowrap">
+                <td class="px-3 py-2 text-center dark:text-white whitespace-nowrap">
                   {{ product?.serialId }}
                 </td>
-                <td class="px-3 py-2 text-center dark:bg-gray-600 whitespace-nowrap">
+                <td class="px-3 py-2 text-center whitespace-nowrap">
                   <div class="flex justify-center">
                     <div class="flex items-center justify-between w-36 rounded-xl p-1">
                       <div
                         @click="reduceCountOfProducts(product)"
                         v-if="reduceCountChecking(product)"
-                        class="flex items-center justify-center w-8 h-8 bg-white dark:bg-slate-600 text-blue-700 shadow-sm hover:bg-slate-200 cursor-pointer rounded-xl"
+                        class="flex items-center justify-center w-8 h-8 bg-white dark:bg-slate-500 dark:text-white shadow-sm hover:bg-slate-200 dark:hover:bg-gray-400 cursor-pointer rounded-xl"
                       >
                         <MinusIcon class="w-4 h-4" />
                       </div>
                       <div
                         v-else
-                        class="flex items-center justify-center w-8 h-8 bg-white text-slate-700 dark:bg-slate-600 dark:text-white cursor-default rounded-xl"
+                        class="flex items-center justify-center w-8 h-8 bg-white text-slate-700 dark:bg-slate-500 dark:hover:bg-gray-400 dark:text-white cursor-default rounded-xl"
                       >
                         <MinusIcon class="w-4 h-4" />
                       </div>
@@ -1599,7 +1599,7 @@ const closeCardIdModal = () => {
                         }}
                       </div>
 
-                      <div v-else class="flex items-center justify-center text-lg font-normal">
+                      <div v-else class="flex items-center justify-center text-lg dark:text-white font-normal">
                         {{
                           roundFloatToTwoDecimal(product?.amount) +
                           ' ' +
@@ -1609,20 +1609,20 @@ const closeCardIdModal = () => {
                       <div
                         @click="increaseCountOfProducts(product)"
                         v-if="increaseCountChecking(product)"
-                        class="flex items-center justify-center w-8 h-8 dark:bg-slate-600 text-blue-700 shadow-sm hover:bg-slate-200 cursor-pointer rounded-xl"
+                        class="flex items-center justify-center w-8 h-8 bg-white dark:bg-slate-500 dark:text-white shadow-sm dark:hover:bg-gray-400 hover:bg-slate-200 cursor-pointer rounded-xl"
                       >
                         <PlusIcon class="w-4 h-4" />
                       </div>
                       <div
                         @click="increaseCountToAll(product)"
                         v-else-if="increaseCountAll(product)"
-                        class="flex items-center justify-center w-8 h-8 dark:bg-slate-600 text-blue-700 shadow-sm hover:bg-slate-200 cursor-pointer rounded-xl"
+                        class="flex items-center justify-center w-8 h-8 bg-white dark:bg-slate-500 dark:text-white shadow-sm dark:hover:bg-gray-400 hover:bg-slate-200 cursor-pointer rounded-xl"
                       >
                         <PlusIcon class="w-4 h-4" />
                       </div>
                       <div
                         v-else
-                        class="flex items-center justify-center w-8 h-8 dark:bg-slate-600 dark:text-white cursor-default rounded-xl"
+                        class="flex items-center justify-center w-8 h-8 bg-white dark:bg-slate-500 dark:text-white cursor-default rounded-xl"
                       >
                         <PlusIcon class="w-4 h-4" />
                       </div>
@@ -1635,18 +1635,18 @@ const closeCardIdModal = () => {
                       <div
                         @click="reduceCountOfPrice(product)"
                         v-if="reducePriceChecking(product)"
-                        class="flex items-center justify-center w-8 h-8 dark:bg-slate-600 text-blue-700 shadow-sm hover:bg-slate-200 cursor-pointer rounded-xl"
+                        class="flex items-center justify-center w-8 h-8 bg-white dark:bg-slate-500 dark:text-white dark:hover:bg-gray-400 shadow-sm hover:bg-slate-200 cursor-pointer rounded-xl"
                       >
                         <MinusIcon class="w-4 h-4" />
                       </div>
                       <div
                         v-else
-                        class="flex items-center justify-center w-8 h-8 dark:bg-slate-600 dark:text-white cursor-default rounded-xl"
+                        class="flex items-center justify-center w-8 h-8 bg-white dark:bg-slate-500 dark:hover:bg-gray-400 dark:text-white cursor-default rounded-xl"
                       >
                         <MinusIcon class="w-4 h-4" />
                       </div>
 
-                      <div class="flex items-center justify-center text-lg font-normal">
+                      <div class="flex items-center justify-center text-lg dark:text-white font-normal">
                         {{
                           useMoneyFormatter(
                             Math.round((product?.price * product?.amount) / 100) * 100,
@@ -1656,13 +1656,13 @@ const closeCardIdModal = () => {
                       <div
                         @click="increaseCountOfPrice(product)"
                         v-if="increasePriceChecking(product)"
-                        class="flex items-center justify-center w-8 h-8 dark:bg-slate-600 text-blue-700 shadow-sm hover:bg-slate-200 cursor-pointer rounded-xl"
+                        class="flex items-center justify-center w-8 h-8 bg-white dark:bg-slate-500 dark:hover:bg-gray-400 dark:text-white shadow-sm hover:bg-slate-200 cursor-pointer rounded-xl"
                       >
                         <PlusIcon class="w-4 h-4" />
                       </div>
                       <div
                         v-else
-                        class="flex items-center justify-center w-8 h-8 dark:bg-slate-600 dark:text-white cursor-default rounded-xl"
+                        class="flex items-center justify-center w-8 h-8 bg-white dark:bg-slate-500 dark:hover:bg-gray-400 dark:text-white cursor-default rounded-xl"
                       >
                         <PlusIcon class="w-4 h-4" />
                       </div>
@@ -1676,7 +1676,7 @@ const closeCardIdModal = () => {
                         $event.stopPropagation();
                         removeProductFromCart(product);
                       "
-                      class="w-6 h-6 text-rose-500 cursor-pointer transform hover:scale-105"
+                      class="w-6 h-6 text-rose-500 dark:text-rose-400 cursor-pointer transform hover:scale-105"
                     />
                   </div>
                 </td>
@@ -1835,7 +1835,7 @@ const closeCardIdModal = () => {
           </div>
           <div v-if="showDiscountForm" class="flex flex-col space-y-1">
             <div class="space-y-1">
-              <label class="text-base font-medium">
+              <label class="text-base dark:text-white font-medium">
                 {{ $t('discount') }}
               </label>
             </div>
@@ -1847,7 +1847,7 @@ const closeCardIdModal = () => {
                 type="number"
                 ref="onDiscountFocus"
                 @blur="discountReFocus()"
-                class="border-none text-right dark:text-zinc-300 bg-slate-100 rounded-lg w-full text-lg"
+                class="border-none text-right bg-slate-100 rounded-lg w-full text-lg"
               />
               <div class="flex space-x-3 my-3 justify-end">
                 <button
@@ -1880,13 +1880,13 @@ const closeCardIdModal = () => {
                 </button>
               </div>
               <div class="space-y-2">
-                <label class="text-base font-medium" for="reason">{{ $t('reason') }}</label>
+                <label class="text-base dark:text-white font-medium" for="reason">{{ $t('reason') }}</label>
                 <input
                   type="text"
                   v-model="submitData.discountReason"
                   ref="onDiscountReasonFocus"
                   @blur="discountReasonReFocus()"
-                  class="border-none text-left dark:text-zinc-300 bg-slate-100 rounded-lg w-full text-lg"
+                  class="border-none text-left bg-slate-100 rounded-lg w-full text-lg"
                 />
               </div>
               <div class="mt-5">
@@ -1915,7 +1915,7 @@ const closeCardIdModal = () => {
           </button>
         </div>
         <div class="space-y-6">
-          <div v-if="showCorporateClients" class="flex flex-col space-y-1">
+          <div v-if="showCorporateClients" class="flex flex-col dark:text-white space-y-1">
             <div class="space-y-4">
               <div class="text-lg">
                 {{ $t('corporateClients') }}
