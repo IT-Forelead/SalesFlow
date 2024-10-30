@@ -99,32 +99,32 @@ watch(
       <div class="space-y-4">
         <div class="flex items-center space-x-4">
           <div class="flex-1">
-            <label for="firstname" class="text-base font-medium">
+            <label for="firstname" class="text-base dark:text-white font-medium">
               {{ $t('fullName') }}
               <span class="text-red-500 mr-2">*</span>
             </label>
             <input id="firstname" type="text" v-model="submitData.fullName"
-                   class="bg-slate-100 border-none dark:text-white rounded-lg w-full py-2.5 placeholder-slate-400"
+                   class="bg-slate-100 border-none rounded-lg w-full py-2.5 placeholder-slate-400"
                    :placeholder="t('enterFullName')">
           </div>
         </div>
         <div class="flex items-center space-x-4">
           <div class="flex-1">
-            <label for="company" class="text-base font-medium">
+            <label for="company" class="text-base dark:text-white font-medium">
               {{ $t('company') }}
               <span class="text-red-500 mr-2">*</span>
             </label>
             <input id="company" type="text" v-model="submitData.company"
-                   class="bg-slate-100 border-none dark:text-white rounded-lg w-full py-2.5 placeholder-slate-400"
+                   class="bg-slate-100 border-none rounded-lg w-full py-2.5 placeholder-slate-400"
                    :placeholder="t('enterCompany')">
           </div>
           <div class="flex-1">
-            <label for="phone" class="text-base font-medium">
+            <label for="phone" class="text-base dark:text-white font-medium">
               {{ $t('phone') }}
               <span class="text-red-500 mr-2">*</span>
             </label>
             <input id="phone" type="text" v-model="submitData.phone" v-maska data-maska="+998(##) ###-##-##"
-                   class="bg-slate-100 border-none dark:text-white rounded-lg w-full py-2.5 placeholder-slate-400"
+                   class="bg-slate-100 border-none rounded-lg w-full py-2.5 placeholder-slate-400"
                    placeholder="+998(00) 000-00-00">
           </div>
         </div>

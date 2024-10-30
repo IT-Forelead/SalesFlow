@@ -46,35 +46,35 @@ const columns = [
     cell: ({ row }) =>
       h('div', { class: 'flex items-center' }, 
       [row.original.type == 'CREDIT' ?
-        h('span', { class: 'text-red-500'}, `${parseInt(row.id, 10) + 1}`) : [row.original.type == 'DEBIT' ? h('span', { class: 'text-green-500'}, `${parseInt(row.id, 10) + 1}`) :  `${parseInt(row.id, 10) + 1}`]]),
+        h('span', { class: 'dark:text-red-300 text-red-500'}, `${parseInt(row.id, 10) + 1}`) : [row.original.type == 'DEBIT' ? h('span', { class: 'dark:text-green-300 text-green-500'}, `${parseInt(row.id, 10) + 1}`) :  `${parseInt(row.id, 10) + 1}`]]),
   },
   {
     header: t('type'),
     cell: ({ row }) =>
       h('div', { class: 'flex items-center' }, 
       [row.original.type == 'CREDIT' ?
-        h('span', { class: 'text-red-500'}, t('credit')) : [row.original.type == 'DEBIT' ? h('span', { class: 'text-green-500'}, t('debit')) : `${row.original.type}`]]),
+        h('span', { class: 'dark:text-red-300 text-red-500'}, t('credit')) : [row.original.type == 'DEBIT' ? h('span', { class: 'dark:text-green-300 text-green-500'}, t('debit')) : `${row.original.type}`]]),
   },
   {
     header: t('quantity'),
     cell: ({ row }) =>
       h('div', { class: 'flex items-center' }, 
       [row.original.type == 'CREDIT' ?
-        h('span', { class: 'text-red-500'}, `${useMoneyFormatter(row.original.amount)}`) : [row.original.type == 'DEBIT' ? h('span', { class: 'text-green-500'}, `${useMoneyFormatter(row.original.amount)}`) : `${useMoneyFormatter(row.original.amount)}`]]),
+        h('span', { class: 'dark:text-red-300 text-red-500'}, `${useMoneyFormatter(row.original.amount)}`) : [row.original.type == 'DEBIT' ? h('span', { class: 'dark:text-green-300 text-green-500'}, `${useMoneyFormatter(row.original.amount)}`) : `${useMoneyFormatter(row.original.amount)}`]]),
   },
   {
     header: t('reason'),
     cell: ({ row }) =>
       h('div', { class: 'flex items-center w-36 overflow-hidden relative' },
       [row.original.type == 'CREDIT' ?
-        h('span', { class: 'text-red-500' }, t('ordered')) : row.original.type == 'DEBIT' ? h('span', { class: 'text-green-500 overflow-hidden text-ellipsis whitespace-nowrap transition-all duration-300 max-h-6 hover:max-h-full hover:whitespace-normal' }, `${row.original.reason}`) : `${row.original.reason}`])
+        h('span', { class: 'dark:text-red-300 text-red-500' }, t('ordered')) : row.original.type == 'DEBIT' ? h('span', { class: 'dark:text-green-300 text-green-500 overflow-hidden text-ellipsis whitespace-nowrap transition-all duration-300 max-h-6 hover:max-h-full hover:whitespace-normal' }, `${row.original.reason}`) : `${row.original.reason}`])
   },
   {
     header: t('createdAt'),
     cell: ({ row }) =>
       h('div', { class: 'flex items-center' }, 
       [row.original.type == 'CREDIT' ?
-        h('span', { class: 'text-red-500'}, moment(row.original.createdAt).format('DD/MM/YYYY H:mm')) : [row.original.type == 'DEBIT' ? h('span', { class: 'text-green-500'}, moment(row.original.createdAt).format('DD/MM/YYYY H:mm')) : moment(row.original.createdAt).format('DD/MM/YYYY H:mm')]]),
+        h('span', { class: 'dark:text-red-300 text-red-500'}, moment(row.original.createdAt).format('DD/MM/YYYY H:mm')) : [row.original.type == 'DEBIT' ? h('span', { class: 'dark:text-green-300 text-green-500'}, moment(row.original.createdAt).format('DD/MM/YYYY H:mm')) : moment(row.original.createdAt).format('DD/MM/YYYY H:mm')]]),
   },
   {
     accessorKey: 'actions',
@@ -128,8 +128,8 @@ const getBalanceHistoriesByFilter = (filter) => {
     <template v-slot:body>
       <div class="flex justify-end w-full" ref="filterByDropdown">
           <div @click="useDropdownStore().toggleFilterBy()"
-            class="flex justify-end w-min  border-none select-none text-gray-500 dark:text-zinc-300 bg-slate-100 rounded-full p-2 px-5 items-center hover:bg-gray-200 cursor-pointer space-x-1">
-            <FunnelIcon class="w-5 h-5 text-gray-400" />
+            class="flex justify-end w-min  border-none select-none text-gray-500 dark:bg-gray-400 dark:text-zinc-100 bg-slate-100 rounded-full p-2 px-5 items-center hover:bg-gray-200 cursor-pointer space-x-1">
+            <FunnelIcon class="w-5 h-5 text-gray-400 dark:text-zinc-100" />
             <span>{{ filterByOption || $t('filter') }}</span>
           </div>
           <div v-if="useDropdownStore().isOpenFilterBy"

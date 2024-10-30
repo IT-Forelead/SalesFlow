@@ -100,33 +100,33 @@ watch(
       <div class="space-y-2 md:space-y-4">
         <div class="flex flex-col md:flex-row md:items-center space-y-2 md:space-y-0 md:space-x-4">
           <div class="flex-1">
-            <label for="trademark" class="text-base font-medium">
+            <label for="trademark" class="text-base dark:text-white font-medium">
               {{ $t('productName') }}
               <span class="text-red-500 mr-2">*</span>
             </label>
             <input id="trademark" type="text" v-model="submitData.trademark"
-              class="bg-slate-100 border-none text-slate-900 dark:text-white rounded-lg w-full py-2.5 placeholder-slate-400"
+              class="bg-slate-100 border-none text-slate-900 rounded-lg w-full py-2.5 placeholder-slate-400"
               :placeholder="t('enterProductName')" />
           </div>
           <div class="flex-1">
-            <label for="packaging" class="text-base font-medium">
+            <label for="packaging" class="text-base dark:text-white font-medium">
               {{ $t('packaging') }}
               <span class="text-red-500 mr-2">*</span>
             </label>
             <input id="packaging" type="text" v-model="submitData.packaging"
-              class="bg-slate-100 border-none text-slate-900 dark:text-white rounded-lg w-full py-2.5 placeholder-slate-400"
+              class="bg-slate-100 border-none text-slate-900 rounded-lg w-full py-2.5 placeholder-slate-400"
               :placeholder="t('enterProductPackaging')" />
           </div>
         </div>
         <div class="flex flex-col md:flex-row md:items-center space-y-2 md:space-y-0 md:space-x-4">
           <div class="flex-1">
-            <label for="barcode" class="text-base font-medium">
+            <label for="barcode" class="text-base dark:text-white font-medium">
               {{ $t('barcode') }}
               <span class="text-red-500 mr-2">*</span>
             </label>
             <div class="relative">
               <input id="barcode" type="text" v-model="submitData.barcode"
-                class="bg-slate-100 border-none text-slate-900 dark:text-white rounded-lg w-full py-2.5 placeholder-slate-400"
+                class="bg-slate-100 border-none text-slate-900 rounded-lg w-full py-2.5 placeholder-slate-400"
                 :placeholder="t('enterProductBarcode')" />
               <div @click="useModalStore().openCameraScannerModal()"
                 class="absolute top-1/2 -translate-y-1/2 right-1 flex items-center justify-center w-8 h-8 rounded-lg hover:dark:bg-slate-600 cursor-pointer">
@@ -135,11 +135,11 @@ watch(
             </div>
           </div>
           <div class="flex-1">
-            <label for="sale-type" class="text-base font-medium">
+            <label for="sale-type" class="text-base dark:text-white font-medium">
               {{ $t('saleType') }}
             </label>
             <select id="sale-type" v-model="submitData.saleType"
-              class="bg-slate-100 border-none text-slate-900 dark:text-white rounded-lg block w-full h-11">
+              class="bg-slate-100 border-none text-slate-900 rounded-lg block w-full h-11">
               <option value="" selected>{{ $t('selectType') }}</option>
               <option value="amount">Donali</option>
               <option value="kg">Kilogrammli</option>
@@ -150,11 +150,11 @@ watch(
         </div>
         <div class="flex flex-col md:flex-row md:items-center space-y-2 md:space-y-0 md:space-x-4">
           <div class="flex-1">
-            <label for="barcode" class="text-base font-medium">
+            <label for="barcode" class="text-base dark:text-white font-medium">
               {{ $t('inYearOfRegistration') }}
             </label>
             <input id="barcode" type="text" v-model="submitData.year" v-maska data-maska="####"
-              class="bg-slate-100 border-none text-slate-900 dark:text-white rounded-lg w-full py-2.5 placeholder-slate-400"
+              class="bg-slate-100 border-none text-slate-900 rounded-lg w-full py-2.5 placeholder-slate-400"
               :placeholder="t('forExample2017')" />
           </div>
           <div class="flex-1"></div>

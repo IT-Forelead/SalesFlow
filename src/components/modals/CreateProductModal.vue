@@ -645,7 +645,7 @@ const calculateExpirationDate = (months) => {
               </div>
             </div>
             <div class="flex-1 space-y-1 md:pb-0 pb-12">
-              <label for="toLend" class="text-base md:text-lg font-medium">
+              <label for="toLend" class="text-base dark:text-white md:text-lg font-medium">
                 {{ $t('toLend') }}
               </label>
               <div class="flex items-center px-4 border border-gray-200 bg-slate-50 rounded-lg mt-2 lg:mt-0 md:mt-0">

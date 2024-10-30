@@ -1501,7 +1501,7 @@ const closeCardIdModal = () => {
         <div class="min-w-full max-h-svh pb-44 overflow-y-auto overflow-x-auto rounded-xl">
           <table class="md:min-w-full dark:bg-gray-600 divide-y-8 dark:divide-slate-600 divide-white">
             <thead>
-              <tr class="bg-slate-100 text-base  dark:text-red-500 font-semibold dark:bg-gray-500 dark:text-zinc-200 h-12">
+              <tr class="bg-slate-100 text-base font-semibold dark:bg-gray-500 dark:text-zinc-200 h-12">
                 <th class="px-3 py-2 text-left rounded-l-xl text-sm md:text-base">
                   {{ $t('product') }}
                 </th>
@@ -1526,7 +1526,7 @@ const closeCardIdModal = () => {
                 <td class="px-3 py-2 whitespace-nowrap rounded-l-xl">
                   <div class="flex items-center space-x-3">
                     <div
-                      class="flex items-center justify-center dark:bg-slate-700 bg-slate-200 md:w-12 md:h-12 w-8 h-8 rounded-lg"
+                      class="flex items-center justify-center dark:bg-slate-500 bg-slate-200 md:w-12 md:h-12 w-8 h-8 rounded-lg"
                     >
                       <ImageIcon class="gray-500 dark:text-zinc-300 w-6 h-6" />
                     </div>

@@ -53,7 +53,7 @@ onMounted(() => {
 <template>
   <div class="relative flex-1" ref="dropdown">
     <div @click="useDropdownStore().openSelectLanguage()"
-      class="flex items-center justify-between rounded-lg dark:text-white dark:bg-slate-600 p-2 cursor-pointer hover:bg-gray-100">
+      class="flex items-center justify-between rounded-lg dark:text-white text-gray-500 dark:bg-slate-600 bg-white p-2 cursor-pointer hover:bg-gray-100">
       <div class="flex items-center space-x-1">
         <GlobeIcon class="w-5 h-5 dark:text-white" />
         <span class="dark:text-white">{{ currentLang }}</span>
@@ -61,7 +61,7 @@ onMounted(() => {
       <CaretDownIcon class="w-3 h-3" />
     </div>
     <ul v-if="useDropdownStore().isOpenSelectLanguage"
-      class="absolute w-full dark:bg-slate-600 dark:text-white shadow rounded-md z-20 bottom-12 right-0 divide-y divide-gray-200">
+      class="absolute w-full dark:bg-slate-600 dark:text-white shadow rounded-md  bg-white z-20 bottom-12 right-0 divide-y divide-gray-200">
       <li v-for="(lang, idx) in list" :key="idx" @click="changeLang(lang)" class="hover:bg-gray-200 cursor-pointer p-2">
         {{ lang?.name }}
       </li>
