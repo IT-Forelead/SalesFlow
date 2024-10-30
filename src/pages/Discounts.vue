@@ -225,7 +225,7 @@ const changeAllDiscounts = () => {
             {{ $t('search') }}
           </button>
           <div v-if="isLoading" class="h-[500px] z-[9999] flex items-center justify-center absolute w-full">
-            <Spinners270RingIcon class="w-12 h-12 text-blue-500 animate-spin" />
+            <Spinners270RingIcon class="w-12 h-12 dark:text-blue-400 text-blue-600 animate-spin" />
           </div>
           <ScrollPanel v-if="products.length > 0" ref="searchProductDropdown"
             class="h-[500px] flex flex-row absolute top-16 left-0 bg-transparent w-full space-y-2 ">
@@ -262,7 +262,7 @@ const changeAllDiscounts = () => {
         </div>
         <div @click="useModalStore().openCameraScannerModal()" :title="t('barcodeScanning')"
           class="flex items-center justify-center bg-slate-100 rounded-xl h-12 w-12 cursor-pointer">
-          <BarcodeIcon class="w-6 h-6 text-blue-600" />
+          <BarcodeIcon class="w-6 h-6 dark:text-blue-400 text-blue-400" />
         </div>
       </div>
 

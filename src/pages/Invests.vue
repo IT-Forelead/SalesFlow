@@ -61,10 +61,10 @@ const columns = [
     header: t('actions'),
     cell: ({ row }) => h('div', { class: 'flex items-center space-x-2' }, [
       h('button', { onClick: () => { openEditInvestStatus(row.original) } }, [
-        h(PhPencilLine, { class: 'w-6 h-6 text-blue-500 hover:scale-105' })
+        h(PhPencilLine, { class: 'w-6 h-6 dark:text-blue-400 text-blue-600 hover:scale-105' })
       ]),
       h('button', { onClick: () => { openInvestDaily(row.original) } }, [
-        h(EyeIcon, { class: 'w-6 h-6 text-blue-500 hover:scale-105' })
+        h(EyeIcon, { class: 'w-6 h-6 dark:text-blue-400 text-blue-600 hover:scale-105' })
       ]),
     ]),
     enableSorting: false,

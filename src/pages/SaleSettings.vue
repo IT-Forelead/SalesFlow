@@ -91,14 +91,14 @@ const columns = [
           openEditTelegramBotModal(row.original)
         },
       }, [
-        h(EditIcon, { class: 'w-6 h-6 text-blue-500 hover:scale-105' }),
+        h(EditIcon, { class: 'w-6 h-6 dark:text-blue-400 text-blue-600 hover:scale-105' }),
       ]),
       h('button', {
         onClick: () => {
           openDeleteTelegramBotModal(row.original)
         },
       }, [
-        h(TrashIcon, { class: 'w-6 h-6 text-red-600 hover:scale-105' }),
+        h(TrashIcon, { class: 'w-6 h-6 dark:text-red-400 text-red-600 hover:scale-105' }),
       ]),
     ]),
     enableSorting: false,

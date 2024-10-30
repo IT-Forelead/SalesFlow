@@ -1364,7 +1364,7 @@ const closeCardIdModal = () => {
             v-if="isLoadingSearchProducts"
             class="h-[500px] z-[9999] flex items-center justify-center absolute w-full"
           >
-            <Spinners270RingIcon class="w-12 h-12 text-blue-500 animate-spin" />
+            <Spinners270RingIcon class="w-12 h-12 text-blue-600 animate-spin" />
           </div>
           <ScrollPanel
             v-if="products.length > 0"

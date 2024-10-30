@@ -184,21 +184,21 @@ const columns = [
           createDuplicateProductModal(row.original)
         },
       }, [
-        h(CopyIcon, { class: 'w-6 h-6 text-blue-500 hover:scale-105' }),
+        h(CopyIcon, { class: 'w-6 h-6 dark:text-blue-400 text-blue-600 hover:scale-105' }),
       ]),
       h('button', {
         onClick: () => {
           openEditProductModalHistory(row.original)
         },
       }, [
-        h(EditIcon, { class: 'w-6 h-6 text-blue-500 hover:scale-105' }),
+        h(EditIcon, { class: 'w-6 h-6 dark:text-blue-400 text-blue-600 hover:scale-105' }),
       ]),
       h('button', {
         onClick: () => {
           printLabel(row.original)
         },
       }, [
-        h(PrinterIcon, { class: 'w-6 h-6 text-blue-500 hover:scale-105' }),
+        h(PrinterIcon, { class: 'w-6 h-6 dark:text-blue-400 text-blue-600 hover:scale-105' }),
       ]),
       // h('button', {
       //   onClick: () => {
@@ -208,7 +208,7 @@ const columns = [
       //   // h(TrashIcon, { class: 'w-6 h-6 text-red-600 hover:scale-105' }),
       // ]),
       h('abbr', { title: t('utilize') }, [
-        h(UtilizeIcon, { onClick: ($event) => { openPopup($event, row.original.id, row.original.rest, row.original.name) }, class: 'w-6 h-6 text-blue-500 hover:scale-105 cursor-pointer' }, {
+        h(UtilizeIcon, { onClick: ($event) => { openPopup($event, row.original.id, row.original.rest, row.original.name) }, class: 'w-6 h-6  dark:text-blue-400 text-blue-600 hover:scale-105 cursor-pointer' }, {
           modelValue: switchStates[row.original.id],
           'onUpdate:modelValue': (value) => {
             switchStates[row.original.id] = value;

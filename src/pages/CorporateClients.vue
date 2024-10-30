@@ -66,14 +66,14 @@ const columns = [
     header: t('actions'),
     cell: ({ row }) => h('div', { class: 'flex items-center space-x-10' }, [
     h('button', { onClick: () => { openFillBalance(row.original) } }, [
-        h(DollarIcon, { class: 'w-6 h-6 text-green-500 hover:scale-105' })
+        h(DollarIcon, { class: 'w-6 h-6 dark:text-green-400 text-green-600 hover:scale-105' })
       ]),
       h('button', { onClick: () => { openDebtInfo(row.original) } }, [
-        h(EyeIcon, { class: 'w-6 h-6 text-blue-500 hover:scale-105' })
+        h(EyeIcon, { class: 'w-6 h-6 dark:text-blue-400 text-blue-600 hover:scale-105' })
       ]),
       
       h('button', { onClick: () => { openDeleteCorporateClientModal(row.original) } }, [
-        h(TrashIcon, { class: 'w-6 h-6 text-red-600 hover:scale-105' })
+        h(TrashIcon, { class: 'w-6 h-6 dark:text-red-400 text-red-600 hover:scale-105' })
       ]),
     ]),
     enableSorting: false,

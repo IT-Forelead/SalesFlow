@@ -1308,28 +1308,28 @@ watch(pageProfit, () => {
         </div>
         <div class="relative" ref="dropdown">
           <div @click="useDropdownStore().toggleFilterBy()"
-            class="border-none select-none text-gray-900 bg-white dark:text-zinc-200 dark:bg-gray-700 shadow rounded-lg w-full p-2 px-5 flex items-center hover:bg-gray-100 cursor-pointer space-x-1">
+            class="border-none select-none text-gray-900 bg-white dark:text-zinc-200 dark:bg-slate-600 shadow rounded-lg w-full p-2 px-5 flex items-center hover:bg-gray-100 cursor-pointer space-x-1">
             <FunnelIcon class="w-5 h-5 dark:text-zinc-50 text-gray-400" />
             <span>{{ $t('filter') }}</span>
           </div>
           <div v-if="useDropdownStore().isOpenFilterBy"
-            class="absolute dark:bg-gray-700 bg-white shadow rounded-xl p-3 z-20 top-12 right-0 space-y-3">
+            class="absolute  dark:bg-slate-600 bg-white shadow rounded-xl p-3 z-20 top-12 right-0 space-y-3">
             <div class="flex items-center space-x-1">
-              <label for="">
+              <label for="" class="dark:text-white">
                 {{ $t('from') }}
                 <input v-model="filterData.startDate" type="date"
-                  class="border-none text-gray-500 dark:text-zinc-50  bg-gray-100 rounded-lg w-full" />
+                  class="border-none text-gray-500 bg-gray-100 rounded-lg w-full" />
               </label>
               <ArrowDownIcon class="-rotate-90 text-gray-600 dark:text-white mt-6" />
-              <label for="">
+              <label for="" class="dark:text-white">
                 {{ $t('to') }}
                 <input v-model="filterData.endDate" type="date"
-                  class="border-none text-gray-500 dark:text-zinc-50 bg-gray-100 rounded-lg w-full" />
+                  class="border-none text-gray-500 bg-gray-100 rounded-lg w-full" />
               </label>
             </div>
             <div class="flex items-center space-x-2">
               <div @click="cleanFilterData()"
-                class="basis-1/3 w-full bg-slate-100 hover:bg-slate-300 cursor-pointer select-none py-3 dark:text-zinc-200 rounded-lg flex items-center justify-center">
+                class="basis-1/3 w-full bg-slate-100 hover:bg-slate-300 cursor-pointer select-none py-3 rounded-lg flex items-center justify-center">
                 <span>{{ $t('cleaning') }}</span>
               </div>
               <div class="basis-2/3">
