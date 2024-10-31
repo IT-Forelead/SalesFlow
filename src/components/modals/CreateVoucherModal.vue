@@ -75,7 +75,7 @@ const createVoucher = () => {
         <div class="space-y-4">
           <div class="flex items-center space-x-4">
             <div class="flex-1">
-              <label for="firstname" class="text-base font-medium">
+              <label for="firstname" class="text-base dark:text-white font-medium">
                 {{ $t('amount') }}
                 <span class="text-red-500 mr-2">*</span>
               </label>
@@ -86,7 +86,7 @@ const createVoucher = () => {
           </div>
           <div class="flex items-center space-x-4">
             <div class="flex-1">
-              <label for="count" class="text-base font-medium">
+              <label for="count" class="text-base dark:text-white font-medium">
                 {{ $t('count') }}
                 <span class="text-red-500 mr-2">*</span>
               </label>
@@ -95,7 +95,7 @@ const createVoucher = () => {
                      :placeholder="t('plsEnterCount')">
             </div>
             <div class="flex-1 space-y-1">
-              <label for="expireDate" class="text-base md:text-lg font-medium">
+              <label for="expireDate" class="text-base dark:text-white md:text-lg font-medium">
                 {{ $t('expirationDate') }}
               </label>
               <input id="expireDate" type="date" v-model="submitForm.expireDate"

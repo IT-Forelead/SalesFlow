@@ -82,7 +82,7 @@ getHolidayDiscounts()
         <SearchIcon class="w-5 h-5 text-slate-400" />
       </div>
       <input type="search" v-model="globalSearchFromTable"
-             class="dark:bg-slate-500 dark:text=white bg-slate-100 border-none w-full text-slate-900 text-base md:text-lg rounded-full block pl-10 py-2 placeholder-slate-400"
+             class="dark:bg-slate-500 dark:text-white bg-slate-100 border-none w-full text-slate-900 text-base md:text-lg rounded-full block pl-10 py-2 placeholder-slate-400"
              placeholder="Search everything...">
     </div>
     <div class="w-full md:w-auto order-1 md:order-2">

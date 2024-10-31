@@ -33,11 +33,6 @@ const columns = [
     header: t('ipAddress'),
   },
   {
-    accessorKey: 'createdAt',
-    accessorFn: row => moment(row.createdAt).format('DD/MM/YYYY H:mm'),
-    header: t('createdAt'),
-  },
-  {
     accessorKey: 'actions',
     header: t('actions'),
     cell: ({ row }) => h('div', { class: 'flex items-center space-x-2' }, [

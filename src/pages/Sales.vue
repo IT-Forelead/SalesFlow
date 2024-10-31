@@ -1578,7 +1578,7 @@ const closeCardIdModal = () => {
                       <div
                         @click="reduceCountOfProducts(product)"
                         v-if="reduceCountChecking(product)"
-                        class="flex items-center justify-center w-8 h-8 bg-white dark:bg-slate-500 dark:hover:bg-gray-400 dark:text-blue-400 text-blue-700 shadow-sm hover:bg-slate-200 dark:hover:bg-gray-400 cursor-pointer rounded-xl"
+                        class="flex items-center justify-center w-8 h-8 bg-white dark:bg-slate-500 dark:text-blue-400 text-blue-700 shadow-sm hover:bg-slate-200 dark:hover:bg-gray-400 cursor-pointer rounded-xl"
                       >
                         <MinusIcon class="w-4 h-4" />
                       </div>
