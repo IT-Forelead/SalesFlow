@@ -114,7 +114,7 @@ watch(
               <span class="text-red-500 mr-2">*</span>
             </label>
             <select id="default-type" v-model="submitData.paymentStatus"
-              class="bg-slate-100 border-none dark:text-white rounded-lg text-base md:text-lg block w-full h-11">
+              class="bg-slate-100 border-none text-slate-900 rounded-lg text-base md:text-lg block w-full h-11">
               <option value="" selected>{{ $t('selectStatus') }}</option>
               <option value="paid" @change="showDeliveryField = true">{{ $t('paid') }}</option>
               <option value="unpaid">{{ $t('unpaid') }}</option>
@@ -126,14 +126,14 @@ watch(
               <span class="text-red-500 mr-2">*</span>
             </label>
             <select id="default-type" v-model="submitData.status"
-              class="bg-slate-100 border-none dark:text-white rounded-lg text-base md:text-lg block w-full h-11">
+              class="bg-slate-100 border-none text-slate-900 rounded-lg text-base md:text-lg block w-full h-11">
               <option value="" selected>{{ $t('selectStatus') }}</option>
               <option value="requested">{{ $t('requested') }}</option>
               <option value="ordered">{{ $t('ordered') }}</option>
               <option value="delivered" @change="showDeliveryField = true">{{ $t('delivered') }}</option>
               <option value="cancelled">{{ $t('cancelled') }}</option>
             </select>
-          </div>  
+          </div>
         </div>
         <div class="flex flex-col md:flex-row md:items-center space-y-2 md:space-y-0 md:space-x-4">
           <div class="space-y-1 md:w-1/2 sm:w-full">
@@ -142,7 +142,7 @@ watch(
               <span class="text-red-500 mr-2">*</span>
             </label>
             <select id="default-type" v-model="submitData.paymentType"
-              class="bg-slate-100 border-none dark:text-white rounded-lg text-base md:text-lg block w-full h-11">
+              class="bg-slate-100 border-none text-slate-900 rounded-lg text-base md:text-lg block w-full h-11">
               <option value="" selected>{{ $t('selectType') }}</option>
               <option value="cash">{{ $t('cash') }}</option>
               <option value="terminal">{{ $t('terminal') }}</option>
@@ -154,7 +154,7 @@ watch(
               {{ $t('paidBy') }}
               <span class="text-red-500 mr-2">*</span>
             </label>
-            <input type="text" id="paidBy" v-model="submitData.paidBy" class="bg-slate-100 border-none dark:text-white rounded-lg text-base md:text-lg block w-full h-11">
+            <input type="text" id="paidBy" v-model="submitData.paidBy" class="bg-slate-100 border-none text-slate-900 rounded-lg text-base md:text-lg block w-full h-11">
           </div>
           <div v-else class="space-y-1 md:w-1/2 sm:w-full h-11"></div>
         </div>
@@ -165,7 +165,7 @@ watch(
       <button v-if="isLoading"
         class="inline-flex items-center justify-center ms-3 text-white bg-blue-600 focus:ring-4 focus:outline-none focus:ring-slate-300 rounded-xl border border-slate-200 text-sm font-medium px-5 py-2.5 focus:z-10 cursor-default">
         <Spinners270RingIcon
-          class="mr-2 w-5 h-5 text-gray-200 animate-spin dark:text-white fill-gray-600 dark:fill-gray-300" />
+          class="mr-2 w-5 h-5 text-gray-200 animate-spin dark:text-gray-600 fill-gray-600 dark:fill-gray-300" />
         {{ $t('save') }}
       </button>
       <button v-else @click="editUpcomingProductStatus()" type="button"
