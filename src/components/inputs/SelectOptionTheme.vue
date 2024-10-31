@@ -78,10 +78,10 @@ onMounted(() => {
   <div class="relative flex-1" ref="dropdown">
     <div
       @click="useDropdownStore().openSelectTheme()"
-      class="flex items-center justify-between rounded-lg bg-white dark:bg-slate-600 p-2 dark:text-white cursor-pointer hover:bg-gray-100"
+      class="flex items-center justify-between rounded-lg bg-white dark:bg-slate-600 p-2 dark:text-white text-gray-500 cursor-pointer hover:bg-gray-100"
     >
       <div class="flex items-center space-x-1">
-        <component :is="currentThemeIcon" class="w-5 h-5 dark:text-white" />
+        <component :is="currentThemeIcon" class="w-5 h-5 dark:text-white text-gray-500" />
         <span class="text-sm">{{ capitalizeFirstLetter(currentTheme) }}</span>
       </div>
       <CaretDownIcon class="w-3 h-3" />

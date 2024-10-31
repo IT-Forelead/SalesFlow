@@ -52,7 +52,7 @@ const columns = [
     header: t('actions'),
     cell: ({ row }) => h('div', { class: 'flex items-center space-x-2' }, [
       h('button', { onClick: () => { openEditMarketModal(row.original) } }, [
-        h(EditIcon, { class: 'w-6 h-6 text-blue-600 hover:scale-105' })
+        h(EditIcon, { class: 'w-6 h-6 dark:text-blue-400 text-blue-600 hover:scale-105' })
       ]),
       h('button', { onClick: () => { openDeleteMarketModal(row.original) } }, [
         // h(TrashIcon, { class: 'w-6 h-6 text-red-600 hover:scale-105' })
@@ -97,7 +97,7 @@ onMounted(() => {
 
 <template>
   <div class="p-4 md:p-8">
-    <div class="text-slate-900 text-2xl md:text-3xl font-semibold mb-6">
+    <div class="text-slate-900 dark:text-white text-2xl md:text-3xl font-semibold mb-6">
       {{ $t('shops') }}
     </div>
     <div class="flex flex-col md:flex-row items-center justify-between">
@@ -117,7 +117,7 @@ onMounted(() => {
       </div>
     </div>
     <div v-if="isLoading" class="flex items-center justify-center h-20">
-      <Spinners270RingIcon class="w-6 h-6 text-gray-500 animate-spin" />
+      <Spinners270RingIcon class="w-6 h-6 text-gray-500 dark:text-zinc-300 animate-spin" />
     </div>
     <CTable v-else :data="markets" :key="renderKey" :columns="columns" :filter="globalSearchFromTable" />
   </div>

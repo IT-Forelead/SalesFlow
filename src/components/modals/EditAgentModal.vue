@@ -99,7 +99,7 @@ watch(
       <div class="space-y-4">
         <div class="flex items-center space-x-4">
           <div class="flex-1">
-            <label for="firstname" class="text-base font-medium">
+            <label for="firstname" class="text-base dark:text-white font-medium">
               {{ $t('fullName') }}
               <span class="text-red-500 mr-2">*</span>
             </label>
@@ -110,7 +110,7 @@ watch(
         </div>
         <div class="flex items-center space-x-4">
           <div class="flex-1">
-            <label for="company" class="text-base font-medium">
+            <label for="company" class="text-base dark:text-white font-medium">
               {{ $t('company') }}
               <span class="text-red-500 mr-2">*</span>
             </label>
@@ -119,7 +119,7 @@ watch(
                    :placeholder="t('enterCompany')">
           </div>
           <div class="flex-1">
-            <label for="phone" class="text-base font-medium">
+            <label for="phone" class="text-base dark:text-white font-medium">
               {{ $t('phone') }}
               <span class="text-red-500 mr-2">*</span>
             </label>
@@ -135,7 +135,7 @@ watch(
       <button v-if="isLoading" type="button"
         class="inline-flex items-center justify-center ms-3 text-white bg-blue-600 focus:ring-4 focus:outline-none focus:ring-slate-300 rounded-xl border border-slate-200 text-sm font-medium px-5 py-2.5 focus:z-10 cursor-default">
         <Spinners270RingIcon
-          class="mr-2 w-5 h-5 text-gray-200 animate-spin dark:text-gray-600 fill-gray-600 dark:fill-gray-300" />
+          class="mr-2 w-5 h-5 text-gray-200 animate-spin dark:text-white fill-gray-600 dark:fill-gray-300" />
           {{ $t('save') }}
       </button>
       <button v-else @click="editAgent()" type="button"

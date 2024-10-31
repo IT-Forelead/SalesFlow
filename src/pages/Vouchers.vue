@@ -66,7 +66,7 @@ getAllVouchers()
 
 <template>
   <div class="p-4 md:p-8">
-    <div class="text-slate-900 text-2xl md:text-3xl font-semibold mb-6">
+    <div class="text-slate-900 dark:text-white text-2xl md:text-3xl font-semibold mb-6">
       {{ $t('vouchers') }}
     </div>
     <div class="flex flex-col md:flex-row items-center justify-between">

@@ -230,7 +230,7 @@ const changeAllDiscounts = () => {
           <ScrollPanel v-if="products.length > 0" ref="searchProductDropdown"
             class="h-[500px] flex flex-row absolute top-16 left-0 bg-transparent w-full space-y-2 ">
             <div v-for="(product, idx) in products" :key="idx" @click="addProduct(product)"
-              class="flex items-center justify-between bg-white border shadow-sm rounded-xl px-3 py-2 my-2 w-full cursor-pointer hover:bg-slate-100">
+              class="flex items-center justify-between bg-white dark:bg-slate-600 border shadow-sm rounded-xl px-3 py-2 my-2 w-full cursor-pointer hover:bg-slate-100">
               <div class="flex items-center space-x-3">
                 <div class="flex items-center justify-center bg-slate-200 w-10 h-10 rounded-lg">
                   <img v-if="product.asset" :src="product.asset.url" class="w-12 h-auto rounded" alt="image">
@@ -238,21 +238,21 @@ const changeAllDiscounts = () => {
                           <ImageIcon v-else class="text-gray-500 w-6 h-6" />
                 </div>
                 <div>
-                  <div class="text-base font-semibold text-gray-800">
+                  <div class="text-base dark:text-white font-semibold text-gray-800">
                     {{ product?.name + ' - ' + product?.packaging }}
                   </div>
-                  <div class="text-base font-medium text-gray-500">
+                  <div class="text-base font-medium text-gray-500 dark:text-zinc-300">
                     {{ product?.barcode }}
                   </div>
                 </div>
               </div>
               <div>
-                <div class="text-base font-semibold text-gray-800">
+                <div class="text-base font-semibold dark:text-white text-gray-800">
                   {{ useMoneyFormatter(product?.price) }}
                 </div>
-                <div class="text-base font-medium text-gray-500">
+                <div class="text-base font-medium text-gray-500 dark:text-zinc-300">
                   {{ $t('quantity') }}:
-                  <span class="text-gray-700">
+                  <span class="dark:text-white text-gray-700">
                     {{ product?.quantity - product?.sold }}
                   </span>
                 </div>
@@ -262,7 +262,7 @@ const changeAllDiscounts = () => {
         </div>
         <div @click="useModalStore().openCameraScannerModal()" :title="t('barcodeScanning')"
           class="flex items-center justify-center bg-slate-100 rounded-xl h-12 w-12 cursor-pointer">
-          <BarcodeIcon class="w-6 h-6 text-blue-600" />
+          <BarcodeIcon class="w-6 h-6 dark:text-blue-400 text-blue-600" />
         </div>
       </div>
 
@@ -276,9 +276,9 @@ const changeAllDiscounts = () => {
 
           <div class="flex h-[200px] flex-col space-y-5 ">
             <ScrollPanel class="w-full h-[500px] rounded-xl">
-              <table class="md:min-w-full divide-y-8 divide-white">
+              <table class="md:min-w-full divide-y-8 dark:divide-slate-600 divide-white">
                 <thead>
-                  <tr class="bg-slate-100 text-base font-semibold text-gray-900 h-12">
+                  <tr class="bg-slate-100 dark:bg-gray-500 text-base font-semibold text-gray-900 dark:text-zinc-200 h-12">
                     <th class="px-3 py-2 text-left rounded-l-xl text-sm md:text-base">
                       {{ $t('product') }}
                     </th>
@@ -293,25 +293,25 @@ const changeAllDiscounts = () => {
                     </th>
                   </tr>
                 </thead>
-                <tbody class="bg-slate-100 divide-y-8 divide-white">
-                  <tr :class="{ 'bg-blue-100': selectP === product }" @click="selectProduct(product)"
+                <tbody class="bg-slate-100 dark:bg-gray-500 divide-y-8 dark:divide-slate-600 divide-white">
+                  <tr :class="{ 'bg-blue-100, dark:bg-gray-600': selectP === product }" @click="selectProduct(product)"
                     v-for="(product, idx) in selectedProducts" :key="idx" class="overflow-x-auto overflow-y-auto">
-                    <td class="px-3 py-2 whitespace-nowrap rounded-l-xl">
+                    <td class="px-3 py-2 whitespace-nowrap  rounded-l-xl">
                       <div class="flex items-center space-x-3">
-                        <div class="flex items-center justify-center bg-slate-200 md:w-12 md:h-12 w-8 h-8 rounded-lg">
-
+                        <div class="flex items-center justify-center dark:bg-slate-500 bg-slate-200 md:w-12 md:h-12 w-8 h-8 rounded-lg">
+                          
                           <img v-if="product.asset" :src="product.asset.url" class="w-12 h-auto rounded">
 
-                          <ImageIcon v-else class="text-gray-500 w-6 h-6" />
+                          <ImageIcon v-else class="text-gray-500 dark:text-zinc-300 w-6 h-6" />
                         </div>
                         <div>
                           <div
-                            class="text-sm md:text-base font-semibold text-gray-800 max-w-full whitespace-break-spaces">
+                            class="text-sm md:text-base dark:text-white font-semibold text-gray-800 max-w-full whitespace-break-spaces">
                             {{ product?.name + ' - ' + product?.packaging }}
                           </div>
-                          <div class="text-sm md:text-base font-medium text-gray-500">
+                          <div class="text-sm md:text-base font-medium text-gray-500 dark:text-zinc-300">
                             {{ $t('price') }}:
-                            <span class="text-gray-700 text-sm md:text-base">
+                            <span class="text-gray-700 dark:text-white text-sm md:text-base">
                               {{ useMoneyFormatter(product?.price) }}
                             </span>
                           </div>
@@ -322,15 +322,15 @@ const changeAllDiscounts = () => {
                     <td class="px-3 py-2 whitespace-nowrap">
                       <div class="flex justify-center space-x-2 items-center">
                         <input v-model="product.discount" @blur="setDiscount($event, product)"
-                          class="bg-slate-100 border border-slate-200 cursor-pointer text-slate-900 rounded-lg w-20 h-12 pl-4 py-2 placeholder-slate-400"
+                          class="bg-slate-100 border border-slate-200 cursor-pointer text-slate-900 dark:bg-gray-500 dark:text-white rounded-lg dark:placeholder-white w-20 h-12 pl-4 py-2 placeholder-slate-400"
                           type="number" placeholder="0">
-                        <span>%</span>
+                        <span class="dark:text-white">%</span>
                       </div>
                     </td>
                     <td class="px-3 py-2 whitespace-nowrap">
                       <div class="flex justify-center">
                         <money3 v-model.number="product.price" @blur="setPrice(product)" v-bind="moneyConf" id="price"
-                          class="w-40 border border-slate-200 cursor-pointer text-right text-gray-500 bg-slate-100 h-12 rounded-lg text-lg">
+                          class="w-40 border border-slate-200 cursor-pointer text-right text-gray-500 dark:bg-gray-500 dark:text-zinc-200 bg-slate-100 h-12 rounded-lg text-lg">
                         </money3>
                       </div>
                     </td>
@@ -349,7 +349,7 @@ const changeAllDiscounts = () => {
               <button v-if="isLoadingSend"
                 class="inline-flex items-center justify-center w-40 py-2 px-4 rounded-lg text-white text-base bg-blue-500 cursor-pointer hover:bg-blue-600">
                 <Spinners270RingIcon
-                  class="mr-2 w-5 h-5 text-gray-200 animate-spin dark:text-gray-600 fill-gray-600 dark:fill-gray-300" />
+                  class="mr-2 w-5 h-5 text-gray-200 animate-spin dark:text-white fill-gray-600 dark:fill-gray-300" />
                 {{ $t('send') }}
               </button>
               <button v-else
@@ -364,7 +364,7 @@ const changeAllDiscounts = () => {
       </div>
       <div v-else class="flex flex-col items-center justify-center border-2 border-dashed h-96 rounded-3xl space-y-1">
 
-        <div class="text-slate-600 text-base text-center">
+        <div class="text-slate-600 dark:text-white text-base text-center">
           {{ $t('searchForProductsOrScanProducts') }}
         </div>
       </div>

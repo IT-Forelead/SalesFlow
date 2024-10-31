@@ -31,7 +31,7 @@ const logout = () => {
 </script>
 <template>
   <div class="relative" ref="dropdown">
-    <div class="flex items-center justify-between px-3">
+    <div class="flex items-center justify-between px-3 dark:text-white">
       <div class="inline-flex items-center space-x-2">
         <div class="relative flex items-center justify-center w-9 h-9 lg:w-10 lg:h-10 bg-[#0167f3] text-white text-base md:text-lg font-medium rounded-full">
           <span>
@@ -40,31 +40,31 @@ const logout = () => {
           <div class="absolute bottom-0 right-0 w-3 h-3 rounded-full bg-green-400 border border-white"></div>
         </div>
         <div>
-          <div class="text-sm md:text-base font-medium text-gray-700 whitespace-nowrap">
+          <div class="text-sm md:text-base font-medium text-gray-700 dark:text-white whitespace-nowrap">
             {{ useAuthStore().user?.firstname + ' ' + useAuthStore().user?.lastname }}
           </div>
-          <div class="text-sm text-gray-600">
+          <div class="text-sm text-gray-600 dark:text-white">
             {{ useAuthStore().user?.login }}
           </div>
         </div>
       </div>
-      <div @click="useModalStore().toggleProfile()" class="hover:bg-gray-100 p-0.5 rounded-lg cursor-pointer" :class="useModalStore().isOpenProfileDropDown ? 'bg-gray-100 ' : ''">
+      <div @click="useModalStore().toggleProfile()" class="hover:bg-gray-100 hover:dark:bg-gray-500 hover:bg-gray-100 p-0.5 rounded-lg cursor-pointer" :class="useModalStore().isOpenProfileDropDown ? 'dark:bg-gray-400 bg-gray-100 ' : ''">
         <DotsThreeVerticalBoldIcon class="w-5 h-5" />
       </div>
     </div>
-    <div v-if="useModalStore().isOpenProfileDropDown" class="absolute z-50 top-11 md:top-0 right-2 md:-right-[200px] w-52 bg-white border border-gray-200 shadow rounded-lg divide-y divide-gray-200">
+    <div v-if="useModalStore().isOpenProfileDropDown" class="absolute z-50 top-11 md:top-0 right-2 md:-right-[200px] w-52 dark:bg-slate-600 bg-white border border-gray-200 shadow rounded-lg divide-y divide-gray-200">
       <ul class="p-1.5 relative">
-        <li class="flex items-center text-slate-900 hover:bg-blue-100 hover:text-blue-600 rounded-lg cursor-pointer p-2 space-x-2">
+        <li class="flex items-center text-slate-900 dark:text-white hover:bg-blue-100 hover:text-blue-600 rounded-lg cursor-pointer p-2 space-x-2">
           <UserIcon class="w-5 h-5" />
           <span>{{ $t('profile') }}</span>
         </li>
-        <li class="flex items-center text-slate-900 hover:bg-blue-100 hover:text-blue-600 rounded-lg cursor-pointer p-2 space-x-2">
+        <li class="flex items-center text-slate-900 dark:text-white hover:bg-blue-100 hover:text-blue-600 rounded-lg cursor-pointer p-2 space-x-2">
           <SettingsIcon class="w-5 h-5" />
           <span>{{ $t('settings') }}</span>
         </li>
       </ul>
       <div class="p-1.5">
-        <div @click="logout" class="flex items-center text-slate-900 hover:text-blue-600 hover:bg-blue-100 rounded-lg cursor-pointer p-2 space-x-2">
+        <div @click="logout" class="flex items-center text-slate-900 dark:text-white hover:text-blue-600 hover:bg-blue-100 rounded-lg cursor-pointer p-2 space-x-2">
           <LogoutIcon class="w-5 h-5" />
           <span>{{ $t('logout') }}</span>
         </div>

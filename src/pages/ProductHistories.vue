@@ -184,21 +184,21 @@ const columns = [
           createDuplicateProductModal(row.original)
         },
       }, [
-        h(CopyIcon, { class: 'w-6 h-6 text-blue-600 hover:scale-105' }),
+        h(CopyIcon, { class: 'w-6 h-6 dark:text-blue-400 text-blue-600 hover:scale-105' }),
       ]),
       h('button', {
         onClick: () => {
           openEditProductModalHistory(row.original)
         },
       }, [
-        h(EditIcon, { class: 'w-6 h-6 text-blue-600 hover:scale-105' }),
+        h(EditIcon, { class: 'w-6 h-6 dark:text-blue-400 text-blue-600 hover:scale-105' }),
       ]),
       h('button', {
         onClick: () => {
           printLabel(row.original)
         },
       }, [
-        h(PrinterIcon, { class: 'w-6 h-6 text-blue-600 hover:scale-105' }),
+        h(PrinterIcon, { class: 'w-6 h-6 dark:text-blue-400 text-blue-600 hover:scale-105' }),
       ]),
       // h('button', {
       //   onClick: () => {
@@ -208,7 +208,7 @@ const columns = [
       //   // h(TrashIcon, { class: 'w-6 h-6 text-red-600 hover:scale-105' }),
       // ]),
       h('abbr', { title: t('utilize') }, [
-        h(UtilizeIcon, { onClick: ($event) => { openPopup($event, row.original.id, row.original.rest, row.original.name) }, class: 'w-6 h-6 text-blue-600 hover:scale-105 cursor-pointer' }, {
+        h(UtilizeIcon, { onClick: ($event) => { openPopup($event, row.original.id, row.original.rest, row.original.name) }, class: 'w-6 h-6  dark:text-blue-400 text-blue-600 hover:scale-105 cursor-pointer' }, {
           modelValue: switchStates[row.original.id],
           'onUpdate:modelValue': (value) => {
             switchStates[row.original.id] = value;
@@ -478,7 +478,7 @@ const openPopup = (event, id, quantity, name) => {
     },
     ricon: 'icon-delete',
     rejectLabel: t('no'),
-    rejectClass: 'text-slate-600 bg-white hover:bg-slate-100 focus:outline-none focus:ring-white rounded-xl border border-slate-200 text-sm font-medium px-5 py-2.5 hover:text-slate-900',
+    rejectClass: 'text-slate-600 dark:text-white bg-white dark:bg-slate-600 hover:bg-slate-100 hover:dark:bg-slate-500 focus:outline-none focus:ring-white rounded-xl border border-slate-200 text-sm font-medium px-5 py-2.5 hover:text-slate-900',
     acceptLabel: t('yesOfCourse'),
     acceptClass: 'ml-4 text-white bg-blue-500 hover:bg-blue-600 focus:ring-4 focus:outline-none focus:ring-white rounded-xl border border-slate-200 text-sm font-medium px-5 py-2.5',
     accept: () => {
@@ -496,7 +496,7 @@ const onChange = (event) => {
   <div class="p-4 md:p-8">
     <ConfirmDialog />
     <div class="flex md:flex-row flex-col items-center justify-between space-y-4 md:space-y-0 mb-6">
-      <div class="text-slate-900 text-2xl md:text-3xl font-semibold">
+      <div class="text-slate-900 dark:text-white text-2xl md:text-3xl font-semibold">
         {{ $t('incomeExpense') }}
       </div>
       <div class="w-full md:w-auto order-1 md:order-2 flex space-x-2">
@@ -527,9 +527,9 @@ const onChange = (event) => {
             <span>{{ $t('filter') }}</span>
           </div>
           <div v-if="useDropdownStore().isOpenFilterBy"
-               class="absolute bg-white shadow-md rounded-xl w-64 p-3 z-20 top-12 right-0 space-y-3">
+               class="absolute bg-white dark:bg-slate-500 shadow-md rounded-xl w-64 p-3 z-20 top-12 right-0 space-y-3">
             <div class="flex-1 space-y-1">
-              <label for="startExpirationDate" class="text-base md:text-lg font-medium">
+              <label for="startExpirationDate" class="text-base dark:text-white md:text-lg font-medium">
                 {{ $t('from') }}
               </label>
               <input id="startExpirationDate" type="date" v-model="filterData.startExpirationDate"
@@ -537,7 +537,7 @@ const onChange = (event) => {
                      :placeholder="t('enterProductQuantity')">
             </div>
             <div class="flex-1 space-y-1">
-              <label for="endExpirationDate" class="text-base md:text-lg font-medium">
+              <label for="endExpirationDate" class="text-base dark:text-white md:text-lg font-medium">
                 {{ $t('to') }}
               </label>
               <input id="endExpirationDate" type="date" v-model="filterData.endExpirationDate"
@@ -552,7 +552,7 @@ const onChange = (event) => {
               <div v-if="isLoading"
                  class="w-full bg-blue-600 py-2 select-none text-white rounded-lg flex items-center justify-center">
               <Spinners270RingIcon
-                class="mr-2 w-5 h-5 text-gray-200 animate-spin dark:text-gray-600 fill-gray-600 dark:fill-gray-300" />
+                class="mr-2 w-5 h-5 text-gray-200 animate-spin dark:text-white fill-gray-600 dark:fill-gray-300" />
               <span>{{ $t('loading') }}</span>
             </div>
             <div v-else @click="submitFilterData()"
@@ -568,54 +568,54 @@ const onChange = (event) => {
             <span>{{ sortByOption || $t('sorting') }}</span>
           </div>
           <div v-if="useDropdownStore().isOpenSortBy"
-            class="absolute bg-white shadow-md rounded-xl w-52 p-3 z-20 top-18 right-0 space-y-3">
+            class="absolute bg-white dark:bg-slate-500 shadow-md rounded-xl w-52 p-3 z-20 top-18 right-0 space-y-3">
             <ul>
               <li @click="resetSortData(); sortByOption = $t('standard')"
-                class="px-2 py-1 text-sm hover:bg-slate-100 rounded cursor-pointer">
+                class="px-2 py-1 text-sm dark:text-white hover:bg-slate-100 hover:dark:bg-slate-700 rounded cursor-pointer">
                 {{ $t('standard') }}
               </li>
               <li @click="getRemainingProducts(true); sortByOption = $t('remainingProducts')"
-                class="px-2 py-1 text-sm hover:bg-slate-100 rounded cursor-pointer">
+                class="px-2 py-1 text-sm dark:text-white hover:bg-slate-100 hover:dark:bg-slate-700 rounded cursor-pointer">
                 {{ $t('remainingProducts') }}
               </li>
               <li @click="getSort('name', 'ASC'); sortByOption = $t('byName') + ' (A-Z)'"
-                class="px-2 py-1 text-sm hover:bg-slate-100 rounded cursor-pointer">
+                class="px-2 py-1 text-sm dark:text-white hover:bg-slate-100 hover:dark:bg-slate-700 rounded cursor-pointer">
                 {{ $t('byName') }} (A-Z)
               </li>
               <li @click="getSort('name', 'DESC'); sortByOption = $t('byName') + ' (Z-A)'"
-                class="px-2 py-1 text-sm hover:bg-slate-100 rounded cursor-pointer">
+                class="px-2 py-1 text-sm dark:text-white dark:text-white hover:bg-slate-100 hover:dark:bg-slate-700 rounded cursor-pointer">
                 {{ $t('byName') }} (Z-A)
               </li>
               <li @click="getSort('price', 'ASC'); sortByOption = $t('byPrice') + ' (arzoni)'"
-                class="px-2 py-1 text-sm hover:bg-slate-100 rounded cursor-pointer">
+                class="px-2 py-1 text-sm dark:text-white hover:bg-slate-100 hover:dark:bg-slate-700 rounded cursor-pointer">
                 {{ $t('byPrice') }} (arzoni)
               </li>
               <li @click="getSort('price', 'DESC'); sortByOption = $t('byPrice') + ' (qimmati)'"
-                class="px-2 py-1 text-sm hover:bg-slate-100 rounded cursor-pointer">
+                class="px-2 py-1 text-sm dark:text-white hover:bg-slate-100 hover:dark:bg-slate-700 rounded cursor-pointer">
                 {{ $t('byPrice') }} (qimmati)
               </li>
               <li @click="getSort('quantity', 'ASC'); sortByOption = $t('byQuantity') + ' (ozi)'"
-                class="px-2 py-1 text-sm hover:bg-slate-100 rounded cursor-pointer">
+                class="px-2 py-1 text-sm dark:text-white hover:bg-slate-100 hover:dark:bg-slate-700 rounded cursor-pointer">
                 {{ $t('byQuantity') }} (ozi)
               </li>
               <li @click="getSort('quantity', 'DESC'); sortByOption = $t('byQuantity') + ` (ko'pi)`"
-                class="px-2 py-1 text-sm hover:bg-slate-100 rounded cursor-pointer">
+                class="px-2 py-1 text-sm dark:text-white hover:bg-slate-100 hover:dark:bg-slate-700 rounded cursor-pointer">
                 {{ $t('byQuantity') }} `ko'pi`
               </li>
               <li @click="getSort('production_date', 'ASC'); sortByOption = $t('byProductionDate') + ' (eski)'"
-                class="px-2 py-1 text-sm hover:bg-slate-100 rounded cursor-pointer">
+                class="px-2 py-1 text-sm dark:text-white hover:bg-slate-100 hover:dark:bg-slate-700 rounded cursor-pointer">
                 {{ $t('byProductionDate') }} (eski)
               </li>
               <li @click="getSort('production_date', 'DESC'); sortByOption = $t('byProductionDate') + ' (yangi)'"
-                class="px-2 py-1 text-sm hover:bg-slate-100 rounded cursor-pointer">
+                class="px-2 py-1 text-sm dark:text-white hover:bg-slate-100 hover:dark:bg-slate-700 rounded cursor-pointer">
                 {{ $t('byProductionDate') }} (yangi)
               </li>
               <li @click="getSort('expiration_date', 'ASC'); sortByOption = $t  ('byExpirationDate') + ' (eski)'"
-                class="px-2 py-1 text-sm hover:bg-slate-100 rounded cursor-pointer">
+                class="px-2 py-1 text-sm dark:text-white hover:bg-slate-100 hover:dark:bg-slate-700 rounded cursor-pointer">
                 {{ $t('byExpirationDate') }} (eski)
               </li>
               <li @click="getSort('expiration_date', 'DESC'); sortByOption = $t('byExpirationDate') + ' (yangi)'"
-                class="px-2 py-1 text-sm hover:bg-slate-100 rounded cursor-pointer">
+                class="px-2 py-1 text-sm dark:text-white hover:bg-slate-100 hover:dark:bg-slate-700 rounded cursor-pointer">
                 {{ $t('byExpirationDate') }} (yangi)
               </li>
             </ul>
@@ -624,39 +624,39 @@ const onChange = (event) => {
       </div>
     </div>
     <div v-if="isLoading" class="flex items-center justify-center h-20">
-      <Spinners270RingIcon class="w-6 h-6 text-gray-500 animate-spin" />
+      <Spinners270RingIcon class="w-6 h-6  text-gray-500 dark:text-zinc-300 animate-spin" />
     </div>
     <HistoryTable v-else :data="productsHistories" :key="renderKey" :columns="columns" />
     <div class="flex items-center justify-between my-6">
-      <div class="text-base text-slate-900 font-medium">
+      <div class="text-base text-slate-900 dark:text-white font-medium">
         {{ $t('total') }}:
         {{ total }}
       </div>
       <div class="flex items-center space-x-2">
         <button :disabled="page === 1" @click="goToPage(1)"
-                class="flex items-center justify-center px-3 py-2 text-base font-medium text-slate-900 rounded-lg select-none hover:bg-blue-200 disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
+                class="flex items-center justify-center px-3 py-2 text-base font-medium text-slate-900 dark:text-white rounded-lg select-none hover:bg-blue-200 disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
                 type="button">
           <CaretDoubleLeftIcon class="w-5 h-5" />
         </button>
         <button @click="prevPage" :disabled="page === 1"
-                class="flex items-center justify-center px-3 py-2 text-base font-medium text-slate-900 rounded-lg select-none hover:bg-blue-200 disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
+                class="flex items-center justify-center px-3 py-2 text-base font-medium text-slate-900 dark:text-white rounded-lg select-none hover:bg-blue-200 disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
                 type="button">
           <CaretLeftIcon class="w-5 h-5" />
         </button>
         <div class="flex items-center space-x-2">
           <button v-for="pageNumber in displayedPageNumbers" :key="pageNumber" @click="goToPage(pageNumber)"
                   :class="{ 'bg-blue-600 text-white': pageNumber === page, 'hover:bg-blue-200': pageNumber !== page }"
-                  class="px-3 py-2 select-none rounded-lg text-slate-900 text-center text-base font-medium transition-all">
+                  class="px-3 py-2 select-none rounded-lg text-slate-900 dark:text-white text-center text-base font-medium transition-all">
             {{ pageNumber }}
           </button>
         </div>
         <button @click="nextPage" :disabled="page === totalPages"
-                class="flex items-center gap-2 px-3 py-2 text-base font-medium text-center text-slate-900 rounded-lg select-none hover:bg-blue-200 disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
+                class="flex items-center gap-2 px-3 py-2 text-base font-medium text-center text-slate-900 dark:text-white rounded-lg select-none hover:bg-blue-200 disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
                 type="button">
           <CaretRightIcon class="w-5 h-5" />
         </button>
         <button :disabled="page === totalPages" @click="goToPage(totalPages)"
-                class="flex items-center gap-2 px-3 py-2 text-base font-medium text-slate-900 rounded-lg select-none hover:bg-blue-200 disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
+                class="flex items-center gap-2 px-3 py-2 text-base font-medium text-slate-900 dark:text-white rounded-lg select-none hover:bg-blue-200 disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
                 type="button">
           <CaretDoubleRightIcon class="w-5 h-5" />
         </button>

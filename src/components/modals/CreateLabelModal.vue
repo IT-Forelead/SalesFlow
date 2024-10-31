@@ -211,8 +211,8 @@ watch(
                :placeholder="t('searchByProductNameOrBarcode')" />
         <div class="absolute inset-y-0 right-0 flex items-center space-x-2">
           <div @click="useModalStore().openCameraScannerModal()"
-               class="flex items-center justify-center w-8 h-8 rounded-lg hover:bg-white cursor-pointer">
-            <BarcodeIcon class="w-6 h-6 text-slate-900" />
+               class="flex items-center justify-center w-8 h-8 rounded-lg hover:dark:bg-slate-600 hover:bg-white cursor-pointer">
+            <BarcodeIcon class="w-6 h-6 text-slate-900 dark:text-white" />
           </div>
           <button type="button" @click="searchProducts()"
                   class="px-4 bg-[#0167F3] text-white rounded-lg text-base h-full md:text-lg cursor-pointer">
@@ -223,16 +223,16 @@ watch(
         <div v-if="productBarcodes.length > 0" class="absolute top-16 left-0 bg-transparent w-full space-y-2 z-[2000]">
           <ScrollPanel style="height: 600px;">
             <div v-for="(product, idx) in productBarcodes" :key="idx" @click="selectedProduct(product)"
-                 class="flex items-center justify-between bg-white border shadow-sm rounded-xl px-3 py-2 w-full cursor-pointer hover:bg-slate-100">
+                 class="flex items-center justify-between bg-white dark:bg-slate-600 border shadow-sm rounded-xl px-3 py-2 w-full cursor-pointer hover:bg-slate-100">
               <div class="flex items-center space-x-3">
                 <div class="flex items-center justify-center bg-slate-200 w-10 h-10 rounded-lg">
-                  <ImageIcon class="text-gray-500 w-8 h-8" />
+                  <ImageIcon class="text-gray-500 dark:text-zinc-300 w-8 h-8" />
                 </div>
                 <div>
                   <div class="text-base font-semibold text-gray-800">
                     {{ product?.name + ' - ' + product?.packaging }}
                   </div>
-                  <div class="text-base font-medium text-gray-500">
+                  <div class="text-base font-medium text-gray-500 dark:text-zinc-300">
                     {{ product?.type_code }}
                   </div>
                 </div>
@@ -247,7 +247,7 @@ watch(
       <div class="space-y-2 md:space-y-4">
         <div class="flex flex-col md:flex-row md:items-center space-y-2 md:space-y-0 md:space-x-4">
           <div class="flex-1">
-            <label for="name" class="text-base md:text-lg font-medium">
+            <label for="name" class="text-base dark:text-white md:text-lg font-medium">
               {{ $t('productName') }}
               <span class="text-red-500 mr-2">*</span>
             </label>
@@ -256,7 +256,7 @@ watch(
                    :placeholder="t('productName')" />
           </div>
           <div class="flex-1">
-            <label for="barcode" class="text-base md:text-lg font-medium">
+            <label for="barcode" class="text-base dark:text-white md:text-lg font-medium">
               {{ $t('barcode') }}
             </label>
             <input id="barcode" disabled type="text" v-model="submitData.barcode"
@@ -266,7 +266,7 @@ watch(
         </div>
         <div class="flex flex-col md:flex-row md:items-center space-y-2 md:space-y-0 md:space-x-4">
           <div class="flex-1 space-y-1">
-            <label for="quantity" class="text-base md:text-lg font-medium">
+            <label for="quantity" class="text-base dark:text-white md:text-lg font-medium">
               {{ $t('quantity') }} {{ productBarcode.saleType && `(${productBarcode.saleType})` }}
               <span class="text-red-500 mr-2">*</span>
             </label>
@@ -275,7 +275,7 @@ watch(
                    :placeholder="t('enterProductQuantity')" />
           </div>
           <div class="flex-1 space-y-1">
-            <label for="totalPrice" class="text-base md:text-lg font-medium">
+            <label for="totalPrice" class="text-base dark:text-white md:text-lg font-medium">
               {{ $t('totalPrice') }}
               <span class="text-red-500 mr-2">*</span>
             </label>
@@ -284,7 +284,7 @@ watch(
             </money3>
           </div>
           <div class="flex-1 space-y-1">
-            <label for="count" class="text-base md:text-lg font-medium">
+            <label for="count" class="text-base dark:text-white md:text-lg font-medium">
               {{ $t('countOfLabel') }}
               <span class="text-red-500 mr-2">*</span>
             </label>
@@ -300,7 +300,7 @@ watch(
       <button v-if="isLoading"
               class="inline-flex items-center justify-center ms-3 text-white bg-blue-600 focus:ring-4 focus:outline-none focus:ring-slate-300 rounded-xl border border-slate-200 text-sm font-medium px-5 py-2.5 focus:z-10 cursor-default">
         <Spinners270RingIcon
-          class="mr-2 w-5 h-5 text-gray-200 animate-spin dark:text-gray-600 fill-gray-600 dark:fill-gray-300" />
+          class="mr-2 w-5 h-5 text-gray-200 animate-spin dark:text-white fill-gray-600 dark:fill-gray-300" />
         {{ $t('create') }}
       </button>
       <button v-else @click="createLabel()" type="button"

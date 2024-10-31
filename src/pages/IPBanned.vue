@@ -33,16 +33,11 @@ const columns = [
     header: t('ipAddress'),
   },
   {
-    accessorKey: 'createdAt',
-    accessorFn: row => moment(row.createdAt).format('DD/MM/YYYY H:mm'),
-    header: t('createdAt'),
-  },
-  {
     accessorKey: 'actions',
     header: t('actions'),
     cell: ({ row }) => h('div', { class: 'flex items-center space-x-2' }, [
       h('button', { onClick: () => { openDeleteIPBanModal(row.original) } }, [
-        h(PhLockKeyOpen, { class: 'w-6 h-6 text-green-600 hover:scale-105' })
+        h(PhLockKeyOpen, { class: 'w-6 h-6 text-green-600 dark:text-green-400 text-green-600 hover:scale-105' })
       ]),
     ]),
     enableSorting: false,
@@ -72,7 +67,7 @@ getIPBans()
 
 <template>
   <div class="p-4 md:p-8">
-    <div class="text-slate-900 text-2xl md:text-3xl font-semibold mb-6">
+    <div class="text-slate-900 dark:text-white text-2xl md:text-3xl font-semibold mb-6">
       {{ $t('ipBanned') }}
     </div>
     <div class="flex flex-col md:flex-row items-center justify-between">
@@ -86,7 +81,7 @@ getIPBans()
       </div>
     </div>
     <div v-if="isLoading" class="flex items-center justify-center h-20">
-      <Spinners270RingIcon class="w-6 h-6 text-gray-500 animate-spin" />
+      <Spinners270RingIcon class="w-6 h-6 text-gray-500 dark:text-zinc-300 animate-spin" />
     </div>
     <CTable :key="renderkey" v-else :data="ipBans" :columns="columns" :filter="globalSearchFromTable" />
   </div>

@@ -66,7 +66,7 @@ const columns = [
       }, [
       h('input', {
       type: 'checkbox',
-      class: 'w-6 h-6 text-blue-600 hover:scale-105',
+      class: 'w-6 h-6 text-blue-600 dark:bg-blue-300 hover:scale-105',
       checked: row.original.completed,
     }),
       ]),
@@ -133,7 +133,7 @@ const clearFilterData = () => {
 
 <template>
   <div class="p-4 md:p-8">
-    <div class="text-slate-900 text-2xl md:text-3xl font-semibold mb-6">
+    <div class="text-slate-900 dark:text-white text-2xl md:text-3xl font-semibold mb-6">
       {{ $t('wishes') }}
     </div>
     <div class="flex flex-col space-x-10 md:flex-row items-center">
@@ -154,9 +154,9 @@ const clearFilterData = () => {
             <span>{{ $t('filter') }}</span>
           </div>
           <div v-if="useDropdownStore().isOpenFilterBy"
-            class="absolute bg-white shadow-md rounded-xl w-64 p-3 z-20 top-12 right-0 space-y-3">
+            class="absolute bg-white dark:bg-slate-600 shadow-md rounded-xl w-64 p-3 z-20 top-12 right-0 space-y-3">
             <div class="flex-1 space-y-1">
-              <label for="from" class="text-base md:text-lg font-medium">
+              <label for="from" class="text-base dark:text-white md:text-lg font-medium">
                 {{ $t('from') }}
               </label>
               <input id="from" type="date" v-model="filterData.from"
@@ -164,7 +164,7 @@ const clearFilterData = () => {
                 :placeholder="t('enterProductQuantity')">
             </div>
             <div class="flex-1 space-y-1">
-              <label for="to" class="text-base md:text-lg font-medium">
+              <label for="to" class="text-base dark:text-white md:text-lg font-medium">
                 {{ $t('to') }}
               </label>
               <input id="to" type="date" v-model="filterData.to"
@@ -179,7 +179,7 @@ const clearFilterData = () => {
               <div v-if="isLoading"
                 class="w-full bg-blue-600 py-2 select-none text-white rounded-lg flex items-center justify-center">
                 <Spinners270RingIcon
-                  class="mr-2 w-5 h-5 text-gray-200 animate-spin dark:text-gray-600 fill-gray-600 dark:fill-gray-300" />
+                  class="mr-2 w-5 h-5 text-gray-200 animate-spin dark:text-white fill-gray-600 dark:fill-gray-300" />
                 <span>{{ $t('loading') }}</span>
               </div>
               <div v-else @click="submitFilterData()"
@@ -193,7 +193,7 @@ const clearFilterData = () => {
 
     </div>
     <div v-if="isLoading" class="flex items-center justify-center h-20">
-      <Spinners270RingIcon class="w-6 h-6 text-gray-500 animate-spin" />
+      <Spinners270RingIcon class="w-6 h-6 text-gray-500 dark:text-zinc-300 animate-spin" />
     </div>
     <CTable :key="renderkey" v-else :data="wishes" :columns="columns" :filter="globalSearchFromTable" />
   </div>
