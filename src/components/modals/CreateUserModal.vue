@@ -262,7 +262,7 @@ watch(
               <div class="relative">
                 <input v-model="submitForm.confirmPassword" id="confirm-password"
                   :type="hidePassword ? 'password' : 'text'"
-                  class="bg-slate-100 border-none dark:text-white rounded-lg w-full py-2.5 placeholder-slate-400"
+                  class="bg-slate-100 border-none text-slate-900 dark:text-white rounded-lg w-full py-2.5 placeholder-slate-400"
                   :placeholder="t('enterThePasswordAgain')">
                 <EyeIcon v-if="hidePassword" @click="togglePassword()"
                   class="text-gray-500 dark:text-zinc-300 absolute z-10 top-1/2 -translate-y-1/2 right-3 w-5 h-5 cursor-pointer" />

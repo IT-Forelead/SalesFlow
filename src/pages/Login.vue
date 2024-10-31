@@ -131,7 +131,7 @@ onMounted(() => {
       <router-link to="/">
         <div class="flex items-center justify-center space-x-2">
           <img src="/images/it-forelead.png" alt="logo" class="w-12" />
-          <div class="font-bold leading-none text-2xl dark:text-zinc-200 dark:text-white whitespace-nowrap">
+          <div class="font-bold leading-none text-2xl text-gray-900 dark:text-zinc-200 dark:text-white whitespace-nowrap">
             IT Forelead
           </div>
         </div>
@@ -144,7 +144,7 @@ onMounted(() => {
           <circle cx="545" cy="545" r="416.5"></circle>
           <circle cx="545" cy="545" r="352.5"></circle>
         </svg>
-        <h1 class="text-center text-2xl font-medium tracking-tight dark:text-zinc-200 dark:text-[#e6edf3]">
+        <h1 class="text-center text-2xl font-medium tracking-tight text-gray-900 dark:text-zinc-200 dark:text-[#e6edf3]">
           {{ $t('signinToSystem') }}
         </h1>
         <p class="mt-3 text-center text-lg text-gray-600 dark:text-white dark:text-[#e6edf3]">
@@ -161,16 +161,16 @@ onMounted(() => {
               {{ $t('login') }}
             </label>
             <input v-model="submitData.login" type="text" id="login"
-              class="border appearance-none text-sm rounded-lg block w-full p-2.5 bg-white dark:bg-slate-600 dark:bg-[#0D1117] border-gray-200 dark:border-[#30363D] placeholder-gray-400 dark:text-zinc-200 dark:text-white focus:outline-none  focus:ring-blue-500 focus:border-blue-500"
+              class="border appearance-none text-sm rounded-lg block w-full p-2.5  bg-white dark:bg-slate-600 dark:bg-[#0D1117] border-gray-200 dark:border-[#30363D] placeholder-gray-400 text-gray-900 dark:text-zinc-200 dark:text-white focus:outline-none  focus:ring-blue-500 focus:border-blue-500"
               :placeholder="$t('enterYourLogin')" @keyup.enter="login()">
           </div>
           <div>
-            <label for="password" class="mb-2 block text-base font-semibold dark:text-zinc-200 dark:text-[#e6edf3]">
+            <label for="password" class="mb-2 block text-base font-semibold text-gray-900 dark:text-zinc-200 dark:text-[#e6edf3]">
               {{ $t('password') }}
             </label>
             <div class="relative">
               <input v-model="submitData.password" id="password" :type="hidePassword ? 'password' : 'text'"
-                class="border appearance-none text-sm rounded-lg block w-full p-2.5 bg-white dark:bg-slate-600 dark:bg-[#0D1117] border-gray-200 dark:border-[#30363D] placeholder-gray-400 dark:text-zinc-200 dark:text-white focus:outline-none  focus:ring-blue-500 focus:border-blue-500"
+                class="border appearance-none text-sm rounded-lg block w-full p-2.5 bg-white dark:bg-slate-600 dark:bg-[#0D1117] border-gray-200 dark:border-[#30363D] placeholder-gray-400 text-gray-900 dark:text-zinc-200 dark:text-white focus:outline-none  focus:ring-blue-500 focus:border-blue-500"
                 :placeholder="$t('enterYourPassword')" @keyup.enter="login()">
               <EyeIcon v-if="hidePassword" @click="togglePassword()"
                 class="text-gray-500 dark:text-zinc-300 absolute z-10 top-1/2 -translate-y-1/2 right-3 w-5 h-5 cursor-pointer" />

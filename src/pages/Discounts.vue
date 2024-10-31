@@ -210,11 +210,11 @@ const changeAllDiscounts = () => {
       <div class="flex items-center space-x-2 pb-2">
         <div class="relative flex-auto z-50">
           <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-            <SearchIcon class="w-5 h-50" />
+            <SearchIcon class="w-5 h-50 text-slate-400" />
           </div>
           <input id="globle-search" v-model="search" v-on:keypress="whenPressEnter($event)" type="search"
             ref="onSearchFocus"
-            class="bg-slate-100 border-none  text-base md:text-lg rounded-xl block w-full h-12 pl-10 py-2 placeholder-slate-400 placeholder:text-sm md:placeholder:text-lg lg:placeholder:text-base"
+            class="bg-slate-100 border-none text-slate-900 text-base md:text-lg rounded-xl block w-full h-12 pl-10 py-2 placeholder-slate-400 placeholder:text-sm md:placeholder:text-lg lg:placeholder:text-base"
             :placeholder="t('searchByProductNameOrBarcode')" />
           <div v-if="search" @click="clearSearchInput()"
             class="absolute inset-y-0 right-20 p-1 flex items-center cursor-pointer">
@@ -225,7 +225,7 @@ const changeAllDiscounts = () => {
             {{ $t('search') }}
           </button>
           <div v-if="isLoading" class="h-[500px] z-[9999] flex items-center justify-center absolute w-full">
-            <Spinners270RingIcon class="w-12 h-12 dark:text-blue-400 text-blue-600 animate-spin" />
+            <Spinners270RingIcon class="w-12 h-12 text-blue-500 animate-spin" />
           </div>
           <ScrollPanel v-if="products.length > 0" ref="searchProductDropdown"
             class="h-[500px] flex flex-row absolute top-16 left-0 bg-transparent w-full space-y-2 ">
@@ -262,7 +262,7 @@ const changeAllDiscounts = () => {
         </div>
         <div @click="useModalStore().openCameraScannerModal()" :title="t('barcodeScanning')"
           class="flex items-center justify-center bg-slate-100 rounded-xl h-12 w-12 cursor-pointer">
-          <BarcodeIcon class="w-6 h-6 dark:text-blue-400 text-blue-400" />
+          <BarcodeIcon class="w-6 h-6 dark:text-blue-400 text-blue-600" />
         </div>
       </div>
 
@@ -278,7 +278,7 @@ const changeAllDiscounts = () => {
             <ScrollPanel class="w-full h-[500px] rounded-xl">
               <table class="md:min-w-full divide-y-8 dark:divide-slate-600 divide-white">
                 <thead>
-                  <tr class="bg-slate-100 dark:bg-gray-500 text-base font-semibold dark:text-zinc-200 h-12">
+                  <tr class="bg-slate-100 dark:bg-gray-500 text-base font-semibold text-gray-900 dark:text-zinc-200 h-12">
                     <th class="px-3 py-2 text-left rounded-l-xl text-sm md:text-base">
                       {{ $t('product') }}
                     </th>
@@ -322,7 +322,7 @@ const changeAllDiscounts = () => {
                     <td class="px-3 py-2 whitespace-nowrap">
                       <div class="flex justify-center space-x-2 items-center">
                         <input v-model="product.discount" @blur="setDiscount($event, product)"
-                          class="bg-slate-100 border border-slate-200 cursor-pointer dark:bg-gray-500 dark:text-white rounded-lg dark:placeholder-white w-20 h-12 pl-4 py-2 placeholder-slate-400"
+                          class="bg-slate-100 border border-slate-200 cursor-pointer text-slate-900 dark:bg-gray-500 dark:text-white rounded-lg dark:placeholder-white w-20 h-12 pl-4 py-2 placeholder-slate-400"
                           type="number" placeholder="0">
                         <span class="dark:text-white">%</span>
                       </div>
@@ -349,7 +349,7 @@ const changeAllDiscounts = () => {
               <button v-if="isLoadingSend"
                 class="inline-flex items-center justify-center w-40 py-2 px-4 rounded-lg text-white text-base bg-blue-500 cursor-pointer hover:bg-blue-600">
                 <Spinners270RingIcon
-                  class="mr-2 w-5 h-5 text-gray-200 animate-spin text-gray-600 dark:text-white fill-gray-600 dark:fill-gray-300" />
+                  class="mr-2 w-5 h-5 text-gray-200 animate-spin dark:text-white fill-gray-600 dark:fill-gray-300" />
                 {{ $t('send') }}
               </button>
               <button v-else

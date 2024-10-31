@@ -119,7 +119,7 @@ onMounted(() => {
                                     <div class="mt-6 flex-auto rounded-t-2xl bg-white dark:bg-slate-600">
                                         <div class="p-4">
                                             <div class="flex gap-2">
-                                                <div class="text-base leading-6 dark:text-zinc-200">
+                                                <div class="text-base leading-6 text-gray-900 dark:text-zinc-200">
                                                     Mahsulot qo'shish
                                                 </div>
                                                 <svg viewBox="0 0 24 24" class="ml-auto h-6 w-6" fill="none">
@@ -130,7 +130,7 @@ onMounted(() => {
                                             </div>
                                             <div class="mt-3 border-t border-gray-200 pt-5">
                                                 <div class="flex items-baseline gap-2">
-                                                    <div class="text-2xl tabular-nums tracking-tight dark:text-zinc-200">
+                                                    <div class="text-2xl tabular-nums tracking-tight text-gray-900 dark:text-zinc-200">
                                                         Shtrix-kod orqali mahsulot qo'shish
                                                     </div>
                                                 </div>

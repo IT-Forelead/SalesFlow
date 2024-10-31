@@ -55,8 +55,8 @@ onMounted(() => {
     <div @click="useDropdownStore().openSelectLanguage()"
       class="flex items-center justify-between rounded-lg dark:text-white text-gray-500 dark:bg-slate-600 bg-white p-2 cursor-pointer hover:bg-gray-100">
       <div class="flex items-center space-x-1">
-        <GlobeIcon class="w-5 h-5 dark:text-white" />
-        <span class="dark:text-white">{{ currentLang }}</span>
+        <GlobeIcon class="w-5 h-5 text-gray-500 dark:text-white" />
+        <span class="text-sm dark:text-white">{{ currentLang }}</span>
       </div>
       <CaretDownIcon class="w-3 h-3" />
     </div>

@@ -243,7 +243,7 @@ const refundProducts = () => {
           <div class="overflow-hidden overflow-y-scroll h-[300px] border-0">
             <table class="md:min-w-full text-sm">
               <thead>
-              <tr class="bg-slate-100 font-medium ">
+              <tr class="bg-slate-100 font-medium text-gray-900">
                 <th class="px-3 py-2 text-left rounded-l-xl text-sm md:text-base"></th>
                 <th class="px-3 py-2 text-left text-sm md:text-base">{{ $t('product') }}</th>
                 <th class="px-3 py-2 text-sm md:text-base">{{ $t('quantity') }}</th>
@@ -267,13 +267,13 @@ const refundProducts = () => {
                 <td class="px-3 py-2 whitespace-nowrap">
                   <div class="flex items-center space-x-3">
                     <div class="flex items-center justify-center bg-slate-100 md:w-12 md:h-12 w-8 h-8 rounded-lg">
-                      <ImageIcon class="text-gray-500 -6 h-6" />
+                      <ImageIcon class="text-gray-500 w-6 h-6" />
                     </div>
                     <div>
                       <div class="text-sm md:text-base font-semibold text-gray-800 dark:text-white">
                         {{ product?.productName + ' - ' + product?.packaging }}
                       </div>
-                      <div class="text-sm md:text-base font-medium text-gray-800 dark:text-zinc-300">
+                      <div class="text-sm md:text-base font-medium text-gray-500 dark:text-zinc-300">
                         {{ $t('price') }}:
                         <span class="text-gray-700 dark:text-white">
                             {{ useMoneyFormatter(product?.salePrice) }}
@@ -302,7 +302,7 @@ const refundProducts = () => {
               {{ quantity  + ' ' + $t('piece') }}
             </div>
           </li>
-          
+
           <li  v-if="!isFromCashback" class="flex items-center justify-between py-2">
             <div class="text-base dark:text-white">
               {{ $t('price') }}
@@ -344,21 +344,21 @@ const refundProducts = () => {
             </div>
           </li>
           <li v-if="!isFromCashback"  class="flex items-center justify-between py-2">
-            <div class="text-base font-semibold dark:text-zinc-200">
+            <div class="text-base font-semibold text-gray-900 dark:text-zinc-200">
               {{ $t('totalPrice') }}
             </div>
-            <div class="text-lg font-semibold dark:text-zinc-200">
+            <div class="text-lg font-semibold text-gray-900 dark:text-zinc-200">
               {{ useMoneyFormatter(selectedOrder?.totalPrice) }}
             </div>
           </li>
           <li class="flex items-center justify-between py-2">
-            <div class="text-base font-semibold dark:text-zinc-200">
+            <div class="text-base font-semibold text-gray-900 dark:text-zinc-200">
               {{ $t('paymentReceived') }}
             </div>
-            <div class="text-lg font-semibold dark:text-zinc-200" v-if="selectedOrder?.paymentReceived > 0">
+            <div class="text-lg font-semibold text-gray-900 dark:text-zinc-200" v-if="selectedOrder?.paymentReceived > 0">
               {{ useMoneyFormatter(selectedOrder?.paymentReceived) }}
             </div>
-            <div class="text-lg font-semibold dark:text-zinc-200"  v-else >
+            <div class="text-lg font-semibold text-gray-900 dark:text-zinc-200"  v-else >
               {{ useMoneyFormatter(0) }}
             </div>
           </li>
@@ -377,7 +377,7 @@ const refundProducts = () => {
       </button>
 
       <button v-else type="button" @click="refundProducts"
-              class="inline-flex items-center justify-center ml-2 dark:text-rose-400 bg-white text-rose-500 dark:bg-slate-600 hover:bg-slate-200 hover:dark:bg-slate-500 focus:ring-4 focus:outline-none focus:ring-slate-300 rounded-xl border border-slate-200 text-sm font-medium px-5 py-2.5 hover:text-rose-600 focus:z-10">
+              class="inline-flex items-center justify-center ml-2 dark:text-rose-400 bg-white text-rose-500 bg-white dark:bg-slate-600 hover:bg-slate-200 hover:dark:bg-slate-500 focus:ring-4 focus:outline-none focus:ring-slate-300 rounded-xl border border-slate-200 text-sm font-medium px-5 py-2.5 hover:text-rose-600 focus:z-10">
         <ArrowsUpLeftRightIcon class="mr-2 w-5 h-5" />
         <span>{{ $t('refundItems') }}</span>
       </button>

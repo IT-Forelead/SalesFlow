@@ -114,7 +114,7 @@ function getImage(e) {
             <ImageIcon class="w-12 h-12 dark:text-blue-500 text-blue-700" />
             <input id="dropzone-file" type="file" class="hidden" name="image" @change="getImage" />
             <span
-              class="absolute mx-auto mt-3 text-lg font-semibold tracking-wide dark:text-blue-400 text-blue-600 -bottom-10 whitespace-nowrap">
+              class="absolute mx-auto mt-3 text-lg font-semibold tracking-wide dark:text-blue-400 text-blue-500 -bottom-10 whitespace-nowrap">
               {{ $t('uploadPhoto') }}
             </span>
           </label>
@@ -123,7 +123,7 @@ function getImage(e) {
             <img :src="selectedImage" class="object-cover w-28 h-28 rounded-lg" alt="#" />
             <input id="dropzone-file" type="file" class="hidden" name="image" @change="getImage" />
             <span
-              class="absolute mx-auto mt-3 text-lg font-semibold tracking-wide text-blue-600 dark:text-blue-400 -bottom-10 whitespace-nowrap">
+              class="absolute mx-auto mt-3 text-lg font-semibold tracking-wide text-blue-500 dark:text-blue-400 -bottom-10 whitespace-nowrap">
               {{ $t('uploadAnotherPhoto') }}
             </span>
           </label>

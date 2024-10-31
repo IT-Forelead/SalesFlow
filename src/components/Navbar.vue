@@ -80,9 +80,7 @@ const handleResize = () => {
 onMounted(() => {
   const savedTheme = localStorage.getItem('theme')
   document.documentElement.className = savedTheme ? savedTheme : 'dark'
-
   window.addEventListener('resize', handleResize);
-  
 });
 
 onUnmounted(() => {

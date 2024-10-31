@@ -197,7 +197,7 @@ const createMinimalPriceSettings = () => {
 
 <template>
   <div class="p-8">
-    <div class="dark:text-white text-3xl font-semibold mb-4">Sotuv sozlama</div>
+    <div class="text-slate-900 dark:text-white text-3xl font-semibold mb-4">Sotuv sozlama</div>
     <TabView class="tabview-custom">
       <TabPanel>
         <template #header>
@@ -212,7 +212,7 @@ const createMinimalPriceSettings = () => {
                 {{ $t('percentage')}}
               </label>
               <input type="number" id="percentage" v-model="submitData.percentage" :placeholder="$t('enterPercentage')"
-                     class="border-none text-right text-gray-500 dark:bg-slate-500 bg-slate 100 h-11 rounded-lg w-full text-lg" />
+                     class="border-none text-right text-gray-500 dark:text-red-600 dark:bg-slate-500 bg-slate-100 h-11 rounded-lg w-full text-lg" />
             </div>
             <div class="flex-1">
               <button v-if="isLoadingPercent" class="text-white text-base flex items-center rounded-xl px-4 py-2.5 bg-blue-500 hover:bg-blue-600 absolute bottom-0">
@@ -272,16 +272,16 @@ const createMinimalPriceSettings = () => {
           </div>
         </template>
         <div class="p-2">
-          <div class="text-2xl md:text-3xl font-semibold mb-6">
+          <div class="text-slate-900 text-2xl md:text-3xl font-semibold mb-6">
             {{ $t('telegramBots') }}
           </div>
           <div class="flex dark:text-red-500 flex-col md:flex-row items-center justify-between">
             <div class="relative w-full md:w-auto my-2 md:mb-0 order-2 md:order-1">
               <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                <SearchIcon class="w-5 h-5 dark:text-red-500"/>
+                <SearchIcon class="w-5 h-5 text-slate-400" />
               </div>
               <input type="search" v-model="globalSearchFromTable"
-                     class="dark:bg-slate-500 bg-slate-100 border-none w-full text-base md:text-lg rounded-full block pl-10 py-2 placeholder-slate-400"
+                     class="dark:bg-slate-500 bg-slate-100 border-none w-full text-slate-900 text-base md:text-lg rounded-full block pl-10 py-2 placeholder-slate-400"
                      placeholder="Search everything...">
             </div>
             <div class="w-full md:w-auto order-1 md:order-2">
@@ -291,14 +291,14 @@ const createMinimalPriceSettings = () => {
             </div>
           </div>
           <div v-if="isLoadingBots" class="flex items-center justify-center h-20">
-            <Spinners270RingIcon class="w-6 h-6 dark:text-zinc-300 animate-spin" />
+            <Spinners270RingIcon class="w-6 h-6 text-gray-500 dark:text-zinc-300 animate-spin" />
           </div>
           <CTable v-else :data="telegramBots" :key="renderKey" :columns="columns" :filter="globalSearchFromTable" />
         </div>
       </TabPanel>
       <TabPanel>
         <template #header>
-          <div class="flex align-items-center gap-2 ">
+          <div class="flex align-items-center gap-2">
             <span class="font-bold white-space-nowrap">{{ $t('holidayDiscounts') }}</span>
           </div>
         </template>

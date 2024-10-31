@@ -27,24 +27,24 @@ const isLoading = ref(false)
                 <span class="text-red-500 mr-2">*</span>
               </label>
               <input id="fullname" type="text" v-model="submitForm.fullName"
-                class="bg-slate-100 border-none dark:text-white rounded-lg w-full py-2.5 placeholder-slate-400"
+                class="bg-slate-100 border-none text-slate-900 text-slate-900 dark:text-white rounded-lg w-full py-2.5 placeholder-slate-400"
                 :placeholder="t('enterFullName')">
             </div>
-            
+
           </div>
           <div class="flex items-center space-x-4">
-            
+
             <div class="flex-1">
               <label for="phone" class="text-base font-medium">
                 {{ $t('phone') }}
                 <span class="text-red-500 mr-2">*</span>
               </label>
               <input id="phone" type="text" v-model="submitForm.phone" v-maska data-maska="+998(##) ###-##-##"
-                class="bg-slate-100 border-none dark:text-white rounded-lg w-full py-2.5 placeholder-slate-400"
+                class="bg-slate-100 border-none text-slate-900 dark:text-white rounded-lg w-full py-2.5 placeholder-slate-400"
                 placeholder="+998(00) 000-00-00">
             </div>
           </div>
-          
+
           <div class="flex items-center space-x-4">
             <div class="flex-1">
               <label for="password" class="text-base font-medium">
@@ -53,7 +53,7 @@ const isLoading = ref(false)
               </label>
               <div class="relative">
                 <input v-model="submitForm.password" id="password" :type="hidePassword ? 'password' : 'text'"
-                  class="bg-slate-100 border-none dark:text-white rounded-lg w-full py-2.5 placeholder-slate-400"
+                  class="bg-slate-100 border-none text-slate-900 dark:text-white rounded-lg w-full py-2.5 placeholder-slate-400"
                   :placeholder="t('enterPassword')">
                 <EyeIcon v-if="hidePassword" @click="togglePassword()"
                   class="text-gray-500 dark:text-zinc-300 absolute z-10 top-1/2 -translate-y-1/2 right-3 w-5 h-5 cursor-pointer" />
@@ -69,7 +69,7 @@ const isLoading = ref(false)
               <div class="relative">
                 <input v-model="submitForm.confirmPassword" id="confirm-password"
                   :type="hidePassword ? 'password' : 'text'"
-                  class="bg-slate-100 border-none dark:text-white rounded-lg w-full py-2.5 placeholder-slate-400"
+                  class="bg-slate-100 border-none text-slate-900 dark:text-white rounded-lg w-full py-2.5 placeholder-slate-400"
                   :placeholder="t('enterThePasswordAgain')">
                 <EyeIcon v-if="hidePassword" @click="togglePassword()"
                   class="text-gray-500 dark:text-zinc-300 absolute z-10 top-1/2 -translate-y-1/2 right-3 w-5 h-5 cursor-pointer" />

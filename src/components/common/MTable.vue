@@ -103,7 +103,7 @@ const displayedPageNumbers = computed(() => {
     </div>
 
     <div class="flex items-center justify-between my-6">
-      <div class="text-base dark:text-white font-medium">
+      <div class="text-base text-slate-900 dark:text-white font-medium">
         {{ $t('total') }}:
         {{ table.getFilteredRowModel().rows.length }}
       </div>
@@ -124,17 +124,17 @@ const displayedPageNumbers = computed(() => {
               'bg-blue-600 text-white': pageNumber === table.getState().pagination.pageIndex + 1,
               'hover:bg-blue-200': pageNumber !== table.getState().pagination.pageIndex + 1,
             }"
-            class="px-3 py-2 select-none rounded-lg dark:text-white text-center text-base font-medium transition-all">
+            class="px-3 py-2 select-none rounded-lg text-slate-900 dark:text-white text-center text-base font-medium transition-all">
             {{ pageNumber }}
           </button>
         </div>
         <button :disabled="!table.getCanNextPage()" @click="table.nextPage()"
-          class="flex items-center gap-2 px-3 py-2 text-base font-medium text-center dark:text-white rounded-lg select-none hover:bg-blue-200 disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
+          class="flex items-center gap-2 px-3 py-2 text-base font-medium text-center dark:text-white text-slate-900 rounded-lg select-none hover:bg-blue-200 disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
           type="button">
           <CaretRightIcon class="w-5 h-5" />
         </button>
         <button :disabled="!table.getCanNextPage()" @click="table.setPageIndex(table.getPageCount() - 1)"
-          class="flex items-center gap-2 px-3 py-2 text-base font-medium dark:text-white rounded-lg select-none hover:bg-blue-200 disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
+          class="flex items-center gap-2 px-3 py-2 text-base font-medium dark:text-white text-slate-900 rounded-lg select-none hover:bg-blue-200 disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
           type="button">
           <CaretDoubleRightIcon class="w-5 h-5" />
         </button>

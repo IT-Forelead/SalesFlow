@@ -291,7 +291,7 @@ const openCreateProductModal = () => {
       <div class="flex space-x-1 space-y-2 md:space-y-0 md:flex-row flex-col mb-6 justify-between">
         <div class="relative w-full md:w-[calc(100%-13rem)]">
           <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-            <SearchIcon class="w-5 h-5" />
+            <SearchIcon class="w-5 h-5 text-slate-400" />
           </div>
           <input type="search" v-model="searchProduct" ref="onSearchFocus" v-on:keypress="whenPressEnter($event)"
                  class="bg-slate-100 border-none text-slate-900 rounded-lg w-full h-12 pl-10 placeholder-slate-400 placeholder:text-sm md:placeholder:text-lg"
@@ -333,7 +333,7 @@ const openCreateProductModal = () => {
       </div>
 
         <div v-if="selectedProducts.length" class="overflow-y-auto overflow-x-auto h-96">
-          <h4 class=" text-slate-900dark:text-white text-xl font-semibold">
+          <h4 class="text-slate-900 text-slate-900dark:text-white text-xl font-semibold">
             {{ $t('products') }}
           </h4>
           <table class="min-w-full divide-y divide-gray-200">
@@ -345,7 +345,7 @@ const openCreateProductModal = () => {
               <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-zinc-300 uppercase">
                 {{ $t('product') }}
               </th>
-              <th class="px-6 py-3 text-right text-xs font- text-gray-500 dark:text-zinc-300 uppercase">
+              <th class="px-6 py-3 text-right text-xs font-medium text-gray-500 dark:text-zinc-300 uppercase">
                 {{ $t('quantity') }}
               </th>
               <th class="px-6 py-3 rounded-r-xl text-right text-xs font-medium text-gray-500 dark:text-zinc-300 uppercase">
@@ -368,7 +368,7 @@ const openCreateProductModal = () => {
                 </div>
               </td>
               <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                <input type="number" v-model="product.quantity" class="w-24 bg-slate-100 border-none text-gray-900 dark:text-white rounded-lg text-base md:text-lg block h-10">
+                <input type="number" v-model="product.quantity" class="w-24 bg-slate-100 border-none text-slate-900 text-gray-900 dark:text-white rounded-lg text-base md:text-lg block h-10">
               </td>
               <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
                 <TrashIcon @click="removeProduct(product)" class="w-6 h-6 text-rose-500 cursor-pointer transform hover:scale-105" />

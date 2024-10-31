@@ -90,7 +90,7 @@ getPrices()
     <div class="flex flex-col md:flex-row items-center justify-between">
       <div class="relative w-full md:w-auto my-2 md:mb-0 order-2 md:order-1">
         <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-          <SearchIcon class="w-5 h-5" />
+          <SearchIcon class="w-5 h-5 text-slate-400" />
         </div>
         <input type="search" v-model="globalSearchFromTable"
           class="bg-slate-100 border-none w-full text-slate-900 text-base md:text-lg rounded-full block pl-10 py-2 placeholder-slate-400"

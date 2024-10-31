@@ -1255,7 +1255,7 @@ watch(pageProfit, () => {
           </div>
           <div>
             <select v-model="salesChartFilterData"
-              class="bg-blue-100 dark:bg-gray-700 text-slate-900 border-none dark:text-white rounded-lg text-base md:text-lg block w-full h-11">
+              class="bg-blue-100 dark:bg-gray-700 border-none text-slate-900 dark:text-white rounded-lg text-base md:text-lg block w-full h-11">
               <option value="6">
                 {{ $t('weeklyStatistics') }}
               </option>

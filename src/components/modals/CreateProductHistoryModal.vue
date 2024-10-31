@@ -132,10 +132,10 @@ const closeModal = () => {
     <template v-slot:body>
       <div class="w-full relative mb-4">
         <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-          <SearchIcon class="w-5 h-5" />
+          <SearchIcon class="w-5 h-5 text-slate-400" />
         </div>
         <input type="text" v-model="search" :placeholder="t('searchByProductNameOrBarcode')"
-          class="bg-slate-100 border-none rounded-lg w-full h-12 pl-10 placeholder-slate-400"
+          class="bg-slate-100 border-none text-slate-900 rounded-lg w-full h-12 pl-10 placeholder-slate-400"
           @input="isOpen = true">
         <ul v-if="searchResults.length && isOpen"
           class="mt-1 w-full max-h-60 overflow-y-auto absolute z-10 bg-white dark:bg-slate-600 border border-slate-200 rounded-xl shadow-md">
@@ -148,10 +148,10 @@ const closeModal = () => {
       <div v-if="selectedProduct" class="space-y-4">
         <div class="w-full mb-10">
           <div class="border-b border-gray-200 py-3">
-            <p class="dark:text-white text-base font-normal">
+            <p class="text-neutral-800 dark:text-white text-base font-normal">
               {{ $t('productName') }}
             </p>
-            <h1 class="text-2xl font-semibold dark:text-white mt-2">
+            <h1 class="text-2xl font-semibold text-neutral-800 dark:text-white mt-2">
               {{ selectedProduct.name }} {{ selectedProduct.packaging }}
             </h1>
           </div>
