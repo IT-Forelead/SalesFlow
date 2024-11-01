@@ -137,7 +137,7 @@ onMounted(() => {
                                                 <div class="mt-6 text-xs text-gray-500 dark:text-zinc-300">
                                                     Shtrix-kodni skanerlash
                                                 </div>
-                                                <div class="mt-3 rounded-lg bg-gray-50 ring-1 ring-inset ring-black/5">
+                                                <div class="mt-3 rounded-lg bg-gray-50 ring-1 ring-inset ring-slate-900/5">
                                                     <svg xmlns="http://www.w3.org/2000/svg" class="w-72 h-72" width="32"
                                                         height="32" viewBox="0 0 24 24">
                                                         <path fill="currentColor"

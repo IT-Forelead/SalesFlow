@@ -441,7 +441,7 @@ const caishersChartOptions = computed(() => {
     legend: {
       show: true,
       labels: {
-        colors: 'rgb(128, 128, 128)', 
+        colors: 'rgb(128, 128, 128)',
         useSeriesColors: false,
       },
     },
@@ -583,7 +583,7 @@ const cashbackSaleChartOptions = computed(() => {
       labels: {
         style: {
           fontSize: '12px',
-           colors: '#4A90E2',
+          colors: '#4A90E2',
         },
         formatter: function (val) {
           return moment(val).format('D-MMM')
@@ -855,49 +855,49 @@ watch(pageProfit, () => {
 
 <template>
   <div class="p-4 md:p-8 space-y-6">
-    <div class="flex flex-col md:flex-row space-x-0 md:space-x-4 space-y-2 md:space-y-0">
-      <div class="p-5 flex rounded-3xl w-[50vw] bg-slate-50 dark:bg-gray-700 justify-between">
-        <div class="w-[50vw] bg-slate-50 dark:bg-gray-700 dark:text-white rounded-3xl">
-          <div class="flex flex-col md:flex-row md:items-center md:justify-between px-2 space-y-3 md:space-y-0">
-            <div>
-              <div class="text-base font-bold text-gray-800 dark:text-zinc-100">
-                {{ $t('hourlyStat') }}
-              </div>
-              <div class="text-sm text-gray-600 dark:text-white">
-                <span >{{ ' ' + $t('hourly') }}</span>
-                <span class="lowercase">{{ $t('beginStatText') }} </span>
-                <span class="font-bold">{{ '10 ' + $t('days') }}</span>
-                {{ $t('endStatText') }}
-              </div>
-            </div>
-          </div>
-          <apexchart type="area" height="320" :options="hourlySaleChartOptions" :series="hourlySaleChartSeries">
-          </apexchart>
-        </div>
-      </div>
-      <div class="p-5 rounded-3xl bg-slate-50  dark:bg-gray-700 w-full">
-        <div class="flex flex-col md:flex-row md:items-center md:justify-between px-2 space-y-3 md:space-y-0">
+    <div class="flex-1">
+      <div class="flex md:flex-row space-x-0 md:space-x-4 space-y-2 md:space-y-0">
+        <div class="p-5 rounded-3xl bg-slate-100  dark:bg-slate-800 w-7/12">
           <div>
             <div class="text-base font-bold text-gray-800 dark:text-zinc-100">
-              {{ $t('cashbackStat') }}
+              {{ $t('hourlyStat') }}
             </div>
-            <div class="text-sm dark:text-white text-gray-600">
-              {{ $t('beginStatText') }}
-              <span class="font-bold">{{ 10 + $t('days') }}</span>
+            <div class="text-sm text-gray-600 dark:text-white">
+              <span>{{ ' ' + $t('hourly') }}</span>
+              <span class="lowercase">{{ $t('beginStatText') }} </span>
+              <span class="font-bold">{{ '10 ' + $t('days') }}</span>
               {{ $t('endStatText') }}
             </div>
           </div>
-          <div class="flex items-center justify-center rounded-xl bg-blue-100 dark:bg-aqua-200 p-2">
-            <ChartBarIcon class="w-8 h-8 text-blue-600" />
+          <div>
+            <apexchart type="area" height="320" :options="hourlySaleChartOptions" :series="hourlySaleChartSeries">
+            </apexchart>
           </div>
         </div>
-        <apexchart type="bar" height="320" :options="cashbackSaleChartOptions" :series="cashbackRedeemsChartSeries">
-        </apexchart>
+        <div class="p-5 rounded-3xl bg-slate-100  dark:bg-slate-800 w-5/12">
+          <div class="flex flex-col md:flex-row md:items-center md:justify-between px-2 space-y-3 md:space-y-0">
+            <div>
+              <div class="text-base font-bold text-gray-800 dark:text-zinc-100">
+                {{ $t('cashbackStat') }}
+              </div>
+              <div class="text-sm dark:text-white text-gray-600">
+                {{ $t('beginStatText') }}
+                <span class="font-bold">{{ 10 + $t('days') }}</span>
+                {{ $t('endStatText') }}
+              </div>
+            </div>
+            <div class="flex items-center justify-center rounded-xl bg-blue-100 dark:bg-aqua-200 p-2">
+              <ChartBarIcon class="w-8 h-8 text-blue-600" />
+            </div>
+          </div>
+          <apexchart type="bar" height="320" :options="cashbackSaleChartOptions" :series="cashbackRedeemsChartSeries">
+          </apexchart>
+        </div>
       </div>
     </div>
     <div
       class="flex w-full justify-between flex-col md:flex-row space-x-0 md:space-x-4 space-y-2  dark:text-white md:space-y-0 h-auto overflow-y-auto">
-      <div class="p-5 flex flex-1 rounded-3xl bg-slate-50 dark:bg-gray-700 h-[650px] flex-col justify-between">
+      <div class="p-5 flex flex-1 rounded-3xl bg-slate-100 dark:bg-slate-800 h-[650px] flex-col justify-between">
         <div class="space-y-4">
           <div class="flex items-center justify-between">
             <div class="space-y-0.5">
@@ -918,7 +918,8 @@ watch(pageProfit, () => {
             <div v-for="(product, idx) in bestRevenueProductStats" :key="idx"
               class="flex items-center justify-between py-1.5">
               <div class="flex items-center space-x-3">
-                <div class="flex items-center justify-center bg-blue-100 dark:bg-aqua-200 w-6 h-6 rounded-lg">
+                <div
+                  class="flex items-center justify-center bg-blue-100 dark:bg-aqua-200 min-w-6 max-w-full h-6 rounded-lg">
                   <span class="text-base text-blue-600">
                     {{ (pageRevenue - 1) * pageSize + idx + 1 }}
                   </span>
@@ -982,7 +983,7 @@ watch(pageProfit, () => {
           </div>
         </div>
       </div>
-      <div class="p-5 flex flex-1 rounded-3xl bg-slate-50 dark:bg-gray-700 h-[650px] flex-col justify-between">
+      <div class="p-5 flex flex-1 rounded-3xl bg-slate-100 dark:bg-slate-800 h-[650px] flex-col justify-between">
         <div class="space-y-4">
           <div class="flex items-center justify-between">
             <div class="space-y-0.5">
@@ -1003,7 +1004,8 @@ watch(pageProfit, () => {
             <div v-for="(product, idx) in bestProfitProductStats" :key="idx"
               class="flex items-center justify-between py-1.5">
               <div class="flex items-center space-x-3">
-                <div class="flex items-center justify-center bg-blue-100 dark:bg-aqua-200 w-6 h-6 rounded-lg">
+                <div
+                  class="flex items-center justify-center bg-blue-100 dark:bg-aqua-200 min-w-6 max-w-full h-6 rounded-lg">
                   <span class="text-base text-blue-600">
                     {{ (pageProfit - 1) * pageSize + idx + 1 }}
                   </span>
@@ -1067,7 +1069,7 @@ watch(pageProfit, () => {
           </div>
         </div>
       </div>
-      <div class="p-5 flex flex-1 rounded-3xl bg-slate-50 dark:bg-gray-700 h-[650px] flex-col justify-between">
+      <div class="p-5 flex flex-1 rounded-3xl bg-slate-100 dark:bg-slate-800 h-[650px] flex-col justify-between">
         <div class="space-y-4">
           <div class="flex items-center justify-between">
             <div class="space-y-0.5">
@@ -1088,7 +1090,8 @@ watch(pageProfit, () => {
             <div v-for="(product, idx) in bestSellerProductStats" :key="idx"
               class="flex items-center justify-between py-1.5">
               <div class="flex items-center space-x-3">
-                <div class="flex items-center justify-center bg-blue-100 dark:bg-aqua-200 w-6 h-6 rounded-lg">
+                <div
+                  class="flex items-center justify-center bg-blue-100 dark:bg-aqua-200 min-w-6 max-w-full h-6 rounded-lg">
                   <span class="text-base text-blue-600">
                     {{ (pageSell - 1) * pageSize + idx + 1 }}
                   </span>
@@ -1152,7 +1155,7 @@ watch(pageProfit, () => {
           </div>
         </div>
       </div>
-      <div class="p-5 flex flex-1 rounded-3xl bg-slate-50 dark:bg-gray-700 h-[650px] flex-col justify-between">
+      <div class="p-5 flex flex-1 rounded-3xl bg-slate-100 dark:bg-slate-800 h-[650px] flex-col justify-between">
         <div class="space-y-4">
           <div class="flex items-center justify-between">
             <div class="space-y-0.5">
@@ -1173,7 +1176,8 @@ watch(pageProfit, () => {
             <div v-for="(product, idx) in worstSellerProductStats" :key="idx"
               class="flex items-center justify-between py-1.5">
               <div class="flex items-center space-x-3">
-                <div class="flex items-center justify-center bg-blue-100 dark:bg-aqua-200 w-auto h-6 rounded-lg">
+                <div
+                  class="flex items-center justify-center bg-blue-100 dark:bg-aqua-200 min-w-6 max-w-full h-6 rounded-lg">
                   <span class="text-base text-blue-600">
                     {{ (pageWorstSell - 1) * pageSize + idx + 1 }}
                   </span>
@@ -1235,66 +1239,68 @@ watch(pageProfit, () => {
         </div>
       </div>
     </div>
-    <div class="flex flex-col md:flex-row space-x-0 md:space-x-4 space-y-2 md:space-y-0">
-      <div class="flex-1 bg-slate-50 dark:bg-gray-700 rounded-3xl p-5">
-        <div class="flex flex-col md:flex-row md:items-center md:justify-between px-2 space-y-3 md:space-y-0">
-          <div>
-            <div class="text-base font-bold text-gray-800 dark:text-zinc-100">
-              {{ $t('profitStatistics') }}
+    <div class="flex-1">
+      <div class="flex flex-col md:flex-row space-x-0 md:space-x-4 space-y-2 md:space-y-0">
+        <div class="w-1/2 bg-slate-100 dark:bg-slate-800 rounded-3xl p-5">
+          <div class="flex flex-col md:flex-row md:items-center md:justify-between px-2 space-y-3 md:space-y-0">
+            <div>
+              <div class="text-base font-bold text-gray-800 dark:text-zinc-100">
+                {{ $t('profitStatistics') }}
+              </div>
+              <div v-if="salesChartFilterData === 6" class="text-sm text-gray-600 dark:text-white">
+                {{ $t('beginStatText') }}
+                <span class="font-bold">{{ 10 + $t('days') }}</span>
+                {{ $t('endStatText') }}
+              </div>
+              <div v-else class="text-sm text-gray-600 dark:text-white">
+                {{ $t('beginStatText') }}
+                <span class="font-bold">{{ 30 + $t('days') }}</span>
+                {{ $t('endStatText') }}
+              </div>
             </div>
-            <div v-if="salesChartFilterData === 6" class="text-sm text-gray-600 dark:text-white">
-              {{ $t('beginStatText') }}
-              <span class="font-bold">{{ 10 + $t('days') }}</span>
-              {{ $t('endStatText') }}
-            </div>
-            <div v-else class="text-sm text-gray-600 dark:text-white">
-              {{ $t('beginStatText') }}
-              <span class="font-bold">{{ 30 + $t('days') }}</span>
-              {{ $t('endStatText') }}
+            <div>
+              <select v-model="salesChartFilterData"
+                class="bg-blue-100 dark:bg-slate-800 border-none text-slate-900 dark:text-white rounded-lg text-base md:text-lg block w-full h-11">
+                <option value="6">
+                  {{ $t('weeklyStatistics') }}
+                </option>
+                <option value="30">
+                  {{ $t('monthlyStatistics') }}
+                </option>
+              </select>
             </div>
           </div>
-          <div>
-            <select v-model="salesChartFilterData"
-              class="bg-blue-100 dark:bg-gray-700 border-none text-slate-900 dark:text-white rounded-lg text-base md:text-lg block w-full h-11">
-              <option value="6">
-                {{ $t('weeklyStatistics') }}
-              </option>
-              <option value="30">
-                {{ $t('monthlyStatistics') }}
-              </option>
-            </select>
+          <div v-if="salesChartFilterData === 6">
+            <apexchart type="bar" height="320" :options="profitChartChartOptions" :series="profitChartSeries">
+            </apexchart>
+          </div>
+          <div v-else>
+            <apexchart type="area" height="320" :options="salesAreaChartChartOptions" :series="profitChartSeries">
+            </apexchart>
           </div>
         </div>
-        <div v-if="salesChartFilterData === 6">
-          <apexchart type="bar" height="320" :options="profitChartChartOptions" :series="profitChartSeries">
+        <div class="w-1/2 bg-slate-100 dark:bg-slate-800 rounded-3xl p-5">
+          <div class="flex flex-col md:flex-row md:items-center md:justify-between px-2 space-y-3 md:space-y-0">
+            <div>
+              <div class="text-base font-bold text-gray-800 dark:text-zinc-100">
+                {{ $t('salesStatistics') }}
+              </div>
+              <div class="text-sm text-gray-600 dark:text-white">
+                {{ $t('beginStatText') }}
+                <span class="font-bold">{{ 10 + $t('days') }}</span>
+                {{ $t('endStatText') }}
+              </div>
+            </div>
+            <div class="flex items-center justify-center rounded-xl bg-blue-100 dark:bg-aqua-200 p-2">
+              <ChartBarIcon class="w-8 h-8 text-blue-600" />
+            </div>
+          </div>
+          <apexchart type="bar" height="320" :options="salesChartChartOptions" :series="salesChartSeries">
           </apexchart>
         </div>
-        <div v-else>
-          <apexchart type="area" height="320" :options="salesAreaChartChartOptions" :series="profitChartSeries">
-          </apexchart>
-        </div>
-      </div>
-      <div class="flex-1 bg-slate-50 dark:bg-gray-700 rounded-3xl p-5">
-        <div class="flex flex-col md:flex-row md:items-center md:justify-between px-2 space-y-3 md:space-y-0">
-          <div>
-            <div class="text-base font-bold text-gray-800 dark:text-zinc-100">
-              {{ $t('salesStatistics') }}
-            </div>
-            <div class="text-sm text-gray-600 dark:text-white">
-              {{ $t('beginStatText') }}
-              <span class="font-bold">{{ 10 + $t('days') }}</span>
-              {{ $t('endStatText') }}
-            </div>
-          </div>
-          <div class="flex items-center justify-center rounded-xl bg-blue-100 dark:bg-aqua-200 p-2">
-            <ChartBarIcon class="w-8 h-8 text-blue-600" />
-          </div>
-        </div>
-        <apexchart type="bar" height="320" :options="salesChartChartOptions" :series="salesChartSeries">
-        </apexchart>
       </div>
     </div>
-    <div class="flex-1 bg-slate-50 dark:bg-gray-700 rounded-3xl p-5">
+    <div class="flex-1 bg-slate-100 dark:bg-slate-800 rounded-3xl p-5">
       <div class="flex flex-col md:flex-row md:items-center md:justify-between px-2 space-y-3 md:space-y-0">
         <div>
           <div class="text-base font-bold text-gray-800 dark:text-zinc-100">
@@ -1353,7 +1359,7 @@ watch(pageProfit, () => {
       </apexchart>
     </div>
     <div class="flex flex-col md:flex-row space-x-0 md:space-x-4 space-y-2 md:space-y-0">
-      <div class="flex-1 bg-slate-50 dark:bg-gray-700 rounded-3xl p-5">
+      <div class="flex-1 bg-slate-100 dark:bg-slate-800 rounded-3xl p-5">
         <div class="flex items-center justify-between px-2">
           <div>
             <div class="text-base font-bold text-gray-800 dark:text-zinc-100">
@@ -1375,7 +1381,7 @@ watch(pageProfit, () => {
       <!-- <div class="flex-1"></div> -->
       <div class="flex-1 flex flex-col space-y-4">
         <div class="flex flex-col md:flex-row md:items-center space-x-0 md:space-x-4 space-y-2 md:space-y-0">
-          <div class="flex-1 w-full space-y-4 rounded-3xl bg-slate-50 dark:bg-gray-700 p-5">
+          <div class="flex-1 w-full space-y-4 rounded-3xl bg-slate-100 dark:bg-slate-800 p-5">
             <div
               class="flex flex-row md:flex-col items-center md:items-start space-x-4 md:space-x-0 space-y-0 md:space-y-2">
               <div class="inline-flex items-center justify-center rounded-xl bg-blue-100 dark:bg-aqua-200 p-3">
@@ -1391,7 +1397,7 @@ watch(pageProfit, () => {
               </div>
             </div>
           </div>
-          <div class="flex-1 w-full space-y-4 rounded-3xl bg-slate-50 dark:bg-gray-700 p-5">
+          <div class="flex-1 w-full space-y-4 rounded-3xl bg-slate-100 dark:bg-slate-800 p-5">
             <div
               class="flex flex-row md:flex-col items-center md:items-start space-x-4 md:space-x-0 space-y-0  md:space-y-2">
               <div class="inline-flex items-center justify-center rounded-xl bg-blue-100 dark:bg-aqua-200 p-3">
@@ -1407,10 +1413,26 @@ watch(pageProfit, () => {
               </div>
             </div>
           </div>
+          <div class="flex-1 w-full h-full space-y-4 rounded-3xl bg-slate-100 dark:bg-slate-800 p-5">
+            <div
+              class="flex flex-row md:flex-col items-center md:items-start space-x-4 md:space-x-0 space-y-0 md:space-y-2">
+              <div class="inline-flex items-center justify-center rounded-xl bg-blue-100 dark:bg-aqua-200 p-3">
+                <DollarIcon class="w-8 h-8 text-blue-600" />
+              </div>
+              <div>
+                <div class="text-base text-gray-600 dark:text-white">
+                  {{ $t('numberOfEmployees') }}
+                </div>
+                <div class="text-xl md:text-2xl dark:text-white font-semibold">
+                  {{ useMoneyFormatter(productStats.sum) }}
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
         <div class="flex flex-col md:flex-row md:items-center space-x-0 md:space-x-4 space-y-2 md:space-y-0">
           <div v-for="(product, idx) in soldProductPrice" :key="idx"
-            class="flex-1 w-full space-y-4 rounded-3xl bg-slate-50 dark:bg-gray-700 p-5">
+            class="flex-1 w-full space-y-4 rounded-3xl bg-slate-100 dark:bg-slate-800 p-5">
             <div
               class="flex flex-row md:flex-col items-center md:items-start space-x-4 md:space-x-0 space-y-0 md:space-y-2">
               <div class="inline-flex items-center justify-center rounded-xl bg-blue-100 dark:bg-aqua-200 p-3">
@@ -1430,7 +1452,7 @@ watch(pageProfit, () => {
             </div>
           </div>
 
-          <div class="flex-1 w-full h-full space-y-4 rounded-3xl bg-slate-50 dark:bg-gray-700 p-5">
+          <div class="flex-1 w-full h-full space-y-4 rounded-3xl bg-slate-100 dark:bg-slate-800 p-5">
             <div
               class="flex flex-row md:flex-col items-center md:items-start space-x-4 md:space-x-0 space-y-0 md:space-y-2">
               <div class="inline-flex items-center justify-center rounded-xl bg-blue-100 dark:bg-aqua-200 p-3">
