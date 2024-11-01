@@ -139,10 +139,10 @@ const clearFilterData = () => {
     <div class="flex flex-col space-x-10 md:flex-row items-center">
       <div class="relative w-full md:w-auto my-2 md:mb-0 order-2 md:order-1">
         <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-          <SearchIcon class="w-5 h-5 text-slate-400" />
+          <SearchIcon class="w-5 h-5 text-slate-400 dark:text-white" />
         </div>
         <input type="search" v-model="globalSearchFromTable"
-          class="bg-slate-100 border-none w-full text-slate-900 text-base md:text-lg rounded-full block pl-10 py-2 placeholder-slate-400"
+          class="bg-slate-100 border-none w-full dark:bg-slate-700 dark:text-white text-slate-900 text-base md:text-lg rounded-full block pl-10 py-2 placeholder-slate-400"
           :placeholder="$t('search')">
       </div>
 
@@ -154,7 +154,7 @@ const clearFilterData = () => {
             <span>{{ $t('filter') }}</span>
           </div>
           <div v-if="useDropdownStore().isOpenFilterBy"
-            class="absolute bg-white dark:bg-slate-600 shadow-md rounded-xl w-64 p-3 z-20 top-12 right-0 space-y-3">
+            class="absolute bg-white dark:bg-slate-800 shadow-md rounded-xl w-64 p-3 z-20 top-12 right-0 space-y-3">
             <div class="flex-1 space-y-1">
               <label for="from" class="text-base dark:text-white md:text-lg font-medium">
                 {{ $t('from') }}

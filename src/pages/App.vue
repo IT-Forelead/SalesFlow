@@ -116,7 +116,7 @@ onMounted(() => {
                                                 stroke-linejoin="round"></path>
                                         </svg>
                                     </div>
-                                    <div class="mt-6 flex-auto rounded-t-2xl bg-white dark:bg-slate-600">
+                                    <div class="mt-6 flex-auto rounded-t-2xl bg-white dark:bg-slate-800">
                                         <div class="p-4">
                                             <div class="flex gap-2">
                                                 <div class="text-base leading-6 text-gray-900 dark:text-zinc-200">

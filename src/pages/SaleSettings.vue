@@ -212,7 +212,7 @@ const createMinimalPriceSettings = () => {
                 {{ $t('percentage')}}
               </label>
               <input type="number" id="percentage" v-model="submitData.percentage" :placeholder="$t('enterPercentage')"
-                     class="border-none text-right text-gray-500 dark:text-red-600 dark:bg-slate-500 bg-slate-100 h-11 rounded-lg w-full text-lg" />
+                     class="border-none text-right border-red-500 text-gray-500 dark:bg-slate-800 bg-slate-100 h-11 rounded-lg w-full text-lg" />
             </div>
             <div class="flex-1">
               <button v-if="isLoadingPercent" class="text-white text-base flex items-center rounded-xl px-4 py-2.5 bg-blue-500 hover:bg-blue-600 absolute bottom-0">
@@ -239,7 +239,7 @@ const createMinimalPriceSettings = () => {
                 {{ $t('boundaryPrice')}}
               </label>
               <money3 v-bind="moneyConf" id="price" v-model="submitData.boundaryPrice"
-                       class="border-none text-right text-gray-500 dark:bg-slate-500 bg-slate-100 h-11 rounded-lg w-full text-lg">
+                       class="border-none text-right text-gray-500 dark:bg-slate-800 bg-slate-100 h-11 rounded-lg w-full text-lg">
               </money3>
               <div class="flex-1">
                 <button @click="createBoundaryPrice" class="text-white text-base flex items-center rounded-xl px-4 py-2.5 bg-blue-500 hover:bg-blue-600">
@@ -254,7 +254,7 @@ const createMinimalPriceSettings = () => {
               {{ $t('minimalPriceForHolidayDiscount')}}
             </label>
             <money3 v-bind="moneyConf" id="price" v-model="submitData.minimalPrice"
-                    class="border-none text-right text-gray-500 dark:bg-slate-500 bg-slate-100 h-11 rounded-lg w-full text-lg">
+                    class="border-none text-right text-gray-500 dark:bg-slate-800 bg-slate-100 h-11 rounded-lg w-full text-lg">
             </money3>
             <div class="flex-1">
               <button @click="createMinimalPriceSettings" class="text-white text-base flex items-center rounded-xl px-4 py-2.5 bg-blue-500 hover:bg-blue-600">
@@ -278,10 +278,10 @@ const createMinimalPriceSettings = () => {
           <div class="flex dark:text-red-500 flex-col md:flex-row items-center justify-between">
             <div class="relative w-full md:w-auto my-2 md:mb-0 order-2 md:order-1">
               <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                <SearchIcon class="w-5 h-5 text-slate-400" />
+                <SearchIcon class="w-5 h-5 text-slate-400 dark:text-white" />
               </div>
               <input type="search" v-model="globalSearchFromTable"
-                     class="dark:bg-slate-500 bg-slate-100 border-none w-full text-slate-900 text-base md:text-lg rounded-full block pl-10 py-2 placeholder-slate-400"
+                     class="dark:bg-slate-800 bg-slate-100 dark:text-white border-none w-full text-slate-900 text-base md:text-lg rounded-full block pl-10 py-2 placeholder-slate-400"
                      placeholder="Search everything...">
             </div>
             <div class="w-full md:w-auto order-1 md:order-2">
@@ -316,20 +316,20 @@ const createMinimalPriceSettings = () => {
   border-bottom: solid #3b82f6 !important;
 }
 .dark .p-tabview-panels {
-  background-color: rgb(71, 85, 105) !important;
+  background-color: rgb(55 65 81) !important;
   color: rgb(245, 245, 245) !important; 
 }
 
 .dark .p-tabview-panels * {
-  color: rgb(71, 85, 105) !important; 
+  color: rgb(55 65 81) !important; 
   color: rgb(245, 245, 245) !important; 
 }
 .dark .p-tabview-nav-content * {
-  background-color: rgb(71, 85, 105) !important;
+  background-color: rgb(55 65 81) !important;
   color: rgb(245, 245, 245) !important; 
 }
 .dark .p-tabview-nav-content  {
-  background-color: rgb(71, 85, 105) !important;
+  background-color: rgb(55 65 81) !important;
   color: rgb(245, 245, 245) !important; 
 }
 </style>

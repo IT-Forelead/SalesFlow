@@ -291,10 +291,10 @@ const openCreateProductModal = () => {
       <div class="flex space-x-1 space-y-2 md:space-y-0 md:flex-row flex-col mb-6 justify-between">
         <div class="relative w-full md:w-[calc(100%-13rem)]">
           <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-            <SearchIcon class="w-5 h-5 text-slate-400" />
+            <SearchIcon class="w-5 h-5 text-slate-400 dark:text-white" />
           </div>
           <input type="search" v-model="searchProduct" ref="onSearchFocus" v-on:keypress="whenPressEnter($event)"
-                 class="bg-slate-100 border-none text-slate-900 rounded-lg w-full h-12 pl-10 placeholder-slate-400 placeholder:text-sm md:placeholder:text-lg"
+                 class="bg-slate-100 border-none dark:bg-slate-700 dark:text-white text-slate-900 rounded-lg w-full h-12 pl-10 placeholder-slate-400 placeholder:text-sm md:placeholder:text-lg"
                  :placeholder="t('searchByProductNameOrBarcode')">
           <div class="absolute inset-y-0 right-0 flex items-center space-x-2">
             <button type="button" @click="searchProducts()"
@@ -310,7 +310,7 @@ const openCreateProductModal = () => {
         <div v-if="productBarcodes.length > 0" class="absolute top-36 px-4 left-0 bg-transparent w-full space-y-2 z-[2000]">
           <ScrollPanel style="height: 600px;">
             <div v-for="(product, idx) in productBarcodes" :key="idx" @click="selectProduct(product)"
-              class="flex items-center justify-between bg-white dark:bg-slate-600 border shadow-sm rounded-xl px-3 py-2 w-full cursor-pointer hover:bg-slate-100">
+              class="flex items-center justify-between bg-white dark:bg-slate-800 border shadow-sm rounded-xl px-3 py-2 w-full cursor-pointer hover:bg-slate-100">
               <div class="flex items-center space-x-3">
                 <div class="flex items-center justify-center bg-slate-200 w-10 h-10 rounded-lg">
                   <ImageIcon class="text-gray-500 dark:text-zinc-300 w-8 h-8" />
@@ -353,7 +353,7 @@ const openCreateProductModal = () => {
               </th>
             </tr>
             </thead>
-            <tbody class="bg-white dark:bg-slate-600 divide-y divide-gray-200">
+            <tbody class="bg-white dark:bg-slate-800 divide-y divide-gray-200">
             <tr v-for="(product, idx) in selectedProducts" :key="idx">
               <td class="px-6 py-4 whitespace-nowrap">
                 <div class="flex items-center">

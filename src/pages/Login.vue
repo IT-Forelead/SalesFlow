@@ -154,14 +154,14 @@ onMounted(() => {
         </p>
       </div>
       <div
-        class="-mx-2 z-[2] mt-10 flex-auto bg-white dark:bg-slate-600 dark:bg-[#161B22] px-4 py-10 shadow-2xl shadow-gray-900/10 dark:shadow-gray-500/10 sm:mx-0 sm:flex-none sm:rounded-5xl sm:p-24 rounded-3xl">
+        class="-mx-2 z-[2] mt-10 flex-auto bg-white dark:bg-slate-800 dark:bg-[#161B22] px-4 py-10 shadow-2xl shadow-gray-900/10 dark:shadow-gray-500/10 sm:mx-0 sm:flex-none sm:rounded-5xl sm:p-24 rounded-3xl">
         <div class="space-y-6">
           <div>
             <label for="login" class="mb-2 block text-base font-semibold dark:text-zinc-200 dark:text-[#e6edf3]">
               {{ $t('login') }}
             </label>
             <input v-model="submitData.login" type="text" id="login"
-              class="border appearance-none text-sm rounded-lg block w-full p-2.5  bg-white dark:bg-slate-600 dark:bg-[#0D1117] border-gray-200 dark:border-[#30363D] placeholder-gray-400 text-gray-900 dark:text-zinc-200 dark:text-white focus:outline-none  focus:ring-blue-500 focus:border-blue-500"
+              class="border appearance-none text-sm rounded-lg block w-full p-2.5  bg-white dark:bg-slate-800 dark:bg-[#0D1117] border-gray-200 dark:border-[#30363D] placeholder-gray-400 text-gray-900 dark:text-zinc-200 dark:text-white focus:outline-none  focus:ring-blue-500 focus:border-blue-500"
               :placeholder="$t('enterYourLogin')" @keyup.enter="login()">
           </div>
           <div>
@@ -170,7 +170,7 @@ onMounted(() => {
             </label>
             <div class="relative">
               <input v-model="submitData.password" id="password" :type="hidePassword ? 'password' : 'text'"
-                class="border appearance-none text-sm rounded-lg block w-full p-2.5 bg-white dark:bg-slate-600 dark:bg-[#0D1117] border-gray-200 dark:border-[#30363D] placeholder-gray-400 text-gray-900 dark:text-zinc-200 dark:text-white focus:outline-none  focus:ring-blue-500 focus:border-blue-500"
+                class="border appearance-none text-sm rounded-lg block w-full p-2.5 bg-white dark:bg-slate-800 dark:bg-[#0D1117] border-gray-200 dark:border-[#30363D] placeholder-gray-400 text-gray-900 dark:text-zinc-200 dark:text-white focus:outline-none  focus:ring-blue-500 focus:border-blue-500"
                 :placeholder="$t('enterYourPassword')" @keyup.enter="login()">
               <EyeIcon v-if="hidePassword" @click="togglePassword()"
                 class="text-gray-500 dark:text-zinc-300 absolute z-10 top-1/2 -translate-y-1/2 right-3 w-5 h-5 cursor-pointer" />

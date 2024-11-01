@@ -132,13 +132,13 @@ const closeModal = () => {
     <template v-slot:body>
       <div class="w-full relative mb-4">
         <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-          <SearchIcon class="w-5 h-5 text-slate-400" />
+          <SearchIcon class="w-5 h-5 text-slate-400 dark:text-white" />
         </div>
         <input type="text" v-model="search" :placeholder="t('searchByProductNameOrBarcode')"
-          class="bg-slate-100 border-none text-slate-900 rounded-lg w-full h-12 pl-10 placeholder-slate-400"
+          class="bg-slate-100 border-none dark:bg-slate-700 dark:text-white text-slate-900 rounded-lg w-full h-12 pl-10 placeholder-slate-400"
           @input="isOpen = true">
         <ul v-if="searchResults.length && isOpen"
-          class="mt-1 w-full max-h-60 overflow-y-auto absolute z-10 bg-white dark:bg-slate-600 border border-slate-200 rounded-xl shadow-md">
+          class="mt-1 w-full max-h-60 overflow-y-auto absolute z-10 bg-white dark:bg-slate-800 border border-slate-200 rounded-xl shadow-md">
           <li class="px-4 py-3 border-b border-slate-200 cursor-pointer hover:bg-slate-100"
             v-for="result in searchResults" :key="result.id" @click="setSelectedProduct(result)">
             <span class="font-semibold">{{ result.name }}</span> - {{ result.packaging }}
