@@ -91,7 +91,7 @@ onUnmounted(() => {
 
 <template>
   <div v-if="!useSidebarStore().isOpenSidebar"
-    class="sticky flex items-center w-full px-6 py-4 bg-white dark:bg-slate-800 border-b border-gray-200 shadow-7xl lg:block">
+    class="sticky flex items-center w-full px-6 py-4 bg-white dark:bg-slate-600 border-b border-gray-200 shadow-7xl lg:block">
     <div class="flex space-x-4 items-center">
       <div v-if="!useSidebarStore().isOpenSidebar" @click="closeSidebar"
         class="flex items-center justify-center w-8 h-8 rounded-lg cursor-pointer hover:bg-gray-100 dark:text-white dark:hover:bg-gray-500">

@@ -1780,7 +1780,7 @@ const closeCardIdModal = () => {
           id="price"
           ref="onTotalFocus"
           @blur="totalReFocus()"
-          class="border-none text-right text-gray-500 dark:text-slate-900 bg-slate-100 rounded-lg w-full text-lg"
+          class="border-none text-right text-gray-500 dark:text-black bg-slate-100 rounded-lg w-full text-lg"
         />
       </div>
       <div class="space-y-1" @click="a">
@@ -1794,7 +1794,7 @@ const closeCardIdModal = () => {
             ref="onCustomerMoneyFocus"
             @blur="customerMoneyReFocus()"
             v-bind="moneyConf"
-            class="border-none text-right text-gray-500 dark:text-slate-900 bg-slate-100 rounded-lg w-full text-lg"
+            class="border-none text-right text-gray-500 dark:text-black bg-slate-100 rounded-lg w-full text-lg"
           />
         </div>
       </div>
