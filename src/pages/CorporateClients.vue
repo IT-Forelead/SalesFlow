@@ -71,7 +71,7 @@ const columns = [
       h('button', { onClick: () => { openDebtInfo(row.original) } }, [
         h(EyeIcon, { class: 'w-6 h-6 text-blue-600 hover:scale-105' })
       ]),
-      
+
       h('button', { onClick: () => { openDeleteCorporateClientModal(row.original) } }, [
         h(TrashIcon, { class: 'w-6 h-6 text-red-600 hover:scale-105' })
       ]),

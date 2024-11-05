@@ -133,7 +133,7 @@ watch(
               <option value="delivered" @change="showDeliveryField = true">{{ $t('delivered') }}</option>
               <option value="cancelled">{{ $t('cancelled') }}</option>
             </select>
-          </div>  
+          </div>
         </div>
         <div class="flex flex-col md:flex-row md:items-center space-y-2 md:space-y-0 md:space-x-4">
           <div class="space-y-1 md:w-1/2 sm:w-full">

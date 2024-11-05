@@ -1,5 +1,6 @@
 <script setup>
-import EyeIcon from '../assets/icons/EyeIcon.vue'
+import PhPencilIcon from '../assets/icons/EditIcon.vue'
+import PhTrash from '../assets/icons/TrashIcon.vue'
 import { ref } from 'vue'
 import moment from 'moment'
 import { computed, h } from 'vue'
@@ -8,17 +9,19 @@ import Spinners270RingIcon from '../assets/icons/Spinners270RingIcon.vue'
 import CTable from '../components/common/CTable.vue'
 import { useModalStore } from '../store/modal.store.js'
 import { useI18n } from 'vue-i18n'
-import { useInvestorStore } from '../store/investor.store.js'
-import { useInvestStore } from '../store/invest.store.js'
-import InvestorService from '../services/investor.service.js'
-import InvestService from '../services/invest.service.js'
+import { useVoucherStore } from '../store/voucher.store.js'
+import VoucherService from '../services/voucher.service.js'
 
 const { t } = useI18n()
-const investorStore = useInvestorStore()
+const page = ref(1)
+const pageSize = 30
+
+const voucherStore = useVoucherStore()
 const globalSearchFromTable = ref('')
 const isLoading = ref(false)
-const investors = computed(() => investorStore.investors)
-const renderkey = computed(() => investorStore.renderkey)
+
+const vouchers = computed(() => voucherStore.vouchers)
+const renderkey = computed(() => voucherStore.renderkey)
 
 const columns = [
   {
@@ -28,61 +31,43 @@ const columns = [
     enableSorting: false,
   },
   {
-    accessorKey: 'fullName',
-    header: t('fullName'),
+    accessorFn: row => `${row.amount}`,
+    header: t('amount'),
   },
   {
-    accessorKey: 'phone',
-    header: t('phoneNumber'),
+    accessorKey: 'count',
+    header: t('count'),
+  },
+  {
+    accessorKey: 'expireDate',
+    header: t('expirationDate'),
   },
   {
     accessorKey: 'createdAt',
     accessorFn: row => moment(row.createdAt).format('DD/MM/YYYY H:mm'),
     header: t('createdAt'),
   },
-  {
-    accessorKey: 'actions',
-    header: t('actions'),
-    cell: ({ row }) => h('div', { class: 'flex items-center space-x-2' }, [
-      h('button', { onClick: () => { openInvestorInfo(row.original) } }, [
-        h(EyeIcon, { class: 'w-6 h-6 text-blue-600 hover:scale-105' })
-      ]),
-    ]),
-    enableSorting: false,
-  },
 ]
 
-const openInvestorInfo = async (data) => {
-  useInvestorStore().setSelectedInvestor(data)
-  try {
-    const res = await InvestService.getInvestsByFilters({ investorId: data.id})
-    useInvestStore().clearStore()
-    useInvestStore().setInvests(res.data)
-    useInvestorStore().renderkey += 1
-  } finally {
-    useModalStore().openInvestorInfoModal()
-  }
-}
-
-const getBalances = async () => {
+const getAllVouchers = () => {
   isLoading.value = true
-  try {
-    const res = await InvestorService.getInvestorsByFilter({})
-    useInvestorStore().clearStore()
-    useInvestorStore().setInvestors(res.data)
-    useInvestorStore().renderkey += 1
-  } finally {
-    isLoading.value = false
-  }
+  VoucherService.getAllVouchers(pageSize, page.value)
+    .then((res) => {
+      useVoucherStore().clearStore()
+      useVoucherStore().vouchersTotal = res.total
+      useVoucherStore().setVouchers(res.data)
+    }).finally(() => {
+      isLoading.value = false
+    })
 }
-getBalances()
+getAllVouchers()
 
 </script>
 
 <template>
   <div class="p-4 md:p-8">
     <div class="text-slate-900 text-2xl md:text-3xl font-semibold mb-6">
-      {{ $t('investors') }}
+      {{ $t('vouchers') }}
     </div>
     <div class="flex flex-col md:flex-row items-center justify-between">
       <div class="relative w-full md:w-auto my-2 md:mb-0 order-2 md:order-1">
@@ -94,15 +79,15 @@ getBalances()
           :placeholder="$t('search')">
       </div>
       <div class="w-full md:w-auto order-1 md:order-2">
-        <button @click="useModalStore().openCreateInvestorModal()"
+        <button @click="useModalStore().openCreateVoucherModal()"
           class="w-full md:w-auto py-2 px-4 rounded-full text-white text-lg font-medium bg-blue-500 cursor-pointer hover:bg-blue-600">
-          {{ $t('createInvestor') }}
+          {{ $t('addVoucher') }}
         </button>
       </div>
     </div>
     <div v-if="isLoading" class="flex items-center justify-center h-20">
       <Spinners270RingIcon class="w-6 h-6 text-gray-500 animate-spin" />
     </div>
-    <CTable :key="renderkey" v-else :data="investors" :columns="columns" :filter="globalSearchFromTable" />
+    <CTable :key="renderkey" v-else :data="vouchers" :columns="columns" :filter="globalSearchFromTable" />
   </div>
 </template>

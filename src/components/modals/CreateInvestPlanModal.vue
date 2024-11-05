@@ -127,7 +127,7 @@ const createPlan = () => {
               {{ $t('ratePercent') }}
               <span class="text-red-500 mr-2">*</span>
             </label>
-            <input id="rate" type="text" v-model="submitForm.rate" 
+            <input id="rate" type="text" v-model="submitForm.rate"
               class="bg-slate-100 border-none text-slate-900 rounded-lg w-full py-2.5 placeholder-slate-400">
           </div>
           <div class="flex-1">
@@ -135,7 +135,7 @@ const createPlan = () => {
               {{ $t('availabilityCount') }}
               <span class="text-red-500 mr-2">*</span>
             </label>
-            <input id="availabilityCount" type="text" v-model="submitForm.availabilityCount" 
+            <input id="availabilityCount" type="text" v-model="submitForm.availabilityCount"
               class="bg-slate-100 border-none text-slate-900 rounded-lg w-full py-2.5 placeholder-slate-400">
           </div>
         </div>

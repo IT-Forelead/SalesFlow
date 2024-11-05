@@ -78,6 +78,13 @@ const routes = [
     beforeEnter: navigationGuards('view_agents'),
   },
   {
+    path: '/vouchers',
+    name: 'Vouchers',
+    component: () => import('../pages/Vouchers.vue'),
+    meta: { layout: 'dashboard' },
+    beforeEnter: navigationGuards('view_agents'),
+  },
+  {
     path: '/markets',
     name: 'Markets',
     component: () => import('../pages/Markets.vue'),
