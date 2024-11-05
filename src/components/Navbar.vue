@@ -43,6 +43,7 @@ import InvestDailyModal from './modals/InvestDailyModal.vue'
 import EditInvestStatusModal from './modals/EditInvestStatusModal.vue'
 import CashbackHistoryModal from './modals/CashbackHistoryModal.vue'
 import CreatePriceModal from './modals/CreatePriceModal.vue'
+import CreateVoucherModal from './modals/CreateVoucherModal.vue'
 
 const notificationDropdown = ref(null)
 
@@ -78,6 +79,8 @@ const handleResize = () => {
 }
 
 onMounted(() => {
+  const savedTheme = localStorage.getItem('theme')
+  document.documentElement.className = savedTheme ? savedTheme : 'dark'
   window.addEventListener('resize', handleResize);
 });
 
@@ -148,6 +151,7 @@ onUnmounted(() => {
   <EditInvestStatusModal />
   <CashbackHistoryModal />
   <CreatePriceModal />
+  <CreateVoucherModal />
 </template>
 
 <style scoped></style>

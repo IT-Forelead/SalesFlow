@@ -302,7 +302,7 @@ const refundProducts = () => {
               {{ quantity  + ' ' + $t('piece') }}
             </div>
           </li>
-          
+
           <li  v-if="!isFromCashback" class="flex items-center justify-between py-2">
             <div class="text-base">
               {{ $t('price') }}
@@ -368,7 +368,7 @@ const refundProducts = () => {
     <template v-slot:footer>
       <CancelButton @click="closeModalWithRefresh" />
       <div v-if="!isFromCashback" >
-        
+
         <button v-if="isRefundLoading" type="button"
               class="inline-flex items-center justify-center ml-2 text-rose-500 bg-white hover:bg-slate-100 focus:ring-4 focus:outline-none focus:ring-slate-300 rounded-xl border border-slate-200 text-sm font-medium px-5 py-2.5 hover:text-rose-600 focus:z-10">
         <Spinners270RingIcon

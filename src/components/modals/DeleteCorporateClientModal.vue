@@ -77,7 +77,7 @@ const deleteCorporateClient = () => {
                                 {{ $t('balance') }}
                             </div>
                             <div class="text-base font-medium">
-                              {{ selectedCorporateClient?.balance + ' UZS'}} 
+                              {{ selectedCorporateClient?.balance + ' UZS'}}
                             </div>
                         </li>
                         <li class="flex items-center justify-between py-2 px-3">
