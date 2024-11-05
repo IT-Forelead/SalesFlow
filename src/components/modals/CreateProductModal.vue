@@ -538,7 +538,7 @@ const calculateExpirationDate = (months) => {
                 {{ $t('fullPrice') }}
               </label>
               <money3 v-model.number="submitData.boxPrice" v-bind="moneyConf" id="boxPrice"
-                      class="border-none text-right text-gray-500 text-slate-900 bg-slate-100 h-11 rounded-lg w-full text-lg">
+                      class="border-none text-right text-slate-900 bg-slate-100 h-11 rounded-lg w-full text-lg">
               </money3>
             </div>
           </div>
@@ -548,7 +548,7 @@ const calculateExpirationDate = (months) => {
                 {{ $t('purchasePrice') }}
               </label>
               <money3 v-model.number="submitData.purchasePrice" v-bind="moneyConf" id="purchasePrice"
-                      class="border-none text-right text-gray-500 text-slate-900 bg-slate-100 h-11 rounded-lg w-full text-lg">
+                      class="border-none text-right text-slate-900 bg-slate-100 h-11 rounded-lg w-full text-lg">
               </money3>
             </div>
             <div class="flex-1 space-y-1">

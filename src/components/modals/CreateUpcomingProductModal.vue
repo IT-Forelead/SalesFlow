@@ -368,7 +368,7 @@ const openCreateProductModal = () => {
                 </div>
               </td>
               <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                <input type="number" v-model="product.quantity" class="w-24 bg-slate-100 border-none text-slate-900 text-gray-900 dark:text-white rounded-lg text-base md:text-lg block h-10">
+                <input type="number" v-model="product.quantity" class="w-24 bg-slate-100 border-none text-slate-900 dark:text-white rounded-lg text-base md:text-lg block h-10">
               </td>
               <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
                 <TrashIcon @click="removeProduct(product)" class="w-6 h-6 text-rose-500 cursor-pointer transform hover:scale-105" />

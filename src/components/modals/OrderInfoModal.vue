@@ -377,7 +377,7 @@ const refundProducts = () => {
       </button>
 
       <button v-else type="button" @click="refundProducts"
-              class="inline-flex items-center justify-center ml-2 dark:text-rose-400 bg-white text-rose-500 bg-white dark:bg-slate-600 hover:bg-slate-200 hover:dark:bg-slate-500 focus:ring-4 focus:outline-none focus:ring-slate-300 rounded-xl border border-slate-200 text-sm font-medium px-5 py-2.5 hover:text-rose-600 focus:z-10">
+              class="inline-flex items-center justify-center ml-2 dark:text-rose-400 text-rose-500 bg-white dark:bg-slate-600 hover:bg-slate-200 hover:dark:bg-slate-500 focus:ring-4 focus:outline-none focus:ring-slate-300 rounded-xl border border-slate-200 text-sm font-medium px-5 py-2.5 hover:text-rose-600 focus:z-10">
         <ArrowsUpLeftRightIcon class="mr-2 w-5 h-5" />
         <span>{{ $t('refundItems') }}</span>
       </button>
