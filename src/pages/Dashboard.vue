@@ -1421,7 +1421,7 @@ watch(pageProfit, () => {
               </div>
               <div>
                 <div class="text-base text-gray-600 dark:text-white">
-                  {{ $t('numberOfEmployees') }}
+                  {{ $t('totalProductPrice') }}
                 </div>
                 <div class="text-xl md:text-2xl dark:text-white font-semibold">
                   {{ useMoneyFormatter(productStats.sum) }}
