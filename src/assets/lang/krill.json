@@ -439,5 +439,6 @@
   "plsEnterAmount": "Моқдорни киритинг",
   "plsEnterCount": "Сони киритинг",
   "voucherAddedSuccessfully": "Ваучер яратилди!",
-  "errorWhileCreatingVoucher": "Ваучер яратишда хатолик юз берди"
+  "errorWhileCreatingVoucher": "Ваучер яратишда хатолик юз берди",
+  "totalProductPrice": "Жами махсулот нархи"
 }

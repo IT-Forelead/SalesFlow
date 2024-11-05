@@ -442,5 +442,6 @@
   "plsEnterAmount": "Moqdorni kiriting",
   "plsEnterCount": "Soni kiriting",
   "voucherAddedSuccessfully": "Vaucher yaratildi!",
-  "errorWhileCreatingVoucher": "Vaucher yaratishda xatolik yuz berdi"
+  "errorWhileCreatingVoucher": "Vaucher yaratishda xatolik yuz berdi",
+  "totalProductPrice": "Jami mahsulot narxi"
 }
