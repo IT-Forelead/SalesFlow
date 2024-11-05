@@ -70,7 +70,7 @@ const columns = [
     header: t('actions'),
     cell: ({ row }) => h('div', { class: 'flex items-center space-x-2' }, [
       h('button', { onClick: () => { openCashbackHistory(row.original) } }, [
-        h(EyeIcon, { class: 'w-6 h-6 text-blue-600 hover:scale-105' })
+        h(EyeIcon, { class: 'w-6 h-6 dark:text-blue-400 text-blue-600 hover:scale-105' })
       ]),
     ]),
     enableSorting: false,
@@ -154,7 +154,7 @@ onMounted(() => {
 <template>
   <div class="p-4 md:p-8">
     <div class="flex md:flex-row flex-col items-center justify-between space-y-4 md:space-y-0 mb-6">
-      <div class="text-slate-900 text-2xl md:text-3xl font-semibold">
+      <div class="dark:text-white text-slate-900 text-2xl md:text-3xl font-semibold">
       {{ $t('clients') }}
     </div>
 
@@ -170,7 +170,7 @@ onMounted(() => {
       </div>
     </div>
     <div v-if="isLoading" class="flex items-center justify-center h-20">
-      <Spinners270RingIcon class="w-6 h-6 text-gray-500 animate-spin" />
+      <Spinners270RingIcon class="w-6 h-6 text-gray-500 dark:text-zinc-300 animate-spin" />
     </div>
     <CTable v-else :data="customers" :key="renderKey" :columns="columns" :filter="globalSearchFromTable" />
     

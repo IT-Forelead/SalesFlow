@@ -100,7 +100,7 @@ watch(
       <div class="space-y-2 md:space-y-4">
         <div class="flex flex-col md:flex-row md:items-center space-y-2 md:space-y-0 md:space-x-4">
           <div class="flex-1">
-            <label for="trademark" class="text-base font-medium">
+            <label for="trademark" class="text-base dark:text-white font-medium">
               {{ $t('productName') }}
               <span class="text-red-500 mr-2">*</span>
             </label>
@@ -109,7 +109,7 @@ watch(
               :placeholder="t('enterProductName')" />
           </div>
           <div class="flex-1">
-            <label for="packaging" class="text-base font-medium">
+            <label for="packaging" class="text-base dark:text-white font-medium">
               {{ $t('packaging') }}
               <span class="text-red-500 mr-2">*</span>
             </label>
@@ -120,7 +120,7 @@ watch(
         </div>
         <div class="flex flex-col md:flex-row md:items-center space-y-2 md:space-y-0 md:space-x-4">
           <div class="flex-1">
-            <label for="barcode" class="text-base font-medium">
+            <label for="barcode" class="text-base dark:text-white font-medium">
               {{ $t('barcode') }}
               <span class="text-red-500 mr-2">*</span>
             </label>
@@ -129,13 +129,13 @@ watch(
                 class="bg-slate-100 border-none text-slate-900 rounded-lg w-full py-2.5 placeholder-slate-400"
                 :placeholder="t('enterProductBarcode')" />
               <div @click="useModalStore().openCameraScannerModal()"
-                class="absolute top-1/2 -translate-y-1/2 right-1 flex items-center justify-center w-8 h-8 rounded-lg hover:bg-white cursor-pointer">
-                <BarcodeIcon class="w-6 h-6 text-slate-900" />
+                class="absolute top-1/2 -translate-y-1/2 right-1 flex items-center justify-center w-8 h-8 rounded-lg hover:dark:bg-slate-600 cursor-pointer">
+                <BarcodeIcon class="w-6 h-6 text-slate-900 dark:text-white" />
               </div>
             </div>
           </div>
           <div class="flex-1">
-            <label for="sale-type" class="text-base font-medium">
+            <label for="sale-type" class="text-base dark:text-white font-medium">
               {{ $t('saleType') }}
             </label>
             <select id="sale-type" v-model="submitData.saleType"
@@ -150,7 +150,7 @@ watch(
         </div>
         <div class="flex flex-col md:flex-row md:items-center space-y-2 md:space-y-0 md:space-x-4">
           <div class="flex-1">
-            <label for="barcode" class="text-base font-medium">
+            <label for="barcode" class="text-base dark:text-white font-medium">
               {{ $t('inYearOfRegistration') }}
             </label>
             <input id="barcode" type="text" v-model="submitData.year" v-maska data-maska="####"
@@ -166,7 +166,7 @@ watch(
       <button v-if="isLoading" type="bSearchIconutton"
         class="inline-flex items-center justify-center ms-3 text-white bg-blue-600 focus:ring-4 focus:outline-none focus:ring-slate-300 rounded-xl border border-slate-200 text-sm font-medium px-5 py-2.5 focus:z-10 cursor-default">
         <Spinners270RingIcon
-          class="mr-2 w-5 h-5 text-gray-200 animate-spin dark:text-gray-600 fill-gray-600 dark:fill-gray-300" />
+          class="mr-2 w-5 h-5 text-gray-200 animate-spin dark:text-white fill-gray-600 dark:fill-gray-300" />
         {{ $t('create') }}
       </button>
       <button v-else @click="createProductBarcode()" type="button"

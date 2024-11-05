@@ -111,19 +111,19 @@ function getImage(e) {
         <div class="flex flex-col p-5 mb-12">
           <label v-if="!submitForm.image" for="dropzone-file"
             class="relative flex items-center justify-center w-28 h-28 max-w-lg p-6 mx-auto text-center border-2 border-blue-400 border-dashed rounded-lg cursor-pointer bg-slate-100">
-            <ImageIcon class="w-12 h-12 text-blue-700" />
+            <ImageIcon class="w-12 h-12 dark:text-blue-500 text-blue-700" />
             <input id="dropzone-file" type="file" class="hidden" name="image" @change="getImage" />
             <span
-              class="absolute mx-auto mt-3 text-lg font-semibold tracking-wide text-blue-500 -bottom-10 whitespace-nowrap">
+              class="absolute mx-auto mt-3 text-lg font-semibold tracking-wide dark:text-blue-400 text-blue-500 -bottom-10 whitespace-nowrap">
               {{ $t('uploadPhoto') }}
             </span>
           </label>
           <label v-else for="dropzone-file"
-            class="relative flex items-center justify-center w-28 h-28 max-w-lg mx-auto text-center border-2 rounded-lg cursor-pointer">
+            class="relative flex items-center justify-center w-28 h-28 dark:text-white max-w-lg mx-auto text-center border-2 rounded-lg cursor-pointer">
             <img :src="selectedImage" class="object-cover w-28 h-28 rounded-lg" alt="#" />
             <input id="dropzone-file" type="file" class="hidden" name="image" @change="getImage" />
             <span
-              class="absolute mx-auto mt-3 text-lg font-semibold tracking-wide text-blue-500 -bottom-10 whitespace-nowrap">
+              class="absolute mx-auto mt-3 text-lg font-semibold tracking-wide text-blue-500 dark:text-blue-400 -bottom-10 whitespace-nowrap">
               {{ $t('uploadAnotherPhoto') }}
             </span>
           </label>
@@ -131,7 +131,7 @@ function getImage(e) {
         <div class="flex items-center space-x-4">
 
           <div class="flex-1">
-            <label for="company" class="text-base font-medium">
+            <label for="company" class="text-base dark:text-white font-medium">
               {{ $t('company') }}
               <span class="text-red-500 mr-2">*</span>
             </label>
@@ -142,7 +142,7 @@ function getImage(e) {
         </div>
         <div class="flex items-center space-x-4">
           <div class="flex-1">
-            <label for="description" class="text-base font-medium">
+            <label for="description" class="text-base dark:text-white font-medium">
               {{ $t('description') }}
             </label>
             <input id="description" type="text" v-model="submitForm.description"

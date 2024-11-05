@@ -29,10 +29,10 @@ onMounted(() => {
                         <img src="/images/logo.svg" class="w-12 h-12" alt="#">
                         <div class="text-4xl font-extrabold">
                             <span class="text-[#0167f3]">Sales</span>
-                            <span class="text-black">Flow</span>
+                            <span class="dark:text-white">Flow</span>
                         </div>
                     </div>
-                    <p class="mt-6 text-lg text-gray-600">
+                    <p class="mt-6 text-lg text-gray-600 dark:text-white">
                         Ushbu dastur yordamida mobil telefoninggiz orqali
                         market.iflead.uz tizimidagi ko'plab funksiyalardan foydalanishingiz mumkun.
                         Hozirda mobil dasturimiz faqat Android foydalanuvchilari uchgun mavjud.
@@ -116,10 +116,10 @@ onMounted(() => {
                                                 stroke-linejoin="round"></path>
                                         </svg>
                                     </div>
-                                    <div class="mt-6 flex-auto rounded-t-2xl bg-white">
+                                    <div class="mt-6 flex-auto rounded-t-2xl bg-white dark:bg-slate-600">
                                         <div class="p-4">
                                             <div class="flex gap-2">
-                                                <div class="text-base leading-6 text-gray-900">
+                                                <div class="text-base leading-6 text-gray-900 dark:text-zinc-200">
                                                     Mahsulot qo'shish
                                                 </div>
                                                 <svg viewBox="0 0 24 24" class="ml-auto h-6 w-6" fill="none">
@@ -130,11 +130,11 @@ onMounted(() => {
                                             </div>
                                             <div class="mt-3 border-t border-gray-200 pt-5">
                                                 <div class="flex items-baseline gap-2">
-                                                    <div class="text-2xl tabular-nums tracking-tight text-gray-900">
+                                                    <div class="text-2xl tabular-nums tracking-tight text-gray-900 dark:text-zinc-200">
                                                         Shtrix-kod orqali mahsulot qo'shish
                                                     </div>
                                                 </div>
-                                                <div class="mt-6 text-xs text-gray-500">
+                                                <div class="mt-6 text-xs text-gray-500 dark:text-zinc-300">
                                                     Shtrix-kodni skanerlash
                                                 </div>
                                                 <div class="mt-3 rounded-lg bg-gray-50 ring-1 ring-inset ring-black/5">

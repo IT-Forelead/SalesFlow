@@ -66,7 +66,7 @@ const columns = [
           openOrderInfo(row.original)
         },
       }, [
-        h(EyeIcon, { class: 'w-6 h-6 text-blue-600 hover:scale-105' }),
+        h(EyeIcon, { class: 'w-6 h-6 dark:text-blue-400 text-blue-600 hover:scale-105' }),
       ]),
     ]),
     enableSorting: false,
@@ -101,7 +101,7 @@ getCashbacks()
 
 <template>
   <div class="p-4 md:p-8">
-    <div class="text-slate-900 text-2xl md:text-3xl font-semibold mb-6">
+    <div class="dark:text-white text-slate-900 text-2xl md:text-3xl font-semibold mb-6">
       {{ $t('cashbackHistories') }}
     </div>
     <div class="flex flex-col md:flex-row items-center justify-between">
@@ -115,7 +115,7 @@ getCashbacks()
       </div>
     </div>
     <div v-if="isLoading" class="flex items-center justify-center h-20">
-      <Spinners270RingIcon class="w-6 h-6 text-gray-500 animate-spin" />
+      <Spinners270RingIcon class="w-6 h-6 text-gray-500 dark:text-zinc-300 animate-spin" />
     </div>
     <CTable v-else :data="cashbacks" :key="renderkey" :columns="columns" :filter="globalSearchFromTable" />
   </div>

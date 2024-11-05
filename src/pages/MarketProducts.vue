@@ -49,7 +49,7 @@ const columns = [
 </script>
 
 <template>
-  <div class="bg-white rounded-3xl shadow px-4 py-4 lg:px-8">
+  <div class="bg-white dark:bg-slate-600 rounded-3xl shadow px-4 py-4 lg:px-8">
     <div class="flex items-center justify-between my-2">
       <div class="relative">
         <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">

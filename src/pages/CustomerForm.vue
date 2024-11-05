@@ -113,17 +113,17 @@ const createSale = () => {
         <div class="space-y-6">
           <div>
             <label for="fullName" class="mb-2 block text-base font-semibold text-gray-900 dark:text-[#e6edf3]"> {{ $t('fullName')}} </label>
-            <input v-model="submitData.fullName" type="text" id="fullName" class="border appearance-none text-sm rounded-lg block w-full p-2.5 bg-white dark:bg-[#0D1117] border-gray-200 dark:border-[#30363D] placeholder-gray-400 text-gray-900 dark:text-white focus:outline-none focus:ring-blue-500 focus:border-blue-500" :placeholder="t('enterFullName')" />
+            <input v-model="submitData.fullName" type="text" id="fullName" class="border appearance-none text-sm rounded-lg block w-full p-2.5 bg-white dark:bg-slate-600 border-gray-200 dark:border-[#30363D] placeholder-gray-400 text-gray-900 dark:text-zinc-200 focus:outline-none focus:ring-blue-500 focus:border-blue-500" :placeholder="t('enterFullName')" />
           </div>
           <div>
             <label for="phone" class="mb-2 block text-base font-semibold text-gray-900 dark:text-[#e6edf3]"> {{ $t('phone')}}</label>
             <div class="relative">
-              <input v-model="submitData.phone" id="phone" v-maska data-maska="+998(##) ###-##-##" class="border appearance-none text-sm rounded-lg block w-full p-2.5 bg-white dark:bg-[#0D1117] border-gray-200 dark:border-[#30363D] placeholder-gray-400 text-gray-900 dark:text-white focus:outline-none focus:ring-blue-500 focus:border-blue-500" placeholder="+998(00) 000-00-00" />
+              <input v-model="submitData.phone" id="phone" v-maska data-maska="+998(##) ###-##-##" class="border appearance-none text-sm rounded-lg block w-full p-2.5 bg-white dark:bg-slate-600 border-gray-200 dark:border-[#30363D] placeholder-gray-400 text-gray-900 dark:text-zinc-200 focus:outline-none focus:ring-blue-500 focus:border-blue-500" placeholder="+998(00) 000-00-00" />
             </div>
           </div>
         </div>
         <button v-if="isLoading" class="inline-flex items-center justify-center rounded-lg p-2.5 text-base font-semibold bg-blue-600 text-white mt-8 w-full cursor-default" type="submit">
-          <Spinners270RingIcon class="mr-2 w-5 h-5 text-gray-200 animate-spin dark:text-gray-600 fill-gray-600 dark:fill-gray-300" />
+          <Spinners270RingIcon class="mr-2 w-5 h-5 text-gray-200 animate-spin dark:text-white fill-gray-600 dark:fill-gray-300" />
           <span> {{ $t('create') }} </span>
         </button>
         <button v-else @click="createSale()" class="inline-flex items-center justify-center rounded-lg p-2.5 text-base font-semibold bg-blue-500 text-white hover:bg-blue-600 mt-8 w-full cursor-pointer" type="submit">{{ $t('create') }}</button>

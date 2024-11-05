@@ -256,7 +256,7 @@ const refundProducts = () => {
                 :key="idx"
                 @click="!product.refunded && toggleProductSelection(product)"
                 :class="{
-                    'bg-blue-200 rounded-xl': selectedProductIds.includes(product.id) && !product.refunded,
+                    'dark:bg-slate-400 bg-blue-200 rounded-xl': selectedProductIds.includes(product.id) && !product.refunded,
                     'bg-red-200': product.refunded
                   }"
                 class="cursor-pointer"
@@ -270,22 +270,22 @@ const refundProducts = () => {
                       <ImageIcon class="text-gray-500 w-6 h-6" />
                     </div>
                     <div>
-                      <div class="text-sm md:text-base font-semibold text-gray-800">
+                      <div class="text-sm md:text-base font-semibold text-gray-800 dark:text-white">
                         {{ product?.productName + ' - ' + product?.packaging }}
                       </div>
-                      <div class="text-sm md:text-base font-medium text-gray-500">
+                      <div class="text-sm md:text-base font-medium text-gray-500 dark:text-zinc-300">
                         {{ $t('price') }}:
-                        <span class="text-gray-700">
+                        <span class="text-gray-700 dark:text-white">
                             {{ useMoneyFormatter(product?.salePrice) }}
                           </span>
                       </div>
                     </div>
                   </div>
                 </td>
-                <td class="px-3 py-2 text-center whitespace-nowrap">
+                <td class="px-3 py-2 text-center dark:text-white whitespace-nowrap">
                   {{ product?.amount + ' ' + saleTypeShortTranslate(product?.saleType) }}
                 </td>
-                <td class="px-3 py-2 text-center whitespace-nowrap">
+                <td class="px-3 py-2 text-center dark:text-white whitespace-nowrap">
                   {{ useMoneyFormatter(product?.price) }}
                 </td>
               </tr>
@@ -295,32 +295,32 @@ const refundProducts = () => {
         </div>
         <ul class="divide-y divide-slate-100">
           <li class="flex items-center justify-between py-1">
-            <div class="text-base">
+            <div class="text-base dark:text-white">
               {{ $t('numberOfProducts') }}
             </div>
-            <div class="text-base font-medium">
+            <div class="text-base dark:text-white font-medium">
               {{ quantity  + ' ' + $t('piece') }}
             </div>
           </li>
 
           <li  v-if="!isFromCashback" class="flex items-center justify-between py-2">
-            <div class="text-base">
+            <div class="text-base dark:text-white">
               {{ $t('price') }}
             </div>
-            <div class="text-base font-medium">
+            <div class="text-base dark:text-white font-medium">
               {{ useMoneyFormatter(selectedOrder?.initialPrice) }}
             </div>
           </li>
           <li v-if="!isFromCashback" class="flex items-center justify-between py-2">
-            <div class="text-base">
+            <div class="text-base dark:text-white">
               {{ $t('discount') }}
             </div>
-            <div class="text-base font-medium">
+            <div class="text-base dark:text-white font-medium">
               {{ selectedOrder?.discountPercent ?? 0 }} %
             </div>
           </li>
           <li class="flex items-center justify-between py-2">
-            <div class="text-base">
+            <div class="text-base dark:text-white">
               {{ $t('discountAmount') }}
             </div>
             <div class="text-base font-medium text-red-600">
@@ -328,37 +328,37 @@ const refundProducts = () => {
             </div>
           </li>
           <li  v-if="!isFromCashback" class="flex items-center justify-between py-2">
-            <div class="text-base">
+            <div class="text-base dark:text-white">
               {{ $t('createdAt') }}
             </div>
-            <div class="text-base font-medium">
+            <div class="text-base dark:text-white font-medium">
               {{ moment(selectedOrder?.createdAt).format('DD/MM/YYYY H:mm') }}
             </div>
           </li>
           <li  v-if="!isFromCashback" class="flex items-center justify-between py-2">
-            <div class="text-base">
+            <div class="text-base dark:text-white">
               {{ $t('cashier') }}
             </div>
-            <div class="text-base font-medium">
+            <div class="text-base dark:text-white font-medium">
               {{ selectedOrder?.cashierFirstName + ' ' + selectedOrder?.cashierLastName }}
             </div>
           </li>
           <li v-if="!isFromCashback"  class="flex items-center justify-between py-2">
-            <div class="text-base font-semibold text-gray-900">
+            <div class="text-base font-semibold text-gray-900 dark:text-zinc-200">
               {{ $t('totalPrice') }}
             </div>
-            <div class="text-lg font-semibold text-gray-900">
+            <div class="text-lg font-semibold text-gray-900 dark:text-zinc-200">
               {{ useMoneyFormatter(selectedOrder?.totalPrice) }}
             </div>
           </li>
           <li class="flex items-center justify-between py-2">
-            <div class="text-base font-semibold text-gray-900">
+            <div class="text-base font-semibold text-gray-900 dark:text-zinc-200">
               {{ $t('paymentReceived') }}
             </div>
-            <div class="text-lg font-semibold text-gray-900" v-if="selectedOrder?.paymentReceived > 0">
+            <div class="text-lg font-semibold text-gray-900 dark:text-zinc-200" v-if="selectedOrder?.paymentReceived > 0">
               {{ useMoneyFormatter(selectedOrder?.paymentReceived) }}
             </div>
-            <div class="text-lg font-semibold text-gray-900"  v-else >
+            <div class="text-lg font-semibold text-gray-900 dark:text-zinc-200"  v-else >
               {{ useMoneyFormatter(0) }}
             </div>
           </li>
@@ -368,16 +368,16 @@ const refundProducts = () => {
     <template v-slot:footer>
       <CancelButton @click="closeModalWithRefresh" />
       <div v-if="!isFromCashback" >
-
+        
         <button v-if="isRefundLoading" type="button"
-              class="inline-flex items-center justify-center ml-2 text-rose-500 bg-white hover:bg-slate-100 focus:ring-4 focus:outline-none focus:ring-slate-300 rounded-xl border border-slate-200 text-sm font-medium px-5 py-2.5 hover:text-rose-600 focus:z-10">
+              class="inline-flex items-center justify-center ml-2 text-rose-500 bg-white dark:bg-slate-600 hover:bg-slate-100 focus:ring-4 focus:outline-none focus:ring-slate-300 rounded-xl border border-slate-200 text-sm font-medium px-5 py-2.5 hover:text-rose-600 focus:z-10">
         <Spinners270RingIcon
           class="mr-2 w-5 h-5 text-rose-500 animate-spin" />
         <span>{{ $t('refundItems') }}</span>
       </button>
 
       <button v-else type="button" @click="refundProducts"
-              class="inline-flex items-center justify-center ml-2 text-rose-500 bg-white hover:bg-slate-100 focus:ring-4 focus:outline-none focus:ring-slate-300 rounded-xl border border-slate-200 text-sm font-medium px-5 py-2.5 hover:text-rose-600 focus:z-10">
+              class="inline-flex items-center justify-center ml-2 dark:text-rose-400 text-rose-500 bg-white dark:bg-slate-600 hover:bg-slate-200 hover:dark:bg-slate-500 focus:ring-4 focus:outline-none focus:ring-slate-300 rounded-xl border border-slate-200 text-sm font-medium px-5 py-2.5 hover:text-rose-600 focus:z-10">
         <ArrowsUpLeftRightIcon class="mr-2 w-5 h-5" />
         <span>{{ $t('refundItems') }}</span>
       </button>
@@ -385,12 +385,12 @@ const refundProducts = () => {
       <button v-if="isLoadingPrint" type="button"
               class="inline-flex items-center justify-center ms-3 text-white bg-blue-500 hover:bg-blue-600 focus:ring-4 focus:outline-none focus:ring-slate-300 rounded-xl border border-slate-200 text-sm font-medium px-5 py-2.5 focus:z-10">
         <Spinners270RingIcon
-          class="mr-2 w-5 h-5 text-gray-200 animate-spin dark:text-gray-600 fill-gray-600 dark:fill-gray-300" />
+          class="mr-2 w-5 h-5 text-gray-200 animate-spin dark:text-white fill-gray-600 dark:fill-gray-300" />
         <span>{{ $t('printOut') }}</span>
       </button>
       <button v-else @click="printChaqueFunc(selectedOrder?.id)" type="button"
               class="inline-flex items-center justify-center ms-3 text-white bg-blue-500 hover:bg-blue-600 focus:ring-4 focus:outline-none focus:ring-slate-300 rounded-xl border border-slate-200 text-sm font-medium px-5 py-2.5 focus:z-10">
-        <PrinterIcon class="mr-2 w-5 h-5 text-gray-200 dark:text-gray-600 fill-gray-600 dark:fill-gray-300" />
+        <PrinterIcon class="mr-2 w-5 h-5 text-gray-200 dark:text-white fill-gray-600 dark:fill-gray-300" />
         <span>{{ $t('printOut') }}</span>
       </button></div>
       

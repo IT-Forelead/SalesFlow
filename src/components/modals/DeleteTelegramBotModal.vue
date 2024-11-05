@@ -64,7 +64,7 @@ const deleteTelegramBot = () => {
             {{ $t('botInformation') }}
           </div>
           <ul class="divide-y divide-slate-100">
-            <li class="flex items-center justify-between py-2 px-3">
+            <li class="flex items-center dark:text-white justify-between py-2 px-3">
               <div class="text-base">
                 {{ $t('type') }}
               </div>
@@ -72,7 +72,7 @@ const deleteTelegramBot = () => {
                 {{ selectedBot.type }}
               </div>
             </li>
-            <li class="flex items-center justify-between py-2 px-3">
+            <li class="flex items-center dark:text-white justify-between py-2 px-3">
               <div class="text-base">
                 {{ $t('status') }}
               </div>
@@ -80,7 +80,7 @@ const deleteTelegramBot = () => {
                 {{ selectedBot?.active ? $t('active') : $t('inactive') }}
               </div>
             </li>
-            <li class="flex items-center justify-between py-2 px-3">
+            <li class="flex items-center dark:text-white justify-between py-2 px-3">
               <div class="text-base">
                 {{ $t('description') }}
               </div>
@@ -93,8 +93,8 @@ const deleteTelegramBot = () => {
         <div class="flex items-center justify-center">
           <div class="border border-red-300 rounded-2xl w-full md:w-2/3 max-w-md md:max-w-lg">
             <div class="flex flex-col items-center space-y-4">
-              <WarningCircleBoldIcon class="text-slate-400 w-14 h-14" />
-              <h3 class="mb-5 text-lg md:text-xl text-center font-normal text-slate-500">
+              <WarningCircleBoldIcon class="text-slate-400 dark:text-white w-14 h-14" />
+              <h3 class="mb-5 text-lg md:text-xl text-center font-normal dark:text-white text-slate-500">
                 {{ $t('areYouSureYouWantToDeleteThisInformation') }}
               </h3>
               <div
@@ -107,7 +107,7 @@ const deleteTelegramBot = () => {
                 <button v-if="isLoading"
                         class="inline-flex items-center justify-center w-full md:w-auto py-2 px-4 rounded-xl text-white text-base font-medium bg-red-600 cursor-pointer hover:bg-red-700">
                   <Spinners270RingIcon
-                    class="mr-2 w-5 h-5 text-gray-200 animate-spin dark:text-gray-600 fill-gray-600 dark:fill-gray-300" />
+                    class="mr-2 w-5 h-5 text-gray-200 animate-spin dark:text-white fill-gray-600 dark:fill-gray-300" />
                   {{ $t('yesOfCourse') }}
                 </button>
 
