@@ -194,7 +194,7 @@ const columns = [
         h(EditIcon, { class: 'w-6 h-6 dark:text-blue-400 text-blue-600 hover:scale-105' }),
       ]),
       h('button', {
-        onClick: () => {
+        onMousedown: () => {
           printLabel(row.original)
         },
       }, [
@@ -583,7 +583,7 @@ const onChange = (event) => {
                 {{ $t('byName') }} (A-Z)
               </li>
               <li @click="getSort('name', 'DESC'); sortByOption = $t('byName') + ' (Z-A)'"
-                class="px-2 py-1 text-sm dark:text-white dark:text-white hover:bg-slate-100 hover:dark:bg-slate-700 rounded cursor-pointer">
+                class="px-2 py-1 text-sm dark:text-white hover:bg-slate-100 hover:dark:bg-slate-700 rounded cursor-pointer">
                 {{ $t('byName') }} (Z-A)
               </li>
               <li @click="getSort('price', 'ASC'); sortByOption = $t('byPrice') + ' (arzoni)'"
