@@ -78,32 +78,32 @@ const createAgent = () => {
         <div class="space-y-4">
           <div class="flex items-center space-x-4">
             <div class="flex-1">
-              <label for="firstname" class="text-base font-medium">
+              <label for="firstname" class="text-base dark:text-white font-medium">
                 {{ $t('fullName') }}
                 <span class="text-red-500 mr-2">*</span>
               </label>
               <input id="firstname" type="text" v-model="submitForm.fullName"
-                     class="bg-slate-100 border-none text-slate-900 rounded-lg w-full py-2.5 placeholder-slate-400"
+                     class="bg-slate-100 border-none dark:bg-slate-700 dark:text-white text-slate-900 rounded-lg w-full py-2.5 placeholder-slate-400"
                      :placeholder="t('enterFullName')">
             </div>
           </div>
           <div class="flex items-center space-x-4">
             <div class="flex-1">
-              <label for="company" class="text-base font-medium">
+              <label for="company" class="text-base dark:text-white font-medium">
                 {{ $t('company') }}
                 <span class="text-red-500 mr-2">*</span>
               </label>
               <input id="company" type="text" v-model="submitForm.company"
-                     class="bg-slate-100 border-none text-slate-900 rounded-lg w-full py-2.5 placeholder-slate-400"
+                     class="bg-slate-100 border-none dark:bg-slate-700 dark:text-white text-slate-900 rounded-lg w-full py-2.5 placeholder-slate-400"
                      :placeholder="t('enterCompany')">
             </div>
             <div class="flex-1">
-              <label for="phone" class="text-base font-medium">
+              <label for="phone" class="text-base dark:text-white font-medium">
                 {{ $t('phone') }}
                 <span class="text-red-500 mr-2">*</span>
               </label>
               <input id="phone" type="text" v-model="submitForm.phone" v-maska data-maska="+998(##) ###-##-##"
-                     class="bg-slate-100 border-none text-slate-900 rounded-lg w-full py-2.5 placeholder-slate-400"
+                     class="bg-slate-100 border-none dark:bg-slate-700 dark:text-white text-slate-900 rounded-lg w-full py-2.5 placeholder-slate-400"
                      placeholder="+998(00) 000-00-00">
             </div>
           </div>

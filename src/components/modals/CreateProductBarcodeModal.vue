@@ -105,7 +105,7 @@ watch(
               <span class="text-red-500 mr-2">*</span>
             </label>
             <input id="trademark" type="text" v-model="submitData.trademark"
-              class="bg-slate-100 border-none text-slate-900 rounded-lg w-full py-2.5 placeholder-slate-400"
+              class="bg-slate-100 border-none dark:bg-slate-700 dark:text-white text-slate-900 rounded-lg w-full py-2.5 placeholder-slate-400"
               :placeholder="t('enterProductName')" />
           </div>
           <div class="flex-1">
@@ -114,7 +114,7 @@ watch(
               <span class="text-red-500 mr-2">*</span>
             </label>
             <input id="packaging" type="text" v-model="submitData.packaging"
-              class="bg-slate-100 border-none text-slate-900 rounded-lg w-full py-2.5 placeholder-slate-400"
+              class="bg-slate-100 border-none dark:bg-slate-700 dark:text-white text-slate-900 rounded-lg w-full py-2.5 placeholder-slate-400"
               :placeholder="t('enterProductPackaging')" />
           </div>
         </div>
@@ -126,7 +126,7 @@ watch(
             </label>
             <div class="relative">
               <input id="barcode" type="text" v-model="submitData.barcode"
-                class="bg-slate-100 border-none text-slate-900 rounded-lg w-full py-2.5 placeholder-slate-400"
+                class="bg-slate-100 border-none dark:bg-slate-700 dark:text-white text-slate-900 rounded-lg w-full py-2.5 placeholder-slate-400"
                 :placeholder="t('enterProductBarcode')" />
               <div @click="useModalStore().openCameraScannerModal()"
                 class="absolute top-1/2 -translate-y-1/2 right-1 flex items-center justify-center w-8 h-8 rounded-lg hover:dark:bg-slate-800 cursor-pointer">
@@ -154,7 +154,7 @@ watch(
               {{ $t('inYearOfRegistration') }}
             </label>
             <input id="barcode" type="text" v-model="submitData.year" v-maska data-maska="####"
-              class="bg-slate-100 border-none text-slate-900 rounded-lg w-full py-2.5 placeholder-slate-400"
+              class="bg-slate-100 border-none dark:bg-slate-700 dark:text-white text-slate-900 rounded-lg w-full py-2.5 placeholder-slate-400"
               :placeholder="t('forExample2017')" />
           </div>
           <div class="flex-1"></div>

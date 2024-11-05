@@ -252,7 +252,7 @@ watch(
               <span class="text-red-500 mr-2">*</span>
             </label>
             <input id="name" disabled type="text" v-model="submitData.name"
-                   class="bg-slate-100 border-none text-slate-900 rounded-lg w-full py-2.5 placeholder-slate-400 placeholder:text-sm md:placeholder:text-lg"
+                   class="bg-slate-100 border-none dark:bg-slate-700 dark:text-white text-slate-900 rounded-lg w-full py-2.5 placeholder-slate-400 placeholder:text-sm md:placeholder:text-lg"
                    :placeholder="t('productName')" />
           </div>
           <div class="flex-1">
@@ -260,7 +260,7 @@ watch(
               {{ $t('barcode') }}
             </label>
             <input id="barcode" disabled type="text" v-model="submitData.barcode"
-                   class="bg-slate-100 border-none text-slate-900 rounded-lg w-full py-2.5 placeholder-slate-400 placeholder:text-sm md:placeholder:text-lg"
+                   class="bg-slate-100 border-none dark:bg-slate-700 dark:text-white text-slate-900 rounded-lg w-full py-2.5 placeholder-slate-400 placeholder:text-sm md:placeholder:text-lg"
                    :placeholder="t('barcode')" />
           </div>
         </div>
@@ -271,7 +271,7 @@ watch(
               <span class="text-red-500 mr-2">*</span>
             </label>
             <input id="quantity" type="number" v-model="submitData.quantity"
-                   class="bg-slate-100 border-none text-slate-900 rounded-lg w-full h-11 placeholder-slate-400 placeholder:text-sm md:placeholder:text-lg"
+                   class="bg-slate-100 border-none dark:bg-slate-700 dark:text-white text-slate-900 rounded-lg w-full h-11 placeholder-slate-400 placeholder:text-sm md:placeholder:text-lg"
                    :placeholder="t('enterProductQuantity')" />
           </div>
           <div class="flex-1 space-y-1">
@@ -280,7 +280,7 @@ watch(
               <span class="text-red-500 mr-2">*</span>
             </label>
             <money3 v-model.number="submitData.totalPrice" v-bind="moneyConf" id="totalPrice"
-                    class="border-none text-right text-gray-500 bg-slate-100 h-11 rounded-lg w-full text-lg">
+                    class="border-none text-right dark:bg-slate-700 dark:text-zinc-300 text-gray-500 bg-slate-100 h-11 rounded-lg w-full text-lg">
             </money3>
           </div>
           <div class="flex-1 space-y-1">
@@ -289,7 +289,7 @@ watch(
               <span class="text-red-500 mr-2">*</span>
             </label>
             <input id="count" type="number" v-model="submitData.count"
-                   class="bg-slate-100 border-none text-slate-900 rounded-lg w-full h-11 placeholder-slate-400 placeholder:text-sm md:placeholder:text-lg"
+                   class="bg-slate-100 border-none dark:bg-slate-700 dark:text-white text-slate-900 rounded-lg w-full h-11 placeholder-slate-400 placeholder:text-sm md:placeholder:text-lg"
                    :placeholder="t('enterProductQuantity')" />
           </div>
         </div>

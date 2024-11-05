@@ -105,7 +105,7 @@ const createHolidayDiscount = () => {
               <span class="text-red-500 mr-2">*</span>
             </label>
             <input id="quantity" type="number" v-model="submitData.quantity"
-                   class="bg-slate-100 border-none text-slate-900 dark:text-white rounded-lg w-full py-2.5 placeholder-slate-400"
+                   class="bg-slate-100 border-none text-slate-900 dark:bg-slate-700 dark:text-white rounded-lg w-full py-2.5 placeholder-slate-400"
                    :placeholder="t('enterQuantity')" />
           </div>
         </div>

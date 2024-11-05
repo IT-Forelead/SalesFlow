@@ -187,7 +187,7 @@ const closeModal = () => {
               {{ $t('quantity') }}
             </label>
             <input id="default-value" type="text" v-model="submitData.quantity"
-              class="bg-slate-50 border border-slate-200 text-slate-900 dark:text-white text-base rounded-2xl focus:ring-green-400/40 focus:border-green-400/40 focus:ring-4 block w-full p-2.5"
+              class="bg-slate-50 border border-slate-200 text-slate-900 dark:bg-slate-700 dark:text-white text-base rounded-2xl focus:ring-green-400/40 focus:border-green-400/40 focus:ring-4 block w-full p-2.5"
               :placeholder="t('enterQuantity')">
           </div>
           <div class="flex-1 space-y-1">
