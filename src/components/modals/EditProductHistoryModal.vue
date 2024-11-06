@@ -147,7 +147,7 @@ const calculateExpirationDate = (months) => {
               {{ $t('productName') }}
             </label>
             <input id="name" type="text" v-model="submitData.productName"
-              class="bg-slate-100 dark:bg-slate-300 border-none dark:bg-slate-700 dark:text-white text-slate-900 rounded-lg w-full py-2.5 placeholder-slate-400 placeholder:text-sm md:placeholder:text-lg"
+              class="bg-slate-100 border-none dark:bg-slate-700 dark:text-white text-slate-900 rounded-lg w-full py-2.5 placeholder-slate-400 placeholder:text-sm md:placeholder:text-lg"
               :placeholder="t('enterProductName')">
           </div>
           <div class="flex-1 space-y-1">
@@ -155,7 +155,7 @@ const calculateExpirationDate = (months) => {
               {{ $t('packaging') }}
             </label>
             <input id="default-value" type="text" v-model="submitData.productPackaging"
-              class="bg-slate-100 dark:bg-slate-300 border-none dark:bg-slate-700 dark:text-white text-slate-900 rounded-lg w-full h-11 placeholder-slate-400 placeholder:text-sm md:placeholder:text-lg"
+              class="bg-slate-100 border-none dark:bg-slate-700 dark:text-white text-slate-900 rounded-lg w-full h-11 placeholder-slate-400 placeholder:text-sm md:placeholder:text-lg"
               :placeholder="t('enterProductPackaging')">
           </div>
         </div>
@@ -183,7 +183,7 @@ const calculateExpirationDate = (months) => {
               {{ $t('quantity') }}
             </label>
             <input id="quantity" type="text" v-model="submitData.quantity"
-              class="bg-slate-100 dark:bg-slate-300 border-none dark:bg-slate-700 dark:text-white text-slate-900 rounded-lg w-full h-11 placeholder-slate-400 placeholder:text-sm md:placeholder:text-lg"
+              class="bg-slate-100 border-none dark:bg-slate-700 dark:text-white text-slate-900 rounded-lg w-full h-11 placeholder-slate-400 placeholder:text-sm md:placeholder:text-lg"
               :placeholder="t('enterProductQuantity')">
           </div>
           <div class="flex-1 space-y-1">
@@ -206,7 +206,7 @@ const calculateExpirationDate = (months) => {
               {{ $t('productionDate') }}
             </label>
             <input id="quantity" type="date" v-model="submitData.productionDate"
-              class="bg-slate-100 dark:bg-slate-300 border-none dark:bg-slate-700 dark:text-white text-slate-900 rounded-lg w-full h-11 placeholder-slate-400 placeholder:text-sm md:placeholder:text-lg"
+              class="bg-slate-100 border-none dark:bg-slate-700 dark:text-white text-slate-900 rounded-lg w-full h-11 placeholder-slate-400 placeholder:text-sm md:placeholder:text-lg"
               :placeholder="t('enterProductQuantity')">
           </div>
           <div class="flex-1 space-y-1">
@@ -214,12 +214,12 @@ const calculateExpirationDate = (months) => {
               {{ $t('expirationDate') }}
             </label>
             <input id="quantity" type="date" v-model="submitData.expirationDate"
-              class="bg-slate-100 dark:bg-slate-300 border-none dark:bg-slate-700 dark:text-white text-slate-900 rounded-lg w-full h-11 placeholder-slate-400 placeholder:text-sm md:placeholder:text-lg">
+              class="bg-slate-100 border-none dark:bg-slate-700 dark:text-white text-slate-900 rounded-lg w-full h-11 placeholder-slate-400 placeholder:text-sm md:placeholder:text-lg">
           </div>
         </div>
         <div class="space-x-2 space-y-1 md:text-left text-center">
           <button v-for="months in [1, 3, 6, 9, 12, 24]" :key="months" @click="calculateExpirationDate(months)" type="button"
-            class="text-slate-600 bg-slate-100 dark:bg-slate-800 bg-white dark:text-white hover:bg-slate-100 focus:ring-4 focus:outline-none focus:ring-slate-300 rounded-xl border border-slate-200 text-sm font-medium px-2.5 py-1 hover:text-slate-900 hover:dark:text-white lowercase">+
+            class="text-slate-600 dark:bg-slate-800 bg-white dark:text-white hover:bg-slate-100 focus:ring-4 focus:outline-none focus:ring-slate-300 rounded-xl border border-slate-200 text-sm font-medium px-2.5 py-1 hover:text-slate-900 hover:dark:text-white lowercase">+
             {{ months }} {{ t("month") }}</button>
         </div>
         <div class="flex items-center space-x-4">

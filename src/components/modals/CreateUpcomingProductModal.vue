@@ -333,7 +333,7 @@ const openCreateProductModal = () => {
       </div>
 
         <div v-if="selectedProducts.length" class="overflow-y-auto overflow-x-auto h-96">
-          <h4 class="text-slate-900 text-slate-900 dark:text-white text-xl font-semibold">
+          <h4 class="text-slate-900 dark:text-white text-xl font-semibold">
             {{ $t('products') }}
           </h4>
           <table class="min-w-full divide-y divide-gray-200">

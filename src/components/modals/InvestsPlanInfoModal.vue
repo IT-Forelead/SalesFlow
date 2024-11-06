@@ -27,7 +27,7 @@ const isLoading = ref(false)
                 <span class="text-red-500 mr-2">*</span>
               </label>
               <input id="fullname" type="text" v-model="submitForm.fullName"
-                class="bg-slate-100 border-none dark:bg-slate-700 dark:text-white text-slate-900 text-slate-900 rounded-lg w-full py-2.5 placeholder-slate-400"
+                class="bg-slate-100 border-none dark:bg-slate-700 dark:text-white text-slate-900 rounded-lg w-full py-2.5 placeholder-slate-400"
                 :placeholder="t('enterFullName')">
             </div>
 
