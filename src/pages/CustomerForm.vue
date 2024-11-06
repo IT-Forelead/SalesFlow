@@ -113,12 +113,12 @@ const createSale = () => {
         <div class="space-y-6">
           <div>
             <label for="fullName" class="mb-2 block text-base font-semibold text-gray-900 dark:text-zinc-200 "> {{ $t('fullName')}} </label>
-            <input v-model="submitData.fullName" type="text" id="fullName" class="border appearance-none text-sm rounded-lg block w-full p-2.5 bg-white dark:bg-slate-800 border-gray-200 dark:border-[#30363D] placeholder-gray-400 text-gray-900 dark:text-zinc-200 dark:text-white focus:outline-none focus:ring-blue-500 focus:border-blue-500" :placeholder="t('enterFullName')" />
+            <input v-model="submitData.fullName" type="text" id="fullName" class="border appearance-none text-sm rounded-lg block w-full p-2.5 bg-white dark:bg-slate-800 border-gray-200 dark:border-[#30363D] placeholder-gray-400 text-gray-900 dark:text-zinc-200 focus:outline-none focus:ring-blue-500 focus:border-blue-500" :placeholder="t('enterFullName')" />
           </div>
           <div>
             <label for="phone" class="mb-2 block text-base font-semibold text-gray-900 dark:text-zinc-200"> {{ $t('phone')}}</label>
             <div class="relative">
-              <input v-model="submitData.phone" id="phone" v-maska data-maska="+998(##) ###-##-##" class="border appearance-none text-sm rounded-lg block w-full p-2.5 bg-white dark:bg-slate-800 border-gray-200 dark:border-[#30363D] placeholder-gray-400 text-gray-900 dark:text-zinc-200 dark:text-white focus:outline-none focus:ring-blue-500 focus:border-blue-500" placeholder="+998(00) 000-00-00" />
+              <input v-model="submitData.phone" id="phone" v-maska data-maska="+998(##) ###-##-##" class="border appearance-none text-sm rounded-lg block w-full p-2.5 bg-white dark:bg-slate-800 border-gray-200 dark:border-[#30363D] placeholder-gray-400 text-gray-900 dark:text-zinc-200 focus:outline-none focus:ring-blue-500 focus:border-blue-500" placeholder="+998(00) 000-00-00" />
             </div>
           </div>
         </div>
