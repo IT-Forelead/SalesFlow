@@ -139,7 +139,7 @@ watch(
               {{ $t('saleType') }}
             </label>
             <select id="sale-type" v-model="submitData.saleType"
-              class="bg-slate-100 border-none text-slate-900 rounded-lg block w-full h-11">
+              class="bg-slate-100 border-none dark:bg-slate-700 dark:text-white text-slate-900 rounded-lg block w-full h-11">
               <option value="" selected>{{ $t('selectType') }}</option>
               <option value="amount">Donali</option>
               <option value="kg">Kilogrammli</option>

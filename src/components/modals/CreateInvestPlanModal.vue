@@ -103,7 +103,7 @@ const createPlan = () => {
                 <span class="text-red-500 mr-2">*</span>
               </label>
               <select id="market" v-model="submitForm.marketId"
-                class="bg-slate-100 border-none text-slate-900 rounded-lg  block w-full">
+                class="bg-slate-100 border-none dark:bg-slate-700 dark:text-white text-slate-900 rounded-lg  block w-full">
                 <option value="" selected>{{ $t('selectStore') }}</option>
                 <option v-for="(market, idx) in markets" :key="idx" :value="market?.id">
                   {{ market?.name }}

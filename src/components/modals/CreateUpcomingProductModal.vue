@@ -387,7 +387,7 @@ const openCreateProductModal = () => {
               <span class="text-red-500 mr-2">*</span>
             </label>
             <money3 v-model.number="submitData.price" v-bind="moneyConf" id="price"
-              class="border-none text-right text-gray-500 bg-slate-100 h-11 rounded-lg w-full text-lg">
+              class="border-none text-right dark:bg-slate-700 dark:text-white text-gray-500 bg-slate-100 h-11 rounded-lg w-full text-lg">
             </money3>
           </div>
           <div class="flex-1 space-y-1">
@@ -414,7 +414,7 @@ const openCreateProductModal = () => {
               <SelectOptionAgent class="w-96 " :options="agents" />
               <div class="h-full">
                 <button type="button" @click="toggle">
-                  <PhUserPlus class="w-9 h-full bg-slate-100 text-slate-600 rounded-lg p-2" />
+                  <PhUserPlus class="w-9 h-full bg-slate-100 dark:bg-slate-700 dark:text-white text-slate-600 rounded-lg p-2" />
                 </button>
                 <OverlayPanel ref="isOpenAgentCreatePopup">
                   <div class="flex flex-col space-y-3 w-80 md:w-96">
@@ -465,7 +465,7 @@ const openCreateProductModal = () => {
             <label for="price" class="text-base dark:text-white md:text-lg font-medium">
               {{ $t('arrivalTime') }}
             </label>
-            <Calendar class="w-full bg-slate-100 rounded-lg" input-class="bg-slate-100 border-none rounded-lg"
+            <Calendar class="w-full bg-slate-100 rounded-lg" input-class="bg-slate-100 dark:bg-slate-700 dark:text-white border-none rounded-lg"
               v-model="submitData.expectedTime" :date-format="'dd/mm/yy'" :placeholder="t('enterExpectedTime')" />
           </div>
         </div>

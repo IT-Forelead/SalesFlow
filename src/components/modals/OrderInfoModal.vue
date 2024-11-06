@@ -243,7 +243,7 @@ const refundProducts = () => {
           <div class="overflow-hidden overflow-y-scroll h-[300px] border-0">
             <table class="md:min-w-full text-sm">
               <thead>
-              <tr class="bg-slate-100 font-medium text-gray-900">
+              <tr class="bg-slate-100 font-medium text-gray-900 dark:bg-slate-700 dark:text-white">
                 <th class="px-3 py-2 text-left rounded-l-xl text-sm md:text-base"></th>
                 <th class="px-3 py-2 text-left text-sm md:text-base">{{ $t('product') }}</th>
                 <th class="px-3 py-2 text-sm md:text-base">{{ $t('quantity') }}</th>
@@ -256,7 +256,7 @@ const refundProducts = () => {
                 :key="idx"
                 @click="!product.refunded && toggleProductSelection(product)"
                 :class="{
-                    'dark:bg-slate-400 bg-blue-200 rounded-xl': selectedProductIds.includes(product.id) && !product.refunded,
+                    'dark:bg-gray-700 bg-blue-200 rounded-xl': selectedProductIds.includes(product.id) && !product.refunded,
                     'bg-red-200': product.refunded
                   }"
                 class="cursor-pointer"

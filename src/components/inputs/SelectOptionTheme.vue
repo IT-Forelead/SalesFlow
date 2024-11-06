@@ -88,13 +88,13 @@ onMounted(() => {
     </div>
     <ul
       v-if="useDropdownStore().isOpenSelectTheme"
-      class="absolute w-full bg-white dark:bg-slate-800 dark:text-white shadow rounded-md z-20 bottom-12 right-0 divide-y divide-gray-200"
+      class="absolute w-full bg-white dark:bg-slate-800 dark:text-white text-gray-500 shadow rounded-md z-20 bottom-12 right-0 divide-y divide-gray-200"
     >
       <li
         v-for="(theme, idx) in list"
         :key="idx"
         @click="changeTheme(theme)"
-        class="hover:bg-gray-200 dark:hover:bg-gray-500 cursor-pointer p-2 flex items-center space-x-2"
+        class="hover:bg-gray-200 dark:hover:bg-slate-700 dark:text-white text-gray-500 cursor-pointer p-2 flex items-center space-x-2"
       >
         <component :is="theme.icon" class="w-5 h-5 dark:text-white" />
         <span class="text-sm">{{ theme.name }}</span>

@@ -212,7 +212,7 @@ const createMinimalPriceSettings = () => {
                 {{ $t('percentage')}}
               </label>
               <input type="number" id="percentage" v-model="submitData.percentage" :placeholder="$t('enterPercentage')"
-                     class="border-none text-right border-red-500 text-gray-500 dark:bg-slate-800 bg-slate-100 h-11 rounded-lg w-full text-lg" />
+                     class="border-none text-right border-red-500 dark:text-zinc-300 text-gray-500 dark:bg-slate-800 bg-slate-100 h-11 rounded-lg w-full text-lg" />
             </div>
             <div class="flex-1">
               <button v-if="isLoadingPercent" class="text-white text-base flex items-center rounded-xl px-4 py-2.5 bg-blue-500 hover:bg-blue-600 absolute bottom-0">

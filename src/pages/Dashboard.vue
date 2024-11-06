@@ -919,8 +919,8 @@ watch(pageProfit, () => {
               class="flex items-center justify-between py-1.5">
               <div class="flex items-center space-x-3">
                 <div
-                  class="flex items-center justify-center bg-blue-100 dark:bg-aqua-200 min-w-6 max-w-full h-6 rounded-lg">
-                  <span class="text-base text-blue-600">
+                  class="flex items-center justify-center bg-blue-100 dark:bg-slate-800 min-w-6 max-w-full h-6 rounded-lg">
+                  <span class="text-base dark:text-blue-400 text-blue-600">
                     {{ (pageRevenue - 1) * pageSize + idx + 1 }}
                   </span>
                 </div>
@@ -996,8 +996,8 @@ watch(pageProfit, () => {
                 {{ $t('endStatText') }}
               </div>
             </div>
-            <div class="flex items-center justify-center rounded-xl bg-blue-100 dark:bg-aqua-200 p-3">
-              <ShoppingCartIcon class="w-8 h-8 text-blue-600" />
+            <div class="flex items-center justify-center rounded-xl bg-blue-100 dark:bg-slate-800 p-3">
+              <ShoppingCartIcon class="w-8 h-8 dark:text-blue-400 text-blue-600" />
             </div>
           </div>
           <div class="divide-y divide-gray-100">
@@ -1005,8 +1005,8 @@ watch(pageProfit, () => {
               class="flex items-center justify-between py-1.5">
               <div class="flex items-center space-x-3">
                 <div
-                  class="flex items-center justify-center bg-blue-100 dark:bg-aqua-200 min-w-6 max-w-full h-6 rounded-lg">
-                  <span class="text-base text-blue-600">
+                  class="flex items-center justify-center bg-blue-100 dark:bg-slate-800 min-w-6 max-w-full h-6 rounded-lg">
+                  <span class="text-base dark:text-blue-400 text-blue-600">
                     {{ (pageProfit - 1) * pageSize + idx + 1 }}
                   </span>
                 </div>
@@ -1082,8 +1082,8 @@ watch(pageProfit, () => {
                 {{ $t('endStatText') }}
               </div>
             </div>
-            <div class="flex items-center justify-center rounded-xl bg-blue-100 dark:bg-aqua-200 p-3">
-              <ShoppingCartIcon class="w-8 h-8 text-blue-600" />
+            <div class="flex items-center justify-center rounded-xl bg-blue-100 dark:bg-slate-800 p-3">
+              <ShoppingCartIcon class="w-8 h-8 dark:text-blue-400 text-blue-600" />
             </div>
           </div>
           <div class="divide-y divide-gray-100">
@@ -1091,8 +1091,8 @@ watch(pageProfit, () => {
               class="flex items-center justify-between py-1.5">
               <div class="flex items-center space-x-3">
                 <div
-                  class="flex items-center justify-center bg-blue-100 dark:bg-aqua-200 min-w-6 max-w-full h-6 rounded-lg">
-                  <span class="text-base text-blue-600">
+                  class="flex items-center justify-center bg-blue-100 dark:bg-slate-800 min-w-6 max-w-full h-6 rounded-lg">
+                  <span class="text-base dark:text-blue-400 text-blue-600">
                     {{ (pageSell - 1) * pageSize + idx + 1 }}
                   </span>
                 </div>
@@ -1168,8 +1168,8 @@ watch(pageProfit, () => {
                 {{ $t('endStatText') }}
               </div>
             </div>
-            <div class="flex items-center justify-center rounded-xl bg-blue-100 dark:bg-aqua-200 p-3">
-              <ShoppingCartIcon class="w-8 h-8 text-blue-600" />
+            <div class="flex items-center justify-center rounded-xl bg-blue-100 dark:bg-slate-800 p-3">
+              <ShoppingCartIcon class="w-8 h-8 dark:text-blue-400 text-blue-600" />
             </div>
           </div>
           <div class="divide-y divide-gray-100">
@@ -1177,8 +1177,8 @@ watch(pageProfit, () => {
               class="flex items-center justify-between py-1.5">
               <div class="flex items-center space-x-3">
                 <div
-                  class="flex items-center justify-center bg-blue-100 dark:bg-aqua-200 min-w-6 max-w-full h-6 rounded-lg">
-                  <span class="text-base text-blue-600">
+                  class="flex items-center justify-center bg-blue-100 dark:bg-slate-800 min-w-6 max-w-full h-6 rounded-lg">
+                  <span class="text-base dark:text-blue-400 text-blue-600">
                     {{ (pageWorstSell - 1) * pageSize + idx + 1 }}
                   </span>
                 </div>
@@ -1291,8 +1291,8 @@ watch(pageProfit, () => {
                 {{ $t('endStatText') }}
               </div>
             </div>
-            <div class="flex items-center justify-center rounded-xl bg-blue-100 dark:bg-aqua-200 p-2">
-              <ChartBarIcon class="w-8 h-8 text-blue-600" />
+            <div class="flex items-center justify-center rounded-xl dark:bg-slate-800 bg-blue-100 dark:bg-slate-800 p-2">
+              <ChartBarIcon class="w-8 h-8 dark:text-blue-400 text-blue-600" />
             </div>
           </div>
           <apexchart type="bar" height="320" :options="salesChartChartOptions" :series="salesChartSeries">
@@ -1371,8 +1371,8 @@ watch(pageProfit, () => {
               {{ $t('endStatText') }}
             </div>
           </div>
-          <div class="flex items-center justify-center rounded-xl bg-blue-100 dark:bg-aqua-200 p-2">
-            <ChartDonutIcon class="w-8 h-8 text-blue-600" />
+          <div class="flex items-center justify-center rounded-xl bg-blue-100 dark:bg-slate-800 p-2">
+            <ChartDonutIcon class="w-8 h-8 dark:text-blue-400 text-blue-600" />
           </div>
         </div>
         <apexchart type="donut" height="320" :options="caishersChartOptions" :series="caishersChartSeries">
@@ -1384,8 +1384,8 @@ watch(pageProfit, () => {
           <div class="flex-1 w-full space-y-4 rounded-3xl bg-slate-100 dark:bg-slate-900 p-5">
             <div
               class="flex flex-row md:flex-col items-center md:items-start space-x-4 md:space-x-0 space-y-0 md:space-y-2">
-              <div class="inline-flex items-center justify-center rounded-xl bg-blue-100 dark:bg-aqua-200 p-3">
-                <StoreIcon class="w-8 h-8 text-blue-600" />
+              <div class="inline-flex items-center justify-center rounded-xl bg-blue-100 dark:bg-slate-800 p-3">
+                <StoreIcon class="w-8 h-8 dark:text-blue-400 text-blue-600" />
               </div>
               <div>
                 <div class="text-base text-gray-600 dark:text-white">
@@ -1400,8 +1400,8 @@ watch(pageProfit, () => {
           <div class="flex-1 w-full space-y-4 rounded-3xl bg-slate-100 dark:bg-slate-900 p-5">
             <div
               class="flex flex-row md:flex-col items-center md:items-start space-x-4 md:space-x-0 space-y-0  md:space-y-2">
-              <div class="inline-flex items-center justify-center rounded-xl bg-blue-100 dark:bg-aqua-200 p-3">
-                <StoreIcon class="w-8 h-8 text-blue-600" />
+              <div class="inline-flex items-center justify-center rounded-xl bg-blue-100 dark:bg-slate-800 p-3">
+                <StoreIcon class="w-8 h-8 dark:text-blue-400 text-blue-600" />
               </div>
               <div>
                 <div class="text-base text-gray-600 dark:text-white">
@@ -1416,8 +1416,8 @@ watch(pageProfit, () => {
           <div class="flex-1 w-full h-full space-y-4 rounded-3xl bg-slate-100 dark:bg-slate-900 p-5">
             <div
               class="flex flex-row md:flex-col items-center md:items-start space-x-4 md:space-x-0 space-y-0 md:space-y-2">
-              <div class="inline-flex items-center justify-center rounded-xl bg-blue-100 dark:bg-aqua-200 p-3">
-                <DollarIcon class="w-8 h-8 text-blue-600" />
+              <div class="inline-flex items-center justify-center rounded-xl bg-blue-100 dark:bg-slate-800 p-3">
+                <DollarIcon class="w-8 h-8 dark:text-blue-400 text-blue-600" />
               </div>
               <div>
                 <div class="text-base text-gray-600 dark:text-white">
@@ -1435,8 +1435,8 @@ watch(pageProfit, () => {
             class="flex-1 w-full space-y-4 rounded-3xl bg-slate-100 dark:bg-slate-900 p-5">
             <div
               class="flex flex-row md:flex-col items-center md:items-start space-x-4 md:space-x-0 space-y-0 md:space-y-2">
-              <div class="inline-flex items-center justify-center rounded-xl bg-blue-100 dark:bg-aqua-200 p-3">
-                <DollarIcon class="w-8 h-8 text-blue-600" />
+              <div class="inline-flex items-center justify-center rounded-xl bg-blue-100 dark:bg-slate-800 p-3">
+                <DollarIcon class="w-8 h-8 dark:text-blue-400 text-blue-600" />
               </div>
               <div>
                 <div v-if="product?.period === 'current_month'" class="text-base text-gray-600 dark:text-white">
@@ -1455,8 +1455,8 @@ watch(pageProfit, () => {
           <div class="flex-1 w-full h-full space-y-4 rounded-3xl bg-slate-100 dark:bg-slate-900 p-5">
             <div
               class="flex flex-row md:flex-col items-center md:items-start space-x-4 md:space-x-0 space-y-0 md:space-y-2">
-              <div class="inline-flex items-center justify-center rounded-xl bg-blue-100 dark:bg-aqua-200 p-3">
-                <UsersIcon class="w-8 h-8 text-blue-600" />
+              <div class="inline-flex items-center justify-center rounded-xl bg-blue-100 dark:bg-slate-800 p-3">
+                <UsersIcon class="w-8 h-8 dark:text-blue-400 text-blue-600" />
               </div>
               <div>
                 <div class="text-base text-gray-600 dark:text-white">

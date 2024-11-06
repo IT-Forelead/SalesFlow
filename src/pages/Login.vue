@@ -161,7 +161,7 @@ onMounted(() => {
               {{ $t('login') }}
             </label>
             <input v-model="submitData.login" type="text" id="login"
-              class="border appearance-none text-sm rounded-lg block w-full p-2.5  bg-white dark:bg-slate-800 dark:bg-[#0D1117] border-gray-200 dark:border-[#30363D] placeholder-gray-400 text-gray-900 dark:text-zinc-200 focus:outline-none  focus:ring-blue-500 focus:border-blue-500"
+              class="border appearance-none text-sm rounded-lg block w-full p-2.5  bg-white dark:bg-slate-800 border-gray-200 dark:border-[#30363D] placeholder-gray-400 text-gray-900 dark:text-zinc-200 focus:outline-none  focus:ring-blue-500 focus:border-blue-500"
               :placeholder="$t('enterYourLogin')" @keyup.enter="login()">
           </div>
           <div>

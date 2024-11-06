@@ -149,8 +149,8 @@ const clearFilterData = () => {
       <div class="w-full flex space-x-20 md:w-auto order-1 md:order-2">
         <div class="relative w-auto" ref="filterByDropdown">
           <div @click="useDropdownStore().toggleFilterBy()"
-            class="border-none select-none text-gray-500 bg-slate-100 rounded-full w-full p-2 px-5 flex items-center hover:bg-gray-200 cursor-pointer space-x-1">
-            <FunnelIcon class="w-5 h-5 text-gray-400" />
+            class="border-none select-none text-gray-500 bg-slate-100 dark:text-white dark:bg-slate-600 rounded-full w-full p-2 px-5 flex items-center hover:bg-gray-200 cursor-pointer space-x-1">
+            <FunnelIcon class="w-5 h-5 text-gray-400 dark:text-white" />
             <span>{{ $t('filter') }}</span>
           </div>
           <div v-if="useDropdownStore().isOpenFilterBy"
@@ -160,7 +160,7 @@ const clearFilterData = () => {
                 {{ $t('from') }}
               </label>
               <input id="from" type="date" v-model="filterData.from"
-                class="bg-slate-100 border-none text-slate-900 rounded-lg w-full h-11 placeholder-slate-400 placeholder:text-sm md:placeholder:text-lg"
+                class="bg-slate-100 border-none text-slate-900 dark:bg-slate-700 dark:text-white rounded-lg w-full h-11 placeholder-slate-400 placeholder:text-sm md:placeholder:text-lg"
                 :placeholder="t('enterProductQuantity')">
             </div>
             <div class="flex-1 space-y-1">
@@ -168,7 +168,7 @@ const clearFilterData = () => {
                 {{ $t('to') }}
               </label>
               <input id="to" type="date" v-model="filterData.to"
-                class="bg-slate-100 border-none text-slate-900 rounded-lg w-full h-11 placeholder-slate-400 placeholder:text-sm md:placeholder:text-lg"
+                class="bg-slate-100 border-none text-slate-900 dark:bg-slate-700 dark:text-white rounded-lg w-full h-11 placeholder-slate-400 placeholder:text-sm md:placeholder:text-lg"
                 :placeholder="t('enterProductQuantity')">
             </div>
             <div class="flex items-center space-x-2">

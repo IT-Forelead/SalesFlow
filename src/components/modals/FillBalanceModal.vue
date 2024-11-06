@@ -77,11 +77,11 @@ const fillBalance = () => {
       <div class="space-y-4">
         <div class="flex items-center space-x-4">
           <div class="flex-1">
-            <label for="amount" class="text-base font-medium">
+            <label for="amount" class="text-base dark:text-white font-medium">
               {{ $t('balance') }}
               <span class="text-red-500 mr-2">*</span>
             </label>
-            <money3 id="amount" type="text" v-bind="moneyConf" v-model="submitData.amount" class="border-none text-right text-gray-500 bg-slate-100 h-11 rounded-lg w-full text-lg">
+            <money3 id="amount" type="text" v-bind="moneyConf" v-model="submitData.amount" class="border-none dark:bg-slate-700 dark:text-zinc-300 text-right text-gray-500 bg-slate-100 h-11 rounded-lg w-full text-lg">
               </money3>
           </div>
           <div class="flex-1">

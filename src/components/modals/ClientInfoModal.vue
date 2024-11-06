@@ -128,23 +128,23 @@ const getBalanceHistoriesByFilter = (filter) => {
     <template v-slot:body>
       <div class="flex justify-end w-full" ref="filterByDropdown">
           <div @click="useDropdownStore().toggleFilterBy()"
-            class="flex justify-end w-min  border-none select-none text-gray-500 dark:bg-gray-400 dark:text-zinc-100 bg-slate-100 rounded-full p-2 px-5 items-center hover:bg-gray-200 cursor-pointer space-x-1">
+            class="flex justify-end w-min  border-none select-none text-gray-500 dark:bg-gray-700 dark:text-zinc-100 bg-slate-100 rounded-full p-2 px-5 items-center hover:bg-gray-200 cursor-pointer space-x-1">
             <FunnelIcon class="w-5 h-5 text-gray-400 dark:text-zinc-100" />
             <span>{{ filterByOption || $t('filter') }}</span>
           </div>
           <div v-if="useDropdownStore().isOpenFilterBy"
-            class="absolute bg-slate-50 shadow-md rounded-xl w-52 p-3 z-20 top-[130px] right-0 space-y-3">
+            class="absolute bg-slate-50 shadow-md dark:bg-slate-700 dark:text-white rounded-xl w-52 p-3 z-20 top-[130px] right-0 space-y-3">
             <ul>
               <li @click="getBalanceHistoriesByFilter(); filterByOption = $t('all')"
-                class="px-2 py-1 text-sm hover:bg-slate-100 rounded cursor-pointer">
+                class="px-2 py-1 text-sm hover:bg-slate-100 dark:hover:bg-slate-800 rounded cursor-pointer">
                 {{ $t('all') }}
               </li>
               <li @click="getBalanceHistoriesByFilter('DEBIT'); filterByOption = $t('debit')"
-                class="px-2 py-1 text-sm hover:bg-slate-100 rounded cursor-pointer">
+                class="px-2 py-1 text-sm hover:bg-slate-100 dark:hover:bg-slate-800 rounded cursor-pointer">
                 {{ $t('debit') }}
               </li>
               <li @click="getBalanceHistoriesByFilter('CREDIT'); filterByOption = $t('credit')"
-                class="px-2 py-1 text-sm hover:bg-slate-100 rounded cursor-pointer">
+                class="px-2 py-1 text-sm hover:bg-slate-100 dark:hover:bg-slate-800 rounded cursor-pointer">
                 {{ $t('credit') }}
               </li>
             </ul>
