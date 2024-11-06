@@ -72,12 +72,12 @@ const createTelegramBot = () => {
       <div class="space-y-4">
         <div class="flex items-center space-x-4">
           <div class="flex-1">
-            <label for="type" class="text-base font-medium">
+            <label for="type" class="text-base dark:text-white font-medium">
               {{ $t('botType') }}
               <span class="text-red-500 mr-2">*</span>
             </label>
             <select id="type" v-model="submitData.type"
-                    class="bg-slate-100 border-none text-slate-900 rounded-lg w-full py-2.5">
+                    class="bg-slate-100 border-none dark:bg-slate-700 dark:text-white text-slate-900 rounded-lg w-full py-2.5">
               <option value="" disabled>{{ t('plsSelectBotType') }}</option>
               <option value="admin">Admin</option>
               <option value="agent">Agent</option>
@@ -85,29 +85,29 @@ const createTelegramBot = () => {
             </select>
           </div>
           <div class="flex-1">
-            <label for="chatId" class="text-base font-medium">
+            <label for="chatId" class="text-base dark:text-white font-medium">
               {{ $t('chatId') }}
             </label>
             <input id="chatId" type="text" v-model="submitData.chatId"
-                   class="bg-slate-100 border-none text-slate-900 rounded-lg w-full py-2.5 placeholder-slate-400"
+                   class="bg-slate-100 border-none text-slate-900 dark:bg-slate-700 dark:text-white rounded-lg w-full py-2.5 placeholder-slate-400"
                    :placeholder="t('enterChatId')" />
           </div>
         </div>
         <div class="flex-1">
-          <label for="token" class="text-base font-medium">
+          <label for="token" class="text-base dark:text-white font-medium">
             {{ $t('token') }}
             <span class="text-red-500 mr-2">*</span>
           </label>
           <input id="token" type="text" v-model="submitData.token"
-                 class="bg-slate-100 border-none text-slate-900 rounded-lg w-full py-2.5 placeholder-slate-400"
+                 class="bg-slate-100 border-none text-slate-900 dark:bg-slate-700 dark:text-white rounded-lg w-full py-2.5 placeholder-slate-400"
                  :placeholder="t('enterBotToken')" />
         </div>
         <div class="flex-1">
-          <label for="description" class="text-base font-medium">
+          <label for="description" class="text-base dark:text-white font-medium">
             {{ $t('description') }}
           </label>
           <textarea id="description" type="text" v-model="submitData.description"
-                 class="bg-slate-100 border-none text-slate-900 rounded-lg w-full py-2.5 placeholder-slate-400"
+                 class="bg-slate-100 border-none text-slate-900 dark:bg-slate-700 dark:text-white rounded-lg w-full py-2.5 placeholder-slate-400"
                  :placeholder="t('enterDescription')" />
         </div>
       </div>

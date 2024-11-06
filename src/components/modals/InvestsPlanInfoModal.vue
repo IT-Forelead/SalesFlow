@@ -22,12 +22,12 @@ const isLoading = ref(false)
         <div class="space-y-4">
           <div class="flex items-center space-x-4">
             <div class="flex-1">
-              <label for="fullname" class="text-base font-medium">
+              <label for="fullname" class="text-base dark:text-white font-medium">
                 {{ $t('fullName') }}
                 <span class="text-red-500 mr-2">*</span>
               </label>
               <input id="fullname" type="text" v-model="submitForm.fullName"
-                class="bg-slate-100 border-none text-slate-900 text-slate-900 dark:text-white rounded-lg w-full py-2.5 placeholder-slate-400"
+                class="bg-slate-100 border-none dark:bg-slate-700 dark:text-white text-slate-900 text-slate-900 rounded-lg w-full py-2.5 placeholder-slate-400"
                 :placeholder="t('enterFullName')">
             </div>
 
@@ -35,12 +35,12 @@ const isLoading = ref(false)
           <div class="flex items-center space-x-4">
 
             <div class="flex-1">
-              <label for="phone" class="text-base font-medium">
+              <label for="phone" class="text-base dark:text-white font-medium">
                 {{ $t('phone') }}
                 <span class="text-red-500 mr-2">*</span>
               </label>
               <input id="phone" type="text" v-model="submitForm.phone" v-maska data-maska="+998(##) ###-##-##"
-                class="bg-slate-100 border-none text-slate-900 dark:text-white rounded-lg w-full py-2.5 placeholder-slate-400"
+                class="bg-slate-100 border-none text-slate-900 dark:bg-slate-700 dark:text-white rounded-lg w-full py-2.5 placeholder-slate-400"
                 placeholder="+998(00) 000-00-00">
             </div>
           </div>

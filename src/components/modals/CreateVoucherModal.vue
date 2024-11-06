@@ -80,7 +80,7 @@ const createVoucher = () => {
                 <span class="text-red-500 mr-2">*</span>
               </label>
               <input id="amount" type="number" v-model="submitForm.amount"
-                     class="bg-slate-100 border-none text-slate-900 rounded-lg w-full py-2.5 placeholder-slate-400"
+                     class="bg-slate-100 border-none dark:bg-slate-700 dark:text-white text-slate-900 rounded-lg w-full py-2.5 placeholder-slate-400"
                      :placeholder="t('plsEnterAmount')">
             </div>
           </div>
@@ -91,7 +91,7 @@ const createVoucher = () => {
                 <span class="text-red-500 mr-2">*</span>
               </label>
               <input id="count" type="number" v-model="submitForm.count"
-                     class="bg-slate-100 border-none text-slate-900 rounded-lg w-full py-2.5 placeholder-slate-400"
+                     class="bg-slate-100 border-none dark:bg-slate-700 dark:text-white text-slate-900 rounded-lg w-full py-2.5 placeholder-slate-400"
                      :placeholder="t('plsEnterCount')">
             </div>
             <div class="flex-1 space-y-1">
@@ -99,7 +99,7 @@ const createVoucher = () => {
                 {{ $t('expirationDate') }}
               </label>
               <input id="expireDate" type="date" v-model="submitForm.expireDate"
-                     class="bg-slate-100 border-none text-slate-900 rounded-lg w-full h-11 placeholder-slate-400 placeholder:text-sm md:placeholder:text-lg">
+                     class="bg-slate-100 border-none dark:bg-slate-700 dark:text-white text-slate-900 rounded-lg w-full h-11 placeholder-slate-400 placeholder:text-sm md:placeholder:text-lg">
             </div>
           </div>
         </div>

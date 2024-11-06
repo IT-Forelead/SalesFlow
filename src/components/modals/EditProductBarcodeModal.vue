@@ -126,41 +126,41 @@ watch(
       <div class="space-y-4">
         <div class="flex items-center space-x-4">
           <div class="flex-1">
-            <label for="trademark" class="text-base font-medium">
+            <label for="trademark" class="text-base dark:text-white font-medium">
               {{ $t('productName') }}
               <span class="text-red-500 mr-2">*</span>
             </label>
             <input id="trademark" type="text" v-model="submitData.trademark"
-              class="bg-slate-100 border-none text-slate-900 rounded-lg w-full py-2.5 placeholder-slate-400"
+              class="bg-slate-100 border-none dark:bg-slate-700 dark:text-white text-slate-900 rounded-lg w-full py-2.5 placeholder-slate-400"
               :placeholder="t('enterProductName')" />
           </div>
           <div class="flex-1">
-            <label for="packaging" class="text-base font-medium">
+            <label for="packaging" class="text-base dark:text-white font-medium">
               {{ $t('packaging') }}
               <span class="text-red-500 mr-2">*</span>
             </label>
             <input id="packaging" type="text" v-model="submitData.packaging"
-              class="bg-slate-100 border-none text-slate-900 rounded-lg w-full py-2.5 placeholder-slate-400"
+              class="bg-slate-100 border-none dark:bg-slate-700 dark:text-white text-slate-900 rounded-lg w-full py-2.5 placeholder-slate-400"
               :placeholder="t('enterProductPackaging')" />
           </div>
         </div>
         <div class="flex items-center space-x-4">
           <div class="flex-1">
-            <label for="barcode" class="text-base font-medium">
+            <label for="barcode" class="text-base dark:text-white font-medium">
               {{ $t('barcode') }}
               <span class="text-red-500 mr-2">*</span>
             </label>
             <input id="barcode" type="text" v-model="submitData.barcode"
-              class="bg-slate-100 border-none text-slate-900 rounded-lg w-full py-2.5 placeholder-slate-400"
+              class="bg-slate-100 border-none dark:bg-slate-700 dark:text-white text-slate-900 rounded-lg w-full py-2.5 placeholder-slate-400"
               :placeholder="t('enterProductBarcode')" />
           </div>
           <div class="flex-1">
-            <label for="sale-type" class="text-base font-medium">
+            <label for="sale-type" class="text-base dark:text-white font-medium">
               {{ $t('saleType') }}
               <span class="text-red-500 mr-2">*</span>
             </label>
             <select id="sale-type" v-model="submitData.saleType"
-              class="bg-slate-100 border-none text-slate-900 rounded-lg block w-full h-11">
+              class="bg-slate-100 border-none dark:bg-slate-700 dark:text-white text-slate-900 rounded-lg block w-full h-11">
               <option value="" selected>{{ $t('selectType') }}</option>
               <option value="amount">Donali</option>
               <option value="kg">Kilogrammli</option>
@@ -171,12 +171,12 @@ watch(
         </div>
         <div class="flex items-center space-x-4">
           <div class="flex-1">
-            <label for="barcode" class="text-base font-medium">
+            <label for="barcode" class="text-base dark:text-white font-medium">
               {{ $t('inYearOfRegistration') }}
               <span class="text-red-500 mr-2">*</span>
             </label>
             <input id="barcode" type="text" v-model="submitData.year" v-maska data-maska="####"
-              class="bg-slate-100 border-none text-slate-900 rounded-lg w-full py-2.5 placeholder-slate-400"
+              class="bg-slate-100 border-none dark:bg-slate-700 dark:text-white text-slate-900 rounded-lg w-full py-2.5 placeholder-slate-400"
               :placeholder="t('forExample2017')" />
           </div>
           <div class="flex-1"></div>
