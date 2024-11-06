@@ -606,7 +606,7 @@ const calculateExpirationDate = (months) => {
                           <span class="text-red-500 mr-2">*</span>
                         </label>
                         <input id="agent-fullName" type="text" v-model="submitAgentForm.fullName"
-                               class="bg-slate-100 dark:bg-slate-700 dark:text-white placeholder:line-clamp-2 border-none text-slate-900 dark:text-white rounded-lg w-full py-2.5 placeholder-slate-400"
+                               class="bg-slate-100 dark:bg-slate-700 placeholder:line-clamp-2 border-none text-slate-900 dark:text-white rounded-lg w-full py-2.5 placeholder-slate-400"
                                :placeholder="t('enterFullName')">
                       </div>
                       <div class="flex-1">
@@ -616,7 +616,7 @@ const calculateExpirationDate = (months) => {
                         </label>
                         <input id="phone" type="text" v-model="submitAgentForm.phone" v-maska
                                data-maska="+998(##) ###-##-##"
-                               class="bg-slate-100 border-none dark:bg-slate-700 dark:text-white text-slate-900 dark:text-white rounded-lg w-full py-2.5 placeholder-slate-400"
+                               class="bg-slate-100 border-none dark:bg-slate-700 text-slate-900 dark:text-white rounded-lg w-full py-2.5 placeholder-slate-400"
                                placeholder="+998(00) 000-00-00">
                       </div>
                       <div class="flex-1">
@@ -625,7 +625,7 @@ const calculateExpirationDate = (months) => {
                           <span class="text-red-500 mr-2">*</span>
                         </label>
                         <input id="company" type="text" v-model="submitAgentForm.company"
-                               class="bg-slate-100 dark:bg-slate-700 dark:text-white border-none text-slate-900 dark:text-white rounded-lg w-full py-2.5 placeholder-slate-400"
+                               class="bg-slate-100 dark:bg-slate-700 border-none text-slate-900 dark:text-white rounded-lg w-full py-2.5 placeholder-slate-400"
                                :placeholder="t('enterCompany')">
                       </div>
                     </div>

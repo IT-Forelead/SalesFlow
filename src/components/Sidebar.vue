@@ -371,7 +371,7 @@ onMounted(() => {
           <OverlayPanel ref="wishToBuyProductModal">
             <div class="w-96">
               <input v-model="wishToBuyProductName" id="login" type="text" v-on:keypress="whenPressEnter($event)"
-                class="bg-slate-100 border-none dark:bg-slate-700 dark:text-white text-slate-900 dark:text-white rounded-lg w-full py-2.5 placeholder-slate-400"
+                class="bg-slate-100 border-none dark:bg-slate-700 text-slate-900 dark:text-white rounded-lg w-full py-2.5 placeholder-slate-400"
                 :placeholder="t('enterProductName')">
             </div>
           </OverlayPanel>
