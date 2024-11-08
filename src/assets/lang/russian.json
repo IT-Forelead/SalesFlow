@@ -443,5 +443,6 @@
   "plsEnterCount":"Введите номер",
   "voucherAddedSuccessfully": "Ваучер создан!",
   "errorWhileCreatingVoucher": "Ошибка при создании ваучера",
-  "totalProductPrice": "Общая стоимость продуктов"
+  "totalProductPrice": "Общая стоимость продуктов",
+  "agentProducts": "Продукты агента"
 }
