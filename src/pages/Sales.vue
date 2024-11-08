@@ -1334,7 +1334,7 @@ const closeCardIdModal = () => {
       <div class="flex items-center space-x-2 pb-2">
         <div class="relative flex-auto z-50">
           <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-            <SearchIcon class="w-5 h-5 text-slate-400" />
+            <SearchIcon class="w-5 h-5 text-slate-400 dark:text-white" />
           </div>
           <input
             id="globle-search"
@@ -1343,7 +1343,7 @@ const closeCardIdModal = () => {
             type="search"
             @blur="reFocus()"
             ref="onSearchFocus"
-            class="bg-slate-100 border-none text-slate-900 text-base md:text-lg rounded-xl block w-full h-12 pl-10 py-2 placeholder-slate-400 placeholder:text-sm md:placeholder:text-lg lg:placeholder:text-base"
+            class="bg-slate-100 border-none text-slate-900 dark:bg-slate-700 dark:text-white text-base md:text-lg rounded-xl block w-full h-12 pl-10 py-2 placeholder-slate-400 placeholder:text-sm md:placeholder:text-lg lg:placeholder:text-base"
             :placeholder="t('searchByProductNameOrBarcode')"
           />
           <div
@@ -1351,7 +1351,7 @@ const closeCardIdModal = () => {
             @click="clearSearchInput()"
             class="absolute inset-y-0 right-20 p-1 flex items-center cursor-pointer"
           >
-            <XIcon class="w-5 h-5 text-slate-600" />
+            <XIcon class="w-5 h-5 text-slate-600 dark:text-white" />
           </div>
           <button
             @click="searchProducts()"
@@ -1375,7 +1375,7 @@ const closeCardIdModal = () => {
               v-for="(product, idx) in products"
               :key="idx"
               @click="addProductToCart(product)"
-              class="flex items-center justify-between bg-white dark:bg-slate-600 border shadow-sm rounded-xl px-3 py-2 my-2 w-full cursor-pointer hover:bg-slate-100"
+              class="flex items-center justify-between bg-white dark:bg-slate-800 border shadow-sm rounded-xl px-3 py-2 my-2 w-full cursor-pointer hover:bg-slate-100"
             >
               <div class="flex items-center space-x-3">
                 <div class="flex items-center justify-center bg-slate-200 w-10 h-10 rounded-lg">
@@ -1408,17 +1408,17 @@ const closeCardIdModal = () => {
         <div
           @click="useModalStore().openCameraScannerModal()"
           :title="t('barcodeScanning')"
-          class="flex items-center justify-center bg-slate-100 rounded-xl h-12 w-12 cursor-pointer"
+          class="flex items-center justify-center bg-slate-100 dark:bg-slate-700 rounded-xl h-12 w-12 cursor-pointer"
         >
-          <BarcodeIcon class="w-6 h-6 text-blue-600" />
+          <BarcodeIcon class="w-6 h-6 text-blue-600 dark:text-blue-400" />
         </div>
         <button
           :disabled="isCashbackUsed"
           @click="openCardIdModal"
           :title="t('cardIdScanning')"
-          class="hidden md:flex items-center justify-center bg-slate-100 rounded-xl h-12 w-12 cursor-pointer"
+          class="hidden md:flex items-center justify-center bg-slate-100 dark:bg-slate-700 rounded-xl h-12 w-12 cursor-pointer"
         >
-          <TicketSale class="w-5 h-5 text-blue-600" />
+          <TicketSale class="w-5 h-5 text-blue-600 dark:text-blue-400" />
         </button>
         <Dialog
           v-model:visible="useModalStore().isOpenCardIdModal"
@@ -1458,9 +1458,9 @@ const closeCardIdModal = () => {
         <div
           @click="clearAndClose()"
           :title="t('clearTheBasket')"
-          class="hidden md:flex items-center justify-center bg-slate-100 rounded-xl h-12 w-12 cursor-pointer"
+          class="hidden md:flex items-center justify-center bg-slate-100 dark:bg-slate-700 rounded-xl h-12 w-12 cursor-pointer"
         >
-          <BroomIcon class="w-5 h-5 text-blue-600" />
+          <BroomIcon class="w-5 h-5 text-blue-600 dark:text-blue-400" />
         </div>
       </div>
 
@@ -1476,19 +1476,19 @@ const closeCardIdModal = () => {
             class="px-4 py-2 inline-flex flex-col xl:flex-row sm:flex items-center leading-none border-b-2 rounded-xl"
             :class="
               activeBasketStatus == basket.id
-                ? 'bg-slate-100 border-blue-500'
-                : 'bg-slate-50 border-slate-200 cursor-pointer'
+                ? 'bg-slate-100 dark:bg-slate-700 border-blue-500'
+                : 'bg-slate-50 dark:bg-gray-700 border-slate-200 cursor-pointer'
             "
           >
             <BasketIcon
               class="w-6 h-6 mr-2"
               :class="
-                activeBasketStatus == basket.id ? 'text-blue-500 text-sm' : 'text-gray-500 text-sm'
+                activeBasketStatus == basket.id ? 'text-blue-600 dark:text-blue-400 text-sm' : 'text-gray-500 dark:text-white text-sm'
               "
             />
             <span
               :class="
-                activeBasketStatus == basket.id ? 'text-blue-500 text-sm' : 'text-gray-900 text-sm'
+                activeBasketStatus == basket.id ? 'text-blue-600 dark:text-blue-400 text-sm' : 'text-red-900 dark:text-white text-sm'
               "
             >
               {{ basket.name }}
@@ -1499,9 +1499,9 @@ const closeCardIdModal = () => {
 
       <div v-if="activeBasket.length > 0" class="py-2 align-middle">
         <div class="min-w-full max-h-svh pb-44 overflow-y-auto overflow-x-auto rounded-xl">
-          <table class="md:min-w-full dark:bg-gray-600 divide-y-8 dark:divide-slate-600 divide-white">
+          <table class="md:min-w-full dark:bg-gray-800 divide-y-8 dark:divide-slate-800 divide-white">
             <thead>
-              <tr class="bg-slate-100 text-base font-semibold text-gray-900 dark:bg-gray-500 dark:text-zinc-200 h-12">
+              <tr class="bg-slate-100 text-base font-semibold text-gray-900 dark:bg-gray-700 dark:text-zinc-200 h-12">
                 <th class="px-3 py-2 text-left rounded-l-xl text-sm md:text-base">
                   {{ $t('product') }}
                 </th>
@@ -1519,10 +1519,10 @@ const closeCardIdModal = () => {
                 </th>
               </tr>
             </thead>
-            <tbody class="bg-slate-100 divide-y-8 dark:divide-slate-600 dark:bg-gray-500 divide-white">
+            <tbody class="bg-slate-100 divide-y-8 dark:divide-slate-800 dark:bg-gray-700 divide-white">
               <tr
-                :class="{ 'bg-red-100': product.expirationDate && new Date().setHours(0, 0, 0, 0) > new Date(product.expirationDate),
-                'bg-blue-100 dark:bg-gray-600': selectP === product }" @click="selectProduct(product)" v-for="(product, idx) in  activeBasket" :key="idx" class="overflow-x-auto overflow-y-auto">
+                :class="{ 'bg-red-100 dark:bg-gray-700': product.expirationDate && new Date().setHours(0, 0, 0, 0) > new Date(product.expirationDate),
+                'bg-blue-100 dark:bg-gray-800': selectP === product }" @click="selectProduct(product)" v-for="(product, idx) in  activeBasket" :key="idx" class="overflow-x-auto overflow-y-auto">
                 <td class="px-3 py-2 whitespace-nowrap rounded-l-xl">
                   <div class="flex items-center space-x-3">
                     <div
@@ -1616,7 +1616,7 @@ const closeCardIdModal = () => {
                       <div
                         @click="increaseCountToAll(product)"
                         v-else-if="increaseCountAll(product)"
-                        class="flex items-center justify-center w-8 h-8 bg-white text-blue-700 dark:bg-slate-500 dark:text-blue-400 shadow-sm dark:hover:bg-gray-400 hover:bg-slate-200 cursor-pointer rounded-xl"
+                        class="flex items-center justify-center w-8 h-8 bg-white text-blue-700 dark:bg-slate-500 dark:text-white shadow-sm hover:bg-slate-200 cursor-default rounded-xl"
                       >
                         <PlusIcon class="w-4 h-4" />
                       </div>
@@ -1687,12 +1687,12 @@ const closeCardIdModal = () => {
       </div>
       <div
         v-else
-        class="flex flex-col items-center justify-center border-2 border-dashed h-96 rounded-3xl space-y-1"
+        class="flex flex-col items-center justify-center border-2 border-dashed dark:border-slate-600 h-96 rounded-3xl space-y-1"
       >
         <h4 class="text-slate-900 dark:text-white text-xl font-semibold">
           {{ $t('cartIsCurrentlyEmpty') }}
         </h4>
-        <div class="text-slate-600 text-base text-center">
+        <div class="text-slate-600 dark:text-slate-40 text-base text-center">
           {{ $t('searchForProductsOrScanProducts') }}
         </div>
       </div>
@@ -1780,7 +1780,7 @@ const closeCardIdModal = () => {
           id="price"
           ref="onTotalFocus"
           @blur="totalReFocus()"
-          class="border-none text-right text-gray-500 dark:text-black bg-slate-100 rounded-lg w-full text-lg"
+          class="border-none text-right text-gray-500 dark:text-slate-400 dark:bg-slate-700 bg-slate-100 rounded-lg w-full text-lg"
         />
       </div>
       <div class="space-y-1" @click="a">
@@ -1794,7 +1794,7 @@ const closeCardIdModal = () => {
             ref="onCustomerMoneyFocus"
             @blur="customerMoneyReFocus()"
             v-bind="moneyConf"
-            class="border-none text-right text-gray-500 dark:text-black bg-slate-100 rounded-lg w-full text-lg"
+            class="border-none text-right text-gray-500 dark:text-slate-400 dark:bg-slate-700 bg-slate-100 rounded-lg w-full text-lg"
           />
         </div>
       </div>
@@ -1815,7 +1815,7 @@ const closeCardIdModal = () => {
             <div
               @click="showDiscountForm = !showDiscountForm"
               :class="showDiscountForm ? 'border-blue-300 bg-blue-50' : ''"
-              class="flex-1 hover:bg-blue-100 bg-blue-50 hover:border-blue-300  hover:cursor-pointer flex flex-col w-full items-center text-center justify-center border rounded-lg py-4"
+              class="flex-1 hover:bg-blue-100 bg-blue-50 dark:border-slate-600 hover:border-blue-300 dark:bg-slate-700 dark:text-white dark:hover:bg-blue-500  hover:cursor-pointer flex flex-col w-full items-center text-center justify-center border rounded-lg py-4"
             >
               <PhPercent class="w-6 h-6" />
               <div class="text-lg font-medium">
@@ -1824,8 +1824,8 @@ const closeCardIdModal = () => {
             </div>
             <div
               @click="showCorporateClients = !showCorporateClients"
-              :class="showCorporateClients ? 'border-blue-300 bg-blue-50' : ''"
-              class="flex-1 flex flex-col hover:border-blue-300 hover:bg-blue-100 bg-blue-50 hover:cursor-pointer items-center text-center justify-center border rounded-lg py-4"
+              :class="showCorporateClients ? 'bg-blue-50' : ''"
+              class="flex-1 flex flex-col hover:border-blue-300 dark:border-slate-600 border-blue-300 dark:bg-slate-700 dark:text-white dark:hover:bg-blue-500 hover:bg-blue-100 bg-blue-50 hover:cursor-pointer items-center text-center justify-center border rounded-lg py-4"
             >
               <DebtIcon class="w-6 h-6" />
               <div class="text-lg font-medium">
@@ -1847,32 +1847,32 @@ const closeCardIdModal = () => {
                 type="number"
                 ref="onDiscountFocus"
                 @blur="discountReFocus()"
-                class="border-none text-right text-gray-500 bg-slate-100 rounded-lg w-full text-lg"
+                class="border-none text-right text-gray-500 dark:bg-slate-700 dark:text-gray-400 bg-slate-100 rounded-lg w-full text-lg"
               />
               <div class="flex space-x-3 my-3 justify-end">
                 <button
-                  class="px-2 py-2 flex items-center justify-center text-lg cursor-pointer border border-blue-400 bg-blue-100 hover:border-blue-400 hover:text-white hover:bg-blue-400 rounded-lg"
+                  class="px-2 py-2 flex items-center justify-center text-lg cursor-pointer dark:text-white dark:bg-[#7a8ea1] dark:hover:bg-blue-500 border-blue-400 bg-blue-100 hover:border-blue-400 hover:text-white hover:bg-blue-400 rounded-lg"
                   :class="{ 'bg-blue-400 text-white': discount === 10 }"
                   @click="setDiscountValue(10)"
                 >
                   10%
                 </button>
                 <button
-                  class="px-2 flex items-center justify-center text-lg cursor-pointer border border-blue-400 bg-blue-100 hover:border-blue-400 hover:text-white hover:bg-blue-400 rounded-lg"
+                  class="px-2 flex items-center justify-center text-lg cursor-pointer dark:text-white dark:bg-slate-500 dark:hover:bg-blue-500 border-blue-400 bg-blue-100 hover:border-blue-400 hover:text-white hover:bg-blue-400 rounded-lg"
                   :class="{ 'bg-blue-400 text-white': discount === 25 }"
                   @click="setDiscountValue(25)"
                 >
                   25%
                 </button>
                 <button
-                  class="px-2 flex items-center justify-center text-lg cursor-pointer border border-blue-400 bg-blue-200 hover:border-blue-400 hover:text-white hover:bg-blue-400 rounded-lg"
+                  class="px-2 flex items-center justify-center text-lg cursor-pointer dark:text-white dark:bg-slate-600 dark:hover:bg-blue-500 border-blue-400 bg-blue-200 hover:border-blue-400 hover:text-white hover:bg-blue-400 rounded-lg"
                   :class="{ 'bg-blue-400 text-white': discount === 50 }"
                   @click="setDiscountValue(50)"
                 >
                   50%
                 </button>
                 <button
-                  class="px-2 flex items-center justify-center text-lg cursor-pointer border border-blue-400 bg-blue-300 hover:border-blue-400 hover:text-white hover:bg-blue-400 rounded-lg"
+                  class="px-2 flex items-center justify-center text-lg cursor-pointer dark:text-white dark:bg-slate-700 dark:hover:bg-blue-500 border-blue-400 bg-blue-300 hover:border-blue-400 hover:text-white hover:bg-blue-400 rounded-lg"
                   :class="{ 'bg-blue-400 text-white': discount === 100 }"
                   @click="setDiscountValue(100)"
                 >
@@ -1886,7 +1886,7 @@ const closeCardIdModal = () => {
                   v-model="submitData.discountReason"
                   ref="onDiscountReasonFocus"
                   @blur="discountReasonReFocus()"
-                  class="border-none text-left text-gray-500 bg-slate-100 rounded-lg w-full text-lg"
+                  class="border-none text-left text-gray-500 dark:bg-slate-700 dark:text-gray-400 bg-slate-100 rounded-lg w-full text-lg"
                 />
               </div>
               <div class="mt-5">
@@ -1944,7 +1944,7 @@ const closeCardIdModal = () => {
                 </button>
                 <button
                   @click="createOrder(false)"
-                  class="w-full xl:py-3 px-4 lg:py-2 py-3 rounded-lg text-lg font-medium cursor-pointer bg-blue-50 border border-blue-300 text-blue-500 hover:bg-blue-200"
+                  class="w-full xl:py-3 px-4 lg:py-2 py-3 rounded-lg text-lg font-medium dark:bg-slate-700 dark:text-blue-400 dark:hover:bg-[#293348] cursor-pointer bg-blue-50 dark:border-slate-600 border border-blue-300 text-blue-500 hover:bg-blue-200"
                 >
                   {{ $t('payment') }}
                   <BillCrossIcon class="ml-2 h-6 w-6 inline" />
@@ -2125,73 +2125,73 @@ const closeCardIdModal = () => {
         <div>
           <div v-if="selectP && true" class="h-52 py-4 grid grid-cols-3 grid-rows-4 gap-2">
             <div
-              class="flex items-center justify-center text-lg cursor-pointer border border-slate-400 bg-slate-100 hover:border-blue-400 hover:text-blue-400 hover:bg-blue-100 rounded-lg"
+              class="flex items-center justify-center text-lg cursor-pointer dark:bg-slate-700 dark:text-white border border-slate-400 bg-slate-100 hover:border-blue-400 hover:text-blue-400 hover:bg-blue-100 rounded-lg"
               @click="appendValue(1)"
             >
               1
             </div>
             <div
-              class="flex items-center justify-center text-lg cursor-pointer border border-slate-400 bg-slate-100 hover:border-blue-400 hover:text-blue-400 hover:bg-blue-100 rounded-lg"
+              class="flex items-center justify-center text-lg cursor-pointer dark:bg-slate-700 dark:text-white border border-slate-400 bg-slate-100 hover:border-blue-400 hover:text-blue-400 hover:bg-blue-100 rounded-lg"
               @click="appendValue(2)"
             >
               2
             </div>
             <div
-              class="flex items-center justify-center text-lg cursor-pointer border border-slate-400 bg-slate-100 hover:border-blue-400 hover:text-blue-400 hover:bg-blue-100 rounded-lg"
+              class="flex items-center justify-center text-lg cursor-pointer dark:bg-slate-700 dark:text-white border border-slate-400 bg-slate-100 hover:border-blue-400 hover:text-blue-400 hover:bg-blue-100 rounded-lg"
               @click="appendValue(3)"
             >
               3
             </div>
             <div
-              class="flex items-center justify-center text-lg cursor-pointer border border-slate-400 bg-slate-100 hover:border-blue-400 hover:text-blue-400 hover:bg-blue-100 rounded-lg"
+              class="flex items-center justify-center text-lg cursor-pointer dark:bg-slate-700 dark:text-white border border-slate-400 bg-slate-100 hover:border-blue-400 hover:text-blue-400 hover:bg-blue-100 rounded-lg"
               @click="appendValue(4)"
             >
               4
             </div>
             <div
-              class="flex items-center justify-center text-lg cursor-pointer border border-slate-400 bg-slate-100 hover:border-blue-400 hover:text-blue-400 hover:bg-blue-100 rounded-lg"
+              class="flex items-center justify-center text-lg cursor-pointer dark:bg-slate-700 dark:text-white border border-slate-400 bg-slate-100 hover:border-blue-400 hover:text-blue-400 hover:bg-blue-100 rounded-lg"
               @click="appendValue(5)"
             >
               5
             </div>
             <div
-              class="flex items-center justify-center text-lg cursor-pointer border border-slate-400 bg-slate-100 hover:border-blue-400 hover:text-blue-400 hover:bg-blue-100 rounded-lg"
+              class="flex items-center justify-center text-lg cursor-pointer dark:bg-slate-700 dark:text-white border border-slate-400 bg-slate-100 hover:border-blue-400 hover:text-blue-400 hover:bg-blue-100 rounded-lg"
               @click="appendValue(6)"
             >
               6
             </div>
             <div
-              class="flex items-center justify-center text-lg cursor-pointer border border-slate-400 bg-slate-100 hover:border-blue-400 hover:text-blue-400 hover:bg-blue-100 rounded-lg"
+              class="flex items-center justify-center text-lg cursor-pointer dark:bg-slate-700 dark:text-white border border-slate-400 bg-slate-100 hover:border-blue-400 hover:text-blue-400 hover:bg-blue-100 rounded-lg"
               @click="appendValue(7)"
             >
               7
             </div>
             <div
-              class="flex items-center justify-center text-lg cursor-pointer border border-slate-400 bg-slate-100 hover:border-blue-400 hover:text-blue-400 hover:bg-blue-100 rounded-lg"
+              class="flex items-center justify-center text-lg cursor-pointer dark:bg-slate-700 dark:text-white dark:bg-slate-700 dark:text-white border border-slate-400 bg-slate-100 hover:border-blue-400 hover:text-blue-400 hover:bg-blue-100 rounded-lg"
               @click="appendValue(8)"
             >
               8
             </div>
             <div
-              class="flex items-center justify-center text-lg cursor-pointer border border-slate-400 bg-slate-100 hover:border-blue-400 hover:text-blue-400 hover:bg-blue-100 rounded-lg"
+              class="flex items-center justify-center text-lg cursor-pointer dark:bg-slate-700 dark:text-white border border-slate-400 bg-slate-100 hover:border-blue-400 hover:text-blue-400 hover:bg-blue-100 rounded-lg"
               @click="appendValue(9)"
             >
               9
             </div>
             <div
-              class="flex items-center justify-center text-lg cursor-pointer border border-slate-400 bg-slate-100 hover:border-blue-400 hover:text-blue-400 hover:bg-blue-100 rounded-lg"
+              class="flex items-center justify-center text-lg cursor-pointer dark:bg-slate-700 dark:text-white border border-slate-400 bg-slate-100 hover:border-blue-400 hover:text-blue-400 hover:bg-blue-100 rounded-lg"
               @click="separator()"
             >
               .
             </div>
             <div
-              class="flex items-center justify-center text-lg cursor-pointer border border-slate-400 bg-slate-100 hover:border-blue-400 hover:text-blue-400 hover:bg-blue-100 rounded-lg"
+              class="flex items-center justify-center text-lg cursor-pointer dark:bg-slate-700 dark:text-white border border-slate-400 bg-slate-100 hover:border-blue-400 hover:text-blue-400 hover:bg-blue-100 rounded-lg"
               @click="appendValue(0)"
             >
               0
             </div>
             <div
-              class="flex items-center justify-center text-lg cursor-pointer border border-slate-400 bg-slate-100 hover:border-blue-400 hover:text-blue-400 hover:bg-blue-100 rounded-lg"
+              class="flex items-center justify-center text-lg cursor-pointer dark:bg-slate-700 dark:text-white border border-slate-400 bg-slate-100 hover:border-blue-400 hover:text-blue-400 hover:bg-blue-100 rounded-lg"
               @click="removeLastDigit()"
             >
               {{ '<' }}

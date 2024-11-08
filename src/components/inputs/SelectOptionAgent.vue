@@ -67,11 +67,11 @@ const getSearchResult = (options) => {
           selectedOption?.fullName }} - <span class="font-light">{{ selectedOption?.company }}</span></div>
       <input type="text" v-model="search" v-if="useDropdownStore().isOpenAgentDropdown"
         v-on:keyup="getSearchResult(options)"
-        class="relative w-full foucus:ring-0 focus:outline-none border-none rounded-lg bg-gray-100"
+        class="relative w-full foucus:ring-0 dark:bg-slate-700 dark:text-zinc-300 focus:outline-none border-none rounded-lg bg-gray-100"
         :placeholder="$t('search')" />
       <div @click="useDropdownStore().openAgentDropdown()"
         v-if="!useDropdownStore().isOpenAgentDropdown && !selectedOption"
-        class="border-none bg-gray-100 py-2 w-full text-lg rounded-lg cursor-pointer text-slate-500 pl-2">
+        class="border-none dark:bg-slate-700 dark:text-white bg-gray-100 py-2 w-full text-lg rounded-lg cursor-pointer text-slate-500 pl-2">
         {{ $t('selectAgent') }}
       </div>
       <ChevronRightIcon @click="useDropdownStore().openAgentDropdown()" v-if="!selectedOption"
@@ -79,9 +79,9 @@ const getSearchResult = (options) => {
       <XIcon @click="clearSelectedOptionData()" v-if="selectedOption"
         class="absolute right-2.5 z-10 cursor-pointer bg-gray-500 hover:bg-gray-600 text-white rounded-full p-1" />
       <div v-if="!search && useDropdownStore().isOpenAgentDropdown"
-        class="absolute shadow p-2 z-20 top-12 max-h-56 overflow-auto w-full bg-gray-100 rounded-lg divide-y">
+        class="absolute shadow p-2 z-20 top-12 max-h-56 dark:bg-slate-700 dark:text-white overflow-auto w-full bg-gray-100 rounded-lg divide-y">
         <div v-for="(option, idx) in options" :key="idx" @click="optionClicked(option)"
-          class="hover:bg-gray-200 cursor-pointer p-2 rounded-lg">
+          class="hover:bg-gray-200 dark:hover:bg-slate-900 cursor-pointer p-2 rounded-lg">
           {{ option?.fullName }} - <span class="font-light">{{ option?.company }}</span>
         </div>
         <div v-if="options?.length === 0" class="hover:bg-gray-200 cursor-pointer p-2 rounded-lg">

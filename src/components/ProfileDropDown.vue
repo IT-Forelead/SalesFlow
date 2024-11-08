@@ -48,11 +48,11 @@ const logout = () => {
           </div>
         </div>
       </div>
-      <div @click="useModalStore().toggleProfile()" class="hover:bg-gray-100 hover:dark:bg-gray-500 p-0.5 rounded-lg cursor-pointer" :class="useModalStore().isOpenProfileDropDown ? 'dark:bg-gray-400 bg-gray-100 ' : ''">
+      <div @click="useModalStore().toggleProfile()" class="hover:bg-gray-100 hover:dark:bg-gray-900 p-0.5 rounded-lg cursor-pointer" :class="useModalStore().isOpenProfileDropDown ? 'dark:bg-gray-400 bg-gray-100 ' : ''">
         <DotsThreeVerticalBoldIcon class="w-5 h-5" />
       </div>
     </div>
-    <div v-if="useModalStore().isOpenProfileDropDown" class="absolute z-50 top-11 md:top-0 right-2 md:-right-[200px] w-52 dark:bg-slate-600 bg-white border border-gray-200 shadow rounded-lg divide-y divide-gray-200">
+    <div v-if="useModalStore().isOpenProfileDropDown" class="absolute z-50 top-11 md:top-0 right-2 md:-right-[200px] w-52 dark:bg-slate-800 bg-white border border-gray-200 shadow rounded-lg divide-y divide-gray-200">
       <ul class="p-1.5 relative">
         <li class="flex items-center text-slate-900 dark:text-white hover:bg-blue-100 hover:text-blue-600 rounded-lg cursor-pointer p-2 space-x-2">
           <UserIcon class="w-5 h-5" />
