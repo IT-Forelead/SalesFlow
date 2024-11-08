@@ -44,6 +44,7 @@ import EditInvestStatusModal from './modals/EditInvestStatusModal.vue'
 import CashbackHistoryModal from './modals/CashbackHistoryModal.vue'
 import CreatePriceModal from './modals/CreatePriceModal.vue'
 import CreateVoucherModal from './modals/CreateVoucherModal.vue'
+import AgentInfoModal from './modals/AgentInfoModal.vue'
 
 const notificationDropdown = ref(null)
 
@@ -152,6 +153,7 @@ onUnmounted(() => {
   <CashbackHistoryModal />
   <CreatePriceModal />
   <CreateVoucherModal />
+  <AgentInfoModal />
 </template>
 
 <style scoped></style>

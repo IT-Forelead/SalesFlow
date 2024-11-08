@@ -440,5 +440,6 @@
   "plsEnterCount": "Сони киритинг",
   "voucherAddedSuccessfully": "Ваучер яратилди!",
   "errorWhileCreatingVoucher": "Ваучер яратишда хатолик юз берди",
-  "totalProductPrice": "Жами махсулот нархи"
+  "totalProductPrice": "Жами махсулот нархи",
+  "agentProducts": "Агент махсулотлар"
 }
