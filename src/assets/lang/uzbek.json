@@ -443,5 +443,6 @@
   "plsEnterCount": "Soni kiriting",
   "voucherAddedSuccessfully": "Vaucher yaratildi!",
   "errorWhileCreatingVoucher": "Vaucher yaratishda xatolik yuz berdi",
-  "totalProductPrice": "Jami mahsulot narxi"
+  "totalProductPrice": "Jami mahsulot narxi",
+  "agentProducts": "Agent mahsulotlar"
 }

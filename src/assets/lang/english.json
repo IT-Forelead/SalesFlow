@@ -441,5 +441,6 @@
   "plsEnterCount": "Enter count",
   "voucherAddedSuccessfully": "Voucher added successfully!",
   "errorWhileCreatingVoucher": "Error while creating voucher",
-  "totalProductPrice": "Total product price"
+  "totalProductPrice": "Total product price",
+  "agentProducts": "Agent products"
 }
