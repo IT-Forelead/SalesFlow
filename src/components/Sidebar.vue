@@ -104,7 +104,7 @@ onMounted(() => {
       :class="useSidebarStore().isOpenSidebar ? 'opacity-100' : 'opacity-0 pointer-events-none'" @click="closeSidebar">
     </div>
     <div id="sidebar" ref="sidebar"
-      class="flex justify-between flex-col bg-slate-100 dark:bg-slate-700 absolute z-40 left-0 top-0 lg:static border-r lg:left-auto lg:top-auto lg:translate-x-0 min-h-screen w-72 md:w-64 2xl:w-72 shrink-0 transition-all duration-200 ease-in-out"
+      class="flex justify-between flex-col bg-slate-100 dark:bg-slate-900 absolute z-40 left-0 top-0 lg:static border-r lg:left-auto lg:top-auto lg:translate-x-0 min-h-screen w-72 md:w-64 2xl:w-72 shrink-0 transition-all duration-200 ease-in-out"
       :class="useSidebarStore().isOpenSidebar ? 'translate-x-0' : '-translate-x-64'">
       <div>
       <div class="h-20 flex justify-around">
@@ -116,7 +116,7 @@ onMounted(() => {
           </div>
         </div>
         <div class="flex items-center justify-end">
-          <XIcon class="w-6 h-6 mt-1 hover:text-[#0167f3] dark:text-white cursor-pointer" @click="closeBar"/>
+          <XIcon class="w-6 h-6 mt-1 hover:text-[#0167f3] dark:text-white dark:hover:bg-gray-500 rounded-md cursor-pointer" @click="closeBar"/>
         </div>
       </div>
       <ProfileDropDown />
@@ -371,7 +371,7 @@ onMounted(() => {
           <OverlayPanel ref="wishToBuyProductModal">
             <div class="w-96">
               <input v-model="wishToBuyProductName" id="login" type="text" v-on:keypress="whenPressEnter($event)"
-                class="bg-slate-100 border-none text-slate-900 dark:text-white rounded-lg w-full py-2.5 placeholder-slate-400"
+                class="bg-slate-100 border-none dark:bg-slate-700 text-slate-900 dark:text-white rounded-lg w-full py-2.5 placeholder-slate-400"
                 :placeholder="t('enterProductName')">
             </div>
           </OverlayPanel>
@@ -398,3 +398,8 @@ onMounted(() => {
     </div>
   </div>
 </template>
+<style>
+.dark .p-overlaypanel-content{
+  background-color: rgb(30 41 59) !important;
+}
+</style>

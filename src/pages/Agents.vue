@@ -85,6 +85,7 @@ const openEditAgent = (data) => {
 const openAgentInfo = (data) => {
   ProductService.getProductsDetails({ agentId: data.id }).then((res) => {
     console.log(res);
+    useAgentStore().clearStore()
     useAgentStore().setAgentsProducts(res.data)
     console.log(res.data);
     useModalStore().openAgentInfoModal()

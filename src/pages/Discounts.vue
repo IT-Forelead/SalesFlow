@@ -210,11 +210,11 @@ const changeAllDiscounts = () => {
       <div class="flex items-center space-x-2 pb-2">
         <div class="relative flex-auto z-50">
           <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-            <SearchIcon class="w-5 h-50 text-slate-400" />
+            <SearchIcon class="w-5 h-50 text-slate-400 dark:text-white" />
           </div>
           <input id="globle-search" v-model="search" v-on:keypress="whenPressEnter($event)" type="search"
             ref="onSearchFocus"
-            class="bg-slate-100 border-none text-slate-900 text-base md:text-lg rounded-xl block w-full h-12 pl-10 py-2 placeholder-slate-400 placeholder:text-sm md:placeholder:text-lg lg:placeholder:text-base"
+            class="bg-slate-100 border-none dark:bg-slate-700 dark:text-white text-slate-900 text-base md:text-lg rounded-xl block w-full h-12 pl-10 py-2 placeholder-slate-400 placeholder:text-sm md:placeholder:text-lg lg:placeholder:text-base"
             :placeholder="t('searchByProductNameOrBarcode')" />
           <div v-if="search" @click="clearSearchInput()"
             class="absolute inset-y-0 right-20 p-1 flex items-center cursor-pointer">
@@ -230,7 +230,7 @@ const changeAllDiscounts = () => {
           <ScrollPanel v-if="products.length > 0" ref="searchProductDropdown"
             class="h-[500px] flex flex-row absolute top-16 left-0 bg-transparent w-full space-y-2 ">
             <div v-for="(product, idx) in products" :key="idx" @click="addProduct(product)"
-              class="flex items-center justify-between bg-white dark:bg-slate-600 border shadow-sm rounded-xl px-3 py-2 my-2 w-full cursor-pointer hover:bg-slate-100">
+              class="flex items-center justify-between bg-white dark:bg-slate-800 border shadow-sm rounded-xl px-3 py-2 my-2 w-full cursor-pointer hover:bg-slate-100">
               <div class="flex items-center space-x-3">
                 <div class="flex items-center justify-center bg-slate-200 w-10 h-10 rounded-lg">
                   <img v-if="product.asset" :src="product.asset.url" class="w-12 h-auto rounded" alt="image">
@@ -261,7 +261,7 @@ const changeAllDiscounts = () => {
           </ScrollPanel>
         </div>
         <div @click="useModalStore().openCameraScannerModal()" :title="t('barcodeScanning')"
-          class="flex items-center justify-center bg-slate-100 rounded-xl h-12 w-12 cursor-pointer">
+          class="flex items-center justify-center dark:bg-slate-700 bg-slate-100 rounded-xl h-12 w-12 cursor-pointer">
           <BarcodeIcon class="w-6 h-6 dark:text-blue-400 text-blue-600" />
         </div>
       </div>
@@ -269,16 +269,16 @@ const changeAllDiscounts = () => {
       <div v-if="selectedProducts?.length > 0" class=" py-2 align-middle flex flex-col space-y-2">
         <div class="flex flex-col space-y-4">
           <div class="flex h-12 space-x-3 justify-end">
-            <input class="w-20 rounded-xl bg-slate-100 border-none" placeholder="0" type="number" v-model="discount">
+            <input class="w-20 rounded-xl dark:bg-slate-700 dark:text-white bg-slate-100 border-none" placeholder="0" type="number" v-model="discount">
             <button class="w-auto whitespace-nowrap px-4 bg-blue-500 hover:bg-blue-600 text-white rounded-xl"
               @click="changeAllDiscounts">{{ $t('changeAll') }}</button>
           </div>
 
           <div class="flex h-[200px] flex-col space-y-5 ">
             <ScrollPanel class="w-full h-[500px] rounded-xl">
-              <table class="md:min-w-full divide-y-8 dark:divide-slate-600 divide-white">
+              <table class="md:min-w-full divide-y-8 dark:divide-slate-800 divide-white">
                 <thead>
-                  <tr class="bg-slate-100 dark:bg-gray-500 text-base font-semibold text-gray-900 dark:text-zinc-200 h-12">
+                  <tr class="bg-slate-100 dark:bg-gray-700 text-base font-semibold text-gray-900 dark:text-zinc-200 h-12">
                     <th class="px-3 py-2 text-left rounded-l-xl text-sm md:text-base">
                       {{ $t('product') }}
                     </th>
@@ -293,12 +293,12 @@ const changeAllDiscounts = () => {
                     </th>
                   </tr>
                 </thead>
-                <tbody class="bg-slate-100 dark:bg-gray-500 divide-y-8 dark:divide-slate-600 divide-white">
-                  <tr :class="{ 'bg-blue-100, dark:bg-gray-600': selectP === product }" @click="selectProduct(product)"
+                <tbody class="bg-slate-100 dark:bg-gray-700 divide-y-8 dark:divide-slate-800 divide-white">
+                  <tr :class="{ 'bg-blue-100, dark:bg-gray-800': selectP === product }" @click="selectProduct(product)"
                     v-for="(product, idx) in selectedProducts" :key="idx" class="overflow-x-auto overflow-y-auto">
                     <td class="px-3 py-2 whitespace-nowrap  rounded-l-xl">
                       <div class="flex items-center space-x-3">
-                        <div class="flex items-center justify-center dark:bg-slate-500 bg-slate-200 md:w-12 md:h-12 w-8 h-8 rounded-lg">
+                        <div class="flex items-center justify-center dark:bg-slate-800 bg-slate-200 md:w-12 md:h-12 w-8 h-8 rounded-lg">
                           
                           <img v-if="product.asset" :src="product.asset.url" class="w-12 h-auto rounded">
 
@@ -322,7 +322,7 @@ const changeAllDiscounts = () => {
                     <td class="px-3 py-2 whitespace-nowrap">
                       <div class="flex justify-center space-x-2 items-center">
                         <input v-model="product.discount" @blur="setDiscount($event, product)"
-                          class="bg-slate-100 border border-slate-200 cursor-pointer text-slate-900 dark:bg-gray-500 dark:text-white rounded-lg dark:placeholder-white w-20 h-12 pl-4 py-2 placeholder-slate-400"
+                          class="bg-slate-100 border dark:border-slate-600 border-slate-200 cursor-pointer text-slate-900 dark:bg-gray-700 dark:text-white rounded-lg dark:placeholder-white w-20 h-12 pl-4 py-2 placeholder-slate-400"
                           type="number" placeholder="0">
                         <span class="dark:text-white">%</span>
                       </div>
@@ -330,7 +330,7 @@ const changeAllDiscounts = () => {
                     <td class="px-3 py-2 whitespace-nowrap">
                       <div class="flex justify-center">
                         <money3 v-model.number="product.price" @blur="setPrice(product)" v-bind="moneyConf" id="price"
-                          class="w-40 border border-slate-200 cursor-pointer text-right text-gray-500 dark:bg-gray-500 dark:text-zinc-200 bg-slate-100 h-12 rounded-lg text-lg">
+                          class="w-40 border dark:border-slate-600 border-slate-200 cursor-pointer text-right text-gray-500 dark:bg-gray-700 dark:text-zinc-200 bg-slate-100 h-12 rounded-lg text-lg">
                         </money3>
                       </div>
                     </td>

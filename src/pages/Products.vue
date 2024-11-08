@@ -83,7 +83,7 @@ const columns = [
     header: t('image'),
     enableSorting: false,
     cell: ({ row }) =>
-      h('div', { class: 'w-12 h-12 flex items-center overflow-hidden border border-gray-300' },
+      h('div', { class: 'w-12 h-12 flex items-center overflow-hidden border dark:border-slate-600 border-gray-300' },
         [row.original.asset ?
           h(Image, { src: `${row.original.asset.url}`, alt: '#', preview: '' }) : h('span')]),
   },
@@ -284,10 +284,10 @@ watchEffect(() => {
     <div class="flex flex-col md:flex-row items-center justify-between">
       <div class="relative w-full md:w-auto my-2 md:mb-0 order-2 md:order-1">
         <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-          <SearchIcon class="w-5 h-5 text-slate-400" />
+          <SearchIcon class="w-5 h-5 text-slate-400 dark:text-white" />
         </div>
         <input type="search" v-model="searchFilter" ref="onSearchFocus"
-          class="bg-slate-100 border-none w-full text-slate-900 text-base md:text-lg rounded-full block pl-10 py-2 placeholder-slate-400"
+          class="bg-slate-100 border-none w-full dark:bg-slate-700 dark:text-white text-slate-900 text-base md:text-lg rounded-full block pl-10 py-2 placeholder-slate-400"
           placeholder="Search everything...">
       </div>
       <div class="w-full md:w-auto order-1 md:order-2 flex space-x-2">

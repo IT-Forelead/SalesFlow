@@ -149,8 +149,8 @@ watch(
       <div class="space-y-4">
         <div class="flex flex-col p-5 mb-12">
           <label v-if="!submitData.image" for="dropzone-file"
-            class="relative flex items-center justify-center w-28 h-28 max-w-lg p-6 mx-auto text-center border-2 border-blue-400 border-dashed rounded-lg cursor-pointer bg-slate-100">
-            <ImageIcon class="w-12 h-12 text-blue-700" />
+            class="relative flex items-center justify-center w-28 h-28 max-w-lg dark:bg-slate-600 p-6 mx-auto text-center border-2 dark:border-blue-200 border-blue-400 border-dashed rounded-lg cursor-pointer bg-slate-100">
+            <ImageIcon class="w-12 h-12 text-blue-700 dark:text-blue-400 " />
             <input id="dropzone-file" type="file" class="hidden" name="image" @change="getImage" />
             <span
               class="absolute mx-auto mt-3 text-lg font-semibold tracking-wide text-blue-500 -bottom-10 whitespace-nowrap">
@@ -162,47 +162,47 @@ watch(
             <img :src="selectedImage" class="object-cover w-28 h-28 rounded-lg" alt="#" />
             <input id="dropzone-file" type="file" class="hidden" name="image" @change="getImage" />
             <span
-              class="absolute mx-auto mt-3 text-lg font-semibold tracking-wide text-blue-500 -bottom-10 whitespace-nowrap">
+              class="absolute mx-auto mt-3 text-lg font-semibold tracking-wide text-blue-600 dark:text-blue-400 -bottom-10 whitespace-nowrap">
               {{ $t('uploadAnotherPhoto') }}
             </span>
           </label>
         </div>
         <div class="flex items-center space-x-4">
           <div class="flex-1">
-            <label for="name" class="text-base md:text-lg font-medium">
+            <label for="name" class="text-base dark:text-white md:text-lg font-medium">
               {{ $t('productName') }}
               <span class="text-red-500 mr-2">*</span>
             </label>
             <input id="name" type="text" v-model="submitData.name"
-              class="bg-slate-100 border-none text-slate-900 rounded-lg w-full py-2.5 placeholder-slate-400"
+              class="bg-slate-100 border-none text-slate-900 dark:text-white dark:bg-slate-700 rounded-lg w-full py-2.5 placeholder-slate-400"
               :placeholder="t('enterProductName')" />
           </div>
           <div class="flex-1">
-            <label for="barcode" class="text-base md:text-lg font-medium">
+            <label for="barcode" class="text-base dark:text-white md:text-lg font-medium">
               {{ $t('barcode') }}
             </label>
             <input id="barcode" type="text" v-model="submitData.barcode"
-              class="bg-slate-100 border-none text-slate-900 rounded-lg w-full py-2.5 placeholder-slate-400"
+              class="bg-slate-100 border-none text-slate-900 dark:text-white dark:bg-slate-700 rounded-lg w-full py-2.5 placeholder-slate-400"
               :placeholder="t('enterProductBarcode')" />
           </div>
         </div>
         <div class="flex items-center space-x-4">
           <div class="flex-1">
-            <label for="packaging" class="text-base md:text-lg font-medium">
+            <label for="packaging" class="text-base dark:text-white md:text-lg font-medium">
               {{ $t('packaging') }}
               <span class="text-red-500 mr-2">*</span>
             </label>
             <input id="packaging" type="text" v-model="submitData.packaging"
-              class="bg-slate-100 border-none text-slate-900 rounded-lg w-full py-2.5 placeholder-slate-400"
+              class="bg-slate-100 border-none text-slate-900 dark:text-white dark:bg-slate-700 rounded-lg w-full py-2.5 placeholder-slate-400"
               :placeholder="t('enterProductPackaging')" />
           </div>
           <div class="flex-1">
-            <label for="default-type" class="text-base md:text-lg font-medium">
+            <label for="default-type" class="text-base dark:text-white md:text-lg font-medium">
               {{ $t('saleType') }}
               <span class="text-red-500 mr-2">*</span>
             </label>
             <select id="default-type" v-model="submitData.saleType"
-              class="bg-slate-100 border-none text-slate-900 rounded-lg block w-full h-11">
+              class="bg-slate-100 border-none text-slate-900 dark:text-white dark:bg-slate-700 rounded-lg block w-full h-11">
               <option value="" selected>{{ $t('selectType') }}</option>
               <option value="amount">Donali</option>
               <option value="kg">Kilogrammli</option>

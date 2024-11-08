@@ -66,21 +66,21 @@ const createMarket = () => {
       <div class="space-y-4">
         <div class="flex items-center space-x-4">
           <div class="flex-1">
-            <label for="name" class="text-base font-medium">
+            <label for="name" class="text-base dark:text-white font-medium">
               {{ $t('shopName') }}
               <span class="text-red-500 mr-2">*</span>
             </label>
             <input id="name" type="text" v-model="submitData.name"
-              class="bg-slate-100 border-none text-slate-900 rounded-lg w-full py-2.5 placeholder-slate-400"
+              class="bg-slate-100 border-none dark:bg-slate-700 dark:text-white text-slate-900 rounded-lg w-full py-2.5 placeholder-slate-400"
               :placeholder="t('enterStoreName')" />
           </div>
           <div class="flex-1">
-            <label for="name" class="text-base font-medium">
+            <label for="name" class="text-base dark:text-white font-medium">
               {{ $t('shopAddress') }}
               <span class="text-red-500 mr-2">*</span>
             </label>
             <input id="name" type="text" v-model="submitData.address"
-              class="bg-slate-100 border-none text-slate-900 rounded-lg w-full py-2.5 placeholder-slate-400"
+              class="bg-slate-100 border-none dark:bg-slate-700 dark:text-white text-slate-900 rounded-lg w-full py-2.5 placeholder-slate-400"
               :placeholder="t('enterStoreAddress')" />
           </div>
         </div>
