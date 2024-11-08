@@ -65,7 +65,7 @@ const table = useVueTable({
           <thead>
             <tr v-for="headerGroup in table.getHeaderGroups()" :key="headerGroup.id">
               <th v-for="header in headerGroup.headers" :key="header.id" scope="col"
-                class="px-3 py-3.5 text-left text-slate-400 dark:text-white text-base font-medium" :class="{
+                class="px-3 py-3.5 text-left text-slate-400 dark:text-slate-300 text-base font-medium" :class="{
                   'cursor-pointer select-none': header.column.getCanSort(),
                 }" @click="header.column.getToggleSortingHandler()?.($event)">
                 <FlexRender :render="header.column.columnDef.header" :props="header.getContext()" />
