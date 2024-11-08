@@ -136,7 +136,7 @@ function getImage(e) {
               <span class="text-red-500 mr-2">*</span>
             </label>
             <input id="company" type="text" v-model="submitForm.company"
-              class="bg-slate-100 border-none text-slate-900 rounded-lg w-full py-2.5 placeholder-slate-400"
+              class="bg-slate-100 border-none dark:bg-slate-700 dark:text-white text-slate-900 rounded-lg w-full py-2.5 placeholder-slate-400"
               :placeholder="t('enterCompany')">
           </div>
         </div>
@@ -146,7 +146,7 @@ function getImage(e) {
               {{ $t('description') }}
             </label>
             <input id="description" type="text" v-model="submitForm.description"
-              class="bg-slate-100 border-none text-slate-900 rounded-lg w-full py-2.5 placeholder-slate-400"
+              class="bg-slate-100 border-none dark:bg-slate-700 dark:text-white text-slate-900 rounded-lg w-full py-2.5 placeholder-slate-400"
               :placeholder="t('enterDescription')">
           </div>
 

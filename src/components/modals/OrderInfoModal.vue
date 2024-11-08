@@ -243,7 +243,7 @@ const refundProducts = () => {
           <div class="overflow-hidden overflow-y-scroll h-[300px] border-0">
             <table class="md:min-w-full text-sm">
               <thead>
-              <tr class="bg-slate-100 font-medium text-gray-900">
+              <tr class="bg-slate-100 font-medium text-gray-900 dark:bg-slate-700 dark:text-white">
                 <th class="px-3 py-2 text-left rounded-l-xl text-sm md:text-base"></th>
                 <th class="px-3 py-2 text-left text-sm md:text-base">{{ $t('product') }}</th>
                 <th class="px-3 py-2 text-sm md:text-base">{{ $t('quantity') }}</th>
@@ -256,7 +256,7 @@ const refundProducts = () => {
                 :key="idx"
                 @click="!product.refunded && toggleProductSelection(product)"
                 :class="{
-                    'dark:bg-slate-400 bg-blue-200 rounded-xl': selectedProductIds.includes(product.id) && !product.refunded,
+                    'dark:bg-gray-700 bg-blue-200 rounded-xl': selectedProductIds.includes(product.id) && !product.refunded,
                     'bg-red-200': product.refunded
                   }"
                 class="cursor-pointer"
@@ -370,14 +370,14 @@ const refundProducts = () => {
       <div v-if="!isFromCashback" >
         
         <button v-if="isRefundLoading" type="button"
-              class="inline-flex items-center justify-center ml-2 text-rose-500 bg-white dark:bg-slate-600 hover:bg-slate-100 focus:ring-4 focus:outline-none focus:ring-slate-300 rounded-xl border border-slate-200 text-sm font-medium px-5 py-2.5 hover:text-rose-600 focus:z-10">
+              class="inline-flex items-center justify-center ml-2 text-rose-500 bg-white dark:bg-slate-800 hover:bg-slate-100 focus:ring-4 focus:outline-none focus:ring-slate-300 rounded-xl border border-slate-200 text-sm font-medium px-5 py-2.5 hover:text-rose-600 focus:z-10">
         <Spinners270RingIcon
           class="mr-2 w-5 h-5 text-rose-500 animate-spin" />
         <span>{{ $t('refundItems') }}</span>
       </button>
 
       <button v-else type="button" @click="refundProducts"
-              class="inline-flex items-center justify-center ml-2 dark:text-rose-400 text-rose-500 bg-white dark:bg-slate-600 hover:bg-slate-200 hover:dark:bg-slate-500 focus:ring-4 focus:outline-none focus:ring-slate-300 rounded-xl border border-slate-200 text-sm font-medium px-5 py-2.5 hover:text-rose-600 focus:z-10">
+              class="inline-flex items-center justify-center ml-2 dark:text-rose-400 text-rose-500 bg-white dark:bg-slate-800 hover:bg-slate-200 hover:dark:bg-slate-500 focus:ring-4 focus:outline-none focus:ring-slate-300 rounded-xl border border-slate-200 text-sm font-medium px-5 py-2.5 hover:text-rose-600 focus:z-10">
         <ArrowsUpLeftRightIcon class="mr-2 w-5 h-5" />
         <span>{{ $t('refundItems') }}</span>
       </button>

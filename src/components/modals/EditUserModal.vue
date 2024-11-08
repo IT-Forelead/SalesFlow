@@ -164,41 +164,41 @@ watch(
       <div class="space-y-4">
         <div class="flex items-center space-x-4">
           <div class="flex-1">
-            <label for="firstname" class="text-base font-medium">
+            <label for="firstname" class="text-base dark:text-white font-medium">
               {{ $t('firstname') }}
               <span class="text-red-500 mr-2">*</span>
             </label>
             <input id="firstname" type="text" v-model="submitData.firstname"
-              class="bg-slate-100 border-none text-sm md:text-base text-slate-900 rounded-lg w-full py-2.5 placeholder-slate-400"
+              class="bg-slate-100 border-none text-sm  dark:bg-slate-700 dark:text-white md:text-base text-slate-900 rounded-lg w-full py-2.5 placeholder-slate-400"
               :placeholder="t('enterFirstname')" />
           </div>
           <div class="flex-1">
-            <label for="lastname" class="text-base font-medium">
+            <label for="lastname" class="text-base dark:text-white font-medium">
               {{ $t('lastname') }}
               <span class="text-red-500 mr-2">*</span>
             </label>
             <input id="lastname" type="text" v-model="submitData.lastname"
-              class="bg-slate-100 border-none text-sm md:text-base text-slate-900 rounded-lg w-full py-2.5 placeholder-slate-400"
+              class="bg-slate-100 border-none  dark:bg-slate-700 dark:text-white text-sm md:text-base text-slate-900 rounded-lg w-full py-2.5 placeholder-slate-400"
               :placeholder="t('lastname')" />
           </div>
         </div>
         <div class="flex items-center space-x-4">
           <div class="flex-1">
-            <label for="phone" class="text-base font-medium">
+            <label for="phone" class="text-base dark:text-white font-medium">
               {{ $t('phone') }}
               <span class="text-red-500 mr-2">*</span>
             </label>
             <input id="phone" type="text" v-model="submitData.phone" v-maska data-maska="+998(##) ###-##-##"
-              class="bg-slate-100 border-none text-sm md:text-base text-slate-900 rounded-lg w-full py-2.5 placeholder-slate-400"
+              class="bg-slate-100 border-none dark:bg-slate-700 dark:text-white text-sm md:text-base text-slate-900 rounded-lg w-full py-2.5 placeholder-slate-400"
               placeholder="+998(00) 000-00-00" />
           </div>
           <div class="flex-1">
-            <label for="role" class="text-base text-left font-medium">
+            <label for="role" class="text-base dark:text-white text-left font-medium">
               {{ $t('role') }}
               <span class="text-red-500 mr-2">*</span>
             </label>
             <select id="role" v-model="submitData.privileges"
-              class="bg-slate-100 border-none text-sm md:text-base text-slate-900 rounded-lg block w-full h-11">
+              class="bg-slate-100 border-none dark:bg-slate-700 dark:text-white text-sm md:text-base text-slate-900 rounded-lg block w-full h-11">
               <option value="" selected>{{ $t('selectRole') }}</option>
               <option v-for="(priv, idx) in privileges" :key="idx" :value="priv?.code">
                 {{ priv?.name }}
