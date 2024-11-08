@@ -1291,7 +1291,7 @@ watch(pageProfit, () => {
                 {{ $t('endStatText') }}
               </div>
             </div>
-            <div class="flex items-center justify-center rounded-xl dark:bg-slate-800 bg-blue-100 dark:bg-slate-800 p-2">
+            <div class="flex items-center justify-center rounded-xl bg-blue-100 dark:bg-slate-800 p-2">
               <ChartBarIcon class="w-8 h-8 dark:text-blue-400 text-blue-600" />
             </div>
           </div>

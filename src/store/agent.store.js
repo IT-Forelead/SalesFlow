@@ -18,7 +18,8 @@ export const useAgentStore = defineStore('agent', {
       this.selectedAgent = data
     },
     clearStore() {
-      this.agents = []
+      this.agents = [],
+      this.agentsProducts = []
     },
   },
 })
