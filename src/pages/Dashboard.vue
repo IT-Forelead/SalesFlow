@@ -8,7 +8,6 @@ import ArrowDownIcon from '../assets/icons/ArrowDownIcon.vue'
 import ChartDonutIcon from '../assets/icons/ChartDonutIcon.vue'
 import DollarIcon from '../assets/icons/DollarIcon.vue'
 import FunnelIcon from '../assets/icons/FunnelIcon.vue'
-import MoneyIcon from '../assets/icons/MoneyIcon.vue'
 import ChartBarIcon from '../assets/icons/ChartBarIcon.vue'
 import ShoppingCartIcon from '../assets/icons/ShoppingCartIcon.vue'
 import Spinners270RingIcon from '../assets/icons/Spinners270RingIcon.vue'
@@ -90,7 +89,7 @@ const turnoverStatsChartSeries = computed(() => [
 ])
 
 // Expenses Bar Chart
-const profitChartChartOptions = computed(() => {
+const profitChartOptions = computed(() => {
   return {
     chart: {
       type: 'bar',
@@ -169,7 +168,7 @@ const profitChartChartOptions = computed(() => {
 })
 
 // profit Bar Chart
-const salesChartChartOptions = computed(() => {
+const salesChartOptions = computed(() => {
   return {
     chart: {
       type: 'bar',
@@ -248,7 +247,7 @@ const salesChartChartOptions = computed(() => {
 })
 
 // Expenses Area  Chart
-const salesAreaChartChartOptions = computed(() => {
+const salesAreaChartOptions = computed(() => {
   return {
     legend: {
       labels: {
@@ -330,7 +329,7 @@ const salesAreaChartChartOptions = computed(() => {
   }
 })
 
-const turnoverStatsAreaChartChartOptions = computed(() => {
+const turnoverStatsAreaChartOptions = computed(() => {
   return {
     legend: {
       labels: {
@@ -851,6 +850,531 @@ const getProfits = () => {
 watch(pageProfit, () => {
   getProfits()
 })
+
+
+
+
+
+
+
+
+
+
+const varietyDropdown = ref(null)
+const monthDropdown = ref(null)
+const predictDropdown = ref(null)
+
+
+const monthStats = ref([])
+const varietyStats = ref([])
+const predictStats = ref([])
+
+const filterVarietyData = reactive({
+  startDate: '',
+  endDate: '',
+  interval: 0,
+  intervalType: "",
+})
+
+const cleanFilterVarietyData = () => {
+  filterVarietyData.startDate = ''
+  filterVarietyData.endDate = ''
+  filterVarietyData.interval = 0
+  filterVarietyData.intervalType = ""
+}
+
+
+
+
+
+
+
+
+
+onClickOutside(predictDropdown, () => {
+  if (useDropdownStore().isOpenPredictFilterBy) {
+    useDropdownStore().togglePredictFilterBy()
+  }
+})
+onClickOutside(varietyDropdown, () => {
+  if (useDropdownStore().isOpenVarietyFilterBy) {
+    useDropdownStore().toggleVarietyFilterBy()
+    console.log(useDropdownStore().isOpenVarietyFilterBy)
+  }
+})
+onClickOutside(monthDropdown, () => {
+  if (useDropdownStore().isOpenMonthFilterBy) {
+    useDropdownStore().toggleMonthFilterBy()
+  }
+})
+
+
+
+const predictStatsChartSeries = computed(() => [
+  {
+    name: 'income',
+    data: predictStats.value?.map((item) => item.income).reverse(),
+  },
+  {
+    name: 'profit',
+    data: predictStats.value?.map((item) => item.profit).reverse(),
+  },
+])
+
+const predictCountStatsChartSeries = computed(() => [
+  {
+    name: 'incomeGrowth',
+    data: predictStats.value?.map((item) => item.incomeGrowth).reverse(),
+  },
+  {
+    name: 'profitGrowth',
+    data: predictStats.value?.map((item) => item.profitGrowth).reverse(),
+  },
+])
+
+const predictStatsAreaChartOptions = computed(() => {
+  return {
+    legend: {
+      labels: {
+        colors: 'rgb(128, 128, 128)',
+      },
+    },
+    chart: {
+      height: 350,
+      type: 'area',
+      zoom: {
+        enabled: false,
+      },
+      toolbar: {
+        show: false,
+      },
+    },
+    dataLabels: {
+      enabled: false,
+    },
+    stroke: {
+      curve: 'smooth',
+    },
+    xaxis: {
+      categories: predictStats.value?.map((item) => item.month).reverse(), // Инвертирование категорий
+      type: 'date',
+      labels: {
+        style: {
+          fontSize: '12px',
+          colors: '#8e8da4',
+        },
+        formatter: function (val) {
+          return moment(val).format('D-MMM')
+        },
+      },
+      tooltip: {
+        enabled: true,
+      },
+      axisBorder: {
+        show: false,
+      },
+      axisTicks: {
+        show: false,
+      },
+    },
+    yaxis: {
+      tickAmount: 6,
+      floating: false,
+      labels: {
+        show: true,
+        formatter: function (val) {
+          return useMoneyFormatter(val)
+        },
+        style: {
+          colors: '#8e8da4',
+        },
+        offsetY: 0,
+        offsetX: 0,
+      },
+      axisBorder: {
+        show: false,
+      },
+      axisTicks: {
+        show: true,
+      },
+    },
+    fill: {
+      opacity: 0.5,
+    },
+    grid: {
+      yaxis: {
+        lines: {
+          offsetX: -30,
+        },
+      },
+      padding: {
+        left: 20,
+      },
+    },
+  }
+})
+
+const predictCountStatsAreaChartOptions = computed(() => {
+  return {
+    legend: {
+      labels: {
+        colors: 'rgb(128, 128, 128)',
+      },
+    },
+    chart: {
+      height: 350,
+      type: 'area',
+      zoom: {
+        enabled: false,
+      },
+      toolbar: {
+        show: false,
+      },
+    },
+    dataLabels: {
+      enabled: false,
+    },
+    stroke: {
+      curve: 'smooth',
+    },
+    xaxis: {
+      categories: predictStats.value?.map((item) => item.month).reverse(), // Инвертирование категорий
+      type: 'date',
+      labels: {
+        style: {
+          fontSize: '12px',
+          colors: '#8e8da4',
+        },
+        formatter: function (val) {
+          return moment(val).format('D-MMM')
+        },
+      },
+      tooltip: {
+        enabled: true,
+      },
+      axisBorder: {
+        show: false,
+      },
+      axisTicks: {
+        show: false,
+      },
+    },
+    yaxis: {
+      tickAmount: 6,
+      floating: false,
+      labels: {
+        show: true,
+        style: {
+          colors: '#8e8da4',
+        },
+        offsetY: 0,
+        offsetX: 0,
+      },
+      axisBorder: {
+        show: false,
+      },
+      axisTicks: {
+        show: true,
+      },
+    },
+    fill: {
+      opacity: 0.5,
+    },
+    grid: {
+      yaxis: {
+        lines: {
+          offsetX: -30,
+        },
+      },
+      padding: {
+        left: 20,
+      },
+    },
+  }
+})
+
+const submitVarietyStatsFilterData = () => {
+  if (!filterVarietyData.startDate) {
+    toast.warning(t('plsEnterStartDate'))
+  } else if (!filterVarietyData.endDate) {
+    toast.warning(t('plsEnterEndDate'))
+  } else if (!filterVarietyData.intervalType) {
+    toast.warning(t('plsSelectIntervalType')) // добавьте предупреждение, если не выбран интервал
+  } else {
+    isLoading.value = true
+    ProductService.getVarietyStats({
+      startDate: filterVarietyData.startDate,
+      endDate: filterVarietyData.endDate,
+      interval: filterVarietyData.interval,
+      intervalType: filterVarietyData.intervalType, // передача значения
+    }).then((res) => {
+      varietyStats.value = res
+      isLoading.value = false
+      if (useDropdownStore().isOpenVarietyFilterBy) {
+        useDropdownStore().toggleVarietyFilterBy()
+      }
+    }).catch(() => {
+      isLoading.value = false
+    })
+  }
+}
+
+const varietyStatsChartSeries = computed(() => [
+  {
+    name: 'productTypeCount',
+    data: varietyStats.value?.map((item) => item.productTypeCount),
+  },
+])
+
+const varietyStatsAreaChartOptions = computed(() => {
+  return {
+    legend: {
+      labels: {
+        colors: 'rgb(128, 128, 128)',
+      },
+    },
+    chart: {
+      height: 350,
+      type: 'area',
+      zoom: {
+        enabled: false,
+      },
+      toolbar: {
+        show: false,
+      },
+    },
+    dataLabels: {
+      enabled: false,
+    },
+    stroke: {
+      curve: 'smooth',
+    },
+    xaxis: {
+      categories: varietyStats.value?.map((item) => item.day),
+      type: 'date',
+      labels: {
+        style: {
+          fontSize: '12px',
+          colors: '#8e8da4',
+        },
+        formatter: function (val) {
+          return moment(val).format('D-MMM')
+        },
+      },
+      tooltip: {
+        enabled: true,
+      },
+      axisBorder: {
+        show: false,
+      },
+      axisTicks: {
+        show: false,
+      },
+    },
+    yaxis: {
+      tickAmount: 6,
+      floating: false,
+      labels: {
+        show: true,
+        formatter: function (val) {
+          return val
+        },
+        style: {
+          colors: '#8e8da4',
+        },
+        offsetY: 0,
+        offsetX: 0,
+      },
+      axisBorder: {
+        show: false,
+      },
+      axisTicks: {
+        show: true,
+      },
+    },
+    fill: {
+      opacity: 0.5,
+    },
+    grid: {
+      yaxis: {
+        lines: {
+          offsetX: -30,
+        },
+      },
+      padding: {
+        left: 20,
+      },
+    },
+  }
+})
+
+
+
+const monthStatsChartSeries = computed(() => [
+  {
+    name: 'income',
+    data: monthStats.value?.map((item) => item.income).reverse(),
+  },
+  {
+    name: 'profit',
+    data: monthStats.value?.map((item) => item.profit).reverse(),
+  },
+])
+
+const monthStatsAreaChartOptions = computed(() => {
+  return {
+    legend: {
+      labels: {
+        colors: 'rgb(128, 128, 128)',
+      },
+    },
+    chart: {
+      height: 350,
+      type: 'area',
+      zoom: {
+        enabled: false,
+      },
+      toolbar: {
+        show: false,
+      },
+    },
+    dataLabels: {
+      enabled: false,
+    },
+    stroke: {
+      curve: 'smooth',
+    },
+    xaxis: {
+      categories: monthStats.value?.map((item) => item.month).reverse(), // Инвертирование категорий
+      type: 'date',
+      labels: {
+        style: {
+          fontSize: '12px',
+          colors: '#8e8da4',
+        },
+        formatter: function (val) {
+          return moment(val).format('D-MMM')
+        },
+      },
+      tooltip: {
+        enabled: true,
+      },
+      axisBorder: {
+        show: false,
+      },
+      axisTicks: {
+        show: false,
+      },
+    },
+    yaxis: {
+      tickAmount: 6,
+      floating: false,
+      labels: {
+        show: true,
+        formatter: function (val) {
+          return useMoneyFormatter(val)
+        },
+        style: {
+          colors: '#8e8da4',
+        },
+        offsetY: 0,
+        offsetX: 0,
+      },
+      axisBorder: {
+        show: false,
+      },
+      axisTicks: {
+        show: true,
+      },
+    },
+    fill: {
+      opacity: 0.5,
+    },
+    grid: {
+      yaxis: {
+        lines: {
+          offsetX: -30,
+        },
+      },
+      padding: {
+        left: 20,
+      },
+    },
+  }
+})
+
+
+
+
+
+onMounted(() => {
+  getSoldProductPrice()
+  getOrdersStatsFinal()
+  OrderService.getCashierStats()
+    .then((res) => {
+      cashiersStat.value = res
+    })
+
+  OrderService.getPredictStats(pageSize).then((res) => {
+    predictStats.value = res
+  })
+  OrderService.getMonthStats(pageSize).then((res) => {
+    monthStats.value = res
+  })
+
+
+
+  ProductService.getVarietyStats({
+    startDate: moment().subtract(30, 'days').startOf('day').format().toString().slice(0, 10),
+    endDate: moment().startOf('day').format().toString().slice(0, 10),
+    interval: 1,
+    intervalType: "day"
+  }).then((res) => {
+    varietyStats.value = res
+  })
+
+
+  OrderService.getHourlySales()
+    .then((res) => {
+      const hours = Array.from({ length: 18 }, (_, i) => i + 7);
+      const revenueByHour = res.reduce((acc, item) => {
+        acc[item.hour] = item.revenue;
+        return acc;
+      }, {});
+      const completeHourlySales = hours.map(hour => ({
+        hour: hour === 24 ? '0' : hour.toString(),
+        revenue: revenueByHour[hour] || 0
+      }));
+      hourlySales.value = completeHourlySales;
+    })
+    .catch(error => {
+      console.error(error);
+    });
+  CashbackService.getCashbackRedeems()
+    .then((res) => {
+      cashbackRedeems.value = res
+    })
+  ProductService.getProductStats()
+    .then((res) => {
+      productStats.value = res
+    })
+  getSells()
+  getProfits()
+  getRevenues()
+  getWorstSells()
+})
+
+watch(
+  () => salesChartFilterData.value,
+  (data) => {
+    if (data) {
+      getOrdersStatsFinal()
+    }
+  },
+  { deep: true },
+)
+
+
 </script>
 
 <template>
@@ -859,7 +1383,7 @@ watch(pageProfit, () => {
       <div class="flex md:flex-row space-x-0 md:space-x-4 space-y-2 md:space-y-0">
         <div class="p-5 rounded-3xl bg-slate-100  dark:bg-slate-900 w-7/12">
           <div>
-            <div class="text-base font-bold text-gray-800 dark:text-zinc-100">
+            <div class="text-base font-bold text-slate-800 dark:text-slate-200">
               {{ $t('hourlyStat') }}
             </div>
             <div class="text-sm text-gray-600 dark:text-white">
@@ -877,7 +1401,7 @@ watch(pageProfit, () => {
         <div class="p-5 rounded-3xl bg-slate-100  dark:bg-slate-900 w-5/12">
           <div class="flex flex-col md:flex-row md:items-center md:justify-between px-2 space-y-3 md:space-y-0">
             <div>
-              <div class="text-base font-bold text-gray-800 dark:text-zinc-100">
+              <div class="text-base font-bold text-slate-800 dark:text-slate-200">
                 {{ $t('cashbackStat') }}
               </div>
               <div class="text-sm dark:text-white text-gray-600">
@@ -925,7 +1449,7 @@ watch(pageProfit, () => {
                   </span>
                 </div>
                 <div>
-                  <div class="text-base font-semibold dark:text-zinc-100 text-gray-800">
+                  <div class="text-base font-semibold text-slate-800 dark:text-slate-200">
                     {{ product?.name + ' - ' + product?.packaging }}
                   </div>
                   <div class="text-sm dark:text-white text-gray-600">
@@ -1011,7 +1535,7 @@ watch(pageProfit, () => {
                   </span>
                 </div>
                 <div>
-                  <div class="text-base font-semibold dark:text-zinc-100 text-gray-800">
+                  <div class="text-base font-semibold text-slate-800 dark:text-slate-200">
                     {{ product?.name + ' - ' + product?.packaging }}
                   </div>
                   <div class="text-sm text-gray-600 dark:text-white">
@@ -1097,7 +1621,7 @@ watch(pageProfit, () => {
                   </span>
                 </div>
                 <div>
-                  <div class="text-base font-semibold text-gray-800 dark:text-zinc-100">
+                  <div class="text-base font-semibold text-slate-800 dark:text-slate-200">
                     {{ product?.name + ' - ' + product?.packaging }}
                   </div>
                   <div class="text-sm text-gray-600 dark:text-white">
@@ -1114,7 +1638,7 @@ watch(pageProfit, () => {
                   </div>
                 </div>
               </div>
-              <div class="text-xl md:text-2xl font-bold text-blue-700 dark:text-white">
+              <div class="text-xl md:text-2xl font-bold text-blue-700 dark:text-blue-500">
                 {{ roundFloatToTwoDecimal(product?.amount) }}
               </div>
             </div>
@@ -1183,7 +1707,7 @@ watch(pageProfit, () => {
                   </span>
                 </div>
                 <div>
-                  <div class="text-base font-semibold whitespace-normal text-gray-800 dark:text-zinc-100">
+                  <div class="text-base font-semibold whitespace-normal text-slate-800 dark:text-slate-200">
                     {{ product?.name + ' - ' + product?.packaging }}
                   </div>
                   <div class="text-sm text-gray-600 dark:text-white">
@@ -1244,7 +1768,7 @@ watch(pageProfit, () => {
         <div class="w-1/2 bg-slate-100 dark:bg-slate-900 rounded-3xl p-5">
           <div class="flex flex-col md:flex-row md:items-center md:justify-between px-2 space-y-3 md:space-y-0">
             <div>
-              <div class="text-base font-bold text-gray-800 dark:text-zinc-100">
+              <div class="text-base font-bold text-slate-800 dark:text-slate-200">
                 {{ $t('profitStatistics') }}
               </div>
               <div v-if="salesChartFilterData === 6" class="text-sm text-gray-600 dark:text-white">
@@ -1271,18 +1795,18 @@ watch(pageProfit, () => {
             </div>
           </div>
           <div v-if="salesChartFilterData === 6">
-            <apexchart type="bar" height="320" :options="profitChartChartOptions" :series="profitChartSeries">
+            <apexchart type="bar" height="320" :options="profitChartOptions" :series="profitChartSeries">
             </apexchart>
           </div>
           <div v-else>
-            <apexchart type="area" height="320" :options="salesAreaChartChartOptions" :series="profitChartSeries">
+            <apexchart type="area" height="320" :options="salesAreaChartOptions" :series="profitChartSeries">
             </apexchart>
           </div>
         </div>
         <div class="w-1/2 bg-slate-100 dark:bg-slate-900 rounded-3xl p-5">
           <div class="flex flex-col md:flex-row md:items-center md:justify-between px-2 space-y-3 md:space-y-0">
             <div>
-              <div class="text-base font-bold text-gray-800 dark:text-zinc-100">
+              <div class="text-base font-bold text-slate-800 dark:text-slate-200">
                 {{ $t('salesStatistics') }}
               </div>
               <div class="text-sm text-gray-600 dark:text-white">
@@ -1295,7 +1819,7 @@ watch(pageProfit, () => {
               <ChartBarIcon class="w-8 h-8 dark:text-blue-400 text-blue-600" />
             </div>
           </div>
-          <apexchart type="bar" height="320" :options="salesChartChartOptions" :series="salesChartSeries">
+          <apexchart type="bar" height="320" :options="salesChartOptions" :series="salesChartSeries">
           </apexchart>
         </div>
       </div>
@@ -1303,7 +1827,7 @@ watch(pageProfit, () => {
     <div class="flex-1 bg-slate-100 dark:bg-slate-900 rounded-3xl p-5">
       <div class="flex flex-col md:flex-row md:items-center md:justify-between px-2 space-y-3 md:space-y-0">
         <div>
-          <div class="text-base font-bold text-gray-800 dark:text-zinc-100">
+          <div class="text-base font-bold text-slate-800 dark:text-slate-200">
             {{ $t('inputAndOutputCostStatistics') }}
           </div>
           <div class="text-sm text-gray-600 dark:text-white">
@@ -1319,18 +1843,18 @@ watch(pageProfit, () => {
             <span>{{ $t('filter') }}</span>
           </div>
           <div v-if="useDropdownStore().isOpenFilterBy"
-            class="absolute  dark:bg-slate-800 bg-white shadow rounded-xl p-3 z-20 top-12 right-0 space-y-3">
+            class="absolute dark:bg-slate-800 bg-white shadow rounded-xl p-3 z-20 top-12 right-0 space-y-3">
             <div class="flex items-center space-x-1">
               <label for="" class="dark:text-white">
                 {{ $t('from') }}
                 <input v-model="filterData.startDate" type="date"
-                  class="border-none text-gray-500 bg-gray-100 rounded-lg w-full" />
+                  class="border-none text-gray-500 bg-gray-100 rounded-lg     dark:bg-slate-600 dark:text-white w-full" />
               </label>
               <ArrowDownIcon class="-rotate-90 text-gray-600 dark:text-white mt-6" />
               <label for="" class="dark:text-white">
                 {{ $t('to') }}
                 <input v-model="filterData.endDate" type="date"
-                  class="border-none text-gray-500 bg-gray-100 rounded-lg w-full" />
+                  class="border-none text-gray-500 bg-gray-100 rounded-lg     dark:bg-slate-600 dark:text-white w-full" />
               </label>
             </div>
             <div class="flex items-center space-x-2">
@@ -1354,15 +1878,14 @@ watch(pageProfit, () => {
           </div>
         </div>
       </div>
-      <apexchart type="area" height="320" :options="turnoverStatsAreaChartChartOptions"
-        :series="turnoverStatsChartSeries">
+      <apexchart type="area" height="320" :options="turnoverStatsAreaChartOptions" :series="turnoverStatsChartSeries">
       </apexchart>
     </div>
     <div class="flex flex-col md:flex-row space-x-0 md:space-x-4 space-y-2 md:space-y-0">
       <div class="flex-1 bg-slate-100 dark:bg-slate-900 rounded-3xl p-5">
         <div class="flex items-center justify-between px-2">
           <div>
-            <div class="text-base font-bold text-gray-800 dark:text-zinc-100">
+            <div class="text-base font-bold text-slate-800 dark:text-slate-200">
               {{ $t('cashierStatistics') }}
             </div>
             <div class="text-sm text-gray-600 dark:text-white">
@@ -1471,6 +1994,137 @@ watch(pageProfit, () => {
         </div>
       </div>
     </div>
+
+    <div class="flex-1 bg-slate-100 dark:bg-slate-900 rounded-3xl p-5">
+      <div class="flex flex-col md:flex-row md:items-center md:justify-between px-2 space-y-3 md:space-y-0">
+        <div>
+          <div class="text-base font-bold text-slate-800 dark:text-slate-200">
+            {{ $t('variety') }}
+          </div>
+
+        </div>
+        <div class="relative" ref="varietyDropdown">
+          <div @click="useDropdownStore().toggleVarietyFilterBy()"
+            class="border-none select-none text-gray-900 bg-white dark:text-zinc-200 dark:bg-slate-800 shadow rounded-lg w-full p-2 px-5 flex items-center hover:bg-gray-100 cursor-pointer space-x-1">
+            <FunnelIcon class="w-5 h-5 dark:text-zinc-50 text-gray-400" />
+            <span>{{ $t('filter') }}</span>
+          </div>
+          <div v-if="useDropdownStore().isOpenVarietyFilterBy"
+            class="absolute dark:bg-slate-800 bg-white shadow rounded-xl p-3 z-20 top-12 right-0 space-y-3">
+            <div class=" items-center space-x-1">
+              <div class="flex"><label for="" class="dark:text-white w-1/2">
+                  {{ $t('from') }}
+                  <input v-model="filterVarietyData.startDate" type="date"
+                    class="border-none text-gray-500 bg-gray-100 rounded-lg     dark:bg-slate-600 dark:text-white w-full" />
+                </label>
+                <ArrowDownIcon class="-rotate-90 w-6 text-gray-600 mt-8 " />
+                <label for="" class="dark:text-white w-1/2">
+                  {{ $t('to') }}
+                  <input v-model="filterVarietyData.endDate" type="date"
+                    class="border-none text-gray-500 bg-gray-100 rounded-lg     dark:bg-slate-600 dark:text-white w-full" />
+                </label>
+              </div>
+              <div class="flex justify-between space-x-4"><label for="" class="dark:text-white w-1/2">
+                  {{ $t('interval') }}
+                  <input v-model="filterVarietyData.interval" type="number"
+                    class="border-none text-gray-500 bg-gray-100 rounded-lg     dark:bg-slate-600 dark:text-white w-full" />
+                </label>
+                <label for="" class="dark:text-white w-1/2">
+                  {{ $t('intervalType') }}
+                  <select v-model="filterVarietyData.intervalType"
+                    class="bg-blue-100 dark:bg-slate-900 border-none text-slate-900 dark:text-white rounded-lg text-base md:text-lg block w-full h-11">
+                    <option value="day">
+                      {{ $t('day') }}
+                    </option>
+                    <option value="week">
+                      {{ $t('week') }}
+                    </option>
+                    <option value="month">
+                      {{ $t('month') }}
+                    </option>
+                    <option value="year">
+                      {{ $t('year') }}
+                    </option>
+                  </select>
+                </label>
+              </div>
+
+            </div>
+            <div class="flex items-center space-x-2">
+              <div @click="cleanFilterVarietyData()"
+                class="basis-1/3 w-full bg-slate-100 hover:bg-slate-300 cursor-pointer select-none py-3 rounded-lg flex items-center justify-center">
+                <span>{{ $t('cleaning') }}</span>
+              </div>
+              <div class="basis-2/3">
+                <div v-if="isLoading"
+                  class="w-full bg-blue-600 py-3 select-none text-white rounded-lg flex items-center justify-center">
+                  <Spinners270RingIcon
+                    class="mr-2 w-5 h-5 text-gray-200 animate-spin dark:text-gray-600 fill-gray-600 dark:fill-gray-300" />
+                  <span>{{ $t('loading') }}</span>
+                </div>
+                <div v-else @click="submitVarietyStatsFilterData()"
+                  class="w-full bg-blue-500 hover:bg-blue-600 cursor-pointer select-none py-3 text-white rounded-lg flex items-center justify-center">
+                  <span>{{ $t('filter') }}</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <apexchart type="area" height="320" :options="varietyStatsAreaChartOptions" :series="varietyStatsChartSeries">
+      </apexchart>
+    </div>
+
+
+
+    <div class="flex-1 bg-slate-100 dark:bg-slate-900 rounded-3xl p-5">
+      <div class="flex flex-col md:flex-row md:items-center md:justify-between px-2 space-y-3 md:space-y-0">
+        <div>
+          <div class="text-base font-bold text-slate-800 dark:text-slate-200">
+            {{ $t('month') }}
+          </div>
+
+        </div>
+
+      </div>
+      <apexchart type="area" height="320" :options="monthStatsAreaChartOptions" :series="monthStatsChartSeries">
+      </apexchart>
+    </div>
+
+
+
+    <div class="flex-1">
+      <div class="flex flex-col md:flex-row space-x-0 md:space-x-4 space-y-2 md:space-y-0">
+        <div class="w-1/2 bg-slate-100 dark:bg-slate-900 rounded-3xl p-5">
+          <div class="flex flex-col md:flex-row md:items-center md:justify-between px-2 space-y-3 md:space-y-0">
+            <div>
+              <div class="text-base font-bold text-slate-800 dark:text-slate-200">
+                {{ $t('predictSum') }}
+              </div>
+            </div>
+
+          </div>
+          <apexchart type="area" height="320" :options="predictStatsAreaChartOptions" :series="predictStatsChartSeries">
+          </apexchart>
+
+        </div>
+        <div class="w-1/2 bg-slate-100 dark:bg-slate-900 rounded-3xl p-5">
+          <div class="flex flex-col md:flex-row md:items-center md:justify-between px-2 space-y-3 md:space-y-0">
+            <div>
+              <div class="text-base font-bold text-slate-800 dark:text-slate-200">
+                {{ $t('predictCount') }}
+              </div>
+
+            </div>
+
+          </div>
+          <apexchart type="area" height="320" :options="predictCountStatsAreaChartOptions"
+            :series="predictCountStatsChartSeries">
+          </apexchart>
+        </div>
+      </div>
+    </div>
+
   </div>
 </template>
 <!-- <style scoped>

@@ -444,5 +444,13 @@
   "voucherAddedSuccessfully": "Vaucher yaratildi!",
   "errorWhileCreatingVoucher": "Vaucher yaratishda xatolik yuz berdi",
   "totalProductPrice": "Jami mahsulot narxi",
-  "agentProducts": "Agent mahsulotlar"
+  "agentProducts": "Agent mahsulotlar",
+  "predictSum": "Predict",
+  "predictCount": "Predict",
+  "variety": "Variety",
+  "interval": "Interval",
+  "intervalType": "Interval turi",
+  "day": "Kunlik",
+  "week": "Haftalik",
+  "loading": "Loading"
 }

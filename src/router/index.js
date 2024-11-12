@@ -22,13 +22,6 @@ const routes = [
     beforeEnter: navigationGuards('dashboard'),
   },
   {
-    path: '/ddd',
-    name: 'Ddd',
-    component: () => import('../pages/Ddd.vue'),
-    meta: { layout: 'dashboard' },
-    beforeEnter: navigationGuards('dashboard'),
-  },
-  {
     path: '/products',
     name: 'Products',
     component: () => import('../pages/Products.vue'),
