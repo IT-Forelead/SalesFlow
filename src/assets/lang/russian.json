@@ -444,5 +444,16 @@
   "voucherAddedSuccessfully": "Ваучер создан!",
   "errorWhileCreatingVoucher": "Ошибка при создании ваучера",
   "totalProductPrice": "Общая стоимость продуктов",
-  "agentProducts": "Продукты агента"
+  "agentProducts": "Продукты агента",
+  "predictStat": "Прогнозируемая статистика",
+  "predictStatFor": "Прогнозируемая статистика за",
+  "varietyStat": "Статистика по типам продуктов",
+  "monthly": "месяцев",
+  "interval": "Интервал",
+  "intervalType": "Тип интервала",
+  "plsSelectInterval": "Пожалуйста, введите интервал",
+  "plsSelectIntervalType": "Пожалуйста. введите тип интервала",
+  "day": "День",
+  "week": "Неделя",
+  "loading": "Загрузка"
 }

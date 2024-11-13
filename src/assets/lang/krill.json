@@ -441,5 +441,16 @@
   "voucherAddedSuccessfully": "Ваучер яратилди!",
   "errorWhileCreatingVoucher": "Ваучер яратишда хатолик юз берди",
   "totalProductPrice": "Жами махсулот нархи",
-  "agentProducts": "Агент махсулотлар"
+  "agentProducts": "Агент махсулотлар",
+  "predictStat": "Прогноз қилган статистика",
+  "predictStatFor": "Прогноз қилган ",
+  "varietyStat": "Турли-туманлик статистика",
+  "monthly": "Ойлик",
+  "interval": "Интервал",
+  "intervalType": "Интервал тури",
+  "plsSelectInterval": "Илтимос, интервални киритинг",
+  "plsSelectIntervalType": "Илтимос, интервал турини киритинг",
+  "day": "Кунлик",
+  "week": "Ҳафталик",
+  "loading": "Loading"
 }

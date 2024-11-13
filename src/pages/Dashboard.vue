@@ -47,6 +47,18 @@ const cashbackRedeems = ref([])
 const qrTrading = t('qrTrading')
 const worstSellerProductStats = ref([])
 
+const pageWorstSell = ref(1)
+const pageSell = ref(1)
+const pageProfit = ref(1)
+const pageRevenue = ref(1)
+const pageSize = 5
+const varietyDropdown = ref(null)
+const monthDropdown = ref(null)
+const predictDropdown = ref(null)
+const monthStats = ref([])
+const varietyStats = ref([])
+const predictStats = ref([])
+
 const filterData = reactive({
   startDate: '',
   endDate: '',
@@ -276,7 +288,7 @@ const salesAreaChartOptions = computed(() => {
       labels: {
         style: {
           fontSize: '12px',
-          colors: '#8e8da4',
+          colors: '#4a90e2',
         },
         formatter: function (val) {
           return moment(val).format('D-MMM')
@@ -301,7 +313,7 @@ const salesAreaChartOptions = computed(() => {
           return useMoneyFormatter(val)
         },
         style: {
-          colors: '#8e8da4',
+          colors: '#4a90e2',
         },
         offsetY: 0,
         offsetX: 0,
@@ -457,6 +469,7 @@ const caishersChartOptions = computed(() => {
     }],
   }
 })
+
 const hourlySaleChartOptions = computed(() => {
   return {
     legend: {
@@ -656,12 +669,6 @@ const submitTurnoverStatsFilterData = () => {
   }
 }
 
-const pageWorstSell = ref(1)
-const pageSell = ref(1)
-const pageProfit = ref(1)
-const pageRevenue = ref(1)
-const pageSize = 5
-
 onMounted(() => {
   getSoldProductPrice()
   getOrdersStatsFinal()
@@ -851,24 +858,6 @@ watch(pageProfit, () => {
   getProfits()
 })
 
-
-
-
-
-
-
-
-
-
-const varietyDropdown = ref(null)
-const monthDropdown = ref(null)
-const predictDropdown = ref(null)
-
-
-const monthStats = ref([])
-const varietyStats = ref([])
-const predictStats = ref([])
-
 const filterVarietyData = reactive({
   startDate: '',
   endDate: '',
@@ -882,14 +871,6 @@ const cleanFilterVarietyData = () => {
   filterVarietyData.interval = 0
   filterVarietyData.intervalType = ""
 }
-
-
-
-
-
-
-
-
 
 onClickOutside(predictDropdown, () => {
   if (useDropdownStore().isOpenPredictFilterBy) {
@@ -908,26 +889,24 @@ onClickOutside(monthDropdown, () => {
   }
 })
 
-
-
 const predictStatsChartSeries = computed(() => [
   {
-    name: 'income',
+    name: 'Kirim',
     data: predictStats.value?.map((item) => item.income).reverse(),
   },
   {
-    name: 'profit',
+    name: 'Chiqim',
     data: predictStats.value?.map((item) => item.profit).reverse(),
   },
 ])
 
 const predictCountStatsChartSeries = computed(() => [
   {
-    name: 'incomeGrowth',
+    name: `Kirim o'sishi`,
     data: predictStats.value?.map((item) => item.incomeGrowth).reverse(),
   },
   {
-    name: 'profitGrowth',
+    name: `Chiqim o'sishi`,
     data: predictStats.value?.map((item) => item.profitGrowth).reverse(),
   },
 ])
@@ -956,12 +935,12 @@ const predictStatsAreaChartOptions = computed(() => {
       curve: 'smooth',
     },
     xaxis: {
-      categories: predictStats.value?.map((item) => item.month).reverse(), // Инвертирование категорий
+      categories: predictStats.value?.map((item) => item.month).reverse(),
       type: 'date',
       labels: {
         style: {
           fontSize: '12px',
-          colors: '#8e8da4',
+          colors: '#4a90e2',
         },
         formatter: function (val) {
           return moment(val).format('D-MMM')
@@ -986,7 +965,7 @@ const predictStatsAreaChartOptions = computed(() => {
           return useMoneyFormatter(val)
         },
         style: {
-          colors: '#8e8da4',
+          colors: '#4a90e2',
         },
         offsetY: 0,
         offsetX: 0,
@@ -1038,12 +1017,12 @@ const predictCountStatsAreaChartOptions = computed(() => {
       curve: 'smooth',
     },
     xaxis: {
-      categories: predictStats.value?.map((item) => item.month).reverse(), // Инвертирование категорий
+      categories: predictStats.value?.map((item) => item.month).reverse(),
       type: 'date',
       labels: {
         style: {
           fontSize: '12px',
-          colors: '#8e8da4',
+          colors: '#4a90e2',
         },
         formatter: function (val) {
           return moment(val).format('D-MMM')
@@ -1065,7 +1044,7 @@ const predictCountStatsAreaChartOptions = computed(() => {
       labels: {
         show: true,
         style: {
-          colors: '#8e8da4',
+          colors: '#4a90e2',
         },
         offsetY: 0,
         offsetX: 0,
@@ -1098,15 +1077,17 @@ const submitVarietyStatsFilterData = () => {
     toast.warning(t('plsEnterStartDate'))
   } else if (!filterVarietyData.endDate) {
     toast.warning(t('plsEnterEndDate'))
+  } else if (!filterVarietyData.interval) {
+    toast.warning(t('plsSelectInterval'))
   } else if (!filterVarietyData.intervalType) {
-    toast.warning(t('plsSelectIntervalType')) // добавьте предупреждение, если не выбран интервал
+    toast.warning(t('plsSelectIntervalType'))
   } else {
     isLoading.value = true
     ProductService.getVarietyStats({
       startDate: filterVarietyData.startDate,
       endDate: filterVarietyData.endDate,
       interval: filterVarietyData.interval,
-      intervalType: filterVarietyData.intervalType, // передача значения
+      intervalType: filterVarietyData.intervalType,
     }).then((res) => {
       varietyStats.value = res
       isLoading.value = false
@@ -1155,7 +1136,7 @@ const varietyStatsAreaChartOptions = computed(() => {
       labels: {
         style: {
           fontSize: '12px',
-          colors: '#8e8da4',
+          colors: '#4a90e2',
         },
         formatter: function (val) {
           return moment(val).format('D-MMM')
@@ -1177,10 +1158,10 @@ const varietyStatsAreaChartOptions = computed(() => {
       labels: {
         show: true,
         formatter: function (val) {
-          return val
+          return Math.round(val);
         },
         style: {
-          colors: '#8e8da4',
+          colors: '#4a90e2',
         },
         offsetY: 0,
         offsetX: 0,
@@ -1208,15 +1189,13 @@ const varietyStatsAreaChartOptions = computed(() => {
   }
 })
 
-
-
 const monthStatsChartSeries = computed(() => [
   {
-    name: 'income',
+    name: 'Kirim',
     data: monthStats.value?.map((item) => item.income).reverse(),
   },
   {
-    name: 'profit',
+    name: 'Chiqim',
     data: monthStats.value?.map((item) => item.profit).reverse(),
   },
 ])
@@ -1245,12 +1224,12 @@ const monthStatsAreaChartOptions = computed(() => {
       curve: 'smooth',
     },
     xaxis: {
-      categories: monthStats.value?.map((item) => item.month).reverse(), // Инвертирование категорий
+      categories: monthStats.value?.map((item) => item.month).reverse(),
       type: 'date',
       labels: {
         style: {
           fontSize: '12px',
-          colors: '#8e8da4',
+          colors: '#4a90e2',
         },
         formatter: function (val) {
           return moment(val).format('D-MMM')
@@ -1275,7 +1254,7 @@ const monthStatsAreaChartOptions = computed(() => {
           return useMoneyFormatter(val)
         },
         style: {
-          colors: '#8e8da4',
+          colors: '#4a90e2',
         },
         offsetY: 0,
         offsetX: 0,
@@ -1303,10 +1282,6 @@ const monthStatsAreaChartOptions = computed(() => {
   }
 })
 
-
-
-
-
 onMounted(() => {
   getSoldProductPrice()
   getOrdersStatsFinal()
@@ -1322,8 +1297,6 @@ onMounted(() => {
     monthStats.value = res
   })
 
-
-
   ProductService.getVarietyStats({
     startDate: moment().subtract(30, 'days').startOf('day').format().toString().slice(0, 10),
     endDate: moment().startOf('day').format().toString().slice(0, 10),
@@ -1332,7 +1305,6 @@ onMounted(() => {
   }).then((res) => {
     varietyStats.value = res
   })
-
 
   OrderService.getHourlySales()
     .then((res) => {
@@ -1373,8 +1345,6 @@ watch(
   },
   { deep: true },
 )
-
-
 </script>
 
 <template>
@@ -1999,7 +1969,21 @@ watch(
       <div class="flex flex-col md:flex-row md:items-center md:justify-between px-2 space-y-3 md:space-y-0">
         <div>
           <div class="text-base font-bold text-slate-800 dark:text-slate-200">
-            {{ $t('variety') }}
+            {{ $t('varietyStat') }}
+          </div>
+
+          <div class="text-sm text-gray-600 dark:text-white">
+            {{ $t('beginStatText') }}
+            <span class="font-bold lowercase">
+              {{
+                filterVarietyData.intervalType === 'day' ? $t('days') :
+                  filterVarietyData.intervalType === 'week' ? $t('week') :
+                    filterVarietyData.intervalType === 'month' ? $t('monthly') :
+                      filterVarietyData.intervalType === 'year' ? $t('year') :
+                        $t('monthly')
+              }}
+            </span>
+            {{ $t('endStatText') }}
           </div>
 
         </div>
@@ -2026,13 +2010,13 @@ watch(
               </div>
               <div class="flex justify-between space-x-4"><label for="" class="dark:text-white w-1/2">
                   {{ $t('interval') }}
-                  <input v-model="filterVarietyData.interval" type="number"
+                  <input v-model="filterVarietyData.interval" type="number" min="0"
                     class="border-none text-gray-500 bg-gray-100 rounded-lg     dark:bg-slate-600 dark:text-white w-full" />
                 </label>
                 <label for="" class="dark:text-white w-1/2">
                   {{ $t('intervalType') }}
                   <select v-model="filterVarietyData.intervalType"
-                    class="bg-blue-100 dark:bg-slate-900 border-none text-slate-900 dark:text-white rounded-lg text-base md:text-lg block w-full h-11">
+                    class="bg-blue-100 dark:bg-slate-600 border-none text-slate-900 dark:text-white rounded-lg text-base md:text-lg block w-full h-11">
                     <option value="day">
                       {{ $t('day') }}
                     </option>
@@ -2048,7 +2032,6 @@ watch(
                   </select>
                 </label>
               </div>
-
             </div>
             <div class="flex items-center space-x-2">
               <div @click="cleanFilterVarietyData()"
@@ -2059,7 +2042,7 @@ watch(
                 <div v-if="isLoading"
                   class="w-full bg-blue-600 py-3 select-none text-white rounded-lg flex items-center justify-center">
                   <Spinners270RingIcon
-                    class="mr-2 w-5 h-5 text-gray-200 animate-spin dark:text-gray-600 fill-gray-600 dark:fill-gray-300" />
+                    class="mr-2 w-5 h-5 text-gray-200 animate-spin fill-gray-600 dark:fill-gray-300" />
                   <span>{{ $t('loading') }}</span>
                 </div>
                 <div v-else @click="submitVarietyStatsFilterData()"
@@ -2075,23 +2058,22 @@ watch(
       </apexchart>
     </div>
 
-
-
     <div class="flex-1 bg-slate-100 dark:bg-slate-900 rounded-3xl p-5">
       <div class="flex flex-col md:flex-row md:items-center md:justify-between px-2 space-y-3 md:space-y-0">
         <div>
           <div class="text-base font-bold text-slate-800 dark:text-slate-200">
-            {{ $t('month') }}
+            {{ $t('monthlyStatistics') }}
           </div>
-
+          <div class="text-sm text-gray-600 dark:text-white">
+            {{ $t('beginStatText') }}
+            <span class="font-bold lowercase">{{ $t('monthly') }}</span>
+            {{ $t('endStatText') }}
+          </div>
         </div>
-
       </div>
       <apexchart type="area" height="320" :options="monthStatsAreaChartOptions" :series="monthStatsChartSeries">
       </apexchart>
     </div>
-
-
 
     <div class="flex-1">
       <div class="flex flex-col md:flex-row space-x-0 md:space-x-4 space-y-2 md:space-y-0">
@@ -2099,24 +2081,30 @@ watch(
           <div class="flex flex-col md:flex-row md:items-center md:justify-between px-2 space-y-3 md:space-y-0">
             <div>
               <div class="text-base font-bold text-slate-800 dark:text-slate-200">
-                {{ $t('predictSum') }}
+                {{ $t('predictStat') }}
+              </div>
+              <div class="text-sm text-gray-600 dark:text-white">
+                {{ $t('predictStatFor') }}
+                <span class="font-bold lowercase">{{ '11 ' + $t('monthly') }}</span>
+                {{ $t('endStatText') }}
               </div>
             </div>
-
           </div>
           <apexchart type="area" height="320" :options="predictStatsAreaChartOptions" :series="predictStatsChartSeries">
           </apexchart>
-
         </div>
         <div class="w-1/2 bg-slate-100 dark:bg-slate-900 rounded-3xl p-5">
           <div class="flex flex-col md:flex-row md:items-center md:justify-between px-2 space-y-3 md:space-y-0">
             <div>
               <div class="text-base font-bold text-slate-800 dark:text-slate-200">
-                {{ $t('predictCount') }}
+                {{ $t('predictStat') }}
               </div>
-
+              <div class="text-sm text-gray-600 dark:text-white">
+                {{ $t('predictStatFor') }}
+                <span class="font-bold lowercase">{{ '11 ' + $t('monthly') }}</span>
+                {{ $t('endStatText') }}
+              </div>
             </div>
-
           </div>
           <apexchart type="area" height="320" :options="predictCountStatsAreaChartOptions"
             :series="predictCountStatsChartSeries">
@@ -2124,7 +2112,6 @@ watch(
         </div>
       </div>
     </div>
-
   </div>
 </template>
 <!-- <style scoped>
