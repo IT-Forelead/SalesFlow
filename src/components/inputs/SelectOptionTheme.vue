@@ -10,7 +10,7 @@ import MoonIcon from '../../assets/icons/MoonIcon.vue'
 
 const { t } = useI18n()
 const dropdown = ref(null)
-const currentTheme = ref(localStorage.getItem('theme') || 'dark')
+const currentTheme = ref(localStorage.getItem('theme') || 'light')
 
 const list = [
   {
@@ -37,7 +37,7 @@ onClickOutside(dropdown, () => {
 const themeTranslate = (theme) => {
   if (theme === 'light') return 'Light'
   else if (theme === 'dark') return 'Dark'
-  else return 'Dark'
+  else return 'light'
 }
 
 const capitalizeFirstLetter = (string) => {
@@ -51,10 +51,10 @@ const changeTheme = (theme) => {
 
   useDropdownStore().closeSelectTheme()
   var x = document.getElementById('app');
-  if (x.classList.contains('dark')) {
-    x.classList.remove('dark');
-  } else {
+  if (x.classList.contains('light')) {
     x.classList.remove('light');
+  } else {
+    x.classList.remove('dark');
   }  
   x.classList.add(theme.id);
  
@@ -62,15 +62,15 @@ const changeTheme = (theme) => {
 
 watch(currentTheme, (newValue) => {
   const theme = list.find((item) => item.id === newValue)
-  document.documentElement.className = theme ? theme.id : 'dark'
+  document.documentElement.className = theme ? theme.id : 'light'
 })
 
 onMounted(() => {
   const savedTheme = localStorage.getItem('theme')
   const defaultTheme = list.find((theme) => theme.id === savedTheme)
-  currentTheme.value = defaultTheme ? defaultTheme.id : 'dark'
+  currentTheme.value = defaultTheme ? defaultTheme.id : 'light'
   const theme = list.find((item) => item.id === currentTheme.value)
-  document.documentElement.className = theme ? theme.id : 'dark'
+  document.documentElement.className = theme ? theme.id : 'light'
 })
 </script>
 
