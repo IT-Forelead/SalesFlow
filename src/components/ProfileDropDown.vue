@@ -32,7 +32,7 @@ const logout = () => {
 <template>
   <div class="relative" ref="dropdown">
     <div class="flex items-center justify-between px-3 dark:text-white">
-      <div class="inline-flex items-center space-x-2 px-2">
+      <div class="inline-flex items-center space-x-2">
         <div class="relative flex items-center justify-center w-9 h-9 lg:w-10 lg:h-10 bg-[#0167f3] text-white text-base md:text-lg font-medium rounded-full">
           <span>
             {{ useAuthStore().user?.firstname?.at(0) + useAuthStore().user?.lastname?.at(0) }}
