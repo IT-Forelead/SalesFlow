@@ -194,7 +194,7 @@ const columns = [
         h(EditIcon, { class: 'w-6 h-6 dark:text-blue-400 text-blue-600 hover:scale-105' }),
       ]),
       h('button', {
-        onClick: () => {
+        onMousedown: () => {
           printLabel(row.original)
         },
       }, [

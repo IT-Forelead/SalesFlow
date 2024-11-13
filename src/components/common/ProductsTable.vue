@@ -7,11 +7,7 @@ import {
   getSortedRowModel,
   useVueTable,
 } from '@tanstack/vue-table';
-import { computed, ref, watch } from 'vue';
-import CaretDoubleLeftIcon from '../../assets/icons/CaretDoubleLeftIcon.vue';
-import CaretDoubleRightIcon from '../../assets/icons/CaretDoubleRightIcon.vue';
-import CaretLeftIcon from '../../assets/icons/CaretLeftIcon.vue';
-import CaretRightIcon from '../../assets/icons/CaretRightIcon.vue';
+import { ref, watch } from 'vue';
 import { useI18n } from 'vue-i18n'
 
 const { t } = useI18n()
@@ -69,7 +65,7 @@ const table = useVueTable({
           <thead>
             <tr v-for="headerGroup in table.getHeaderGroups()" :key="headerGroup.id">
               <th v-for="header in headerGroup.headers" :key="header.id" scope="col"
-                class="px-3 py-3.5 text-left text-slate-400 dark:text-white text-base font-medium" :class="{
+                class="px-3 py-3.5 text-left text-slate-400 dark:text-slate-300 text-base font-medium" :class="{
                   'cursor-pointer select-none': header.column.getCanSort(),
                 }" @click="header.column.getToggleSortingHandler()?.($event)">
                 <FlexRender :render="header.column.columnDef.header" :props="header.getContext()" />

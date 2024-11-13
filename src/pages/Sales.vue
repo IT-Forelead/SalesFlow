@@ -1334,7 +1334,7 @@ const closeCardIdModal = () => {
       <div class="flex items-center space-x-2 pb-2">
         <div class="relative flex-auto z-50">
           <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-            <SearchIcon class="w-5 h-5 text-slate-400 dark:text-white" />
+            <SearchIcon class="w-5 h-5 text-slate-400 dark:text-slate-100" />
           </div>
           <input
             id="globle-search"
@@ -1343,7 +1343,7 @@ const closeCardIdModal = () => {
             type="search"
             @blur="reFocus()"
             ref="onSearchFocus"
-            class="bg-slate-100 border-none text-slate-900 dark:bg-slate-700 dark:text-white text-base md:text-lg rounded-xl block w-full h-12 pl-10 py-2 placeholder-slate-400 placeholder:text-sm md:placeholder:text-lg lg:placeholder:text-base"
+            class="bg-slate-100 border-none text-slate-900 dark:bg-slate-700 dark:text-slate-100 text-base md:text-lg rounded-xl block w-full h-12 pl-10 py-2 placeholder-slate-400 placeholder:text-sm md:placeholder:text-lg lg:placeholder:text-base"
             :placeholder="t('searchByProductNameOrBarcode')"
           />
           <div
@@ -1351,7 +1351,7 @@ const closeCardIdModal = () => {
             @click="clearSearchInput()"
             class="absolute inset-y-0 right-20 p-1 flex items-center cursor-pointer"
           >
-            <XIcon class="w-5 h-5 text-slate-600 dark:text-white" />
+            <XIcon class="w-5 h-5 text-slate-600 dark:text-slate-100" />
           </div>
           <button
             @click="searchProducts()"
@@ -1382,7 +1382,7 @@ const closeCardIdModal = () => {
                   <ImageIcon class="text-gray-500 w-8 h-8" />
                 </div>
                 <div>
-                  <div class="text-base font-semibold dark:text-white text-gray-800">
+                  <div class="text-base font-semibold dark:text-slate-100 text-gray-800">
                     {{ product?.name + ' - ' + product?.packaging }}
                   </div>
                   <div class="text-base font-medium text-gray-500 dark:text-zinc-300">
@@ -1391,12 +1391,12 @@ const closeCardIdModal = () => {
                 </div>
               </div>
               <div>
-                <div class="text-base font-semibold dark:text-white text-gray-800">
+                <div class="text-base font-semibold dark:text-slate-100 text-gray-800">
                   {{ useMoneyFormatter(product?.price) }}
                 </div>
                 <div class="text-base font-medium text-gray-500 dark:text-zinc-300">
                   {{ $t('quantity') }}:
-                  <span class="text-gray-700 dark:text-white">
+                  <span class="text-gray-700 dark:text-slate-100">
                     {{ product?.rest }}
                   </span>
                 </div>
@@ -1434,7 +1434,7 @@ const closeCardIdModal = () => {
               v-model="submitData.cashbackCustomerId"
               v-on:keypress="whenPressEnter($event)"
               type="search"
-              class="mt-3 bg-slate-100 border-none text-slate-900 dark:text-white text-base rounded-xl block w-full h-12 pl-5 py-2 placeholder-slate-400 placeholder:text-lg"
+              class="mt-3 bg-slate-100 border-none text-slate-900 dark:text-slate-100 text-base rounded-xl block w-full h-12 pl-5 py-2 placeholder-slate-400 placeholder:text-lg"
               :placeholder="t('searchByCashback')"
             />
             <div class="flex w-full justify-end space-x-3">
@@ -1465,7 +1465,7 @@ const closeCardIdModal = () => {
       </div>
 
       <div class="flex items-center justify-between space-x-2">
-        <div class="text-slate-900 dark:text-white text-2xl md:text-3xl font-semibold">
+        <div class="text-slate-900 dark:text-slate-100 text-2xl md:text-3xl font-semibold">
           {{ $t('shoppingCart') }}
         </div>
         <div class="flex space-x-2">
@@ -1483,12 +1483,12 @@ const closeCardIdModal = () => {
             <BasketIcon
               class="w-6 h-6 mr-2"
               :class="
-                activeBasketStatus == basket.id ? 'text-blue-600 dark:text-blue-400 text-sm' : 'text-gray-500 dark:text-white text-sm'
+                activeBasketStatus == basket.id ? 'text-blue-600 dark:text-blue-400 text-sm' : 'text-gray-500 dark:text-slate-100 text-sm'
               "
             />
             <span
               :class="
-                activeBasketStatus == basket.id ? 'text-blue-600 dark:text-blue-400 text-sm' : 'text-red-900 dark:text-white text-sm'
+                activeBasketStatus == basket.id ? 'text-blue-600 dark:text-blue-400 text-sm' : 'text-red-900 dark:text-slate-100 text-sm'
               "
             >
               {{ basket.name }}
@@ -1519,10 +1519,10 @@ const closeCardIdModal = () => {
                 </th>
               </tr>
             </thead>
-            <tbody class="bg-slate-100 divide-y-8 dark:divide-slate-800 dark:bg-gray-700 divide-white">
+            <tbody class="bg-slate-100 dark:text-slate-100 divide-y-8 dark:divide-slate-800 dark:bg-gray-700 divide-white">
               <tr
-                :class="{ 'bg-red-100 dark:bg-gray-700': product.expirationDate && new Date().setHours(0, 0, 0, 0) > new Date(product.expirationDate),
-                'bg-blue-100 dark:bg-gray-800': selectP === product }" @click="selectProduct(product)" v-for="(product, idx) in  activeBasket" :key="idx" class="overflow-x-auto overflow-y-auto">
+                :class="{ 'bg-red-100 dark:bg-red-400': product.expirationDate && new Date().setHours(0, 0, 0, 0) > new Date(product.expirationDate),
+                'bg-blue-100 dark:text-slate-100 dark:bg-gray-600': selectP === product }" @click="selectProduct(product)" v-for="(product, idx) in  activeBasket" :key="idx" class="overflow-x-auto overflow-y-auto">
                 <td class="px-3 py-2 whitespace-nowrap rounded-l-xl">
                   <div class="flex items-center space-x-3">
                     <div
@@ -1532,18 +1532,18 @@ const closeCardIdModal = () => {
                     </div>
                     <div>
                       <div
-                        class="text-sm md:text-base font-semibold dark:text-white text-gray-800 max-w-full whitespace-break-spaces"
+                        class="text-sm md:text-base font-semibold dark:text-slate-100 text-gray-800 max-w-full whitespace-break-spaces"
                       >
                         {{ product?.name + ' - ' + product?.packaging }}
                       </div>
                       <div class="text-sm md:text-base font-medium text-gray-500 dark:text-zinc-300">
                         {{ $t('price') }}:
-                        <span class="text-gray-700 dark:text-white text-sm md:text-base">
+                        <span class="text-gray-700 dark:text-slate-100 text-sm md:text-base">
                           {{ useMoneyFormatter(product?.price) }}
                         </span>
                         <div v-if="product.quantity <= 15">
                           {{ $t('remainingAmount') }}:
-                          <span class="text-red-600 text-sm dark:text-red-400 md:text-base">
+                          <span class="text-red-600 text-sm dark:text-red-600 md:text-base">
                             {{ roundFloatToTwoDecimal(product?.quantity - product?.amount) }}
                           </span>
                         </div>
@@ -1569,7 +1569,7 @@ const closeCardIdModal = () => {
                     </div>
                   </div>
                 </td>
-                <td class="px-3 py-2 text-center dark:text-white whitespace-nowrap">
+                <td class="px-3 py-2 text-center dark:text-slate-100 whitespace-nowrap">
                   {{ product?.serialId }}
                 </td>
                 <td class="px-3 py-2 text-center whitespace-nowrap">
@@ -1584,7 +1584,7 @@ const closeCardIdModal = () => {
                       </div>
                       <div
                         v-else
-                        class="flex items-center justify-center w-8 h-8 bg-white text-slate-700 dark:bg-slate-500 dark:text-white cursor-default rounded-xl"
+                        class="flex items-center justify-center w-8 h-8 bg-white text-slate-700 dark:bg-slate-500 dark:text-slate-100 cursor-default rounded-xl"
                       >
                         <MinusIcon class="w-4 h-4" />
                       </div>
@@ -1599,7 +1599,7 @@ const closeCardIdModal = () => {
                         }}
                       </div>
 
-                      <div v-else class="flex items-center justify-center text-lg dark:text-white font-normal">
+                      <div v-else class="flex items-center justify-center text-lg dark:text-slate-100 font-normal">
                         {{
                           roundFloatToTwoDecimal(product?.amount) +
                           ' ' +
@@ -1616,13 +1616,13 @@ const closeCardIdModal = () => {
                       <div
                         @click="increaseCountToAll(product)"
                         v-else-if="increaseCountAll(product)"
-                        class="flex items-center justify-center w-8 h-8 bg-white text-blue-700 dark:bg-slate-500 dark:text-white shadow-sm hover:bg-slate-200 cursor-default rounded-xl"
+                        class="flex items-center justify-center w-8 h-8 bg-white text-blue-700 dark:bg-slate-500 dark:text-slate-100 shadow-sm hover:bg-slate-200 cursor-default rounded-xl"
                       >
                         <PlusIcon class="w-4 h-4" />
                       </div>
                       <div
                         v-else
-                        class="flex items-center justify-center w-8 h-8 bg-white text-slate-700 dark:bg-slate-500 dark:text-white cursor-default rounded-xl"
+                        class="flex items-center justify-center w-8 h-8 bg-white text-slate-700 dark:bg-slate-500 dark:text-slate-100 cursor-default rounded-xl"
                       >
                         <PlusIcon class="w-4 h-4" />
                       </div>
@@ -1641,12 +1641,12 @@ const closeCardIdModal = () => {
                       </div>
                       <div
                         v-else
-                        class="flex items-center justify-center w-8 h-8 bg-white text-slate-700 dark:bg-slate-500 dark:text-white cursor-default rounded-xl"
+                        class="flex items-center justify-center w-8 h-8 bg-white text-slate-700 dark:bg-slate-500 dark:text-slate-100 cursor-default rounded-xl"
                       >
                         <MinusIcon class="w-4 h-4" />
                       </div>
 
-                      <div class="flex items-center justify-center text-lg dark:text-white font-normal">
+                      <div class="flex items-center justify-center text-lg dark:text-slate-100 font-normal">
                         {{
                           useMoneyFormatter(
                             Math.round((product?.price * product?.amount) / 100) * 100,
@@ -1662,7 +1662,7 @@ const closeCardIdModal = () => {
                       </div>
                       <div
                         v-else
-                        class="flex items-center justify-center w-8 h-8 bg-white text-slate-700 dark:bg-slate-500 dark:text-white cursor-default rounded-xl"
+                        class="flex items-center justify-center w-8 h-8 bg-white text-slate-700 dark:bg-slate-500 dark:text-slate-100 cursor-default rounded-xl"
                       >
                         <PlusIcon class="w-4 h-4" />
                       </div>
@@ -1676,7 +1676,7 @@ const closeCardIdModal = () => {
                         $event.stopPropagation();
                         removeProductFromCart(product);
                       "
-                      class="w-6 h-6 text-rose-500 dark:text-rose-400 cursor-pointer transform hover:scale-105"
+                      class="w-6 h-6 text-red-600 dark:text-red-600 cursor-pointer transform hover:scale-105"
                     />
                   </div>
                 </td>
@@ -1689,7 +1689,7 @@ const closeCardIdModal = () => {
         v-else
         class="flex flex-col items-center justify-center border-2 border-dashed dark:border-slate-600 h-96 rounded-3xl space-y-1"
       >
-        <h4 class="text-slate-900 dark:text-white text-xl font-semibold">
+        <h4 class="text-slate-900 dark:text-slate-100 text-xl font-semibold">
           {{ $t('cartIsCurrentlyEmpty') }}
         </h4>
         <div class="text-slate-600 dark:text-slate-40 text-base text-center">
@@ -1707,7 +1707,7 @@ const closeCardIdModal = () => {
         </h3>
         <div class="pb-3 space-y-1">
           <div class="flex items-center justify-between">
-            <div class="text-base text-gray-600 dark:text-white">
+            <div class="text-base text-gray-600 dark:text-slate-100">
               {{ $t('numberOfProducts') }}
             </div>
             <div class="text-base font-semibold text-gray-900 dark:text-zinc-200">
@@ -1715,7 +1715,7 @@ const closeCardIdModal = () => {
             </div>
           </div>
           <div class="flex items-center justify-between">
-            <div class="text-base text-gray-600 dark:text-white">
+            <div class="text-base text-gray-600 dark:text-slate-100">
               {{ $t('price') }}
             </div>
             <div class="text-base font-semibold text-gray-900 dark:text-zinc-200">
@@ -1723,7 +1723,7 @@ const closeCardIdModal = () => {
             </div>
           </div>
           <div class="flex items-center justify-between">
-            <div class="text-base text-gray-600 dark:text-white">
+            <div class="text-base text-gray-600 dark:text-slate-100">
               {{ $t('discount') }}
             </div>
             <div class="text-base font-semibold text-gray-900 dark:text-zinc-200">
@@ -1731,7 +1731,7 @@ const closeCardIdModal = () => {
             </div>
           </div>
           <div class="flex items-center justify-between">
-            <div class="text-base text-gray-600 dark:text-white">
+            <div class="text-base text-gray-600 dark:text-slate-100">
               {{ $t('discountAmount') }}
             </div>
             <div v-if="discount > 0" class="text-base font-semibold text-red-500">
@@ -1741,10 +1741,10 @@ const closeCardIdModal = () => {
           </div>
         </div>
         <div class="flex items-center justify-between mt-2">
-          <div class="text-base font-medium text-gray-700 dark:text-white">
+          <div class="text-base font-medium text-gray-700 dark:text-slate-100">
             {{ $t('realPrice') }}
           </div>
-          <div class="text-base font-medium text-gray-700 dark:text-white">
+          <div class="text-base font-medium text-gray-700 dark:text-slate-100">
             {{ useMoneyFormatter(realPrice) }}
           </div>
         </div>
@@ -1799,7 +1799,7 @@ const closeCardIdModal = () => {
         </div>
       </div>
       <div class="flex items-center justify-between">
-        <div class="text-base text-gray-600 dark:text-white">
+        <div class="text-base text-gray-600 dark:text-slate-100">
           {{ $t('change') }}
         </div>
         <div class="text-base font-semibold text-blue-500">
@@ -1815,7 +1815,7 @@ const closeCardIdModal = () => {
             <div
               @click="showDiscountForm = !showDiscountForm"
               :class="showDiscountForm ? 'border-blue-300 bg-blue-50' : ''"
-              class="flex-1 hover:bg-blue-100 bg-blue-50 dark:border-slate-600 hover:border-blue-300 dark:bg-slate-700 dark:text-white dark:hover:bg-blue-500  hover:cursor-pointer flex flex-col w-full items-center text-center justify-center border rounded-lg py-4"
+              class="flex-1 hover:bg-blue-100 bg-blue-50 dark:border-slate-600 hover:border-blue-300 dark:bg-slate-700 dark:text-slate-100 dark:hover:bg-blue-500  hover:cursor-pointer flex flex-col w-full items-center text-center justify-center border rounded-lg py-4"
             >
               <PhPercent class="w-6 h-6" />
               <div class="text-lg font-medium">
@@ -1825,7 +1825,7 @@ const closeCardIdModal = () => {
             <div
               @click="showCorporateClients = !showCorporateClients"
               :class="showCorporateClients ? 'bg-blue-50' : ''"
-              class="flex-1 flex flex-col hover:border-blue-300 dark:border-slate-600 border-blue-300 dark:bg-slate-700 dark:text-white dark:hover:bg-blue-500 hover:bg-blue-100 bg-blue-50 hover:cursor-pointer items-center text-center justify-center border rounded-lg py-4"
+              class="flex-1 flex flex-col hover:border-blue-300 dark:border-slate-600 border-blue-300 dark:bg-slate-700 dark:text-slate-100 dark:hover:bg-blue-500 hover:bg-blue-100 bg-blue-50 hover:cursor-pointer items-center text-center justify-center border rounded-lg py-4"
             >
               <DebtIcon class="w-6 h-6" />
               <div class="text-lg font-medium">
@@ -1835,7 +1835,7 @@ const closeCardIdModal = () => {
           </div>
           <div v-if="showDiscountForm" class="flex flex-col space-y-1">
             <div class="space-y-1">
-              <label class="text-base dark:text-white font-medium">
+              <label class="text-base dark:text-slate-100 font-medium">
                 {{ $t('discount') }}
               </label>
             </div>
@@ -1851,28 +1851,28 @@ const closeCardIdModal = () => {
               />
               <div class="flex space-x-3 my-3 justify-end">
                 <button
-                  class="px-2 py-2 flex items-center justify-center text-lg cursor-pointer dark:text-white dark:bg-[#7a8ea1] dark:hover:bg-blue-500 border-blue-400 bg-blue-100 hover:border-blue-400 hover:text-white hover:bg-blue-400 rounded-lg"
+                  class="px-2 py-2 flex items-center justify-center text-lg cursor-pointer dark:text-slate-100 dark:bg-[#7a8ea1] dark:hover:bg-blue-500 border-blue-400 bg-blue-100 hover:border-blue-400 hover:text-white hover:bg-blue-400 rounded-lg"
                   :class="{ 'bg-blue-400 text-white': discount === 10 }"
                   @click="setDiscountValue(10)"
                 >
                   10%
                 </button>
                 <button
-                  class="px-2 flex items-center justify-center text-lg cursor-pointer dark:text-white dark:bg-slate-500 dark:hover:bg-blue-500 border-blue-400 bg-blue-100 hover:border-blue-400 hover:text-white hover:bg-blue-400 rounded-lg"
+                  class="px-2 flex items-center justify-center text-lg cursor-pointer dark:text-slate-100 dark:bg-slate-500 dark:hover:bg-blue-500 border-blue-400 bg-blue-100 hover:border-blue-400 hover:text-white hover:bg-blue-400 rounded-lg"
                   :class="{ 'bg-blue-400 text-white': discount === 25 }"
                   @click="setDiscountValue(25)"
                 >
                   25%
                 </button>
                 <button
-                  class="px-2 flex items-center justify-center text-lg cursor-pointer dark:text-white dark:bg-slate-600 dark:hover:bg-blue-500 border-blue-400 bg-blue-200 hover:border-blue-400 hover:text-white hover:bg-blue-400 rounded-lg"
+                  class="px-2 flex items-center justify-center text-lg cursor-pointer dark:text-slate-100 dark:bg-slate-600 dark:hover:bg-blue-500 border-blue-400 bg-blue-200 hover:border-blue-400 hover:text-white hover:bg-blue-400 rounded-lg"
                   :class="{ 'bg-blue-400 text-white': discount === 50 }"
                   @click="setDiscountValue(50)"
                 >
                   50%
                 </button>
                 <button
-                  class="px-2 flex items-center justify-center text-lg cursor-pointer dark:text-white dark:bg-slate-700 dark:hover:bg-blue-500 border-blue-400 bg-blue-300 hover:border-blue-400 hover:text-white hover:bg-blue-400 rounded-lg"
+                  class="px-2 flex items-center justify-center text-lg cursor-pointer dark:text-slate-100 dark:bg-slate-700 dark:hover:bg-blue-500 border-blue-400 bg-blue-300 hover:border-blue-400 hover:text-white hover:bg-blue-400 rounded-lg"
                   :class="{ 'bg-blue-400 text-white': discount === 100 }"
                   @click="setDiscountValue(100)"
                 >
@@ -1880,7 +1880,7 @@ const closeCardIdModal = () => {
                 </button>
               </div>
               <div class="space-y-2">
-                <label class="text-base dark:text-white font-medium" for="reason">{{ $t('reason') }}</label>
+                <label class="text-base dark:text-slate-100 font-medium" for="reason">{{ $t('reason') }}</label>
                 <input
                   type="text"
                   v-model="submitData.discountReason"
@@ -1909,13 +1909,13 @@ const closeCardIdModal = () => {
             class="flex items-center justify-center px-6 w-full uppercase animate-pulse py-5 bg-gradient-to-r from-blue-500 to-green-500 text-white font-semibold text-lg rounded-full shadow-md hover:shadow-lg transition duration-300 transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-opacity-75"
           >
             <Spinners270RingIcon
-              class="mr-2 w-5 h-5 text-white animate-spin dark:text-white fill-gray-600 dark:fill-gray-300"
+              class="mr-2 w-5 h-5 text-white animate-spin dark:text-slate-100 fill-gray-600 dark:fill-gray-300"
             />
             chegirma %
           </button>
         </div>
         <div class="space-y-6">
-          <div v-if="showCorporateClients" class="flex flex-col dark:text-white space-y-1">
+          <div v-if="showCorporateClients" class="flex flex-col dark:text-slate-100 space-y-1">
             <div class="space-y-4">
               <div class="text-lg">
                 {{ $t('corporateClients') }}
@@ -1958,7 +1958,7 @@ const closeCardIdModal = () => {
                   class="flex items-center justify-center w-full xl:py-3 px-4 lg:py-2 py-3 rounded-lg text-white text-lg font-medium bg-blue-600"
                 >
                   <Spinners270RingIcon
-                    class="mr-2 w-5 h-5 text-gray-200 animate-spin dark:text-white fill-gray-600 dark:fill-gray-300"
+                    class="mr-2 w-5 h-5 text-gray-200 animate-spin dark:text-slate-100 fill-gray-600 dark:fill-gray-300"
                   />
                   {{ $t('payment') }}
                 </button>
@@ -1974,7 +1974,7 @@ const closeCardIdModal = () => {
                   class="flex items-center justify-center w-full xl:py-3 px-4 lg:py-2 py-3 rounded-lg text-lg font-medium cursor-pointer bg-blue-50 border border-blue-300 text-blue-500 hover:bg-blue-100"
                 >
                   <Spinners270RingIcon
-                    class="mr-2 w-5 h-5 text-blue-500 animate-spin dark:text-white fill-gray-600 dark:fill-gray-300"
+                    class="mr-2 w-5 h-5 text-blue-500 animate-spin dark:text-slate-100 fill-gray-600 dark:fill-gray-300"
                   />
                   {{ $t('payment') }}
                 </button>
@@ -2003,7 +2003,7 @@ const closeCardIdModal = () => {
                     type="text"
                     ref="onFullNameFocus"
                     @blur="fullNameReFocus()"
-                    class="bg-slate-100 border-none text-slate-900 dark:text-white rounded-lg w-full py-2.5 placeholder-slate-400"
+                    class="bg-slate-100 border-none text-slate-900 dark:text-slate-100 rounded-lg w-full py-2.5 placeholder-slate-400"
                     :placeholder="t('enterFullName')"
                   />
                 </div>
@@ -2020,7 +2020,7 @@ const closeCardIdModal = () => {
                     type="text"
                     v-maska
                     data-maska="+998(##) ###-##-##"
-                    class="bg-slate-100 border-none w-full text-slate-900 dark:text-white rounded-lg py-2.5 placeholder-slate-400"
+                    class="bg-slate-100 border-none w-full text-slate-900 dark:text-slate-100 rounded-lg py-2.5 placeholder-slate-400"
                     placeholder="+998(00) 000-00-00"
                   />
                 </div>
@@ -2048,7 +2048,7 @@ const closeCardIdModal = () => {
                 class="w-full xl:py-3 px-4 lg:py-2 py-3 rounded-lg text-white flex items-center justify-center text-lg font-medium bg-blue-500 cursor-pointer hover:bg-blue-600"
               >
                 <Spinners270RingIcon
-                  class="mr-2 w-5 h-5 text-gray-200 animate-spin dark:text-white fill-gray-600 dark:fill-gray-300"
+                  class="mr-2 w-5 h-5 text-gray-200 animate-spin dark:text-slate-100 fill-gray-600 dark:fill-gray-300"
                 />
                 {{ $t('intoDebt') }}
               </button>
@@ -2077,7 +2077,7 @@ const closeCardIdModal = () => {
                     id="customer-fullname"
                     type="text"
                     v-model="customerForm.fullName"
-                    class="bg-slate-100 border-none text-slate-900 dark:text-white rounded-lg w-full py-2.5 placeholder-slate-400"
+                    class="bg-slate-100 border-none text-slate-900 dark:text-slate-100 rounded-lg w-full py-2.5 placeholder-slate-400"
                     :placeholder="t('enterFullName')"
                   />
                 </div>
@@ -2094,7 +2094,7 @@ const closeCardIdModal = () => {
                     v-model="customerForm.phone"
                     v-maska
                     data-maska="+998(##) ###-##-##"
-                    class="bg-slate-100 border-none text-slate-900 dark:text-white rounded-lg w-full py-2.5 placeholder-slate-400"
+                    class="bg-slate-100 border-none text-slate-900 dark:text-slate-100 rounded-lg w-full py-2.5 placeholder-slate-400"
                     placeholder="+998(00) 000-00-00"
                   />
                 </div>
@@ -2107,7 +2107,7 @@ const closeCardIdModal = () => {
                 class="inline-flex items-center justify-center ms-3 text-white bg-blue-600 focus:ring-4 focus:outline-none focus:ring-slate-300 rounded-xl border border-slate-200 text-sm font-medium px-5 py-2.5 focus:z-10 cursor-default"
               >
                 <Spinners270RingIcon
-                  class="mr-2 w-5 h-5 text-gray-200 animate-spin dark:text-white fill-gray-600 dark:fill-gray-300"
+                  class="mr-2 w-5 h-5 text-gray-200 animate-spin dark:text-slate-100 fill-gray-600 dark:fill-gray-300"
                 />
                 {{ $t('create') }}
               </button>
@@ -2125,73 +2125,73 @@ const closeCardIdModal = () => {
         <div>
           <div v-if="selectP && true" class="h-52 py-4 grid grid-cols-3 grid-rows-4 gap-2">
             <div
-              class="flex items-center justify-center text-lg cursor-pointer dark:bg-slate-700 dark:text-white border border-slate-400 bg-slate-100 hover:border-blue-400 hover:text-blue-400 hover:bg-blue-100 rounded-lg"
+              class="flex items-center justify-center text-lg cursor-pointer dark:bg-slate-700 dark:text-slate-100 border border-slate-400 bg-slate-100 hover:border-blue-400 hover:text-blue-400 hover:bg-blue-100 rounded-lg"
               @click="appendValue(1)"
             >
               1
             </div>
             <div
-              class="flex items-center justify-center text-lg cursor-pointer dark:bg-slate-700 dark:text-white border border-slate-400 bg-slate-100 hover:border-blue-400 hover:text-blue-400 hover:bg-blue-100 rounded-lg"
+              class="flex items-center justify-center text-lg cursor-pointer dark:bg-slate-700 dark:text-slate-100 border border-slate-400 bg-slate-100 hover:border-blue-400 hover:text-blue-400 hover:bg-blue-100 rounded-lg"
               @click="appendValue(2)"
             >
               2
             </div>
             <div
-              class="flex items-center justify-center text-lg cursor-pointer dark:bg-slate-700 dark:text-white border border-slate-400 bg-slate-100 hover:border-blue-400 hover:text-blue-400 hover:bg-blue-100 rounded-lg"
+              class="flex items-center justify-center text-lg cursor-pointer dark:bg-slate-700 dark:text-slate-100 border border-slate-400 bg-slate-100 hover:border-blue-400 hover:text-blue-400 hover:bg-blue-100 rounded-lg"
               @click="appendValue(3)"
             >
               3
             </div>
             <div
-              class="flex items-center justify-center text-lg cursor-pointer dark:bg-slate-700 dark:text-white border border-slate-400 bg-slate-100 hover:border-blue-400 hover:text-blue-400 hover:bg-blue-100 rounded-lg"
+              class="flex items-center justify-center text-lg cursor-pointer dark:bg-slate-700 dark:text-slate-100 border border-slate-400 bg-slate-100 hover:border-blue-400 hover:text-blue-400 hover:bg-blue-100 rounded-lg"
               @click="appendValue(4)"
             >
               4
             </div>
             <div
-              class="flex items-center justify-center text-lg cursor-pointer dark:bg-slate-700 dark:text-white border border-slate-400 bg-slate-100 hover:border-blue-400 hover:text-blue-400 hover:bg-blue-100 rounded-lg"
+              class="flex items-center justify-center text-lg cursor-pointer dark:bg-slate-700 dark:text-slate-100 border border-slate-400 bg-slate-100 hover:border-blue-400 hover:text-blue-400 hover:bg-blue-100 rounded-lg"
               @click="appendValue(5)"
             >
               5
             </div>
             <div
-              class="flex items-center justify-center text-lg cursor-pointer dark:bg-slate-700 dark:text-white border border-slate-400 bg-slate-100 hover:border-blue-400 hover:text-blue-400 hover:bg-blue-100 rounded-lg"
+              class="flex items-center justify-center text-lg cursor-pointer dark:bg-slate-700 dark:text-slate-100 border border-slate-400 bg-slate-100 hover:border-blue-400 hover:text-blue-400 hover:bg-blue-100 rounded-lg"
               @click="appendValue(6)"
             >
               6
             </div>
             <div
-              class="flex items-center justify-center text-lg cursor-pointer dark:bg-slate-700 dark:text-white border border-slate-400 bg-slate-100 hover:border-blue-400 hover:text-blue-400 hover:bg-blue-100 rounded-lg"
+              class="flex items-center justify-center text-lg cursor-pointer dark:bg-slate-700 dark:text-slate-100 border border-slate-400 bg-slate-100 hover:border-blue-400 hover:text-blue-400 hover:bg-blue-100 rounded-lg"
               @click="appendValue(7)"
             >
               7
             </div>
             <div
-              class="flex items-center justify-center text-lg cursor-pointer dark:bg-slate-700 dark:text-white dark:bg-slate-700 dark:text-white border border-slate-400 bg-slate-100 hover:border-blue-400 hover:text-blue-400 hover:bg-blue-100 rounded-lg"
+              class="flex items-center justify-center text-lg cursor-pointer dark:bg-slate-700 dark:text-slate-100 border border-slate-400 bg-slate-100 hover:border-blue-400 hover:text-blue-400 hover:bg-blue-100 rounded-lg"
               @click="appendValue(8)"
             >
               8
             </div>
             <div
-              class="flex items-center justify-center text-lg cursor-pointer dark:bg-slate-700 dark:text-white border border-slate-400 bg-slate-100 hover:border-blue-400 hover:text-blue-400 hover:bg-blue-100 rounded-lg"
+              class="flex items-center justify-center text-lg cursor-pointer dark:bg-slate-700 dark:text-slate-100 border border-slate-400 bg-slate-100 hover:border-blue-400 hover:text-blue-400 hover:bg-blue-100 rounded-lg"
               @click="appendValue(9)"
             >
               9
             </div>
             <div
-              class="flex items-center justify-center text-lg cursor-pointer dark:bg-slate-700 dark:text-white border border-slate-400 bg-slate-100 hover:border-blue-400 hover:text-blue-400 hover:bg-blue-100 rounded-lg"
+              class="flex items-center justify-center text-lg cursor-pointer dark:bg-slate-700 dark:text-slate-100 border border-slate-400 bg-slate-100 hover:border-blue-400 hover:text-blue-400 hover:bg-blue-100 rounded-lg"
               @click="separator()"
             >
               .
             </div>
             <div
-              class="flex items-center justify-center text-lg cursor-pointer dark:bg-slate-700 dark:text-white border border-slate-400 bg-slate-100 hover:border-blue-400 hover:text-blue-400 hover:bg-blue-100 rounded-lg"
+              class="flex items-center justify-center text-lg cursor-pointer dark:bg-slate-700 dark:text-slate-100 border border-slate-400 bg-slate-100 hover:border-blue-400 hover:text-blue-400 hover:bg-blue-100 rounded-lg"
               @click="appendValue(0)"
             >
               0
             </div>
             <div
-              class="flex items-center justify-center text-lg cursor-pointer dark:bg-slate-700 dark:text-white border border-slate-400 bg-slate-100 hover:border-blue-400 hover:text-blue-400 hover:bg-blue-100 rounded-lg"
+              class="flex items-center justify-center text-lg cursor-pointer dark:bg-slate-700 dark:text-slate-100 border border-slate-400 bg-slate-100 hover:border-blue-400 hover:text-blue-400 hover:bg-blue-100 rounded-lg"
               @click="removeLastDigit()"
             >
               {{ '<' }}

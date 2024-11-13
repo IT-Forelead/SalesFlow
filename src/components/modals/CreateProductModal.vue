@@ -676,7 +676,7 @@ const calculateExpirationDate = (months) => {
 
 <style>
 .p-overlaypanel-content {
- 
+
   border: rgb(98, 100, 102);
   border-width: 2px;
   border-style: solid;

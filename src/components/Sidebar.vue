@@ -116,7 +116,7 @@ onMounted(() => {
           </div>
         </div>
         <div class="flex items-center justify-end">
-          <XIcon class="w-6 h-6 mt-1 hover:text-[#0167f3] dark:text-white cursor-pointer" @click="closeBar"/>
+          <XIcon class="w-6 h-6 mt-1 hover:text-[#0167f3] dark:text-white dark:hover:bg-gray-500 rounded-md cursor-pointer" @click="closeBar"/>
         </div>
       </div>
       <ProfileDropDown />

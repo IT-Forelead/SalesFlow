@@ -44,6 +44,7 @@ import EditInvestStatusModal from './modals/EditInvestStatusModal.vue'
 import CashbackHistoryModal from './modals/CashbackHistoryModal.vue'
 import CreatePriceModal from './modals/CreatePriceModal.vue'
 import CreateVoucherModal from './modals/CreateVoucherModal.vue'
+import AgentInfoModal from './modals/AgentInfoModal.vue'
 
 const notificationDropdown = ref(null)
 
@@ -91,10 +92,10 @@ onUnmounted(() => {
 
 <template>
   <div v-if="!useSidebarStore().isOpenSidebar"
-    class="sticky flex items-center w-full px-6 py-4 bg-white dark:bg-slate-800 border-b border-gray-200 shadow-7xl lg:block">
+    class="sticky flex items-center w-full px-6 py-4 bg-white dark:bg-slate-900 border-b border-gray-200 shadow-7xl lg:block">
     <div class="flex space-x-4 items-center">
       <div v-if="!useSidebarStore().isOpenSidebar" @click="closeSidebar"
-        class="flex items-center justify-center w-8 h-8 rounded-lg cursor-pointer hover:bg-gray-100 dark:text-white dark:hover:bg-gray-900">
+        class="flex items-center justify-center w-8 h-8 rounded-lg cursor-pointer hover:bg-gray-100 dark:text-white dark:hover:bg-gray-500">
         <HamburgerMenuOutlineIcon class="w-6 h-6" />
       </div>
       <div v-else-if="useSidebarStore().isOpenSidebar" @click="openSidebar"
@@ -152,6 +153,7 @@ onUnmounted(() => {
   <CashbackHistoryModal />
   <CreatePriceModal />
   <CreateVoucherModal />
+  <AgentInfoModal />
 </template>
 
 <style scoped></style>

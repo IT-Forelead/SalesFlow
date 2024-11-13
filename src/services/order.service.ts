@@ -48,6 +48,12 @@ class OrderService {
   async getHourlySales() {
     return AxiosService.get('/order/hourly-sales');
   }
+  async getMonthStats() {
+    return AxiosService.get(`/order/stats/month`);
+  }
+  async getPredictStats(limit: number) {
+    return AxiosService.get(`/order/stats/predict?limit=${limit}`);
+  }
 }
 
 export default new OrderService();
