@@ -125,245 +125,250 @@ onMounted(() => {
         <div class="max-h-svh flex pb-[18rem] flex-col">
           <div class="relative space-y-1 py-1 overflow-auto md:max-h-screen">
             <router-link v-if="navigationGuard('dashboard')" to="/dashboard" @click="selectPage()" active-class="active"
-            class="relative h-10 flex items-center w-full hover:bg-blue-300/10 hover:text-blue-600 py-5 text-zinc-400 dark:text-zinc-200 text-lg font-medium space-x-4 cursor-pointer transition-colors duration-300">
-            <div class="w-1.5 h-12 rounded-r-xl first-child-bg-color mr-2"></div>
-            <div class="flex h-10 items-center justify-center rounded-xl w-10 second-child-bg-color">
-              <HouseIcon class="w-6 h-6" />
-            </div>
-            <div class="w-full">
-              {{ $t('dashboard') }}
-            </div>
-          </router-link>
-          <router-link v-if="navigationGuard('create_product')" to="/sales" @click="selectPage()" active-class="active"
-            class="relative h-10 flex items-center w-full hover:bg-blue-300/10 hover:text-blue-600 py-5 text-zinc-400 dark:text-zinc-200 text-lg font-medium space-x-4 cursor-pointer transition-colors duration-300">
-            <div class="w-1.5 h-12 rounded-r-xl first-child-bg-color mr-2"></div>
-            <div class="flex h-10 items-center justify-center rounded-xl w-10 second-child-bg-color">
-              <MoneyIcon class="w-6 h-6" />
-            </div>
-            <div class="w-full">
-              {{ $t('sale') }}
-            </div>
-          </router-link>
-          <router-link to="/products" @click="selectPage()" active-class="active"
-            class="relative h-10 flex items-center w-full hover:bg-blue-300/10 hover:text-blue-600 py-5 text-zinc-400 dark:text-zinc-200 text-lg font-medium space-x-4 cursor-pointer transition-colors duration-300">
-            <div class="w-1.5 h-12 rounded-r-xl first-child-bg-color mr-2"></div>
-            <div class="flex h-10 items-center justify-center rounded-xl w-10 second-child-bg-color">
-              <PhShoppingCart class="w-6 h-6" />
-            </div>
-            <div class="w-full">
-              {{ $t('products') }}
-            </div>
-          </router-link>
-          <router-link v-if="navigationGuard('view_histories')" to="/product-histories" @click="selectPage()"
-            active-class="active"
-            class="relative h-10 flex items-center w-full hover:bg-blue-300/10 hover:text-blue-600 py-5 text-zinc-400 dark:text-zinc-200 text-lg font-medium space-x-4 cursor-pointer transition-colors duration-300">
-            <div class="w-1.5 h-12 rounded-r-xl first-child-bg-color mr-2"></div>
-            <div class="flex h-10 items-center justify-center rounded-xl w-10 second-child-bg-color">
-              <ProductHistoryIcon class="w-6 h-6" />
-            </div>
-            <div class="w-full">
-              {{ $t('incomeExpense') }}
-            </div>
-          </router-link>
-          <router-link v-if="navigationGuard('view_histories')" to="/upcoming-products" @click="selectPage()"
-            active-class="active"
-            class="relative h-10 flex items-center w-full hover:bg-blue-300/10 hover:text-blue-600 py-5 text-zinc-400 dark:text-zinc-200 text-lg font-medium space-x-4 cursor-pointer transition-colors duration-300">
-            <div class="w-1.5 h-12 rounded-r-xl first-child-bg-color mr-2"></div>
-            <div class="flex h-10 items-center justify-center rounded-xl w-10 second-child-bg-color">
-              <PhShoppingCart class="w-6 h-6" />
-            </div>
-            <div class="w-full">
-              {{ $t('upcomingProducts') }}
-            </div>
-          </router-link>
-          <router-link to="/discounts" @click="selectPage()"
-            active-class="active"
-            class="relative h-10 flex items-center w-full hover:bg-blue-300/10 hover:text-blue-600 py-5 text-zinc-400 dark:text-zinc-200 text-lg font-medium space-x-4 cursor-pointer transition-colors duration-300">
-            <div class="w-1.5 h-12 rounded-r-xl first-child-bg-color mr-2"></div>
-            <div class="flex h-10 items-center justify-center rounded-xl w-10 second-child-bg-color">
-              <PhPercent class="w-6 h-6" />
-            </div>
-            <div class="w-full">
-              {{ $t('discount') }}
-            </div>
-          </router-link>
-          <router-link to="/cashback-histories" @click="selectPage()"
-            active-class="active"
-            class="relative h-10 flex items-center w-full hover:bg-blue-300/10 hover:text-blue-600 py-5 text-zinc-400 dark:text-zinc-200 text-lg font-medium space-x-4 cursor-pointer transition-colors duration-300">
-            <div class="w-1.5 h-12 rounded-r-xl first-child-bg-color mr-2"></div>
-            <div class="flex h-10 items-center justify-center rounded-xl w-10 second-child-bg-color">
-              <TicketSaleIcon class="w-6 h-6" />
-            </div>
-            <div class="w-full">
-              {{ $t('cashbackHistories') }}
-            </div>
-          </router-link>
-          <router-link to="/orders" @click="selectPage()" active-class="active"
-            class="relative h-10 flex items-center w-full hover:bg-blue-300/10 hover:text-blue-600 py-5 text-zinc-400 dark:text-zinc-200 text-lg font-medium space-x-4 cursor-pointer transition-colors duration-300">
-            <div class="w-1.5 h-12 rounded-r-xl first-child-bg-color mr-2"></div>
-            <div class="flex h-10 items-center justify-center rounded-xl w-10 second-child-bg-color">
-              <PhShoppingCart class="w-6 h-6" />
-            </div>
-            <div class="w-full">
-              {{ $t('sales') }}
-            </div>
-          </router-link>
-          <router-link v-if="navigationGuard('view_markets')" to="/markets" @click="selectPage()" active-class="active"
-            class="relative h-10 flex items-center w-full hover:bg-blue-300/10 hover:text-blue-600 py-5 text-zinc-400 dark:text-zinc-200 text-lg font-medium space-x-4 cursor-pointer transition-colors duration-300">
-            <div class="w-1.5 h-12 rounded-r-xl first-child-bg-color mr-2"></div>
-            <div class="flex h-10 items-center justify-center rounded-xl w-10 second-child-bg-color">
-              <StoreIcon class="w-6 h-6" />
-            </div>
-            <div class="w-full">
-              {{ $t('shops') }}
-            </div>
-          </router-link>
-          <router-link v-if="navigationGuard('view_users')" to="/users" @click="selectPage()" active-class="active"
-            class="relative h-10 flex items-center w-full hover:bg-blue-300/10 hover:text-blue-600 py-5 text-zinc-400 dark:text-zinc-200 text-lg font-medium space-x-4 cursor-pointer transition-colors duration-300">
-            <div class="w-1.5 h-12 rounded-r-xl first-child-bg-color mr-2"></div>
-            <div class="flex h-10 items-center justify-center rounded-xl w-10 second-child-bg-color">
-              <UsersIcon class="w-6 h-6" />
-            </div>
-            <div class="w-full">
-              {{ $t('users') }}
-            </div>
-          </router-link>
-          <router-link v-if="navigationGuard('view_barcodes')" to="/product-barcodes" @click="selectPage()"
-            active-class="active"
-            class="relative h-10 flex items-center w-full hover:bg-blue-300/10 hover:text-blue-600 py-5 text-zinc-400 dark:text-zinc-200 text-lg font-medium space-x-4 cursor-pointer transition-colors duration-300">
-            <div class="w-1.5 h-12 rounded-r-xl first-child-bg-color mr-2"></div>
-            <div class="flex h-10 items-center justify-center rounded-xl w-10 second-child-bg-color">
-              <PhBarcodeIcon class="w-6 h-6" />
-            </div>
-            <div class="w-full">
-              {{ $t('barcodes') }}
-            </div>
-          </router-link>
-          <router-link v-if="navigationGuard('view_barcodes')" to="/barcode-duplicates" @click="selectPage()"
-            active-class="active"
-            class="relative h-10 flex items-center w-full hover:bg-blue-300/10 hover:text-blue-600 py-5 text-zinc-400 dark:text-zinc-200 text-lg font-medium space-x-4 cursor-pointer transition-colors duration-300">
-            <div class="w-1.5 h-12 rounded-r-xl first-child-bg-color mr-2"></div>
-            <div class="flex items-center justify-center rounded-xl w-10 h-10 second-child-bg-color">
-              <PhBarcodeIcon class="w-6 h-6" />
-            </div>
-            <div class="w-full">
-              {{ $t('duplicates') }}
-            </div>
-          </router-link>
-          <router-link v-if="navigationGuard('view_settings')" to="/sale-settings" @click="selectPage()"
-            active-class="active"
-            class="relative h-10 flex items-center w-full hover:bg-blue-300/10 hover:text-blue-600 py-5 text-zinc-400 dark:text-zinc-200 text-lg font-medium space-x-4 cursor-pointer transition-colors duration-300">
-            <div class="w-1.5 h-12 rounded-r-xl first-child-bg-color mr-2"></div>
-            <div class="flex h-10 items-center justify-center rounded-xl w-10 second-child-bg-color">
-              <SettingsIcon class="w-6 h-6" />
-            </div>
-            <div class="w-full">
-              {{ $t('settings') }}
-            </div>
-          </router-link>
-          <router-link v-if="navigationGuard('view_settings')" to="/corporate-clients" @click="selectPage()" active-class="active"
-          class="relative h-10 flex items-center w-full hover:bg-blue-300/10 hover:text-blue-600 py-5 text-zinc-400 dark:text-zinc-200 text-lg font-medium space-x-4 cursor-pointer transition-colors duration-300">
-            <div class="w-1.5 h-12 rounded-r-xl first-child-bg-color mr-2"></div>
-            <div class="flex h-10 items-center justify-center rounded-xl w-10 second-child-bg-color">
-              <ClientCorpIcon class="w-6 h-6" />
-            </div>
-            <div class="w-full">
-              {{ $t('corporateClients') }}
-            </div>
-          </router-link>
-          <router-link v-if="navigationGuard('view_settings')" to="/clients" @click="selectPage()" active-class="active"
-          class="relative h-10 flex items-center w-full hover:bg-blue-300/10 hover:text-blue-600 py-5 text-zinc-400 dark:text-zinc-200 text-lg font-medium space-x-4 cursor-pointer transition-colors duration-300">
-            <div class="w-1.5 h-12 rounded-r-xl first-child-bg-color mr-2"></div>
-            <div class="flex h-10 items-center justify-center rounded-xl w-10 second-child-bg-color">
-              <ClientIcon class="w-6 h-6" />
-            </div>
-            <div class="w-full">
-              {{ $t('clients') }}
-            </div>
-          </router-link>
-          <router-link v-if="navigationGuard('view_agents')" to="/agents" @click="selectPage()" active-class="active"
-          class="relative h-10 flex items-center w-full hover:bg-blue-300/10 hover:text-blue-600 py-5 text-zinc-400 dark:text-zinc-200 text-lg font-medium space-x-4 cursor-pointer transition-colors duration-300">
-            <div class="w-1.5 h-12 rounded-r-xl first-child-bg-color mr-2"></div>
-            <div class="flex h-10 items-center justify-center rounded-xl w-10 second-child-bg-color">
-              <PhUsersThree class="w-6 h-6" />
-            </div>
-            <div class="w-full">
-              {{ $t('agents') }}
-            </div>
-          </router-link>
-          <router-link v-if="navigationGuard('view_agents')" to="/vouchers" @click="selectPage()" active-class="active"
-          class="relative h-10 flex items-center w-full hover:bg-blue-300/10 hover:text-blue-600 py-5 text-zinc-400 dark:text-zinc-200 text-lg font-medium space-x-4 cursor-pointer transition-colors duration-300">
-            <div class="w-1.5 h-12 rounded-r-xl first-child-bg-color mr-2"></div>
-            <div class="flex h-10 items-center justify-center rounded-xl w-10 second-child-bg-color">
-              <PhUsersThree class="w-6 h-6" />
-            </div>
-            <div class="w-full">
-              {{ $t('vouchers') }}
-            </div>
-          </router-link>
-          <router-link v-if="navigationGuard('view_agents')" to="/price-lists" @click="selectPage()" active-class="active"
-          class="relative h-10 flex items-center w-full hover:bg-blue-300/10 hover:text-blue-600 py-5 text-zinc-400 dark:text-zinc-200 text-lg font-medium space-x-4 cursor-pointer transition-colors duration-300">
-            <div class="w-1.5 h-12 rounded-r-xl first-child-bg-color mr-2"></div>
-            <div class="flex h-10 items-center justify-center rounded-xl w-10 second-child-bg-color">
-              <PhPriceList class="w-6 h-6" />
-            </div>
-            <div class="w-full">
-              {{ $t('priceLists') }}
-            </div>
-          </router-link>
-          <router-link v-if="navigationGuard('view_users')" to="/wishes" @click="selectPage()" active-class="active"
-          class="relative h-10 flex items-center w-full hover:bg-blue-300/10 hover:text-blue-600 py-5 text-zinc-400 dark:text-zinc-200 text-lg font-medium space-x-4 cursor-pointer transition-colors duration-300">
-            <div class="w-1.5 h-12 rounded-r-xl first-child-bg-color mr-2"></div>
-            <div class="flex h-10 items-center justify-center rounded-xl w-10 second-child-bg-color">
-              <FileLinearIcon class="w-6 h-6" />
-            </div>
-            <div class="w-full">
-              {{ $t('wishes') }}
-            </div>
-          </router-link>
-          <router-link v-if="navigationGuard('create_market')" to="/ip-banned" @click="selectPage()" active-class="active"
-          class="relative h-10 flex items-center w-full hover:bg-blue-300/10 hover:text-blue-600 py-5 text-zinc-400 dark:text-zinc-200 text-lg font-medium space-x-4 cursor-pointer transition-colors duration-300">
-            <div class="w-1.5 h-12 rounded-r-xl first-child-bg-color mr-2"></div>
-            <div class="flex h-10 items-center justify-center rounded-xl w-10 second-child-bg-color">
-              <PhLockKey class="w-6 h-6" />
-            </div>
-            <div class="w-full">
-              {{ $t('ipBanned') }}
-            </div>
-          </router-link>
-          <router-link v-if="navigationGuard('view_investors')" to="/investors" @click="selectPage()" active-class="active"
-          class="relative h-10 flex items-center w-full hover:bg-blue-300/10 hover:text-blue-600 py-5 text-zinc-400 dark:text-zinc-200 text-lg font-medium space-x-4 cursor-pointer transition-colors duration-300">
-            <div class="w-1.5 h-12 rounded-r-xl first-child-bg-color mr-2"></div>
-            <div class="flex h-10 items-center justify-center rounded-xl w-10 second-child-bg-color">
-              <InvestorIcon class="w-6 h-6" />
-            </div>
-            <div class="w-full">
-              {{ $t('investors') }}
-            </div>
-          </router-link>
-          <router-link v-if="navigationGuard('view_invests')" to="/invests" @click="selectPage()" active-class="active"
-          class="relative h-10 flex items-center w-full hover:bg-blue-300/10 hover:text-blue-600 py-5 text-zinc-400 dark:text-zinc-200 text-lg font-medium space-x-4 cursor-pointer transition-colors duration-300">
-            <div class="w-1.5 h-12 rounded-r-xl first-child-bg-color mr-2"></div>
-            <div class="flex h-10 items-center justify-center rounded-xl w-10 second-child-bg-color">
-              <InvestIcon class="w-6 h-6" />
-            </div>
-            <div class="w-full">
-              {{ $t('invests') }}
-            </div>
-          </router-link>
-          <router-link v-if="navigationGuard('view_invest_plans')" to="/invest-plans" @click="selectPage()" active-class="active"
-          class="relative h-10 flex items-center w-full hover:bg-blue-300/10 hover:text-blue-600 py-5 text-zinc-400 dark:text-zinc-200 text-lg font-medium space-x-4 cursor-pointer transition-colors duration-300">
-            <div class="w-1.5 h-12 rounded-r-xl first-child-bg-color mr-2"></div>
-            <div class="flex h-10 items-center justify-center rounded-xl w-10 second-child-bg-color">
-              <InvestPlanIcon class="w-6 h-6" />
-            </div>
-            <div class="w-full">
-              {{ $t('investPlans') }}
-            </div>
-          </router-link>
-
-
-
+              class="relative h-10 flex items-center w-full hover:bg-blue-300/10 hover:text-blue-600 py-5 text-zinc-400 dark:text-zinc-200 text-lg font-medium space-x-4 cursor-pointer transition-colors duration-300">
+              <div class="w-1.5 h-12 rounded-r-xl first-child-bg-color mr-2"></div>
+              <div class="flex h-10 items-center justify-center rounded-xl w-10 second-child-bg-color">
+                <HouseIcon class="w-6 h-6" />
+              </div>
+              <div class="w-full">
+                {{ $t('dashboard') }}
+              </div>
+            </router-link>
+            <router-link v-if="navigationGuard('create_product')" to="/sales" @click="selectPage()"
+              active-class="active"
+              class="relative h-10 flex items-center w-full hover:bg-blue-300/10 hover:text-blue-600 py-5 text-zinc-400 dark:text-zinc-200 text-lg font-medium space-x-4 cursor-pointer transition-colors duration-300">
+              <div class="w-1.5 h-12 rounded-r-xl first-child-bg-color mr-2"></div>
+              <div class="flex h-10 items-center justify-center rounded-xl w-10 second-child-bg-color">
+                <MoneyIcon class="w-6 h-6" />
+              </div>
+              <div class="w-full">
+                {{ $t('sale') }}
+              </div>
+            </router-link>
+            <router-link to="/products" @click="selectPage()" active-class="active"
+              class="relative h-10 flex items-center w-full hover:bg-blue-300/10 hover:text-blue-600 py-5 text-zinc-400 dark:text-zinc-200 text-lg font-medium space-x-4 cursor-pointer transition-colors duration-300">
+              <div class="w-1.5 h-12 rounded-r-xl first-child-bg-color mr-2"></div>
+              <div class="flex h-10 items-center justify-center rounded-xl w-10 second-child-bg-color">
+                <PhShoppingCart class="w-6 h-6" />
+              </div>
+              <div class="w-full">
+                {{ $t('products') }}
+              </div>
+            </router-link>
+            <router-link v-if="navigationGuard('view_histories')" to="/product-histories" @click="selectPage()"
+              active-class="active"
+              class="relative h-10 flex items-center w-full hover:bg-blue-300/10 hover:text-blue-600 py-5 text-zinc-400 dark:text-zinc-200 text-lg font-medium space-x-4 cursor-pointer transition-colors duration-300">
+              <div class="w-1.5 h-12 rounded-r-xl first-child-bg-color mr-2"></div>
+              <div class="flex h-10 items-center justify-center rounded-xl w-10 second-child-bg-color">
+                <ProductHistoryIcon class="w-6 h-6" />
+              </div>
+              <div class="w-full">
+                {{ $t('incomeExpense') }}
+              </div>
+            </router-link>
+            <router-link v-if="navigationGuard('view_histories')" to="/upcoming-products" @click="selectPage()"
+              active-class="active"
+              class="relative h-10 flex items-center w-full hover:bg-blue-300/10 hover:text-blue-600 py-5 text-zinc-400 dark:text-zinc-200 text-lg font-medium space-x-4 cursor-pointer transition-colors duration-300">
+              <div class="w-1.5 h-12 rounded-r-xl first-child-bg-color mr-2"></div>
+              <div class="flex h-10 items-center justify-center rounded-xl w-10 second-child-bg-color">
+                <PhShoppingCart class="w-6 h-6" />
+              </div>
+              <div class="w-full">
+                {{ $t('upcomingProducts') }}
+              </div>
+            </router-link>
+            <router-link to="/discounts" @click="selectPage()" active-class="active"
+              class="relative h-10 flex items-center w-full hover:bg-blue-300/10 hover:text-blue-600 py-5 text-zinc-400 dark:text-zinc-200 text-lg font-medium space-x-4 cursor-pointer transition-colors duration-300">
+              <div class="w-1.5 h-12 rounded-r-xl first-child-bg-color mr-2"></div>
+              <div class="flex h-10 items-center justify-center rounded-xl w-10 second-child-bg-color">
+                <PhPercent class="w-6 h-6" />
+              </div>
+              <div class="w-full">
+                {{ $t('discount') }}
+              </div>
+            </router-link>
+            <router-link to="/cashback-histories" @click="selectPage()" active-class="active"
+              class="relative h-10 flex items-center w-full hover:bg-blue-300/10 hover:text-blue-600 py-5 text-zinc-400 dark:text-zinc-200 text-lg font-medium space-x-4 cursor-pointer transition-colors duration-300">
+              <div class="w-1.5 h-12 rounded-r-xl first-child-bg-color mr-2"></div>
+              <div class="flex h-10 items-center justify-center rounded-xl w-10 second-child-bg-color">
+                <TicketSaleIcon class="w-6 h-6" />
+              </div>
+              <div class="w-full">
+                {{ $t('cashbackHistories') }}
+              </div>
+            </router-link>
+            <router-link to="/orders" @click="selectPage()" active-class="active"
+              class="relative h-10 flex items-center w-full hover:bg-blue-300/10 hover:text-blue-600 py-5 text-zinc-400 dark:text-zinc-200 text-lg font-medium space-x-4 cursor-pointer transition-colors duration-300">
+              <div class="w-1.5 h-12 rounded-r-xl first-child-bg-color mr-2"></div>
+              <div class="flex h-10 items-center justify-center rounded-xl w-10 second-child-bg-color">
+                <PhShoppingCart class="w-6 h-6" />
+              </div>
+              <div class="w-full">
+                {{ $t('sales') }}
+              </div>
+            </router-link>
+            <router-link v-if="navigationGuard('view_markets')" to="/markets" @click="selectPage()"
+              active-class="active"
+              class="relative h-10 flex items-center w-full hover:bg-blue-300/10 hover:text-blue-600 py-5 text-zinc-400 dark:text-zinc-200 text-lg font-medium space-x-4 cursor-pointer transition-colors duration-300">
+              <div class="w-1.5 h-12 rounded-r-xl first-child-bg-color mr-2"></div>
+              <div class="flex h-10 items-center justify-center rounded-xl w-10 second-child-bg-color">
+                <StoreIcon class="w-6 h-6" />
+              </div>
+              <div class="w-full">
+                {{ $t('shops') }}
+              </div>
+            </router-link>
+            <router-link v-if="navigationGuard('view_users')" to="/users" @click="selectPage()" active-class="active"
+              class="relative h-10 flex items-center w-full hover:bg-blue-300/10 hover:text-blue-600 py-5 text-zinc-400 dark:text-zinc-200 text-lg font-medium space-x-4 cursor-pointer transition-colors duration-300">
+              <div class="w-1.5 h-12 rounded-r-xl first-child-bg-color mr-2"></div>
+              <div class="flex h-10 items-center justify-center rounded-xl w-10 second-child-bg-color">
+                <UsersIcon class="w-6 h-6" />
+              </div>
+              <div class="w-full">
+                {{ $t('users') }}
+              </div>
+            </router-link>
+            <router-link v-if="navigationGuard('view_barcodes')" to="/product-barcodes" @click="selectPage()"
+              active-class="active"
+              class="relative h-10 flex items-center w-full hover:bg-blue-300/10 hover:text-blue-600 py-5 text-zinc-400 dark:text-zinc-200 text-lg font-medium space-x-4 cursor-pointer transition-colors duration-300">
+              <div class="w-1.5 h-12 rounded-r-xl first-child-bg-color mr-2"></div>
+              <div class="flex h-10 items-center justify-center rounded-xl w-10 second-child-bg-color">
+                <PhBarcodeIcon class="w-6 h-6" />
+              </div>
+              <div class="w-full">
+                {{ $t('barcodes') }}
+              </div>
+            </router-link>
+            <router-link v-if="navigationGuard('view_barcodes')" to="/barcode-duplicates" @click="selectPage()"
+              active-class="active"
+              class="relative h-10 flex items-center w-full hover:bg-blue-300/10 hover:text-blue-600 py-5 text-zinc-400 dark:text-zinc-200 text-lg font-medium space-x-4 cursor-pointer transition-colors duration-300">
+              <div class="w-1.5 h-12 rounded-r-xl first-child-bg-color mr-2"></div>
+              <div class="flex items-center justify-center rounded-xl w-10 h-10 second-child-bg-color">
+                <PhBarcodeIcon class="w-6 h-6" />
+              </div>
+              <div class="w-full">
+                {{ $t('duplicates') }}
+              </div>
+            </router-link>
+            <router-link v-if="navigationGuard('view_settings')" to="/sale-settings" @click="selectPage()"
+              active-class="active"
+              class="relative h-10 flex items-center w-full hover:bg-blue-300/10 hover:text-blue-600 py-5 text-zinc-400 dark:text-zinc-200 text-lg font-medium space-x-4 cursor-pointer transition-colors duration-300">
+              <div class="w-1.5 h-12 rounded-r-xl first-child-bg-color mr-2"></div>
+              <div class="flex h-10 items-center justify-center rounded-xl w-10 second-child-bg-color">
+                <SettingsIcon class="w-6 h-6" />
+              </div>
+              <div class="w-full">
+                {{ $t('settings') }}
+              </div>
+            </router-link>
+            <router-link v-if="navigationGuard('view_settings')" to="/corporate-clients" @click="selectPage()"
+              active-class="active"
+              class="relative h-10 flex items-center w-full hover:bg-blue-300/10 hover:text-blue-600 py-5 text-zinc-400 dark:text-zinc-200 text-lg font-medium space-x-4 cursor-pointer transition-colors duration-300">
+              <div class="w-1.5 h-12 rounded-r-xl first-child-bg-color mr-2"></div>
+              <div class="flex h-10 items-center justify-center rounded-xl w-10 second-child-bg-color">
+                <ClientCorpIcon class="w-6 h-6" />
+              </div>
+              <div class="w-full">
+                {{ $t('corporateClients') }}
+              </div>
+            </router-link>
+            <router-link v-if="navigationGuard('view_settings')" to="/clients" @click="selectPage()"
+              active-class="active"
+              class="relative h-10 flex items-center w-full hover:bg-blue-300/10 hover:text-blue-600 py-5 text-zinc-400 dark:text-zinc-200 text-lg font-medium space-x-4 cursor-pointer transition-colors duration-300">
+              <div class="w-1.5 h-12 rounded-r-xl first-child-bg-color mr-2"></div>
+              <div class="flex h-10 items-center justify-center rounded-xl w-10 second-child-bg-color">
+                <ClientIcon class="w-6 h-6" />
+              </div>
+              <div class="w-full">
+                {{ $t('clients') }}
+              </div>
+            </router-link>
+            <router-link v-if="navigationGuard('view_agents')" to="/agents" @click="selectPage()" active-class="active"
+              class="relative h-10 flex items-center w-full hover:bg-blue-300/10 hover:text-blue-600 py-5 text-zinc-400 dark:text-zinc-200 text-lg font-medium space-x-4 cursor-pointer transition-colors duration-300">
+              <div class="w-1.5 h-12 rounded-r-xl first-child-bg-color mr-2"></div>
+              <div class="flex h-10 items-center justify-center rounded-xl w-10 second-child-bg-color">
+                <PhUsersThree class="w-6 h-6" />
+              </div>
+              <div class="w-full">
+                {{ $t('agents') }}
+              </div>
+            </router-link>
+            <router-link v-if="navigationGuard('view_agents')" to="/vouchers" @click="selectPage()"
+              active-class="active"
+              class="relative h-10 flex items-center w-full hover:bg-blue-300/10 hover:text-blue-600 py-5 text-zinc-400 dark:text-zinc-200 text-lg font-medium space-x-4 cursor-pointer transition-colors duration-300">
+              <div class="w-1.5 h-12 rounded-r-xl first-child-bg-color mr-2"></div>
+              <div class="flex h-10 items-center justify-center rounded-xl w-10 second-child-bg-color">
+                <PhUsersThree class="w-6 h-6" />
+              </div>
+              <div class="w-full">
+                {{ $t('vouchers') }}
+              </div>
+            </router-link>
+            <router-link v-if="navigationGuard('view_agents')" to="/price-lists" @click="selectPage()"
+              active-class="active"
+              class="relative h-10 flex items-center w-full hover:bg-blue-300/10 hover:text-blue-600 py-5 text-zinc-400 dark:text-zinc-200 text-lg font-medium space-x-4 cursor-pointer transition-colors duration-300">
+              <div class="w-1.5 h-12 rounded-r-xl first-child-bg-color mr-2"></div>
+              <div class="flex h-10 items-center justify-center rounded-xl w-10 second-child-bg-color">
+                <PhPriceList class="w-6 h-6" />
+              </div>
+              <div class="w-full">
+                {{ $t('priceLists') }}
+              </div>
+            </router-link>
+            <router-link v-if="navigationGuard('view_users')" to="/wishes" @click="selectPage()" active-class="active"
+              class="relative h-10 flex items-center w-full hover:bg-blue-300/10 hover:text-blue-600 py-5 text-zinc-400 dark:text-zinc-200 text-lg font-medium space-x-4 cursor-pointer transition-colors duration-300">
+              <div class="w-1.5 h-12 rounded-r-xl first-child-bg-color mr-2"></div>
+              <div class="flex h-10 items-center justify-center rounded-xl w-10 second-child-bg-color">
+                <FileLinearIcon class="w-6 h-6" />
+              </div>
+              <div class="w-full">
+                {{ $t('wishes') }}
+              </div>
+            </router-link>
+            <router-link v-if="navigationGuard('create_market')" to="/ip-banned" @click="selectPage()"
+              active-class="active"
+              class="relative h-10 flex items-center w-full hover:bg-blue-300/10 hover:text-blue-600 py-5 text-zinc-400 dark:text-zinc-200 text-lg font-medium space-x-4 cursor-pointer transition-colors duration-300">
+              <div class="w-1.5 h-12 rounded-r-xl first-child-bg-color mr-2"></div>
+              <div class="flex h-10 items-center justify-center rounded-xl w-10 second-child-bg-color">
+                <PhLockKey class="w-6 h-6" />
+              </div>
+              <div class="w-full">
+                {{ $t('ipBanned') }}
+              </div>
+            </router-link>
+            <router-link v-if="navigationGuard('view_investors')" to="/investors" @click="selectPage()"
+              active-class="active"
+              class="relative h-10 flex items-center w-full hover:bg-blue-300/10 hover:text-blue-600 py-5 text-zinc-400 dark:text-zinc-200 text-lg font-medium space-x-4 cursor-pointer transition-colors duration-300">
+              <div class="w-1.5 h-12 rounded-r-xl first-child-bg-color mr-2"></div>
+              <div class="flex h-10 items-center justify-center rounded-xl w-10 second-child-bg-color">
+                <InvestorIcon class="w-6 h-6" />
+              </div>
+              <div class="w-full">
+                {{ $t('investors') }}
+              </div>
+            </router-link>
+            <router-link v-if="navigationGuard('view_invests')" to="/invests" @click="selectPage()"
+              active-class="active"
+              class="relative h-10 flex items-center w-full hover:bg-blue-300/10 hover:text-blue-600 py-5 text-zinc-400 dark:text-zinc-200 text-lg font-medium space-x-4 cursor-pointer transition-colors duration-300">
+              <div class="w-1.5 h-12 rounded-r-xl first-child-bg-color mr-2"></div>
+              <div class="flex h-10 items-center justify-center rounded-xl w-10 second-child-bg-color">
+                <InvestIcon class="w-6 h-6" />
+              </div>
+              <div class="w-full">
+                {{ $t('invests') }}
+              </div>
+            </router-link>
+            <router-link v-if="navigationGuard('view_invest_plans')" to="/invest-plans" @click="selectPage()"
+              active-class="active"
+              class="relative h-10 flex items-center w-full hover:bg-blue-300/10 hover:text-blue-600 py-5 text-zinc-400 dark:text-zinc-200 text-lg font-medium space-x-4 cursor-pointer transition-colors duration-300">
+              <div class="w-1.5 h-12 rounded-r-xl first-child-bg-color mr-2"></div>
+              <div class="flex h-10 items-center justify-center rounded-xl w-10 second-child-bg-color">
+                <InvestPlanIcon class="w-6 h-6" />
+              </div>
+              <div class="w-full">
+                {{ $t('investPlans') }}
+              </div>
+            </router-link>
           </div>
           <div class="absolute bottom-32 h-min w-full space-y-4 pb-3 bg-slate-100 dark:bg-slate-900">
             <div class="px-4">
