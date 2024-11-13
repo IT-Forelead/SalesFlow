@@ -443,6 +443,17 @@
   "plsEnterCount": "Soni kiriting",
   "voucherAddedSuccessfully": "Vaucher yaratildi!",
   "errorWhileCreatingVoucher": "Vaucher yaratishda xatolik yuz berdi",
-  "totalProductPrice": "Jami mahsulot narxi",
-  "agentProducts": "Agent mahsulotlar"
+  "totalProductPrice": "Jami mahsulotlar narxi",
+  "agentProducts": "Agent mahsulotlar",
+  "predictStat": "Prognoz qilgan statistika",
+  "predictStatFor": "Prognoz qilgan ",
+  "varietyStat": "Turli-tumanlik statistika",
+  "monthly": "Oylik",
+  "interval": "Interval",
+  "intervalType": "Interval turi",
+  "plsSelectInterval": "Iltimos, intervalni kiriting",
+  "plsSelectIntervalType": "Iltimos, interval turini kiriting",
+  "day": "Kunlik",
+  "week": "Haftalik",
+  "loading": "Loading"
 }
