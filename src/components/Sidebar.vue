@@ -213,7 +213,7 @@ onMounted(() => {
             <div class="flex h-10 items-center justify-center rounded-xl w-10 second-child-bg-color">
               <PhShoppingCart class="w-6 h-6" />
             </div>
-            <div>
+            <div class="w-full">
               {{ $t('efficientProducts') }}
               </div>
             </router-link>
