@@ -2,7 +2,6 @@
 import { onClickOutside } from '@vueuse/core'
 import { onMounted, ref, computed, watch } from 'vue'
 import { useI18n } from 'vue-i18n'
-import i18n from '../../i18n.js'
 import { useDropdownStore } from '../../store/dropdown.store'
 import CaretDownIcon from '../../assets/icons/CaretDownIcon.vue'
 import SunIcon from '../../assets/icons/SunIcon.vue'
@@ -34,43 +33,29 @@ onClickOutside(dropdown, () => {
   useDropdownStore().closeSelectTheme()
 })
 
-const themeTranslate = (theme) => {
-  if (theme === 'light') return 'Light'
-  else if (theme === 'dark') return 'Dark'
-  else return 'light'
-}
-
 const capitalizeFirstLetter = (string) => {
   return string.charAt(0).toUpperCase() + string.slice(1)
 }
 
 const changeTheme = (theme) => {
   currentTheme.value = theme.id
-
   localStorage.setItem('theme', theme.id)
 
+  const app = document.getElementById('app')
+  app.classList.remove('light', 'dark')
+  app.classList.add(theme.id)
+
   useDropdownStore().closeSelectTheme()
-  var x = document.getElementById('app');
-  if (x.classList.contains('light')) {
-    x.classList.remove('light');
-  } else {
-    x.classList.remove('dark');
-  }  
-  x.classList.add(theme.id);
- 
 }
 
 watch(currentTheme, (newValue) => {
-  const theme = list.find((item) => item.id === newValue)
-  document.documentElement.className = theme ? theme.id : 'light'
+  document.documentElement.className = newValue
 })
 
 onMounted(() => {
   const savedTheme = localStorage.getItem('theme')
-  const defaultTheme = list.find((theme) => theme.id === savedTheme)
-  currentTheme.value = defaultTheme ? defaultTheme.id : 'light'
-  const theme = list.find((item) => item.id === currentTheme.value)
-  document.documentElement.className = theme ? theme.id : 'light'
+  currentTheme.value = savedTheme || 'light'
+  document.documentElement.className = currentTheme.value
 })
 </script>
 
@@ -102,6 +87,5 @@ onMounted(() => {
     </ul>
   </div>
 </template>
-
 
 <style scoped></style>

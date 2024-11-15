@@ -98,9 +98,13 @@ const login = () => {
         if (localStorage.getItem('session')) {
           setTimeout(() => {
             if (getRole(useAuthStore().user?.privileges) === t('cashier')) {
-              router.push('/sales')
+              router.push('/sales').then(() => {
+                window.location.reload()
+              })
             } else {
-              router.push('/dashboard')
+              router.push('/dashboard').then(() => {
+                window.location.reload()
+              })
             }
           }, 100)
         }
