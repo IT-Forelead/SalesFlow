@@ -268,7 +268,7 @@ const salesAreaChartOptions = computed(() => {
     },
     chart: {
       height: 350,
-      type: 'area',
+      type: 'bar',
       zoom: {
         enabled: false,
       },
@@ -668,49 +668,6 @@ const submitTurnoverStatsFilterData = () => {
     })
   }
 }
-
-onMounted(() => {
-  getSoldProductPrice()
-  getOrdersStatsFinal()
-  OrderService.getCashierStats()
-    .then((res) => {
-      cashiersStat.value = res
-    })
-  OrderService.getTurnoverStats({
-    from: moment().subtract(30, 'days').startOf('day').format().toString().slice(0, 10),
-    to: moment().startOf('day').format().toString().slice(0, 10),
-  }).then((res) => {
-    turnoverStats.value = res
-  })
-  OrderService.getHourlySales()
-    .then((res) => {
-      const hours = Array.from({ length: 18 }, (_, i) => i + 7);
-      const revenueByHour = res.reduce((acc, item) => {
-        acc[item.hour] = item.revenue;
-        return acc;
-      }, {});
-      const completeHourlySales = hours.map(hour => ({
-        hour: hour === 24 ? '0' : hour.toString(),
-        revenue: revenueByHour[hour] || 0
-      }));
-      hourlySales.value = completeHourlySales;
-    })
-    .catch(error => {
-      console.error(error);
-    });
-  CashbackService.getCashbackRedeems()
-    .then((res) => {
-      cashbackRedeems.value = res
-    })
-  ProductService.getProductStats()
-    .then((res) => {
-      productStats.value = res
-    })
-  getSells()
-  getProfits()
-  getRevenues()
-  getWorstSells()
-})
 
 watch(
   () => salesChartFilterData.value,
@@ -1283,20 +1240,18 @@ const monthStatsAreaChartOptions = computed(() => {
 })
 
 onMounted(() => {
-  getSoldProductPrice()
-  getOrdersStatsFinal()
   OrderService.getCashierStats()
     .then((res) => {
       cashiersStat.value = res
     })
-
-  OrderService.getPredictStats(pageSize).then((res) => {
-    predictStats.value = res
-  })
-  OrderService.getMonthStats(pageSize).then((res) => {
-    monthStats.value = res
-  })
-
+  OrderService.getPredictStats(pageSize)
+    .then((res) => {
+      predictStats.value = res
+    })
+  OrderService.getMonthStats(pageSize)
+    .then((res) => {
+      monthStats.value = res
+    })
   ProductService.getVarietyStats({
     startDate: moment().subtract(30, 'days').startOf('day').format().toString().slice(0, 10),
     endDate: moment().startOf('day').format().toString().slice(0, 10),
@@ -1305,7 +1260,19 @@ onMounted(() => {
   }).then((res) => {
     varietyStats.value = res
   })
-
+  ProductService.getRecommendStats({
+    intervalType: "week",
+    limit: 4
+  }).then((res) => {
+    console.log(res)
+    recommendStats.value = res
+  })
+  OrderService.getTurnoverStats({
+    from: moment().subtract(30, 'days').startOf('day').format().toString().slice(0, 10),
+    to: moment().startOf('day').format().toString().slice(0, 10),
+  }).then((res) => {
+    turnoverStats.value = res
+  })
   OrderService.getHourlySales()
     .then((res) => {
       const hours = Array.from({ length: 18 }, (_, i) => i + 7);
@@ -1321,7 +1288,7 @@ onMounted(() => {
     })
     .catch(error => {
       console.error(error);
-    });
+    })
   CashbackService.getCashbackRedeems()
     .then((res) => {
       cashbackRedeems.value = res
@@ -1334,6 +1301,8 @@ onMounted(() => {
   getProfits()
   getRevenues()
   getWorstSells()
+  getSoldProductPrice()
+  getOrdersStatsFinal()
 })
 
 watch(
@@ -1345,6 +1314,152 @@ watch(
   },
   { deep: true },
 )
+
+const recommendDropdown = ref(null)
+const recommendStats = ref([])
+
+
+const filterRecommendData = reactive({
+  intervalType: "",
+  limit: 0,
+})
+
+const cleanFilterRecommendData = () => {
+  filterRecommendData.intervalType = ""
+  filterRecommendData.limit = 0
+}
+
+onClickOutside(recommendDropdown, () => {
+  if (useDropdownStore().isOpenRecommendFilterBy) {
+    useDropdownStore().toggleRecommendFilterBy()
+    console.log(useDropdownStore().isOpenRecommendFilterBy)
+  }
+})
+
+const submitRecommendStatsFilterData = () => {
+  if (!filterRecommendData.intervalType) {
+    toast.warning(t('plsSelectIntervalType'))
+  } else if (!filterRecommendData.limit) {
+    toast.warning(t('plsSelectLimit'))
+  } else {
+    isLoading.value = true
+    ProductService.getRecommendStats({
+      intervalType: filterRecommendData.intervalType,
+      limit: filterRecommendData.limit,
+    }).then((res) => {
+      recommendStats.value = res
+      isLoading.value = false
+      if (useDropdownStore().isOpenRecommendFilterBy) {
+        useDropdownStore().toggleRecommendFilterBy()
+      }
+    }).catch(() => {
+      isLoading.value = false
+    })
+  }
+}
+
+onClickOutside(recommendDropdown, () => {
+  if (useDropdownStore().isOpenRecommendFilterBy) {
+    useDropdownStore().toggleRecommendFilterBy()
+    console.log(useDropdownStore().isOpenRecommendFilterBy)
+  }
+})
+
+
+onClickOutside(recommendDropdown, () => {
+  if (useDropdownStore().isOpenRecommendFilterBy) {
+    useDropdownStore().toggleRecommendFilterBy()
+    console.log(useDropdownStore().isOpenRecommendFilterBy)
+  }
+})
+
+
+const recommendStatsChartSeries = computed(() => [
+  {
+    name: 'productTypeCount',
+    data: recommendStats.value?.map((item) => item.totalAmount),
+  },
+])
+
+const recommendStatsAreaChartOptions = computed(() => {
+  return {
+    legend: {
+      labels: {
+        colors: 'rgb(128, 128, 128)',
+      },
+    },
+    chart: {
+      height: 350,
+      type: 'bar',
+      zoom: {
+        enabled: false,
+      },
+      toolbar: {
+        show: false,
+      },
+    },
+    dataLabels: {
+      enabled: false,
+    },
+    stroke: {
+      curve: 'smooth',
+    },
+    xaxis: {
+      categories: recommendStats.value?.map((item) => item.productName),
+      type: 'date',
+      labels: {
+        style: {
+          fontSize: '12px',
+          colors: '#4a90e2',
+        },
+
+      },
+      tooltip: {
+        enabled: true,
+      },
+      axisBorder: {
+        show: false,
+      },
+      axisTicks: {
+        show: false,
+      },
+    },
+    yaxis: {
+      tickAmount: 6,
+      floating: false,
+      labels: {
+        show: true,
+        formatter: function (val) {
+          return Math.round(val);
+        },
+        style: {
+          colors: '#4a90e2',
+        },
+        offsetY: 0,
+        offsetX: 0,
+      },
+      axisBorder: {
+        show: false,
+      },
+      axisTicks: {
+        show: true,
+      },
+    },
+    fill: {
+      opacity: 0.5,
+    },
+    grid: {
+      yaxis: {
+        lines: {
+          offsetX: -30,
+        },
+      },
+      padding: {
+        left: 20,
+      },
+    },
+  }
+})
 </script>
 
 <template>
@@ -1743,12 +1858,12 @@ watch(
               </div>
               <div v-if="salesChartFilterData === 6" class="text-sm text-gray-600 dark:text-white">
                 {{ $t('beginStatText') }}
-                <span class="font-bold">{{ 10 + $t('days') }}</span>
+                <span class="font-bold lowercase">{{ $t('week') }}</span>
                 {{ $t('endStatText') }}
               </div>
               <div v-else class="text-sm text-gray-600 dark:text-white">
                 {{ $t('beginStatText') }}
-                <span class="font-bold">{{ 30 + $t('days') }}</span>
+                <span class="font-bold lowercase">{{ $t('monthly') }}</span>
                 {{ $t('endStatText') }}
               </div>
             </div>
@@ -1769,7 +1884,7 @@ watch(
             </apexchart>
           </div>
           <div v-else>
-            <apexchart type="area" height="320" :options="salesAreaChartOptions" :series="profitChartSeries">
+            <apexchart type="bar" height="320" :options="salesAreaChartOptions" :series="profitChartSeries">
             </apexchart>
           </div>
         </div>
@@ -1781,7 +1896,7 @@ watch(
               </div>
               <div class="text-sm text-gray-600 dark:text-white">
                 {{ $t('beginStatText') }}
-                <span class="font-bold">{{ 10 + $t('days') }}</span>
+                <span class="font-bold">{{ 7 + $t('days') }}</span>
                 {{ $t('endStatText') }}
               </div>
             </div>
@@ -1964,7 +2079,98 @@ watch(
         </div>
       </div>
     </div>
+    <div class="p-5 flex flex-1 rounded-3xl bg-slate-100 dark:bg-slate-900  flex-col space-y-4">
+      <div class="space-y-4">
+        <div class="flex items-center justify-between">
+          <div class="space-y-0.5 flex">
+            <div class="text-base md:text-xl font-semibold ">
+              {{ $t('recommendProducts') }}
+            </div>
+          </div>
 
+
+
+        </div>
+        <div class="flex w-full justify-between">
+
+          <div class="text-sm text-gray-600 dark:text-white">
+            {{ $t('beginStatText') }}
+            <span class="font-bold lowercase">
+              {{
+                filterRecommendData.intervalType === 'day' ? $t('days') :
+                  filterRecommendData.intervalType === 'week' ? $t('week') :
+                    filterRecommendData.intervalType === 'month' ? $t('monthly') :
+                      filterRecommendData.intervalType === 'year' ? $t('year') :
+                        $t('monthly')
+              }}
+            </span>
+            {{ $t('endStatText') }}
+          </div>
+          <div class="relative" ref="recommendDropdown">
+            <div @click="useDropdownStore().toggleRecommendFilterBy()"
+              class="border-none w-40 select-none text-gray-900 bg-white dark:text-zinc-200 dark:bg-slate-800 shadow rounded-lg p-2 px-5 flex items-center hover:bg-gray-100 cursor-pointer space-x-1">
+              <FunnelIcon class="w-5 h-5 dark:text-zinc-50 text-gray-400" />
+              <span>{{ $t('filter') }}</span>
+            </div>
+            <div v-if="useDropdownStore().isOpenRecommendFilterBy"
+              class="absolute dark:bg-slate-800  w-80  bg-white shadow rounded-xl  p-3 z-20 top-12 right-0 space-y-3">
+              <div class=" items-center space-x-1">
+                <div class="flex">
+                </div>
+                <div class="flex justify-between space-x-4"><label for="" class="dark:text-white w-1/2">
+                    {{ $t('interval') }}
+                    <input v-model="filterRecommendData.limit" type="number" min="0"
+                      class="border-none text-gray-500 bg-gray-100 rounded-lg     dark:bg-slate-600 dark:text-white w-full" />
+                  </label>
+                  <label for="" class="dark:text-white w-1/2">
+                    {{ $t('intervalType') }}
+                    <select v-model="filterRecommendData.intervalType"
+                      class="bg-blue-100 dark:bg-slate-600 border-none text-slate-900 dark:text-white rounded-lg text-base md:text-lg block w-full h-11">
+                      <option value="day">
+                        {{ $t('day') }}
+                      </option>
+                      <option value="week">
+                        {{ $t('week') }}
+                      </option>
+                      <option value="month">
+                        {{ $t('month') }}
+                      </option>
+                      <option value="year">
+                        {{ $t('year') }}
+                      </option>
+                    </select>
+                  </label>
+                </div>
+              </div>
+              <div class="flex items-center space-x-2">
+                <div @click="cleanFilterRecommendData()"
+                  class="basis-1/3 w-full bg-slate-100 hover:bg-slate-300 cursor-pointer select-none py-3 rounded-lg flex items-center justify-center">
+                  <span>{{ $t('cleaning') }}</span>
+                </div>
+                <div class="basis-2/3">
+                  <div v-if="isLoading"
+                    class="w-full bg-blue-600 py-3 select-none text-white rounded-lg flex items-center justify-center">
+                    <Spinners270RingIcon
+                      class="mr-2 w-5 h-5 text-gray-200 animate-spin fill-gray-600 dark:fill-gray-300" />
+                    <span>{{ $t('loading') }}</span>
+                  </div>
+                  <div v-else @click="submitRecommendStatsFilterData()"
+                    class="w-full bg-blue-500 hover:bg-blue-600 cursor-pointer select-none py-3 text-white rounded-lg flex items-center justify-center">
+                    <span>{{ $t('filter') }}</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <apexchart type="bar" height="320" :options="recommendStatsAreaChartOptions"
+          :series="recommendStatsChartSeries">
+        </apexchart>
+      </div>
+
+
+    </div>
     <div class="flex-1 bg-slate-100 dark:bg-slate-900 rounded-3xl p-5">
       <div class="flex flex-col md:flex-row md:items-center md:justify-between px-2 space-y-3 md:space-y-0">
         <div>

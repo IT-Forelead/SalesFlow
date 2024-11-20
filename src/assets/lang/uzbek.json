@@ -455,5 +455,13 @@
   "plsSelectIntervalType": "Iltimos, interval turini kiriting",
   "day": "Kunlik",
   "week": "Haftalik",
-  "loading": "Loading"
+  "loading": "Loading",
+  "recommendStat": "Rekomendatsiya",
+  "limit": "Limit",
+  "recommendProducts": "Rekomendatsiya",
+  "totalOrders": "Total orders",
+  "totalRevenue": "Total revenue",
+  "totalProfit": "Total profit",
+  "left": "Left"
+
 }
