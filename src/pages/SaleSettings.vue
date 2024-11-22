@@ -336,22 +336,22 @@ const createMinimalPriceSettings = () => {
 }
 
 .dark .p-tabview-panels {
-  background-color: rgb(55 65 81) !important;
-  color: rgb(245, 245, 245) !important;
+  background-color: rgb(15 23 42) !important;
+  color: rgb(241 245 249) !important;
 }
 
 .dark .p-tabview-panels * {
-  color: rgb(55 65 81) !important;
-  color: rgb(245, 245, 245) !important;
+  color: rgb(15 23 42) !important;
+  color: rgb(241 245 249) !important;
 }
 
 .dark .p-tabview-nav-content * {
-  background-color: rgb(55 65 81) !important;
-  color: rgb(245, 245, 245) !important;
+  background-color: rgb(15 23 42) !important;
+  color: rgb(148 163 184) !important;
 }
 
 .dark .p-tabview-nav-content {
-  background-color: rgb(55 65 81) !important;
-  color: rgb(245, 245, 245) !important;
+  background-color: rgb(15 23 42) !important;
+  color: rgb(148 163 184) !important;
 }
 </style>
