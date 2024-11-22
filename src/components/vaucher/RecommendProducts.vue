@@ -1,5 +1,5 @@
 <script setup>
-import { computed, h, ref, reactive } from 'vue'
+import { computed, h, ref, reactive, onMounted } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { useProductStore } from '../../store/product.store.js'
 import { useModalStore } from '../../store/modal.store.js'
@@ -11,14 +11,13 @@ import FunnelIcon from '../../assets/icons/FunnelIcon.vue'
 import TrashIcon from '../../assets/icons/TrashIcon.vue'
 import { onClickOutside } from '@vueuse/core'
 import CTable from '../common/CTable.vue'
-import { onMounted } from 'vue'
 
 const { t } = useI18n()
 const isLoading = ref(false)
 const globalSearchFromTable = ref('')
-const productStore = useProductStore()
-const recommendProducts = computed(() => productStore.recommendProducts)
-const renderKey = computed(() => productStore.renderKey)
+const productStats = ref('')
+const recommendProducts = computed(() => useProductStore().recommendProducts)
+const renderKey = computed(() => useProductStore().renderKey)
 
 const columns = [
   {
@@ -32,8 +31,8 @@ const columns = [
     header: t('productName')
   },
   {
-    accessorKey: 'amount',
-    header: t('amount'),
+    accessorKey: 'totalAmount',
+    header: t('totalAmount'),
   },
   {
     accessorKey: 'saleType',
@@ -77,8 +76,8 @@ const openDeleteRecommendProductModal = (data) => {
 }
 
 const filterRecommendData = reactive({
-  intervalType: "",
-  limit: 0,
+  intervalType: useProductStore().intervalType,
+  limit: useProductStore().limit,
 })
 
 const cleanFilterRecommendData = () => {
@@ -93,14 +92,14 @@ const submitRecommendStatsFilterData = () => {
     toast.warning(t('plsSelectLimit'))
   } else {
     isLoading.value = true
-    productStore.setIntervalType(filterRecommendData.intervalType)
-    productStore.setLimit(filterRecommendData.limit)
+    useProductStore().setIntervalType(filterRecommendData.intervalType)
+    useProductStore().setLimit(filterRecommendData.limit)
     ProductService.getRecommendStats({
       intervalType: filterRecommendData.intervalType,
       limit: filterRecommendData.limit,
     }).then((res) => {
-      productStore.clearStore()
-      productStore.setRecommendProducts(res)
+      useProductStore().clearStore()
+      useProductStore().setRecommendProducts(res)
       console.log(recommendProducts.value);
 
       isLoading.value = false
@@ -122,47 +121,30 @@ const getRecommendStats = () => {
     }
   )
     .then((res) => {
-      productStore.setRecommendProducts(res)
+      useProductStore().clearStore()
+      useProductStore().setRecommendProducts(res)
     }).finally(() => {
       isLoading.value = false
     })
 }
-getRecommendStats()
 
-const recommendDropdown = ref(null)
-const recommendStats = ref([])
+onMounted(() => {
+  cleanFilterRecommendData
+  getRecommendStats()
+  ProductService.getProductStats()
+    .then((res) => {
+      productStats.value = res
+    })
+})
+
+const recommendDropdown = ref()
 
 onClickOutside(recommendDropdown, () => {
   if (useDropdownStore().isOpenRecommendFilterBy) {
     useDropdownStore().toggleRecommendFilterBy()
-    console.log(useDropdownStore().isOpenRecommendFilterBy)
   }
-
-  onMounted(() => {
-
-    ProductService.getRecommendStats({
-      intervalType: filterRecommendData.intervalType,
-      limit: filterRecommendData.limit
-    }).then((res) => {
-      console.log(res)
-      recommendStats.value = res
-    })
-    ProductService.getProductStats()
-      .then((res) => {
-        productStats.value = res
-      })
-  })
 })
-
-ProductService.getRecommendStats({ intervalType: filterRecommendData.intervalType, limit: filterRecommendData.limit })
-  .then((res) => {
-    console.log(res)
-    productStore.setRecommendProducts(res)
-  }).finally(() => {
-    isLoading.value = false
-  })
 </script>
-
 
 <template>
   <div class="text-slate-900 text-2xl md:text-3xl font-semibold mb-6">

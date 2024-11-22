@@ -18,6 +18,7 @@ import { shortenNumber } from '../mixins/utils'
 import OrderService from '../services/order.service'
 import ProductService from '../services/product.service'
 import { useDropdownStore } from '../store/dropdown.store'
+import { useProductStore } from '../store/product.store'
 import CaretDoubleLeftIcon from '@/assets/icons/CaretDoubleLeftIcon.vue'
 import CaretLeftIcon from '@/assets/icons/CaretLeftIcon.vue'
 import CaretRightIcon from '@/assets/icons/CaretRightIcon.vue'
@@ -1261,8 +1262,8 @@ onMounted(() => {
     varietyStats.value = res
   })
   ProductService.getRecommendStats({
-    intervalType: "week",
-    limit: 4
+    intervalType: useProductStore().intervalType,
+    limit: useProductStore().limit
   }).then((res) => {
     console.log(res)
     recommendStats.value = res
@@ -1320,8 +1321,8 @@ const recommendStats = ref([])
 
 
 const filterRecommendData = reactive({
-  intervalType: "",
-  limit: 0,
+  intervalType: useProductStore().intervalType,
+  limit: useProductStore().limit
 })
 
 const cleanFilterRecommendData = () => {
@@ -1376,7 +1377,7 @@ onClickOutside(recommendDropdown, () => {
 
 const recommendStatsChartSeries = computed(() => [
   {
-    name: 'productTypeCount',
+    name: 'Jami miqdori',
     data: recommendStats.value?.map((item) => item.totalAmount),
   },
 ])
@@ -2087,9 +2088,6 @@ const recommendStatsAreaChartOptions = computed(() => {
               {{ $t('recommendProducts') }}
             </div>
           </div>
-
-
-
         </div>
         <div class="flex w-full justify-between">
 
@@ -2118,7 +2116,7 @@ const recommendStatsAreaChartOptions = computed(() => {
                 <div class="flex">
                 </div>
                 <div class="flex justify-between space-x-4"><label for="" class="dark:text-white w-1/2">
-                    {{ $t('interval') }}
+                    {{ $t('limit') }}
                     <input v-model="filterRecommendData.limit" type="number" min="0"
                       class="border-none text-gray-500 bg-gray-100 rounded-lg     dark:bg-slate-600 dark:text-white w-full" />
                   </label>

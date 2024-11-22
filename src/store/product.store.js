@@ -15,8 +15,8 @@ export const useProductStore = defineStore('product', {
     barcodeDuplicates: [],
     selectedDuplicates:{},
     renderKey: 0,
-    intervalType: 'week',
-    limit: 4
+    intervalType: 'month',
+    limit: 7
   }),
   actions: {
     setProducts(data) {
@@ -50,6 +50,8 @@ export const useProductStore = defineStore('product', {
       this.intervalType = data
     },
     clearStore() {
+      this.intervalType = 'month'
+      this.limit = 7
       this.products = []
       this.recommendProducts = []
       this.productBarcodes = []

@@ -13,33 +13,32 @@ const { t } = useI18n()
 
 const isLoading = ref(false)
 
-const productStore = useProductStore()
 const closeModal = () => {
   useModalStore().closeDeleteRecommendProductModal()
-  productStore.setSelectedProduct({})
+  useProductStore().setSelectedProduct({})
 }
 
 const hideRecommendProduct = () => {
-  ProductService.hideRecommendProduct(productStore.selectedProduct.productId)
+  ProductService.hideRecommendProduct(useProductStore().selectedProduct.productId)
     .then(() => {
-      toast.success(t('successssssssssssssssssss'))
+      toast.success(t('recommendDeletedSuccessfully'))
       ProductService.getRecommendStats(
         {
-          intervalType: productStore.intervalType,
-          limit: productStore.limit
+          intervalType: useProductStore().intervalType,
+          limit: useProductStore().limit
         }
       )
         .then((res) => {
-          productStore.clearStore()
-          productStore.setRecommendProducts(res)
+          useProductStore().clearStore()
+          useProductStore().setRecommendProducts(res)
           closeModal()
-          console.log(productStore.recommendProducts);
+          console.log(useProductStore().recommendProducts);
 
-          productStore.renderKey += 1
+          useProductStore().renderKey += 1
 
         })
         .catch(() => {
-          toast.error(t('errrrrrrrrrrrrrrrrrrrrrrr'))
+          toast.error(t('errorWhileDeletingRecommend'))
           isLoading.value = false
         })
         .finally(() => {
