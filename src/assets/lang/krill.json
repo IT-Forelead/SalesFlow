@@ -452,5 +452,16 @@
   "plsSelectIntervalType": "Илтимос, интервал турини киритинг",
   "day": "Кунлик",
   "week": "Ҳафталик",
-  "loading": "Loading"
+  "loading": "Юкланмоқда",
+  "recommendStat": "Тавсия статистика",
+  "limit": "Лимит",
+  "recommendProducts": "Тавсия маҳсулотлар",
+  "totalAmount": "Жами миқдорни",
+  "totalOrders": "Жами буюртма",
+  "totalRevenue": "Жами даромад",
+  "totalProfit": "Жами фойда",
+  "left": "Доконда мавжуд",
+  "deleteRecommend": "Тавсия ўчириш",
+  "recommendDeletedSuccessfully": "Тавсия махсулот ўчирилди",
+  "errorWhileDeletingRecommend": "Тавсия махсулот ўчириш хатолик юз берди"
 }

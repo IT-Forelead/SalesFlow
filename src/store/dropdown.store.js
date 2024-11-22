@@ -12,6 +12,7 @@ export const useDropdownStore = defineStore('dropdown', {
     isOpenVarietyFilterBy: false,
     isOpenMonthFilterBy: false,
     isOpenPredictFilterBy: false,
+    isOpenRecommendFilterBy: false,
   }),
   actions: {
     setSelectOptionAgent(data) {
@@ -51,6 +52,8 @@ export const useDropdownStore = defineStore('dropdown', {
     toggleMonthFilterBy() {
       this.isOpenMonthFilterBy = !this.isOpenMonthFilterBy
     },
-
+    toggleRecommendFilterBy() {
+      this.isOpenRecommendFilterBy = !this.isOpenRecommendFilterBy
+    },
   }
 })

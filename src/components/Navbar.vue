@@ -45,6 +45,7 @@ import CashbackHistoryModal from './modals/CashbackHistoryModal.vue'
 import CreatePriceModal from './modals/CreatePriceModal.vue'
 import CreateVoucherModal from './modals/CreateVoucherModal.vue'
 import AgentInfoModal from './modals/AgentInfoModal.vue'
+import DeleteRecommendProduct from './modals/DeleteRecommendProduct.vue'
 
 const notificationDropdown = ref(null)
 
@@ -99,7 +100,7 @@ onUnmounted(() => {
         <HamburgerMenuOutlineIcon class="w-6 h-6" />
       </div>
       <div v-else-if="useSidebarStore().isOpenSidebar" @click="openSidebar"
-           class="flex items-center justify-center w-8 h-8 rounded-lg cursor-pointer hover:bg-gray-100">
+        class="flex items-center justify-center w-8 h-8 rounded-lg cursor-pointer hover:bg-gray-100">
         <HamburgerMenuOutlineIcon class="w-6 h-6" />
       </div>
       <div class="flex space-x-1 items-center justify-center">
@@ -121,23 +122,23 @@ onUnmounted(() => {
   <OrderInfoModal />
   <EditMarketModal />
   <DeleteMarketModal />
-  <DeleteProductModal/>
-  <EditProductModal/>
-  <DeleteProductHistoryModal/>
-  <EditProductHistoryModal/>
-  <EditUserModal/>
-  <DeleteUserModal/>
-  <EditProductBarcodeModal/>
-  <CameraScannerModal/>
-  <DeleteCorporateClientModal/>
+  <DeleteProductModal />
+  <EditProductModal />
+  <DeleteProductHistoryModal />
+  <EditProductHistoryModal />
+  <EditUserModal />
+  <DeleteUserModal />
+  <EditProductBarcodeModal />
+  <CameraScannerModal />
+  <DeleteCorporateClientModal />
   <ClientInfoModal />
-  <CreateLabelModal/>
-  <CreateAgentModal/>
-  <EditAgentModal/>
-  <CreateTelegramBotModal/>
-  <CreateHolidayDiscountModal/>
-  <DiscountInfoModal/>
-  <DeleteHolidayDiscountModal/>
+  <CreateLabelModal />
+  <CreateAgentModal />
+  <EditAgentModal />
+  <CreateTelegramBotModal />
+  <CreateHolidayDiscountModal />
+  <DiscountInfoModal />
+  <DeleteHolidayDiscountModal />
   <EditUpcomingProductStatusModal />
   <DeleteTelegramBotModal />
   <EditTelegramBotModal />
@@ -154,6 +155,7 @@ onUnmounted(() => {
   <CreatePriceModal />
   <CreateVoucherModal />
   <AgentInfoModal />
+  <DeleteRecommendProduct />
 </template>
 
 <style scoped></style>

@@ -455,5 +455,16 @@
   "plsSelectIntervalType": "Iltimos, interval turini kiriting",
   "day": "Kunlik",
   "week": "Haftalik",
-  "loading": "Loading"
+  "loading": "Yuklanmoqda",
+  "recommendStat": "Tavsiya statistika",
+  "limit": "Limit",
+  "recommendProducts": "Tavsiya mahsulotlar",
+  "totalAmount": "Jami miqdori",
+  "totalOrders": "Jami buyurtma",
+  "totalRevenue": "Jami daromad",
+  "totalProfit": "Jami foyda",
+  "left": "Dokonda mavjud",
+  "recommendDeletingAgent": "Tavsiya o'chirish",
+  "recommendDeletedSuccessfully": "Tavsiya mahsulot o'chirildi",
+  "errorWhileDeletingRecommend": "Tavsiya mahsulot o'chirish xatolik yuz berdi"
 }
