@@ -3,6 +3,7 @@ import { defineStore } from 'pinia'
 export const useProductStore = defineStore('product', {
   state: () => ({
     products: [],
+    recommendProducts: [],
     total:0,
     currentPage: 1,
     barcodesTotal:0,
@@ -13,10 +14,16 @@ export const useProductStore = defineStore('product', {
     searchFilter:{},
     barcodeDuplicates: [],
     selectedDuplicates:{},
+    renderKey: 0,
+    intervalType: 'month',
+    limit: 7
   }),
   actions: {
     setProducts(data) {
       this.products.push(...data)
+    },
+    setRecommendProducts(data) {
+      this.recommendProducts.push(...data)
     },
     setProductBarcodes(data) {
       this.productBarcodes.push(...data)
@@ -36,8 +43,17 @@ export const useProductStore = defineStore('product', {
     setSelectedDuplicates(data) {
       this.selectedDuplicates = data
     },
+    setLimit(data) {
+      this.limit = data
+    },
+    setIntervalType(data) {
+      this.intervalType = data
+    },
     clearStore() {
+      this.intervalType = 'month'
+      this.limit = 7
       this.products = []
+      this.recommendProducts = []
       this.productBarcodes = []
       this.barcodeDuplicates = []
       this.selectedBarcodes = {}

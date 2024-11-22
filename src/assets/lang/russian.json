@@ -455,5 +455,16 @@
   "plsSelectIntervalType": "Пожалуйста. введите тип интервала",
   "day": "День",
   "week": "Неделя",
-  "loading": "Загрузка"
+  "loading": "Загрузка",
+  "recommendStat": "Статистика рекомендации",
+  "limit": "Limit",
+  "recommendProducts": "Рекомендованные продукты",
+  "totalAmount": "Общая сумма",
+  "totalOrders": "Количество заказов",
+  "totalRevenue": "Общий доход",
+  "totalProfit": "Общая прибыль",
+  "left": "Осталось",
+  "deleteRecommend": "Удалить рекомендацию",
+  "recommendDeletedSuccessfully": "Рекомендация удалена",
+  "errorWhileDeletingRecommend": "Ошибка при удалении рекомендации"
 }
