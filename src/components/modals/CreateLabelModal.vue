@@ -229,7 +229,7 @@ watch(
                   <ImageIcon class="text-gray-500 dark:text-zinc-300 w-8 h-8" />
                 </div>
                 <div>
-                  <div class="text-base font-semibold text-gray-800">
+                  <div class="text-base font-semibold text-gray-800 dark:text-gray-200">
                     {{ product?.name + ' - ' + product?.packaging }}
                   </div>
                   <div class="text-base font-medium text-gray-500 dark:text-zinc-300">
@@ -237,7 +237,7 @@ watch(
                   </div>
                 </div>
               </div>
-              <div class="text-base font-semibold text-gray-800">
+              <div class="text-base font-semibold text-gray-800 dark:text-gray-200">
                 {{ product?.barcode }}
               </div>
             </div>
