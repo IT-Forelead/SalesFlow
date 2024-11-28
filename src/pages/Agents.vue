@@ -12,6 +12,7 @@ import { useI18n } from 'vue-i18n'
 import { useAgentStore } from '../store/agent.store.js'
 import AgentService from '../services/agent.service.js'
 import ProductService from '../services/product.service.js'
+import UploadIcon from '../assets/icons/UploadIcon.vue'
 
 const { t } = useI18n()
 const agentStore = useAgentStore()
@@ -72,6 +73,9 @@ const columns = [
       h('button', { onClick: () => { openAgentInfo(row.original) } }, [
         h(EyeIcon, { class: 'w-6 h-6 dark:text-blue-400 text-blue-600 hover:scale-105' })
       ]),
+      h('button', { onClick: () => { openOfferProducts(row.original) } }, [
+        h(UploadIcon, { class: 'w-6 h-6 dark:text-blue-400 text-blue-600 hover:scale-105' })
+      ]),
     ]),
     enableSorting: false,
   },
@@ -89,6 +93,16 @@ const openAgentInfo = (data) => {
     useAgentStore().setAgentsProducts(res.data)
     console.log(res.data);
     useModalStore().openAgentInfoModal()
+  })
+}
+
+const openOfferProducts = (data) => {
+  ProductService.getProductsDetails({ agentId: data.id }).then((res) => {
+    console.log(res);
+    useAgentStore().clearStore()
+    useAgentStore().setAgentsProducts(res.data)
+    console.log(res.data);
+    useModalStore().openOfferProductsModal()
   })
 }
 

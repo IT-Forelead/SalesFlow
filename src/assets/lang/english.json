@@ -461,5 +461,6 @@
   "left": "Left",
   "recommendDeletingAgent": "Recommend deleting agent",
   "recommendDeletedSuccessfully": "Recommend deleted successfully",
-  "errorWhileDeletingRecommend": "Error while deleting recommend"
+  "errorWhileDeletingRecommend": "Error while deleting recommend",
+  "offerProducts": "Requested"
 }

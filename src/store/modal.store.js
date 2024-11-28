@@ -52,7 +52,10 @@ export const useModalStore = defineStore('modal', {
     isOpenImageModal: false,
     isOpenCreateVoucherModal: false,
     isOpenAgentInfoModal: false,
-    isOpenDeleteRecommendProductModal: false
+    isOpenDeleteRecommendProductModal: false,
+    // isOpenOfferProductsModal: false,
+    // isOpenOfferProductsModal: false,
+    isOpenOfferProductsModal: false
   }),
   actions: {
     openEditTelegramBotModal() {
@@ -348,6 +351,24 @@ export const useModalStore = defineStore('modal', {
     },
     closeDeleteRecommendProductModal() {
       this.isOpenDeleteRecommendProductModal = false
-    }
+    },
+    openOfferProductsModal() {
+      this.isOpenOfferProductsModal = true
+    },
+    closeOfferProductsModal() {
+      this.isOpenOfferProductsModal = false
+    },
+    // openOfferProductsModal() {
+    //   this.isOpenOfferProductsModal = true
+    // },
+    // closeOfferProductsModal() {
+    //   this.isOpenOfferProductsModal = false
+    // },
+    // openOfferProductsModal() {
+    //   this.isOpenOfferProductsModal = true
+    // },
+    // closeOfferProductsModal() {
+    //   this.isOpenOfferProductsModal = false
+    // }
   }
 })

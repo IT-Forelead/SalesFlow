@@ -3,7 +3,7 @@
   "dashboard": "Главная",
   "products": "Продукты",
   "productsHistory": "История продуктов",
-  "sale": "Распродажа",
+  "sale": "Продажа",
   "sales": "Продажи",
   "shops": "Магазины",
   "users": "Пользователи",
@@ -466,5 +466,6 @@
   "left": "Осталось",
   "deleteRecommend": "Удалить рекомендацию",
   "recommendDeletedSuccessfully": "Рекомендация удалена",
-  "errorWhileDeletingRecommend": "Ошибка при удалении рекомендации"
+  "errorWhileDeletingRecommend": "Ошибка при удалении рекомендации",
+  "offerProducts": "Requested"
 }
