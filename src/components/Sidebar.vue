@@ -395,7 +395,7 @@ const restoreInvestPlansFromOthers = () => {
         </div>
         <ProfileDropDown />
         <div class="max-h-svh flex pb-[18rem] flex-col">
-          <div class="relative space-y-1 py-1 overflow-auto md:max-h-screen">
+          <div class="relative space-y-1 py-1 overflow-y-auto overflow-x-hidden md:max-h-screen">
             <div class="flex w-full justicy-between" v-if="dashboardVisible">
             <router-link v-if="navigationGuard('dashboard')" to="/dashboard" @click="selectPage()" active-class="active"
               class="relative h-10 flex items-center w-full hover:bg-blue-300/10 hover:text-blue-600 py-5 text-zinc-400 dark:text-zinc-200 text-lg font-medium space-x-4 cursor-pointer transition-colors duration-300">
@@ -756,7 +756,6 @@ const restoreInvestPlansFromOthers = () => {
               Скрыть
             </button>
           </div>
-          </div>
           <details v-if="!investsVisible || !investPlansVisible || !investorsVisible || !ipBannedVisible || !wishesVisible || !priceListsVisible || !vouchersVisible || !agentsVisible || !clientsVisible || !corporateClientsVisible || !saleSettingsVisible || !barcodeDuplicatesVisible || !productBarcodesVisible || !usersVisible || !marketsVisible || !ordersVisible || !cashbackHistoriesVisible || !discountVisible || !upcomingProductsVisible || !incomeExpenseVisible || !productsVisible || !saleVisible || !dashboardVisible" class="mt-4">
             <summary class="cursor-pointer py-2 text-lg font-medium pl-12 text-zinc-400 dark:text-zinc-200">
               Others
@@ -1017,6 +1016,7 @@ const restoreInvestPlansFromOthers = () => {
               </div>
             </div>
             </details>
+          </div>
           <div class="absolute bottom-32 h-min w-full space-y-4 pb-3 bg-slate-100 dark:bg-slate-900">
             <div class="px-4">
               <button @click="toggleWishToBuyProductModal"
