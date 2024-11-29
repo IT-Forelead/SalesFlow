@@ -14,4 +14,4 @@ export const useSidebarStore = defineStore('sidebar', {
       localStorage.setItem('isOpenSidebar', JSON.stringify(this.isOpenSidebar));
     }
   }
-});
+}); 

@@ -62,6 +62,10 @@ const logout = () => {
           <SettingsIcon class="w-5 h-5" />
           <span>{{ $t('settings') }}</span>
         </li>
+        <li class="flex items-center text-slate-900 dark:text-white hover:bg-blue-100 hover:dark:bg-slate-700 hover:text-blue-600 rounded-lg cursor-pointer p-2 space-x-2">
+          <SettingsIcon class="w-5 h-5" />
+          <span>{{ $t('editProfile') }}</span>
+        </li>
       </ul>
       <div class="p-1.5">
         <div @click="logout" class="flex items-center text-slate-900 dark:text-white hover:dark:bg-slate-700 hover:text-blue-600 hover:bg-blue-100 rounded-lg cursor-pointer p-2 space-x-2">

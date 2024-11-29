@@ -88,6 +88,7 @@ const createWishToBuyProduct = () => {
     })
   }
 }
+
 const loadSidebarState = () => {
   const savedState = localStorage.getItem('sidebarState');
   if (savedState) {
@@ -108,7 +109,7 @@ const loadSidebarState = () => {
     usersVisible.value = parsedState.usersVisible ?? true;
     marketsVisible.value = parsedState.marketsVisible ?? true;
     ordersVisible.value = parsedState.ordersVisible ?? true;
-    cashbackHistoriesVisible.value = parsedState.cashbackHistoriesVisible ?? true;  
+    cashbackHistoriesVisible.value = parsedState.cashbackHistoriesVisible ?? true;
     discountVisible.value = parsedState.discountVisible ?? true;
     upcomingProductsVisible.value = parsedState.upcomingProductsVisible ?? true
     incomeExpenseVisible.value = parsedState.upcomingProductsVisible ?? true
@@ -117,6 +118,7 @@ const loadSidebarState = () => {
     dashboardVisible.value = parsedState.upcomingProductsVisible ?? true
   }
 };
+
 const saveSidebarState = () => {
   const state = {
     investsVisible: investsVisible.value,
@@ -167,13 +169,8 @@ const discountVisible = ref(true);
 const upcomingProductsVisible = ref(true);
 const incomeExpenseVisible = ref(true);
 const productsVisible = ref(true);
-const saleVisible = ref(true); 
+const saleVisible = ref(true);
 const dashboardVisible = ref(true);
-
-
-
-
-
 
 const whenPressEnter = (e) => {
   if (e.keyCode === 13) {
@@ -194,10 +191,10 @@ const moveDashboardToOthers = () => {
 const restoreDashboardFromOthers = () => {
   dashboardVisible.value = true;
 };
+
 const moveSaleToOthers = () => {
   saleVisible.value = false;
 };
-
 const restoreSaleFromOthers = () => {
   saleVisible.value = true;
 };
@@ -205,7 +202,6 @@ const restoreSaleFromOthers = () => {
 const moveProductsToOthers = () => {
   productsVisible.value = false;
 };
-
 const restoreProductsFromOthers = () => {
   productsVisible.value = true;
 };
@@ -213,7 +209,6 @@ const restoreProductsFromOthers = () => {
 const moveProductBarcodesToOthers = () => {
   productBarcodesVisible.value = false;
 };
-
 const restoreProductBarcodesFromOthers = () => {
   productBarcodesVisible.value = true;
 };
@@ -221,7 +216,6 @@ const restoreProductBarcodesFromOthers = () => {
 const moveBarcodeDuplicatesToOthers = () => {
   barcodeDuplicatesVisible.value = false;
 };
-
 const restoreBarcodeDuplicatesFromOthers = () => {
   barcodeDuplicatesVisible.value = true;
 };
@@ -229,7 +223,6 @@ const restoreBarcodeDuplicatesFromOthers = () => {
 const moveCashbackHistoriesToOthers = () => {
   cashbackHistoriesVisible.value = false;
 };
-
 const restoreCashbackHistoriesFromOthers = () => {
   cashbackHistoriesVisible.value = true;
 };
@@ -237,7 +230,6 @@ const restoreCashbackHistoriesFromOthers = () => {
 const moveDiscountToOthers = () => {
   discountVisible.value = false;
 };
-
 const restoreDiscountFromOthers = () => {
   discountVisible.value = true;
 };
@@ -245,7 +237,6 @@ const restoreDiscountFromOthers = () => {
 const moveUpcomingProductsToOthers = () => {
   upcomingProductsVisible.value = false;
 };
-
 const restoreUpcomingProductsFromOthers = () => {
   upcomingProductsVisible.value = true;
 };
@@ -253,7 +244,6 @@ const restoreUpcomingProductsFromOthers = () => {
 const moveIncomeExpenseToOthers = () => {
   incomeExpenseVisible.value = false;
 };
-
 const restoreIncomeExpenseFromOthers = () => {
   incomeExpenseVisible.value = true;
 };
@@ -261,7 +251,6 @@ const restoreIncomeExpenseFromOthers = () => {
 const moveSaleSettingsToOthers = () => {
   saleSettingsVisible.value = false;
 };
-
 const restoreSaleSettingsFromOthers = () => {
   saleSettingsVisible.value = true;
 };
@@ -269,7 +258,6 @@ const restoreSaleSettingsFromOthers = () => {
 const moveOrdersToOthers = () => {
   ordersVisible.value = false;
 };
-
 const restoreOrdersFromOthers = () => {
   ordersVisible.value = true;
 };
@@ -277,7 +265,6 @@ const restoreOrdersFromOthers = () => {
 const moveMarketToOthers = () => {
   marketsVisible.value = false;
 };
-
 const restoreMarketFromOthers = () => {
   marketsVisible.value = true;
 };
@@ -285,7 +272,6 @@ const restoreMarketFromOthers = () => {
 const moveUsersToOthers = () => {
   usersVisible.value = false;
 };
-
 const restoreUsersFromOthers = () => {
   usersVisible.value = true;
 };
@@ -293,7 +279,6 @@ const restoreUsersFromOthers = () => {
 const moveCorprorateClientsToOthers = () => {
   corporateClientsVisible.value = false;
 };
-
 const restoreCorporrateClientsFromOthers = () => {
   corporateClientsVisible.value = true;
 };
@@ -301,7 +286,6 @@ const restoreCorporrateClientsFromOthers = () => {
 const moveClientsToOthers = () => {
   clientsVisible.value = false;
 };
-
 const restoreClientsFromOthers = () => {
   clientsVisible.value = true;
 };
@@ -309,11 +293,9 @@ const restoreClientsFromOthers = () => {
 const moveAgentsToOthers = () => {
   agentsVisible.value = false;
 };
-
 const restoreAgentsFromOthers = () => {
   agentsVisible.value = true;
 };
-
 const moveVouchersToOthers = () => {
   vouchersVisible.value = false;
 };
@@ -321,7 +303,6 @@ const moveVouchersToOthers = () => {
 const restoreVouchersFromOthers = () => {
   vouchersVisible.value = true;
 };
-
 const movePriceListsToOthers = () => {
   priceListsVisible.value = false;
 };
@@ -329,7 +310,6 @@ const movePriceListsToOthers = () => {
 const restorePriceListsFromOthers = () => {
   priceListsVisible.value = true;
 };
-
 const moveWishesToOthers = () => {
   wishesVisible.value = false;
 };
@@ -337,7 +317,6 @@ const moveWishesToOthers = () => {
 const restoreWishesFromOthers = () => {
   wishesVisible.value = true;
 };
-
 const moveIpBannedToOthers = () => {
   ipBannedVisible.value = false;
 };
@@ -345,13 +324,12 @@ const moveIpBannedToOthers = () => {
 const restoreIpBannedFromOthers = () => {
   ipBannedVisible.value = true;
 };
-
 const moveInvestorsToOthers = () => {
-  investsVisible.value = false;
+  investorsVisible.value = false;
 };
 
 const restoreInvestorsFromOthers = () => {
-  investsVisible.value = true;
+  investorsVisible.value = true;
 };
 const moveInvestsToOthers = () => {
   investsVisible.value = false;
@@ -360,23 +338,21 @@ const moveInvestsToOthers = () => {
 const restoreInvestsFromOthers = () => {
   investsVisible.value = true;
 };
-
 const moveInvestPlansToOthers = () => {
   investPlansVisible.value = false;
 };
-
 const restoreInvestPlansFromOthers = () => {
   investPlansVisible.value = true;
 };
-
 </script>
+
 <template>
   <div class="relative z-40" v-if="useSidebarStore().toggleSidebar && useSidebarStore().isOpenSidebar">
     <div class="fixed inset-0 z-40 transition-opacity duration-200 bg-slate-900 bg-opacity-30 lg:hidden lg:z-auto"
       :class="useSidebarStore().isOpenSidebar ? 'opacity-100' : 'opacity-0 pointer-events-none'" @click="closeSidebar">
     </div>
     <div id="sidebar" ref="sidebar"
-      class="flex justify-between flex-col bg-slate-100 dark:bg-slate-900 absolute z-40 left-0 top-0 lg:static border-r lg:left-auto lg:top-auto lg:translate-x-0 min-h-screen w-72 md:w-64 2xl:w-72 shrink-0 transition-all duration-200 ease-in-out"
+      class="flex justify-between flex-col bg-slate-100 dark:bg-slate-900 absolute z-40 left-0 top-0 lg:static border-r lg:left-auto lg:top-auto lg:translate-x-0 min-h-screen w-96 shrink-0 transition-all duration-200 ease-in-out"
       :class="useSidebarStore().isOpenSidebar ? 'translate-x-0' : '-translate-x-64'">
       <div>
         <div class="h-20 flex justify-around">
@@ -397,624 +373,729 @@ const restoreInvestPlansFromOthers = () => {
         <div class="max-h-svh flex pb-[18rem] flex-col">
           <div class="relative space-y-1 py-1 overflow-y-auto overflow-x-hidden md:max-h-screen">
             <div class="flex w-full justicy-between" v-if="dashboardVisible">
-            <router-link v-if="navigationGuard('dashboard')" to="/dashboard" @click="selectPage()" active-class="active"
-              class="relative h-10 flex items-center w-full hover:bg-blue-300/10 hover:text-blue-600 py-5 text-zinc-400 dark:text-zinc-200 text-lg font-medium space-x-4 cursor-pointer transition-colors duration-300">
-              <div class="w-1.5 h-12 rounded-r-xl first-child-bg-color mr-2"></div>
-              <div class="flex h-10 items-center justify-center rounded-xl w-10 second-child-bg-color">
-                <HouseIcon class="w-6 h-6" />
-              </div>
-              <div class="w-full">
-                {{ $t('dashboard') }}
-              </div>
-            </router-link>
-            <button @click="moveDashboardToOthers" class="ml-auto text-sm text-red-600 hover:text-red-800">
-              Скрыть
-            </button>
-          </div>
-            <div class="flex w-full justicy-between" v-if="saleVisible">
-            <router-link v-if="navigationGuard('create_product')" to="/sales" @click="selectPage()"
-              active-class="active"
-              class="relative h-10 flex items-center w-full hover:bg-blue-300/10 hover:text-blue-600 py-5 text-zinc-400 dark:text-zinc-200 text-lg font-medium space-x-4 cursor-pointer transition-colors duration-300">
-              <div class="w-1.5 h-12 rounded-r-xl first-child-bg-color mr-2"></div>
-              <div class="flex h-10 items-center justify-center rounded-xl w-10 second-child-bg-color">
-                <MoneyIcon class="w-6 h-6" />
-              </div>
-              <div class="w-full">
-                {{ $t('sale') }}
-              </div>
-            </router-link>
-            <button @click="moveSaleToOthers" class="ml-auto text-sm text-red-600 hover:text-red-800">
-              Скрыть
-            </button>
-          </div>
-            <div class="flex w-full justicy-between" v-if="productsVisible">
-            <router-link to="/products" @click="selectPage()" active-class="active"
-              class="relative h-10 flex items-center w-full hover:bg-blue-300/10 hover:text-blue-600 py-5 text-zinc-400 dark:text-zinc-200 text-lg font-medium space-x-4 cursor-pointer transition-colors duration-300">
-              <div class="w-1.5 h-12 rounded-r-xl first-child-bg-color mr-2"></div>
-              <div class="flex h-10 items-center justify-center rounded-xl w-10 second-child-bg-color">
-                <PhShoppingCart class="w-6 h-6" />
-              </div>
-              <div class="w-full">
-                {{ $t('products') }}
-              </div>
-            </router-link>
-            <button @click="moveProductsToOthers" class="ml-auto text-sm text-red-600 hover:text-red-800">
-              Скрыть
-            </button>
-          </div>
-            <div class="flex w-full justicy-between" v-if="incomeExpenseVisible">
-            <router-link v-if="navigationGuard('view_histories')" to="/product-histories" @click="selectPage()"
-              active-class="active"
-              class="relative h-10 flex items-center w-full hover:bg-blue-300/10 hover:text-blue-600 py-5 text-zinc-400 dark:text-zinc-200 text-lg font-medium space-x-4 cursor-pointer transition-colors duration-300">
-              <div class="w-1.5 h-12 rounded-r-xl first-child-bg-color mr-2"></div>
-              <div class="flex h-10 items-center justify-center rounded-xl w-10 second-child-bg-color">
-                <ProductHistoryIcon class="w-6 h-6" />
-              </div>
-              <div class="w-full">
-                {{ $t('incomeExpense') }}
-              </div>
-            </router-link>
-            <button @click="moveIncomeExpenseToOthers" class="ml-auto text-sm text-red-600 hover:text-red-800">
-              Скрыть
-            </button>
-          </div>
-            <div class="flex w-full justicy-between" v-if="upcomingProductsVisible">
-            <router-link v-if="navigationGuard('view_histories')" to="/upcoming-products" @click="selectPage()"
-              active-class="active"
-              class="relative h-10 flex items-center w-full hover:bg-blue-300/10 hover:text-blue-600 py-5 text-zinc-400 dark:text-zinc-200 text-lg font-medium space-x-4 cursor-pointer transition-colors duration-300">
-              <div class="w-1.5 h-12 rounded-r-xl first-child-bg-color mr-2"></div>
-              <div class="flex h-10 items-center justify-center rounded-xl w-10 second-child-bg-color">
-                <PhShoppingCart class="w-6 h-6" />
-              </div>
-              <div class="w-full">
-                {{ $t('upcomingProducts') }}
-              </div>
-            </router-link>
-            <button @click="moveUpcomingProductsToOthers" class="ml-auto text-sm text-red-600 hover:text-red-800">
-              Скрыть
-            </button>
-          </div>
-            <div class="flex w-full justicy-between" v-if="discountVisible">
-            <router-link to="/discounts" @click="selectPage()" active-class="active"
-              class="relative h-10 flex items-center w-full hover:bg-blue-300/10 hover:text-blue-600 py-5 text-zinc-400 dark:text-zinc-200 text-lg font-medium space-x-4 cursor-pointer transition-colors duration-300">
-              <div class="w-1.5 h-12 rounded-r-xl first-child-bg-color mr-2"></div>
-              <div class="flex h-10 items-center justify-center rounded-xl w-10 second-child-bg-color">
-                <PhPercent class="w-6 h-6" />
-              </div>
-              <div class="w-full">
-                {{ $t('discount') }}
-              </div>
-            </router-link>
-            <button @click="moveDiscountToOthers" class="ml-auto text-sm text-red-600 hover:text-red-800">
-              Скрыть
-            </button>
-          </div>
-            <div class="flex w-full justicy-between" v-if="cashbackHistoriesVisible">
-            <router-link to="/cashback-histories" @click="selectPage()" active-class="active"
-              class="relative h-10 flex items-center w-full hover:bg-blue-300/10 hover:text-blue-600 py-5 text-zinc-400 dark:text-zinc-200 text-lg font-medium space-x-4 cursor-pointer transition-colors duration-300">
-              <div class="w-1.5 h-12 rounded-r-xl first-child-bg-color mr-2"></div>
-              <div class="flex h-10 items-center justify-center rounded-xl w-10 second-child-bg-color">
-                <TicketSaleIcon class="w-6 h-6" />
-              </div>
-              <div class="w-full">
-                {{ $t('cashbackHistories') }}
-              </div>
-            </router-link>
-            <button @click="moveCashbackHistoriesToOthers" class="ml-auto text-sm text-red-600 hover:text-red-800">
-              Скрыть
-            </button>
-          </div>
-            <div class="flex w-full justicy-between" v-if="ordersVisible">
-            <router-link to="/orders" @click="selectPage()" active-class="active"
-              class="relative h-10 flex items-center w-full hover:bg-blue-300/10 hover:text-blue-600 py-5 text-zinc-400 dark:text-zinc-200 text-lg font-medium space-x-4 cursor-pointer transition-colors duration-300">
-              <div class="w-1.5 h-12 rounded-r-xl first-child-bg-color mr-2"></div>
-              <div class="flex h-10 items-center justify-center rounded-xl w-10 second-child-bg-color">
-                <PhShoppingCart class="w-6 h-6" />
-              </div>
-              <div class="w-full">
-                {{ $t('sales') }}
-            </div>
-          </router-link>
-            <button @click="moveOrdersToOthers" class="ml-auto text-sm text-red-600 hover:text-red-800">
-              Скрыть
-            </button>
-          </div>
-          <div class="flex w-full justicy-between" v-if="marketsVisible">
-            <router-link v-if="navigationGuard('view_markets')" to="/markets" @click="selectPage()"
-              active-class="active"
-              class="relative h-10 flex items-center w-full hover:bg-blue-300/10 hover:text-blue-600 py-5 text-zinc-400 dark:text-zinc-200 text-lg font-medium space-x-4 cursor-pointer transition-colors duration-300">
-              <div class="w-1.5 h-12 rounded-r-xl first-child-bg-color mr-2"></div>
-              <div class="flex h-10 items-center justify-center rounded-xl w-10 second-child-bg-color">
-                <StoreIcon class="w-6 h-6" />
-              </div>
-              <div class="w-full">
-                {{ $t('shops') }}
-              </div>
-            </router-link>
-            <button @click="moveMarketToOthers" class="ml-auto text-sm text-red-600 hover:text-red-800">
-              Скрыть
-            </button>
-          </div>
-            <div class="flex w-full justicy-between" v-if="usersVisible">
-            <router-link v-if="navigationGuard('view_users')" to="/users" @click="selectPage()" active-class="active"
-              class="relative h-10 flex items-center w-full hover:bg-blue-300/10 hover:text-blue-600 py-5 text-zinc-400 dark:text-zinc-200 text-lg font-medium space-x-4 cursor-pointer transition-colors duration-300">
-              <div class="w-1.5 h-12 rounded-r-xl first-child-bg-color mr-2"></div>
-              <div class="flex h-10 items-center justify-center rounded-xl w-10 second-child-bg-color">
-                <UsersIcon class="w-6 h-6" />
-              </div>
-              <div class="w-full">
-                {{ $t('users') }}
-              </div>
-            </router-link>
-            <button @click="moveUsersToOthers" class="ml-auto text-sm text-red-600 hover:text-red-800">
-              Скрыть
-            </button>
-          </div>
-            <div class="flex w-full justicy-between" v-if="productBarcodesVisible">
-            <router-link v-if="navigationGuard('view_barcodes')" to="/product-barcodes" @click="selectPage()"
-              active-class="active"
-              class="relative h-10 flex items-center w-full hover:bg-blue-300/10 hover:text-blue-600 py-5 text-zinc-400 dark:text-zinc-200 text-lg font-medium space-x-4 cursor-pointer transition-colors duration-300">
-              <div class="w-1.5 h-12 rounded-r-xl first-child-bg-color mr-2"></div>
-              <div class="flex h-10 items-center justify-center rounded-xl w-10 second-child-bg-color">
-                <PhBarcodeIcon class="w-6 h-6" />
-              </div>
-              <div class="w-full">
-                {{ $t('barcodes') }}
-              </div>
-            </router-link>
-            <button @click="moveProductBarcodesToOthers" class="ml-auto text-sm text-red-600 hover:text-red-800">
-              Скрыть
-            </button>
-          </div>
-            <div class="flex w-full justicy-between" v-if="barcodeDuplicatesVisible">
-            <router-link v-if="navigationGuard('view_barcodes')" to="/barcode-duplicates" @click="selectPage()"
-              active-class="active"
-              class="relative h-10 flex items-center w-full hover:bg-blue-300/10 hover:text-blue-600 py-5 text-zinc-400 dark:text-zinc-200 text-lg font-medium space-x-4 cursor-pointer transition-colors duration-300">
-              <div class="w-1.5 h-12 rounded-r-xl first-child-bg-color mr-2"></div>
-              <div class="flex items-center justify-center rounded-xl w-10 h-10 second-child-bg-color">
-                <PhBarcodeIcon class="w-6 h-6" />
-              </div>
-              <div class="w-full">
-                {{ $t('duplicates') }}
-              </div>
-            </router-link>
-            <button @click="moveBarcodeDuplicatesToOthers" class="ml-auto text-sm text-red-600 hover:text-red-800">
-              Скрыть
-            </button>
-          </div>
-            <div class="flex w-full justicy-between" v-if="saleSettingsVisible">
-            <router-link v-if="navigationGuard('view_settings')" to="/sale-settings" @click="selectPage()"
-              active-class="active"
-              class="relative h-10 flex items-center w-full hover:bg-blue-300/10 hover:text-blue-600 py-5 text-zinc-400 dark:text-zinc-200 text-lg font-medium space-x-4 cursor-pointer transition-colors duration-300">
-              <div class="w-1.5 h-12 rounded-r-xl first-child-bg-color mr-2"></div>
-              <div class="flex h-10 items-center justify-center rounded-xl w-10 second-child-bg-color">
-                <SettingsIcon class="w-6 h-6" />
-              </div>
-              <div class="w-full">
-                {{ $t('settings') }}
-              </div>
-            </router-link>
-            <button @click="moveSaleSettingsToOthers" class="ml-auto text-sm text-red-600 hover:text-red-800">
-              Скрыть
-            </button>
-          </div>
-            <div class="flex w-full justicy-between" v-if="corporateClientsVisible">
-            <router-link v-if="navigationGuard('view_settings')" to="/corporate-clients" @click="selectPage()"
-              active-class="active"
-              class="relative h-10 flex items-center w-full hover:bg-blue-300/10 hover:text-blue-600 py-5 text-zinc-400 dark:text-zinc-200 text-lg font-medium space-x-4 cursor-pointer transition-colors duration-300">
-              <div class="w-1.5 h-12 rounded-r-xl first-child-bg-color mr-2"></div>
-              <div class="flex h-10 items-center justify-center rounded-xl w-10 second-child-bg-color">
-                <ClientCorpIcon class="w-6 h-6" />
-              </div>
-              <div class="w-full">
-                {{ $t('corporateClients') }}
-              </div>
-            </router-link>
-            <button @click="moveCorprorateClientsToOthers" class="ml-auto text-sm text-red-600 hover:text-red-800">
-              Скрыть
-            </button>
-          </div>
-            <div class="flex w-full justicy-between" v-if="clientsVisible">
-            <router-link v-if="navigationGuard('view_settings')" to="/clients" @click="selectPage()"
-              active-class="active"
-              class="relative h-10 flex items-center w-full hover:bg-blue-300/10 hover:text-blue-600 py-5 text-zinc-400 dark:text-zinc-200 text-lg font-medium space-x-4 cursor-pointer transition-colors duration-300">
-              <div class="w-1.5 h-12 rounded-r-xl first-child-bg-color mr-2"></div>
-              <div class="flex h-10 items-center justify-center rounded-xl w-10 second-child-bg-color">
-                <ClientIcon class="w-6 h-6" />
-              </div>
-              <div class="w-full">
-                {{ $t('clients') }}
-              </div>
-            </router-link>
-            <button @click="moveClientsToOthers" class="ml-auto text-sm text-red-600 hover:text-red-800">
-              Скрыть
-            </button>
-          </div>
-            <div class="flex w-full justicy-between" v-if="agentsVisible">
-            <router-link v-if="navigationGuard('view_agents')" to="/agents" @click="selectPage()" active-class="active"
-              class="relative h-10 flex items-center w-full hover:bg-blue-300/10 hover:text-blue-600 py-5 text-zinc-400 dark:text-zinc-200 text-lg font-medium space-x-4 cursor-pointer transition-colors duration-300">
-              <div class="w-1.5 h-12 rounded-r-xl first-child-bg-color mr-2"></div>
-              <div class="flex h-10 items-center justify-center rounded-xl w-10 second-child-bg-color">
-                <PhUsersThree class="w-6 h-6" />
-              </div>
-              <div class="w-full">
-                {{ $t('agents') }}
-              </div>
-            </router-link>
-            <button @click="moveAgentsToOthers" class="ml-auto text-sm text-red-600 hover:text-red-800">
-              Скрыть
-            </button>
-          </div>
-            <div class="flex w-full justicy-between" v-if="vouchersVisible">
-            <router-link v-if="navigationGuard('view_agents')" to="/vouchers" @click="selectPage()"
-              active-class="active"
-              class="relative h-10 flex items-center w-full hover:bg-blue-300/10 hover:text-blue-600 py-5 text-zinc-400 dark:text-zinc-200 text-lg font-medium space-x-4 cursor-pointer transition-colors duration-300">
-              <div class="w-1.5 h-12 rounded-r-xl first-child-bg-color mr-2"></div>
-              <div class="flex h-10 items-center justify-center rounded-xl w-10 second-child-bg-color">
-                <PhUsersThree class="w-6 h-6" />
-              </div>
-              <div class="w-full">
-                {{ $t('vouchers') }}
-              </div>
-            </router-link>
-            <button @click="moveVouchersToOthers" class="ml-auto text-sm text-red-600 hover:text-red-800">
-              Скрыть
-            </button>
-          </div>
-            <div class="flex w-full justicy-between" v-if="priceListsVisible">
-            <router-link v-if="navigationGuard('view_agents')" to="/price-lists" @click="selectPage()"
-              active-class="active"
-              class="relative h-10 flex items-center w-full hover:bg-blue-300/10 hover:text-blue-600 py-5 text-zinc-400 dark:text-zinc-200 text-lg font-medium space-x-4 cursor-pointer transition-colors duration-300">
-              <div class="w-1.5 h-12 rounded-r-xl first-child-bg-color mr-2"></div>
-              <div class="flex h-10 items-center justify-center rounded-xl w-10 second-child-bg-color">
-                <PhPriceList class="w-6 h-6" />
-              </div>
-              <div class="w-full">
-                {{ $t('priceLists') }}
-              </div>
-            </router-link>
-            <button @click="movePriceListsToOthers" class="ml-auto text-sm text-red-600 hover:text-red-800">
-              Скрыть
-            </button>
-          </div>
-            <div class="flex w-full justicy-between" v-if="wishesVisible">
-            <router-link v-if="navigationGuard('view_users')" to="/wishes" @click="selectPage()" active-class="active"
-              class="relative h-10 flex items-center w-full hover:bg-blue-300/10 hover:text-blue-600 py-5 text-zinc-400 dark:text-zinc-200 text-lg font-medium space-x-4 cursor-pointer transition-colors duration-300">
-              <div class="w-1.5 h-12 rounded-r-xl first-child-bg-color mr-2"></div>
-              <div class="flex h-10 items-center justify-center rounded-xl w-10 second-child-bg-color">
-                <FileLinearIcon class="w-6 h-6" />
-              </div>
-              <div class="w-full">
-                {{ $t('wishes') }}
-              </div>
-            </router-link>
-            <button @click="moveWishesToOthers" class="ml-auto text-sm text-red-600 hover:text-red-800">
-              Скрыть
-            </button>
-          </div>
-            <div class="flex w-full justicy-between" v-if="ipBannedVisible">
-            <router-link v-if="navigationGuard('create_market')" to="/ip-banned" @click="selectPage()"
-              active-class="active"
-              class="relative h-10 flex items-center w-full hover:bg-blue-300/10 hover:text-blue-600 py-5 text-zinc-400 dark:text-zinc-200 text-lg font-medium space-x-4 cursor-pointer transition-colors duration-300">
-              <div class="w-1.5 h-12 rounded-r-xl first-child-bg-color mr-2"></div>
-              <div class="flex h-10 items-center justify-center rounded-xl w-10 second-child-bg-color">
-                <PhLockKey class="w-6 h-6" />
-              </div>
-              <div class="w-full">
-                {{ $t('ipBanned') }}
-              </div>
-            </router-link>
-            <button @click="moveIpBannedToOthers" class="ml-auto text-sm text-red-600 hover:text-red-800">
-              Скрыть
-            </button>
-          </div>
-            <div class="flex w-full justicy-between" v-if="investorsVisible">
-            <router-link v-if="navigationGuard('view_investors')" to="/investors" @click="selectPage()"
-              active-class="active"
-              class="relative h-10 flex items-center w-full hover:bg-blue-300/10 hover:text-blue-600 py-5 text-zinc-400 dark:text-zinc-200 text-lg font-medium space-x-4 cursor-pointer transition-colors duration-300">
-              <div class="w-1.5 h-12 rounded-r-xl first-child-bg-color mr-2"></div>
-              <div class="flex h-10 items-center justify-center rounded-xl w-10 second-child-bg-color">
-                <InvestorIcon class="w-6 h-6" />
-              </div>
-              <div class="w-full">
-                {{ $t('investors') }}
-              </div>
-            </router-link>
-            <button @click="moveInvestorsToOthers" class="ml-auto text-sm text-red-600 hover:text-red-800">
-              Скрыть
-            </button>
-          </div>
-            <div class="flex w-full justicy-between" v-if="investsVisible">
-            <router-link v-if="navigationGuard('view_invests')" to="/invests" @click="selectPage()"
-              active-class="active"
-              class="relative h-10 flex items-center w-full hover:bg-blue-300/10 hover:text-blue-600 py-5 text-zinc-400 dark:text-zinc-200 text-lg font-medium space-x-4 cursor-pointer transition-colors duration-300">
-              <div class="w-1.5 h-12 rounded-r-xl first-child-bg-color mr-2"></div>
-              <div class="flex h-10 items-center justify-center rounded-xl w-10 second-child-bg-color">
-                <InvestIcon class="w-6 h-6" />
-              </div>
-              <div class="w-full">
-                {{ $t('invests') }}
-              </div>
-            </router-link>
-            <button @click="moveInvestsToOthers" class="ml-auto text-sm text-red-600 hover:text-red-800">
-              Скрыть
-            </button>
-          </div>
-            <div class="flex w-full justicy-between" v-if="investPlansVisible">
-            <router-link v-if="navigationGuard('view_invest_plans')" to="/invest-plans" @click="selectPage()"
-              active-class="active"
-              class="relative h-10 flex items-center w-full hover:bg-blue-300/10 hover:text-blue-600 py-5 text-zinc-400 dark:text-zinc-200 text-lg font-medium space-x-4 cursor-pointer transition-colors duration-300">
-              <div class="w-1.5 h-12 rounded-r-xl first-child-bg-color mr-2"></div>
-              <div class="flex h-10 items-center justify-center rounded-xl w-10 second-child-bg-color">
-                <InvestPlanIcon class="w-6 h-6" />
-              </div>
-              <div class="w-full">
-                {{ $t('investPlans') }}
-              </div>
-            </router-link>
-            <button @click="moveInvestPlansToOthers" class="ml-auto text-sm text-red-600 hover:text-red-800">
-              Скрыть
-            </button>
-          </div>
-          <details v-if="!investsVisible || !investPlansVisible || !investorsVisible || !ipBannedVisible || !wishesVisible || !priceListsVisible || !vouchersVisible || !agentsVisible || !clientsVisible || !corporateClientsVisible || !saleSettingsVisible || !barcodeDuplicatesVisible || !productBarcodesVisible || !usersVisible || !marketsVisible || !ordersVisible || !cashbackHistoriesVisible || !discountVisible || !upcomingProductsVisible || !incomeExpenseVisible || !productsVisible || !saleVisible || !dashboardVisible" class="mt-4">
-            <summary class="cursor-pointer py-2 text-lg font-medium pl-12 text-zinc-400 dark:text-zinc-200">
-              Others
-            </summary>
-            <div class="flex flex-col space-y-2 pl-12">
-              <div v-if="!dashboardVisible" class="relative h-10 flex items-center w-full py-5 text-zinc-400 dark:text-zinc-200 text-lg font-medium space-x-4">
+              <router-link v-if="navigationGuard('dashboard')" to="/dashboard" @click="selectPage()"
+                active-class="active"
+                class="relative h-10 flex items-center w-full hover:bg-blue-300/10 hover:text-blue-600 py-5 text-zinc-400 dark:text-zinc-200 text-lg font-medium space-x-4 cursor-pointer transition-colors duration-300">
+                <div class="w-1.5 h-12 rounded-r-xl first-child-bg-color mr-2"></div>
                 <div class="flex h-10 items-center justify-center rounded-xl w-10 second-child-bg-color">
                   <HouseIcon class="w-6 h-6" />
                 </div>
                 <div class="w-full">
                   {{ $t('dashboard') }}
                 </div>
-                <button @click="restoreDashboardFromOthers" class="ml-auto text-sm text-blue-600 hover:text-blue-800">
-                  Вернуть
-                </button>
-              </div>
-              <div v-if="!saleVisible" class="relative h-10 flex items-center w-full py-5 text-zinc-400 dark:text-zinc-200 text-lg font-medium space-x-4">
+              </router-link>
+              <button @click="moveDashboardToOthers" class="ml-auto text-sm text-red-600 hover:text-red-800">
+                Скрыть
+              </button>
+            </div>
+            <div class="flex w-full justicy-between" v-if="saleVisible">
+              <router-link v-if="navigationGuard('create_product')" to="/sales" @click="selectPage()"
+                active-class="active"
+                class="relative h-10 flex items-center w-full hover:bg-blue-300/10 hover:text-blue-600 py-5 text-zinc-400 dark:text-zinc-200 text-lg font-medium space-x-4 cursor-pointer transition-colors duration-300">
+                <div class="w-1.5 h-12 rounded-r-xl first-child-bg-color mr-2"></div>
                 <div class="flex h-10 items-center justify-center rounded-xl w-10 second-child-bg-color">
                   <MoneyIcon class="w-6 h-6" />
                 </div>
                 <div class="w-full">
                   {{ $t('sale') }}
                 </div>
-                <button @click="restoreSaleFromOthers" class="ml-auto text-sm text-blue-600 hover:text-blue-800">
-                  Вернуть
-                </button>
-              </div>
-              <div v-if="!productsVisible" class="relative h-10 flex items-center w-full py-5 text-zinc-400 dark:text-zinc-200 text-lg font-medium space-x-4">
+              </router-link>
+              <button @click="moveSaleToOthers" class="ml-auto text-sm text-red-600 hover:text-red-800">
+                Скрыть
+              </button>
+            </div>
+            <div class="flex w-full justicy-between" v-if="productsVisible">
+              <router-link to="/products" @click="selectPage()" active-class="active"
+                class="relative h-10 flex items-center w-full hover:bg-blue-300/10 hover:text-blue-600 py-5 text-zinc-400 dark:text-zinc-200 text-lg font-medium space-x-4 cursor-pointer transition-colors duration-300">
+                <div class="w-1.5 h-12 rounded-r-xl first-child-bg-color mr-2"></div>
                 <div class="flex h-10 items-center justify-center rounded-xl w-10 second-child-bg-color">
                   <PhShoppingCart class="w-6 h-6" />
                 </div>
                 <div class="w-full">
                   {{ $t('products') }}
                 </div>
-                <button @click="restoreProductsFromOthers" class="ml-auto text-sm text-blue-600 hover:text-blue-800">
-                  Вернуть
-                </button>
-              </div>
-              <div v-if="!incomeExpenseVisible" class="relative h-10 flex items-center w-full py-5 text-zinc-400 dark:text-zinc-200 text-lg font-medium space-x-4">
+              </router-link>
+              <button @click="moveProductsToOthers" class="ml-auto text-sm text-red-600 hover:text-red-800">
+                Скрыть
+              </button>
+            </div>
+            <div class="flex w-full justicy-between" v-if="incomeExpenseVisible">
+              <router-link v-if="navigationGuard('view_histories')" to="/product-histories" @click="selectPage()"
+                active-class="active"
+                class="relative h-10 flex items-center w-full hover:bg-blue-300/10 hover:text-blue-600 py-5 text-zinc-400 dark:text-zinc-200 text-lg font-medium space-x-4 cursor-pointer transition-colors duration-300">
+                <div class="w-1.5 h-12 rounded-r-xl first-child-bg-color mr-2"></div>
                 <div class="flex h-10 items-center justify-center rounded-xl w-10 second-child-bg-color">
                   <ProductHistoryIcon class="w-6 h-6" />
                 </div>
                 <div class="w-full">
                   {{ $t('incomeExpense') }}
                 </div>
-                <button @click="restoreIncomeExpenseFromOthers" class="ml-auto text-sm text-blue-600 hover:text-blue-800">
-                  Вернуть
-                </button>
-              </div>
-              <div v-if="!upcomingProductsVisible" class="relative h-10 flex items-center w-full py-5 text-zinc-400 dark:text-zinc-200 text-lg font-medium space-x-4">
+              </router-link>
+              <button @click="moveIncomeExpenseToOthers" class="ml-auto text-sm text-red-600 hover:text-red-800">
+                Скрыть
+              </button>
+            </div>
+            <div class="flex w-full justicy-between" v-if="upcomingProductsVisible">
+              <router-link v-if="navigationGuard('view_histories')" to="/upcoming-products" @click="selectPage()"
+                active-class="active"
+                class="relative h-10 flex items-center w-full hover:bg-blue-300/10 hover:text-blue-600 py-5 text-zinc-400 dark:text-zinc-200 text-lg font-medium space-x-4 cursor-pointer transition-colors duration-300">
+                <div class="w-1.5 h-12 rounded-r-xl first-child-bg-color mr-2"></div>
                 <div class="flex h-10 items-center justify-center rounded-xl w-10 second-child-bg-color">
                   <PhShoppingCart class="w-6 h-6" />
                 </div>
                 <div class="w-full">
                   {{ $t('upcomingProducts') }}
                 </div>
-                <button @click="restoreUpcomingProductsFromOthers" class="ml-auto text-sm text-blue-600 hover:text-blue-800">
-                  Вернуть
-                </button>
-              </div>
-              <div v-if="!discountVisible" class="relative h-10 flex items-center w-full py-5 text-zinc-400 dark:text-zinc-200 text-lg font-medium space-x-4">
+              </router-link>
+              <button @click="moveUpcomingProductsToOthers" class="ml-auto text-sm text-red-600 hover:text-red-800">
+                Скрыть
+              </button>
+            </div>
+            <div class="flex w-full justicy-between" v-if="discountVisible">
+              <router-link to="/discounts" @click="selectPage()" active-class="active"
+                class="relative h-10 flex items-center w-full hover:bg-blue-300/10 hover:text-blue-600 py-5 text-zinc-400 dark:text-zinc-200 text-lg font-medium space-x-4 cursor-pointer transition-colors duration-300">
+                <div class="w-1.5 h-12 rounded-r-xl first-child-bg-color mr-2"></div>
                 <div class="flex h-10 items-center justify-center rounded-xl w-10 second-child-bg-color">
                   <PhPercent class="w-6 h-6" />
                 </div>
                 <div class="w-full">
                   {{ $t('discount') }}
                 </div>
-                <button @click="restoreDiscountFromOthers" class="ml-auto text-sm text-blue-600 hover:text-blue-800">
-                  Вернуть
-                </button>
-              </div>
-              <div v-if="!cashbackHistoriesVisible" class="relative h-10 flex items-center w-full py-5 text-zinc-400 dark:text-zinc-200 text-lg font-medium space-x-4">
+              </router-link>
+              <button @click="moveDiscountToOthers" class="ml-auto text-sm text-red-600 hover:text-red-800">
+                Скрыть
+              </button>
+            </div>
+            <div class="flex w-full justicy-between" v-if="cashbackHistoriesVisible">
+              <router-link to="/cashback-histories" @click="selectPage()" active-class="active"
+                class="relative h-10 flex items-center w-full hover:bg-blue-300/10 hover:text-blue-600 py-5 text-zinc-400 dark:text-zinc-200 text-lg font-medium space-x-4 cursor-pointer transition-colors duration-300">
+                <div class="w-1.5 h-12 rounded-r-xl first-child-bg-color mr-2"></div>
                 <div class="flex h-10 items-center justify-center rounded-xl w-10 second-child-bg-color">
                   <TicketSaleIcon class="w-6 h-6" />
                 </div>
                 <div class="w-full">
                   {{ $t('cashbackHistories') }}
                 </div>
-                <button @click="restoreCashbackHistoriesFromOthers" class="ml-auto text-sm text-blue-600 hover:text-blue-800">
-                  Вернуть
-                </button>
-              </div>
-              <div v-if="!ordersVisible" class="relative h-10 flex items-center w-full py-5 text-zinc-400 dark:text-zinc-200 text-lg font-medium space-x-4">
+              </router-link>
+              <button @click="moveCashbackHistoriesToOthers" class="ml-auto text-sm text-red-600 hover:text-red-800">
+                Скрыть
+              </button>
+            </div>
+            <div class="flex w-full justicy-between" v-if="ordersVisible">
+              <router-link to="/orders" @click="selectPage()" active-class="active"
+                class="relative h-10 flex items-center w-full hover:bg-blue-300/10 hover:text-blue-600 py-5 text-zinc-400 dark:text-zinc-200 text-lg font-medium space-x-4 cursor-pointer transition-colors duration-300">
+                <div class="w-1.5 h-12 rounded-r-xl first-child-bg-color mr-2"></div>
                 <div class="flex h-10 items-center justify-center rounded-xl w-10 second-child-bg-color">
                   <PhShoppingCart class="w-6 h-6" />
                 </div>
                 <div class="w-full">
                   {{ $t('sales') }}
                 </div>
-                <button @click="restoreOrdersFromOthers" class="ml-auto text-sm text-blue-600 hover:text-blue-800">
-                  Вернуть
-                </button>
-              </div>
-              <div v-if="!marketsVisible" class="relative h-10 flex items-center w-full py-5 text-zinc-400 dark:text-zinc-200 text-lg font-medium space-x-4">
+              </router-link>
+              <button @click="moveOrdersToOthers" class="ml-auto text-sm text-red-600 hover:text-red-800">
+                Скрыть
+              </button>
+            </div>
+            <div class="flex w-full justicy-between" v-if="marketsVisible">
+              <router-link v-if="navigationGuard('view_markets')" to="/markets" @click="selectPage()"
+                active-class="active"
+                class="relative h-10 flex items-center w-full hover:bg-blue-300/10 hover:text-blue-600 py-5 text-zinc-400 dark:text-zinc-200 text-lg font-medium space-x-4 cursor-pointer transition-colors duration-300">
+                <div class="w-1.5 h-12 rounded-r-xl first-child-bg-color mr-2"></div>
                 <div class="flex h-10 items-center justify-center rounded-xl w-10 second-child-bg-color">
                   <StoreIcon class="w-6 h-6" />
                 </div>
                 <div class="w-full">
                   {{ $t('shops') }}
                 </div>
-                <button @click="restoreMarketFromOthers" class="ml-auto text-sm text-blue-600 hover:text-blue-800">
-                  Вернуть
-                </button>
-              </div>
-              <div v-if="!usersVisible" class="relative h-10 flex items-center w-full py-5 text-zinc-400 dark:text-zinc-200 text-lg font-medium space-x-4">
+              </router-link>
+              <button @click="moveMarketToOthers" class="ml-auto text-sm text-red-600 hover:text-red-800">
+                Скрыть
+              </button>
+            </div>
+            <div class="flex w-full justicy-between" v-if="usersVisible">
+              <router-link v-if="navigationGuard('view_users')" to="/users" @click="selectPage()" active-class="active"
+                class="relative h-10 flex items-center w-full hover:bg-blue-300/10 hover:text-blue-600 py-5 text-zinc-400 dark:text-zinc-200 text-lg font-medium space-x-4 cursor-pointer transition-colors duration-300">
+                <div class="w-1.5 h-12 rounded-r-xl first-child-bg-color mr-2"></div>
                 <div class="flex h-10 items-center justify-center rounded-xl w-10 second-child-bg-color">
-                  <UserIcon class="w-6 h-6" />
+                  <UsersIcon class="w-6 h-6" />
                 </div>
                 <div class="w-full">
                   {{ $t('users') }}
                 </div>
-                <button @click="restoreUsersFromOthers" class="ml-auto text-sm text-blue-600 hover:text-blue-800">
-                  Вернуть
-                </button>
-              </div>
-              <div v-if="!productBarcodesVisible" class="relative h-10 flex items-center w-full py-5 text-zinc-400 dark:text-zinc-200 text-lg font-medium space-x-4">
+              </router-link>
+              <button @click="moveUsersToOthers" class="ml-auto text-sm text-red-600 hover:text-red-800">
+                Скрыть
+              </button>
+            </div>
+            <div class="flex w-full justicy-between" v-if="productBarcodesVisible">
+              <router-link v-if="navigationGuard('view_barcodes')" to="/product-barcodes" @click="selectPage()"
+                active-class="active"
+                class="relative h-10 flex items-center w-full hover:bg-blue-300/10 hover:text-blue-600 py-5 text-zinc-400 dark:text-zinc-200 text-lg font-medium space-x-4 cursor-pointer transition-colors duration-300">
+                <div class="w-1.5 h-12 rounded-r-xl first-child-bg-color mr-2"></div>
                 <div class="flex h-10 items-center justify-center rounded-xl w-10 second-child-bg-color">
                   <PhBarcodeIcon class="w-6 h-6" />
                 </div>
                 <div class="w-full">
                   {{ $t('barcodes') }}
                 </div>
-                <button @click="restoreProductBarcodesFromOthers" class="ml-auto text-sm text-blue-600 hover:text-blue-800">
-                  Вернуть
-                </button>
-              </div>
-              <div v-if="!barcodeDuplicatesVisible" class="relative h-10 flex items-center w-full py-5 text-zinc-400 dark:text-zinc-200 text-lg font-medium space-x-4">
-                <div class="flex h-10 items-center justify-center rounded-xl w-10 second-child-bg-color">
+              </router-link>
+              <button @click="moveProductBarcodesToOthers" class="ml-auto text-sm text-red-600 hover:text-red-800">
+                Скрыть
+              </button>
+            </div>
+            <div class="flex w-full justicy-between" v-if="barcodeDuplicatesVisible">
+              <router-link v-if="navigationGuard('view_barcodes')" to="/barcode-duplicates" @click="selectPage()"
+                active-class="active"
+                class="relative h-10 flex items-center w-full hover:bg-blue-300/10 hover:text-blue-600 py-5 text-zinc-400 dark:text-zinc-200 text-lg font-medium space-x-4 cursor-pointer transition-colors duration-300">
+                <div class="w-1.5 h-12 rounded-r-xl first-child-bg-color mr-2"></div>
+                <div class="flex items-center justify-center rounded-xl w-10 h-10 second-child-bg-color">
                   <PhBarcodeIcon class="w-6 h-6" />
                 </div>
                 <div class="w-full">
                   {{ $t('duplicates') }}
                 </div>
-                <button @click="restoreBarcodeDuplicatesFromOthers" class="ml-auto text-sm text-blue-600 hover:text-blue-800">
-                  Вернуть
-                </button>
-              </div>
-              <div v-if="!saleSettingsVisible" class="relative h-10 flex items-center w-full py-5 text-zinc-400 dark:text-zinc-200 text-lg font-medium space-x-4">
+              </router-link>
+              <button @click="moveBarcodeDuplicatesToOthers" class="ml-auto text-sm text-red-600 hover:text-red-800">
+                Скрыть
+              </button>
+            </div>
+            <div class="flex w-full justicy-between" v-if="saleSettingsVisible">
+              <router-link v-if="navigationGuard('view_settings')" to="/sale-settings" @click="selectPage()"
+                active-class="active"
+                class="relative h-10 flex items-center w-full hover:bg-blue-300/10 hover:text-blue-600 py-5 text-zinc-400 dark:text-zinc-200 text-lg font-medium space-x-4 cursor-pointer transition-colors duration-300">
+                <div class="w-1.5 h-12 rounded-r-xl first-child-bg-color mr-2"></div>
                 <div class="flex h-10 items-center justify-center rounded-xl w-10 second-child-bg-color">
                   <SettingsIcon class="w-6 h-6" />
                 </div>
                 <div class="w-full">
                   {{ $t('settings') }}
                 </div>
-                <button @click="restoreSaleSettingsFromOthers" class="ml-auto text-sm text-blue-600 hover:text-blue-800">
-                  Вернуть
-                </button>
-              </div>
-              <div v-if="!corporateClientsVisible" class="relative h-10 flex items-center w-full py-5 text-zinc-400 dark:text-zinc-200 text-lg font-medium space-x-4">
+              </router-link>
+              <button @click="moveSaleSettingsToOthers" class="ml-auto text-sm text-red-600 hover:text-red-800">
+                Скрыть
+              </button>
+            </div>
+            <div class="flex w-full justicy-between" v-if="corporateClientsVisible">
+              <router-link v-if="navigationGuard('view_settings')" to="/corporate-clients" @click="selectPage()"
+                active-class="active"
+                class="relative h-10 flex items-center w-full hover:bg-blue-300/10 hover:text-blue-600 py-5 text-zinc-400 dark:text-zinc-200 text-lg font-medium space-x-4 cursor-pointer transition-colors duration-300">
+                <div class="w-1.5 h-12 rounded-r-xl first-child-bg-color mr-2"></div>
                 <div class="flex h-10 items-center justify-center rounded-xl w-10 second-child-bg-color">
                   <ClientCorpIcon class="w-6 h-6" />
                 </div>
                 <div class="w-full">
                   {{ $t('corporateClients') }}
                 </div>
-                <button @click="restoreCorporrateClientsFromOthers" class="ml-auto text-sm text-blue-600 hover:text-blue-800">
-                  Вернуть
-                </button>
-              </div>
-              <div v-if="!clientsVisible" class="relative h-10 flex items-center w-full py-5 text-zinc-400 dark:text-zinc-200 text-lg font-medium space-x-4">
+              </router-link>
+              <button @click="moveCorprorateClientsToOthers" class="ml-auto text-sm text-red-600 hover:text-red-800">
+                Скрыть
+              </button>
+            </div>
+            <div class="flex w-full justicy-between" v-if="clientsVisible">
+              <router-link v-if="navigationGuard('view_settings')" to="/clients" @click="selectPage()"
+                active-class="active"
+                class="relative h-10 flex items-center w-full hover:bg-blue-300/10 hover:text-blue-600 py-5 text-zinc-400 dark:text-zinc-200 text-lg font-medium space-x-4 cursor-pointer transition-colors duration-300">
+                <div class="w-1.5 h-12 rounded-r-xl first-child-bg-color mr-2"></div>
                 <div class="flex h-10 items-center justify-center rounded-xl w-10 second-child-bg-color">
                   <ClientIcon class="w-6 h-6" />
                 </div>
                 <div class="w-full">
                   {{ $t('clients') }}
                 </div>
-                <button @click="restoreClientsFromOthers" class="ml-auto text-sm text-blue-600 hover:text-blue-800">
-                  Вернуть
-                </button>
-              </div>
-              <div v-if="!agentsVisible" class="relative h-10 flex items-center w-full py-5 text-zinc-400 dark:text-zinc-200 text-lg font-medium space-x-4">
+              </router-link>
+              <button @click="moveClientsToOthers" class="ml-auto text-sm text-red-600 hover:text-red-800">
+                Скрыть
+              </button>
+            </div>
+            <div class="flex w-full justicy-between" v-if="agentsVisible">
+              <router-link v-if="navigationGuard('view_agents')" to="/agents" @click="selectPage()"
+                active-class="active"
+                class="relative h-10 flex items-center w-full hover:bg-blue-300/10 hover:text-blue-600 py-5 text-zinc-400 dark:text-zinc-200 text-lg font-medium space-x-4 cursor-pointer transition-colors duration-300">
+                <div class="w-1.5 h-12 rounded-r-xl first-child-bg-color mr-2"></div>
                 <div class="flex h-10 items-center justify-center rounded-xl w-10 second-child-bg-color">
                   <PhUsersThree class="w-6 h-6" />
                 </div>
                 <div class="w-full">
                   {{ $t('agents') }}
                 </div>
-                <button @click="restoreAgentsFromOthers" class="ml-auto text-sm text-blue-600 hover:text-blue-800">
-                  Вернуть
-                </button>
-              </div>
-              <div v-if="!vouchersVisible" class="relative h-10 flex items-center w-full py-5 text-zinc-400 dark:text-zinc-200 text-lg font-medium space-x-4">
+              </router-link>
+              <button @click="moveAgentsToOthers" class="ml-auto text-sm text-red-600 hover:text-red-800">
+                Скрыть
+              </button>
+            </div>
+            <div class="flex w-full justicy-between" v-if="vouchersVisible">
+              <router-link v-if="navigationGuard('view_agents')" to="/vouchers" @click="selectPage()"
+                active-class="active"
+                class="relative h-10 flex items-center w-full hover:bg-blue-300/10 hover:text-blue-600 py-5 text-zinc-400 dark:text-zinc-200 text-lg font-medium space-x-4 cursor-pointer transition-colors duration-300">
+                <div class="w-1.5 h-12 rounded-r-xl first-child-bg-color mr-2"></div>
                 <div class="flex h-10 items-center justify-center rounded-xl w-10 second-child-bg-color">
                   <PhUsersThree class="w-6 h-6" />
                 </div>
                 <div class="w-full">
                   {{ $t('vouchers') }}
                 </div>
-                <button @click="restoreVouchersFromOthers" class="ml-auto text-sm text-blue-600 hover:text-blue-800">
-                  Вернуть
-                </button>
-              </div>
-              <div v-if="!priceListsVisible" class="relative h-10 flex items-center w-full py-5 text-zinc-400 dark:text-zinc-200 text-lg font-medium space-x-4">
+              </router-link>
+              <button @click="moveVouchersToOthers" class="ml-auto text-sm text-red-600 hover:text-red-800">
+                Скрыть
+              </button>
+            </div>
+            <div class="flex w-full justicy-between" v-if="priceListsVisible">
+              <router-link v-if="navigationGuard('view_agents')" to="/price-lists" @click="selectPage()"
+                active-class="active"
+                class="relative h-10 flex items-center w-full hover:bg-blue-300/10 hover:text-blue-600 py-5 text-zinc-400 dark:text-zinc-200 text-lg font-medium space-x-4 cursor-pointer transition-colors duration-300">
+                <div class="w-1.5 h-12 rounded-r-xl first-child-bg-color mr-2"></div>
                 <div class="flex h-10 items-center justify-center rounded-xl w-10 second-child-bg-color">
                   <PhPriceList class="w-6 h-6" />
                 </div>
                 <div class="w-full">
                   {{ $t('priceLists') }}
                 </div>
-                <button @click="restorePriceListsFromOthers" class="ml-auto text-sm text-blue-600 hover:text-blue-800">
-                  Вернуть
-                </button>
-              </div>
-              <div v-if="!wishesVisible" class="relative h-10 flex items-center w-full py-5 text-zinc-400 dark:text-zinc-200 text-lg font-medium space-x-4">
+              </router-link>
+              <button @click="movePriceListsToOthers" class="ml-auto text-sm text-red-600 hover:text-red-800">
+                Скрыть
+              </button>
+            </div>
+            <div class="flex w-full justicy-between" v-if="wishesVisible">
+              <router-link v-if="navigationGuard('view_users')" to="/wishes" @click="selectPage()" active-class="active"
+                class="relative h-10 flex items-center w-full hover:bg-blue-300/10 hover:text-blue-600 py-5 text-zinc-400 dark:text-zinc-200 text-lg font-medium space-x-4 cursor-pointer transition-colors duration-300">
+                <div class="w-1.5 h-12 rounded-r-xl first-child-bg-color mr-2"></div>
                 <div class="flex h-10 items-center justify-center rounded-xl w-10 second-child-bg-color">
                   <FileLinearIcon class="w-6 h-6" />
                 </div>
                 <div class="w-full">
                   {{ $t('wishes') }}
                 </div>
-                <button @click="restoreWishesFromOthers" class="ml-auto text-sm text-blue-600 hover:text-blue-800">
-                  Вернуть
-                </button>
-              </div>
-              <div v-if="!ipBannedVisible" class="relative h-10 flex items-center w-full py-5 text-zinc-400 dark:text-zinc-200 text-lg font-medium space-x-4">
+              </router-link>
+              <button @click="moveWishesToOthers" class="ml-auto text-sm text-red-600 hover:text-red-800">
+                Скрыть
+              </button>
+            </div>
+            <div class="flex w-full justicy-between" v-if="ipBannedVisible">
+              <router-link v-if="navigationGuard('create_market')" to="/ip-banned" @click="selectPage()"
+                active-class="active"
+                class="relative h-10 flex items-center w-full hover:bg-blue-300/10 hover:text-blue-600 py-5 text-zinc-400 dark:text-zinc-200 text-lg font-medium space-x-4 cursor-pointer transition-colors duration-300">
+                <div class="w-1.5 h-12 rounded-r-xl first-child-bg-color mr-2"></div>
                 <div class="flex h-10 items-center justify-center rounded-xl w-10 second-child-bg-color">
-                  <IpBannedIcon class="w-6 h-6" />
+                  <PhLockKey class="w-6 h-6" />
                 </div>
                 <div class="w-full">
                   {{ $t('ipBanned') }}
                 </div>
-                <button @click="restoreIpBannedFromOthers" class="ml-auto text-sm text-blue-600 hover:text-blue-800">
-                  Вернуть
-                </button>
-              </div>
-              <div v-if="!investorsVisible" class="relative h-10 flex items-center w-full py-5 text-zinc-400 dark:text-zinc-200 text-lg font-medium space-x-4">
+              </router-link>
+              <button @click="moveIpBannedToOthers" class="ml-auto text-sm text-red-600 hover:text-red-800">
+                Скрыть
+              </button>
+            </div>
+            <div class="flex w-full justicy-between" v-if="investorsVisible">
+              <router-link v-if="navigationGuard('view_investors')" to="/investors" @click="selectPage()"
+                active-class="active"
+                class="relative h-10 flex items-center w-full hover:bg-blue-300/10 hover:text-blue-600 py-5 text-zinc-400 dark:text-zinc-200 text-lg font-medium space-x-4 cursor-pointer transition-colors duration-300">
+                <div class="w-1.5 h-12 rounded-r-xl first-child-bg-color mr-2"></div>
                 <div class="flex h-10 items-center justify-center rounded-xl w-10 second-child-bg-color">
                   <InvestorIcon class="w-6 h-6" />
                 </div>
                 <div class="w-full">
                   {{ $t('investors') }}
                 </div>
-                <button @click="restoreInvestorsFromOthers" class="ml-auto text-sm text-blue-600 hover:text-blue-800">
-                  Вернуть
-                </button>
-              </div>
-              <div v-if="!investsVisible" class="relative h-10 flex items-center w-full py-5 text-zinc-400 dark:text-zinc-200 text-lg font-medium space-x-4">
+              </router-link>
+              <button @click="moveInvestorsToOthers" class="ml-auto text-sm text-red-600 hover:text-red-800">
+                Скрыть
+              </button>
+            </div>
+            <div class="flex w-full justicy-between" v-if="investsVisible">
+              <router-link v-if="navigationGuard('view_invests')" to="/invests" @click="selectPage()"
+                active-class="active"
+                class="relative h-10 flex items-center w-full hover:bg-blue-300/10 hover:text-blue-600 py-5 text-zinc-400 dark:text-zinc-200 text-lg font-medium space-x-4 cursor-pointer transition-colors duration-300">
+                <div class="w-1.5 h-12 rounded-r-xl first-child-bg-color mr-2"></div>
                 <div class="flex h-10 items-center justify-center rounded-xl w-10 second-child-bg-color">
                   <InvestIcon class="w-6 h-6" />
                 </div>
-                <div class="full">
+                <div class="w-full">
                   {{ $t('invests') }}
                 </div>
-                <button @click="restoreInvestsFromOthers" class="ml-auto text-sm text-blue-600 hover:text-blue-800">
-                  Вернуть
-                </button>
-              </div>
-              <div v-if="!investPlansVisible" class="relative h-10 flex items-center w-full py-5 text-zinc-400 dark:text-zinc-200 text-lg font-medium space-x-4">
+              </router-link>
+              <button @click="moveInvestsToOthers" class="ml-auto text-sm text-red-600 hover:text-red-800">
+                Скрыть
+              </button>
+            </div>
+            <div class="flex w-full justicy-between" v-if="investPlansVisible">
+              <router-link v-if="navigationGuard('view_invest_plans')" to="/invest-plans" @click="selectPage()"
+                active-class="active"
+                class="relative h-10 flex items-center w-full hover:bg-blue-300/10 hover:text-blue-600 py-5 text-zinc-400 dark:text-zinc-200 text-lg font-medium space-x-4 cursor-pointer transition-colors duration-300">
+                <div class="w-1.5 h-12 rounded-r-xl first-child-bg-color mr-2"></div>
                 <div class="flex h-10 items-center justify-center rounded-xl w-10 second-child-bg-color">
                   <InvestPlanIcon class="w-6 h-6" />
                 </div>
                 <div class="w-full">
                   {{ $t('investPlans') }}
                 </div>
-                <button @click="restoreInvestPlansFromOthers" class="ml-auto text-sm text-blue-600 hover:text-blue-800">
-                  Вернуть
-                </button>
-              </div>
+              </router-link>
+              <button @click="moveInvestPlansToOthers" class="ml-auto text-sm text-red-600 hover:text-red-800">
+                Скрыть
+              </button>
             </div>
+            <details
+              v-if="!investsVisible || !investPlansVisible || !investorsVisible || !ipBannedVisible || !wishesVisible || !priceListsVisible || !vouchersVisible || !agentsVisible || !clientsVisible || !corporateClientsVisible || !saleSettingsVisible || !barcodeDuplicatesVisible || !productBarcodesVisible || !usersVisible || !marketsVisible || !ordersVisible || !cashbackHistoriesVisible || !discountVisible || !upcomingProductsVisible || !incomeExpenseVisible || !productsVisible || !saleVisible || !dashboardVisible"
+              class="mt-4">
+              <summary class="cursor-pointer py-2 text-lg font-medium pl-12 text-zinc-400 dark:text-zinc-200">
+                Others
+              </summary>
+              <div class="flex flex-col space-y-2 pl-12">
+                <div v-if="!dashboardVisible"
+                  class="relative h-10 flex items-center w-full py-5 text-zinc-400 dark:text-zinc-200 text-lg font-medium space-x-4">
+                  <router-link v-if="navigationGuard('dashboard')" to="/dashboard" @click="selectPage()"
+                    active-class="active"
+                    class="relative h-10 flex items-center w-full hover:bg-blue-300/10 hover:text-blue-600 py-5 text-zinc-400 dark:text-zinc-200 text-lg font-medium space-x-4 cursor-pointer transition-colors duration-300">
+                    <div class="flex h-10 items-center justify-center rounded-xl w-10 second-child-bg-color">
+                      <HouseIcon class="w-6 h-6" />
+                    </div>
+                    <div class="w-full">
+                      {{ $t('dashboard') }}
+                    </div>
+                  </router-link>
+                  <button @click="restoreDashboardFromOthers" class="ml-auto text-sm text-blue-600 hover:text-blue-800">
+                    Вернуть
+                  </button>
+                </div>
+                <div v-if="!saleVisible"
+                  class="relative h-10 flex items-center w-full py-5 text-zinc-400 dark:text-zinc-200 text-lg font-medium space-x-4">
+                  <router-link v-if="navigationGuard('create_product')" to="/sales" @click="selectPage()"
+                    active-class="active"
+                    class="relative h-10 flex items-center w-full hover:bg-blue-300/10 hover:text-blue-600 py-5 text-zinc-400 dark:text-zinc-200 text-lg font-medium space-x-4 cursor-pointer transition-colors duration-300">
+                    <div class="flex h-10 items-center justify-center rounded-xl w-10 second-child-bg-color">
+                      <MoneyIcon class="w-6 h-6" />
+                    </div>
+                    <div class="w-full">
+                      {{ $t('sale') }}
+                    </div>
+                  </router-link>
+                  <button @click="restoreSaleFromOthers" class="ml-auto text-sm text-blue-600 hover:text-blue-800">
+                    Вернуть
+                  </button>
+                </div>
+                <div v-if="!productsVisible"
+                  class="relative h-10 flex items-center w-full py-5 text-zinc-400 dark:text-zinc-200 text-lg font-medium space-x-4">
+                  <router-link to="/products" @click="selectPage()" active-class="active"
+                    class="relative h-10 flex items-center w-full hover:bg-blue-300/10 hover:text-blue-600 py-5 text-zinc-400 dark:text-zinc-200 text-lg font-medium space-x-4 cursor-pointer transition-colors duration-300">
+                    <div class="flex h-10 items-center justify-center rounded-xl w-10 second-child-bg-color">
+                      <PhShoppingCart class="w-6 h-6" />
+                    </div>
+                    <div class="w-full">
+                      {{ $t('products') }}
+                    </div>
+                  </router-link>
+                  <button @click="restoreProductsFromOthers" class="ml-auto text-sm text-blue-600 hover:text-blue-800">
+                    Вернуть
+                  </button>
+                </div>
+                <div v-if="!incomeExpenseVisible"
+                  class="relative h-10 flex items-center w-full py-5 text-zinc-400 dark:text-zinc-200 text-lg font-medium space-x-4">
+                  <router-link v-if="navigationGuard('view_histories')" to="/product-histories" @click="selectPage()"
+                    active-class="active"
+                    class="relative h-10 flex items-center w-full hover:bg-blue-300/10 hover:text-blue-600 py-5 text-zinc-400 dark:text-zinc-200 text-lg font-medium space-x-4 cursor-pointer transition-colors duration-300">
+                    <div class="flex h-10 items-center justify-center rounded-xl w-10 second-child-bg-color">
+                      <ProductHistoryIcon class="w-6 h-6" />
+                    </div>
+                    <div class="w-full">
+                      {{ $t('incomeExpense') }}
+                    </div>
+                  </router-link>
+                  <button @click="restoreIncomeExpenseFromOthers"
+                    class="ml-auto text-sm text-blue-600 hover:text-blue-800">
+                    Вернуть
+                  </button>
+                </div>
+                <div v-if="!upcomingProductsVisible"
+                  class="relative h-10 flex items-center w-full py-5 text-zinc-400 dark:text-zinc-200 text-lg font-medium space-x-4">
+                  <router-link v-if="navigationGuard('view_histories')" to="/upcoming-products" @click="selectPage()"
+                    active-class="active"
+                    class="relative h-10 flex items-center w-full hover:bg-blue-300/10 hover:text-blue-600 py-5 text-zinc-400 dark:text-zinc-200 text-lg font-medium space-x-4 cursor-pointer transition-colors duration-300">
+                    <div class="w-1.5 h-12 rounded-r-xl first-child-bg-color mr-2"></div>
+                    <div class="flex h-10 items-center justify-center rounded-xl w-10 second-child-bg-color">
+                      <PhShoppingCart class="w-6 h-6" />
+                    </div>
+                    <div class="w-full">{{ $t('upcomingProducts') }}</div>
+                  </router-link>
+                  <button @click="restoreUpcomingProductsFromOthers"
+                    class="ml-auto text-sm text-blue-600 hover:text-blue-800">
+                    Вернуть
+                  </button>
+                </div>
+                <div v-if="!discountVisible"
+                  class="relative h-10 flex items-center w-full py-5 text-zinc-400 dark:text-zinc-200 text-lg font-medium space-x-4">
+                  <router-link to="/discounts" @click="selectPage()" active-class="active"
+                    class="relative h-10 flex items-center w-full hover:bg-blue-300/10 hover:text-blue-600 py-5 text-zinc-400 dark:text-zinc-200 text-lg font-medium space-x-4 cursor-pointer transition-colors duration-300">
+                    <div class="w-1.5 h-12 rounded-r-xl first-child-bg-color mr-2"></div>
+                    <div class="flex h-10 items-center justify-center rounded-xl w-10 second-child-bg-color">
+                      <PhPercent class="w-6 h-6" />
+                    </div>
+                    <div class="w-full">{{ $t('discount') }}</div>
+                  </router-link>
+                  <button @click="restoreDiscountFromOthers" class="ml-auto text-sm text-blue-600 hover:text-blue-800">
+                    Вернуть
+                  </button>
+                </div>
+                <div v-if="!cashbackHistoriesVisible"
+                  class="relative h-10 flex items-center w-full py-5 text-zinc-400 dark:text-zinc-200 text-lg font-medium space-x-4">
+                  <router-link to="/cashback-histories" @click="selectPage()" active-class="active"
+                    class="relative h-10 flex items-center w-full hover:bg-blue-300/10 hover:text-blue-600 py-5 text-zinc-400 dark:text-zinc-200 text-lg font-medium space-x-4 cursor-pointer transition-colors duration-300">
+                    <div class="w-1.5 h-12 rounded-r-xl first-child-bg-color mr-2"></div>
+                    <div class="flex h-10 items-center justify-center rounded-xl w-10 second-child-bg-color">
+                      <TicketSaleIcon class="w-6 h-6" />
+                    </div>
+                    <div class="w-full">{{ $t('cashbackHistories') }}</div>
+                  </router-link>
+                  <button @click="restoreCashbackHistoriesFromOthers"
+                    class="ml-auto text-sm text-blue-600 hover:text-blue-800">
+                    Вернуть
+                  </button>
+                </div>
+                <div v-if="!ordersVisible"
+                  class="relative h-10 flex items-center w-full py-5 text-zinc-400 dark:text-zinc-200 text-lg font-medium space-x-4">
+                  <router-link to="/orders" @click="selectPage()" active-class="active"
+                    class="relative h-10 flex items-center w-full hover:bg-blue-300/10 hover:text-blue-600 py-5 text-zinc-400 dark:text-zinc-200 text-lg font-medium space-x-4 cursor-pointer transition-colors duration-300">
+                    <div class="w-1.5 h-12 rounded-r-xl first-child-bg-color mr-2"></div>
+                    <div class="flex h-10 items-center justify-center rounded-xl w-10 second-child-bg-color">
+                      <PhShoppingCart class="w-6 h-6" />
+                    </div>
+                    <div class="w-full">{{ $t('sales') }}</div>
+                  </router-link>
+                  <button @click="restoreOrdersFromOthers" class="ml-auto text-sm text-blue-600 hover:text-blue-800">
+                    Вернуть
+                  </button>
+                </div>
+                <div v-if="!marketsVisible"
+                  class="relative h-10 flex items-center w-full py-5 text-zinc-400 dark:text-zinc-200 text-lg font-medium space-x-4">
+                  <router-link v-if="navigationGuard('view_markets')" to="/markets" @click="selectPage()"
+                    active-class="active"
+                    class="relative h-10 flex items-center w-full hover:bg-blue-300/10 hover:text-blue-600 py-5 text-zinc-400 dark:text-zinc-200 text-lg font-medium space-x-4 cursor-pointer transition-colors duration-300">
+                    <div class="w-1.5 h-12 rounded-r-xl first-child-bg-color mr-2"></div>
+                    <div class="flex h-10 items-center justify-center rounded-xl w-10 second-child-bg-color">
+                      <StoreIcon class="w-6 h-6" />
+                    </div>
+                    <div class="w-full">{{ $t('shops') }}</div>
+                  </router-link>
+                  <button @click="restoreMarketFromOthers" class="ml-auto text-sm text-blue-600 hover:text-blue-800">
+                    Вернуть
+                  </button>
+                </div>
+                <div v-if="!usersVisible"
+                  class="relative h-10 flex items-center w-full py-5 text-zinc-400 dark:text-zinc-200 text-lg font-medium space-x-4">
+                  <router-link v-if="navigationGuard('view_users')" to="/users" @click="selectPage()"
+                    active-class="active"
+                    class="relative h-10 flex items-center w-full hover:bg-blue-300/10 hover:text-blue-600 py-5 text-zinc-400 dark:text-zinc-200 text-lg font-medium space-x-4 cursor-pointer transition-colors duration-300">
+                    <div class="w-1.5 h-12 rounded-r-xl first-child-bg-color mr-2"></div>
+                    <div class="flex h-10 items-center justify-center rounded-xl w-10 second-child-bg-color">
+                      <UsersIcon class="w-6 h-6" />
+                    </div>
+                    <div class="w-full">{{ $t('users') }}</div>
+                  </router-link>
+                  <button @click="restoreUsersFromOthers" class="ml-auto text-sm text-blue-600 hover:text-blue-800">
+                    Вернуть
+                  </button>
+                </div>
+                <div v-if="!productBarcodesVisible"
+                  class="relative h-10 flex items-center w-full py-5 text-zinc-400 dark:text-zinc-200 text-lg font-medium space-x-4">
+                  <router-link v-if="navigationGuard('view_barcodes')" to="/product-barcodes" @click="selectPage()"
+                    active-class="active"
+                    class="relative h-10 flex items-center w-full hover:bg-blue-300/10 hover:text-blue-600 py-5 text-zinc-400 dark:text-zinc-200 text-lg font-medium space-x-4 cursor-pointer transition-colors duration-300">
+                    <div class="w-1.5 h-12 rounded-r-xl first-child-bg-color mr-2"></div>
+                    <div class="flex h-10 items-center justify-center rounded-xl w-10 second-child-bg-color">
+                      <PhBarcodeIcon class="w-6 h-6" />
+                    </div>
+                    <div class="w-full">{{ $t('barcodes') }}</div>
+                  </router-link>
+                  <button @click="restoreProductBarcodesFromOthers"
+                    class="ml-auto text-sm text-blue-600 hover:text-blue-800">
+                    Вернуть
+                  </button>
+                </div>
+                <div v-if="!barcodeDuplicatesVisible"
+                  class="relative h-10 flex items-center w-full py-5 text-zinc-400 dark:text-zinc-200 text-lg font-medium space-x-4">
+                  <router-link v-if="navigationGuard('view_barcodes')" to="/barcode-duplicates" @click="selectPage()"
+                    active-class="active"
+                    class="relative h-10 flex items-center w-full hover:bg-blue-300/10 hover:text-blue-600 py-5 text-zinc-400 dark:text-zinc-200 text-lg font-medium space-x-4 cursor-pointer transition-colors duration-300">
+                    <div class="w-1.5 h-12 rounded-r-xl first-child-bg-color mr-2"></div>
+                    <div class="flex items-center justify-center rounded-xl w-10 h-10 second-child-bg-color">
+                      <PhBarcodeIcon class="w-6 h-6" />
+                    </div>
+                    <div class="w-full">{{ $t('duplicates') }}</div>
+                  </router-link>
+                  <button @click="restoreBarcodeDuplicatesFromOthers"
+                    class="ml-auto text-sm text-blue-600 hover:text-blue-800">
+                    Вернуть
+                  </button>
+                </div>
+                <div v-if="!saleSettingsVisible"
+                  class="relative h-10 flex items-center w-full py-5 text-zinc-400 dark:text-zinc-200 text-lg font-medium space-x-4">
+                  <router-link v-if="navigationGuard('view_settings')" to="/sale-settings" @click="selectPage()"
+                    active-class="active"
+                    class="relative h-10 flex items-center w-full hover:bg-blue-300/10 hover:text-blue-600 py-5 text-zinc-400 dark:text-zinc-200 text-lg font-medium space-x-4 cursor-pointer transition-colors duration-300">
+                    <div class="w-1.5 h-12 rounded-r-xl first-child-bg-color mr-2"></div>
+                    <div class="flex h-10 items-center justify-center rounded-xl w-10 second-child-bg-color">
+                      <SettingsIcon class="w-6 h-6" />
+                    </div>
+                    <div class="w-full">{{ $t('settings') }}</div>
+                  </router-link>
+                  <button @click="restoreSaleSettingsFromOthers"
+                    class="ml-auto text-sm text-blue-600 hover:text-blue-800">
+                    Вернуть
+                  </button>
+                </div>
+                <div v-if="!corporateClientsVisible"
+                  class="relative h-10 flex items-center w-full py-5 text-zinc-400 dark:text-zinc-200 text-lg font-medium space-x-4">
+                  <router-link v-if="navigationGuard('view_settings')" to="/corporate-clients" @click="selectPage()"
+                    active-class="active"
+                    class="relative h-10 flex items-center w-full hover:bg-blue-300/10 hover:text-blue-600 py-5 text-zinc-400 dark:text-zinc-200 text-lg font-medium space-x-4 cursor-pointer transition-colors duration-300">
+                    <div class="w-1.5 h-12 rounded-r-xl first-child-bg-color mr-2"></div>
+                    <div class="flex h-10 items-center justify-center rounded-xl w-10 second-child-bg-color">
+                      <ClientCorpIcon class="w-6 h-6" />
+                    </div>
+                    <div class="w-full">{{ $t('corporateClients') }}</div>
+                  </router-link>
+                  <button @click="restoreCorporrateClientsFromOthers"
+                    class="ml-auto text-sm text-blue-600 hover:text-blue-800">
+                    Вернуть
+                  </button>
+                </div>
+                <div v-if="!clientsVisible"
+                  class="relative h-10 flex items-center w-full py-5 text-zinc-400 dark:text-zinc-200 text-lg font-medium space-x-4">
+                  <router-link v-if="navigationGuard('view_settings')" to="/clients" @click="selectPage()"
+                    active-class="active"
+                    class="relative h-10 flex items-center w-full hover:bg-blue-300/10 hover:text-blue-600 py-5 text-zinc-400 dark:text-zinc-200 text-lg font-medium space-x-4 cursor-pointer transition-colors duration-300">
+                    <div class="w-1.5 h-12 rounded-r-xl first-child-bg-color mr-2"></div>
+                    <div class="flex h-10 items-center justify-center rounded-xl w-10 second-child-bg-color">
+                      <ClientIcon class="w-6 h-6" />
+                    </div>
+                    <div class="w-full">{{ $t('clients') }}</div>
+                  </router-link>
+                  <button @click="restoreClientsFromOthers" class="ml-auto text-sm text-blue-600 hover:text-blue-800">
+                    Вернуть
+                  </button>
+                </div>
+                <div v-if="!agentsVisible"
+                  class="relative h-10 flex items-center w-full py-5 text-zinc-400 dark:text-zinc-200 text-lg font-medium space-x-4">
+                  <router-link v-if="navigationGuard('view_agents')" to="/agents" @click="selectPage()"
+                    active-class="active"
+                    class="relative h-10 flex items-center w-full hover:bg-blue-300/10 hover:text-blue-600 py-5 text-zinc-400 dark:text-zinc-200 text-lg font-medium space-x-4 cursor-pointer transition-colors duration-300">
+                    <div class="w-1.5 h-12 rounded-r-xl first-child-bg-color mr-2"></div>
+                    <div class="flex h-10 items-center justify-center rounded-xl w-10 second-child-bg-color">
+                      <PhUsersThree class="w-6 h-6" />
+                    </div>
+                    <div class="w-full">{{ $t('agents') }}</div>
+                  </router-link>
+                  <button @click="restoreAgentsFromOthers" class="ml-auto text-sm text-blue-600 hover:text-blue-800">
+                    Вернуть
+                  </button>
+                </div>
+                <div v-if="!vouchersVisible"
+                  class="relative h-10 flex items-center w-full py-5 text-zinc-400 dark:text-zinc-200 text-lg font-medium space-x-4">
+                  <router-link v-if="navigationGuard('view_agents')" to="/vouchers" @click="selectPage()"
+                    active-class="active"
+                    class="relative h-10 flex items-center w-full hover:bg-blue-300/10 hover:text-blue-600 py-5 text-zinc-400 dark:text-zinc-200 text-lg font-medium space-x-4 cursor-pointer transition-colors duration-300">
+                    <div class="w-1.5 h-12 rounded-r-xl first-child-bg-color mr-2"></div>
+                    <div class="flex h-10 items-center justify-center rounded-xl w-10 second-child-bg-color">
+                      <PhUsersThree class="w-6 h-6" />
+                    </div>
+                    <div class="w-full">{{ $t('vouchers') }}</div>
+                  </router-link>
+                  <button @click="restoreVouchersFromOthers" class="ml-auto text-sm text-blue-600 hover:text-blue-800">
+                    Вернуть
+                  </button>
+                </div>
+                <div v-if="!priceListsVisible"
+                  class="relative h-10 flex items-center w-full py-5 text-zinc-400 dark:text-zinc-200 text-lg font-medium space-x-4">
+                  <router-link v-if="navigationGuard('view_agents')" to="/price-lists" @click="selectPage()"
+                    active-class="active"
+                    class="relative h-10 flex items-center w-full hover:bg-blue-300/10 hover:text-blue-600 py-5 text-zinc-400 dark:text-zinc-200 text-lg font-medium space-x-4 cursor-pointer transition-colors duration-300">
+                    <div class="w-1.5 h-12 rounded-r-xl first-child-bg-color mr-2"></div>
+                    <div class="flex h-10 items-center justify-center rounded-xl w-10 second-child-bg-color">
+                      <PhPriceList class="w-6 h-6" />
+                    </div>
+                    <div class="w-full">{{ $t('priceLists') }}</div>
+                  </router-link>
+                  <button @click="restorePriceListsFromOthers"
+                    class="ml-auto text-sm text-blue-600 hover:text-blue-800">
+                    Вернуть
+                  </button>
+                </div>
+                <div v-if="!wishesVisible"
+                  class="relative h-10 flex items-center w-full py-5 text-zinc-400 dark:text-zinc-200 text-lg font-medium space-x-4">
+                  <router-link v-if="navigationGuard('view_users')" to="/wishes" @click="selectPage()"
+                    active-class="active"
+                    class="relative h-10 flex items-center w-full hover:bg-blue-300/10 hover:text-blue-600 py-5 text-zinc-400 dark:text-zinc-200 text-lg font-medium space-x-4 cursor-pointer transition-colors duration-300">
+                    <div class="w-1.5 h-12 rounded-r-xl first-child-bg-color mr-2"></div>
+                    <div class="flex h-10 items-center justify-center rounded-xl w-10 second-child-bg-color">
+                      <FileLinearIcon class="w-6 h-6" />
+                    </div>
+                    <div class="w-full">{{ $t('wishes') }}</div>
+                  </router-link>
+                  <button @click="restoreWishesFromOthers" class="ml-auto text-sm text-blue-600 hover:text-blue-800">
+                    Вернуть
+                  </button>
+                </div>
+                <div v-if="!ipBannedVisible"
+                  class="relative h-10 flex items-center w-full py-5 text-zinc-400 dark:text-zinc-200 text-lg font-medium space-x-4">
+                  <router-link v-if="navigationGuard('create_market')" to="/ip-banned" @click="selectPage()"
+                    active-class="active"
+                    class="relative h-10 flex items-center w-full hover:bg-blue-300/10 hover:text-blue-600 py-5 text-zinc-400 dark:text-zinc-200 text-lg font-medium space-x-4 cursor-pointer transition-colors duration-300">
+                    <div class="w-1.5 h-12 rounded-r-xl first-child-bg-color mr-2"></div>
+                    <div class="flex h-10 items-center justify-center rounded-xl w-10 second-child-bg-color">
+                      <PhLockKey class="w-6 h-6" />
+                    </div>
+                    <div class="w-full">{{ $t('ipBanned') }}</div>
+                  </router-link>
+                  <button @click="restoreIpBannedFromOthers" class="ml-auto text-sm text-blue-600 hover:text-blue-800">
+                    Вернуть
+                  </button>
+                </div>
+                <div v-if="!investorsVisible"
+                  class="relative h-10 flex items-center w-full py-5 text-zinc-400 dark:text-zinc-200 text-lg font-medium space-x-4">
+                  <router-link v-if="navigationGuard('view_investors')" to="/investors" @click="selectPage()"
+                    active-class="active"
+                    class="relative h-10 flex items-center w-full hover:bg-blue-300/10 hover:text-blue-600 py-5 text-zinc-400 dark:text-zinc-200 text-lg font-medium space-x-4 cursor-pointer transition-colors duration-300">
+                    <div class="w-1.5 h-12 rounded-r-xl first-child-bg-color mr-2"></div>
+                    <div class="flex h-10 items-center justify-center rounded-xl w-10 second-child-bg-color">
+                      <InvestorIcon class="w-6 h-6" />
+                    </div>
+                    <div class="w-full">{{ $t('investors') }}</div>
+                  </router-link>
+                  <button @click="restoreInvestorsFromOthers" class="ml-auto text-sm text-blue-600 hover:text-blue-800">
+                    Вернуть
+                  </button>
+                </div>
+                <div v-if="!investsVisible"
+                  class="relative h-10 flex items-center w-full py-5 text-zinc-400 dark:text-zinc-200 text-lg font-medium space-x-4">
+                  <router-link v-if="navigationGuard('view_invests')" to="/invests" @click="selectPage()"
+                    active-class="active"
+                    class="relative h-10 flex items-center w-full hover:bg-blue-300/10 hover:text-blue-600 py-5 text-zinc-400 dark:text-zinc-200 text-lg font-medium space-x-4 cursor-pointer transition-colors duration-300">
+                    <div class="w-1.5 h-12 rounded-r-xl first-child-bg-color mr-2"></div>
+                    <div class="flex h-10 items-center justify-center rounded-xl w-10 second-child-bg-color">
+                      <InvestIcon class="w-6 h-6" />
+                    </div>
+                    <div class="w-full">{{ $t('invests') }}</div>
+                  </router-link>
+                  <button @click="restoreInvestsFromOthers" class="ml-auto text-sm text-blue-600 hover:text-blue-800">
+                    Вернуть
+                  </button>
+                </div>
+                <div v-if="!investPlansVisible"
+                  class="relative h-10 flex items-center w-full py-5 text-zinc-400 dark:text-zinc-200 text-lg font-medium space-x-4">
+                  <router-link v-if="navigationGuard('view_invest_plans')" to="/invest-plans" @click="selectPage()"
+                    active-class="active"
+                    class="relative h-10 flex items-center w-full hover:bg-blue-300/10 hover:text-blue-600 py-5 text-zinc-400 dark:text-zinc-200 text-lg font-medium space-x-4 cursor-pointer transition-colors duration-300">
+                    <div class="w-1.5 h-12 rounded-r-xl first-child-bg-color mr-2"></div>
+                    <div class="flex h-10 items-center justify-center rounded-xl w-10 second-child-bg-color">
+                      <InvestPlanIcon class="w-6 h-6" />
+                    </div>
+                    <div class="w-full">{{ $t('investPlans') }}</div>
+                  </router-link>
+                  <button @click="restoreInvestPlansFromOthers"
+                    class="ml-auto text-sm text-blue-600 hover:text-blue-800">
+                    Вернуть
+                  </button>
+                </div>
+              </div>
             </details>
           </div>
           <div class="absolute bottom-32 h-min w-full space-y-4 pb-3 bg-slate-100 dark:bg-slate-900">
@@ -1052,3 +1133,4 @@ const restoreInvestPlansFromOthers = () => {
   background-color: rgb(30 41 59) !important;
 }
 </style>
+

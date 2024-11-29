@@ -343,4 +343,4 @@ export const useModalStore = defineStore('modal', {
       this.isOpenAgentInfoModal = false
     }
   }
-})
+}) 
