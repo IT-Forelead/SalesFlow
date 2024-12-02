@@ -50,8 +50,7 @@ export const useProductStore = defineStore('product', {
       this.intervalType = data
     },
     clearStore() {
-      this.intervalType = 'month'
-      this.limit = 7
+      
       this.products = []
       this.recommendProducts = []
       this.productBarcodes = []
