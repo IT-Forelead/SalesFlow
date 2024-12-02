@@ -90,6 +90,7 @@ const createWishToBuyProduct = () => {
 const whenPressEnter = (e) => {
   if (e.keyCode === 13) {
     createWishToBuyProduct()
+    wishToBuyProductName.value = '' 
   }
 }
 
