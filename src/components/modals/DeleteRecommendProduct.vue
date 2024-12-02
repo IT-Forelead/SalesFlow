@@ -8,14 +8,13 @@ import { toast } from 'vue-sonner'
 import { useI18n } from 'vue-i18n'
 import { ref } from 'vue'
 
-
 const { t } = useI18n()
-
 const isLoading = ref(false)
+const productStore = useProductStore()
 
 const closeModal = () => {
   useModalStore().closeDeleteRecommendProductModal()
-  useProductStore().setSelectedProduct({})
+  productStore.setSelectedProduct({})
 }
 
 const hideRecommendProduct = () => {
@@ -24,17 +23,17 @@ const hideRecommendProduct = () => {
       toast.success(t('recommendDeletedSuccessfully'))
       ProductService.getRecommendStats(
         {
-          intervalType: useProductStore().intervalType,
-          limit: useProductStore().limit
+          intervalType: productStore.intervalType,
+          limit: productStore.limit
         }
       )
         .then((res) => {
-          useProductStore().clearStore()
-          useProductStore().setRecommendProducts(res)
+          productStore.clearStore()
+          productStore.setRecommendProducts(res)
           closeModal()
-          console.log(useProductStore().recommendProducts);
+          console.log(productStore.recommendProducts);
 
-          useProductStore().renderKey += 1
+          productStore.renderKey += 1
 
         })
         .catch(() => {

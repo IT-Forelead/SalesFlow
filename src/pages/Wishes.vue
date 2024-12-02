@@ -37,7 +37,7 @@ const columns = [
     header: t('image'),
     enableSorting: false,
     cell: ({ row }) =>
-      h('div', { class: 'w-12 h-12 flex items-center overflow-hidden border border-gray-300' },
+      h('div', { class: 'w-12 h-12 flex items-center overflow-hidden' },
         [row.original.asset ?
           h(Image, { src: `${row.original.asset.url}`, alt: '#', preview: '' }) : h('span')]),
   },
@@ -89,13 +89,13 @@ const getWishes = async (filters = {}) => {
 getWishes()
 
 const updateWish = (id, boolean) => {
-    isLoading.value = true
+  //  isLoading.value = true
     WishService.updateWish({
       id: id,
       completed: boolean ,
     }).then(() => {
-      isLoading.value = false
-      getWishes()
+ //     isLoading.value = false
+      
     })}
 
 const submitFilterData = async () => {
