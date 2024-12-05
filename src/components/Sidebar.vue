@@ -370,7 +370,7 @@ const toggleShowHideButtons = () => {
       :class="useSidebarStore().isOpenSidebar ? 'opacity-100' : 'opacity-0 pointer-events-none'" @click="closeSidebar">
     </div>
     <div id="sidebar" ref="sidebar"
-      class="flex justify-between flex-col bg-slate-100 dark:bg-slate-900 absolute z-40 left-0 top-0 lg:static border-r lg:left-auto lg:top-auto lg:translate-x-0 min-h-screen w-96 shrink-0 transition-all duration-200 ease-in-out"
+      class="flex justify-between flex-col bg-slate-100 dark:bg-slate-900 absolute z-40 left-0 top-0 lg:static border-r lg:left-auto lg:top-auto lg:translate-x-0 min-h-screen w-72 shrink-0 transition-all duration-200 ease-in-out"
       :class="useSidebarStore().isOpenSidebar ? 'translate-x-0' : '-translate-x-64'">
       <div>
         <div class="h-20 flex justify-around">
@@ -801,7 +801,7 @@ const toggleShowHideButtons = () => {
             <details
               v-if="!investsVisible || !investPlansVisible || !investorsVisible || !ipBannedVisible || !wishesVisible || !priceListsVisible || !vouchersVisible || !agentsVisible || !clientsVisible || !corporateClientsVisible || !saleSettingsVisible || !barcodeDuplicatesVisible || !productBarcodesVisible || !usersVisible || !marketsVisible || !ordersVisible || !cashbackHistoriesVisible || !discountVisible || !upcomingProductsVisible || !incomeExpenseVisible || !productsVisible || !saleVisible || !dashboardVisible"
               class="mt-4">
-              <summary class="cursor-pointer py-2 pl-9  text-lg font-medium pl-12 hover:bg-blue-300/10 hover:text-blue-600 text-zinc-400 dark:text-zinc-200 space-x-4">
+              <summary class="cursor-pointer py-2 pl-9  text-lg font-medium hover:bg-blue-300/10 hover:text-blue-600 text-zinc-400 dark:text-zinc-200 space-x-4">
                 Others
               </summary>
               <div class="flex flex-col space-y-2 ">
@@ -829,7 +829,9 @@ const toggleShowHideButtons = () => {
                   <router-link v-if="navigationGuard('create_product')" to="/sales" @click="selectPage()"
                     active-class="active"
                     class="relative h-10 flex items-center w-full hover:bg-blue-300/10 hover:text-blue-600 py-5 text-zinc-400 dark:text-zinc-200 text-lg font-medium space-x-4 cursor-pointer transition-colors duration-300">
+                    <div class="w-1.5 h-12 rounded-r-xl first-child-bg-color mr-2"></div>
                     <div class="flex h-10 items-center justify-center rounded-xl w-10 second-child-bg-color">
+                      
                       <MoneyIcon class="w-6 h-6" />
                     </div>
                     <div class="w-full">
@@ -846,6 +848,7 @@ const toggleShowHideButtons = () => {
                   class="relative h-10 flex items-center w-full py-5 text-zinc-400 dark:text-zinc-200 text-lg font-medium space-x-4">
                   <router-link to="/products" @click="selectPage()" active-class="active"
                     class="relative h-10 flex items-center w-full hover:bg-blue-300/10 hover:text-blue-600 py-5 text-zinc-400 dark:text-zinc-200 text-lg font-medium space-x-4 cursor-pointer transition-colors duration-300">
+                    <div class="w-1.5 h-12 rounded-r-xl first-child-bg-color mr-2"></div>
                     <div class="flex h-10 items-center justify-center rounded-xl w-10 second-child-bg-color">
                       <PhShoppingCart class="w-6 h-6" />
                     </div>
@@ -864,6 +867,7 @@ const toggleShowHideButtons = () => {
                   <router-link v-if="navigationGuard('view_histories')" to="/product-histories" @click="selectPage()"
                     active-class="active"
                     class="relative h-10 flex items-center w-full hover:bg-blue-300/10 hover:text-blue-600 py-5 text-zinc-400 dark:text-zinc-200 text-lg font-medium space-x-4 cursor-pointer transition-colors duration-300">
+                    <div class="w-1.5 h-12 rounded-r-xl first-child-bg-color mr-2"></div>
                     <div class="flex h-10 items-center justify-center rounded-xl w-10 second-child-bg-color">
                       <ProductHistoryIcon class="w-6 h-6" />
                     </div>
@@ -959,10 +963,8 @@ const toggleShowHideButtons = () => {
                   </button>
                 </div>
                 </div>
-                <div v-if="!usersVisible"
-                  class="relative h-10 flex items-center w-full py-5 text-zinc-400 dark:text-zinc-200 text-lg font-medium space-x-4">
-                  <router-link v-if="navigationGuard('view_users')" to="/users" @click="selectPage()"
-                    active-class="active"
+                <div class="flex w-full justicy-between" v-if="!usersVisible">
+                  <router-link v-if="navigationGuard('view_users')" to="/users" @click="selectPage()" active-class="active"
                     class="relative h-10 flex items-center w-full hover:bg-blue-300/10 hover:text-blue-600 py-5 text-zinc-400 dark:text-zinc-200 text-lg font-medium space-x-4 cursor-pointer transition-colors duration-300">
                     <div class="w-1.5 h-12 rounded-r-xl first-child-bg-color mr-2"></div>
                     <div class="flex h-10 items-center justify-center rounded-xl w-10 second-child-bg-color">
@@ -971,7 +973,7 @@ const toggleShowHideButtons = () => {
                     <div class="w-full">{{ $t('users') }}</div>
                   </router-link>
                   <div v-if="showHideButtons">
-                  <button @click="restoreUsersFromOthers" class="ml-auto space-y-1 px-1 py-2 hover:bg-blue-300/10 text-sm text-blue-600 hover:text-blue-800">
+                  <button @click="restoreUsersFromOthers" class="ml-auto text-sm space-y-1 px-1 py-2 hover:bg-blue-300/10 text-blue-600 hover:text-blue-800">
                     <EyeIcon class="w-6 h-6" />
                   </button>
                 </div>
@@ -1207,9 +1209,9 @@ const toggleShowHideButtons = () => {
                 Istak qo'shish
               </button>
               <OverlayPanel ref="wishToBuyProductModal">
-                <div class="w-96">
+                <div class="w-56">
                   <input ref="wishFocus" v-model="wishToBuyProductName" id="wish" type="text" v-on:keypress="whenPressEnter($event)"
-                    class="bg-slate-100 border-none dark:bg-slate-700 text-slate-900 dark:text-white rounded-lg w-full py-2.5 placeholder-slate-400"
+                    class="bg-slate-100 dark:bg-slate-700 text-slate-900 dark:text-white rounded-lg w-full py-2.5 placeholder-slate-400"
                     :placeholder="t('enterProductName')">
                 </div>
               </OverlayPanel>

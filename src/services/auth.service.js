@@ -14,12 +14,10 @@ class AuthService {
   
   async logout(action) {
     await AxiosService.get('/auth/logout').then(() => {
-      localStorage.removeItem('session');
-      localStorage.removeItem('authToken');
+      localStorage.clear()
       action()
     })
-    localStorage.removeItem('session');
-    localStorage.removeItem('authToken');
+    localStorage.clear()
   }
   async getIPBans() {
     return AxiosService.get('/auth/ip-bans')
