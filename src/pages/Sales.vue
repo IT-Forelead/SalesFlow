@@ -26,6 +26,7 @@ import SettingsService from '../services/settings.service';
 import { useProductStore } from '../store/product.store';
 import { useModalStore } from '../store/modal.store';
 import { useBarcodeStore } from '../store/barcode.store';
+import { useSidebarStore } from '../store/sidebar.store.js'
 import { isBarcode } from '../mixins/barcodeFormatter';
 import { useI18n } from 'vue-i18n';
 import BasketIcon from '../assets/icons/BasketIcon.vue';
@@ -48,6 +49,11 @@ import CorporateClientsService from '@/services/corporateClients.service.js';
 import { useCorporateClientsStore } from '@/store/corporateClients.store';
 
 const notificationDropdown = ref(null);
+
+const sidebarStore = useSidebarStore()
+const isWishFocus = computed(() => {
+    return sidebarStore.isWishFocus
+})
 
 onClickOutside(notificationDropdown, () => {
   if (useModalStore().isOpenNotification) {
@@ -490,7 +496,7 @@ const reduceCountOfProducts = (product) => {
 const reducePriceChecking = (product) => {
   // return product.price * product.amount - 500 >= product.price
   if (product.saleType === 'kg') {
-    return product.amount != 0.1;
+    return product.amount > 0.1;
   } else if (product.saleType === 'litre') {
     return product.amount > 0.5;
   } else {
@@ -777,9 +783,17 @@ watch(
   { deep: true },
 );
 
+watch(() => isWishFocus.value, (newValue) => {
+  if (newValue) {
+    onSearchFocus.value = null;
+  }
+});
+
 watchEffect(() => {
   if (onSearchFocus.value) {
     onSearchFocus.value.focus();
+    console.log("Before local storage")
+    localStorage.setItem('searchFocus', JSON.stringify(onSearchFocus.value))
     onFullNameFocus.value = null;
     onPhoneFocus.value = null;
     onDiscountFocus.value = null;
@@ -918,6 +932,7 @@ const reFocus = () => {
   ) {
     onTotalFocus.value = null;
     onSearchFocus.value.focus();
+    console.log("11")
   } else if (
     onTotalFocus.value &&
     onFullNameFocus.value == null &&
@@ -926,6 +941,7 @@ const reFocus = () => {
     !focusedPrice.value
   ) {
     onSearchFocus.value.focus();
+    console.log("22")
   } else if (onFullNameFocus.value) {
     onFullNameFocus.value.focus();
   } else if (onDiscountFocus.value && !focusedPrice.value) {
@@ -937,6 +953,7 @@ const reFocus = () => {
     !focusedPrice.value
   ) {
     onSearchFocus.value.focus();
+    console.log("3")
   } else if (!focused.value && onCustomerMoneyFocus.value == null && focusedPrice.value) {
     document.getElementById('price').focus();
   } else {
