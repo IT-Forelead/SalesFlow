@@ -10,6 +10,7 @@ import LogoutIcon from './../assets/icons/LogoutIcon.vue'
 import SettingsIcon from '../assets/icons/SettingsIcon.vue'
 import DotsThreeVerticalBoldIcon from '../assets/icons/DotsThreeVerticalBoldIcon.vue'
 import { useI18n } from 'vue-i18n'
+import EditIcon from '../assets/icons/EditIcon.vue'
 
 const { t } = useI18n()
 const router = useRouter()
@@ -27,6 +28,14 @@ const logout = () => {
   if (useModalStore().isOpenProfileDropDown) {
     useModalStore().toggleProfile()
   }
+}
+
+import { defineEmits } from 'vue'
+
+const emit = defineEmits()
+
+const editSave = () => {
+  emit('toggle-show-hide-buttons')
 }
 </script>
 <template>
@@ -48,23 +57,30 @@ const logout = () => {
           </div>
         </div>
       </div>
-      <div @click="useModalStore().toggleProfile()" class="hover:bg-gray-100 dark:hover:bg-gray-500 p-0.5 rounded-lg cursor-pointer" :class="useModalStore().isOpenProfileDropDown ? 'dark:bg-gray-500 bg-gray-100 ' : ''">
+      <!-- <button>
+          *
+        </button> -->
+      <div @click="useModalStore().toggleProfile()" class="hover:bg-gray-100 hover:dark:bg-gray-700 p-0.5 rounded-lg cursor-pointer" :class="useModalStore().isOpenProfileDropDown ? 'dark:bg-gray-700 bg-gray-100 ' : ''">
         <DotsThreeVerticalBoldIcon class="w-5 h-5" />
       </div>
     </div>
     <div v-if="useModalStore().isOpenProfileDropDown" class="absolute z-50 top-11 md:top-0 right-2 md:-right-[200px] w-52 dark:bg-slate-800 bg-white border border-gray-200 shadow rounded-lg divide-y divide-gray-200">
       <ul class="p-1.5 relative">
-        <li class="flex items-center text-slate-900 dark:text-white hover:bg-blue-100 hover:text-blue-600 dark:hover:text-slate-900 rounded-lg cursor-pointer p-2 space-x-2">
+        <li class="flex items-center text-slate-900 dark:text-white hover:bg-blue-100 hover:dark:bg-slate-700 hover:text-blue-600 rounded-lg cursor-pointer p-2 space-x-2">
           <UserIcon class="w-5 h-5" />
           <span>{{ $t('profile') }}</span>
         </li>
-        <li class="flex items-center text-slate-900 dark:text-white hover:bg-blue-100 hover:text-blue-600 dark:hover:text-slate-900 rounded-lg cursor-pointer p-2 space-x-2">
+        <li class="flex items-center text-slate-900 dark:text-white hover:bg-blue-100 hover:dark:bg-slate-700 hover:text-blue-600 rounded-lg cursor-pointer p-2 space-x-2">
           <SettingsIcon class="w-5 h-5" />
           <span>{{ $t('settings') }}</span>
         </li>
+        <li @click="editSave" class="flex items-center text-slate-900 dark:text-white hover:bg-blue-100 hover:dark:bg-slate-700 hover:text-blue-600 rounded-lg cursor-pointer p-2 space-x-2">
+          <EditIcon class="w-5 h-5" />
+          <span>{{ $t('Edit') }}</span>
+        </li>
       </ul>
       <div class="p-1.5">
-        <div @click="logout" class="flex items-center text-slate-900 dark:text-white hover:text-blue-600 dark:hover:text-slate-900 hover:bg-blue-100 rounded-lg cursor-pointer p-2 space-x-2">
+        <div @click="logout" class="flex items-center text-slate-900 dark:text-white hover:dark:bg-slate-700 hover:text-blue-600 hover:bg-blue-100 rounded-lg cursor-pointer p-2 space-x-2">
           <LogoutIcon class="w-5 h-5" />
           <span>{{ $t('logout') }}</span>
         </div>
@@ -73,3 +89,4 @@ const logout = () => {
   </div>
 </template>
 <style scoped></style>
+
