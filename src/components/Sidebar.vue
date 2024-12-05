@@ -1,5 +1,5 @@
 <script setup>
-import { onMounted, ref } from 'vue'
+import { onMounted, ref, watchEffect } from 'vue'
 import HouseIcon from './../assets/icons/HouseIcon.vue'
 import MoneyIcon from './../assets/icons/MoneyIcon.vue'
 import PhShoppingCart from '../assets/icons/ShoppingCartIcon.vue'
@@ -43,12 +43,21 @@ const router = useRouter()
 const payload = ref({})
 const wishToBuyProductName = ref('')
 const wishToBuyProductModal = ref()
-
+const wishFocus = ref(null)
 const page = ref(1)
 const pageSize = 50
 const toggleWishToBuyProductModal = (event) => {
   wishToBuyProductModal.value.toggle(event);
 }
+
+watchEffect(() => {
+  if (wishFocus.value && document.getElementById('wish')) {
+    useSidebarStore().setWishFocus(true)
+    document.getElementById('wish').focus();
+  } else {
+    useSidebarStore().setWishFocus(false)
+  }
+})
 
 const selectPage = () => {
   useSidebarStore().isOpenSidebar = true
@@ -379,7 +388,7 @@ onMounted(() => {
               </button>
               <OverlayPanel ref="wishToBuyProductModal">
                 <div class="w-96">
-                  <input v-model="wishToBuyProductName" id="login" type="text" v-on:keypress="whenPressEnter($event)"
+                  <input ref="wishFocus" v-model="wishToBuyProductName" id="wish" type="text" v-on:keypress="whenPressEnter($event)"
                     class="bg-slate-100 border-none dark:bg-slate-700 text-slate-900 dark:text-white rounded-lg w-full py-2.5 placeholder-slate-400"
                     :placeholder="t('enterProductName')">
                 </div>
