@@ -102,7 +102,7 @@ const login = () => {
             } else {
               router.push('/dashboard')
             }
-          }, 200)
+          }, 100)
         }
       }
     }).catch((err) => {

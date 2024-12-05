@@ -463,5 +463,6 @@
   "left": "Доконда мавжуд",
   "deleteRecommend": "Тавсия ўчириш",
   "recommendDeletedSuccessfully": "Тавсия махсулот ўчирилди",
-  "errorWhileDeletingRecommend": "Тавсия махсулот ўчириш хатолик юз берди"
+  "errorWhileDeletingRecommend": "Тавсия махсулот ўчириш хатолик юз берди",
+  "Edit": "Таҳрирлаш"
 }

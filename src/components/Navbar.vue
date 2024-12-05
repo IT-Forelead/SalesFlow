@@ -82,7 +82,7 @@ const handleResize = () => {
 
 onMounted(() => {
   const savedTheme = localStorage.getItem('theme')
-  document.documentElement.className = savedTheme ? savedTheme : 'dark'
+  document.documentElement.className = savedTheme ? savedTheme : 'light'
   window.addEventListener('resize', handleResize);
 });
 
