@@ -466,5 +466,6 @@
   "left": "Dokonda mavjud",
   "recommendDeletingAgent": "Tavsiya o'chirish",
   "recommendDeletedSuccessfully": "Tavsiya mahsulot o'chirildi",
-  "errorWhileDeletingRecommend": "Tavsiya mahsulot o'chirish xatolik yuz berdi"
+  "errorWhileDeletingRecommend": "Tavsiya mahsulot o'chirish xatolik yuz berdi",
+  "Edit": "Tahrirlash"
 }
