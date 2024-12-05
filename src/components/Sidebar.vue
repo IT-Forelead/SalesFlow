@@ -359,7 +359,6 @@ const restoreInvestPlansFromOthers = () => {
 
 const showHideButtons = ref(false)
 
-// Метод для обработки события
 const toggleShowHideButtons = () => {
   showHideButtons.value = !showHideButtons.value
 }
