@@ -10,6 +10,7 @@ import LogoutIcon from './../assets/icons/LogoutIcon.vue'
 import SettingsIcon from '../assets/icons/SettingsIcon.vue'
 import DotsThreeVerticalBoldIcon from '../assets/icons/DotsThreeVerticalBoldIcon.vue'
 import { useI18n } from 'vue-i18n'
+import EditIcon from '../assets/icons/EditIcon.vue'
 
 const { t } = useI18n()
 const router = useRouter()
@@ -33,9 +34,8 @@ import { defineEmits } from 'vue'
 
 const emit = defineEmits()
 
-// Функция для редактирования/сохранения
 const editSave = () => {
-  emit('toggle-show-hide-buttons') // Отправляем событие родителю
+  emit('toggle-show-hide-buttons')
 }
 </script>
 <template>
@@ -72,8 +72,8 @@ const editSave = () => {
           <span>{{ $t('settings') }}</span>
         </li>
         <li @click="editSave" class="flex items-center text-slate-900 dark:text-white hover:bg-blue-100 hover:dark:bg-slate-700 hover:text-blue-600 rounded-lg cursor-pointer p-2 space-x-2">
-          <SettingsIcon class="w-5 h-5" />
-          <span>{{ $t('editProfile') }}</span>
+          <EditIcon class="w-5 h-5" />
+          <span>{{ $t('Edit') }}</span>
         </li>
       </ul>
       <div class="p-1.5">
