@@ -1,5 +1,5 @@
 <script setup>
-import { ref } from 'vue'
+import { defineEmits, ref } from 'vue'
 import { useRouter } from 'vue-router'
 import { onClickOutside } from '@vueuse/core'
 import AuthService from '../services/auth.service'
@@ -16,6 +16,12 @@ const { t } = useI18n()
 const router = useRouter()
 const dropdown = ref(null)
 
+const emit = defineEmits()
+
+const editSave = () => {
+  emit('toggle-show-hide-buttons')
+}
+
 onClickOutside(dropdown, () => {
   if (useModalStore().isOpenProfileDropDown) {
     useModalStore().toggleProfile()
@@ -30,13 +36,6 @@ const logout = () => {
   }
 }
 
-import { defineEmits } from 'vue'
-
-const emit = defineEmits()
-
-const editSave = () => {
-  emit('toggle-show-hide-buttons')
-}
 </script>
 <template>
   <div class="relative" ref="dropdown">
@@ -57,9 +56,7 @@ const editSave = () => {
           </div>
         </div>
       </div>
-      <!-- <button>
-          *
-        </button> -->
+     
       <div @click="useModalStore().toggleProfile()" class="hover:bg-gray-100 hover:dark:bg-gray-700 p-0.5 rounded-lg cursor-pointer" :class="useModalStore().isOpenProfileDropDown ? 'dark:bg-gray-700 bg-gray-100 ' : ''">
         <DotsThreeVerticalBoldIcon class="w-5 h-5" />
       </div>
