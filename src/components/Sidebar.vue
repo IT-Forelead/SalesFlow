@@ -387,7 +387,7 @@ onMounted(() => {
                 Istak qo'shish
               </button>
               <OverlayPanel ref="wishToBuyProductModal">
-                <div class="w-54">
+                <div class="w-56">
                   <input ref="wishFocus" v-model="wishToBuyProductName" id="wish" type="text"
                     v-on:keypress="whenPressEnter($event)"
                     class="bg-slate-100 border-none dark:bg-slate-700 text-slate-900 dark:text-white rounded-lg w-full py-2.5 placeholder-slate-400"
