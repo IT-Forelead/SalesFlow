@@ -932,7 +932,6 @@ const reFocus = () => {
   ) {
     onTotalFocus.value = null;
     onSearchFocus.value.focus();
-    console.log("11")
   } else if (
     onTotalFocus.value &&
     onFullNameFocus.value == null &&
@@ -941,7 +940,6 @@ const reFocus = () => {
     !focusedPrice.value
   ) {
     onSearchFocus.value.focus();
-    console.log("22")
   } else if (onFullNameFocus.value) {
     onFullNameFocus.value.focus();
   } else if (onDiscountFocus.value && !focusedPrice.value) {
@@ -953,7 +951,6 @@ const reFocus = () => {
     !focusedPrice.value
   ) {
     onSearchFocus.value.focus();
-    console.log("3")
   } else if (!focused.value && onCustomerMoneyFocus.value == null && focusedPrice.value) {
     document.getElementById('price').focus();
   } else {

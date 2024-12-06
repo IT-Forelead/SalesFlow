@@ -390,8 +390,8 @@ const toggleShowHideButtons = () => {
         <ProfileDropDown @toggle-show-hide-buttons="toggleShowHideButtons" />
         <div class="max-h-svh flex pb-[18rem] flex-col">
           <div class="relative space-y-1 py-1 overflow-y-auto overflow-x-hidden md:max-h-screen">
-            <div class="flex w-full justicy-between" v-if="dashboardVisible">
-              <router-link v-if="navigationGuard('dashboard')" to="/dashboard" @click="selectPage()"
+            <div class="flex w-full justicy-between" v-if="dashboardVisible && navigationGuard('dashboard')">
+              <router-link  to="/dashboard" @click="selectPage()"
                 active-class="active"
                 class="relative h-10 flex items-center w-full hover:bg-blue-300/10 hover:text-blue-600 py-5 text-zinc-400 dark:text-zinc-200 text-lg font-medium space-x-4 cursor-pointer transition-colors duration-300">
                 <div class="w-1.5 h-12 rounded-r-xl first-child-bg-color mr-2"></div>
@@ -408,8 +408,8 @@ const toggleShowHideButtons = () => {
               </button>
               </div>
             </div>
-            <div class="flex w-full justicy-between" v-if="saleVisible">
-              <router-link v-if="navigationGuard('create_product')" to="/sales" @click="selectPage()"
+            <div class="flex w-full justicy-between" v-if="saleVisible && navigationGuard('create_product')">
+              <router-link to="/sales" @click="selectPage()"
                 active-class="active"
                 class="relative h-10 flex items-center w-full hover:bg-blue-300/10 hover:text-blue-600 py-5 text-zinc-400 dark:text-zinc-200 text-lg font-medium space-x-4 cursor-pointer transition-colors duration-300">
                 <div class="w-1.5 h-12 rounded-r-xl first-child-bg-color mr-2"></div>
@@ -443,8 +443,8 @@ const toggleShowHideButtons = () => {
               </button>
             </div>
             </div>
-            <div class="flex w-full justicy-between" v-if="incomeExpenseVisible">
-              <router-link v-if="navigationGuard('view_histories')" to="/product-histories" @click="selectPage()"
+            <div class="flex w-full justicy-between" v-if="incomeExpenseVisible && navigationGuard('view_histories')">
+              <router-link to="/product-histories" @click="selectPage()"
                 active-class="active"
                 class="relative h-10 flex items-center w-full hover:bg-blue-300/10 hover:text-blue-600 py-5 text-zinc-400 dark:text-zinc-200 text-lg font-medium space-x-4 cursor-pointer transition-colors duration-300">
                 <div class="w-1.5 h-12 rounded-r-xl first-child-bg-color mr-2"></div>
@@ -461,8 +461,8 @@ const toggleShowHideButtons = () => {
               </button>
             </div>
             </div>
-            <div class="flex w-full justicy-between" v-if="upcomingProductsVisible">
-              <router-link v-if="navigationGuard('view_histories')" to="/upcoming-products" @click="selectPage()"
+            <div class="flex w-full justicy-between" v-if="upcomingProductsVisible && navigationGuard('view_histories')">
+              <router-link to="/upcoming-products" @click="selectPage()"
                 active-class="active"
                 class="relative h-10 flex items-center w-full hover:bg-blue-300/10 hover:text-blue-600 py-5 text-zinc-400 dark:text-zinc-200 text-lg font-medium space-x-4 cursor-pointer transition-colors duration-300">
                 <div class="w-1.5 h-12 rounded-r-xl first-child-bg-color mr-2"></div>
@@ -530,8 +530,8 @@ const toggleShowHideButtons = () => {
               </button>
             </div>
             </div>
-            <div class="flex w-full justicy-between" v-if="marketsVisible">
-              <router-link v-if="navigationGuard('view_markets')" to="/markets" @click="selectPage()"
+            <div class="flex w-full justicy-between" v-if="marketsVisible && navigationGuard('view_markets')">
+              <router-link to="/markets" @click="selectPage()"
                 active-class="active"
                 class="relative h-10 flex items-center w-full hover:bg-blue-300/10 hover:text-blue-600 py-5 text-zinc-400 dark:text-zinc-200 text-lg font-medium space-x-4 cursor-pointer transition-colors duration-300">
                 <div class="w-1.5 h-12 rounded-r-xl first-child-bg-color mr-2"></div>
@@ -548,8 +548,8 @@ const toggleShowHideButtons = () => {
               </button>
             </div>
             </div>
-            <div class="flex w-full justicy-between" v-if="usersVisible">
-              <router-link v-if="navigationGuard('view_users')" to="/users" @click="selectPage()" active-class="active"
+            <div class="flex w-full justicy-between" v-if="usersVisible && navigationGuard('view_users')">
+              <router-link to="/users" @click="selectPage()" active-class="active"
                 class="relative h-10 flex items-center w-full hover:bg-blue-300/10 hover:text-blue-600 py-5 text-zinc-400 dark:text-zinc-200 text-lg font-medium space-x-4 cursor-pointer transition-colors duration-300">
                 <div class="w-1.5 h-12 rounded-r-xl first-child-bg-color mr-2"></div>
                 <div class="flex h-10 items-center justify-center rounded-xl w-10 second-child-bg-color">
@@ -565,8 +565,8 @@ const toggleShowHideButtons = () => {
               </button>
             </div>
             </div>
-            <div class="flex w-full justicy-between" v-if="productBarcodesVisible">
-              <router-link v-if="navigationGuard('view_barcodes')" to="/product-barcodes" @click="selectPage()"
+            <div class="flex w-full justicy-between" v-if="productBarcodesVisible && navigationGuard('view_barcodes')" >
+              <router-link to="/product-barcodes" @click="selectPage()"
                 active-class="active"
                 class="relative h-10 flex items-center w-full hover:bg-blue-300/10 hover:text-blue-600 py-5 text-zinc-400 dark:text-zinc-200 text-lg font-medium space-x-4 cursor-pointer transition-colors duration-300">
                 <div class="w-1.5 h-12 rounded-r-xl first-child-bg-color mr-2"></div>
@@ -583,8 +583,8 @@ const toggleShowHideButtons = () => {
               </button>
             </div>
             </div>
-            <div class="flex w-full justicy-between" v-if="barcodeDuplicatesVisible">
-              <router-link v-if="navigationGuard('view_barcodes')" to="/barcode-duplicates" @click="selectPage()"
+            <div class="flex w-full justicy-between" v-if="barcodeDuplicatesVisible && navigationGuard('view_barcodes')">
+              <router-link to="/barcode-duplicates" @click="selectPage()"
                 active-class="active"
                 class="relative h-10 flex items-center w-full hover:bg-blue-300/10 hover:text-blue-600 py-5 text-zinc-400 dark:text-zinc-200 text-lg font-medium space-x-4 cursor-pointer transition-colors duration-300">
                 <div class="w-1.5 h-12 rounded-r-xl first-child-bg-color mr-2"></div>
@@ -601,8 +601,8 @@ const toggleShowHideButtons = () => {
               </button>
             </div>
             </div>
-            <div class="flex w-full justicy-between" v-if="saleSettingsVisible">
-              <router-link v-if="navigationGuard('view_settings')" to="/sale-settings" @click="selectPage()"
+            <div class="flex w-full justicy-between" v-if="saleSettingsVisible && navigationGuard('view_settings')">
+              <router-link to="/sale-settings" @click="selectPage()"
                 active-class="active"
                 class="relative h-10 flex items-center w-full hover:bg-blue-300/10 hover:text-blue-600 py-5 text-zinc-400 dark:text-zinc-200 text-lg font-medium space-x-4 cursor-pointer transition-colors duration-300">
                 <div class="w-1.5 h-12 rounded-r-xl first-child-bg-color mr-2"></div>
@@ -619,8 +619,8 @@ const toggleShowHideButtons = () => {
               </button>
             </div>
             </div>
-            <div class="flex w-full justicy-between" v-if="corporateClientsVisible">
-              <router-link v-if="navigationGuard('view_settings')" to="/corporate-clients" @click="selectPage()"
+            <div class="flex w-full justicy-between" v-if="corporateClientsVisible && navigationGuard('view_settings')">
+              <router-link to="/corporate-clients" @click="selectPage()"
                 active-class="active"
                 class="relative h-10 flex items-center w-full hover:bg-blue-300/10 hover:text-blue-600 py-5 text-zinc-400 dark:text-zinc-200 text-lg font-medium space-x-4 cursor-pointer transition-colors duration-300">
                 <div class="w-1.5 h-12 rounded-r-xl first-child-bg-color mr-2"></div>
@@ -637,8 +637,8 @@ const toggleShowHideButtons = () => {
               </button>
             </div>
             </div>
-            <div class="flex w-full justicy-between" v-if="clientsVisible">
-              <router-link v-if="navigationGuard('view_settings')" to="/clients" @click="selectPage()"
+            <div class="flex w-full justicy-between" v-if="clientsVisible && navigationGuard('view_settings')">
+              <router-link to="/clients" @click="selectPage()"
                 active-class="active"
                 class="relative h-10 flex items-center w-full hover:bg-blue-300/10 hover:text-blue-600 py-5 text-zinc-400 dark:text-zinc-200 text-lg font-medium space-x-4 cursor-pointer transition-colors duration-300">
                 <div class="w-1.5 h-12 rounded-r-xl first-child-bg-color mr-2"></div>
@@ -655,8 +655,8 @@ const toggleShowHideButtons = () => {
               </button>
             </div>
             </div>
-            <div class="flex w-full justicy-between" v-if="agentsVisible">
-              <router-link v-if="navigationGuard('view_agents')" to="/agents" @click="selectPage()"
+            <div class="flex w-full justicy-between" v-if="agentsVisible && navigationGuard('view_agents')">
+              <router-link to="/agents" @click="selectPage()"
                 active-class="active"
                 class="relative h-10 flex items-center w-full hover:bg-blue-300/10 hover:text-blue-600 py-5 text-zinc-400 dark:text-zinc-200 text-lg font-medium space-x-4 cursor-pointer transition-colors duration-300">
                 <div class="w-1.5 h-12 rounded-r-xl first-child-bg-color mr-2"></div>
@@ -673,8 +673,8 @@ const toggleShowHideButtons = () => {
               </button>
             </div>
             </div>
-            <div class="flex w-full justicy-between" v-if="vouchersVisible">
-              <router-link v-if="navigationGuard('view_agents')" to="/vouchers" @click="selectPage()"
+            <div class="flex w-full justicy-between" v-if="vouchersVisible && navigationGuard('view_agents')">
+              <router-link to="/vouchers" @click="selectPage()"
                 active-class="active"
                 class="relative h-10 flex items-center w-full hover:bg-blue-300/10 hover:text-blue-600 py-5 text-zinc-400 dark:text-zinc-200 text-lg font-medium space-x-4 cursor-pointer transition-colors duration-300">
                 <div class="w-1.5 h-12 rounded-r-xl first-child-bg-color mr-2"></div>
@@ -691,8 +691,8 @@ const toggleShowHideButtons = () => {
               </button>
             </div>
             </div>
-            <div class="flex w-full justicy-between" v-if="priceListsVisible">
-              <router-link v-if="navigationGuard('view_agents')" to="/price-lists" @click="selectPage()"
+            <div class="flex w-full justicy-between" v-if="priceListsVisible && navigationGuard('view_agents')">
+              <router-link to="/price-lists" @click="selectPage()"
                 active-class="active"
                 class="relative h-10 flex items-center w-full hover:bg-blue-300/10 hover:text-blue-600 py-5 text-zinc-400 dark:text-zinc-200 text-lg font-medium space-x-4 cursor-pointer transition-colors duration-300">
                 <div class="w-1.5 h-12 rounded-r-xl first-child-bg-color mr-2"></div>
@@ -709,8 +709,8 @@ const toggleShowHideButtons = () => {
               </button>
             </div>
             </div>
-            <div class="flex w-full justicy-between" v-if="wishesVisible">
-              <router-link v-if="navigationGuard('view_users')" to="/wishes" @click="selectPage()" active-class="active"
+            <div class="flex w-full justicy-between" v-if="wishesVisible && navigationGuard('view_users')">
+              <router-link to="/wishes" @click="selectPage()" active-class="active"
                 class="relative h-10 flex items-center w-full hover:bg-blue-300/10 hover:text-blue-600 py-5 text-zinc-400 dark:text-zinc-200 text-lg font-medium space-x-4 cursor-pointer transition-colors duration-300">
                 <div class="w-1.5 h-12 rounded-r-xl first-child-bg-color mr-2"></div>
                 <div class="flex h-10 items-center justify-center rounded-xl w-10 second-child-bg-color">
@@ -726,8 +726,8 @@ const toggleShowHideButtons = () => {
               </button>
             </div>
             </div>
-            <div class="flex w-full justicy-between" v-if="ipBannedVisible">
-              <router-link v-if="navigationGuard('create_market')" to="/ip-banned" @click="selectPage()"
+            <div class="flex w-full justicy-between" v-if="ipBannedVisible && navigationGuard('create_market')">
+              <router-link to="/ip-banned" @click="selectPage()"
                 active-class="active"
                 class="relative h-10 flex items-center w-full hover:bg-blue-300/10 hover:text-blue-600 py-5 text-zinc-400 dark:text-zinc-200 text-lg font-medium space-x-4 cursor-pointer transition-colors duration-300">
                 <div class="w-1.5 h-12 rounded-r-xl first-child-bg-color mr-2"></div>
@@ -744,8 +744,8 @@ const toggleShowHideButtons = () => {
               </button>
             </div>
             </div>
-            <div class="flex w-full justicy-between" v-if="investorsVisible">
-              <router-link v-if="navigationGuard('view_investors')" to="/investors" @click="selectPage()"
+            <div class="flex w-full justicy-between" v-if="investorsVisible && navigationGuard('view_investors')">
+              <router-link to="/investors" @click="selectPage()"
                 active-class="active"
                 class="relative h-10 flex items-center w-full hover:bg-blue-300/10 hover:text-blue-600 py-5 text-zinc-400 dark:text-zinc-200 text-lg font-medium space-x-4 cursor-pointer transition-colors duration-300">
                 <div class="w-1.5 h-12 rounded-r-xl first-child-bg-color mr-2"></div>
@@ -762,8 +762,8 @@ const toggleShowHideButtons = () => {
               </button>
             </div>
             </div>
-            <div class="flex w-full justicy-between" v-if="investsVisible">
-              <router-link v-if="navigationGuard('view_invests')" to="/invests" @click="selectPage()"
+            <div class="flex w-full justicy-between" v-if="investsVisible && navigationGuard('view_invests')">
+              <router-link to="/invests" @click="selectPage()"
                 active-class="active"
                 class="relative h-10 flex items-center w-full hover:bg-blue-300/10 hover:text-blue-600 py-5 text-zinc-400 dark:text-zinc-200 text-lg font-medium space-x-4 cursor-pointer transition-colors duration-300">
                 <div class="w-1.5 h-12 rounded-r-xl first-child-bg-color mr-2"></div>
@@ -780,8 +780,8 @@ const toggleShowHideButtons = () => {
               </button>
             </div>
             </div>
-            <div class="flex w-full justicy-between" v-if="investPlansVisible">
-              <router-link v-if="navigationGuard('view_invest_plans')" to="/invest-plans" @click="selectPage()"
+            <div class="flex w-full justicy-between" v-if="investPlansVisible && navigationGuard('view_invest_plans')">
+              <router-link to="/invest-plans" @click="selectPage()"
                 active-class="active"
                 class="relative h-10 flex items-center w-full hover:bg-blue-300/10 hover:text-blue-600 py-5 text-zinc-400 dark:text-zinc-200 text-lg font-medium space-x-4 cursor-pointer transition-colors duration-300">
                 <div class="w-1.5 h-12 rounded-r-xl first-child-bg-color mr-2"></div>
@@ -805,9 +805,9 @@ const toggleShowHideButtons = () => {
                 Others
               </summary>
               <div class="flex flex-col space-y-2 ">
-                <div v-if="!dashboardVisible"
+                <div v-if="!dashboardVisible && navigationGuard('dashboard')"
                   class="relative h-10 flex items-center w-full py-5 text-zinc-400 dark:text-zinc-200 text-lg font-medium space-x-4">
-                  <router-link v-if="navigationGuard('dashboard')" to="/dashboard" @click="selectPage()"
+                  <router-link to="/dashboard" @click="selectPage()"
                     active-class="active"
                     class="relative h-10 flex items-center w-full hover:bg-blue-300/10 hover:text-blue-600 py-5 text-zinc-400 dark:text-zinc-200 text-lg font-medium space-x-4 cursor-pointer transition-colors duration-300">
                     <div class="w-1.5 h-12 rounded-r-xl first-child-bg-color mr-2"></div>
@@ -824,9 +824,9 @@ const toggleShowHideButtons = () => {
                   </button>
                   </div>
                 </div>
-                <div v-if="!saleVisible"
+                <div v-if="!saleVisible && navigationGuard('create_product')"
                   class="relative h-10 flex items-center w-full py-5 text-zinc-400 dark:text-zinc-200 text-lg font-medium space-x-4">
-                  <router-link v-if="navigationGuard('create_product')" to="/sales" @click="selectPage()"
+                  <router-link to="/sales" @click="selectPage()"
                     active-class="active"
                     class="relative h-10 flex items-center w-full hover:bg-blue-300/10 hover:text-blue-600 py-5 text-zinc-400 dark:text-zinc-200 text-lg font-medium space-x-4 cursor-pointer transition-colors duration-300">
                     <div class="flex h-10 items-center justify-center rounded-xl w-10 second-child-bg-color">
@@ -859,9 +859,9 @@ const toggleShowHideButtons = () => {
                   </button>
                 </div>
                 </div>
-                <div v-if="!incomeExpenseVisible"
+                <div v-if="!incomeExpenseVisible && navigationGuard('view_histories')"
                   class="relative h-10 flex items-center w-full py-5 text-zinc-400 dark:text-zinc-200 text-lg font-medium space-x-4">
-                  <router-link v-if="navigationGuard('view_histories')" to="/product-histories" @click="selectPage()"
+                  <router-link to="/product-histories" @click="selectPage()"
                     active-class="active"
                     class="relative h-10 flex items-center w-full hover:bg-blue-300/10 hover:text-blue-600 py-5 text-zinc-400 dark:text-zinc-200 text-lg font-medium space-x-4 cursor-pointer transition-colors duration-300">
                     <div class="flex h-10 items-center justify-center rounded-xl w-10 second-child-bg-color">
@@ -877,9 +877,9 @@ const toggleShowHideButtons = () => {
                   </button>
                 </div>
                 </div>
-                <div v-if="!upcomingProductsVisible"
+                <div v-if="!upcomingProductsVisible && navigationGuard('view_histories')"
                   class="relative h-10 flex items-center w-full py-5 text-zinc-400 dark:text-zinc-200 text-lg font-medium space-x-4">
-                  <router-link v-if="navigationGuard('view_histories')" to="/upcoming-products" @click="selectPage()"
+                  <router-link to="/upcoming-products" @click="selectPage()"
                     active-class="active"
                     class="relative h-10 flex items-center w-full hover:bg-blue-300/10 hover:text-blue-600 py-5 text-zinc-400 dark:text-zinc-200 text-lg font-medium space-x-4 cursor-pointer transition-colors duration-300">
                     <div class="w-1.5 h-12 rounded-r-xl first-child-bg-color mr-2"></div>
@@ -942,9 +942,9 @@ const toggleShowHideButtons = () => {
                   </button>
                 </div>
                 </div>
-                <div v-if="!marketsVisible"
+                <div v-if="!marketsVisible && navigationGuard('view_markets')"
                   class="relative h-10 flex items-center w-full py-5 text-zinc-400 dark:text-zinc-200 text-lg font-medium space-x-4">
-                  <router-link v-if="navigationGuard('view_markets')" to="/markets" @click="selectPage()"
+                  <router-link to="/markets" @click="selectPage()"
                     active-class="active"
                     class="relative h-10 flex items-center w-full hover:bg-blue-300/10 hover:text-blue-600 py-5 text-zinc-400 dark:text-zinc-200 text-lg font-medium space-x-4 cursor-pointer transition-colors duration-300">
                     <div class="w-1.5 h-12 rounded-r-xl first-child-bg-color mr-2"></div>
@@ -959,9 +959,9 @@ const toggleShowHideButtons = () => {
                   </button>
                 </div>
                 </div>
-                <div v-if="!usersVisible"
+                <div v-if="!usersVisible && navigationGuard('view_users')"
                   class="relative h-10 flex items-center w-full py-5 text-zinc-400 dark:text-zinc-200 text-lg font-medium space-x-4">
-                  <router-link v-if="navigationGuard('view_users')" to="/users" @click="selectPage()"
+                  <router-link to="/users" @click="selectPage()"
                     active-class="active"
                     class="relative h-10 flex items-center w-full hover:bg-blue-300/10 hover:text-blue-600 py-5 text-zinc-400 dark:text-zinc-200 text-lg font-medium space-x-4 cursor-pointer transition-colors duration-300">
                     <div class="w-1.5 h-12 rounded-r-xl first-child-bg-color mr-2"></div>
@@ -976,9 +976,9 @@ const toggleShowHideButtons = () => {
                   </button>
                 </div>
                 </div>
-                <div v-if="!productBarcodesVisible"
+                <div v-if="!productBarcodesVisible && navigationGuard('view_barcodes')"
                   class="relative h-10 flex items-center w-full py-5 text-zinc-400 dark:text-zinc-200 text-lg font-medium space-x-4">
-                  <router-link v-if="navigationGuard('view_barcodes')" to="/product-barcodes" @click="selectPage()"
+                  <router-link to="/product-barcodes" @click="selectPage()"
                     active-class="active"
                     class="relative h-10 flex items-center w-full hover:bg-blue-300/10 hover:text-blue-600 py-5 text-zinc-400 dark:text-zinc-200 text-lg font-medium space-x-4 cursor-pointer transition-colors duration-300">
                     <div class="w-1.5 h-12 rounded-r-xl first-child-bg-color mr-2"></div>
@@ -993,9 +993,9 @@ const toggleShowHideButtons = () => {
                   </button>
                 </div>
                 </div>
-                <div v-if="!barcodeDuplicatesVisible"
+                <div v-if="!barcodeDuplicatesVisible && navigationGuard('view_barcodes')"
                   class="relative h-10 flex items-center w-full py-5 text-zinc-400 dark:text-zinc-200 text-lg font-medium space-x-4">
-                  <router-link v-if="navigationGuard('view_barcodes')" to="/barcode-duplicates" @click="selectPage()"
+                  <router-link to="/barcode-duplicates" @click="selectPage()"
                     active-class="active"
                     class="relative h-10 flex items-center w-full hover:bg-blue-300/10 hover:text-blue-600 py-5 text-zinc-400 dark:text-zinc-200 text-lg font-medium space-x-4 cursor-pointer transition-colors duration-300">
                     <div class="w-1.5 h-12 rounded-r-xl first-child-bg-color mr-2"></div>
@@ -1010,9 +1010,9 @@ const toggleShowHideButtons = () => {
                   </button>
                 </div>
                 </div>
-                <div v-if="!saleSettingsVisible"
+                <div v-if="!saleSettingsVisible && navigationGuard('view_settings')"
                   class="relative h-10 flex items-center w-full py-5 text-zinc-400 dark:text-zinc-200 text-lg font-medium space-x-4">
-                  <router-link v-if="navigationGuard('view_settings')" to="/sale-settings" @click="selectPage()"
+                  <router-link to="/sale-settings" @click="selectPage()"
                     active-class="active"
                     class="relative h-10 flex items-center w-full hover:bg-blue-300/10 hover:text-blue-600 py-5 text-zinc-400 dark:text-zinc-200 text-lg font-medium space-x-4 cursor-pointer transition-colors duration-300">
                     <div class="w-1.5 h-12 rounded-r-xl first-child-bg-color mr-2"></div>
@@ -1027,9 +1027,9 @@ const toggleShowHideButtons = () => {
                   </button>
                 </div>
                 </div>
-                <div v-if="!corporateClientsVisible"
+                <div v-if="!corporateClientsVisible && navigationGuard('view_settings')"
                   class="relative h-10 flex items-center w-full py-5 text-zinc-400 dark:text-zinc-200 text-lg font-medium space-x-4">
-                  <router-link v-if="navigationGuard('view_settings')" to="/corporate-clients" @click="selectPage()"
+                  <router-link to="/corporate-clients" @click="selectPage()"
                     active-class="active"
                     class="relative h-10 flex items-center w-full hover:bg-blue-300/10 hover:text-blue-600 py-5 text-zinc-400 dark:text-zinc-200 text-lg font-medium space-x-4 cursor-pointer transition-colors duration-300">
                     <div class="w-1.5 h-12 rounded-r-xl first-child-bg-color mr-2"></div>
@@ -1044,9 +1044,9 @@ const toggleShowHideButtons = () => {
                   </button>
                 </div>
                 </div>
-                <div v-if="!clientsVisible"
+                <div v-if="!clientsVisible && navigationGuard('view_settings')"
                   class="relative h-10 flex items-center w-full py-5 text-zinc-400 dark:text-zinc-200 text-lg font-medium space-x-4">
-                  <router-link v-if="navigationGuard('view_settings')" to="/clients" @click="selectPage()"
+                  <router-link to="/clients" @click="selectPage()"
                     active-class="active"
                     class="relative h-10 flex items-center w-full hover:bg-blue-300/10 hover:text-blue-600 py-5 text-zinc-400 dark:text-zinc-200 text-lg font-medium space-x-4 cursor-pointer transition-colors duration-300">
                     <div class="w-1.5 h-12 rounded-r-xl first-child-bg-color mr-2"></div>
@@ -1061,9 +1061,9 @@ const toggleShowHideButtons = () => {
                   </button>
                 </div>
                 </div>
-                <div v-if="!agentsVisible"
+                <div v-if="!agentsVisible && navigationGuard('view_agents')"
                   class="relative h-10 flex items-center w-full py-5 text-zinc-400 dark:text-zinc-200 text-lg font-medium space-x-4">
-                  <router-link v-if="navigationGuard('view_agents')" to="/agents" @click="selectPage()"
+                  <router-link to="/agents" @click="selectPage()"
                     active-class="active"
                     class="relative h-10 flex items-center w-full hover:bg-blue-300/10 hover:text-blue-600 py-5 text-zinc-400 dark:text-zinc-200 text-lg font-medium space-x-4 cursor-pointer transition-colors duration-300">
                     <div class="w-1.5 h-12 rounded-r-xl first-child-bg-color mr-2"></div>
@@ -1078,9 +1078,9 @@ const toggleShowHideButtons = () => {
                   </button>
                 </div>
                 </div>
-                <div v-if="!vouchersVisible"
+                <div v-if="!vouchersVisible && navigationGuard('view_agents')"
                   class="relative h-10 flex items-center w-full py-5 text-zinc-400 dark:text-zinc-200 text-lg font-medium space-x-4">
-                  <router-link v-if="navigationGuard('view_agents')" to="/vouchers" @click="selectPage()"
+                  <router-link to="/vouchers" @click="selectPage()"
                     active-class="active"
                     class="relative h-10 flex items-center w-full hover:bg-blue-300/10 hover:text-blue-600 py-5 text-zinc-400 dark:text-zinc-200 text-lg font-medium space-x-4 cursor-pointer transition-colors duration-300">
                     <div class="w-1.5 h-12 rounded-r-xl first-child-bg-color mr-2"></div>
@@ -1095,9 +1095,9 @@ const toggleShowHideButtons = () => {
                   </button>
                   </div>
                 </div>
-                <div v-if="!priceListsVisible"
+                <div v-if="!priceListsVisible && navigationGuard('view_agents')"
                   class="relative h-10 flex items-center w-full py-5 text-zinc-400 dark:text-zinc-200 text-lg font-medium space-x-4">
-                  <router-link v-if="navigationGuard('view_agents')" to="/price-lists" @click="selectPage()"
+                  <router-link to="/price-lists" @click="selectPage()"
                     active-class="active"
                     class="relative h-10 flex items-center w-full hover:bg-blue-300/10 hover:text-blue-600 py-5 text-zinc-400 dark:text-zinc-200 text-lg font-medium space-x-4 cursor-pointer transition-colors duration-300">
                     <div class="w-1.5 h-12 rounded-r-xl first-child-bg-color mr-2"></div>
@@ -1112,9 +1112,9 @@ const toggleShowHideButtons = () => {
                   </button>
                 </div>
                 </div>
-                <div v-if="!wishesVisible"
+                <div v-if="!wishesVisible && navigationGuard('view_users')"
                   class="relative h-10 flex items-center w-full py-5 text-zinc-400 dark:text-zinc-200 text-lg font-medium space-x-4">
-                  <router-link v-if="navigationGuard('view_users')" to="/wishes" @click="selectPage()"
+                  <router-link to="/wishes" @click="selectPage()"
                     active-class="active"
                     class="relative h-10 flex items-center w-full hover:bg-blue-300/10 hover:text-blue-600 py-5 text-zinc-400 dark:text-zinc-200 text-lg font-medium space-x-4 cursor-pointer transition-colors duration-300">
                     <div class="w-1.5 h-12 rounded-r-xl first-child-bg-color mr-2"></div>
@@ -1129,9 +1129,9 @@ const toggleShowHideButtons = () => {
                   </button>
                 </div>
                 </div>
-                <div v-if="!ipBannedVisible"
+                <div v-if="!ipBannedVisible && navigationGuard('create_market')"
                   class="relative h-10 flex items-center w-full py-5 text-zinc-400 dark:text-zinc-200 text-lg font-medium space-x-4">
-                  <router-link v-if="navigationGuard('create_market')" to="/ip-banned" @click="selectPage()"
+                  <router-link to="/ip-banned" @click="selectPage()"
                     active-class="active"
                     class="relative h-10 flex items-center w-full hover:bg-blue-300/10 hover:text-blue-600 py-5 text-zinc-400 dark:text-zinc-200 text-lg font-medium space-x-4 cursor-pointer transition-colors duration-300">
                     <div class="w-1.5 h-12 rounded-r-xl first-child-bg-color mr-2"></div>
@@ -1146,9 +1146,9 @@ const toggleShowHideButtons = () => {
                   </button>
                 </div>
                 </div>
-                <div v-if="!investorsVisible"
+                <div v-if="!investorsVisible && navigationGuard('view_investors')"
                   class="relative h-10 flex items-center w-full py-5 text-zinc-400 dark:text-zinc-200 text-lg font-medium space-x-4">
-                  <router-link v-if="navigationGuard('view_investors')" to="/investors" @click="selectPage()"
+                  <router-link to="/investors" @click="selectPage()"
                     active-class="active"
                     class="relative h-10 flex items-center w-full hover:bg-blue-300/10 hover:text-blue-600 py-5 text-zinc-400 dark:text-zinc-200 text-lg font-medium space-x-4 cursor-pointer transition-colors duration-300">
                     <div class="w-1.5 h-12 rounded-r-xl first-child-bg-color mr-2"></div>
@@ -1163,9 +1163,9 @@ const toggleShowHideButtons = () => {
                   </button>
                 </div>
                 </div>
-                <div v-if="!investsVisible"
+                <div v-if="!investsVisible && navigationGuard('view_invests')"
                   class="relative h-10 flex items-center w-full py-5 text-zinc-400 dark:text-zinc-200 text-lg font-medium space-x-4">
-                  <router-link v-if="navigationGuard('view_invests')" to="/invests" @click="selectPage()"
+                  <router-link to="/invests" @click="selectPage()"
                     active-class="active"
                     class="relative h-10 flex items-center w-full hover:bg-blue-300/10 hover:text-blue-600 py-5 text-zinc-400 dark:text-zinc-200 text-lg font-medium space-x-4 cursor-pointer transition-colors duration-300">
                     <div class="w-1.5 h-12 rounded-r-xl first-child-bg-color mr-2"></div>
@@ -1180,9 +1180,9 @@ const toggleShowHideButtons = () => {
                   </button>
                 </div>
               </div>
-                <div v-if="!investPlansVisible"
+                <div v-if="!investPlansVisible && navigationGuard('view_invest_plans')"
                   class="relative h-10 flex items-center w-full py-5 text-zinc-400 dark:text-zinc-200 text-lg font-medium space-x-4">
-                  <router-link v-if="navigationGuard('view_invest_plans')" to="/invest-plans" @click="selectPage()"
+                  <router-link to="/invest-plans" @click="selectPage()"
                     active-class="active"
                     class="relative h-10 flex items-center w-full hover:bg-blue-300/10 hover:text-blue-600 py-5 text-zinc-400 dark:text-zinc-200 text-lg font-medium space-x-4 cursor-pointer transition-colors duration-300">
                     <div class="w-1.5 h-12 rounded-r-xl first-child-bg-color mr-2"></div>
@@ -1235,4 +1235,5 @@ const toggleShowHideButtons = () => {
   background-color: rgb(30 41 59) !important;
 }
 </style>
+
 

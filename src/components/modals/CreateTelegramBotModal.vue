@@ -82,6 +82,7 @@ const createTelegramBot = () => {
               <option value="admin">Admin</option>
               <option value="agent">Agent</option>
               <option value="status">Status</option>
+              <option value="info">Info</option>
             </select>
           </div>
           <div class="flex-1">
