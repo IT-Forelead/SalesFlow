@@ -36,6 +36,20 @@ const routes = [
     beforeEnter: navigationGuards('view_histories'),
   },
   {
+    path: '/agents',
+    name: 'Agents',
+    component: () => import('../pages/Agents.vue'),
+    meta: { layout: 'dashboard' },
+    beforeEnter: navigationGuards('view_histories'),
+  },
+  {
+    path: '/offer-products',
+    name: 'Offer products',
+    component: () => import('../pages/OfferProducts.vue'),
+    meta: { layout: 'dashboard' },
+    beforeEnter: navigationGuards('view_histories'),
+  },
+  {
     path: '/upcoming-products',
     name: 'Upcoming products',
     component: () => import('../pages/UpcomingProducts.vue'),
@@ -70,13 +84,7 @@ const routes = [
     meta: { layout: 'dashboard' },
     beforeEnter: navigationGuards('view_orders'),
   },
-  {
-    path: '/agents',
-    name: 'Agents',
-    component: () => import('../pages/Agents.vue'),
-    meta: { layout: 'dashboard' },
-    beforeEnter: navigationGuards('view_agents'),
-  },
+
   {
     path: '/vouchers',
     name: 'Vouchers',
