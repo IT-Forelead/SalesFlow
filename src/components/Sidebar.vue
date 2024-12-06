@@ -38,7 +38,7 @@ import ClientCorpIcon from '../assets/icons/ClientCorpIcon.vue'
 import PhPriceList from '../assets/icons/PriceListIcon.vue'
 import PriceListIcon from '../assets/icons/PriceListIcon.vue'
 import UserIcon from '@/assets/icons/UserIcon.vue'
-import InvisIcon from '@/assets/icons/InvisIcon.vue'
+import EyeSlashIcon from '@/assets/icons/EyeSlashIcon.vue'
 import EyeIcon from '@/assets/icons/EyeIcon.vue'
 
 const { t } = useI18n()
@@ -100,6 +100,89 @@ const createWishToBuyProduct = () => {
   }
 }
 
+const loadSidebarState = () => {
+  const savedState = localStorage.getItem('sidebarState');
+  if (savedState) {
+    const parsedState = JSON.parse(savedState);
+    investsVisible.value = parsedState.investsVisible ?? true;
+    investPlansVisible.value = parsedState.investPlansVisible ?? true;
+    investorsVisible.value = parsedState.investorsVisible ?? true;
+    ipBannedVisible.value = parsedState.ipBannedVisible ?? true;
+    wishesVisible.value = parsedState.wishesVisible ?? true;
+    priceListsVisible.value = parsedState.priceListsVisible ?? true;
+    vouchersVisible.value = parsedState.vouchersVisible ?? true;
+    agentsVisible.value = parsedState.agentsVisible ?? true;
+    clientsVisible.value = parsedState.clientsVisible ?? true;
+    corporateClientsVisible.value = parsedState.corporateClientsVisible ?? true;
+    saleSettingsVisible.value = parsedState.saleSettingsVisible ?? true;
+    barcodeDuplicatesVisible.value = parsedState.barcodeDuplicatesVisible ?? true;
+    productBarcodesVisible.value = parsedState.productBarcodesVisible ?? true;
+    usersVisible.value = parsedState.usersVisible ?? true;
+    marketsVisible.value = parsedState.marketsVisible ?? true;
+    ordersVisible.value = parsedState.ordersVisible ?? true;
+    cashbackHistoriesVisible.value = parsedState.cashbackHistoriesVisible ?? true;
+    discountVisible.value = parsedState.discountVisible ?? true;
+    upcomingProductsVisible.value = parsedState.upcomingProductsVisible ?? true
+    incomeExpenseVisible.value = parsedState.upcomingProductsVisible ?? true
+    productsVisible.value = parsedState.upcomingProductsVisible ?? true
+    saleVisible.value = parsedState.upcomingProductsVisible ?? true
+    dashboardVisible.value = parsedState.upcomingProductsVisible ?? true
+  }
+};
+
+const saveSidebarState = () => {
+  const state = {
+    investsVisible: investsVisible.value,
+    investPlansVisible: investPlansVisible.value,
+    investorsVisible: investorsVisible.value,
+    ipBannedVisible: ipBannedVisible.value,
+    wishesVisible: wishesVisible.value,
+    priceListsVisible: priceListsVisible.value,
+    vouchersVisible: vouchersVisible.value,
+    agentsVisible: agentsVisible.value,
+    clientsVisible: clientsVisible.value,
+    corporateClientsVisible: corporateClientsVisible.value,
+    saleSettingsVisible: saleSettingsVisible.value,
+    barcodeDuplicatesVisible: barcodeDuplicatesVisible.value,
+    productBarcodesVisible: productBarcodesVisible.value,
+    usersVisible: usersVisible.value,
+    marketsVisible: marketsVisible.value,
+    ordersVisible: ordersVisible.value,
+    cashbackHistoriesVisible: cashbackHistoriesVisible.value,
+    discountVisible: discountVisible.value,
+    upcomingProductsVisible: upcomingProductsVisible.value,
+    incomeExpenseVisible: incomeExpenseVisible.value,
+    productsVisible: productBarcodesVisible.value,
+    saleVisible: saleVisible.value,
+    dashboardVisible: dashboardVisible.value
+  };
+  localStorage.setItem('sidebarState', JSON.stringify(state));
+};
+
+const investsVisible = ref(true);
+const investPlansVisible = ref(true);
+const investorsVisible = ref(true);
+const ipBannedVisible = ref(true);
+const wishesVisible = ref(true);
+const priceListsVisible = ref(true);
+const vouchersVisible = ref(true);
+const agentsVisible = ref(true);
+const clientsVisible = ref(true);
+const corporateClientsVisible = ref(true);
+const saleSettingsVisible = ref(true);
+const barcodeDuplicatesVisible = ref(true);
+const productBarcodesVisible = ref(true);
+const usersVisible = ref(true);
+const marketsVisible = ref(true);
+const ordersVisible = ref(true);
+const cashbackHistoriesVisible = ref(true);
+const discountVisible = ref(true);
+const upcomingProductsVisible = ref(true);
+const incomeExpenseVisible = ref(true);
+const productsVisible = ref(true);
+const saleVisible = ref(true);
+const dashboardVisible = ref(true);
+
 const whenPressEnter = (e) => {
   if (e.keyCode === 13) {
     createWishToBuyProduct()
@@ -110,7 +193,175 @@ const whenPressEnter = (e) => {
 onMounted(() => {
   useAuthStore().setUser(decodeJwt(JSON.parse(localStorage.getItem('session'))?.accessToken))
   payload.value = parseJwt()
+  loadSidebarState();
 })
+watch([investsVisible, investPlansVisible, investorsVisible, ipBannedVisible, wishesVisible, priceListsVisible, vouchersVisible, agentsVisible, clientsVisible, corporateClientsVisible, saleSettingsVisible, barcodeDuplicatesVisible, productBarcodesVisible, usersVisible, marketsVisible, ordersVisible, cashbackHistoriesVisible, discountVisible, upcomingProductsVisible, incomeExpenseVisible, productsVisible, saleVisible, dashboardVisible], saveSidebarState, { deep: true });
+
+const moveDashboardToOthers = () => {
+  dashboardVisible.value = false;
+};
+const restoreDashboardFromOthers = () => {
+  dashboardVisible.value = true;
+};
+
+const moveSaleToOthers = () => {
+  saleVisible.value = false;
+};
+const restoreSaleFromOthers = () => {
+  saleVisible.value = true;
+};
+
+const moveProductsToOthers = () => {
+  productsVisible.value = false;
+};
+const restoreProductsFromOthers = () => {
+  productsVisible.value = true;
+};
+
+const moveProductBarcodesToOthers = () => {
+  productBarcodesVisible.value = false;
+};
+const restoreProductBarcodesFromOthers = () => {
+  productBarcodesVisible.value = true;
+};
+
+const moveBarcodeDuplicatesToOthers = () => {
+  barcodeDuplicatesVisible.value = false;
+};
+const restoreBarcodeDuplicatesFromOthers = () => {
+  barcodeDuplicatesVisible.value = true;
+};
+
+const moveCashbackHistoriesToOthers = () => {
+  cashbackHistoriesVisible.value = false;
+};
+const restoreCashbackHistoriesFromOthers = () => {
+  cashbackHistoriesVisible.value = true;
+};
+
+const moveDiscountToOthers = () => {
+  discountVisible.value = false;
+};
+const restoreDiscountFromOthers = () => {
+  discountVisible.value = true;
+};
+
+const moveUpcomingProductsToOthers = () => {
+  upcomingProductsVisible.value = false;
+};
+const restoreUpcomingProductsFromOthers = () => {
+  upcomingProductsVisible.value = true;
+};
+
+const moveIncomeExpenseToOthers = () => {
+  incomeExpenseVisible.value = false;
+};
+const restoreIncomeExpenseFromOthers = () => {
+  incomeExpenseVisible.value = true;
+};
+
+const moveSaleSettingsToOthers = () => {
+  saleSettingsVisible.value = false;
+};
+const restoreSaleSettingsFromOthers = () => {
+  saleSettingsVisible.value = true;
+};
+
+const moveOrdersToOthers = () => {
+  ordersVisible.value = false;
+};
+const restoreOrdersFromOthers = () => {
+  ordersVisible.value = true;
+};
+
+const moveMarketToOthers = () => {
+  marketsVisible.value = false;
+};
+const restoreMarketFromOthers = () => {
+  marketsVisible.value = true;
+};
+
+const moveUsersToOthers = () => {
+  usersVisible.value = false;
+};
+const restoreUsersFromOthers = () => {
+  usersVisible.value = true;
+};
+
+const moveCorprorateClientsToOthers = () => {
+  corporateClientsVisible.value = false;
+};
+const restoreCorporrateClientsFromOthers = () => {
+  corporateClientsVisible.value = true;
+};
+
+const moveClientsToOthers = () => {
+  clientsVisible.value = false;
+};
+const restoreClientsFromOthers = () => {
+  clientsVisible.value = true;
+};
+
+const moveAgentsToOthers = () => {
+  agentsVisible.value = false;
+};
+const restoreAgentsFromOthers = () => {
+  agentsVisible.value = true;
+};
+const moveVouchersToOthers = () => {
+  vouchersVisible.value = false;
+};
+
+const restoreVouchersFromOthers = () => {
+  vouchersVisible.value = true;
+};
+const movePriceListsToOthers = () => {
+  priceListsVisible.value = false;
+};
+
+const restorePriceListsFromOthers = () => {
+  priceListsVisible.value = true;
+};
+const moveWishesToOthers = () => {
+  wishesVisible.value = false;
+};
+
+const restoreWishesFromOthers = () => {
+  wishesVisible.value = true;
+};
+const moveIpBannedToOthers = () => {
+  ipBannedVisible.value = false;
+};
+
+const restoreIpBannedFromOthers = () => {
+  ipBannedVisible.value = true;
+};
+const moveInvestorsToOthers = () => {
+  investorsVisible.value = false;
+};
+
+const restoreInvestorsFromOthers = () => {
+  investorsVisible.value = true;
+};
+const moveInvestsToOthers = () => {
+  investsVisible.value = false;
+};
+
+const restoreInvestsFromOthers = () => {
+  investsVisible.value = true;
+};
+const moveInvestPlansToOthers = () => {
+  investPlansVisible.value = false;
+};
+const restoreInvestPlansFromOthers = () => {
+  investPlansVisible.value = true;
+};
+
+const showHideButtons = ref(false)
+
+const toggleShowHideButtons = () => {
+  showHideButtons.value = !showHideButtons.value
+}
 </script>
 <template>
   <div class="relative z-40" v-if="useSidebarStore().toggleSidebar && useSidebarStore().isOpenSidebar">
@@ -135,7 +386,7 @@ onMounted(() => {
               @click="closeBar" />
           </div>
         </div>
-        <ProfileDropDown />
+        <ProfileDropDown @toggle-show-hide-buttons="toggleShowHideButtons" />
         <div class="max-h-svh flex pb-[18rem] flex-col">
           <div class="relative space-y-1 py-1 overflow-y-auto overflow-x-hidden md:max-h-screen">
             <div class="flex w-full justicy-between" v-if="dashboardVisible && navigationGuard('dashboard')">
@@ -152,7 +403,7 @@ onMounted(() => {
               </router-link>
               <div v-if="showHideButtons">
               <button @click="moveDashboardToOthers" class="ml-auto space-y-1 px-1 py-2 hover:bg-blue-300/10 text-sm text-red-600 hover:text-red-800">
-                <InvisIcon class="w-6 h-6" />
+                <EyeSlashIcon class="w-6 h-6" />
               </button>
               </div>
             </div>
@@ -170,7 +421,7 @@ onMounted(() => {
               </router-link>
               <div v-if="showHideButtons">
               <button @click="moveSaleToOthers" class="ml-auto space-y-1 px-1 py-2 hover:bg-blue-300/10 text-sm text-red-600 hover:text-red-800">
-                <InvisIcon class="w-6 h-6" />
+                <EyeSlashIcon class="w-6 h-6" />
               </button>
             </div>
             </div>
@@ -187,7 +438,7 @@ onMounted(() => {
               </router-link>
               <div v-if="showHideButtons">
               <button @click="moveProductsToOthers" class="ml-auto space-y-1 px-1 py-2 hover:bg-blue-300/10 text-sm text-red-600 hover:text-red-800">
-                <InvisIcon class="w-6 h-6" />
+                <EyeSlashIcon class="w-6 h-6" />
               </button>
             </div>
             </div>
@@ -205,7 +456,7 @@ onMounted(() => {
               </router-link>
               <div v-if="showHideButtons">
               <button @click="moveIncomeExpenseToOthers" class="ml-auto space-y-1 px-1 py-2 hover:bg-blue-300/10 text-sm text-red-600 hover:text-red-800">
-                <InvisIcon class="w-6 h-6" />
+                <EyeSlashIcon class="w-6 h-6" />
               </button>
             </div>
             </div>
@@ -223,7 +474,7 @@ onMounted(() => {
               </router-link>
               <div v-if="showHideButtons">
               <button @click="moveUpcomingProductsToOthers" class="ml-auto space-y-1 px-1 py-2 hover:bg-blue-300/10 text-sm text-red-600 hover:text-red-800">
-                <InvisIcon class="w-6 h-6" />
+                <EyeSlashIcon class="w-6 h-6" />
               </button>
             </div>
             </div>
@@ -240,7 +491,7 @@ onMounted(() => {
               </router-link>
               <div v-if="showHideButtons">
               <button @click="moveDiscountToOthers" class="ml-auto text-sm space-y-1 px-1 py-2 hover:bg-blue-300/10 text-red-600 hover:text-red-800">
-                <InvisIcon class="w-6 h-6" />
+                <EyeSlashIcon class="w-6 h-6" />
               </button>
             </div>
             </div>
@@ -257,7 +508,7 @@ onMounted(() => {
               </router-link>.
               <div v-if="showHideButtons">
               <button @click="moveCashbackHistoriesToOthers" class="ml-auto space-y-1 px-1 py-2 hover:bg-blue-300/10 text-sm text-red-600 hover:text-red-800">
-                <InvisIcon class="w-6 h-6" />
+                <EyeSlashIcon class="w-6 h-6" />
               </button>
             </div>
             </div>
@@ -274,7 +525,7 @@ onMounted(() => {
               </router-link>
               <div v-if="showHideButtons">
               <button @click="moveOrdersToOthers" class="ml-auto text-sm space-y-1 px-1 py-2 hover:bg-blue-300/10 text-red-600 hover:text-red-800">
-                <InvisIcon class="w-6 h-6" />
+                <EyeSlashIcon class="w-6 h-6" />
               </button>
             </div>
             </div>
@@ -292,7 +543,7 @@ onMounted(() => {
               </router-link>
               <div v-if="showHideButtons">
               <button @click="moveMarketToOthers" class="ml-auto text-sm space-y-1 px-1 py-2 hover:bg-blue-300/10 text-red-600 hover:text-red-800">
-                <InvisIcon class="w-6 h-6" />
+                <EyeSlashIcon class="w-6 h-6" />
               </button>
             </div>
             </div>
@@ -309,7 +560,7 @@ onMounted(() => {
               </router-link>
               <div v-if="showHideButtons">
               <button @click="moveUsersToOthers" class="ml-auto text-sm space-y-1 px-1 py-2 hover:bg-blue-300/10 text-red-600 hover:text-red-800">
-                <InvisIcon class="w-6 h-6" />
+                <EyeSlashIcon class="w-6 h-6" />
               </button>
             </div>
             </div>
@@ -327,7 +578,7 @@ onMounted(() => {
               </router-link>
               <div v-if="showHideButtons">
               <button @click="moveProductBarcodesToOthers" class="ml-auto space-y-1 px-1 py-2 hover:bg-blue-300/10 text-sm text-red-600 hover:text-red-800">
-                <InvisIcon class="w-6 h-6" />
+                <EyeSlashIcon class="w-6 h-6" />
               </button>
             </div>
             </div>
@@ -345,7 +596,7 @@ onMounted(() => {
               </router-link>
               <div v-if="showHideButtons">
               <button @click="moveBarcodeDuplicatesToOthers" class="ml-auto space-y-1 px-1 py-2 hover:bg-blue-300/10 text-sm text-red-600 hover:text-red-800">
-                <InvisIcon class="w-6 h-6" />
+                <EyeSlashIcon class="w-6 h-6" />
               </button>
             </div>
             </div>
@@ -363,7 +614,7 @@ onMounted(() => {
               </router-link>
               <div v-if="showHideButtons">
               <button @click="moveSaleSettingsToOthers" class="ml-auto space-y-1 px-1 py-2 hover:bg-blue-300/10 text-sm text-red-600 hover:text-red-800">
-                <InvisIcon class="w-6 h-6" />
+                <EyeSlashIcon class="w-6 h-6" />
               </button>
             </div>
             </div>
@@ -381,7 +632,7 @@ onMounted(() => {
               </router-link>
               <div v-if="showHideButtons">
               <button @click="moveCorprorateClientsToOthers" class="ml-auto space-y-1 px-1 py-2 hover:bg-blue-300/10 text-sm text-red-600 hover:text-red-800">
-                <InvisIcon class="w-6 h-6" />
+                <EyeSlashIcon class="w-6 h-6" />
               </button>
             </div>
             </div>
@@ -399,7 +650,7 @@ onMounted(() => {
               </router-link>
               <div v-if="showHideButtons">
               <button @click="moveClientsToOthers" class="ml-auto space-y-1 px-1 py-2 hover:bg-blue-300/10 text-sm text-red-600 hover:text-red-800">
-                <InvisIcon class="w-6 h-6" />
+                <EyeSlashIcon class="w-6 h-6" />
               </button>
             </div>
             </div>
@@ -417,7 +668,7 @@ onMounted(() => {
               </router-link>
               <div v-if="showHideButtons">
               <button @click="moveAgentsToOthers" class="ml-auto space-y-1 px-1 py-2 hover:bg-blue-300/10 text-sm text-red-600 hover:text-red-800">
-                <InvisIcon class="w-6 h-6" />
+                <EyeSlashIcon class="w-6 h-6" />
               </button>
             </div>
             </div>
@@ -435,7 +686,7 @@ onMounted(() => {
               </router-link>
               <div v-if="showHideButtons">
               <button @click="moveVouchersToOthers" class="ml-auto space-y-1 px-1 py-2 hover:bg-blue-300/10 text-sm text-red-600 hover:text-red-800">
-                <InvisIcon class="w-6 h-6" />
+                <EyeSlashIcon class="w-6 h-6" />
               </button>
             </div>
             </div>
@@ -453,7 +704,7 @@ onMounted(() => {
               </router-link>
               <div v-if="showHideButtons">
               <button @click="movePriceListsToOthers" class="ml-auto space-y-1 px-1 py-2 hover:bg-blue-300/10 text-sm text-red-600 hover:text-red-800">
-                <InvisIcon class="w-6 h-6" />
+                <EyeSlashIcon class="w-6 h-6" />
               </button>
             </div>
             </div>
@@ -470,7 +721,7 @@ onMounted(() => {
               </router-link>
               <div v-if="showHideButtons">
               <button @click="moveWishesToOthers" class="ml-auto space-y-1 px-1 py-2 hover:bg-blue-300/10 text-sm text-red-600 hover:text-red-800">
-                <InvisIcon class="w-6 h-6" />
+                <EyeSlashIcon class="w-6 h-6" />
               </button>
             </div>
             </div>
@@ -488,7 +739,7 @@ onMounted(() => {
               </router-link>
               <div v-if="showHideButtons">
               <button @click="moveIpBannedToOthers" class="ml-auto space-y-1 px-1 py-2 hover:bg-blue-300/10 text-sm text-red-600 hover:text-red-800">
-                <InvisIcon class="w-6 h-6" />
+                <EyeSlashIcon class="w-6 h-6" />
               </button>
             </div>
             </div>
@@ -506,7 +757,7 @@ onMounted(() => {
               </router-link>
               <div v-if="showHideButtons">
               <button @click="moveInvestorsToOthers" class="ml-auto space-y-1 px-1 py-2 hover:bg-blue-300/10 text-sm text-red-600 hover:text-red-800">
-                <InvisIcon class="w-6 h-6" />
+                <EyeSlashIcon class="w-6 h-6" />
               </button>
             </div>
             </div>
@@ -524,7 +775,7 @@ onMounted(() => {
               </router-link>
               <div v-if="showHideButtons">
               <button @click="moveInvestsToOthers" class="ml-auto space-y-1 px-1 py-2 hover:bg-blue-300/10 text-sm text-red-600 hover:text-red-800">
-                <InvisIcon class="w-6 h-6" />
+                <EyeSlashIcon class="w-6 h-6" />
               </button>
             </div>
             </div>
@@ -542,14 +793,14 @@ onMounted(() => {
               </router-link>
               <div v-if="showHideButtons">
               <button @click="moveInvestPlansToOthers" class="ml-auto space-y-1 px-1 py-2 hover:bg-blue-300/10 text-sm text-red-600 hover:text-red-800">
-                <InvisIcon class="w-6 h-6" />
+                <EyeSlashIcon class="w-6 h-6" />
               </button>
             </div>
             </div>
             <details
               v-if="!investsVisible || !investPlansVisible || !investorsVisible || !ipBannedVisible || !wishesVisible || !priceListsVisible || !vouchersVisible || !agentsVisible || !clientsVisible || !corporateClientsVisible || !saleSettingsVisible || !barcodeDuplicatesVisible || !productBarcodesVisible || !usersVisible || !marketsVisible || !ordersVisible || !cashbackHistoriesVisible || !discountVisible || !upcomingProductsVisible || !incomeExpenseVisible || !productsVisible || !saleVisible || !dashboardVisible"
               class="mt-4">
-              <summary class="cursor-pointer py-2 pl-9  text-lg font-medium pl-12 hover:bg-blue-300/10 hover:text-blue-600 text-zinc-400 dark:text-zinc-200 space-x-4">
+              <summary class="cursor-pointer py-2 pl-9 text-lg font-medium hover:bg-blue-300/10 hover:text-blue-600 text-zinc-400 dark:text-zinc-200 space-x-4">
                 Others
               </summary>
               <div class="flex flex-col space-y-2 ">
@@ -577,6 +828,7 @@ onMounted(() => {
                   <router-link to="/sales" @click="selectPage()"
                     active-class="active"
                     class="relative h-10 flex items-center w-full hover:bg-blue-300/10 hover:text-blue-600 py-5 text-zinc-400 dark:text-zinc-200 text-lg font-medium space-x-4 cursor-pointer transition-colors duration-300">
+                    <div class="w-1.5 h-12 rounded-r-xl first-child-bg-color mr-2"></div>
                     <div class="flex h-10 items-center justify-center rounded-xl w-10 second-child-bg-color">
                       <MoneyIcon class="w-6 h-6" />
                     </div>
@@ -593,7 +845,8 @@ onMounted(() => {
                 <div v-if="!productsVisible"
                   class="relative h-10 flex items-center w-full py-5 text-zinc-400 dark:text-zinc-200 text-lg font-medium space-x-4">
                   <router-link to="/products" @click="selectPage()" active-class="active"
-                    class="relative h-10 flex items-center w-full hover:bg-blue-300/10 hover:text-blue-600 py-5 text-zinc-400 dark:text-zinc-200 text-lg font-medium space-x-4 cursor-pointer transition-colors duration-300">
+                  class="relative h-10 flex items-center w-full hover:bg-blue-300/10 hover:text-blue-600 py-5 text-zinc-400 dark:text-zinc-200 text-lg font-medium space-x-4 cursor-pointer transition-colors duration-300">
+                    <div class="w-1.5 h-12 rounded-r-xl first-child-bg-color mr-2"></div>
                     <div class="flex h-10 items-center justify-center rounded-xl w-10 second-child-bg-color">
                       <PhShoppingCart class="w-6 h-6" />
                     </div>
@@ -612,6 +865,7 @@ onMounted(() => {
                   <router-link to="/product-histories" @click="selectPage()"
                     active-class="active"
                     class="relative h-10 flex items-center w-full hover:bg-blue-300/10 hover:text-blue-600 py-5 text-zinc-400 dark:text-zinc-200 text-lg font-medium space-x-4 cursor-pointer transition-colors duration-300">
+                    <div class="w-1.5 h-12 rounded-r-xl first-child-bg-color mr-2"></div>
                     <div class="flex h-10 items-center justify-center rounded-xl w-10 second-child-bg-color">
                       <ProductHistoryIcon class="w-6 h-6" />
                     </div>
