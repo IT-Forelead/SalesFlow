@@ -1,5 +1,5 @@
 <script setup>
-import { defineEmits, ref } from 'vue'
+import { ref } from 'vue'
 import { useRouter } from 'vue-router'
 import { onClickOutside } from '@vueuse/core'
 import AuthService from '../services/auth.service'
