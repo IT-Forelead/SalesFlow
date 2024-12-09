@@ -829,6 +829,7 @@ const toggleShowHideButtons = () => {
                   <router-link to="/sales" @click="selectPage()"
                     active-class="active"
                     class="relative h-10 flex items-center w-full hover:bg-blue-300/10 hover:text-blue-600 py-5 text-zinc-400 dark:text-zinc-200 text-lg font-medium space-x-4 cursor-pointer transition-colors duration-300">
+                    <div class="w-1.5 h-12 rounded-r-xl first-child-bg-color mr-2"></div>
                     <div class="flex h-10 items-center justify-center rounded-xl w-10 second-child-bg-color">
                       <MoneyIcon class="w-6 h-6" />
                     </div>
@@ -846,6 +847,7 @@ const toggleShowHideButtons = () => {
                   class="relative h-10 flex items-center w-full py-5 text-zinc-400 dark:text-zinc-200 text-lg font-medium space-x-4">
                   <router-link to="/products" @click="selectPage()" active-class="active"
                     class="relative h-10 flex items-center w-full hover:bg-blue-300/10 hover:text-blue-600 py-5 text-zinc-400 dark:text-zinc-200 text-lg font-medium space-x-4 cursor-pointer transition-colors duration-300">
+                    <div class="w-1.5 h-12 rounded-r-xl first-child-bg-color mr-2"></div>
                     <div class="flex h-10 items-center justify-center rounded-xl w-10 second-child-bg-color">
                       <PhShoppingCart class="w-6 h-6" />
                     </div>
@@ -864,6 +866,7 @@ const toggleShowHideButtons = () => {
                   <router-link to="/product-histories" @click="selectPage()"
                     active-class="active"
                     class="relative h-10 flex items-center w-full hover:bg-blue-300/10 hover:text-blue-600 py-5 text-zinc-400 dark:text-zinc-200 text-lg font-medium space-x-4 cursor-pointer transition-colors duration-300">
+                    <div class="w-1.5 h-12 rounded-r-xl first-child-bg-color mr-2"></div>
                     <div class="flex h-10 items-center justify-center rounded-xl w-10 second-child-bg-color">
                       <ProductHistoryIcon class="w-6 h-6" />
                     </div>
