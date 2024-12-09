@@ -464,5 +464,6 @@
   "deleteRecommend": "Тавсия ўчириш",
   "recommendDeletedSuccessfully": "Тавсия махсулот ўчирилди",
   "errorWhileDeletingRecommend": "Тавсия махсулот ўчириш хатолик юз берди",
-  "Edit": "Таҳрирлаш"
+  "Edit": "Таҳрирлаш",
+  "Others": "Бошқалар"
 }

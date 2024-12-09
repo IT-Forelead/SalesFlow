@@ -12,6 +12,7 @@ import DotsThreeVerticalBoldIcon from '../assets/icons/DotsThreeVerticalBoldIcon
 import { useI18n } from 'vue-i18n'
 import EditIcon from '../assets/icons/EditIcon.vue'
 
+const isEditMode = ref(false)
 const { t } = useI18n()
 const router = useRouter()
 const dropdown = ref(null)
@@ -19,6 +20,7 @@ const dropdown = ref(null)
 const emit = defineEmits()
 
 const editSave = () => {
+  isEditMode.value = !isEditMode.value
   emit('toggle-show-hide-buttons')
 }
 
@@ -73,7 +75,7 @@ const logout = () => {
         </li>
         <li @click="editSave" class="flex items-center text-slate-900 dark:text-white hover:bg-blue-100 hover:dark:bg-slate-700 hover:text-blue-600 rounded-lg cursor-pointer p-2 space-x-2">
           <EditIcon class="w-5 h-5" />
-          <span>{{ $t('Edit') }}</span>
+          <span>{{ isEditMode ? $t('save') : $t('Edit') }}</span>
         </li>
       </ul>
       <div class="p-1.5">

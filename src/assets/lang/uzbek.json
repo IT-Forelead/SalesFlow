@@ -467,5 +467,6 @@
   "recommendDeletingAgent": "Tavsiya o'chirish",
   "recommendDeletedSuccessfully": "Tavsiya mahsulot o'chirildi",
   "errorWhileDeletingRecommend": "Tavsiya mahsulot o'chirish xatolik yuz berdi",
-  "Edit": "Tahrirlash"
+  "Edit": "Tahrirlash",
+  "Others": "Boshqalar"
 }
