@@ -467,5 +467,6 @@
   "deleteRecommend": "Удалить рекомендацию",
   "recommendDeletedSuccessfully": "Рекомендация удалена",
   "errorWhileDeletingRecommend": "Ошибка при удалении рекомендации",
-  "Edit": "Редактировать"
+  "Edit": "Редактировать",
+  "Others": "Другие"
 }

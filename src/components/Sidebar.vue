@@ -38,7 +38,7 @@ import ClientCorpIcon from '../assets/icons/ClientCorpIcon.vue'
 import PhPriceList from '../assets/icons/PriceListIcon.vue'
 import PriceListIcon from '../assets/icons/PriceListIcon.vue'
 import UserIcon from '@/assets/icons/UserIcon.vue'
-import EyeSlashIcon from '@/assets/icons/EyeSlashIcon.vue'
+import InvisIcon from '@/assets/icons/EyeSlashIcon.vue'
 import EyeIcon from '@/assets/icons/EyeIcon.vue'
 
 const { t } = useI18n()
@@ -363,6 +363,7 @@ const toggleShowHideButtons = () => {
   showHideButtons.value = !showHideButtons.value
 }
 </script>
+
 <template>
   <div class="relative z-40" v-if="useSidebarStore().toggleSidebar && useSidebarStore().isOpenSidebar">
     <div class="fixed inset-0 z-40 transition-opacity duration-200 bg-slate-900 bg-opacity-30 lg:hidden lg:z-auto"
@@ -382,7 +383,7 @@ const toggleShowHideButtons = () => {
           </div>
           <div class="flex items-center justify-end">
             <XIcon
-              class="w-6 h-6 mt-1 hover:text-[#0167f3] dark:text-white dark:hover:bg-gray-500 rounded-md cursor-pointer"
+              class="w-6 h-6 mt-1 hover:text-[#0167f3] dark:text-white dark:hover:bg-gray-700 rounded-md cursor-pointer"
               @click="closeBar" />
           </div>
         </div>
@@ -403,7 +404,7 @@ const toggleShowHideButtons = () => {
               </router-link>
               <div v-if="showHideButtons">
               <button @click="moveDashboardToOthers" class="ml-auto space-y-1 px-1 py-2 hover:bg-blue-300/10 text-sm text-red-600 hover:text-red-800">
-                <EyeSlashIcon class="w-6 h-6" />
+                <InvisIcon class="w-6 h-6" />
               </button>
               </div>
             </div>
@@ -421,7 +422,7 @@ const toggleShowHideButtons = () => {
               </router-link>
               <div v-if="showHideButtons">
               <button @click="moveSaleToOthers" class="ml-auto space-y-1 px-1 py-2 hover:bg-blue-300/10 text-sm text-red-600 hover:text-red-800">
-                <EyeSlashIcon class="w-6 h-6" />
+                <InvisIcon class="w-6 h-6" />
               </button>
             </div>
             </div>
@@ -438,7 +439,7 @@ const toggleShowHideButtons = () => {
               </router-link>
               <div v-if="showHideButtons">
               <button @click="moveProductsToOthers" class="ml-auto space-y-1 px-1 py-2 hover:bg-blue-300/10 text-sm text-red-600 hover:text-red-800">
-                <EyeSlashIcon class="w-6 h-6" />
+                <InvisIcon class="w-6 h-6" />
               </button>
             </div>
             </div>
@@ -456,7 +457,7 @@ const toggleShowHideButtons = () => {
               </router-link>
               <div v-if="showHideButtons">
               <button @click="moveIncomeExpenseToOthers" class="ml-auto space-y-1 px-1 py-2 hover:bg-blue-300/10 text-sm text-red-600 hover:text-red-800">
-                <EyeSlashIcon class="w-6 h-6" />
+                <InvisIcon class="w-6 h-6" />
               </button>
             </div>
             </div>
@@ -474,7 +475,7 @@ const toggleShowHideButtons = () => {
               </router-link>
               <div v-if="showHideButtons">
               <button @click="moveUpcomingProductsToOthers" class="ml-auto space-y-1 px-1 py-2 hover:bg-blue-300/10 text-sm text-red-600 hover:text-red-800">
-                <EyeSlashIcon class="w-6 h-6" />
+                <InvisIcon class="w-6 h-6" />
               </button>
             </div>
             </div>
@@ -491,7 +492,7 @@ const toggleShowHideButtons = () => {
               </router-link>
               <div v-if="showHideButtons">
               <button @click="moveDiscountToOthers" class="ml-auto text-sm space-y-1 px-1 py-2 hover:bg-blue-300/10 text-red-600 hover:text-red-800">
-                <EyeSlashIcon class="w-6 h-6" />
+                <InvisIcon class="w-6 h-6" />
               </button>
             </div>
             </div>
@@ -508,7 +509,7 @@ const toggleShowHideButtons = () => {
               </router-link>.
               <div v-if="showHideButtons">
               <button @click="moveCashbackHistoriesToOthers" class="ml-auto space-y-1 px-1 py-2 hover:bg-blue-300/10 text-sm text-red-600 hover:text-red-800">
-                <EyeSlashIcon class="w-6 h-6" />
+                <InvisIcon class="w-6 h-6" />
               </button>
             </div>
             </div>
@@ -525,7 +526,7 @@ const toggleShowHideButtons = () => {
               </router-link>
               <div v-if="showHideButtons">
               <button @click="moveOrdersToOthers" class="ml-auto text-sm space-y-1 px-1 py-2 hover:bg-blue-300/10 text-red-600 hover:text-red-800">
-                <EyeSlashIcon class="w-6 h-6" />
+                <InvisIcon class="w-6 h-6" />
               </button>
             </div>
             </div>
@@ -543,7 +544,7 @@ const toggleShowHideButtons = () => {
               </router-link>
               <div v-if="showHideButtons">
               <button @click="moveMarketToOthers" class="ml-auto text-sm space-y-1 px-1 py-2 hover:bg-blue-300/10 text-red-600 hover:text-red-800">
-                <EyeSlashIcon class="w-6 h-6" />
+                <InvisIcon class="w-6 h-6" />
               </button>
             </div>
             </div>
@@ -560,7 +561,7 @@ const toggleShowHideButtons = () => {
               </router-link>
               <div v-if="showHideButtons">
               <button @click="moveUsersToOthers" class="ml-auto text-sm space-y-1 px-1 py-2 hover:bg-blue-300/10 text-red-600 hover:text-red-800">
-                <EyeSlashIcon class="w-6 h-6" />
+                <InvisIcon class="w-6 h-6" />
               </button>
             </div>
             </div>
@@ -578,7 +579,7 @@ const toggleShowHideButtons = () => {
               </router-link>
               <div v-if="showHideButtons">
               <button @click="moveProductBarcodesToOthers" class="ml-auto space-y-1 px-1 py-2 hover:bg-blue-300/10 text-sm text-red-600 hover:text-red-800">
-                <EyeSlashIcon class="w-6 h-6" />
+                <InvisIcon class="w-6 h-6" />
               </button>
             </div>
             </div>
@@ -596,7 +597,7 @@ const toggleShowHideButtons = () => {
               </router-link>
               <div v-if="showHideButtons">
               <button @click="moveBarcodeDuplicatesToOthers" class="ml-auto space-y-1 px-1 py-2 hover:bg-blue-300/10 text-sm text-red-600 hover:text-red-800">
-                <EyeSlashIcon class="w-6 h-6" />
+                <InvisIcon class="w-6 h-6" />
               </button>
             </div>
             </div>
@@ -614,7 +615,7 @@ const toggleShowHideButtons = () => {
               </router-link>
               <div v-if="showHideButtons">
               <button @click="moveSaleSettingsToOthers" class="ml-auto space-y-1 px-1 py-2 hover:bg-blue-300/10 text-sm text-red-600 hover:text-red-800">
-                <EyeSlashIcon class="w-6 h-6" />
+                <InvisIcon class="w-6 h-6" />
               </button>
             </div>
             </div>
@@ -632,7 +633,7 @@ const toggleShowHideButtons = () => {
               </router-link>
               <div v-if="showHideButtons">
               <button @click="moveCorprorateClientsToOthers" class="ml-auto space-y-1 px-1 py-2 hover:bg-blue-300/10 text-sm text-red-600 hover:text-red-800">
-                <EyeSlashIcon class="w-6 h-6" />
+                <InvisIcon class="w-6 h-6" />
               </button>
             </div>
             </div>
@@ -650,7 +651,7 @@ const toggleShowHideButtons = () => {
               </router-link>
               <div v-if="showHideButtons">
               <button @click="moveClientsToOthers" class="ml-auto space-y-1 px-1 py-2 hover:bg-blue-300/10 text-sm text-red-600 hover:text-red-800">
-                <EyeSlashIcon class="w-6 h-6" />
+                <InvisIcon class="w-6 h-6" />
               </button>
             </div>
             </div>
@@ -668,7 +669,7 @@ const toggleShowHideButtons = () => {
               </router-link>
               <div v-if="showHideButtons">
               <button @click="moveAgentsToOthers" class="ml-auto space-y-1 px-1 py-2 hover:bg-blue-300/10 text-sm text-red-600 hover:text-red-800">
-                <EyeSlashIcon class="w-6 h-6" />
+                <InvisIcon class="w-6 h-6" />
               </button>
             </div>
             </div>
@@ -686,7 +687,7 @@ const toggleShowHideButtons = () => {
               </router-link>
               <div v-if="showHideButtons">
               <button @click="moveVouchersToOthers" class="ml-auto space-y-1 px-1 py-2 hover:bg-blue-300/10 text-sm text-red-600 hover:text-red-800">
-                <EyeSlashIcon class="w-6 h-6" />
+                <InvisIcon class="w-6 h-6" />
               </button>
             </div>
             </div>
@@ -704,7 +705,7 @@ const toggleShowHideButtons = () => {
               </router-link>
               <div v-if="showHideButtons">
               <button @click="movePriceListsToOthers" class="ml-auto space-y-1 px-1 py-2 hover:bg-blue-300/10 text-sm text-red-600 hover:text-red-800">
-                <EyeSlashIcon class="w-6 h-6" />
+                <InvisIcon class="w-6 h-6" />
               </button>
             </div>
             </div>
@@ -721,7 +722,7 @@ const toggleShowHideButtons = () => {
               </router-link>
               <div v-if="showHideButtons">
               <button @click="moveWishesToOthers" class="ml-auto space-y-1 px-1 py-2 hover:bg-blue-300/10 text-sm text-red-600 hover:text-red-800">
-                <EyeSlashIcon class="w-6 h-6" />
+                <InvisIcon class="w-6 h-6" />
               </button>
             </div>
             </div>
@@ -739,7 +740,7 @@ const toggleShowHideButtons = () => {
               </router-link>
               <div v-if="showHideButtons">
               <button @click="moveIpBannedToOthers" class="ml-auto space-y-1 px-1 py-2 hover:bg-blue-300/10 text-sm text-red-600 hover:text-red-800">
-                <EyeSlashIcon class="w-6 h-6" />
+                <InvisIcon class="w-6 h-6" />
               </button>
             </div>
             </div>
@@ -757,7 +758,7 @@ const toggleShowHideButtons = () => {
               </router-link>
               <div v-if="showHideButtons">
               <button @click="moveInvestorsToOthers" class="ml-auto space-y-1 px-1 py-2 hover:bg-blue-300/10 text-sm text-red-600 hover:text-red-800">
-                <EyeSlashIcon class="w-6 h-6" />
+                <InvisIcon class="w-6 h-6" />
               </button>
             </div>
             </div>
@@ -775,7 +776,7 @@ const toggleShowHideButtons = () => {
               </router-link>
               <div v-if="showHideButtons">
               <button @click="moveInvestsToOthers" class="ml-auto space-y-1 px-1 py-2 hover:bg-blue-300/10 text-sm text-red-600 hover:text-red-800">
-                <EyeSlashIcon class="w-6 h-6" />
+                <InvisIcon class="w-6 h-6" />
               </button>
             </div>
             </div>
@@ -793,7 +794,7 @@ const toggleShowHideButtons = () => {
               </router-link>
               <div v-if="showHideButtons">
               <button @click="moveInvestPlansToOthers" class="ml-auto space-y-1 px-1 py-2 hover:bg-blue-300/10 text-sm text-red-600 hover:text-red-800">
-                <EyeSlashIcon class="w-6 h-6" />
+                <InvisIcon class="w-6 h-6" />
               </button>
             </div>
             </div>
@@ -801,7 +802,7 @@ const toggleShowHideButtons = () => {
               v-if="!investsVisible || !investPlansVisible || !investorsVisible || !ipBannedVisible || !wishesVisible || !priceListsVisible || !vouchersVisible || !agentsVisible || !clientsVisible || !corporateClientsVisible || !saleSettingsVisible || !barcodeDuplicatesVisible || !productBarcodesVisible || !usersVisible || !marketsVisible || !ordersVisible || !cashbackHistoriesVisible || !discountVisible || !upcomingProductsVisible || !incomeExpenseVisible || !productsVisible || !saleVisible || !dashboardVisible"
               class="mt-4">
               <summary class="cursor-pointer py-2 pl-9 text-lg font-medium hover:bg-blue-300/10 hover:text-blue-600 text-zinc-400 dark:text-zinc-200 space-x-4">
-                Others
+                {{ $t('Others') }}
               </summary>
               <div class="flex flex-col space-y-2 ">
                 <div v-if="!dashboardVisible && navigationGuard('dashboard')"
@@ -845,7 +846,7 @@ const toggleShowHideButtons = () => {
                 <div v-if="!productsVisible"
                   class="relative h-10 flex items-center w-full py-5 text-zinc-400 dark:text-zinc-200 text-lg font-medium space-x-4">
                   <router-link to="/products" @click="selectPage()" active-class="active"
-                  class="relative h-10 flex items-center w-full hover:bg-blue-300/10 hover:text-blue-600 py-5 text-zinc-400 dark:text-zinc-200 text-lg font-medium space-x-4 cursor-pointer transition-colors duration-300">
+                    class="relative h-10 flex items-center w-full hover:bg-blue-300/10 hover:text-blue-600 py-5 text-zinc-400 dark:text-zinc-200 text-lg font-medium space-x-4 cursor-pointer transition-colors duration-300">
                     <div class="w-1.5 h-12 rounded-r-xl first-child-bg-color mr-2"></div>
                     <div class="flex h-10 items-center justify-center rounded-xl w-10 second-child-bg-color">
                       <PhShoppingCart class="w-6 h-6" />
@@ -1238,4 +1239,5 @@ const toggleShowHideButtons = () => {
   background-color: rgb(30 41 59) !important;
 }
 </style>
+
 
