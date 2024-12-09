@@ -802,7 +802,7 @@ const toggleShowHideButtons = () => {
               v-if="!investsVisible || !investPlansVisible || !investorsVisible || !ipBannedVisible || !wishesVisible || !priceListsVisible || !vouchersVisible || !agentsVisible || !clientsVisible || !corporateClientsVisible || !saleSettingsVisible || !barcodeDuplicatesVisible || !productBarcodesVisible || !usersVisible || !marketsVisible || !ordersVisible || !cashbackHistoriesVisible || !discountVisible || !upcomingProductsVisible || !incomeExpenseVisible || !productsVisible || !saleVisible || !dashboardVisible"
               class="mt-4">
               <summary class="cursor-pointer py-2 pl-9  text-lg font-medium pl-12 hover:bg-blue-300/10 hover:text-blue-600 text-zinc-400 dark:text-zinc-200 space-x-4">
-                Others
+                {{ $t('Others') }}
               </summary>
               <div class="flex flex-col space-y-2 ">
                 <div v-if="!dashboardVisible && navigationGuard('dashboard')"
