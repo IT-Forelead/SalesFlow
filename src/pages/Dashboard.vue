@@ -997,12 +997,14 @@ const predictCountStatsAreaChartOptions = computed(() => {
       },
     },
     yaxis: {
-      tickAmount: 5,
+      tickAmount: 6,
       floating: false,
+      min: -100,
+      max: 100,
       labels: {
         show: true,
         formatter: function (val) {
-          return val + ' %'
+          return val.toFixed(0) + ' %';
         },
         style: {
           colors: '#4a90e2',
