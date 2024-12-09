@@ -853,7 +853,7 @@ const predictStatsChartSeries = computed(() => [
     data: predictStats.value?.map((item) => item.income).reverse(),
   },
   {
-    name: 'Chiqim',
+    name: 'Foyda',
     data: predictStats.value?.map((item) => item.profit).reverse(),
   },
 ])
@@ -864,7 +864,7 @@ const predictCountStatsChartSeries = computed(() => [
     data: predictStats.value?.map((item) => item.incomeGrowth).reverse(),
   },
   {
-    name: `Chiqim o'sishi`,
+    name: `Foyda o'sishi`,
     data: predictStats.value?.map((item) => item.profitGrowth).reverse(),
   },
 ])
@@ -997,10 +997,13 @@ const predictCountStatsAreaChartOptions = computed(() => {
       },
     },
     yaxis: {
-      tickAmount: 6,
+      tickAmount: 5,
       floating: false,
       labels: {
         show: true,
+        formatter: function (val) {
+          return val + ' %'
+        },
         style: {
           colors: '#4a90e2',
         },
@@ -1153,7 +1156,7 @@ const monthStatsChartSeries = computed(() => [
     data: monthStats.value?.map((item) => item.income).reverse(),
   },
   {
-    name: 'Chiqim',
+    name: 'Foyda',
     data: monthStats.value?.map((item) => item.profit).reverse(),
   },
 ])
