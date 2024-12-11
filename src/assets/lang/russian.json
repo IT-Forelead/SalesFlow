@@ -468,5 +468,6 @@
   "recommendDeletedSuccessfully": "Рекомендация удалена",
   "errorWhileDeletingRecommend": "Ошибка при удалении рекомендации",
   "Edit": "Редактировать",
-  "Others": "Другие"
+  "Others": "Другие",
+  "Categories": "Категории"
 }

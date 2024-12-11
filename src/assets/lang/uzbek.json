@@ -468,5 +468,6 @@
   "recommendDeletedSuccessfully": "Tavsiya mahsulot o'chirildi",
   "errorWhileDeletingRecommend": "Tavsiya mahsulot o'chirish xatolik yuz berdi",
   "Edit": "Tahrirlash",
-  "Others": "Boshqalar"
+  "Others": "Boshqalar",
+  "Categories": "Kategoriyalar"
 }
