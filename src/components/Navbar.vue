@@ -46,6 +46,8 @@ import CreatePriceModal from './modals/CreatePriceModal.vue'
 import CreateVoucherModal from './modals/CreateVoucherModal.vue'
 import AgentInfoModal from './modals/AgentInfoModal.vue'
 import DeleteRecommendProduct from './modals/DeleteRecommendProduct.vue'
+import HiddenProductsModal from './modals/HiddenProductsModal.vue'
+import UnhideRecommendProduct from './modals/UnhideRecommendProduct.vue'
 
 const notificationDropdown = ref(null)
 
@@ -156,6 +158,8 @@ onUnmounted(() => {
   <CreateVoucherModal />
   <AgentInfoModal />
   <DeleteRecommendProduct />
+  <HiddenProductsModal />
+  <UnhideRecommendProduct />
 </template>
 
 <style scoped></style>

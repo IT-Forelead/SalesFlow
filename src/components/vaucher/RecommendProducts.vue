@@ -8,14 +8,14 @@ import { useDropdownStore } from '../../store/dropdown.store'
 import Spinners270RingIcon from '../../assets/icons/Spinners270RingIcon.vue'
 import SearchIcon from '../../assets/icons/SearchIcon.vue'
 import FunnelIcon from '../../assets/icons/FunnelIcon.vue'
-import TrashIcon from '../../assets/icons/TrashIcon.vue'
+import EyeSlashIcon from '../../assets/icons/EyeSlashIcon.vue'
 import { onClickOutside } from '@vueuse/core'
 import CTable from '../common/CTable.vue'
 
 const { t } = useI18n()
 const isLoading = ref(false)
 const globalSearchFromTable = ref('')
-const productStats = ref('')
+const productStats = ref()
 const recommendProducts = computed(() => useProductStore().recommendProducts)
 const renderKey = computed(() => useProductStore().renderKey)
 
@@ -29,6 +29,10 @@ const columns = [
   {
     accessorKey: 'productName',
     header: t('productName')
+  },
+  {
+    accessorKey: 'salesRatio',
+    header: t('salesRatio')
   },
   {
     accessorKey: 'totalAmount',
@@ -63,7 +67,7 @@ const columns = [
           openDeleteRecommendProductModal(row.original)
         },
       }, [
-        h(TrashIcon, { class: 'w-6 h-6 text-red-600 hover:scale-105' }),
+        h(EyeSlashIcon, { class: 'w-6 h-6 text-red-600 hover:scale-105' }),
       ]),
     ]),
     enableSorting: false,
@@ -73,6 +77,14 @@ const columns = [
 const openDeleteRecommendProductModal = (data) => {
   useModalStore().openDeleteRecommendProductModal()
   useProductStore().setSelectedProduct(data)
+}
+
+const openHiddenRecommendProductsModal = () => {
+  ProductService.getHiddenProducts(1, 30).then((res) => {
+      useProductStore().clearStore()
+      useProductStore().setHiddenProducts(res.data)
+      useModalStore().openHiddenRecommendProductsModal()
+    })
 }
 
 const filterRecommendData = reactive({
@@ -163,7 +175,7 @@ onClickOutside(recommendDropdown, () => {
     </div>
 
     <!-- Filter Dropdown Section -->
-    <div class="w-full md:w-auto order-1 md:order-2">
+    <div class="flex justify-between space-x-10 w-full md:w-auto order-1 md:order-2">
       <div class="relative" ref="recommendDropdown">
         <div @click="useDropdownStore().toggleRecommendFilterBy()"
           class="border-none w-40 select-none text-gray-900 bg-white dark:text-zinc-200 dark:bg-slate-800 shadow rounded-lg p-2 px-5 flex items-center hover:bg-gray-100 cursor-pointer space-x-1">
@@ -219,6 +231,8 @@ onClickOutside(recommendDropdown, () => {
           </div>
         </div>
       </div>
+      <button @click="openHiddenRecommendProductsModal"
+      class="w-full md:w-auto py-2 px-4 rounded-full text-white text-lg font-medium bg-blue-500 cursor-pointer hover:bg-blue-600">{{t('hiddenProducts')}}</button>
     </div>
   </div>
   <div v-if="isLoading" class="flex items-center justify-center h-20">

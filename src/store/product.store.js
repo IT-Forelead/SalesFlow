@@ -10,6 +10,8 @@ export const useProductStore = defineStore('product', {
     dublicatesTotal:0,
     productBarcodes: [],
     selectedProduct: {},
+    hiddenProducts: [],
+    selectedHiddenProduct: {},
     selectedBarcodes:{},
     searchFilter:{},
     barcodeDuplicates: [],
@@ -27,6 +29,12 @@ export const useProductStore = defineStore('product', {
     },
     setProductBarcodes(data) {
       this.productBarcodes.push(...data)
+    },
+    setHiddenProducts(data) {
+      this.hiddenProducts.push(...data)
+    },
+    setSelectedHiddenProduct(data) {
+      this.selectedHiddenProduct = data
     },
     setBarcodeDuplicates(data) {
       this.barcodeDuplicates.push(...data)
@@ -54,6 +62,7 @@ export const useProductStore = defineStore('product', {
       this.products = []
       this.recommendProducts = []
       this.productBarcodes = []
+      this.hiddenProducts = []
       this.barcodeDuplicates = []
       this.selectedBarcodes = {}
     },
