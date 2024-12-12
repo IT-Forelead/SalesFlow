@@ -1,6 +1,6 @@
 <script setup>
 import { vMaska } from 'maska'
-import { reactive, ref, computed, h, onMounted} from 'vue'
+import { reactive, ref, computed, h, onMounted } from 'vue'
 import { toast } from 'vue-sonner'
 import Spinners270RingIcon from '../../assets/icons/Spinners270RingIcon.vue'
 import { cleanObjectEmptyFields } from '../../mixins/utils'
@@ -15,14 +15,10 @@ import EyeIcon from '@/assets/icons/EyeIcon.vue'
 
 const { t } = useI18n()
 const productStore = useProductStore()
-
 const renderKey = computed(() => productStore.renderKey)
-
-const page = ref(1)
-const pageSize = 30
-
+// const page = ref(1)
+// const pageSize = 30
 const isLoading = ref(false)
-
 const hiddenProducts = computed(() => productStore.hiddenProducts)
 
 const columns = [
@@ -99,24 +95,21 @@ const closeModal = () => {
   useModalStore().closeHiddenRecommendProductsModal()
   productStore.setSelectedProduct({})
 }
-
 </script>
 <template>
-  <CModal :is-open="useModalStore().isOpenHiddenRecommendProductsModal" v-if="useModalStore().isOpenHiddenRecommendProductsModal"
-            @close=closeModal :key="renderKey">
-      <template v-slot:header>
-        {{ $t('hiddenProducts') }}
-      </template>
-      <template v-slot:body>
-        <div class="space-y-4">
-          <CTable :data="hiddenProducts" :columns="columns"  />
-          
-        </div>
-      </template>
-      <template v-slot:footer>
-        <CancelButton @click="closeModal" />
-        
-      </template>
+  <CModal :is-open="useModalStore().isOpenHiddenRecommendProductsModal"
+    v-if="useModalStore().isOpenHiddenRecommendProductsModal" @close=closeModal :key="renderKey">
+    <template v-slot:header>
+      {{ $t('hiddenProducts') }}
+    </template>
+    <template v-slot:body>
+      <div class="space-y-4">
+        <CTable :data="hiddenProducts" :columns="columns" />
+      </div>
+    </template>
+    <template v-slot:footer>
+      <CancelButton @click="closeModal" />
+    </template>
   </CModal>
 </template>
 

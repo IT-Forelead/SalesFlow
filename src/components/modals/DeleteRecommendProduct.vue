@@ -31,10 +31,7 @@ const hideRecommendProduct = () => {
           productStore.clearStore()
           productStore.setRecommendProducts(res)
           closeModal()
-          console.log(productStore.recommendProducts);
-
           productStore.renderKey += 1
-
         })
         .catch(() => {
           toast.error(t('errorWhileDeletingRecommend'))

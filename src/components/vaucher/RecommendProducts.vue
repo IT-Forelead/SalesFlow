@@ -114,8 +114,6 @@ const submitRecommendStatsFilterData = () => {
     }).then((res) => {
       productStore.clearStore()
       productStore.setRecommendProducts(res)
-      console.log(recommendProducts.value);
-
       isLoading.value = false
       if (useDropdownStore().isOpenRecommendFilterBy) {
         useDropdownStore().toggleRecommendFilterBy()
