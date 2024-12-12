@@ -51,7 +51,7 @@ const hideRecommendProduct = () => {
   <CModal :is-open="useModalStore().isOpenDeleteRecommendProductModal"
     v-if="useModalStore().isOpenDeleteRecommendProductModal" @close=closeModal>
     <template v-slot:header>
-      {{ $t('deleteRecommendProduct') }}
+      {{ $t('hideRecommendProduct') }}
     </template>
     <template v-slot:body>
       <div class="flex items-center justify-center">

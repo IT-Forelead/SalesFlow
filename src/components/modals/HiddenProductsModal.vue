@@ -11,18 +11,18 @@ import CTable from '../../components/common/CTable.vue'
 import { useI18n } from 'vue-i18n'
 import ProductService from '../../services/product.service.js'
 import { useProductStore } from '../../store/product.store.js'
-import PhDownload from '../../assets/icons/DownloadIcon.vue'
+import EyeIcon from '@/assets/icons/EyeIcon.vue'
 
 const { t } = useI18n()
+const productStore = useProductStore()
 
-const renderKey = computed(() => useProductStore.renderkey)
+const renderKey = computed(() => productStore.renderKey)
 
 const page = ref(1)
 const pageSize = 30
 
 const isLoading = ref(false)
 
-const productStore = useProductStore()
 const hiddenProducts = computed(() => productStore.hiddenProducts)
 
 const columns = [
@@ -48,7 +48,7 @@ const columns = [
           openUnhideRecommendProductModal(row.original)
         },
       }, [
-        h(PhDownload, { class: 'w-6 h-6 text-blue-600 dark:text-blue-400 hover:scale-105' }),
+        h(EyeIcon, { class: 'w-6 h-6 text-blue-600 dark:text-blue-400 hover:scale-105' }),
       ]),
     ]),
     enableSorting: false,
@@ -89,10 +89,10 @@ const getRecommendStats = () => {
 onMounted(() => {
   cleanFilterRecommendData
   getRecommendStats()
-  ProductService.getProductStats()
-    .then((res) => {
-      productStats.value = res
-    })
+  // ProductService.getProductStats()
+  //   .then((res) => {
+  //     productStats.value = res
+  //   })
 })
 
 const closeModal = () => {
@@ -105,7 +105,7 @@ const closeModal = () => {
   <CModal :is-open="useModalStore().isOpenHiddenRecommendProductsModal" v-if="useModalStore().isOpenHiddenRecommendProductsModal"
             @close=closeModal :key="renderKey">
       <template v-slot:header>
-        {{ $t('addClient') }}
+        {{ $t('hiddenProducts') }}
       </template>
       <template v-slot:body>
         <div class="space-y-4">

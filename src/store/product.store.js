@@ -57,6 +57,12 @@ export const useProductStore = defineStore('product', {
     setIntervalType(data) {
       this.intervalType = data
     },
+    clearHiddenProducts() {
+      this.hiddenProducts = []
+    },
+    clearRecommendProducts() {
+      this.recommendProducts = []
+    },
     clearStore() {
       
       this.products = []

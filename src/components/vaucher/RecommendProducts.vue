@@ -16,8 +16,10 @@ const { t } = useI18n()
 const isLoading = ref(false)
 const globalSearchFromTable = ref('')
 const productStats = ref()
-const recommendProducts = computed(() => useProductStore().recommendProducts)
-const renderKey = computed(() => useProductStore().renderKey)
+const productStore = useProductStore()
+
+const recommendProducts = computed(() => productStore.recommendProducts)
+const renderKey = computed(() => productStore.renderKey)
 
 const columns = [
   {
@@ -76,20 +78,20 @@ const columns = [
 
 const openDeleteRecommendProductModal = (data) => {
   useModalStore().openDeleteRecommendProductModal()
-  useProductStore().setSelectedProduct(data)
+  productStore.setSelectedProduct(data)
 }
 
 const openHiddenRecommendProductsModal = () => {
   ProductService.getHiddenProducts(1, 30).then((res) => {
-      useProductStore().clearStore()
-      useProductStore().setHiddenProducts(res.data)
+      productStore.clearStore()
+      productStore.setHiddenProducts(res.data)
       useModalStore().openHiddenRecommendProductsModal()
     })
 }
 
 const filterRecommendData = reactive({
-  intervalType: useProductStore().intervalType,
-  limit: useProductStore().limit,
+  intervalType: productStore.intervalType,
+  limit: productStore.limit,
 })
 
 const cleanFilterRecommendData = () => {
@@ -104,14 +106,14 @@ const submitRecommendStatsFilterData = () => {
     toast.warning(t('plsSelectLimit'))
   } else {
     isLoading.value = true
-    useProductStore().setIntervalType(filterRecommendData.intervalType)
-    useProductStore().setLimit(filterRecommendData.limit)
+    productStore.setIntervalType(filterRecommendData.intervalType)
+    productStore.setLimit(filterRecommendData.limit)
     ProductService.getRecommendStats({
       intervalType: filterRecommendData.intervalType,
       limit: filterRecommendData.limit,
     }).then((res) => {
-      useProductStore().clearStore()
-      useProductStore().setRecommendProducts(res)
+      productStore.clearStore()
+      productStore.setRecommendProducts(res)
       console.log(recommendProducts.value);
 
       isLoading.value = false
@@ -133,8 +135,8 @@ const getRecommendStats = () => {
     }
   )
     .then((res) => {
-      useProductStore().clearStore()
-      useProductStore().setRecommendProducts(res)
+      productStore.clearStore()
+      productStore.setRecommendProducts(res)
     }).finally(() => {
       isLoading.value = false
     })

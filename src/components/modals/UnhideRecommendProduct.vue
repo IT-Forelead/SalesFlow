@@ -23,13 +23,18 @@ const unhideRecommendProduct = () => {
       toast.success(t('recommendUnhidedSuccessfully'))
       ProductService.getHiddenProducts(1, 30)
         .then((res) => {
-          productStore.clearStore()
+          productStore.clearHiddenProducts()
           productStore.setHiddenProducts(res.data)
-          closeModal()
-          console.log(productStore.hiddenProducts);
 
-          productStore.renderKey += 1
-
+          ProductService.getRecommendStats({
+            intervalType: productStore.intervalType,
+            limit: productStore.limit,
+          }).then((res) => {
+            productStore.clearRecommendProducts()
+            productStore.setRecommendProducts(res)
+            productStore.renderKey += 1
+            closeModal()
+          })
         })
         .catch(() => {
           toast.error(t('errorWhileDeletingRecommend'))
