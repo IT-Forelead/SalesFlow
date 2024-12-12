@@ -469,7 +469,7 @@
   "Others": "Бошқалар",
   "salesRatio": "Сотиш нисбати",
   "hiddenProducts": "Яширин маҳсулотлар",
-  "unhideRecommendModal": "Яширин маҳсулотни ўчириш",
+  "unhideRecommendProduct": "Яширин маҳсулотни ўчириш",
   "areYouSureYouWantToUnhideThisInformation": "Ҳақиқатан ҳам бу маълумотни очиб ташламоқчимисиз?",
   "errorWhileUnhidingRecommend": "Маҳсулотни тавсия етишда хатолик юз берди",
   "recommendUnhiddenSuccessfully": "Тавсия маҳсулот очиб яратилди"

@@ -471,7 +471,7 @@
   "Others": "Другие",
   "salesRatio": "Коэффициент продаж",
   "hiddenProducts": "Скрытые продукты",
-  "unhideRecommendModal": "Удалить скрытый продукт",
+  "unhideRecommendProduct": "Удалить скрытый продукт",
   "areYouSureYouWantToUnhideThisInformation": "Вы уверены, что хотите раскрыть эту информацию?",
   "errorWhileUnhidingRecommend": "Ошибка при раскрытии рекомендации",
   "recommendUnhiddenSuccessfully": "Рекомендация раскрыта успешно"

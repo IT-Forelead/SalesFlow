@@ -466,7 +466,7 @@
   "Others": "Others",
   "salesRatio": "Sales ratio",
   "hiddenProducts": "Hidden products",
-  "unhideRecommendModal": "Remove hidden product",
+  "unhideRecommendProduct": "Remove hidden product",
   "areYouSureYouWantToUnhideThisInformation": "Are you sure you want to unhide this information?",
   "errorWhileUnhidingRecommend": "Error occurred while recommending the product",
   "recommendUnhiddenSuccessfully": "Recommendation product has been successfully unhidden"

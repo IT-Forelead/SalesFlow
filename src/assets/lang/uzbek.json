@@ -472,7 +472,7 @@
   "Others": "Boshqalar",
   "salesRatio": "Sotish nisbati",
   "hiddenProducts": "Yashirin mahsulotlar",
-  "unhideRecommendModal": "Yashirin mahsulotni o'chirish",
+  "unhideRecommendProduct": "Yashirin mahsulotni o'chirish",
   "areYouSureYouWantToUnhideThisInformation": "Haqiqatan ham bu ma'lumotni ochib tashlamoqchimisiz?",
   "errorWhileUnhidingRecommend": "Mahsulotni tavsiya etishda xatolik yuz berdi",
   "recommendUnhiddenSuccessfully": "Tavsiya mahsulot ochib yaratildi"
