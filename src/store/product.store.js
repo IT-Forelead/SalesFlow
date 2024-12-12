@@ -18,7 +18,7 @@ export const useProductStore = defineStore('product', {
     selectedDuplicates:{},
     renderKey: 0,
     intervalType: 'month',
-    limit: 7
+    limit: 30
   }),
   actions: {
     setProducts(data) {
