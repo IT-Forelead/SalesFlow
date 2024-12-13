@@ -185,12 +185,12 @@ const debouncedSearch = debounce(() => {
   if (globalSearchFromTable.value.trim() !== '') {
     searchParams = {
       ...searchParams,
-      cashierName: globalSearchFromTable.value.trim(),
+      productName: globalSearchFromTable.value.trim(),
     };
   } else {
     searchParams = {
       ...searchParams,
-      cashierName: null,
+      productName: null,
     };
   }
   getOrders(searchParams);
