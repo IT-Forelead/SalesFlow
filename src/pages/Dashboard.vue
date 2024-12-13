@@ -1381,12 +1381,12 @@ onClickOutside(recommendDropdown, () => {
 
 const recommendStatsChartSeries = computed(() => [
   {
-    name: 'Total revenue',
-    data: recommendStats.value?.map((item) => item.totalRevenue),
-  },
-  {
     name: 'Total profit',
     data: recommendStats.value?.map((item) => item.totalProfit),
+  },
+  {
+    name: 'Total revenue',
+    data: recommendStats.value?.map((item) => item.totalRevenue),
   },
   {
     name: 'Total orders',
