@@ -1830,7 +1830,7 @@ const closeCardIdModal = () => {
         <select id="payment-type" v-model="submitData.paymentType"
                 class="bg-slate-100 border-none dark:bg-slate-700 dark:text-white text-slate-900 rounded-lg text-base md:text-lg block w-full h-11">
           <option value="cash" selected>{{ $t('cash') }}</option>
-          <option value="card">{{ $t('card') }}</option>
+          <option value="terminal">{{ $t('card') }}</option>
           <option value="click">{{ $t('click') }}</option>
         </select>
       </div>
