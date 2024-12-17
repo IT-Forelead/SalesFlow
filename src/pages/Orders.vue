@@ -113,6 +113,24 @@ const columns = [
       ]),
   },
   {
+  accessorKey: 'paymentType',
+  header: t('paymentType'),
+  cell: ({ row }) =>
+    h('div', { class: 'flex items-center w-36 overflow-hidden relative' },
+    [
+      row.original.paymentType == 'terminal' ?
+        h('span', {}, t('card')) : 
+      row.original.paymentType == 'cash' ?
+        h('span', {}, t('cash')) :
+      row.original.paymentType == 'click' ?
+        h('span', {}, t('click')) :
+      row.original.paymentType == 'corporate_client' ?
+        h('span', {}, t('corporateClients')) :
+     
+        h('span', {}, t(''))
+    ])
+},
+  {
     accessorKey: 'actions',
     header: t('actions'),
     cell: ({ row }) => h('div', { class: 'flex items-center space-x-2' }, [
@@ -185,12 +203,12 @@ const debouncedSearch = debounce(() => {
   if (globalSearchFromTable.value.trim() !== '') {
     searchParams = {
       ...searchParams,
-      cashierName: globalSearchFromTable.value.trim(),
+      productName: globalSearchFromTable.value.trim(),
     };
   } else {
     searchParams = {
       ...searchParams,
-      cashierName: null,
+      productName: null,
     };
   }
   getOrders(searchParams);

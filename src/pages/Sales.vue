@@ -116,6 +116,7 @@ const submitData = reactive({
   cashbackAmount: null,
   cashbackCustomerId: null,
   corporateClientId: null,
+  paymentType: 'cash'
 });
 
 const hasDiscountToday = ref(false);
@@ -570,6 +571,7 @@ const clearSubmitData = () => {
   submitData.cashbackAmount = null;
   submitData.cashbackCustomerId = null;
   submitData.corporateClientId = null;
+  submitData.paymentType = 'cash';
   if (activeBasketStatus.value === 'firstBasket') {
     firstBasket.value = [];
   } else if (activeBasketStatus.value === 'secondBasket') {
@@ -601,11 +603,10 @@ const createOrder = (printCheck = true) => {
     } else {
       isLoadingOrderWithoutPrint.value = true;
     }
-    if
-    (activeBasket.value.filter(p => p.expirationDate == null).length > 0) {
+    if (activeBasket.value.filter(p => p.expirationDate == null).length > 0) {
       setTimeout(() => {
         toast.warning(t('expirationSold'))
-      }, 2000) 
+      }, 2000)
     }
     OrderService.createOrder(
       cleanObjectEmptyFields({
@@ -617,6 +618,7 @@ const createOrder = (printCheck = true) => {
         cashbackAmount: submitData.cashbackAmount,
         cashbackCustomerId: submitData.cashbackCustomerId,
         corporateClientId: submitData.corporateClientId,
+        paymentType: submitData.paymentType,
       }),
     )
       .then((orderRes) => {
@@ -668,7 +670,7 @@ const createOrder = (printCheck = true) => {
         isLoadingOrderWithoutPrint.value = false;
       })
       .catch((err) => {
-        if (err.response.data == "We don't sell expired products!"){
+        if (err.response.data == "We don't sell expired products!") {
           toast.error(t('dontSellExpireProducts'))
         } else {
           toast.error(t('errorWhileCreatingOrder'))
@@ -681,6 +683,7 @@ const createOrder = (printCheck = true) => {
 
 const createOrderForCorp = (clientId) => {
   submitData.corporateClientId = clientId;
+  submitData.paymentType = 'corporate_client';
   createOrder(false);
 };
 
@@ -1820,7 +1823,17 @@ const closeCardIdModal = () => {
           {{ useMoneyFormatter(submitData.customerMoney - submitData.paymentReceived) }}
         </div>
       </div>
-
+      <div class="flex-1 space-y-1">
+        <label for="payment-type" class="text-base dark:text-white md:text-lg font-medium">
+          {{ $t('paymentType') }}
+        </label>
+        <select id="payment-type" v-model="submitData.paymentType"
+                class="bg-slate-100 border-none dark:bg-slate-700 dark:text-white text-slate-900 rounded-lg text-base md:text-lg block w-full h-11">
+          <option value="cash" selected>{{ $t('cash') }}</option>
+          <option value="terminal">{{ $t('card') }}</option>
+          <option value="click">{{ $t('click') }}</option>
+        </select>
+      </div>
       <div class="space-y-3">
         <div class="py-3 lg:py-0 space-y-1">
           <div

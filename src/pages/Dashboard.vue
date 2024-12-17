@@ -999,7 +999,6 @@ const predictCountStatsAreaChartOptions = computed(() => {
     yaxis: {
       tickAmount: 6,
       floating: false,
-      min: -100,
       max: 100,
       labels: {
         show: true,
@@ -1274,7 +1273,7 @@ onMounted(() => {
     recommendStats.value = res
   })
   OrderService.getTurnoverStats({
-    from: moment().subtract(30, 'days').startOf('day').format().toString().slice(0, 10),
+    from: moment().subtract(60, 'days').startOf('day').format().toString().slice(0, 10),
     to: moment().startOf('day').format().toString().slice(0, 10),
   }).then((res) => {
     turnoverStats.value = res
@@ -1382,8 +1381,16 @@ onClickOutside(recommendDropdown, () => {
 
 const recommendStatsChartSeries = computed(() => [
   {
-    name: 'Jami miqdori',
-    data: recommendStats.value?.map((item) => item.totalAmount),
+    name: 'Total profit',
+    data: recommendStats.value?.map((item) => item.totalProfit),
+  },
+  {
+    name: 'Total revenue',
+    data: recommendStats.value?.map((item) => item.totalRevenue),
+  },
+  {
+    name: 'Total orders',
+    data: recommendStats.value?.map((item) => item.totalOrders ),
   },
 ])
 
@@ -1431,12 +1438,11 @@ const recommendStatsAreaChartOptions = computed(() => {
       },
     },
     yaxis: {
-      tickAmount: 6,
       floating: false,
       labels: {
         show: true,
         formatter: function (val) {
-          return Math.round(val);
+          return (val);
         },
         style: {
           colors: '#4a90e2',
@@ -1923,7 +1929,7 @@ const recommendStatsAreaChartOptions = computed(() => {
           </div>
           <div class="text-sm text-gray-600 dark:text-white">
             {{ $t('beginStatText') }}
-            <span class="font-bold">{{ 30 + $t('days') }}</span>
+            <span class="font-bold">{{ 60 + $t('days') }}</span>
             {{ $t('endStatText') }}
           </div>
         </div>

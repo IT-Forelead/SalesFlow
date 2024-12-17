@@ -464,9 +464,19 @@
   "totalRevenue": "Jami daromad",
   "totalProfit": "Jami foyda",
   "left": "Dokonda mavjud",
-  "recommendDeletingAgent": "Tavsiya o'chirish",
-  "recommendDeletedSuccessfully": "Tavsiya mahsulot o'chirildi",
-  "errorWhileDeletingRecommend": "Tavsiya mahsulot o'chirish xatolik yuz berdi",
+  "hideRecommendProduct": "Tavsiya yashirish",
+  "areYouSureYouWantToHideThisInformation": "Haqiqatan ham bu ma'lumotni yashirib tashlamoqchimisiz?",
+  "recommendDeletedSuccessfully": "Tavsiya mahsulot yashirdi",
+  "errorWhileDeletingRecommend": "Tavsiya mahsulot yashirish xatolik yuz berdi",
   "Edit": "Tahrirlash",
-  "Others": "Boshqalar"
+  "Others": "Boshqalar",
+  "salesRatio": "Sotish nisbati",
+  "hiddenProducts": "Yashirin mahsulotlar",
+  "unhideRecommendProduct": "Yashirin mahsulotni o'chirish",
+  "areYouSureYouWantToUnhideThisInformation": "Haqiqatan ham bu ma'lumotni ochib tashlamoqchimisiz?",
+  "errorWhileUnhidingRecommend": "Mahsulotni tavsiya etishda xatolik yuz berdi",
+  "recommendUnhiddenSuccessfully": "Tavsiya mahsulot ochib yaratildi",
+  "choosePaymentType": "To'lov turini tanlang",
+  "card": "UzCard/Humo",
+  "click": "CLICK orqali to'lov"
 }
