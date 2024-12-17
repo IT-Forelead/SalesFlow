@@ -47,6 +47,7 @@ const hourlySales = ref([])
 const cashbackRedeems = ref([])
 const qrTrading = t('qrTrading')
 const worstSellerProductStats = ref([])
+// const allDates = ref([])
 
 const pageWorstSell = ref(1)
 const pageSell = ref(1)
@@ -1062,93 +1063,150 @@ const submitVarietyStatsFilterData = () => {
   }
 }
 
-const varietyStatsChartSeries = computed(() => [
-  {
-    name: 'productTypeCount',
-    data: varietyStats.value?.map((item) => item.productTypeCount),
-  },
-])
+// const allDates = computed(() => {
+//   var a = varietyStats.value?.flatMap((item) => item.data.map((i) => i.day))
+//   var b = new Set(a)
+//   return Array.from(b).sort((a, b) => //{
+//     moment(a).toDate() - moment(b).toDate()
+//   //}
+// )
+// }
+// )
+
+// const varietyStatsChartSeries = computed(() => {
+//   var dates = allDates.value;
+//   console.log(dates)
+//   dates.map((d) => {
+//     console.log(d); 
+//     varietyStats.value?.map((item) => {
+//       item.data.map((data) => {
+//         if (data.day == d) {
+//           console.log(d);
+//           //item.data.push({day: d, productTypeCount: 0});
+//         }
+//       })
+//     })
+//   });
+//   console.log(varietyStats.value);
+//   return varietyStats.value?.map((item) =>
+//    ({ 
+//       name: item.productType,
+//       data: item.data.map((i) => {
+//         return i.productTypeCount
+//       })
+// })
+//   );
+// })
+
+const varietyStatsChartSeries = computed(() => {
+  const series = [];
+  const response = varietyStats.value
+  const allDays = response.reduce((acc, product) => {
+    product.data.forEach(item => {
+      if (!acc.includes(item.day)) {
+        acc.push(item.day);
+      }
+    });
+    return acc;
+  }, []);
+  
+  const sortedDays = allDays.sort((a, b) => new Date(a) - new Date(b));
+
+  response.forEach(product => {
+    const productTypeData = sortedDays.map(day => {
+      const productData = product.data.find(item => item.day === day);
+      return productData ? productData.productTypeCount : 0;
+    });
+
+    series.push({
+      name: product.productType,
+      data: productTypeData
+    });
+  });
+
+  return series;
+});
+
+
+// const varietyStatsChartSeries = computed(() => {
+//   console.log(allDates.value);
+//   //  var a = allDates.value?.map((d) => {
+//   //  console.log(d)
+//   var a = varietyStats.value?.map((item) => {
+     
+//      ({ 
+//         name: item.productType,
+//         data: item.data.map
+//       });
+//    }) 
+
+//    console.log("ssssssssssssssssssssssssssss");
+//    console.log(a);
+//    return a;
+//   })
+  
+
 
 const varietyStatsAreaChartOptions = computed(() => {
   return {
-    legend: {
-      labels: {
-        colors: 'rgb(128, 128, 128)',
-      },
-    },
-    chart: {
-      height: 350,
-      type: 'area',
-      zoom: {
-        enabled: false,
-      },
-      toolbar: {
-        show: false,
-      },
-    },
-    dataLabels: {
-      enabled: false,
-    },
-    stroke: {
-      curve: 'smooth',
-    },
-    xaxis: {
-      categories: varietyStats.value?.map((item) => item.day),
-      type: 'date',
-      labels: {
-        style: {
-          fontSize: '12px',
-          colors: '#4a90e2',
-        },
-        formatter: function (val) {
-          return moment(val).format('D-MMM')
-        },
-      },
-      tooltip: {
-        enabled: true,
-      },
-      axisBorder: {
-        show: false,
-      },
-      axisTicks: {
-        show: false,
-      },
-    },
-    yaxis: {
-      tickAmount: 6,
-      floating: false,
-      labels: {
-        show: true,
-        formatter: function (val) {
-          return Math.round(val);
-        },
-        style: {
-          colors: '#4a90e2',
-        },
-        offsetY: 0,
-        offsetX: 0,
-      },
-      axisBorder: {
-        show: false,
-      },
-      axisTicks: {
-        show: true,
-      },
-    },
-    fill: {
-      opacity: 0.5,
-    },
-    grid: {
-      yaxis: {
-        lines: {
-          offsetX: -30,
-        },
-      },
-      padding: {
-        left: 20,
-      },
-    },
-  }
+    chartOptions: {
+            chart: {
+              type: 'bar',
+              height: 350,
+              stacked: true,
+            },
+            plotOptions: {
+              bar: {
+                horizontal: true,
+                dataLabels: {
+                  total: {
+                    enabled: true,
+                    offsetX: 0,
+                    style: {
+                      fontSize: '13px',
+                      fontWeight: 900
+                    }
+                  }
+                }
+              },
+            },
+            stroke: {
+              width: 1,
+              colors: ['#fff']
+            },
+            title: {
+              text: 'Fiction Books Sales'
+            },
+            xaxis: {
+              categories: [2008, 2009, 2010, 2011, 2012, 2013, 2014],
+              labels: {
+                formatter: function (val) {
+                  return val + "K"
+                }
+              }
+            },
+            yaxis: {
+              title: {
+                text: undefined
+              },
+            },
+            tooltip: {
+              y: {
+                formatter: function (val) {
+                  return val + "K"
+                }
+              }
+            },
+            fill: {
+              opacity: 1
+            },
+            legend: {
+              position: 'top',
+              horizontalAlign: 'left',
+              offsetX: 40
+            }
+          },
+        }
 })
 
 const monthStatsChartSeries = computed(() => [
@@ -1258,12 +1316,20 @@ onMounted(() => {
       monthStats.value = res
     })
   ProductService.getVarietyStats({
-    startDate: moment().subtract(30, 'days').startOf('day').format().toString().slice(0, 10),
+    startDate: moment().subtract(90, 'days').startOf('day').format().toString().slice(0, 10),
     endDate: moment().startOf('day').format().toString().slice(0, 10),
     interval: 1,
-    intervalType: "day"
+    intervalType: "week"
   }).then((res) => {
     varietyStats.value = res
+    var a = res?.flatMap((item) => item.data.map((i) => i.day))
+  var b = new Set(a)
+  allDates.value = Array.from(b).sort((a, b) => //{
+    moment(a).toDate() - moment(b).toDate()
+  //}
+)
+    // console.log(varietyStats.value)
+    // console.log(varietyStats.value.map((a) => a.productType))
   })
   ProductService.getRecommendStats({
     intervalType: useProductStore().intervalType,
@@ -2262,7 +2328,10 @@ const recommendStatsAreaChartOptions = computed(() => {
           </div>
         </div>
       </div>
-      <apexchart type="area" height="320" :options="varietyStatsAreaChartOptions" :series="varietyStatsChartSeries">
+      <!-- <div>{{varietyStatsChartSeries}}</div>
+      <div>{{varietyStatsAreaChartOptions}}</div>
+       -->
+      <apexchart type="bar" height="320" :options="varietyStatsAreaChartOptions" :series="varietyStatsChartSeries">
       </apexchart>
     </div>
 
