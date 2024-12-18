@@ -122,7 +122,7 @@ const columns = [
       return h('div', { style: { display: 'flex', flexDirection: 'column' } }, [
         h('span', {}, productName),
         h('span', {}, packaging),
-        h('div', {class: 'flex j-justify-between'}, h('span', {}, lendBadge),
+        h('div', {class: 'flex justify-between'}, h('span', {}, lendBadge),
         h('span', {}, autoUtilization),),
         
       ]);
