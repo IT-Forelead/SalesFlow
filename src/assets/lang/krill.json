@@ -475,5 +475,6 @@
   "recommendUnhiddenSuccessfully": "Тавсия маҳсулот очиб яратилди",
   "choosePaymentType": "Тўлов турини танланг",
   "card": "UzCard/Humo",
-  "click": "CLICK орқали тўлов"
+  "click": "CLICK орқали тўлов",
+  "autoUtilization": "Автоутилизация"
 }

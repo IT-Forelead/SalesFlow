@@ -478,5 +478,6 @@
   "recommendUnhiddenSuccessfully": "Tavsiya mahsulot ochib yaratildi",
   "choosePaymentType": "To'lov turini tanlang",
   "card": "UzCard/Humo",
-  "click": "CLICK orqali to'lov"
+  "click": "CLICK orqali to'lov",
+  "autoUtilization": "Avtoutilizatsiya"
 }

@@ -118,10 +118,13 @@ const columns = [
       const productName = `${row.original.name}`;
       const packaging = `(${row.original.packaging})`;
       const lendBadge = row.original.toLend ? h('span', { class: 'w-fit bg-red-600 mx-2 text-white rounded-lg px-2 py-1 text-sm' }, t('toLend')) : null;
+      const autoUtilization = row.original.autoUtilization ? h('span', { class: 'w-fit bg-blue-600 mx-2 text-white rounded-lg px-2 py-1 text-sm' }, t('autoUtilization')) : null;
       return h('div', { style: { display: 'flex', flexDirection: 'column' } }, [
         h('span', {}, productName),
         h('span', {}, packaging),
-        h('span', {}, lendBadge),
+        h('div', {class: 'flex justify-between'}, h('span', {}, lendBadge),
+        h('span', {}, autoUtilization),),
+        
       ]);
     },
   },
