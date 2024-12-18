@@ -477,5 +477,6 @@
   "recommendUnhiddenSuccessfully": "Рекомендация раскрыта успешно",
   "choosePaymentType": "Выберите тип оплаты",
   "card": "UzCard/Humo",
-  "click": "Оплата через CLICK"
+  "click": "Оплата через CLICK",
+  "autoUtilization": "Автоутилизация"
 }

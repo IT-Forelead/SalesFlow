@@ -40,6 +40,7 @@ const submitData = reactive({
   productionDate: '',
   expirationDate: '',
   toLend: false,
+  autoUtilization: false,
   salePrice: 0,
   sold: 0,
 })
@@ -55,6 +56,7 @@ const clearSubmitData = () => {
   submitData.expirationDate = ''
   submitData.salePrice = 0
   submitData.toLend = false
+  submitData.autoUtilization = false
 }
 
 const editProductHistory = () => {
@@ -79,6 +81,7 @@ const editProductHistory = () => {
       productionDate: submitData.productionDate,
       expirationDate: submitData.expirationDate,
       toLend: submitData.toLend,
+      autoUtilization: submitData.autoUtilization,
     }).then(() => {
       toast.success(t('productEditedSuccessfully'))
       ProductService.getProductsDetails({ limit: 30, page: currentPage.value, name: route.query.search })
@@ -114,6 +117,7 @@ watch(
       submitData.productionDate = data?.productionDate
       submitData.expirationDate = data?.expirationDate
       submitData.toLend = data?.toLend
+      submitData.autoUtilization = data?.autoUtilization
       submitData.salePrice = data?.price
       submitData.sold = data?.sold
     }
@@ -233,7 +237,16 @@ const calculateExpirationDate = (months) => {
               <label for="toLend" class="py-2 text-base font-medium">{{ $t('toLend') }}</label>
             </div>
           </div>
-          <div class="flex-1 space-y-1"></div>
+          <div class="flex-1 space-y-1">
+            <label for="autoUtilization" class="text-base dark:text-white md:text-lg font-medium">
+              {{ $t('autoUtilization') }}
+            </label>
+            <div class="flex items-center px-4 border border-gray-200 dark:border-gray-600 bg-slate-50 dark:bg-slate-700 dark:text-white rounded-lg mt-2 lg:mt-0 md:mt-0">
+              <input v-model="submitData.autoUtilization" id="autoUtilization" type="checkbox"
+                class="w-5 h-5 text-blue-600 border-slate-300 dark:bg-slate-700 dark:text-white rounded focus:ring-blue-500 focus:ring-2 mr-2">
+              <label for="autoUtilization" class="py-2 text-base font-medium">{{ $t('autoUtilization') }}</label>
+            </div>
+          </div>
         </div>
         <div class="flex space-x-10">
           <div v-if="submitData.salePrice == 0" class="text-base md:text-lg font-medium">
