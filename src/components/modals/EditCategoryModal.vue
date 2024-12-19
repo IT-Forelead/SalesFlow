@@ -2,26 +2,28 @@
 import CModal from '../common/CModal.vue'
 import { toast } from 'vue-sonner'
 import { useModalStore } from '../../store/modal.store.js'
-import { useProductStore } from '../../store/product.store.js'
 import CancelButton from '../buttons/CancelButton.vue'
 import Spinners270RingIcon from '../../assets/icons/Spinners270RingIcon.vue'
-import ProductService from '../../services/product.service.js'
+
 import { computed, reactive, ref, watch } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { useRoute } from 'vue-router'
+import { useCategoryStore } from '../../store/category.store.js'
+import CategoryService from '../../services/category.service.js'
 
+const categoryStore = useCategoryStore()
 const { t } = useI18n()
 const route = useRoute()
-const productStore = useProductStore()
+
 
 const isLoading = ref(false)
 
-const selectedProduct = computed(() => {
-  return productStore.selectedProduct
+const selectedCategory = computed(() => {
+  return categoryStore.selectedCategory
 })
 
 const currentPage = computed(() => {
-  return productStore.currentPage
+  return categoryStore.currentPage
 })
 
 
@@ -39,22 +41,22 @@ const clearSubmitData = () => {
 }
 
 const closeModal = () => {
-  useModalStore().closeeditCategoryModal()
-  useProductStore().setSelectedProduct({})
+  useModalStore().closeEditCategoryModal()
+  useCategoryStore().setSelectedCategory({})
   clearSubmitData()
 }
 
 const updateCategory = () => {
-  ProductService.updateCategory({
+  CategoryService.updateCategory({
     id: submitData.id,
     name: submitData.name,
 
   }).then(() => {
     toast.success(t('productEditedSuccessfully'))
-    ProductService.getProducts({ limit: 30, page: currentPage.value, name: route.query.search })
+    CategoryService.getCategories({ limit: 30, page: currentPage.value, name: route.query.search })
       .then((res) => {
-        productStore.clearStore()
-        productStore.setProducts(res.data)
+        categoryStore.clearStore()
+        categoryStore.setCategories(res.data)
       })
       .catch((err) => {
         toast.error(err.message)
@@ -80,7 +82,7 @@ const editCategory = () => {
     const formData = new FormData()
     if (submitData.image) {
       formData.append('image', submitData.image)
-      ProductService.uploadImage(formData)
+      CategoryService.uploadImage(formData)
         .then((res) => {
           submitData.assetId = res
           updateCategory()
@@ -95,7 +97,7 @@ const editCategory = () => {
 
 
 watch(
-  () => selectedProduct.value,
+  () => selectedCategory.value,
   (data) => {
     if (data) {
       submitData.id = data?.id
@@ -107,7 +109,7 @@ watch(
 
 </script>
 <template>
-  <CModal :is-open="useModalStore().isOpeneditCategoryModal" v-if="useModalStore().isOpeneditCategoryModal"
+  <CModal :is-open="useModalStore().isOpenEditCategoryModal" v-if="useModalStore().isOpenEditCategoryModal"
     @close="closeModal">
     <template v-slot:header>
       {{ $t('editCategory') }}

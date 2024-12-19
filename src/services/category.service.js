@@ -10,11 +10,11 @@ class CategoryService {
   }
 
   async updateCategory(data) {
-    return AxiosService.post('/category/update', data)
+    return AxiosService.put('/category/update', data)
   }
 
-  async deleteCategory(data) {
-    return AxiosService.post('/category/delete', data)
+  async deleteCategory(id) {
+    return AxiosService.get(`/category/delete/${id}`)
   }
 }
 

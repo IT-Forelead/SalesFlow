@@ -8,7 +8,7 @@ import { useModalStore } from '../../store/modal.store.js'
 import CancelButton from '../buttons/CancelButton.vue'
 import CModal from '../common/CModal.vue'
 import { useI18n } from 'vue-i18n'
-import { useCategoryStore } from '../../store/categories.store.js'
+import { useCategoryStore } from '../../store/category.store.js'
 import CategoryService from '../../services/category.service.js'
 
 const { t } = useI18n()
@@ -25,7 +25,7 @@ const clearForm = () => {
 }
 
 const closeModal = () => {
-  useCategoryStore().closeCreateCategoryModal()
+  useModalStore().closeCreateCategoryModal()
   clearForm()
 }
 
@@ -58,7 +58,7 @@ const createCategory = () => {
 
 </script>
 <template>
-  <CModal :is-open="useModalStore().isOpenCreateAgentModal" v-if="useModalStore().isOpenCreateAgentModal"
+  <CModal :is-open="useModalStore().isOpenCreateModal" v-if="useModalStore().isOpenCreateCategoryModal"
             @close=closeModal>
       <template v-slot:header>
         {{ $t('CreateCategory') }}
