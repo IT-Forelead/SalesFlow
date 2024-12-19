@@ -94,7 +94,7 @@ const printChaqueFunc = (id) => {
       market: res?.marketName,
       paid: res?.paymentReceived,
       price: res?.initialPrice,
-      qrCode: res?.qrCode,
+      qrcode: res?.qrCode,
       products: res?.items.map((item) => {
         return {
           count: item?.amount,
@@ -105,7 +105,7 @@ const printChaqueFunc = (id) => {
         }
       }),
       time: moment(res?.createdAt).format('DD/MM/YYYY H:mm'),
-      qrcode: window.location.origin + '/customer/order/' + res?.id,
+      // qrcode: window.location.origin + '/customer/order/' + res?.id,
     }).finally(() => {
       isLoadingPrint.value = false
     })
