@@ -58,6 +58,8 @@ const varietyDropdown = ref(null)
 const monthDropdown = ref(null)
 const predictDropdown = ref(null)
 const monthStats = ref([])
+const unprofitableStats = ref([])
+const corporateStats = ref([])
 const varietyStats = ref([])
 const predictStats = ref([])
 
@@ -1064,17 +1066,7 @@ const submitVarietyStatsFilterData = () => {
 }
 
 const varietyStatsChartSeries = computed(() => {
-  // var dates = JSON.parse(JSON.stringify(allDates.value));
-  // var varieties = JSON.parse(JSON.stringify(varietyStats.value));
-  // for (var i = 0, length = dates.length; i < length; i++) {
-    // varieties.map((item) => {
-      // if (item.data.map((d) => d.day).indexOf(dates[i]) < 0) {
-        // item.data.splice(i, 0, {day: dates[i], productTypeCount: 0});
-      // }
-    // })
-  // };
-  // console.log(varieties);
-  // console.log(varietyStats.value);
+  
   return varietyStats.value.map((item) =>
    ({ 
       name: item.productType,
@@ -1137,6 +1129,101 @@ const varietyStatsAreaChartOptions = computed(() => {
         show: true,
         formatter: function (val) {
           return (val);
+        },
+        style: {
+          colors: '#4a90e2',
+        },
+        offsetY: 0,
+        offsetX: 0,
+      },
+      axisBorder: {
+        show: false,
+      },
+      axisTicks: {
+        show: true,
+      },
+    },
+    fill: {
+      opacity: 0.5,
+    },
+    grid: {
+      yaxis: {
+        lines: {
+          offsetX: -30,
+        },
+      },
+      padding: {
+        left: 20,
+      },
+    },
+  }
+})
+
+const corporateStatsChartSeries = computed(() => {
+  
+  return corporateStats.value?.map((item) =>
+   ({ 
+      name: item.fullName,
+      data: item.income
+      
+})
+  );
+})
+
+
+const corporateStatsAreaChartOptions = computed(() => {
+  return {
+    legend: {
+      labels: {
+        colors: 'rgb(128, 128, 128)',
+      },
+    },
+    chart: {
+      height: 350,
+      type: 'area',
+      zoom: {
+        enabled: false,
+      },
+      toolbar: {
+        show: false,
+      },
+    },
+    dataLabels: {
+      enabled: false,
+    },
+    stroke: {
+      curve: 'smooth',
+    },
+    xaxis: {
+      categories: corporateStats.value?.map((item) => item.date),
+      type: 'date',
+      labels: {
+        style: {
+          fontSize: '12px',
+          colors: '#4a90e2',
+        },
+        formatter: function (val) {
+          return moment(val).format('D-MMM')
+        },
+      },
+      tooltip: {
+        enabled: true,
+      },
+      axisBorder: {
+        show: false,
+      },
+      axisTicks: {
+        show: false,
+      },
+    },
+    yaxis: {
+      tickAmount: 6,
+      floating: false,
+      labels: {
+        show: true,
+        formatter: function (val) {
+          console.log(val);
+          return useMoneyFormatter(val)
         },
         style: {
           colors: '#4a90e2',
@@ -1260,6 +1347,95 @@ const monthStatsAreaChartOptions = computed(() => {
   }
 })
 
+const unprofitableStatsChartSeries = computed(() => [
+  {
+    name: 'Kirim',
+    data: unprofitableStats.value?.map((item) => item.deficit).reverse(),
+  },
+])
+
+const unprofitableStatsAreaChartOptions = computed(() => {
+  return {
+    legend: {
+      labels: {
+        colors: 'rgb(128, 128, 128)',
+      },
+    },
+    chart: {
+      height: 350,
+      type: 'bar',
+      zoom: {
+        enabled: false,
+      },
+      toolbar: {
+        show: false,
+      },
+    },
+    dataLabels: {
+      enabled: false,
+    },
+    stroke: {
+      curve: 'smooth',
+    },
+    xaxis: {
+      categories: unprofitableStats.value?.map((item) => item.productName).reverse(),
+      type: 'date',
+      labels: {
+        style: {
+          fontSize: '12px',
+          colors: '#4a90e2',
+        },
+        formatter: function (val) {
+          return (val)
+        },
+      },
+      tooltip: {
+        enabled: true,
+      },
+      axisBorder: {
+        show: false,
+      },
+      axisTicks: {
+        show: false,
+      },
+    },
+    yaxis: {
+      tickAmount: 6,
+      floating: false,
+      labels: {
+        show: true,
+        formatter: function (val) {
+          return useMoneyFormatter(val)
+        },
+        style: {
+          colors: '#4a90e2',
+        },
+        offsetY: 0,
+        offsetX: 0,
+      },
+      axisBorder: {
+        show: false,
+      },
+      axisTicks: {
+        show: true,
+      },
+    },
+    fill: {
+      opacity: 0.5,
+    },
+    grid: {
+      yaxis: {
+        lines: {
+          offsetX: -30,
+        },
+      },
+      padding: {
+        left: 20,
+      },
+    },
+  }
+})
+
 onMounted(() => {
   OrderService.getCashierStats()
     .then((res) => {
@@ -1273,6 +1449,21 @@ onMounted(() => {
     .then((res) => {
       monthStats.value = res
     })
+  OrderService.getCorporateClientsStats({
+    from: moment().subtract(15, 'days').startOf('day').format().toString().slice(0, 10),
+    to: moment().startOf('day').format().toString().slice(0, 10),
+    intervalType: "week",
+    limit: 10,
+    page: 1,
+  }).then((res) => {
+    corporateStats.value = res.data
+   })
+  ProductService.getUnprofitableStat({
+    limit: 10,
+    intervalType: "week"
+  }).then((res) => {
+    unprofitableStats.value = res
+  })
   ProductService.getVarietyStats({
     startDate: moment().subtract(90, 'days').startOf('day').format().toString().slice(0, 10),
     endDate: moment().startOf('day').format().toString().slice(0, 10),
@@ -1504,7 +1695,8 @@ const recommendStatsAreaChartOptions = computed(() => {
             return `Total revenue: ${useMoneyFormatter(revenue)} <br/> Total orders: ${orders} <br/>Sales ratio: ${salesRatio} `;
           }
          
-          return value;
+            return useMoneyFormatter(value);
+          
         },
       },
     },
@@ -2212,6 +2404,45 @@ const recommendStatsAreaChartOptions = computed(() => {
       <apexchart type="bar" height="320" :options="recommendStatsAreaChartOptions" :series="recommendStatsChartSeries">
       </apexchart>
     </div>
+
+    <div class="flex-1 bg-slate-100 dark:bg-slate-900 rounded-3xl p-5">
+      <div class="flex flex-col md:flex-row md:items-center md:justify-between px-2 space-y-3 md:space-y-0">
+        <div>
+          <div class="text-base font-bold text-slate-800 dark:text-slate-200">
+            {{ $t('unprofitableStatistics') }}
+          </div>
+          <div class="text-sm text-gray-600 dark:text-white">
+            {{ $t('beginStatText') }}
+            <span class="font-bold lowercase">{{ $t('monthly') }}</span>
+            {{ $t('endStatText') }}
+          </div>
+        </div>
+      </div>
+      <apexchart type="bar" height="320" :options="unprofitableStatsAreaChartOptions" :series="unprofitableStatsChartSeries">
+      </apexchart>
+    </div>
+
+
+
+    <div class="flex-1 bg-slate-100 dark:bg-slate-900 rounded-3xl p-5">
+      <div class="flex flex-col md:flex-row md:items-center md:justify-between px-2 space-y-3 md:space-y-0">
+        <div>
+          <div class="text-base font-bold text-slate-800 dark:text-slate-200">
+            {{ $t('corporateStatistics') }}
+          </div>
+          <div class="text-sm text-gray-600 dark:text-white">
+            {{ $t('beginStatText') }}
+            <span class="font-bold lowercase">{{ $t('monthly') }}</span>
+            {{ $t('endStatText') }}
+          </div>
+        </div>
+      </div>
+      <div class="m-5">{{ corporateStatsAreaChartOptions }}</div>
+      <div>{{ corporateStatsChartSeries }}</div>
+      <apexchart type="bar" height="320" :options="corporateStatsAreaChartOptions" :series="corporateStatsChartSeries">
+      </apexchart>
+    </div>
+
 
     <div class="flex-1 bg-slate-100 dark:bg-slate-900 rounded-3xl p-5">
       <div class="flex flex-col md:flex-row md:items-center md:justify-between px-2 space-y-3 md:space-y-0">
