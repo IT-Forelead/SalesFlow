@@ -45,7 +45,7 @@ const getCategories = async () => {
     }
   } finally {
     isLoading.value = false;
-    useModalStore().openEditCategoryModal()
+    
   }
 };
 
@@ -85,7 +85,7 @@ const openDeleteCategoryModal = (data) => {
 }
 
 const openEditCategoryModal = (data) => {
-;
+  useModalStore().openEditCategoryModal()
 
   getCategories(data)
 }

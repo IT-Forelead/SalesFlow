@@ -99,9 +99,11 @@ const editCategory = () => {
 watch(
   () => selectedCategory.value,
   (data) => {
-    if (data) {
-      submitData.id = data?.id
-      submitData.name = data?.name
+    console.log("AAAAAAAAAAAAAAAAAAAAAAAAAAA");
+    if (data && useModalStore().isOpenEditCategoryModal) {
+      submitData.id = data?.id;
+      submitData.name = data?.name;
+      console.log("OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO")
     }
   },
   { deep: true }
