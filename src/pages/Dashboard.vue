@@ -1164,7 +1164,7 @@ const corporateStatsChartSeries = computed(() => {
   return corporateStats.value?.map((item) =>
    ({ 
       name: item.fullName,
-      data: item.income
+      data: corporateStats.value?.map((item) => item.income)
       
 })
   );
@@ -1180,7 +1180,7 @@ const corporateStatsAreaChartOptions = computed(() => {
     },
     chart: {
       height: 350,
-      type: 'area',
+      type: 'bar',
       zoom: {
         enabled: false,
       },
@@ -1195,7 +1195,7 @@ const corporateStatsAreaChartOptions = computed(() => {
       curve: 'smooth',
     },
     xaxis: {
-      categories: corporateStats.value?.map((item) => item.date),
+      categories: allDates.value,
       type: 'date',
       labels: {
         style: {
@@ -1222,7 +1222,6 @@ const corporateStatsAreaChartOptions = computed(() => {
       labels: {
         show: true,
         formatter: function (val) {
-          console.log(val);
           return useMoneyFormatter(val)
         },
         style: {
@@ -1457,7 +1456,14 @@ onMounted(() => {
     page: 1,
   }).then((res) => {
     corporateStats.value = res.data
-   })
+    var a = res.data?.flatMap((item) => item.date)
+  var b = new Set(a)
+  allDates.value = Array.from(b).sort((a, b) => // {
+    moment(a).toDate() - moment(b).toDate()
+  // }
+)
+
+  })
   ProductService.getUnprofitableStat({
     limit: 10,
     intervalType: "week"
@@ -2437,8 +2443,6 @@ const recommendStatsAreaChartOptions = computed(() => {
           </div>
         </div>
       </div>
-      <div class="m-5">{{ corporateStatsAreaChartOptions }}</div>
-      <div>{{ corporateStatsChartSeries }}</div>
       <apexchart type="bar" height="320" :options="corporateStatsAreaChartOptions" :series="corporateStatsChartSeries">
       </apexchart>
     </div>
