@@ -480,6 +480,6 @@
   "card": "UzCard/Humo",
   "click": "CLICK orqali to'lov",
   "autoUtilization": "Avtoutilizatsiya",
-  "unprofitableStatistics": "Kam sotilgan",
+  "unprofitableStat": "Kam sotilgan",
   "corporateStatistics": "Yuridik statistika"
 }

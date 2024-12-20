@@ -48,6 +48,7 @@ const cashbackRedeems = ref([])
 const qrTrading = t('qrTrading')
 const worstSellerProductStats = ref([])
 const allDates = ref([])
+const allDate = ref([])
 
 const pageWorstSell = ref(1)
 const pageSell = ref(1)
@@ -58,7 +59,6 @@ const varietyDropdown = ref(null)
 const monthDropdown = ref(null)
 const predictDropdown = ref(null)
 const monthStats = ref([])
-const unprofitableStats = ref([])
 const corporateStats = ref([])
 const varietyStats = ref([])
 const predictStats = ref([])
@@ -1066,14 +1066,14 @@ const submitVarietyStatsFilterData = () => {
 }
 
 const varietyStatsChartSeries = computed(() => {
-  
+
   return varietyStats.value.map((item) =>
-   ({ 
-      name: item.productType,
-      data: item.data.map((i) => {
-        return i.productTypeCount
-      })
-})
+  ({
+    name: item.productType,
+    data: item.data.map((i) => {
+      return i.productTypeCount
+    })
+  })
   );
 })
 
@@ -1086,7 +1086,7 @@ const varietyStatsAreaChartOptions = computed(() => {
     },
     chart: {
       height: 350,
-      type: 'bar',
+      type: 'area',
       zoom: {
         enabled: false,
       },
@@ -1101,8 +1101,7 @@ const varietyStatsAreaChartOptions = computed(() => {
       curve: 'smooth',
     },
     xaxis: {
-      tickAmount: 30,
-      categories: allDates.value,
+      categories: allDate.value,
       type: 'date',
       labels: {
         style: {
@@ -1159,14 +1158,22 @@ const varietyStatsAreaChartOptions = computed(() => {
   }
 })
 
+const groupByKey = (list, key) => list.reduce((acc, item) => {
+  if (item.id === key) {
+    return item.income + acc;
+  }
+  return acc;
+}, 0);
+
 const corporateStatsChartSeries = computed(() => {
-  
+  console.log(corporateStats.value);
+
   return corporateStats.value?.map((item) =>
-   ({ 
-      name: item.fullName,
-      data: corporateStats.value?.map((item) => item.income)
-      
-})
+  ({
+    name: item.id,
+    data: corporateStats.value?.map((item) => groupByKey(corporateStats.value, item.id))
+
+  })
   );
 })
 
@@ -1346,10 +1353,72 @@ const monthStatsAreaChartOptions = computed(() => {
   }
 })
 
+
+
+const unprofitableDropdown = ref(null)
+const unprofitableStats = ref([])
+
+
+const filterUnprofitableData = reactive({
+  intervalType: useProductStore().intervalType,
+  limit: useProductStore().limit
+})
+
+const cleanFilterUnprofitableData = () => {
+  filterUnprofitableData.intervalType = ""
+  filterUnprofitableData.limit = 0
+}
+
+onClickOutside(unprofitableDropdown, () => {
+  if (useDropdownStore().isOpenUnprofitableFilterBy) {
+    useDropdownStore().toggleUnprofitableFilterBy()
+    console.log(useDropdownStore().isOpenUnprofitableFilterBy)
+  }
+})
+
+const submitUnprofitableStatsFilterData = () => {
+  if (!filterUnprofitableData.intervalType) {
+    toast.warning(t('plsSelectIntervalType'))
+  } else if (!filterUnprofitableData.limit) {
+    toast.warning(t('plsSelectLimit'))
+  } else {
+    isLoading.value = true
+    ProductService.getUnprofitableStat({
+      intervalType: filterUnprofitableData.intervalType,
+      limit: filterUnprofitableData.limit,
+    }).then((res) => {
+      unprofitableStats.value = res
+      isLoading.value = false
+      if (useDropdownStore().isOpenUnprofitableFilterBy) {
+        useDropdownStore().toggleUnprofitableFilterBy()
+      }
+    }).catch(() => {
+      isLoading.value = false
+    })
+  }
+}
+
+onClickOutside(unprofitableDropdown, () => {
+  if (useDropdownStore().isOpenUnprofitableFilterBy) {
+    useDropdownStore().toggleUnprofitableFilterBy()
+    console.log(useDropdownStore().isOpenUnprofitableFilterBy)
+  }
+})
+
+
+onClickOutside(unprofitableDropdown, () => {
+  if (useDropdownStore().isOpenUnprofitableFilterBy) {
+    useDropdownStore().toggleUnprofitableFilterBy()
+    console.log(useDropdownStore().isOpenUnprofitableFilterBy)
+  }
+})
+
+
+
 const unprofitableStatsChartSeries = computed(() => [
   {
     name: 'Kirim',
-    data: unprofitableStats.value?.map((item) => item.deficit).reverse(),
+    data: unprofitableStats.value?.map((item) => item.deficit * -1).reverse(),
   },
 ])
 
@@ -1421,6 +1490,7 @@ const unprofitableStatsAreaChartOptions = computed(() => {
     },
     fill: {
       opacity: 0.5,
+      colors: '#ff0000'
     },
     grid: {
       yaxis: {
@@ -1448,43 +1518,15 @@ onMounted(() => {
     .then((res) => {
       monthStats.value = res
     })
-  OrderService.getCorporateClientsStats({
-    from: moment().subtract(15, 'days').startOf('day').format().toString().slice(0, 10),
-    to: moment().startOf('day').format().toString().slice(0, 10),
-    intervalType: "week",
-    limit: 10,
-    page: 1,
-  }).then((res) => {
-    corporateStats.value = res.data
-    var a = res.data?.flatMap((item) => item.date)
-  var b = new Set(a)
-  allDates.value = Array.from(b).sort((a, b) => // {
-    moment(a).toDate() - moment(b).toDate()
-  // }
-)
 
-  })
+
   ProductService.getUnprofitableStat({
     limit: 10,
     intervalType: "week"
   }).then((res) => {
     unprofitableStats.value = res
   })
-  ProductService.getVarietyStats({
-    startDate: moment().subtract(90, 'days').startOf('day').format().toString().slice(0, 10),
-    endDate: moment().startOf('day').format().toString().slice(0, 10),
-    interval: 1,
-    intervalType: "week"
-  }).then((res) => {
-    varietyStats.value = res
-    var a = res?.flatMap((item) => item.data.map((i) => i.day))
-  var b = new Set(a)
-  allDates.value = Array.from(b).sort((a, b) => // {
-    moment(a).toDate() - moment(b).toDate()
-  // }
-)
 
-  })
   ProductService.getRecommendStats({
     intervalType: useProductStore().intervalType,
     limit: useProductStore().limit
@@ -1601,14 +1643,14 @@ onClickOutside(recommendDropdown, () => {
 
 const recommendStatsChartSeries = computed(() => [
   {
-    name: `Total revenue`,
-    data: recommendStats.value?.map((item) => item.totalRevenue),
-  },
-  {
     name: 'Total profit',
     data: recommendStats.value?.map((item) => item.totalProfit),
   },
-])
+  {
+    name: 'Total revenue',
+    data: recommendStats.value?.map((item) => item.totalRevenue),
+  },
+]);
 
 const recommendStatsAreaChartOptions = computed(() => {
   return {
@@ -1686,25 +1728,32 @@ const recommendStatsAreaChartOptions = computed(() => {
       },
     },
     tooltip: {
-      shared: true,
-      intersect: false,
-      y: {
-        formatter: function (value, { seriesIndex, dataPointIndex }) {
-          if (seriesIndex === 0) {
-            const revenue = recommendStats.value[dataPointIndex].totalRevenue;
-            const orders = recommendStats.value[dataPointIndex].totalOrders;
-            const salesRatio = recommendStats.value[dataPointIndex].salesRatio;
-            return `Total revenue: ${useMoneyFormatter(revenue)} <br/> Total orders: ${orders} <br/>Sales ratio: ${salesRatio} `;
-          }
-         
-            return useMoneyFormatter(value);
-          
-        },
+      enabled: true,
+      custom: function ({ series, seriesIndex, dataPointIndex, w }) {
+        const data = recommendStats.value[dataPointIndex];
+        if (seriesIndex === 0) {
+          return `
+            
+              <div class="text-xs bg-slate-200 p-2">${data.productName}</div>
+            <div class="text-xs p-2">  <span>Total Profit:</span> <span class="font-semibold"> ${useMoneyFormatter(data.totalProfit)}</span>
+              </br>
+              <span>Total orders:</span> <span class="font-semibold"> ${(data.totalOrders)}</span>
+            </div>
+          `;
+        } else if (seriesIndex === 1) {
+          return `
+           
+              <div class="text-xs bg-slate-200 p-2">${data.productName}</div>
+            <div class="text-xs p-2">  <span>Total revenue:</span> <span class="font-semibold"> ${useMoneyFormatter(data.totalRevenue)}</span>
+              </br>
+              <span>Sales ratio:</span> <span class="font-semibold"> ${(data.totalOrders)}</span>
+            </div>
+          `;
+        }
       },
     },
-  }
-})
-
+  };
+});
 
 </script>
 
@@ -2411,90 +2460,41 @@ const recommendStatsAreaChartOptions = computed(() => {
       <div class="flex flex-col md:flex-row md:items-center md:justify-between px-2 space-y-3 md:space-y-0">
         <div>
           <div class="text-base font-bold text-slate-800 dark:text-slate-200">
-            {{ $t('unprofitableStatistics') }}
+            {{ $t('unprofitableStat') }}
           </div>
-          <div class="text-sm text-gray-600 dark:text-white">
-            {{ $t('beginStatText') }}
-            <span class="font-bold lowercase">{{ $t('monthly') }}</span>
-            {{ $t('endStatText') }}
-          </div>
-        </div>
-      </div>
-      <apexchart type="bar" height="320" :options="unprofitableStatsAreaChartOptions" :series="unprofitableStatsChartSeries">
-      </apexchart>
-    </div>
-
-
-
-    <div class="flex-1 bg-slate-100 dark:bg-slate-900 rounded-3xl p-5">
-      <div class="flex flex-col md:flex-row md:items-center md:justify-between px-2 space-y-3 md:space-y-0">
-        <div>
-          <div class="text-base font-bold text-slate-800 dark:text-slate-200">
-            {{ $t('corporateStatistics') }}
-          </div>
-          <div class="text-sm text-gray-600 dark:text-white">
-            {{ $t('beginStatText') }}
-            <span class="font-bold lowercase">{{ $t('monthly') }}</span>
-            {{ $t('endStatText') }}
-          </div>
-        </div>
-      </div>
-      <apexchart type="bar" height="320" :options="corporateStatsAreaChartOptions" :series="corporateStatsChartSeries">
-      </apexchart>
-    </div>
-
-
-    <div class="flex-1 bg-slate-100 dark:bg-slate-900 rounded-3xl p-5">
-      <div class="flex flex-col md:flex-row md:items-center md:justify-between px-2 space-y-3 md:space-y-0">
-        <div>
-          <div class="text-base font-bold text-slate-800 dark:text-slate-200">
-            {{ $t('varietyStat') }}
-          </div>
-
           <div class="text-sm text-gray-600 dark:text-white">
             {{ $t('beginStatText') }}
             <span class="font-bold lowercase">
               {{
-                filterVarietyData.intervalType === 'day' ? $t('days') :
-                  filterVarietyData.intervalType === 'week' ? $t('week') :
-                    filterVarietyData.intervalType === 'month' ? $t('monthly') :
-                      filterVarietyData.intervalType === 'year' ? $t('year') :
+                filterUnprofitableData.intervalType === 'day' ? $t('days') :
+                  filterUnprofitableData.intervalType === 'week' ? $t('week') :
+                    filterUnprofitableData.intervalType === 'month' ? $t('monthly') :
+                      filterUnprofitableData.intervalType === 'year' ? $t('year') :
                         $t('monthly')
               }}
             </span>
             {{ $t('endStatText') }}
           </div>
-
         </div>
-        <div class="relative" ref="varietyDropdown">
-          <div @click="useDropdownStore().toggleVarietyFilterBy()"
-            class="border-none select-none text-gray-900 bg-white dark:text-zinc-200 dark:bg-slate-800 shadow rounded-lg w-full p-2 px-5 flex items-center hover:bg-gray-100 cursor-pointer space-x-1">
+        <div class="relative" ref="unprofitableDropdown">
+          <div @click="useDropdownStore().toggleUnprofitableFilterBy()"
+            class="border-none w-40 select-none text-gray-900 bg-white dark:text-zinc-200 dark:bg-slate-800 shadow rounded-lg p-2 px-5 flex items-center hover:bg-gray-100 cursor-pointer space-x-1">
             <FunnelIcon class="w-5 h-5 dark:text-zinc-50 text-gray-400" />
             <span>{{ $t('filter') }}</span>
           </div>
-          <div v-if="useDropdownStore().isOpenVarietyFilterBy"
-            class="absolute dark:bg-slate-800 bg-white shadow rounded-xl p-3 z-20 top-12 right-0 space-y-3">
+          <div v-if="useDropdownStore().isOpenUnprofitableFilterBy"
+            class="absolute dark:bg-slate-800  w-80  bg-white shadow rounded-xl  p-3 z-20 top-12 right-0 space-y-3">
             <div class=" items-center space-x-1">
-              <div class="flex"><label for="" class="dark:text-white w-1/2">
-                  {{ $t('from') }}
-                  <input v-model="filterVarietyData.startDate" type="date"
-                    class="border-none text-gray-500 bg-gray-100 rounded-lg     dark:bg-slate-600 dark:text-white w-full" />
-                </label>
-                <ArrowDownIcon class="-rotate-90 w-6 text-gray-600 mt-8 " />
-                <label for="" class="dark:text-white w-1/2">
-                  {{ $t('to') }}
-                  <input v-model="filterVarietyData.endDate" type="date"
-                    class="border-none text-gray-500 bg-gray-100 rounded-lg     dark:bg-slate-600 dark:text-white w-full" />
-                </label>
+              <div class="flex">
               </div>
               <div class="flex justify-between space-x-4"><label for="" class="dark:text-white w-1/2">
-                  {{ $t('interval') }}
-                  <input v-model="filterVarietyData.interval" type="number" min="0"
+                  {{ $t('limit') }}
+                  <input v-model="filterUnprofitableData.limit" type="number" min="0"
                     class="border-none text-gray-500 bg-gray-100 rounded-lg     dark:bg-slate-600 dark:text-white w-full" />
                 </label>
                 <label for="" class="dark:text-white w-1/2">
                   {{ $t('intervalType') }}
-                  <select v-model="filterVarietyData.intervalType"
+                  <select v-model="filterUnprofitableData.intervalType"
                     class="bg-blue-100 dark:bg-slate-600 border-none text-slate-900 dark:text-white rounded-lg text-base md:text-lg block w-full h-11">
                     <option value="day">
                       {{ $t('day') }}
@@ -2513,7 +2513,7 @@ const recommendStatsAreaChartOptions = computed(() => {
               </div>
             </div>
             <div class="flex items-center space-x-2">
-              <div @click="cleanFilterVarietyData()"
+              <div @click="cleanFilterUnprofitableData()"
                 class="basis-1/3 w-full bg-slate-100 hover:bg-slate-300 cursor-pointer select-none py-3 rounded-lg flex items-center justify-center">
                 <span>{{ $t('cleaning') }}</span>
               </div>
@@ -2524,7 +2524,7 @@ const recommendStatsAreaChartOptions = computed(() => {
                     class="mr-2 w-5 h-5 text-gray-200 animate-spin fill-gray-600 dark:fill-gray-300" />
                   <span>{{ $t('loading') }}</span>
                 </div>
-                <div v-else @click="submitVarietyStatsFilterData()"
+                <div v-else @click="submitUnprofitableStatsFilterData()"
                   class="w-full bg-blue-500 hover:bg-blue-600 cursor-pointer select-none py-3 text-white rounded-lg flex items-center justify-center">
                   <span>{{ $t('filter') }}</span>
                 </div>
@@ -2533,9 +2533,15 @@ const recommendStatsAreaChartOptions = computed(() => {
           </div>
         </div>
       </div>
-      <apexchart type="bar" height="320" :options="varietyStatsAreaChartOptions" :series="varietyStatsChartSeries">
+
+      <apexchart type="bar" height="320" :options="unprofitableStatsAreaChartOptions" :series="unprofitableStatsChartSeries">
       </apexchart>
     </div>
+
+
+
+
+
 
     <div class="flex-1 bg-slate-100 dark:bg-slate-900 rounded-3xl p-5">
       <div class="flex flex-col md:flex-row md:items-center md:justify-between px-2 space-y-3 md:space-y-0">

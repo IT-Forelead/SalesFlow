@@ -54,9 +54,9 @@ class OrderService {
   async getPredictStats(limit: number) {
     return AxiosService.get(`/order/stats/predict?limit=${limit}`);
   }
-  async getCorporateClientsStats(data: any) {
-    return AxiosService.post(`/order/corporate-clients/stats`, data);
-  }
+  // async getCorporateClientsStats(data: any) {
+  //   return AxiosService.post(`/order/corporate-clients/stats`, data);
+  // }
 }
 
 export default new OrderService();
