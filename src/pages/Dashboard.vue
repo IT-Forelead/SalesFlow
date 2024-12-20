@@ -1518,15 +1518,43 @@ onMounted(() => {
     .then((res) => {
       monthStats.value = res
     })
+  OrderService.getCorporateClientsStats({
+    from: moment().subtract(15, 'days').startOf('day').format().toString().slice(0, 10),
+    to: moment().startOf('day').format().toString().slice(0, 10),
+    intervalType: "week",
+    limit: 10,
+    page: 1,
+  }).then((res) => {
+    corporateStats.value = res.data
+    var a = res.data?.flatMap((item) => item.date)
+  var b = new Set(a)
+  allDates.value = Array.from(b).sort((a, b) => // {
+    moment(a).toDate() - moment(b).toDate()
+  // }
+)
 
-
+  })
   ProductService.getUnprofitableStat({
     limit: 10,
     intervalType: "week"
   }).then((res) => {
     unprofitableStats.value = res
   })
+  ProductService.getVarietyStats({
+    startDate: moment().subtract(90, 'days').startOf('day').format().toString().slice(0, 10),
+    endDate: moment().startOf('day').format().toString().slice(0, 10),
+    interval: 1,
+    intervalType: "week"
+  }).then((res) => {
+    varietyStats.value = res
+    var a = res?.flatMap((item) => item.data.map((i) => i.day))
+  var b = new Set(a)
+  allDates.value = Array.from(b).sort((a, b) => // {
+    moment(a).toDate() - moment(b).toDate()
+  // }
+)
 
+  })
   ProductService.getRecommendStats({
     intervalType: useProductStore().intervalType,
     limit: useProductStore().limit
@@ -2537,11 +2565,40 @@ const recommendStatsAreaChartOptions = computed(() => {
       <apexchart type="bar" height="320" :options="unprofitableStatsAreaChartOptions" :series="unprofitableStatsChartSeries">
       </apexchart>
     </div>
-
-
-
-
-
+    
+    <div class="flex-1 bg-slate-100 dark:bg-slate-900 rounded-3xl p-5">
+      <div class="flex flex-col md:flex-row md:items-center md:justify-between px-2 space-y-3 md:space-y-0">
+        <div>
+          <div class="text-base font-bold text-slate-800 dark:text-slate-200">
+            {{ $t('corporatelyStatistics') }}
+          </div>
+          <div class="text-sm text-gray-600 dark:text-white">
+            {{ $t('beginStatText') }}
+            <span class="font-bold lowercase">{{ $t('corporately') }}</span>
+            {{ $t('endStatText') }}
+          </div>
+        </div>
+      </div>
+      <apexchart type="area" height="320" :options="corporateStatsAreaChartOptions" :series="corporateStatsChartSeries">
+      </apexchart>
+    </div>
+    
+    <div class="flex-1 bg-slate-100 dark:bg-slate-900 rounded-3xl p-5">
+      <div class="flex flex-col md:flex-row md:items-center md:justify-between px-2 space-y-3 md:space-y-0">
+        <div>
+          <div class="text-base font-bold text-slate-800 dark:text-slate-200">
+            {{ $t('varietylyStatistics') }}
+          </div>
+          <div class="text-sm text-gray-600 dark:text-white">
+            {{ $t('beginStatText') }}
+            <span class="font-bold lowercase">{{ $t('varietyly') }}</span>
+            {{ $t('endStatText') }}
+          </div>
+        </div>
+      </div>
+      <apexchart type="area" height="320" :options="varietyStatsAreaChartOptions" :series="varietyStatsChartSeries">
+      </apexchart>
+    </div>
 
     <div class="flex-1 bg-slate-100 dark:bg-slate-900 rounded-3xl p-5">
       <div class="flex flex-col md:flex-row md:items-center md:justify-between px-2 space-y-3 md:space-y-0">

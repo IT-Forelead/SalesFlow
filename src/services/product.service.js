@@ -72,9 +72,9 @@ class ProductService {
   async getProductsWithoutSales(page, limit) {
     return AxiosService.get(`/product/stats/without-sales?page=${page}&limit=${limit}`)
   }
-  // async getVarietyStats(data) {
-  //   return AxiosService.post('/product/stats/variety', data);
-  // }
+  async getVarietyStats(data) {
+    return AxiosService.post('/product/stats/variety', data);
+  }
   async getRecommendStats(data) {
     return AxiosService.post('/product/recommendation', data);
   }
