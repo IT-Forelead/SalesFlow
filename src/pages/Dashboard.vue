@@ -1489,7 +1489,7 @@ onMounted(() => {
     intervalType: useProductStore().intervalType,
     limit: useProductStore().limit
   }).then((res) => {
-    console.log(res)
+    // console.log(res)
     recommendStats.value = res
   })
   OrderService.getTurnoverStats({
@@ -1602,11 +1602,7 @@ onClickOutside(recommendDropdown, () => {
 const recommendStatsChartSeries = computed(() => [
   {
     name: `Total revenue`,
-    data: recommendStats.value?.map((item) => ({
-      totalRevenue: item.totalRevenue,
-      totalOrders: item.totalOrders,
-      salesRatio: item.salesRatio,
-    })),
+    data: recommendStats.value?.map((item) => item.totalRevenue),
   },
   {
     name: 'Total profit',
