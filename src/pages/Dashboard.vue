@@ -1204,18 +1204,35 @@ const groupByKey = (list, key) => list.reduce((acc, item) => {
   return acc;
 }, 0);
 
+// const corporateStatsChartSeries = computed(() => {
+//   return corporateStats.value?.map((item) =>
+//   ({
+//     name: item.id,
+//     data: corporateStats.value?.map((item) => item.income)
+//   })
+//   );
+// })
+
 const corporateStatsChartSeries = computed(() => {
-  return corporateStats.value?.map((item) =>
-   ({ name: item.fullName,
-      data: corporateStats.value?.map((item) => item.income)
-      
-})
-  );
-})
+  // Сначала выделяем уникальные fullName
+  const uniqueFullNames = [...new Set(corporateStats.value?.map(item => item.fullName))];
 
-
+  // Для каждого уникального fullName создаем соответствующий объект
+  return uniqueFullNames.map(fullName => ({
+    name: fullName,
+    data: corporateStats.value
+      .filter(item => item.fullName === fullName) // Фильтруем элементы с данным fullName
+      .map(item => item.income) // Извлекаем значения income
+  }));
+});
 
 const corporateStatsAreaChartOptions = computed(() => {
+  // Проверка валидности всех дат в allDates.value
+  const allDatesValid = allDates.value.every(date => moment(date, 'YYYY-MM-DD', true).isValid());
+  if (!allDatesValid) {
+    console.error('Some dates in allDates are invalid.');
+  }
+
   return {
     legend: {
       labels: {
@@ -1247,7 +1264,8 @@ const corporateStatsAreaChartOptions = computed(() => {
           colors: '#4a90e2',
         },
         formatter: function (val) {
-          return moment(val).format('D-MMM')
+          const formattedDate = moment(val);
+          return formattedDate.isValid() ? formattedDate.format('D-MMM') : 'Invalid Date'; // Обработка некорректных дат
         },
       },
       tooltip: {
@@ -1266,7 +1284,7 @@ const corporateStatsAreaChartOptions = computed(() => {
       labels: {
         show: true,
         formatter: function (val) {
-          return useMoneyFormatter(val)
+          return useMoneyFormatter(val); // Форматирование значений y-оси
         },
         style: {
           colors: '#4a90e2',
@@ -1294,8 +1312,9 @@ const corporateStatsAreaChartOptions = computed(() => {
         left: 20,
       },
     },
-  }
-})
+  };
+});
+
 
 const monthStatsChartSeries = computed(() => [
   {
@@ -1563,24 +1582,23 @@ onMounted(() => {
       monthStats.value = res
     })
   OrderService.getCorporateClientsStats({
-    from: moment().subtract(15, 'days').startOf('day').format().toString().slice(0, 10),
+    from: moment().subtract(90, 'days').startOf('day').format().toString().slice(0, 10),
     to: moment().startOf('day').format().toString().slice(0, 10),
     intervalType: "week",
-    limit: 10,
-    page: 1,
+    limit: 20,
   }).then((res) => {
     corporateStats.value = res
-    var a = res?.flatMap((item) => item.date)
-    var b = new Set(a)
-    allDates.value = Array.from(b).sort((a, b) => // {
-      moment(a).toDate() - moment(b).toDate()
+    var aa = res?.flatMap((item) => item.date)
+    var bb = new Set(aa)
+    allDates.value = Array.from(bb).sort((aa, bb) => // {
+      moment(aa).toDate() - moment(bb).toDate()
       // }
     )
 
   })
   ProductService.getUnprofitableStat({
-    limit: 10,
-    intervalType: "week"
+    limit: 20,
+    intervalType: "month"
   }).then((res) => {
     unprofitableStats.value = res
   })
@@ -1704,14 +1722,12 @@ onClickOutside(recommendDropdown, () => {
   }
 })
 
-
 onClickOutside(recommendDropdown, () => {
   if (useDropdownStore().isOpenRecommendFilterBy) {
     useDropdownStore().toggleRecommendFilterBy()
     console.log(useDropdownStore().isOpenRecommendFilterBy)
   }
 })
-
 
 const recommendStatsChartSeries = computed(() => [
   {
@@ -1826,7 +1842,6 @@ const recommendStatsAreaChartOptions = computed(() => {
     },
   };
 });
-
 </script>
 
 <template>
