@@ -1205,20 +1205,13 @@ const groupByKey = (list, key) => list.reduce((acc, item) => {
 }, 0);
 
 const corporateStatsChartSeries = computed(() => {
-  console.log(corporateStats.value);
-
-  const uniqueIds = [...new Set(corporateStats.value.map(item => item.id))];
-
-  return uniqueIds.map(id => {
-    const item = corporateStats.value.find(item => item.id === id);
-    const groupedData = groupByKey(corporateStats.value, id);
-
-    return {
-      name: item.fullName,
-      data: [groupedData]
-    };
-  });
-});
+  return corporateStats.value?.map((item) =>
+   ({ name: item.fullName,
+      data: corporateStats.value?.map((item) => item.income)
+      
+})
+  );
+})
 
 
 
