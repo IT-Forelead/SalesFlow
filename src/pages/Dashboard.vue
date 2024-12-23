@@ -1105,7 +1105,6 @@ const submitCorporateStatsFilterData = () => {
 }
 
 const varietyStatsChartSeries = computed(() => {
-
   return varietyStats.value.map((item) =>
   ({
     name: item.productType,
@@ -1390,8 +1389,6 @@ const monthStatsAreaChartOptions = computed(() => {
   }
 })
 
-
-
 const unprofitableDropdown = ref(null)
 const unprofitableStats = ref([])
 
@@ -1584,6 +1581,7 @@ onMounted(() => {
   }).then((res) => {
     unprofitableStats.value = res
   })
+  
   ProductService.getVarietyStats({
     startDate: moment().subtract(90, 'days').startOf('day').format().toString().slice(0, 10),
     endDate: moment().startOf('day').format().toString().slice(0, 10),
@@ -1603,7 +1601,7 @@ onMounted(() => {
     intervalType: useProductStore().intervalType,
     limit: useProductStore().limit
   }).then((res) => {
-    // console.log(res)
+    console.log(res)
     recommendStats.value = res
   })
   OrderService.getTurnoverStats({
