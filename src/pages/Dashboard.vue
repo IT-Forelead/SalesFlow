@@ -1105,7 +1105,6 @@ const submitCorporateStatsFilterData = () => {
 }
 
 const varietyStatsChartSeries = computed(() => {
-
   return varietyStats.value.map((item) =>
   ({
     name: item.productType,
@@ -1214,20 +1213,17 @@ const groupByKey = (list, key) => list.reduce((acc, item) => {
 // })
 
 const corporateStatsChartSeries = computed(() => {
-  // Сначала выделяем уникальные fullName
   const uniqueFullNames = [...new Set(corporateStats.value?.map(item => item.fullName))];
 
-  // Для каждого уникального fullName создаем соответствующий объект
   return uniqueFullNames.map(fullName => ({
     name: fullName,
     data: corporateStats.value
-      .filter(item => item.fullName === fullName) // Фильтруем элементы с данным fullName
-      .map(item => item.income) // Извлекаем значения income
+      .filter(item => item.fullName === fullName)
+      .map(item => item.income)
   }));
 });
 
 const corporateStatsAreaChartOptions = computed(() => {
-  // Проверка валидности всех дат в allDates.value
   const allDatesValid = allDates.value.every(date => moment(date, 'YYYY-MM-DD', true).isValid());
   if (!allDatesValid) {
     console.error('Some dates in allDates are invalid.');
@@ -1284,7 +1280,7 @@ const corporateStatsAreaChartOptions = computed(() => {
       labels: {
         show: true,
         formatter: function (val) {
-          return useMoneyFormatter(val); // Форматирование значений y-оси
+          return useMoneyFormatter(val)
         },
         style: {
           colors: '#4a90e2',
@@ -1312,9 +1308,8 @@ const corporateStatsAreaChartOptions = computed(() => {
         left: 20,
       },
     },
-  };
-});
-
+  }
+})
 
 const monthStatsChartSeries = computed(() => [
   {
@@ -1408,8 +1403,6 @@ const monthStatsAreaChartOptions = computed(() => {
     },
   }
 })
-
-
 
 const unprofitableDropdown = ref(null)
 const unprofitableStats = ref([])
@@ -1598,10 +1591,11 @@ onMounted(() => {
   })
   ProductService.getUnprofitableStat({
     limit: 20,
-    intervalType: "month"
+    intervalType: "week"
   }).then((res) => {
     unprofitableStats.value = res
   })
+
   ProductService.getVarietyStats({
     startDate: moment().subtract(90, 'days').startOf('day').format().toString().slice(0, 10),
     endDate: moment().startOf('day').format().toString().slice(0, 10),
