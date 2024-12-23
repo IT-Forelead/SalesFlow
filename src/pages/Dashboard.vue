@@ -59,9 +59,10 @@ const varietyDropdown = ref(null)
 const monthDropdown = ref(null)
 const predictDropdown = ref(null)
 const monthStats = ref([])
-const corporateStats = ref([])
 const varietyStats = ref([])
 const predictStats = ref([])
+const corporateStats = ref([])
+const corporateDropdown = ref(null)
 
 const filterData = reactive({
   startDate: '',
@@ -833,6 +834,19 @@ const cleanFilterVarietyData = () => {
   filterVarietyData.intervalType = ""
 }
 
+
+const filterCorporateData = reactive({
+  from: '',
+  to: '',
+  intervalType: "",
+})
+
+const cleanFilterCorporateData = () => {
+  filterCorporateData.startDate = ''
+  filterCorporateData.endDate = ''
+  filterCorporateData.intervalType = ""
+}
+
 onClickOutside(predictDropdown, () => {
   if (useDropdownStore().isOpenPredictFilterBy) {
     useDropdownStore().togglePredictFilterBy()
@@ -1065,6 +1079,31 @@ const submitVarietyStatsFilterData = () => {
   }
 }
 
+const submitCorporateStatsFilterData = () => {
+  if (!filterCorporateData.from) {
+    toast.warning(t('plsEnterStartDate'))
+  } else if (!filterCorporateData.to) {
+    toast.warning(t('plsEnterEndDate'))
+  } else if (!filterCorporateData.intervalType) {
+    toast.warning(t('plsSelectIntervalType'))
+  } else {
+    isLoading.value = true
+    OrderService.getCorporateClientsStats({
+      from: filterCorporateData.from,
+      to: filterCorporateData.to,
+      intervalType: filterCorporateData.intervalType,
+    }).then((res) => {
+      corporateStats.value = res
+      isLoading.value = false
+      if (useDropdownStore().isOpenCorporateFilterBy) {
+        useDropdownStore().toggleCorporateFilterBy()
+      }
+    }).catch(() => {
+      isLoading.value = false
+    })
+  }
+}
+
 const varietyStatsChartSeries = computed(() => {
 
   return varietyStats.value.map((item) =>
@@ -1160,7 +1199,7 @@ const varietyStatsAreaChartOptions = computed(() => {
 
 const groupByKey = (list, key) => list.reduce((acc, item) => {
   if (item.id === key) {
-    return item.income + acc;
+    return acc + item.income;
   }
   return acc;
 }, 0);
@@ -1168,14 +1207,19 @@ const groupByKey = (list, key) => list.reduce((acc, item) => {
 const corporateStatsChartSeries = computed(() => {
   console.log(corporateStats.value);
 
-  return corporateStats.value?.map((item) =>
-  ({
-    name: item.id,
-    data: corporateStats.value?.map((item) => groupByKey(corporateStats.value, item.id))
+  const uniqueIds = [...new Set(corporateStats.value.map(item => item.id))];
 
-  })
-  );
-})
+  return uniqueIds.map(id => {
+    const item = corporateStats.value.find(item => item.id === id);
+    const groupedData = groupByKey(corporateStats.value, id);
+
+    return {
+      name: item.fullName,
+      data: [groupedData]
+    };
+  });
+});
+
 
 
 const corporateStatsAreaChartOptions = computed(() => {
@@ -1376,6 +1420,13 @@ onClickOutside(unprofitableDropdown, () => {
   }
 })
 
+onClickOutside(corporateDropdown, () => {
+  if (useDropdownStore().isOpenCorporateFilterBy) {
+    useDropdownStore().toggleCorporateFilterBy()
+    console.log(useDropdownStore().isOpenCorporateFilterBy)
+  }
+})
+
 const submitUnprofitableStatsFilterData = () => {
   if (!filterUnprofitableData.intervalType) {
     toast.warning(t('plsSelectIntervalType'))
@@ -1525,13 +1576,13 @@ onMounted(() => {
     limit: 10,
     page: 1,
   }).then((res) => {
-    corporateStats.value = res.data
-    var a = res.data?.flatMap((item) => item.date)
-  var b = new Set(a)
-  allDates.value = Array.from(b).sort((a, b) => // {
-    moment(a).toDate() - moment(b).toDate()
-  // }
-)
+    corporateStats.value = res
+    var a = res?.flatMap((item) => item.date)
+    var b = new Set(a)
+    allDates.value = Array.from(b).sort((a, b) => // {
+      moment(a).toDate() - moment(b).toDate()
+      // }
+    )
 
   })
   ProductService.getUnprofitableStat({
@@ -1548,11 +1599,11 @@ onMounted(() => {
   }).then((res) => {
     varietyStats.value = res
     var a = res?.flatMap((item) => item.data.map((i) => i.day))
-  var b = new Set(a)
-  allDates.value = Array.from(b).sort((a, b) => // {
-    moment(a).toDate() - moment(b).toDate()
-  // }
-)
+    var b = new Set(a)
+    allDate.value = Array.from(b).sort((a, b) => // {
+      moment(a).toDate() - moment(b).toDate()
+      // }
+    )
 
   })
   ProductService.getRecommendStats({
@@ -1763,7 +1814,7 @@ const recommendStatsAreaChartOptions = computed(() => {
           return `
             
               <div class="text-xs bg-slate-200 p-2">${data.productName}</div>
-            <div class="text-xs p-2">  <span>Total Profit:</span> <span class="font-semibold"> ${useMoneyFormatter(data.totalProfit)}</span>
+            <div class="text-xs p-2">  <span>Total profit:</span> <span class="font-semibold"> ${useMoneyFormatter(data.totalProfit)}</span>
               </br>
               <span>Total orders:</span> <span class="font-semibold"> ${(data.totalOrders)}</span>
             </div>
@@ -1774,7 +1825,7 @@ const recommendStatsAreaChartOptions = computed(() => {
               <div class="text-xs bg-slate-200 p-2">${data.productName}</div>
             <div class="text-xs p-2">  <span>Total revenue:</span> <span class="font-semibold"> ${useMoneyFormatter(data.totalRevenue)}</span>
               </br>
-              <span>Sales ratio:</span> <span class="font-semibold"> ${(data.totalOrders)}</span>
+              <span>Sales ratio:</span> <span class="font-semibold"> ${(data.salesRatio)}</span>
             </div>
           `;
         }
@@ -2562,37 +2613,172 @@ const recommendStatsAreaChartOptions = computed(() => {
         </div>
       </div>
 
-      <apexchart type="bar" height="320" :options="unprofitableStatsAreaChartOptions" :series="unprofitableStatsChartSeries">
+      <apexchart type="bar" height="320" :options="unprofitableStatsAreaChartOptions"
+        :series="unprofitableStatsChartSeries">
       </apexchart>
     </div>
-    
+
     <div class="flex-1 bg-slate-100 dark:bg-slate-900 rounded-3xl p-5">
       <div class="flex flex-col md:flex-row md:items-center md:justify-between px-2 space-y-3 md:space-y-0">
         <div>
           <div class="text-base font-bold text-slate-800 dark:text-slate-200">
-            {{ $t('corporatelyStatistics') }}
+            {{ $t('corporateStatistics') }}
           </div>
           <div class="text-sm text-gray-600 dark:text-white">
             {{ $t('beginStatText') }}
-            <span class="font-bold lowercase">{{ $t('corporately') }}</span>
+            <span class="font-bold lowercase">{{ $t('monthly') }}</span>
             {{ $t('endStatText') }}
           </div>
         </div>
+        <div class="relative" ref="corporateDropdown">
+          <div @click="useDropdownStore().toggleCorporateFilterBy()"
+            class="border-none w-40 select-none text-gray-900 bg-white dark:text-zinc-200 dark:bg-slate-800 shadow rounded-lg p-2 px-5 flex items-center hover:bg-gray-100 cursor-pointer space-x-1">
+            <FunnelIcon class="w-5 h-5 dark:text-zinc-50 text-gray-400" />
+            <span>{{ $t('filter') }}</span>
+          </div>
+          <div v-if="useDropdownStore().isOpenCorporateFilterBy"
+            class="absolute dark:bg-slate-800 w-96 bg-white shadow rounded-xl  p-3 z-20 top-12 right-0 space-y-3">
+            <div class=" items-center space-x-1">
+              <div class="flex">
+                <div class="flex items-center space-x-1">
+                  <label for="" class="dark:text-white">
+                    {{ $t('from') }}
+                    <input v-model="filterCorporateData.from" type="date"
+                      class="border-none text-gray-500 bg-gray-100 rounded-lg     dark:bg-slate-600 dark:text-white w-full" />
+                  </label>
+                  <ArrowDownIcon class="-rotate-90 text-gray-600 dark:text-white mt-6" />
+                  <label for="" class="dark:text-white">
+                    {{ $t('to') }}
+                    <input v-model="filterCorporateData.to" type="date"
+                      class="border-none text-gray-500 bg-gray-100 rounded-lg     dark:bg-slate-600 dark:text-white w-full" />
+                  </label>
+                </div>
+              </div>
+              <div class="flex justify-between space-x-4">
+                <label for="" class="dark:text-white w-1/2">
+                  {{ $t('intervalType') }}
+                  <select v-model="filterCorporateData.intervalType"
+                    class="bg-blue-100 dark:bg-slate-600 border-none text-slate-900 dark:text-white rounded-lg text-base md:text-lg block w-full h-11">
+                    <option value="day">
+                      {{ $t('day') }}
+                    </option>
+                    <option value="week">
+                      {{ $t('week') }}
+                    </option>
+                    <option value="month">
+                      {{ $t('month') }}
+                    </option>
+                    <option value="year">
+                      {{ $t('year') }}
+                    </option>
+                  </select>
+                </label>
+              </div>
+            </div>
+            <div class="flex items-center space-x-2">
+              <div @click="cleanFilterCorporateData()"
+                class="basis-1/3 w-full bg-slate-100 hover:bg-slate-300 cursor-pointer select-none py-3 rounded-lg flex items-center justify-center">
+                <span>{{ $t('cleaning') }}</span>
+              </div>
+              <div class="basis-2/3">
+                <div v-if="isLoading"
+                  class="w-full bg-blue-600 py-3 select-none text-white rounded-lg flex items-center justify-center">
+                  <Spinners270RingIcon
+                    class="mr-2 w-5 h-5 text-gray-200 animate-spin fill-gray-600 dark:fill-gray-300" />
+                  <span>{{ $t('loading') }}</span>
+                </div>
+                <div v-else @click="submitCorporateStatsFilterData()"
+                  class="w-full bg-blue-500 hover:bg-blue-600 cursor-pointer select-none py-3 text-white rounded-lg flex items-center justify-center">
+                  <span>{{ $t('filter') }}</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
-      <apexchart type="area" height="320" :options="corporateStatsAreaChartOptions" :series="corporateStatsChartSeries">
+      <apexchart type="bar" height="320" :options="corporateStatsAreaChartOptions" :series="corporateStatsChartSeries">
       </apexchart>
     </div>
-    
+
     <div class="flex-1 bg-slate-100 dark:bg-slate-900 rounded-3xl p-5">
       <div class="flex flex-col md:flex-row md:items-center md:justify-between px-2 space-y-3 md:space-y-0">
         <div>
           <div class="text-base font-bold text-slate-800 dark:text-slate-200">
-            {{ $t('varietylyStatistics') }}
+            {{ $t('varietyStat') }}
           </div>
           <div class="text-sm text-gray-600 dark:text-white">
             {{ $t('beginStatText') }}
-            <span class="font-bold lowercase">{{ $t('varietyly') }}</span>
+            <span class="font-bold lowercase">{{ $t('monthly') }}</span>
             {{ $t('endStatText') }}
+          </div>
+        </div>
+        <div class="relative" ref="varietyDropdown">
+          <div @click="useDropdownStore().toggleVarietyFilterBy()"
+            class="border-none w-40 select-none text-gray-900 bg-white dark:text-zinc-200 dark:bg-slate-800 shadow rounded-lg p-2 px-5 flex items-center hover:bg-gray-100 cursor-pointer space-x-1">
+            <FunnelIcon class="w-5 h-5 dark:text-zinc-50 text-gray-400" />
+            <span>{{ $t('filter') }}</span>
+          </div>
+          <div v-if="useDropdownStore().isOpenVarietyFilterBy"
+            class="absolute dark:bg-slate-800 w-96 bg-white shadow rounded-xl  p-3 z-20 top-12 right-0 space-y-3">
+            <div class=" items-center space-x-1">
+              <div class="flex">
+                <div class="flex w-fit items-center space-x-1">
+                  <label for="" class="dark:text-white">
+                    {{ $t('from') }}
+                    <input v-model="filterVarietyData.startDate" type="date"
+                      class="border-none text-gray-500 bg-gray-100 rounded-lg     dark:bg-slate-600 dark:text-white w-full" />
+                  </label>
+                  <ArrowDownIcon class="-rotate-90 text-gray-600 dark:text-white mt-6" />
+                  <label for="" class="dark:text-white">
+                    {{ $t('to') }}
+                    <input v-model="filterVarietyData.endDate" type="date"
+                      class="border-none text-gray-500 bg-gray-100 rounded-lg     dark:bg-slate-600 dark:text-white w-full" />
+                  </label>
+                </div>
+              </div>
+              <div class="flex justify-between space-x-4"><label for="" class="dark:text-white w-1/2">
+                  {{ $t('interval') }}
+                  <input v-model="filterVarietyData.interval" type="number" min="0"
+                    class="border-none text-gray-500 bg-gray-100 rounded-lg     dark:bg-slate-600 dark:text-white w-full" />
+                </label>
+                <label for="" class="dark:text-white w-1/2">
+                  {{ $t('intervalType') }}
+                  <select v-model="filterVarietyData.intervalType"
+                    class="bg-blue-100 dark:bg-slate-600 border-none text-slate-900 dark:text-white rounded-lg text-base md:text-lg block w-full h-11">
+                    <option value="day">
+                      {{ $t('day') }}
+                    </option>
+                    <option value="week">
+                      {{ $t('week') }}
+                    </option>
+                    <option value="month">
+                      {{ $t('month') }}
+                    </option>
+                    <option value="year">
+                      {{ $t('year') }}
+                    </option>
+                  </select>
+                </label>
+              </div>
+            </div>
+            <div class="flex items-center space-x-2">
+              <div @click="cleanFilterVarietyData()"
+                class="basis-1/3 w-full bg-slate-100 hover:bg-slate-300 cursor-pointer select-none py-3 rounded-lg flex items-center justify-center">
+                <span>{{ $t('cleaning') }}</span>
+              </div>
+              <div class="basis-2/3">
+                <div v-if="isLoading"
+                  class="w-full bg-blue-600 py-3 select-none text-white rounded-lg flex items-center justify-center">
+                  <Spinners270RingIcon
+                    class="mr-2 w-5 h-5 text-gray-200 animate-spin fill-gray-600 dark:fill-gray-300" />
+                  <span>{{ $t('loading') }}</span>
+                </div>
+                <div v-else @click="submitVarietyStatsFilterData()"
+                  class="w-full bg-blue-500 hover:bg-blue-600 cursor-pointer select-none py-3 text-white rounded-lg flex items-center justify-center">
+                  <span>{{ $t('filter') }}</span>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </div>
