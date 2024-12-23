@@ -5,7 +5,8 @@ import { useCategoryStore } from '../../store/category.store.js';
 import WarningCircleBoldIcon from '../../assets/icons/WarningCircleBoldIcon.vue';
 import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
-import CategoryService from '../../services/category.service.js';
+import CategoryService from '../../services/category.service.js'; 
+import Spinners270RingIcon from '@/assets/icons/Spinners270RingIcon.vue';
 
 const { t } = useI18n();
 
@@ -23,6 +24,7 @@ const deleteCategory = () => {
   isLoading.value = true
   if (!selectedCategory.value?.id) {
     toast.error(t('productNotFound'))
+    console.log("asdsdsdsdsdsd")
   } else {
     CategoryService.deleteCategory(selectedCategory.value.id)
       .then(() => {

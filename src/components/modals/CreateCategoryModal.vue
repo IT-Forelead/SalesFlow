@@ -58,7 +58,7 @@ const createCategory = () => {
 
 </script>
 <template>
-  <CModal :is-open="useModalStore().isOpenCreateModal" v-if="useModalStore().isOpenCreateCategoryModal"
+  <CModal :is-open="useModalStore().isOpenCreateCategoryModal" v-if="useModalStore().isOpenCreateCategoryModal"
             @close=closeModal>
       <template v-slot:header>
         {{ $t('CreateCategory') }}
@@ -71,7 +71,7 @@ const createCategory = () => {
                 {{ $t('nameCategory') }}
                 <span class="text-red-500 mr-2">*</span>
               </label>
-              <input id="firstname" type="text" v-model="submitForm.fullName"
+              <input id="firstname" type="text" v-model="submitForm.name"
                      class="bg-slate-100 border-none dark:bg-slate-700 dark:text-white text-slate-900 rounded-lg w-full py-2.5 placeholder-slate-400"
                      :placeholder="t('enterNameCategory')">
             </div>

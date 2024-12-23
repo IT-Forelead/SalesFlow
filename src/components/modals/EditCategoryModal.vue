@@ -46,55 +46,61 @@ const closeModal = () => {
   clearSubmitData()
 }
 
-const updateCategory = () => {
-  CategoryService.updateCategory({
-    id: submitData.id,
-    name: submitData.name,
+// const updateCategory = () => {
+//   CategoryService.updateCategory({
+//     id: submitData.id,
+//     name: submitData.name,
 
-  }).then(() => {
-    toast.success(t('productEditedSuccessfully'))
-    CategoryService.getCategories({ limit: 30, page: currentPage.value, name: route.query.search })
-      .then((res) => {
-        categoryStore.clearStore()
-        categoryStore.setCategories(res.data)
-      })
-      .catch((err) => {
-        toast.error(err.message)
-      })
-    isLoading.value = false
-    closeModal()
-  }).catch((err) => {
-    console.log(err);
-    if (err.response.data.includes("already exist")) {
-      toast.error(t('thisProductNameAlreadyExist'))
-    } else {
-      toast.error(t('errorWhileEditingProduct'))
-    }
-    isLoading.value = false
-  })
-}
+//   }).then(() => {
+//     toast.success(t('productEditedSuccessfully'))
+//     CategoryService.getCategories({ limit: 30, page: currentPage.value, name: route.query.search })
+//       .then((res) => {
+//         categoryStore.clearStore()
+//         categoryStore.setCategories(res.data)
+//       })
+//       .catch((err) => {
+//         toast.error(err.message)
+//       })
+//     isLoading.value = false
+//     closeModal()
+//   }).catch((err) => {
+//     console.log(err);
+//     if (err.response.data.includes("already exist")) {
+//       toast.error(t('thisProductNameAlreadyExist'))
+//     } else {
+//       toast.error(t('errorWhileEditingProduct'))
+//     }
+//     isLoading.value = false
+//   })
+// }
 
 const editCategory = () => {
-  if (!submitData.name) {
-    toast.warning(t('plsEnterProductName'))
-  }  else {
+  if (!submitData.fullName) {
+    toast.warning(t('plsEnterFullName'))
+  } else {
     isLoading.value = true
-    const formData = new FormData()
-    if (submitData.image) {
-      formData.append('image', submitData.image)
-      CategoryService.uploadImage(formData)
+    CategoryServiceService.updateCategory({
+      id: submitData.id,
+      name: submitData.name,
+    }).then(() => {
+      toast.success(t('agentEditedSuccessfully'))
+      CategoryService.getCategories
         .then((res) => {
-          submitData.assetId = res
-          updateCategory()
+          CategoryStore.clearStore()
+          CategoryStore.setCategories(res)
         })
         .catch((err) => {
-         
-          isLoading.value = false
+          toast.error(err.message)
         })
-    } else updateCategory()
+      isLoading.value = false
+      closeModal()
+    }).catch(() => {
+      toast.error(t('errorWhileEditingAgent'))
+      isLoading.value = false
+      closeModal()
+    })
   }
 }
-
 
 watch(
   () => selectedCategory.value,
@@ -120,11 +126,11 @@ watch(
       <div class="space-y-4">
         <div class="flex items-center space-x-4">
           <div class="flex-1">
-            <label for="name" class="text-base dark:text-white md:text-lg font-medium">
+            <label for="firstname" class="text-base dark:text-white md:text-lg font-medium">
               {{ $t('productName') }}
               <span class="text-red-500 mr-2">*</span>
             </label>
-            <input id="name" type="text" v-model="submitData.name"
+            <input id="firstname" type="text" v-model="submitData.name"
               class="bg-slate-100 border-none text-slate-900 dark:text-white dark:bg-slate-700 rounded-lg w-full py-2.5 placeholder-slate-400"
               :placeholder="t('enterProductName')" />
           </div>
