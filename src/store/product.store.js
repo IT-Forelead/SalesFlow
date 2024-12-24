@@ -4,6 +4,7 @@ export const useProductStore = defineStore('product', {
   state: () => ({
     products: [],
     recommendProducts: [],
+    unprofitableProducts: [],
     total:0,
     currentPage: 1,
     barcodesTotal:0,
@@ -26,6 +27,9 @@ export const useProductStore = defineStore('product', {
     },
     setRecommendProducts(data) {
       this.recommendProducts.push(...data)
+    },
+    setUnprofitableProducts(data) {
+      this.unprofitableProducts.push(...data)
     },
     setProductBarcodes(data) {
       this.productBarcodes.push(...data)
@@ -63,10 +67,15 @@ export const useProductStore = defineStore('product', {
     clearRecommendProducts() {
       this.recommendProducts = []
     },
+
+    clearUnprofitableProducts() {
+      this.unprofitableProducts = []
+    },
     clearStore() {
       
       this.products = []
       this.recommendProducts = []
+      this.unprofitableProducts = []
       this.productBarcodes = []
       this.hiddenProducts = []
       this.barcodeDuplicates = []

@@ -13,6 +13,9 @@ export const useDropdownStore = defineStore('dropdown', {
     isOpenMonthFilterBy: false,
     isOpenPredictFilterBy: false,
     isOpenRecommendFilterBy: false,
+
+    isOpenUnprofitableFilterBy: false,
+    isOpenCorporateFilterBy: false,
   }),
   actions: {
     setSelectOptionAgent(data) {
@@ -46,6 +49,9 @@ export const useDropdownStore = defineStore('dropdown', {
     toggleVarietyFilterBy() {
       this.isOpenVarietyFilterBy = !this.isOpenVarietyFilterBy
     },
+    toggleCorporateFilterBy() {
+      this.isOpenCorporateFilterBy = !this.isOpenCorporateFilterBy
+    },
     togglePredictFilterBy() {
       this.isOpenPredictFilterBy = !this.isOpenPredictFilterBy
     },
@@ -54,6 +60,9 @@ export const useDropdownStore = defineStore('dropdown', {
     },
     toggleRecommendFilterBy() {
       this.isOpenRecommendFilterBy = !this.isOpenRecommendFilterBy
+    },
+    toggleUnprofitableFilterBy() {
+      this.isOpenUnprofitableFilterBy = !this.isOpenUnprofitableFilterBy
     },
   }
 })

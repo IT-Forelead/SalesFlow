@@ -87,6 +87,9 @@ class ProductService {
   async unhideRecommendProduct(productId) {
     return AxiosService.delete(`/product/recommendation/unhide/${productId}`);
   }
+  async getUnprofitableStat(data) {
+    return AxiosService.post(`/product/unprofitable`, data);
+  }
 }
 
 export default new ProductService()
