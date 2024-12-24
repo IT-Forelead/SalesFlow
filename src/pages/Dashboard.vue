@@ -1205,19 +1205,16 @@ const groupByKey = (list, key) => list.reduce((acc, item) => {
 
 const corporateStatsChartSeries = computed(() => {
   return corporateStats.value?.map((item) =>
-  ({
-    name: item.fullName,
-    data: corporateStats.value?.map((item) => item.income)
-  })
+   ({ name: item.fullName,
+      data: corporateStats.value?.map((item) => item.income)
+      
+})
   );
 })
 
-const corporateStatsAreaChartOptions = computed(() => {
-  const allDatesValid = allDates.value.every(date => moment(date, 'YYYY-MM-DD', true).isValid());
-  if (!allDatesValid) {
-    console.error('Some dates in allDates are invalid.');
-  }
 
+
+const corporateStatsAreaChartOptions = computed(() => {
   return {
     legend: {
       labels: {
@@ -1249,8 +1246,7 @@ const corporateStatsAreaChartOptions = computed(() => {
           colors: '#4a90e2',
         },
         formatter: function (val) {
-          const formattedDate = moment(val);
-          return formattedDate.isValid() ? formattedDate.format('D-MMM') : 'Invalid Date'; // Обработка некорректных дат
+          return moment(val).format('D-MMM')
         },
       },
       tooltip: {
@@ -1564,32 +1560,33 @@ onMounted(() => {
       monthStats.value = res
     })
   OrderService.getCorporateClientsStats({
-    from: moment().subtract(90, 'days').startOf('day').format().toString().slice(0, 10),
+    from: moment().subtract(15, 'days').startOf('day').format().toString().slice(0, 10),
     to: moment().startOf('day').format().toString().slice(0, 10),
-    intervalType: "month",
-    limit: 20,
+    intervalType: "week",
+    limit: 10,
+    page: 1,
   }).then((res) => {
     corporateStats.value = res
-    var aa = res?.flatMap((item) => item.date)
-    var bb = new Set(aa)
-    allDates.value = Array.from(bb).sort((aa, bb) => // {
-      moment(aa).toDate() - moment(bb).toDate()
+    var a = res?.flatMap((item) => item.date)
+    var b = new Set(a)
+    allDates.value = Array.from(b).sort((a, b) => // {
+      moment(a).toDate() - moment(b).toDate()
       // }
     )
 
   })
   ProductService.getUnprofitableStat({
-    limit: 20,
-    intervalType: "month"
+    limit: 10,
+    intervalType: "week"
   }).then((res) => {
     unprofitableStats.value = res
   })
-
+  
   ProductService.getVarietyStats({
     startDate: moment().subtract(90, 'days').startOf('day').format().toString().slice(0, 10),
     endDate: moment().startOf('day').format().toString().slice(0, 10),
     interval: 1,
-    intervalType: "month"
+    intervalType: "week"
   }).then((res) => {
     varietyStats.value = res
     var a = res?.flatMap((item) => item.data.map((i) => i.day))
@@ -1604,7 +1601,7 @@ onMounted(() => {
     intervalType: useProductStore().intervalType,
     limit: useProductStore().limit
   }).then((res) => {
-    // console.log(res)
+    console.log(res)
     recommendStats.value = res
   })
   OrderService.getTurnoverStats({
@@ -1705,12 +1702,14 @@ onClickOutside(recommendDropdown, () => {
   }
 })
 
+
 onClickOutside(recommendDropdown, () => {
   if (useDropdownStore().isOpenRecommendFilterBy) {
     useDropdownStore().toggleRecommendFilterBy()
     console.log(useDropdownStore().isOpenRecommendFilterBy)
   }
 })
+
 
 const recommendStatsChartSeries = computed(() => [
   {
@@ -1825,6 +1824,7 @@ const recommendStatsAreaChartOptions = computed(() => {
     },
   };
 });
+
 </script>
 
 <template>
@@ -2687,7 +2687,7 @@ const recommendStatsAreaChartOptions = computed(() => {
           </div>
         </div>
       </div>
-      <apexchart type="area" height="320" :options="corporateStatsAreaChartOptions" :series="corporateStatsChartSeries">
+      <apexchart type="bar" height="320" :options="corporateStatsAreaChartOptions" :series="corporateStatsChartSeries">
       </apexchart>
     </div>
 
