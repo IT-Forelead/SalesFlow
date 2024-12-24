@@ -47,8 +47,8 @@ const hourlySales = ref([])
 const cashbackRedeems = ref([])
 const qrTrading = t('qrTrading')
 const worstSellerProductStats = ref([])
-const allDates = ref([])
-const allDate = ref([])
+const allVarDate = ref([])
+const allCorpDate = ref([])
 
 const pageWorstSell = ref(1)
 const pageSell = ref(1)
@@ -1139,7 +1139,7 @@ const varietyStatsAreaChartOptions = computed(() => {
       curve: 'smooth',
     },
     xaxis: {
-      categories: allDate.value,
+      categories: allVarDate.value,
       type: 'date',
       labels: {
         style: {
@@ -1196,23 +1196,16 @@ const varietyStatsAreaChartOptions = computed(() => {
   }
 })
 
-const groupByKey = (list, key) => list.reduce((acc, item) => {
-  if (item.id === key) {
-    return acc + item.income;
-  }
-  return acc;
-}, 0);
-
 const corporateStatsChartSeries = computed(() => {
-  return corporateStats.value?.map((item) =>
-   ({ name: item.fullName,
-      data: corporateStats.value?.map((item) => item.income)
-      
-})
+  return corporateStats.value.map((item) =>
+  ({
+    name: item.fullName,
+    data: item.data.map((i) => {
+      return i.income
+    })
+  })
   );
 })
-
-
 
 const corporateStatsAreaChartOptions = computed(() => {
   return {
@@ -1238,7 +1231,7 @@ const corporateStatsAreaChartOptions = computed(() => {
       curve: 'smooth',
     },
     xaxis: {
-      categories: allDates.value,
+      categories: allCorpDate.value,
       type: 'date',
       labels: {
         style: {
@@ -1260,7 +1253,6 @@ const corporateStatsAreaChartOptions = computed(() => {
       },
     },
     yaxis: {
-      tickAmount: 6,
       floating: false,
       labels: {
         show: true,
@@ -1560,21 +1552,19 @@ onMounted(() => {
       monthStats.value = res
     })
   OrderService.getCorporateClientsStats({
-    from: moment().subtract(15, 'days').startOf('day').format().toString().slice(0, 10),
+    from: moment().subtract(30, 'days').startOf('day').format().toString().slice(0, 10),
     to: moment().startOf('day').format().toString().slice(0, 10),
     intervalType: "week",
-    limit: 10,
-    page: 1,
   }).then((res) => {
     corporateStats.value = res
-    var a = res?.flatMap((item) => item.date)
+    var a = res?.flatMap((item) => item.data.map((i) => i.date))
     var b = new Set(a)
-    allDates.value = Array.from(b).sort((a, b) => // {
+    allCorpDate.value = Array.from(b).sort((a, b) => // {
       moment(a).toDate() - moment(b).toDate()
       // }
     )
-
   })
+
   ProductService.getUnprofitableStat({
     limit: 10,
     intervalType: "week"
@@ -1589,14 +1579,14 @@ onMounted(() => {
     intervalType: "week"
   }).then((res) => {
     varietyStats.value = res
-    var a = res?.flatMap((item) => item.data.map((i) => i.day))
-    var b = new Set(a)
-    allDate.value = Array.from(b).sort((a, b) => // {
-      moment(a).toDate() - moment(b).toDate()
+    var aa = res?.flatMap((item) => item.data.map((i) => i.day))
+    var bb = new Set(aa)
+    allVarDate.value = Array.from(bb).sort((aa, bb) => // {
+      moment(aa).toDate() - moment(bb).toDate()
       // }
     )
-
   })
+
   ProductService.getRecommendStats({
     intervalType: useProductStore().intervalType,
     limit: useProductStore().limit
@@ -1702,14 +1692,12 @@ onClickOutside(recommendDropdown, () => {
   }
 })
 
-
 onClickOutside(recommendDropdown, () => {
   if (useDropdownStore().isOpenRecommendFilterBy) {
     useDropdownStore().toggleRecommendFilterBy()
     console.log(useDropdownStore().isOpenRecommendFilterBy)
   }
 })
-
 
 const recommendStatsChartSeries = computed(() => [
   {
@@ -1824,7 +1812,6 @@ const recommendStatsAreaChartOptions = computed(() => {
     },
   };
 });
-
 </script>
 
 <template>
@@ -2530,7 +2517,7 @@ const recommendStatsAreaChartOptions = computed(() => {
       <div class="flex flex-col md:flex-row md:items-center md:justify-between px-2 space-y-3 md:space-y-0">
         <div>
           <div class="text-base font-bold text-slate-800 dark:text-slate-200">
-            {{ $t('unprofitableStat') }}
+            {{ $t('unprofitableStatistics') }}
           </div>
           <div class="text-sm text-gray-600 dark:text-white">
             {{ $t('beginStatText') }}
