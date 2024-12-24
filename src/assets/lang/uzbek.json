@@ -469,5 +469,12 @@
   "errorWhileDeletingRecommend": "Tavsiya mahsulot o'chirish xatolik yuz berdi",
   "Edit": "Tahrirlash",
   "Others": "Boshqalar",
-  "Categories": "Kategoriyalar"
+  "Categories": "Kategoriyalar",
+  "addCategory": "Kategoriya qo'shish",
+  "editCategory": "Kategoriya tahrirlash",
+  "deleteCategory": "Kategoriya o'chirish",
+  "enterNameCategory": "Kategoriya nomini kiriting",
+  "categories": "Kategoriyalar",
+  "nameCategory": "Kategoriya nomi"
+
 }

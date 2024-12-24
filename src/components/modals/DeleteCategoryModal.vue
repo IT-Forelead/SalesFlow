@@ -1,9 +1,10 @@
 <script setup>
+import { ref, computed } from 'vue';
 import { useModalStore } from '../../store/modal.store.js';
 import CModal from '../common/CModal.vue';
 import { useCategoryStore } from '../../store/category.store.js';
 import WarningCircleBoldIcon from '../../assets/icons/WarningCircleBoldIcon.vue';
-import { computed } from 'vue';
+import { toast } from 'vue-sonner';
 import { useI18n } from 'vue-i18n';
 import CategoryService from '../../services/category.service.js'; 
 import Spinners270RingIcon from '@/assets/icons/Spinners270RingIcon.vue';
@@ -12,7 +13,7 @@ const { t } = useI18n();
 
 const modalStore = useModalStore();
 const categoryStore = useCategoryStore();
-
+const isLoading = ref(false);
 const selectedCategory = computed(() => categoryStore.selectedCategory);
 
 const closeModal = () => {
@@ -22,42 +23,74 @@ const closeModal = () => {
 
 const deleteCategory = () => {
   isLoading.value = true
-  if (!selectedCategory.value?.id) {
-    toast.error(t('productNotFound'))
-    console.log("asdsdsdsdsdsd")
-  } else {
-    CategoryService.deleteCategory(selectedCategory.value.id)
-      .then(() => {
-        toast.success(t('productDeletedSuccessfully'))
-        if (searchFilter.value.trim() === '') {
-          CategoryService.getCategories({ limit: 30, page: 1 
-        }).then((res) => {
-          categoryStore.clearStore()
-          categoryStore.setSelectedCategory(res.data)
+  
+  CategoryService.deleteCategory(selectedCategory.value.id)
+  
+    .then(() => {
+      toast.success(t('clientDeletedSuccessfully'))
+      CategoryService.getCategories()
+        .then((res) => {
+          useCategoryStore().clearStore()
+          useCategoryStore().setSelectedCategory(res)
+          useCategoryStore().renderkey += 1
+          
         })
         isLoading.value = false
         closeModal()
-        } else {
-          CategoryService.getCategories({
-            name: searchFilter.value 
-          }).then((res) => {
-          categoryStore.clearStore()
-          categoryStore.setSelectedCategory(res.data)
-        })
-        isLoading.value = false
-          closeModal()
-        }
         
-      })
-      .catch(() => {
-        toast.error(t('errorWhileDeletingProduct'))
-        isLoading.value = false
-      })
-      .finally(() => {
-        isLoading.value = false
-      })
-  }
+      
+    })
+    
+    .catch((err) => {
+      toast.error(t('errorWhileDeletingClient'))
+      console.log(err)
+      isLoading.value = false
+    })
+    .finally(() => {
+      useCategoryStore().clearStore()
+      
+      isLoading.value = false
+    })
 }
+
+// const deleteCategory = () => {
+//   isLoading.value = true
+//   if (!selectedCategory.value?.id) {
+//     toast.error(t('productNotFound'))
+    
+//   } else {
+//     CategoryService.deleteCategory(selectedCategory.value.id)
+//       .then(() => {
+//         toast.success(t('productDeletedSuccessfully'))
+//         if (searchFilter.value.trim() === '') {
+//           CategoryService.getCategories({ limit: 30, page: 1 
+//         }).then((res) => {
+//           categoryStore.clearStore()
+//           categoryStore.setSelectedCategory(res.data)
+//         })
+//         isLoading.value = false
+//         closeModal()
+//         } else {
+//           CategoryService.getCategories({
+//             name: searchFilter.value 
+//           }).then((res) => {
+//           categoryStore.clearStore()
+//           categoryStore.setSelectedCategory(res.data)
+//         })
+//         isLoading.value = false
+//           closeModal()
+//         }
+        
+//       })
+//       .catch(() => {
+//         toast.error(t('errorWhileDeletingProduct'))
+//         isLoading.value = false
+//       })
+//       .finally(() => {
+//         isLoading.value = false
+//       })
+//   }
+// }
 </script>
 
 <template>

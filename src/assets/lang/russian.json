@@ -469,5 +469,11 @@
   "errorWhileDeletingRecommend": "Ошибка при удалении рекомендации",
   "Edit": "Редактировать",
   "Others": "Другие",
-  "Categories": "Категории"
+  "Categories": "Категории",
+  "addCategory": "Добавить категорию",
+  "editCategory": "Редактировать категорию",
+  "deleteCategory": "Удалить категорию" ,
+  "enterNameCategory": "Введите название категории",
+  "categories": "Категории",
+  "nameCategory": "Название категории"
 }

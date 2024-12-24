@@ -466,5 +466,11 @@
   "errorWhileDeletingRecommend": "Тавсия махсулот ўчириш хатолик юз берди",
   "Edit": "Таҳрирлаш",
   "Others": "Бошқалар",
-  "Categories": "Категориялар"
+  "Categories": "Категориялар",
+  "addCategory": "Категория қўшиш",
+  "editCategory": "Категория таҳрирлаш",
+  "deleteCategory": "Категория ўчириш",
+  "enterNameCategory": "Категория номини киритинг",
+  "categories": "Категориялар",
+  "nameCategory": "Категория номи"
 }

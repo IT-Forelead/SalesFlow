@@ -61,7 +61,7 @@ const createCategory = () => {
   <CModal :is-open="useModalStore().isOpenCreateCategoryModal" v-if="useModalStore().isOpenCreateCategoryModal"
             @close=closeModal>
       <template v-slot:header>
-        {{ $t('CreateCategory') }}
+        {{ $t('addCategory') }}
       </template>
       <template v-slot:body>
         <div class="space-y-4">
