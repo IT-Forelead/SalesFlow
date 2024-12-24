@@ -1203,25 +1203,14 @@ const groupByKey = (list, key) => list.reduce((acc, item) => {
   return acc;
 }, 0);
 
-// const corporateStatsChartSeries = computed(() => {
-//   return corporateStats.value?.map((item) =>
-//   ({
-//     name: item.id,
-//     data: corporateStats.value?.map((item) => item.income)
-//   })
-//   );
-// })
-
 const corporateStatsChartSeries = computed(() => {
-  const uniqueFullNames = [...new Set(corporateStats.value?.map(item => item.fullName))];
-
-  return uniqueFullNames.map(fullName => ({
-    name: fullName,
-    data: corporateStats.value
-      .filter(item => item.fullName === fullName)
-      .map(item => item.income)
-  }));
-});
+  return corporateStats.value?.map((item) =>
+  ({
+    name: item.fullName,
+    data: corporateStats.value?.map((item) => item.income)
+  })
+  );
+})
 
 const corporateStatsAreaChartOptions = computed(() => {
   const allDatesValid = allDates.value.every(date => moment(date, 'YYYY-MM-DD', true).isValid());
@@ -1577,7 +1566,7 @@ onMounted(() => {
   OrderService.getCorporateClientsStats({
     from: moment().subtract(90, 'days').startOf('day').format().toString().slice(0, 10),
     to: moment().startOf('day').format().toString().slice(0, 10),
-    intervalType: "week",
+    intervalType: "month",
     limit: 20,
   }).then((res) => {
     corporateStats.value = res
@@ -1591,7 +1580,7 @@ onMounted(() => {
   })
   ProductService.getUnprofitableStat({
     limit: 20,
-    intervalType: "week"
+    intervalType: "month"
   }).then((res) => {
     unprofitableStats.value = res
   })
@@ -1600,7 +1589,7 @@ onMounted(() => {
     startDate: moment().subtract(90, 'days').startOf('day').format().toString().slice(0, 10),
     endDate: moment().startOf('day').format().toString().slice(0, 10),
     interval: 1,
-    intervalType: "week"
+    intervalType: "month"
   }).then((res) => {
     varietyStats.value = res
     var a = res?.flatMap((item) => item.data.map((i) => i.day))
@@ -2698,7 +2687,7 @@ const recommendStatsAreaChartOptions = computed(() => {
           </div>
         </div>
       </div>
-      <apexchart type="bar" height="320" :options="corporateStatsAreaChartOptions" :series="corporateStatsChartSeries">
+      <apexchart type="area" height="320" :options="corporateStatsAreaChartOptions" :series="corporateStatsChartSeries">
       </apexchart>
     </div>
 
