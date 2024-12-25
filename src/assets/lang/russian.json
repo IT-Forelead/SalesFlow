@@ -475,5 +475,6 @@
   "deleteCategory": "Удалить категорию" ,
   "enterNameCategory": "Введите название категории",
   "categories": "Категории",
-  "nameCategory": "Название категории"
+  "nameCategory": "Название категории",
+  "CategoryInformation": "Информация о категории"
 }

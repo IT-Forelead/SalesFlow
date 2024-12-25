@@ -7,7 +7,6 @@ import Spinners270RingIcon from '../../assets/icons/Spinners270RingIcon.vue'
 
 import { computed, reactive, ref, watch } from 'vue'
 import { useI18n } from 'vue-i18n'
-import { useRouter } from 'vue-router'
 import { useCategoryStore } from '../../store/category.store.js'
 import CategoryService from '../../services/category.service.js'
 
@@ -39,14 +38,11 @@ const updateCategory = () => {
     toast.warning(t('plsEnterFullName'))
   } else {
     isLoading.value = true
-    console.log("123456487");
 
     CategoryService.updateCategory({
       id: submitData.id,
       name: submitData.name
-
     }).then((res) => {
-      console.log('aaaaaaaaaaaa')
 
       toast.success(t('agentEditedSuccessfully'))
       CategoryService.getCategories()
@@ -61,7 +57,6 @@ const updateCategory = () => {
       isLoading.value = false
       closeModal()
     }).catch(() => {
-      console.log('bbbbbbbbbbb')
       toast.error(t('errorWhileEditingAgent'))
       isLoading.value = false
       closeModal()
@@ -72,11 +67,9 @@ const updateCategory = () => {
 watch(
   () => selectedCategory.value,
   (data) => {
-    console.log("AAAAAAAAAAAAAAAAAAAAAAAAAAA");
     if (data && useModalStore().isOpenEditCategoryModal) {
       submitData.id = data?.id;
       submitData.name = data?.name;
-      console.log("OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO")
     }
   },
   { deep: true }
@@ -94,7 +87,7 @@ watch(
         <div class="flex items-center space-x-4">
           <div class="flex-1">
             <label for="firstname" class="text-base dark:text-white md:text-lg font-medium">
-              {{ $t('productName') }}
+              {{ $t('nameCategory') }}
               <span class="text-red-500 mr-2">*</span>
             </label>
             <input id="firstname" type="text" v-model="submitData.name"

@@ -1,5 +1,4 @@
 <script setup>
-import { vMaska } from 'maska'
 import { reactive, ref } from 'vue'
 import { toast } from 'vue-sonner'
 import Spinners270RingIcon from '../../assets/icons/Spinners270RingIcon.vue'
