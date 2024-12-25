@@ -33,6 +33,7 @@ const submitData = reactive({
   reg_number: 0,
   saleType: '',
   year: '',
+  categoryId: ''
 })
 
 const clearSubmitData = () => {
@@ -46,6 +47,7 @@ const clearSubmitData = () => {
   submitData.reg_number = 0
   submitData.saleType = ''
   submitData.year = ''
+  submitData.categoryId = ''
 }
 
 const closeModal = () => {
@@ -80,6 +82,7 @@ const updateProductBarcode = () => {
         regNumber: submitData.reg_number,
         saleType: submitData.saleType,
         year: submitData.year,
+        categoryId: submitData.categoryId
       })
     ).then(() => {
       CategoryService.joinCategory({
@@ -117,6 +120,7 @@ watch(
       submitData.reg_number = data?.reg_number
       submitData.saleType = data?.saleType
       submitData.year = data?.year
+      submitData.categoryId = data?.categoryId
     }
   }
 )
