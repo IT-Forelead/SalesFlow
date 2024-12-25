@@ -22,7 +22,6 @@ const CategoryStore = useCategoryStore()
 const CategoryTable = computed(() => CategoryStore.categories)
 const renderkey = computed(() => CategoryStore.renderkey)
 
-// Контроль размонтирования
 let isComponentMounted = true;
 
 onMounted(() => {
@@ -86,7 +85,7 @@ const openDeleteCategoryModal = (data) => {
 
 const openEditCategoryModal = (data) => {
   useCategoryStore().setSelectedCategory(data)
-  console.log(data);
+
   
   useModalStore().openEditCategoryModal()
   getCategories(data)
@@ -96,7 +95,7 @@ const openEditCategoryModal = (data) => {
 <template>
   <div class="p-4 md:p-8">
     <div class="text-slate-900 dark:text-white text-2xl md:text-3xl font-semibold mb-6">
-      {{ $t('barcodes') }}
+      {{ $t('categories') }}
     </div>
     <div class="flex flex-col md:flex-row items-center justify-between">
       <div class="relative w-full md:w-auto my-2 md:mb-0 order-2 md:order-1">

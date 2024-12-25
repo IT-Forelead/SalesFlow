@@ -48,61 +48,23 @@ const deleteCategory = () => {
     })
   }
 
-// const deleteCategory = () => {
-//   isLoading.value = true
-//   if (!selectedCategory.value?.id) {
-//     toast.error(t('productNotFound'))
-    
-//   } else {
-//     CategoryService.deleteCategory(selectedCategory.value.id)
-//       .then(() => {
-//         toast.success(t('productDeletedSuccessfully'))
-//         if (searchFilter.value.trim() === '') {
-//           CategoryService.getCategories({ limit: 30, page: 1 
-//         }).then((res) => {
-//           categoryStore.clearStore()
-//           categoryStore.setSelectedCategory(res.data)
-//         })
-//         isLoading.value = false
-//         closeModal()
-//         } else {
-//           CategoryService.getCategories({
-//             name: searchFilter.value 
-//           }).then((res) => {
-//           categoryStore.clearStore()
-//           categoryStore.setSelectedCategory(res.data)
-//         })
-//         isLoading.value = false
-//           closeModal()
-//         }
-        
-//       })
-//       .catch(() => {
-//         toast.error(t('errorWhileDeletingProduct'))
-//         isLoading.value = false
-//       })
-//       .finally(() => {
-//         isLoading.value = false
-//       })
-//   }
-// }
 </script>
 
 <template>
   <CModal :is-open="modalStore.isOpenDeleteCategoryModal" v-if="modalStore.isOpenDeleteCategoryModal" @close="closeModal()">
     <template v-slot:header>
-      {{ $t('deleteStore') }}
+      {{ $t('deleteCategory') }}
     </template>
     <template v-slot:body>
       <div class="space-y-16">
         <div class="space-y-2">
           <div class="bg-slate-100 px-3 py-2 text-lg font-medium rounded-xl">
-            {{ $t('storeInformation') }}
+            {{ $t('CategoryInformation') }}
           </div>
           <ul class="divide-y divide-slate-100">
             <li class="flex items-center dark:text-white justify-between py-2 px-3">
               <div class="text-base">
-                {{ $t('storeName') }}
+                {{ $t('nameCategory') }}
               </div>
               <div class="text-base font-medium">
                 {{ selectedCategory?.name }}
