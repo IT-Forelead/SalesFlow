@@ -1,13 +1,15 @@
 <script setup>
 import CModal from '../common/CModal.vue'
 import { vMaska } from 'maska'
-import { computed, reactive, ref, watch } from 'vue'
+import { computed, reactive, ref, watch, onMounted } from 'vue'
 import { toast } from 'vue-sonner'
 import { useModalStore } from '../../store/modal.store'
 import { useProductStore } from '../../store/product.store'
 import CancelButton from '../buttons/CancelButton.vue'
 import Spinners270RingIcon from '../../assets/icons/Spinners270RingIcon.vue'
 import ProductService from '../../services/product.service'
+import CategoryService from '../../services/category.service'
+import { useCategoryStore } from '../../store/category.store'
 import { isBarcode, isBarcodeType } from '../../mixins/barcodeFormatter'
 import { useI18n } from 'vue-i18n'
 import { cleanObjectEmptyFields } from '../../mixins/utils'
@@ -77,11 +79,15 @@ const updateProductBarcode = () => {
         barcode: submitData.barcode,
         regNumber: submitData.reg_number,
         saleType: submitData.saleType,
-        year: submitData.year
+        year: submitData.year,
       })
     ).then(() => {
+      CategoryService.joinCategory({
+        barcodeId: submitData.id,
+        categoryId: submitData.categoryId
+      })
       toast.success(t('productBarcodeEditedSuccessfully'))
-      ProductService.getBarcodes(30,)
+      ProductService.getBarcodes(30, 1)
         .then((res) => {
           useProductStore().clearStore()
           useProductStore().setProductBarcodes(res.data)
@@ -114,6 +120,16 @@ watch(
     }
   }
 )
+
+onMounted(() => {
+  getCategories();
+});
+
+const getCategories = async () => {
+  const res = await CategoryService.getCategories();
+  useCategoryStore().clearStore();
+  useCategoryStore().setCategories(res);
+};
 </script>
 
 <template>
@@ -181,16 +197,15 @@ watch(
           </div>
           <div class="flex-1">
             <label for="sale-type" class="text-base dark:text-white font-medium">
-              {{ $t('saleType') }}
+              {{ $t('categoryType') }}
               <span class="text-red-500 mr-2">*</span>
             </label>
-            <select id="sale-type" v-model="submitData.saleType"
+            <select id="sale-type" v-model="submitData.categoryId"
               class="bg-slate-100 border-none dark:bg-slate-700 dark:text-white text-slate-900 rounded-lg block w-full h-11">
-              <option value="" selected>{{ $t('selectType') }}</option>
-              <option value="amount">Donali</option>
-              <option value="kg">Kilogrammli</option>
-              <option value="g">Gramli</option>
-              <option value="litre">Litrli</option>
+              <option value="" disabled selected>{{ $t('selectCategory') }}</option>
+              <option v-for="(category, idx) in useCategoryStore().categories" :key="idx" :value="category?.id">
+                {{ category?.name }}
+              </option>
             </select>
           </div>
         </div>
