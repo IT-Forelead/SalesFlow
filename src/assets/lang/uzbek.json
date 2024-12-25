@@ -481,5 +481,14 @@
   "click": "CLICK orqali to'lov",
   "autoUtilization": "Avtoutilizatsiya",
   "unprofitableStatistics": "Kam sotilgan",
-  "corporateStatistics": "Yuridik statistika"
+  "corporateStatistics": "Yuridik statistika",
+  "Categories": "Kategoriyalar",
+  "addCategory": "Kategoriya qo'shish",
+  "editCategory": "Kategoriya tahrirlash",
+  "deleteCategory": "Kategoriya o'chirish",
+  "enterNameCategory": "Kategoriya nomini kiriting",
+  "categories": "Kategoriyalar",
+  "nameCategory": "Kategoriya nomi",
+  "CategoryInformation": "Kategoriya haqida ma'lumot"
+
 }

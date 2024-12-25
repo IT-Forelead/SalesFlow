@@ -478,5 +478,13 @@
   "choosePaymentType": "Выберите тип оплаты",
   "card": "UzCard/Humo",
   "click": "Оплата через CLICK",
-  "autoUtilization": "Автоутилизация"
+  "autoUtilization": "Автоутилизация",
+  "Categories": "Категории",
+  "addCategory": "Добавить категорию",
+  "editCategory": "Редактировать категорию",
+  "deleteCategory": "Удалить категорию" ,
+  "enterNameCategory": "Введите название категории",
+  "categories": "Категории",
+  "nameCategory": "Название категории",
+  "CategoryInformation": "Информация о категории"
 }

@@ -55,6 +55,9 @@ export const useModalStore = defineStore('modal', {
     isOpenDeleteRecommendProductModal: false,
     isOpenHiddenRecommendProductsModal: false,
     isOpenUnhideRecommendProductModal: false,
+    isOpenDeleteCategoryModal: false,
+    isOpenCreateCategoryModal: false,
+    isOpenEditCategoryModal: false
   }),
   actions: {
     openEditTelegramBotModal() {
@@ -363,5 +366,23 @@ export const useModalStore = defineStore('modal', {
     closeUnhideRecommendProductModal() {
       this.isOpenUnhideRecommendProductModal = false
     },
+    openDeleteCategoryModal() {
+      this.isOpenDeleteCategoryModal = true
+    },
+    closeDeleteCategoryModal() {
+      this.isOpenDeleteCategoryModal = false
+    },
+    openCreateCategoryModal() {
+      this.isOpenCreateCategoryModal = true
+    },
+    closeCreateCategoryModal() {
+      this.isOpenCreateCategoryModal = false
+    },
+    openEditCategoryModal() {
+      this.isOpenEditCategoryModal = true
+    },
+    closeEditCategoryModal() {
+      this.isOpenEditCategoryModal = false
+    }
   }
 })

@@ -476,5 +476,13 @@
   "choosePaymentType": "Тўлов турини танланг",
   "card": "UzCard/Humo",
   "click": "CLICK орқали тўлов",
-  "autoUtilization": "Автоутилизация"
+  "autoUtilization": "Автоутилизация",
+  "Categories": "Категориялар",
+  "addCategory": "Категория қўшиш",
+  "editCategory": "Категория таҳрирлаш",
+  "deleteCategory": "Категория ўчириш",
+  "enterNameCategory": "Категория номини киритинг",
+  "categories": "Категориялар",
+  "nameCategory": "Категория номи",
+  "CategoryInformation": "Категория ҳақида маълумот"
 }

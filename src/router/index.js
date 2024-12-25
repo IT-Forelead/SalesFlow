@@ -176,6 +176,13 @@ const routes = [
     beforeEnter: navigationGuards('view_agents'),
   },
   {
+    path: '/categories',
+    name: 'Category',
+    component: () => import('../pages/Categories.vue'),
+    meta: { layout: 'dashboard' },
+    beforeEnter: navigationGuards('view_agents'),
+  },
+  {
     path: '/customer-form/:orderId',
     name: 'Customer form',
     component: () => import('../pages/CustomerForm.vue'),

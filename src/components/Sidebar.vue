@@ -40,6 +40,7 @@ import PriceListIcon from '../assets/icons/PriceListIcon.vue'
 import UserIcon from '@/assets/icons/UserIcon.vue'
 import InvisIcon from '@/assets/icons/EyeSlashIcon.vue'
 import EyeIcon from '@/assets/icons/EyeIcon.vue'
+import CategoryService from '../services/category.service.js'
 
 const { t } = useI18n()
 const router = useRouter()
@@ -127,6 +128,7 @@ const loadSidebarState = () => {
     productsVisible.value = parsedState.upcomingProductsVisible ?? true
     saleVisible.value = parsedState.upcomingProductsVisible ?? true
     dashboardVisible.value = parsedState.upcomingProductsVisible ?? true
+    categoriesVisible.value = parsedState.categoriesVisible ?? true
   }
 };
 
@@ -154,7 +156,8 @@ const saveSidebarState = () => {
     incomeExpenseVisible: incomeExpenseVisible.value,
     productsVisible: productBarcodesVisible.value,
     saleVisible: saleVisible.value,
-    dashboardVisible: dashboardVisible.value
+    dashboardVisible: dashboardVisible.value,
+    categoriesVisible: categoriesVisible.value
   };
   localStorage.setItem('sidebarState', JSON.stringify(state));
 };
@@ -182,6 +185,7 @@ const incomeExpenseVisible = ref(true);
 const productsVisible = ref(true);
 const saleVisible = ref(true);
 const dashboardVisible = ref(true);
+const categoriesVisible = ref(true);
 
 const whenPressEnter = (e) => {
   if (e.keyCode === 13) {
@@ -195,7 +199,7 @@ onMounted(() => {
   payload.value = parseJwt()
   loadSidebarState();
 })
-watch([investsVisible, investPlansVisible, investorsVisible, ipBannedVisible, wishesVisible, priceListsVisible, vouchersVisible, agentsVisible, clientsVisible, corporateClientsVisible, saleSettingsVisible, barcodeDuplicatesVisible, productBarcodesVisible, usersVisible, marketsVisible, ordersVisible, cashbackHistoriesVisible, discountVisible, upcomingProductsVisible, incomeExpenseVisible, productsVisible, saleVisible, dashboardVisible], saveSidebarState, { deep: true });
+watch([investsVisible, investPlansVisible, investorsVisible, ipBannedVisible, wishesVisible, priceListsVisible, vouchersVisible, agentsVisible, clientsVisible, corporateClientsVisible, saleSettingsVisible, barcodeDuplicatesVisible, productBarcodesVisible, usersVisible, marketsVisible, ordersVisible, cashbackHistoriesVisible, discountVisible, upcomingProductsVisible, incomeExpenseVisible, productsVisible, saleVisible, dashboardVisible, categoriesVisible], saveSidebarState, { deep: true });
 
 const moveDashboardToOthers = () => {
   dashboardVisible.value = false;
@@ -355,6 +359,12 @@ const moveInvestPlansToOthers = () => {
 };
 const restoreInvestPlansFromOthers = () => {
   investPlansVisible.value = true;
+};
+const moveCategoriesToOthers = () => {
+  categoriesVisible.value = false;
+};
+const restoreCategoriesFromOthers = () => {
+  categoriesVisible.value = true;
 };
 
 const showHideButtons = ref(false)
@@ -722,6 +732,23 @@ const toggleShowHideButtons = () => {
               </router-link>
               <div v-if="showHideButtons">
               <button @click="moveWishesToOthers" class="ml-auto space-y-1 px-1 py-2 hover:bg-blue-300/10 text-sm text-red-600 hover:text-red-800">
+                <InvisIcon class="w-6 h-6" />
+              </button>
+            </div>
+            </div>
+            <div class="flex w-full justify-between" v-if="categoriesVisible && navigationGuard('view_agents')">
+              <router-link to="/categories" @click="selectPage()" active-class="active"
+                class="relative h-10 flex items-center w-full hover:bg-blue-300/10 hover:text-blue-600 py-5 text-zinc-400 dark:text-zinc-200 text-lg font-medium space-x-4 cursor-pointer transition-colors duration-300">
+                <div class="w-1.5 h-12 rounded-r-xl first-child-bg-color mr-2"></div>
+                <div class="flex h-10 items-center justify-center rounded-xl w-10 second-child-bg-color">
+                  <FileLinearIcon class="w-6 h-6" />
+                </div>
+                <div class="w-full">
+                  {{ $t('categories') }}
+                </div>
+              </router-link>
+              <div v-if="showHideButtons">
+              <button @click="moveCategoriesToOthers" class="ml-auto space-y-1 px-1 py-2 hover:bg-blue-300/10 text-sm text-red-600 hover:text-red-800">
                 <InvisIcon class="w-6 h-6" />
               </button>
             </div>
@@ -1128,6 +1155,23 @@ const toggleShowHideButtons = () => {
                   </router-link>
                   <div v-if="showHideButtons">
                   <button @click="restoreWishesFromOthers" class="ml-auto space-y-1 px-1 py-2 hover:bg-blue-300/10 text-sm text-blue-600 hover:text-blue-800">
+                    <EyeIcon class="w-6 h-6" />
+                  </button>
+                </div>
+                </div>
+                <div v-if="!categoriesVisible && navigationGuard('view_agents')"
+                  class="relative h-10 flex items-center w-full py-5 text-zinc-400 dark:text-zinc-200 text-lg font-medium space-x-4">
+                  <router-link to="/categories" @click="selectPage()"
+                    active-class="active"
+                    class="relative h-10 flex items-center w-full hover:bg-blue-300/10 hover:text-blue-600 py-5 text-zinc-400 dark:text-zinc-200 text-lg font-medium space-x-4 cursor-pointer transition-colors duration-300">
+                    <div class="w-1.5 h-12 rounded-r-xl first-child-bg-color mr-2"></div>
+                    <div class="flex h-10 items-center justify-center rounded-xl w-10 second-child-bg-color">
+                      <FileLinearIcon class="w-6 h-6" />
+                    </div>
+                    <div class="w-full">{{ $t('categories') }}</div>
+                  </router-link>
+                  <div v-if="showHideButtons">
+                  <button @click="restoreCategoriesFromOthers" class="ml-auto space-y-1 px-1 py-2 hover:bg-blue-300/10 text-sm text-blue-600 hover:text-blue-800">
                     <EyeIcon class="w-6 h-6" />
                   </button>
                 </div>
