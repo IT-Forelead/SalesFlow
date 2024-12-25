@@ -7,37 +7,25 @@ import Spinners270RingIcon from '../../assets/icons/Spinners270RingIcon.vue'
 
 import { computed, reactive, ref, watch } from 'vue'
 import { useI18n } from 'vue-i18n'
-import { useRoute } from 'vue-router'
+import { useRouter } from 'vue-router'
 import { useCategoryStore } from '../../store/category.store.js'
 import CategoryService from '../../services/category.service.js'
 
 const categoryStore = useCategoryStore()
 const { t } = useI18n()
-const route = useRoute()
-
-
 const isLoading = ref(false)
-
 const selectedCategory = computed(() => {
   return categoryStore.selectedCategory
 })
 
-const currentPage = computed(() => {
-  return categoryStore.currentPage
-})
-
-
-
 const submitData = reactive({
   id: '',
   name: '',
-
 })
 
 const clearSubmitData = () => {
   submitData.id = ''
   submitData.name = ''
-
 }
 
 const closeModal = () => {
@@ -46,48 +34,26 @@ const closeModal = () => {
   clearSubmitData()
 }
 
-// const updateCategory = () => {
-//   CategoryService.updateCategory({
-//     id: submitData.id,
-//     name: submitData.name,
-
-//   }).then(() => {
-//     toast.success(t('productEditedSuccessfully'))
-//     CategoryService.getCategories({ limit: 30, page: currentPage.value, name: route.query.search })
-//       .then((res) => {
-//         categoryStore.clearStore()
-//         categoryStore.setCategories(res.data)
-//       })
-//       .catch((err) => {
-//         toast.error(err.message)
-//       })
-//     isLoading.value = false
-//     closeModal()
-//   }).catch((err) => {
-//     console.log(err);
-//     if (err.response.data.includes("already exist")) {
-//       toast.error(t('thisProductNameAlreadyExist'))
-//     } else {
-//       toast.error(t('errorWhileEditingProduct'))
-//     }
-//     isLoading.value = false
-//   })
-// }
-
-const editCategory = () => {
-  if (!submitData.fullName) {
+const updateCategory = () => {
+  if (!submitData.name) {
     toast.warning(t('plsEnterFullName'))
   } else {
     isLoading.value = true
-    CategoryServiceService.updateCategory({
+    console.log("123456487");
+
+    CategoryService.updateCategory({
       id: submitData.id,
-      name: submitData.name,
-    }).then(() => {
+      name: submitData.name
+
+    }).then((res) => {
+      console.log('aaaaaaaaaaaa')
+
       toast.success(t('agentEditedSuccessfully'))
-      CategoryService.getCategories
+      CategoryService.getCategories()
         .then((res) => {
-          CategoryStore.clearStore()
-          CategoryStore.setCategories(res)
+          categoryStore.clearStore()
+          categoryStore.setCategories(res)
+          categoryStore.renderkey += 1
         })
         .catch((err) => {
           toast.error(err.message)
@@ -95,6 +61,7 @@ const editCategory = () => {
       isLoading.value = false
       closeModal()
     }).catch(() => {
+      console.log('bbbbbbbbbbb')
       toast.error(t('errorWhileEditingAgent'))
       isLoading.value = false
       closeModal()
@@ -145,7 +112,7 @@ watch(
           class="mr-2 w-5 h-5 text-gray-200 animate-spin dark:text-gray-600 fill-gray-600 dark:fill-gray-300" />
         {{ $t('save') }}
       </button>
-      <button v-else @click="editCategory()" type="button"
+      <button v-else @click="updateCategory()" type="button"
         class="ms-3 text-white bg-blue-500 hover:bg-blue-600 focus:ring-4 focus:outline-none focus:ring-slate-300 rounded-xl border border-slate-200 text-sm font-medium px-5 py-2.5 focus:z-10">
         {{ $t('save') }}
       </button>

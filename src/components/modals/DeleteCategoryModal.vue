@@ -30,28 +30,23 @@ const deleteCategory = () => {
       toast.success(t('clientDeletedSuccessfully'))
       CategoryService.getCategories()
         .then((res) => {
-          useCategoryStore().clearStore()
-          useCategoryStore().setSelectedCategory(res)
-          useCategoryStore().renderkey += 1
-          
+          categoryStore.clearStore()
+          categoryStore.setCategories(res)
+          categoryStore.renderkey +=1
         })
-        isLoading.value = false
-        closeModal()
-        
-      
-    })
-    
-    .catch((err) => {
-      toast.error(t('errorWhileDeletingClient'))
-      console.log(err)
+        .catch((err) => {
+          toast.error(err.message)
+        })
       isLoading.value = false
-    })
-    .finally(() => {
-      useCategoryStore().clearStore()
-      
+      closeModal()
+    }).catch(() => {
+      console.log('bbbbbbbbbbb')
+
+      toast.error(t('errorWhileDeletingAgent'))
       isLoading.value = false
+      closeModal()
     })
-}
+  }
 
 // const deleteCategory = () => {
 //   isLoading.value = true

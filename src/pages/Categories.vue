@@ -85,8 +85,10 @@ const openDeleteCategoryModal = (data) => {
 }
 
 const openEditCategoryModal = (data) => {
+  useCategoryStore().setSelectedCategory(data)
+  console.log(data);
+  
   useModalStore().openEditCategoryModal()
-
   getCategories(data)
 }
 </script>
