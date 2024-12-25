@@ -459,7 +459,15 @@
   "totalRevenue": "Total revenue",
   "totalProfit": "Total profit",
   "left": "Left",
-  "recommendDeletingAgent": "Recommend deleting agent",
-  "recommendDeletedSuccessfully": "Recommend deleted successfully",
-  "errorWhileDeletingRecommend": "Error while deleting recommend"
+  "areYouSureYouWantToHideThisInformation": "Are you sure you want to hide this information?",
+  "recommendDeletedSuccessfully": "Recommendation product has been hidden",
+  "errorWhileDeletingRecommend": "Error occurred while hiding the recommendation product",
+  "Edit": "Edit",
+  "Others": "Others",
+  "salesRatio": "Sales ratio",
+  "hiddenProducts": "Hidden products",
+  "unhideRecommendProduct": "Remove hidden product",
+  "areYouSureYouWantToUnhideThisInformation": "Are you sure you want to unhide this information?",
+  "errorWhileUnhidingRecommend": "Error occurred while recommending the product",
+  "recommendUnhiddenSuccessfully": "Recommendation product has been successfully unhidden"
 }

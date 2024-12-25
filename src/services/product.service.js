@@ -79,7 +79,16 @@ class ProductService {
     return AxiosService.post('/product/recommendation', data);
   }
   async hideRecommendProduct(productId) {
-    return AxiosService.delete(`/product/recommendation/${productId}`);
+    return AxiosService.delete(`/product/recommendation/hide/${productId}`);
+  }
+  async getHiddenProducts(page, limit) {
+    return AxiosService.get(`/product/recommendation/blocked?page=${page}&limit=${limit}`)
+  }
+  async unhideRecommendProduct(productId) {
+    return AxiosService.delete(`/product/recommendation/unhide/${productId}`);
+  }
+  async getUnprofitableStat(data) {
+    return AxiosService.post(`/product/unprofitable`, data);
   }
 }
 

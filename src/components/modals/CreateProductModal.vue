@@ -68,6 +68,7 @@ const submitData = reactive({
   saleType: '',
   price: 0,
   toLend: false,
+  autoUtilization: false,
   quantity: 0,
   purchasePrice: 0,
   boxPrice: 0,
@@ -87,6 +88,7 @@ const clearSubmitData = () => {
   submitData.productionDate = moment().format('YYYY-MM-DD')
   submitData.expirationDate = ''
   submitData.toLend = false
+  submitData.autoUtilization = false
   submitData.quantity = 0
 }
 
@@ -131,6 +133,7 @@ const createProduct = () => {
         productionDate: submitData.productionDate,
         quantity: submitData.quantity,
         toLend: submitData.toLend,
+        autoUtilization: submitData.autoUtilization,
         agentId: selectedAgent.value?.id,
       }),
     ).then(() => {
@@ -334,6 +337,7 @@ watch(
       submitData.price = data?.price
       submitData.quantity = data?.quantity
       submitData.toLend = data?.toLend
+      submitData.autoUtilization = data?.autoUtilization
       submitData.purchasePrice = data?.purchasePrice
       submitData.productionDate = data?.productionDate
       submitData.expirationDate = data?.expirationDate
@@ -652,8 +656,25 @@ const calculateExpirationDate = (months) => {
                 <input v-model="submitData.toLend" id="toLend" type="checkbox"
                        class="w-5 h-5 text-blue-600 dark:bg-gray-600 border-slate-300 dark:border-slate-600 rounded focus:ring-blue-500 focus:ring-2 mr-2">
                 <label for="toLend" class="py-2 text-base font-medium">{{ $t('toLend') }}</label>
+
+                
               </div>
+              
+              
+              
             </div>
+            <div class="flex-1 space-y-1 md:pb-0 pb-12">
+
+
+            <label for="autoUtilization" class="text-base dark:text-white md:text-lg font-medium">
+                {{ $t('autoUtilization') }}
+              </label>
+              <div class="flex items-center px-4 border border-gray-200 dark:border-gray-600 dark:bg-slate-700 dark:text-white bg-slate-50 rounded-lg mt-2 lg:mt-0 md:mt-0">
+                <input v-model="submitData.autoUtilization" id="autoUtilization" type="checkbox"
+                       class="w-5 h-5 text-blue-600 dark:bg-gray-600 border-slate-300 dark:border-slate-600 rounded focus:ring-blue-500 focus:ring-2 mr-2">
+                <label for="autoUtilization" class="py-2 text-base font-medium">{{ $t('autoUtilization') }}</label>
+                </div>
+              </div>
           </div>
           </div>
         </div>

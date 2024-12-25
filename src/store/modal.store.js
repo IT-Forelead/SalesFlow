@@ -53,6 +53,8 @@ export const useModalStore = defineStore('modal', {
     isOpenCreateVoucherModal: false,
     isOpenAgentInfoModal: false,
     isOpenDeleteRecommendProductModal: false,
+    isOpenHiddenRecommendProductsModal: false,
+    isOpenUnhideRecommendProductModal: false,
     isOpenDeleteCategoryModal: false,
     isOpenCreateCategoryModal: false,
     isOpenEditCategoryModal: false
@@ -351,6 +353,18 @@ export const useModalStore = defineStore('modal', {
     },
     closeDeleteRecommendProductModal() {
       this.isOpenDeleteRecommendProductModal = false
+    },
+    openHiddenRecommendProductsModal() {
+      this.isOpenHiddenRecommendProductsModal = true
+    },
+    closeHiddenRecommendProductsModal() {
+      this.isOpenHiddenRecommendProductsModal = false
+    },
+    openUnhideRecommendProductModal() {
+      this.isOpenUnhideRecommendProductModal = true
+    },
+    closeUnhideRecommendProductModal() {
+      this.isOpenUnhideRecommendProductModal = false
     },
     openDeleteCategoryModal() {
       this.isOpenDeleteCategoryModal = true

@@ -46,6 +46,8 @@ import CreatePriceModal from './modals/CreatePriceModal.vue'
 import CreateVoucherModal from './modals/CreateVoucherModal.vue'
 import AgentInfoModal from './modals/AgentInfoModal.vue'
 import DeleteRecommendProduct from './modals/DeleteRecommendProduct.vue'
+import HiddenProductsModal from './modals/HiddenProductsModal.vue'
+import UnhideRecommendProduct from './modals/UnhideRecommendProduct.vue'
 import CreateCategoryModal from './modals/CreateCategoryModal.vue'
 import DeleteCategoryModal from './modals/DeleteCategoryModal.vue'
 import EditCategoryModal from './modals/EditCategoryModal.vue'
@@ -159,6 +161,8 @@ onUnmounted(() => {
   <CreateVoucherModal />
   <AgentInfoModal />
   <DeleteRecommendProduct />
+  <HiddenProductsModal />
+  <UnhideRecommendProduct />
   <CreateCategoryModal />
   <DeleteCategoryModal />
   <EditCategoryModal />
