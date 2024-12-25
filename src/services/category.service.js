@@ -16,6 +16,9 @@ class CategoryService {
   async deleteCategory(id) {
     return AxiosService.get(`/category/delete/${id}`)
   }
+  async joinCategory(data) {
+    return AxiosService.post(`/category/join`, data)
+  }
 }
 
 export default new CategoryService()
