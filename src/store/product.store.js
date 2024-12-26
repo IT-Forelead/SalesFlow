@@ -12,6 +12,7 @@ export const useProductStore = defineStore('product', {
     productBarcodes: [],
     selectedProduct: {},
     hiddenProducts: [],
+    hiddenUnprofitableProducts: [],
     selectedHiddenProduct: {},
     selectedBarcodes:{},
     searchFilter:{},
@@ -35,6 +36,9 @@ export const useProductStore = defineStore('product', {
       this.productBarcodes.push(...data)
     },
     setHiddenProducts(data) {
+      this.hiddenProducts.push(...data)
+    },
+    setHiddenUnprofitableProducts(data) {
       this.hiddenProducts.push(...data)
     },
     setSelectedHiddenProduct(data) {
@@ -78,6 +82,7 @@ export const useProductStore = defineStore('product', {
       this.unprofitableProducts = []
       this.productBarcodes = []
       this.hiddenProducts = []
+      this.hiddenUnprofitableProducts = []
       this.barcodeDuplicates = []
       this.selectedBarcodes = {}
     },

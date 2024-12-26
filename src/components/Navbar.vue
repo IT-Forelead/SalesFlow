@@ -52,6 +52,10 @@ import CreateCategoryModal from './modals/CreateCategoryModal.vue'
 import DeleteCategoryModal from './modals/DeleteCategoryModal.vue'
 import EditCategoryModal from './modals/EditCategoryModal.vue'
 
+import DeleteUnprofitableProduct from './modals/DeleteUnprofitableProduct.vue'
+import HiddenUnprofitableProductsModal from './modals/HiddenUnprofitableProductsModal.vue'
+import UnhideUnprofitableProduct from './modals/UnhideUnprofitableProduct.vue'
+
 const notificationDropdown = ref(null)
 
 onClickOutside(notificationDropdown, () => {
@@ -166,6 +170,9 @@ onUnmounted(() => {
   <CreateCategoryModal />
   <DeleteCategoryModal />
   <EditCategoryModal />
+  <DeleteUnprofitableProduct />
+  <HiddenUnprofitableProductsModal />
+  <UnhideUnprofitableProduct />
 </template>
 
 <style scoped></style>

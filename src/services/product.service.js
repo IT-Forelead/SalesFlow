@@ -87,8 +87,18 @@ class ProductService {
   async unhideRecommendProduct(productId) {
     return AxiosService.delete(`/product/recommendation/unhide/${productId}`);
   }
-  async getUnprofitableStat(data) {
+  async getUnprofitableStats(data) {
     return AxiosService.post(`/product/unprofitable`, data);
+  }
+
+  async hideUnprofitableProduct(productId) {
+    return AxiosService.delete(`/product/unprofitable/hide/${productId}`);
+  }
+  async getHiddenUnprofitableProducts(page, limit) {
+    return AxiosService.get(`/product/unprofitable/blocked?page=${page}&limit=${limit}`)
+  }
+  async unhideUnprofitableProduct(productId) {
+    return AxiosService.delete(`/product/unprofitable/unhide/${productId}`);
   }
 }
 

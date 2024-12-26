@@ -15,9 +15,9 @@ import { useModalStore } from '../store/modal.store.js'
 import Vauchers from '../components/vaucher/HolidayDiscount.vue'
 import EditIcon from '../assets/icons/EditIcon.vue'
 import TrashIcon from '../assets/icons/TrashIcon.vue'
-
 import moment from 'moment'
 import RecommendProducts from '../components/vaucher/RecommendProducts.vue'
+import UnprofitableProducts from '../components/vaucher/UnprofitableProducts.vue'
 
 const { t } = useI18n()
 const isLoading = ref(false)
@@ -27,6 +27,7 @@ const isLoadingHolidayDiscount = ref(false)
 const isLoadingBots = ref(false)
 const globalSearchFromTable = ref('')
 const renderKey = ref(0)
+const selectedOption = ref('recommend');
 
 const botStore = useTelegramBot()
 const telegramBots = computed(() => {
@@ -106,7 +107,6 @@ const columns = [
   },
 ]
 
-
 const openEditTelegramBotModal = (data) => {
   useModalStore().openEditTelegramBotModal()
   useTelegramBot().setSelectedBot(data)
@@ -116,7 +116,6 @@ const openDeleteTelegramBotModal = (data) => {
   useModalStore().openDeleteTelegramBotModal()
   useTelegramBot().setSelectedBot(data)
 }
-
 
 const getBots = () => {
   isLoadingBots.value = true
@@ -317,12 +316,16 @@ const createMinimalPriceSettings = () => {
       </TabPanel>
       <TabPanel>
         <template #header>
-          <div class="flex align-items-center gap-2">
-            <span class="font-bold white-space-nowrap">{{ $t('recommendProducts') }}</span>
-          </div>
+          <select id="three" v-model="selectedOption" class=" border-white border-solid border-0">
+            <option value="recommend" selected>{{ $t('recommend') }}</option>
+            <option value="unprofitable">{{ $t('unprofitable') }}</option>
+            <option value="recent">{{ $t('recent') }}</option>
+          </select>
         </template>
         <div class="p-2">
-          <RecommendProducts />
+          <RecommendProducts v-if="selectedOption === 'recommend'" />
+          <UnprofitableProducts v-if="selectedOption === 'unprofitable'" />
+          <UnprofitableProducts v-if="recent === 'recent'" />
         </div>
       </TabPanel>
     </TabView>
@@ -331,7 +334,6 @@ const createMinimalPriceSettings = () => {
 
 <style>
 .tabview-custom .p-tabview-nav li.p-highlight a {
-  color: #3b82f6 !important;
   border-bottom: solid #3b82f6 !important;
 }
 

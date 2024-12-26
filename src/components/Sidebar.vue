@@ -401,8 +401,7 @@ const toggleShowHideButtons = () => {
         <div class="max-h-svh flex pb-[18rem] flex-col">
           <div class="relative space-y-1 py-1 overflow-y-auto overflow-x-hidden md:max-h-screen">
             <div class="flex w-full justify-between" v-if="dashboardVisible && navigationGuard('dashboard')">
-              <router-link  to="/dashboard" @click="selectPage()"
-                active-class="active"
+              <router-link to="/dashboard" @click="selectPage()" active-class="active"
                 class="relative h-10 flex items-center w-full hover:bg-blue-300/10 hover:text-blue-600 py-5 text-zinc-400 dark:text-zinc-200 text-lg font-medium space-x-4 cursor-pointer transition-colors duration-300">
                 <div class="w-1.5 h-12 rounded-r-xl first-child-bg-color mr-2"></div>
                 <div class="flex h-10 items-center justify-center rounded-xl w-10 second-child-bg-color">
@@ -413,14 +412,14 @@ const toggleShowHideButtons = () => {
                 </div>
               </router-link>
               <div v-if="showHideButtons">
-              <button @click="moveDashboardToOthers" class="ml-auto space-y-1 px-1 py-2 hover:bg-blue-300/10 text-sm text-red-600 hover:text-red-800">
-                <InvisIcon class="w-6 h-6" />
-              </button>
+                <button @click="moveDashboardToOthers"
+                  class="ml-auto space-y-1 px-1 py-2 hover:bg-blue-300/10 text-sm text-red-600 hover:text-red-800">
+                  <InvisIcon class="w-6 h-6" />
+                </button>
               </div>
             </div>
             <div class="flex w-full justify-between" v-if="saleVisible && navigationGuard('create_product')">
-              <router-link to="/sales" @click="selectPage()"
-                active-class="active"
+              <router-link to="/sales" @click="selectPage()" active-class="active"
                 class="relative h-10 flex items-center w-full hover:bg-blue-300/10 hover:text-blue-600 py-5 text-zinc-400 dark:text-zinc-200 text-lg font-medium space-x-4 cursor-pointer transition-colors duration-300">
                 <div class="w-1.5 h-12 rounded-r-xl first-child-bg-color mr-2"></div>
                 <div class="flex h-10 items-center justify-center rounded-xl w-10 second-child-bg-color">
@@ -431,10 +430,11 @@ const toggleShowHideButtons = () => {
                 </div>
               </router-link>
               <div v-if="showHideButtons">
-              <button @click="moveSaleToOthers" class="ml-auto space-y-1 px-1 py-2 hover:bg-blue-300/10 text-sm text-red-600 hover:text-red-800">
-                <InvisIcon class="w-6 h-6" />
-              </button>
-            </div>
+                <button @click="moveSaleToOthers"
+                  class="ml-auto space-y-1 px-1 py-2 hover:bg-blue-300/10 text-sm text-red-600 hover:text-red-800">
+                  <InvisIcon class="w-6 h-6" />
+                </button>
+              </div>
             </div>
             <div class="flex w-full justify-between" v-if="productsVisible">
               <router-link to="/products" @click="selectPage()" active-class="active"
@@ -448,14 +448,14 @@ const toggleShowHideButtons = () => {
                 </div>
               </router-link>
               <div v-if="showHideButtons">
-              <button @click="moveProductsToOthers" class="ml-auto space-y-1 px-1 py-2 hover:bg-blue-300/10 text-sm text-red-600 hover:text-red-800">
-                <InvisIcon class="w-6 h-6" />
-              </button>
-            </div>
+                <button @click="moveProductsToOthers"
+                  class="ml-auto space-y-1 px-1 py-2 hover:bg-blue-300/10 text-sm text-red-600 hover:text-red-800">
+                  <InvisIcon class="w-6 h-6" />
+                </button>
+              </div>
             </div>
             <div class="flex w-full justify-between" v-if="incomeExpenseVisible && navigationGuard('view_histories')">
-              <router-link to="/product-histories" @click="selectPage()"
-                active-class="active"
+              <router-link to="/product-histories" @click="selectPage()" active-class="active"
                 class="relative h-10 flex items-center w-full hover:bg-blue-300/10 hover:text-blue-600 py-5 text-zinc-400 dark:text-zinc-200 text-lg font-medium space-x-4 cursor-pointer transition-colors duration-300">
                 <div class="w-1.5 h-12 rounded-r-xl first-child-bg-color mr-2"></div>
                 <div class="flex h-10 items-center justify-center rounded-xl w-10 second-child-bg-color">
@@ -466,14 +466,15 @@ const toggleShowHideButtons = () => {
                 </div>
               </router-link>
               <div v-if="showHideButtons">
-              <button @click="moveIncomeExpenseToOthers" class="ml-auto space-y-1 px-1 py-2 hover:bg-blue-300/10 text-sm text-red-600 hover:text-red-800">
-                <InvisIcon class="w-6 h-6" />
-              </button>
+                <button @click="moveIncomeExpenseToOthers"
+                  class="ml-auto space-y-1 px-1 py-2 hover:bg-blue-300/10 text-sm text-red-600 hover:text-red-800">
+                  <InvisIcon class="w-6 h-6" />
+                </button>
+              </div>
             </div>
-            </div>
-            <div class="flex w-full justify-between" v-if="upcomingProductsVisible && navigationGuard('view_histories')">
-              <router-link to="/upcoming-products" @click="selectPage()"
-                active-class="active"
+            <div class="flex w-full justify-between"
+              v-if="upcomingProductsVisible && navigationGuard('view_histories')">
+              <router-link to="/upcoming-products" @click="selectPage()" active-class="active"
                 class="relative h-10 flex items-center w-full hover:bg-blue-300/10 hover:text-blue-600 py-5 text-zinc-400 dark:text-zinc-200 text-lg font-medium space-x-4 cursor-pointer transition-colors duration-300">
                 <div class="w-1.5 h-12 rounded-r-xl first-child-bg-color mr-2"></div>
                 <div class="flex h-10 items-center justify-center rounded-xl w-10 second-child-bg-color">
@@ -484,10 +485,11 @@ const toggleShowHideButtons = () => {
                 </div>
               </router-link>
               <div v-if="showHideButtons">
-              <button @click="moveUpcomingProductsToOthers" class="ml-auto space-y-1 px-1 py-2 hover:bg-blue-300/10 text-sm text-red-600 hover:text-red-800">
-                <InvisIcon class="w-6 h-6" />
-              </button>
-            </div>
+                <button @click="moveUpcomingProductsToOthers"
+                  class="ml-auto space-y-1 px-1 py-2 hover:bg-blue-300/10 text-sm text-red-600 hover:text-red-800">
+                  <InvisIcon class="w-6 h-6" />
+                </button>
+              </div>
             </div>
             <div class="flex w-full justify-between" v-if="discountVisible">
               <router-link to="/discounts" @click="selectPage()" active-class="active"
@@ -501,10 +503,11 @@ const toggleShowHideButtons = () => {
                 </div>
               </router-link>
               <div v-if="showHideButtons">
-              <button @click="moveDiscountToOthers" class="ml-auto text-sm space-y-1 px-1 py-2 hover:bg-blue-300/10 text-red-600 hover:text-red-800">
-                <InvisIcon class="w-6 h-6" />
-              </button>
-            </div>
+                <button @click="moveDiscountToOthers"
+                  class="ml-auto text-sm space-y-1 px-1 py-2 hover:bg-blue-300/10 text-red-600 hover:text-red-800">
+                  <InvisIcon class="w-6 h-6" />
+                </button>
+              </div>
             </div>
             <div class="flex w-full justify-between" v-if="cashbackHistoriesVisible">
               <router-link to="/cashback-histories" @click="selectPage()" active-class="active"
@@ -518,10 +521,11 @@ const toggleShowHideButtons = () => {
                 </div>
               </router-link>.
               <div v-if="showHideButtons">
-              <button @click="moveCashbackHistoriesToOthers" class="ml-auto space-y-1 px-1 py-2 hover:bg-blue-300/10 text-sm text-red-600 hover:text-red-800">
-                <InvisIcon class="w-6 h-6" />
-              </button>
-            </div>
+                <button @click="moveCashbackHistoriesToOthers"
+                  class="ml-auto space-y-1 px-1 py-2 hover:bg-blue-300/10 text-sm text-red-600 hover:text-red-800">
+                  <InvisIcon class="w-6 h-6" />
+                </button>
+              </div>
             </div>
             <div class="flex w-full justify-between" v-if="ordersVisible">
               <router-link to="/orders" @click="selectPage()" active-class="active"
@@ -535,14 +539,14 @@ const toggleShowHideButtons = () => {
                 </div>
               </router-link>
               <div v-if="showHideButtons">
-              <button @click="moveOrdersToOthers" class="ml-auto text-sm space-y-1 px-1 py-2 hover:bg-blue-300/10 text-red-600 hover:text-red-800">
-                <InvisIcon class="w-6 h-6" />
-              </button>
-            </div>
+                <button @click="moveOrdersToOthers"
+                  class="ml-auto text-sm space-y-1 px-1 py-2 hover:bg-blue-300/10 text-red-600 hover:text-red-800">
+                  <InvisIcon class="w-6 h-6" />
+                </button>
+              </div>
             </div>
             <div class="flex w-full justify-between" v-if="marketsVisible && navigationGuard('view_markets')">
-              <router-link to="/markets" @click="selectPage()"
-                active-class="active"
+              <router-link to="/markets" @click="selectPage()" active-class="active"
                 class="relative h-10 flex items-center w-full hover:bg-blue-300/10 hover:text-blue-600 py-5 text-zinc-400 dark:text-zinc-200 text-lg font-medium space-x-4 cursor-pointer transition-colors duration-300">
                 <div class="w-1.5 h-12 rounded-r-xl first-child-bg-color mr-2"></div>
                 <div class="flex h-10 items-center justify-center rounded-xl w-10 second-child-bg-color">
@@ -553,10 +557,11 @@ const toggleShowHideButtons = () => {
                 </div>
               </router-link>
               <div v-if="showHideButtons">
-              <button @click="moveMarketToOthers" class="ml-auto text-sm space-y-1 px-1 py-2 hover:bg-blue-300/10 text-red-600 hover:text-red-800">
-                <InvisIcon class="w-6 h-6" />
-              </button>
-            </div>
+                <button @click="moveMarketToOthers"
+                  class="ml-auto text-sm space-y-1 px-1 py-2 hover:bg-blue-300/10 text-red-600 hover:text-red-800">
+                  <InvisIcon class="w-6 h-6" />
+                </button>
+              </div>
             </div>
             <div class="flex w-full justify-between" v-if="usersVisible && navigationGuard('view_users')">
               <router-link to="/users" @click="selectPage()" active-class="active"
@@ -570,14 +575,14 @@ const toggleShowHideButtons = () => {
                 </div>
               </router-link>
               <div v-if="showHideButtons">
-              <button @click="moveUsersToOthers" class="ml-auto text-sm space-y-1 px-1 py-2 hover:bg-blue-300/10 text-red-600 hover:text-red-800">
-                <InvisIcon class="w-6 h-6" />
-              </button>
+                <button @click="moveUsersToOthers"
+                  class="ml-auto text-sm space-y-1 px-1 py-2 hover:bg-blue-300/10 text-red-600 hover:text-red-800">
+                  <InvisIcon class="w-6 h-6" />
+                </button>
+              </div>
             </div>
-            </div>
-            <div class="flex w-full justify-between" v-if="productBarcodesVisible && navigationGuard('view_barcodes')" >
-              <router-link to="/product-barcodes" @click="selectPage()"
-                active-class="active"
+            <div class="flex w-full justify-between" v-if="productBarcodesVisible && navigationGuard('view_barcodes')">
+              <router-link to="/product-barcodes" @click="selectPage()" active-class="active"
                 class="relative h-10 flex items-center w-full hover:bg-blue-300/10 hover:text-blue-600 py-5 text-zinc-400 dark:text-zinc-200 text-lg font-medium space-x-4 cursor-pointer transition-colors duration-300">
                 <div class="w-1.5 h-12 rounded-r-xl first-child-bg-color mr-2"></div>
                 <div class="flex h-10 items-center justify-center rounded-xl w-10 second-child-bg-color">
@@ -588,32 +593,34 @@ const toggleShowHideButtons = () => {
                 </div>
               </router-link>
               <div v-if="showHideButtons">
-              <button @click="moveProductBarcodesToOthers" class="ml-auto space-y-1 px-1 py-2 hover:bg-blue-300/10 text-sm text-red-600 hover:text-red-800">
-                <InvisIcon class="w-6 h-6" />
-              </button>
+                <button @click="moveProductBarcodesToOthers"
+                  class="ml-auto space-y-1 px-1 py-2 hover:bg-blue-300/10 text-sm text-red-600 hover:text-red-800">
+                  <InvisIcon class="w-6 h-6" />
+                </button>
+              </div>
             </div>
-            </div>
-            <div class="flex w-full justify-between" v-if="barcodeDuplicatesVisible && navigationGuard('view_barcodes')">
-              <router-link to="/barcode-duplicates" @click="selectPage()"
-                active-class="active"
+            <div class="flex w-full justify-between"
+              v-if="barcodeDuplicatesVisible && navigationGuard('view_barcodes')">
+              <router-link to="/barcode-duplicates" @click="selectPage()" active-class="active"
                 class="relative h-10 flex items-center w-full hover:bg-blue-300/10 hover:text-blue-600 py-5 text-zinc-400 dark:text-zinc-200 text-lg font-medium space-x-4 cursor-pointer transition-colors duration-300">
                 <div class="w-1.5 h-12 rounded-r-xl first-child-bg-color mr-2"></div>
-                <div class="flex items-center justify-center rounded-xl w-10 h-10 second-child-bg-color">
-                  <PhBarcodeIcon class="w-6 h-6" />
+                <div class="flex h-10 items-center justify-center rounded-xl w-10 second-child-bg-color relative">
+                  <PhBarcodeIcon class="absolute top-0 right-0 w-6 h-6" />
+                  <PhBarcodeIcon class="w-6 h-6 bg-slate-100 dark:bg-slate-900 absolute top-2 right-2" />
                 </div>
                 <div class="w-full">
                   {{ $t('duplicates') }}
                 </div>
               </router-link>
               <div v-if="showHideButtons">
-              <button @click="moveBarcodeDuplicatesToOthers" class="ml-auto space-y-1 px-1 py-2 hover:bg-blue-300/10 text-sm text-red-600 hover:text-red-800">
-                <InvisIcon class="w-6 h-6" />
-              </button>
-            </div>
+                <button @click="moveBarcodeDuplicatesToOthers"
+                  class="ml-auto space-y-1 px-1 py-2 hover:bg-blue-300/10 text-sm text-red-600 hover:text-red-800">
+                  <InvisIcon class="w-6 h-6" />
+                </button>
+              </div>
             </div>
             <div class="flex w-full justify-between" v-if="saleSettingsVisible && navigationGuard('view_settings')">
-              <router-link to="/sale-settings" @click="selectPage()"
-                active-class="active"
+              <router-link to="/sale-settings" @click="selectPage()" active-class="active"
                 class="relative h-10 flex items-center w-full hover:bg-blue-300/10 hover:text-blue-600 py-5 text-zinc-400 dark:text-zinc-200 text-lg font-medium space-x-4 cursor-pointer transition-colors duration-300">
                 <div class="w-1.5 h-12 rounded-r-xl first-child-bg-color mr-2"></div>
                 <div class="flex h-10 items-center justify-center rounded-xl w-10 second-child-bg-color">
@@ -624,14 +631,14 @@ const toggleShowHideButtons = () => {
                 </div>
               </router-link>
               <div v-if="showHideButtons">
-              <button @click="moveSaleSettingsToOthers" class="ml-auto space-y-1 px-1 py-2 hover:bg-blue-300/10 text-sm text-red-600 hover:text-red-800">
-                <InvisIcon class="w-6 h-6" />
-              </button>
-            </div>
+                <button @click="moveSaleSettingsToOthers"
+                  class="ml-auto space-y-1 px-1 py-2 hover:bg-blue-300/10 text-sm text-red-600 hover:text-red-800">
+                  <InvisIcon class="w-6 h-6" />
+                </button>
+              </div>
             </div>
             <div class="flex w-full justify-between" v-if="corporateClientsVisible && navigationGuard('view_settings')">
-              <router-link to="/corporate-clients" @click="selectPage()"
-                active-class="active"
+              <router-link to="/corporate-clients" @click="selectPage()" active-class="active"
                 class="relative h-10 flex items-center w-full hover:bg-blue-300/10 hover:text-blue-600 py-5 text-zinc-400 dark:text-zinc-200 text-lg font-medium space-x-4 cursor-pointer transition-colors duration-300">
                 <div class="w-1.5 h-12 rounded-r-xl first-child-bg-color mr-2"></div>
                 <div class="flex h-10 items-center justify-center rounded-xl w-10 second-child-bg-color">
@@ -642,14 +649,14 @@ const toggleShowHideButtons = () => {
                 </div>
               </router-link>
               <div v-if="showHideButtons">
-              <button @click="moveCorprorateClientsToOthers" class="ml-auto space-y-1 px-1 py-2 hover:bg-blue-300/10 text-sm text-red-600 hover:text-red-800">
-                <InvisIcon class="w-6 h-6" />
-              </button>
-            </div>
+                <button @click="moveCorprorateClientsToOthers"
+                  class="ml-auto space-y-1 px-1 py-2 hover:bg-blue-300/10 text-sm text-red-600 hover:text-red-800">
+                  <InvisIcon class="w-6 h-6" />
+                </button>
+              </div>
             </div>
             <div class="flex w-full justify-between" v-if="clientsVisible && navigationGuard('view_settings')">
-              <router-link to="/clients" @click="selectPage()"
-                active-class="active"
+              <router-link to="/clients" @click="selectPage()" active-class="active"
                 class="relative h-10 flex items-center w-full hover:bg-blue-300/10 hover:text-blue-600 py-5 text-zinc-400 dark:text-zinc-200 text-lg font-medium space-x-4 cursor-pointer transition-colors duration-300">
                 <div class="w-1.5 h-12 rounded-r-xl first-child-bg-color mr-2"></div>
                 <div class="flex h-10 items-center justify-center rounded-xl w-10 second-child-bg-color">
@@ -660,14 +667,14 @@ const toggleShowHideButtons = () => {
                 </div>
               </router-link>
               <div v-if="showHideButtons">
-              <button @click="moveClientsToOthers" class="ml-auto space-y-1 px-1 py-2 hover:bg-blue-300/10 text-sm text-red-600 hover:text-red-800">
-                <InvisIcon class="w-6 h-6" />
-              </button>
-            </div>
+                <button @click="moveClientsToOthers"
+                  class="ml-auto space-y-1 px-1 py-2 hover:bg-blue-300/10 text-sm text-red-600 hover:text-red-800">
+                  <InvisIcon class="w-6 h-6" />
+                </button>
+              </div>
             </div>
             <div class="flex w-full justify-between" v-if="agentsVisible && navigationGuard('view_agents')">
-              <router-link to="/agents" @click="selectPage()"
-                active-class="active"
+              <router-link to="/agents" @click="selectPage()" active-class="active"
                 class="relative h-10 flex items-center w-full hover:bg-blue-300/10 hover:text-blue-600 py-5 text-zinc-400 dark:text-zinc-200 text-lg font-medium space-x-4 cursor-pointer transition-colors duration-300">
                 <div class="w-1.5 h-12 rounded-r-xl first-child-bg-color mr-2"></div>
                 <div class="flex h-10 items-center justify-center rounded-xl w-10 second-child-bg-color">
@@ -678,14 +685,14 @@ const toggleShowHideButtons = () => {
                 </div>
               </router-link>
               <div v-if="showHideButtons">
-              <button @click="moveAgentsToOthers" class="ml-auto space-y-1 px-1 py-2 hover:bg-blue-300/10 text-sm text-red-600 hover:text-red-800">
-                <InvisIcon class="w-6 h-6" />
-              </button>
-            </div>
+                <button @click="moveAgentsToOthers"
+                  class="ml-auto space-y-1 px-1 py-2 hover:bg-blue-300/10 text-sm text-red-600 hover:text-red-800">
+                  <InvisIcon class="w-6 h-6" />
+                </button>
+              </div>
             </div>
             <div class="flex w-full justify-between" v-if="vouchersVisible && navigationGuard('view_agents')">
-              <router-link to="/vouchers" @click="selectPage()"
-                active-class="active"
+              <router-link to="/vouchers" @click="selectPage()" active-class="active"
                 class="relative h-10 flex items-center w-full hover:bg-blue-300/10 hover:text-blue-600 py-5 text-zinc-400 dark:text-zinc-200 text-lg font-medium space-x-4 cursor-pointer transition-colors duration-300">
                 <div class="w-1.5 h-12 rounded-r-xl first-child-bg-color mr-2"></div>
                 <div class="flex h-10 items-center justify-center rounded-xl w-10 second-child-bg-color">
@@ -696,14 +703,14 @@ const toggleShowHideButtons = () => {
                 </div>
               </router-link>
               <div v-if="showHideButtons">
-              <button @click="moveVouchersToOthers" class="ml-auto space-y-1 px-1 py-2 hover:bg-blue-300/10 text-sm text-red-600 hover:text-red-800">
-                <InvisIcon class="w-6 h-6" />
-              </button>
-            </div>
+                <button @click="moveVouchersToOthers"
+                  class="ml-auto space-y-1 px-1 py-2 hover:bg-blue-300/10 text-sm text-red-600 hover:text-red-800">
+                  <InvisIcon class="w-6 h-6" />
+                </button>
+              </div>
             </div>
             <div class="flex w-full justify-between" v-if="priceListsVisible && navigationGuard('view_agents')">
-              <router-link to="/price-lists" @click="selectPage()"
-                active-class="active"
+              <router-link to="/price-lists" @click="selectPage()" active-class="active"
                 class="relative h-10 flex items-center w-full hover:bg-blue-300/10 hover:text-blue-600 py-5 text-zinc-400 dark:text-zinc-200 text-lg font-medium space-x-4 cursor-pointer transition-colors duration-300">
                 <div class="w-1.5 h-12 rounded-r-xl first-child-bg-color mr-2"></div>
                 <div class="flex h-10 items-center justify-center rounded-xl w-10 second-child-bg-color">
@@ -714,10 +721,11 @@ const toggleShowHideButtons = () => {
                 </div>
               </router-link>
               <div v-if="showHideButtons">
-              <button @click="movePriceListsToOthers" class="ml-auto space-y-1 px-1 py-2 hover:bg-blue-300/10 text-sm text-red-600 hover:text-red-800">
-                <InvisIcon class="w-6 h-6" />
-              </button>
-            </div>
+                <button @click="movePriceListsToOthers"
+                  class="ml-auto space-y-1 px-1 py-2 hover:bg-blue-300/10 text-sm text-red-600 hover:text-red-800">
+                  <InvisIcon class="w-6 h-6" />
+                </button>
+              </div>
             </div>
             <div class="flex w-full justify-between" v-if="wishesVisible && navigationGuard('view_users')">
               <router-link to="/wishes" @click="selectPage()" active-class="active"
@@ -731,10 +739,11 @@ const toggleShowHideButtons = () => {
                 </div>
               </router-link>
               <div v-if="showHideButtons">
-              <button @click="moveWishesToOthers" class="ml-auto space-y-1 px-1 py-2 hover:bg-blue-300/10 text-sm text-red-600 hover:text-red-800">
-                <InvisIcon class="w-6 h-6" />
-              </button>
-            </div>
+                <button @click="moveWishesToOthers"
+                  class="ml-auto space-y-1 px-1 py-2 hover:bg-blue-300/10 text-sm text-red-600 hover:text-red-800">
+                  <InvisIcon class="w-6 h-6" />
+                </button>
+              </div>
             </div>
             <div class="flex w-full justify-between" v-if="categoriesVisible && navigationGuard('view_agents')">
               <router-link to="/categories" @click="selectPage()" active-class="active"
@@ -748,14 +757,14 @@ const toggleShowHideButtons = () => {
                 </div>
               </router-link>
               <div v-if="showHideButtons">
-              <button @click="moveCategoriesToOthers" class="ml-auto space-y-1 px-1 py-2 hover:bg-blue-300/10 text-sm text-red-600 hover:text-red-800">
-                <InvisIcon class="w-6 h-6" />
-              </button>
-            </div>
+                <button @click="moveCategoriesToOthers"
+                  class="ml-auto space-y-1 px-1 py-2 hover:bg-blue-300/10 text-sm text-red-600 hover:text-red-800">
+                  <InvisIcon class="w-6 h-6" />
+                </button>
+              </div>
             </div>
             <div class="flex w-full justify-between" v-if="ipBannedVisible && navigationGuard('create_market')">
-              <router-link to="/ip-banned" @click="selectPage()"
-                active-class="active"
+              <router-link to="/ip-banned" @click="selectPage()" active-class="active"
                 class="relative h-10 flex items-center w-full hover:bg-blue-300/10 hover:text-blue-600 py-5 text-zinc-400 dark:text-zinc-200 text-lg font-medium space-x-4 cursor-pointer transition-colors duration-300">
                 <div class="w-1.5 h-12 rounded-r-xl first-child-bg-color mr-2"></div>
                 <div class="flex h-10 items-center justify-center rounded-xl w-10 second-child-bg-color">
@@ -766,14 +775,14 @@ const toggleShowHideButtons = () => {
                 </div>
               </router-link>
               <div v-if="showHideButtons">
-              <button @click="moveIpBannedToOthers" class="ml-auto space-y-1 px-1 py-2 hover:bg-blue-300/10 text-sm text-red-600 hover:text-red-800">
-                <InvisIcon class="w-6 h-6" />
-              </button>
-            </div>
+                <button @click="moveIpBannedToOthers"
+                  class="ml-auto space-y-1 px-1 py-2 hover:bg-blue-300/10 text-sm text-red-600 hover:text-red-800">
+                  <InvisIcon class="w-6 h-6" />
+                </button>
+              </div>
             </div>
             <div class="flex w-full justify-between" v-if="investorsVisible && navigationGuard('view_investors')">
-              <router-link to="/investors" @click="selectPage()"
-                active-class="active"
+              <router-link to="/investors" @click="selectPage()" active-class="active"
                 class="relative h-10 flex items-center w-full hover:bg-blue-300/10 hover:text-blue-600 py-5 text-zinc-400 dark:text-zinc-200 text-lg font-medium space-x-4 cursor-pointer transition-colors duration-300">
                 <div class="w-1.5 h-12 rounded-r-xl first-child-bg-color mr-2"></div>
                 <div class="flex h-10 items-center justify-center rounded-xl w-10 second-child-bg-color">
@@ -784,14 +793,14 @@ const toggleShowHideButtons = () => {
                 </div>
               </router-link>
               <div v-if="showHideButtons">
-              <button @click="moveInvestorsToOthers" class="ml-auto space-y-1 px-1 py-2 hover:bg-blue-300/10 text-sm text-red-600 hover:text-red-800">
-                <InvisIcon class="w-6 h-6" />
-              </button>
-            </div>
+                <button @click="moveInvestorsToOthers"
+                  class="ml-auto space-y-1 px-1 py-2 hover:bg-blue-300/10 text-sm text-red-600 hover:text-red-800">
+                  <InvisIcon class="w-6 h-6" />
+                </button>
+              </div>
             </div>
             <div class="flex w-full justify-between" v-if="investsVisible && navigationGuard('view_invests')">
-              <router-link to="/invests" @click="selectPage()"
-                active-class="active"
+              <router-link to="/invests" @click="selectPage()" active-class="active"
                 class="relative h-10 flex items-center w-full hover:bg-blue-300/10 hover:text-blue-600 py-5 text-zinc-400 dark:text-zinc-200 text-lg font-medium space-x-4 cursor-pointer transition-colors duration-300">
                 <div class="w-1.5 h-12 rounded-r-xl first-child-bg-color mr-2"></div>
                 <div class="flex h-10 items-center justify-center rounded-xl w-10 second-child-bg-color">
@@ -802,14 +811,14 @@ const toggleShowHideButtons = () => {
                 </div>
               </router-link>
               <div v-if="showHideButtons">
-              <button @click="moveInvestsToOthers" class="ml-auto space-y-1 px-1 py-2 hover:bg-blue-300/10 text-sm text-red-600 hover:text-red-800">
-                <InvisIcon class="w-6 h-6" />
-              </button>
-            </div>
+                <button @click="moveInvestsToOthers"
+                  class="ml-auto space-y-1 px-1 py-2 hover:bg-blue-300/10 text-sm text-red-600 hover:text-red-800">
+                  <InvisIcon class="w-6 h-6" />
+                </button>
+              </div>
             </div>
             <div class="flex w-full justify-between" v-if="investPlansVisible && navigationGuard('view_invest_plans')">
-              <router-link to="/invest-plans" @click="selectPage()"
-                active-class="active"
+              <router-link to="/invest-plans" @click="selectPage()" active-class="active"
                 class="relative h-10 flex items-center w-full hover:bg-blue-300/10 hover:text-blue-600 py-5 text-zinc-400 dark:text-zinc-200 text-lg font-medium space-x-4 cursor-pointer transition-colors duration-300">
                 <div class="w-1.5 h-12 rounded-r-xl first-child-bg-color mr-2"></div>
                 <div class="flex h-10 items-center justify-center rounded-xl w-10 second-child-bg-color">
@@ -820,22 +829,23 @@ const toggleShowHideButtons = () => {
                 </div>
               </router-link>
               <div v-if="showHideButtons">
-              <button @click="moveInvestPlansToOthers" class="ml-auto space-y-1 px-1 py-2 hover:bg-blue-300/10 text-sm text-red-600 hover:text-red-800">
-                <InvisIcon class="w-6 h-6" />
-              </button>
-            </div>
+                <button @click="moveInvestPlansToOthers"
+                  class="ml-auto space-y-1 px-1 py-2 hover:bg-blue-300/10 text-sm text-red-600 hover:text-red-800">
+                  <InvisIcon class="w-6 h-6" />
+                </button>
+              </div>
             </div>
             <details
               v-if="!investsVisible || !investPlansVisible || !investorsVisible || !ipBannedVisible || !wishesVisible || !priceListsVisible || !vouchersVisible || !agentsVisible || !clientsVisible || !corporateClientsVisible || !saleSettingsVisible || !barcodeDuplicatesVisible || !productBarcodesVisible || !usersVisible || !marketsVisible || !ordersVisible || !cashbackHistoriesVisible || !discountVisible || !upcomingProductsVisible || !incomeExpenseVisible || !productsVisible || !saleVisible || !dashboardVisible"
               class="mt-4">
-              <summary class="cursor-pointer py-2 pl-9 text-lg font-medium hover:bg-blue-300/10 hover:text-blue-600 text-zinc-400 dark:text-zinc-200 space-x-4">
+              <summary
+                class="cursor-pointer py-2 pl-9 text-lg font-medium hover:bg-blue-300/10 hover:text-blue-600 text-zinc-400 dark:text-zinc-200 space-x-4">
                 {{ $t('Others') }}
               </summary>
               <div class="flex flex-col space-y-2 ">
                 <div v-if="!dashboardVisible && navigationGuard('dashboard')"
-                  class="relative h-10 flex items-center w-full py-5 text-zinc-400 dark:text-zinc-200 text-lg font-medium space-x-4">
-                  <router-link to="/dashboard" @click="selectPage()"
-                    active-class="active"
+                  class="relative h-10 flex items-center w-full py-5 text-zinc-400 dark:text-zinc-200 text-lg font-medium space-x-2">
+                  <router-link to="/dashboard" @click="selectPage()" active-class="active"
                     class="relative h-10 flex items-center w-full hover:bg-blue-300/10 hover:text-blue-600 py-5 text-zinc-400 dark:text-zinc-200 text-lg font-medium space-x-4 cursor-pointer transition-colors duration-300">
                     <div class="w-1.5 h-12 rounded-r-xl first-child-bg-color mr-2"></div>
                     <div class="flex h-10 items-center justify-center rounded-xl w-10 second-child-bg-color">
@@ -846,15 +856,15 @@ const toggleShowHideButtons = () => {
                     </div>
                   </router-link>
                   <div v-if="showHideButtons">
-                  <button @click="restoreDashboardFromOthers" class="ml-auto space-y-1 px-1 py-2 hover:bg-blue-300/10 text-sm text-blue-600 hover:text-blue-800">
-                    <EyeIcon class="w-6 h-6" />
-                  </button>
+                    <button @click="restoreDashboardFromOthers"
+                      class="ml-auto space-y-1 px-1 py-2 hover:bg-blue-300/10 text-sm text-blue-600 hover:text-blue-800">
+                      <EyeIcon class="w-6 h-6" />
+                    </button>
                   </div>
                 </div>
                 <div v-if="!saleVisible && navigationGuard('create_product')"
-                  class="relative h-10 flex items-center w-full py-5 text-zinc-400 dark:text-zinc-200 text-lg font-medium space-x-4">
-                  <router-link to="/sales" @click="selectPage()"
-                    active-class="active"
+                  class="relative h-10 flex items-center w-full py-5 text-zinc-400 dark:text-zinc-200 text-lg font-medium space-x-2">
+                  <router-link to="/sales" @click="selectPage()" active-class="active"
                     class="relative h-10 flex items-center w-full hover:bg-blue-300/10 hover:text-blue-600 py-5 text-zinc-400 dark:text-zinc-200 text-lg font-medium space-x-4 cursor-pointer transition-colors duration-300">
                     <div class="w-1.5 h-12 rounded-r-xl first-child-bg-color mr-2"></div>
                     <div class="flex h-10 items-center justify-center rounded-xl w-10 second-child-bg-color">
@@ -865,13 +875,14 @@ const toggleShowHideButtons = () => {
                     </div>
                   </router-link>
                   <div v-if="showHideButtons">
-                  <button @click="restoreSaleFromOthers" class="ml-auto space-y-1 px-1 py-2 hover:bg-blue-300/10 text-sm text-blue-600 hover:text-blue-800">
-                    <EyeIcon class="w-6 h-6" />
-                  </button>
-                </div>
+                    <button @click="restoreSaleFromOthers"
+                      class="ml-auto space-y-1 px-1 py-2 hover:bg-blue-300/10 text-sm text-blue-600 hover:text-blue-800">
+                      <EyeIcon class="w-6 h-6" />
+                    </button>
+                  </div>
                 </div>
                 <div v-if="!productsVisible"
-                  class="relative h-10 flex items-center w-full py-5 text-zinc-400 dark:text-zinc-200 text-lg font-medium space-x-4">
+                  class="relative h-10 flex items-center w-full py-5 text-zinc-400 dark:text-zinc-200 text-lg font-medium space-x-2">
                   <router-link to="/products" @click="selectPage()" active-class="active"
                     class="relative h-10 flex items-center w-full hover:bg-blue-300/10 hover:text-blue-600 py-5 text-zinc-400 dark:text-zinc-200 text-lg font-medium space-x-4 cursor-pointer transition-colors duration-300">
                     <div class="w-1.5 h-12 rounded-r-xl first-child-bg-color mr-2"></div>
@@ -883,15 +894,15 @@ const toggleShowHideButtons = () => {
                     </div>
                   </router-link>
                   <div v-if="showHideButtons">
-                  <button @click="restoreProductsFromOthers" class="ml-auto space-y-1 px-1 py-2 hover:bg-blue-300/10 text-sm text-blue-600 hover:text-blue-800">
-                    <EyeIcon class="w-6 h-6" />
-                  </button>
-                </div>
+                    <button @click="restoreProductsFromOthers"
+                      class="ml-auto space-y-1 px-1 py-2 hover:bg-blue-300/10 text-sm text-blue-600 hover:text-blue-800">
+                      <EyeIcon class="w-6 h-6" />
+                    </button>
+                  </div>
                 </div>
                 <div v-if="!incomeExpenseVisible && navigationGuard('view_histories')"
-                  class="relative h-10 flex items-center w-full py-5 text-zinc-400 dark:text-zinc-200 text-lg font-medium space-x-4">
-                  <router-link to="/product-histories" @click="selectPage()"
-                    active-class="active"
+                  class="relative h-10 flex items-center w-full py-5 text-zinc-400 dark:text-zinc-200 text-lg font-medium space-x-2">
+                  <router-link to="/product-histories" @click="selectPage()" active-class="active"
                     class="relative h-10 flex items-center w-full hover:bg-blue-300/10 hover:text-blue-600 py-5 text-zinc-400 dark:text-zinc-200 text-lg font-medium space-x-4 cursor-pointer transition-colors duration-300">
                     <div class="w-1.5 h-12 rounded-r-xl first-child-bg-color mr-2"></div>
                     <div class="flex h-10 items-center justify-center rounded-xl w-10 second-child-bg-color">
@@ -902,15 +913,15 @@ const toggleShowHideButtons = () => {
                     </div>
                   </router-link>
                   <div v-if="showHideButtons">
-                  <button @click="restoreIncomeExpenseFromOthers" class="ml-auto space-y-1 px-1 py-2 hover:bg-blue-300/10 text-sm text-blue-600 hover:text-blue-800">
-                    <EyeIcon class="w-6 h-6" />
-                  </button>
-                </div>
+                    <button @click="restoreIncomeExpenseFromOthers"
+                      class="ml-auto space-y-1 px-1 py-2 hover:bg-blue-300/10 text-sm text-blue-600 hover:text-blue-800">
+                      <EyeIcon class="w-6 h-6" />
+                    </button>
+                  </div>
                 </div>
                 <div v-if="!upcomingProductsVisible && navigationGuard('view_histories')"
-                  class="relative h-10 flex items-center w-full py-5 text-zinc-400 dark:text-zinc-200 text-lg font-medium space-x-4">
-                  <router-link to="/upcoming-products" @click="selectPage()"
-                    active-class="active"
+                  class="relative h-10 flex items-center w-full py-5 text-zinc-400 dark:text-zinc-200 text-lg font-medium space-x-2">
+                  <router-link to="/upcoming-products" @click="selectPage()" active-class="active"
                     class="relative h-10 flex items-center w-full hover:bg-blue-300/10 hover:text-blue-600 py-5 text-zinc-400 dark:text-zinc-200 text-lg font-medium space-x-4 cursor-pointer transition-colors duration-300">
                     <div class="w-1.5 h-12 rounded-r-xl first-child-bg-color mr-2"></div>
                     <div class="flex h-10 items-center justify-center rounded-xl w-10 second-child-bg-color">
@@ -919,13 +930,14 @@ const toggleShowHideButtons = () => {
                     <div class="w-full">{{ $t('upcomingProducts') }}</div>
                   </router-link>
                   <div v-if="showHideButtons">
-                  <button @click="restoreUpcomingProductsFromOthers" class="ml-auto space-y-1 px-1 py-2 hover:bg-blue-300/10 text-sm text-blue-600 hover:text-blue-800">
-                    <EyeIcon class="w-6 h-6" />
-                  </button>
-                </div>
+                    <button @click="restoreUpcomingProductsFromOthers"
+                      class="ml-auto space-y-1 px-1 py-2 hover:bg-blue-300/10 text-sm text-blue-600 hover:text-blue-800">
+                      <EyeIcon class="w-6 h-6" />
+                    </button>
+                  </div>
                 </div>
                 <div v-if="!discountVisible"
-                  class="relative h-10 flex items-center w-full py-5 text-zinc-400 dark:text-zinc-200 text-lg font-medium space-x-4">
+                  class="relative h-10 flex items-center w-full py-5 text-zinc-400 dark:text-zinc-200 text-lg font-medium space-x-2">
                   <router-link to="/discounts" @click="selectPage()" active-class="active"
                     class="relative h-10 flex items-center w-full hover:bg-blue-300/10 hover:text-blue-600 py-5 text-zinc-400 dark:text-zinc-200 text-lg font-medium space-x-4 cursor-pointer transition-colors duration-300">
                     <div class="w-1.5 h-12 rounded-r-xl first-child-bg-color mr-2"></div>
@@ -935,13 +947,14 @@ const toggleShowHideButtons = () => {
                     <div class="w-full">{{ $t('discount') }}</div>
                   </router-link>
                   <div v-if="showHideButtons">
-                  <button @click="restoreDiscountFromOthers" class="ml-auto space-y-1 px-1 py-2 hover:bg-blue-300/10 text-sm text-blue-600 hover:text-blue-800">
-                    <EyeIcon class="w-6 h-6" />
-                  </button>
-                </div>
+                    <button @click="restoreDiscountFromOthers"
+                      class="ml-auto space-y-1 px-1 py-2 hover:bg-blue-300/10 text-sm text-blue-600 hover:text-blue-800">
+                      <EyeIcon class="w-6 h-6" />
+                    </button>
+                  </div>
                 </div>
                 <div v-if="!cashbackHistoriesVisible"
-                  class="relative h-10 flex items-center w-full py-5 text-zinc-400 dark:text-zinc-200 text-lg font-medium space-x-4">
+                  class="relative h-10 flex items-center w-full py-5 text-zinc-400 dark:text-zinc-200 text-lg font-medium space-x-2">
                   <router-link to="/cashback-histories" @click="selectPage()" active-class="active"
                     class="relative h-10 flex items-center w-full hover:bg-blue-300/10 hover:text-blue-600 py-5 text-zinc-400 dark:text-zinc-200 text-lg font-medium space-x-4 cursor-pointer transition-colors duration-300">
                     <div class="w-1.5 h-12 rounded-r-xl first-child-bg-color mr-2"></div>
@@ -951,13 +964,14 @@ const toggleShowHideButtons = () => {
                     <div class="w-full">{{ $t('cashbackHistories') }}</div>
                   </router-link>
                   <div v-if="showHideButtons">
-                  <button @click="restoreCashbackHistoriesFromOthers" class="ml-auto space-y-1 px-1 py-2 hover:bg-blue-300/10 text-sm text-blue-600 hover:text-blue-800">
-                    <EyeIcon class="w-6 h-6" />
-                  </button>
-                </div>
+                    <button @click="restoreCashbackHistoriesFromOthers"
+                      class="ml-auto space-y-1 px-1 py-2 hover:bg-blue-300/10 text-sm text-blue-600 hover:text-blue-800">
+                      <EyeIcon class="w-6 h-6" />
+                    </button>
+                  </div>
                 </div>
                 <div v-if="!ordersVisible"
-                  class="relative h-10 flex items-center w-full py-5 text-zinc-400 dark:text-zinc-200 text-lg font-medium space-x-4">
+                  class="relative h-10 flex items-center w-full py-5 text-zinc-400 dark:text-zinc-200 text-lg font-medium space-x-2">
                   <router-link to="/orders" @click="selectPage()" active-class="active"
                     class="relative h-10 flex items-center w-full hover:bg-blue-300/10 hover:text-blue-600 py-5 text-zinc-400 dark:text-zinc-200 text-lg font-medium space-x-4 cursor-pointer transition-colors duration-300">
                     <div class="w-1.5 h-12 rounded-r-xl first-child-bg-color mr-2"></div>
@@ -967,15 +981,15 @@ const toggleShowHideButtons = () => {
                     <div class="w-full">{{ $t('sales') }}</div>
                   </router-link>
                   <div v-if="showHideButtons">
-                  <button @click="restoreOrdersFromOthers" class="ml-auto space-y-1 px-1 py-2 hover:bg-blue-300/10 text-sm text-blue-600 hover:text-blue-800">
-                    <EyeIcon class="w-6 h-6" />
-                  </button>
-                </div>
+                    <button @click="restoreOrdersFromOthers"
+                      class="ml-auto space-y-1 px-1 py-2 hover:bg-blue-300/10 text-sm text-blue-600 hover:text-blue-800">
+                      <EyeIcon class="w-6 h-6" />
+                    </button>
+                  </div>
                 </div>
                 <div v-if="!marketsVisible && navigationGuard('view_markets')"
-                  class="relative h-10 flex items-center w-full py-5 text-zinc-400 dark:text-zinc-200 text-lg font-medium space-x-4">
-                  <router-link to="/markets" @click="selectPage()"
-                    active-class="active"
+                  class="relative h-10 flex items-center w-full py-5 text-zinc-400 dark:text-zinc-200 text-lg font-medium space-x-2">
+                  <router-link to="/markets" @click="selectPage()" active-class="active"
                     class="relative h-10 flex items-center w-full hover:bg-blue-300/10 hover:text-blue-600 py-5 text-zinc-400 dark:text-zinc-200 text-lg font-medium space-x-4 cursor-pointer transition-colors duration-300">
                     <div class="w-1.5 h-12 rounded-r-xl first-child-bg-color mr-2"></div>
                     <div class="flex h-10 items-center justify-center rounded-xl w-10 second-child-bg-color">
@@ -984,32 +998,33 @@ const toggleShowHideButtons = () => {
                     <div class="w-full">{{ $t('shops') }}</div>
                   </router-link>
                   <div v-if="showHideButtons">
-                  <button @click="restoreMarketFromOthers" class="ml-auto space-y-1 px-1 py-2 hover:bg-blue-300/10 text-sm text-blue-600 hover:text-blue-800">
-                    <EyeIcon class="w-6 h-6" />
-                  </button>
-                </div>
+                    <button @click="restoreMarketFromOthers"
+                      class="ml-auto space-y-1 px-1 py-2 hover:bg-blue-300/10 text-sm text-blue-600 hover:text-blue-800">
+                      <EyeIcon class="w-6 h-6" />
+                    </button>
+                  </div>
                 </div>
                 <div v-if="!usersVisible && navigationGuard('view_users')"
-                  class="relative h-10 flex items-center w-full py-5 text-zinc-400 dark:text-zinc-200 text-lg font-medium space-x-4">
-                  <router-link to="/users" @click="selectPage()"
-                    active-class="active"
+                  class="relative h-10 flex items-center w-full py-5 text-zinc-400 dark:text-zinc-200 text-lg font-medium space-x-2">
+                  <router-link to="/users" @click="selectPage()" active-class="active"
                     class="relative h-10 flex items-center w-full hover:bg-blue-300/10 hover:text-blue-600 py-5 text-zinc-400 dark:text-zinc-200 text-lg font-medium space-x-4 cursor-pointer transition-colors duration-300">
-                    <div class="w-1.5 h-12 rounded-r-xl first-child-bg-color mr-2"></div>
+                    <div class="w-1.5 h-12 rounded-r-xl first-child-bg-color mr-2">
+                    </div>
                     <div class="flex h-10 items-center justify-center rounded-xl w-10 second-child-bg-color">
                       <UsersIcon class="w-6 h-6" />
                     </div>
                     <div class="w-full">{{ $t('users') }}</div>
                   </router-link>
                   <div v-if="showHideButtons">
-                  <button @click="restoreUsersFromOthers" class="ml-auto space-y-1 px-1 py-2 hover:bg-blue-300/10 text-sm text-blue-600 hover:text-blue-800">
-                    <EyeIcon class="w-6 h-6" />
-                  </button>
-                </div>
+                    <button @click="restoreUsersFromOthers"
+                      class="ml-auto space-y-1 px-1 py-2 hover:bg-blue-300/10 text-sm text-blue-600 hover:text-blue-800">
+                      <EyeIcon class="w-6 h-6" />
+                    </button>
+                  </div>
                 </div>
                 <div v-if="!productBarcodesVisible && navigationGuard('view_barcodes')"
-                  class="relative h-10 flex items-center w-full py-5 text-zinc-400 dark:text-zinc-200 text-lg font-medium space-x-4">
-                  <router-link to="/product-barcodes" @click="selectPage()"
-                    active-class="active"
+                  class="relative h-10 flex items-center w-full py-5 text-zinc-400 dark:text-zinc-200 text-lg font-medium space-x-2">
+                  <router-link to="/product-barcodes" @click="selectPage()" active-class="active"
                     class="relative h-10 flex items-center w-full hover:bg-blue-300/10 hover:text-blue-600 py-5 text-zinc-400 dark:text-zinc-200 text-lg font-medium space-x-4 cursor-pointer transition-colors duration-300">
                     <div class="w-1.5 h-12 rounded-r-xl first-child-bg-color mr-2"></div>
                     <div class="flex h-10 items-center justify-center rounded-xl w-10 second-child-bg-color">
@@ -1018,32 +1033,33 @@ const toggleShowHideButtons = () => {
                     <div class="w-full">{{ $t('barcodes') }}</div>
                   </router-link>
                   <div v-if="showHideButtons">
-                  <button @click="restoreProductBarcodesFromOthers" class="ml-auto space-y-1 px-1 py-2 hover:bg-blue-300/10 text-sm text-blue-600 hover:text-blue-800">
-                    <EyeIcon class="w-6 h-6" />
-                  </button>
-                </div>
+                    <button @click="restoreProductBarcodesFromOthers"
+                      class="ml-auto space-y-1 px-1 py-2 hover:bg-blue-300/10 text-sm text-blue-600 hover:text-blue-800">
+                      <EyeIcon class="w-6 h-6" />
+                    </button>
+                  </div>
                 </div>
                 <div v-if="!barcodeDuplicatesVisible && navigationGuard('view_barcodes')"
-                  class="relative h-10 flex items-center w-full py-5 text-zinc-400 dark:text-zinc-200 text-lg font-medium space-x-4">
-                  <router-link to="/barcode-duplicates" @click="selectPage()"
-                    active-class="active"
+                  class="relative h-10 flex items-center w-full py-5 text-zinc-400 dark:text-zinc-200 text-lg font-medium space-x-2">
+                  <router-link to="/barcode-duplicates" @click="selectPage()" active-class="active"
                     class="relative h-10 flex items-center w-full hover:bg-blue-300/10 hover:text-blue-600 py-5 text-zinc-400 dark:text-zinc-200 text-lg font-medium space-x-4 cursor-pointer transition-colors duration-300">
                     <div class="w-1.5 h-12 rounded-r-xl first-child-bg-color mr-2"></div>
-                    <div class="flex items-center justify-center rounded-xl w-10 h-10 second-child-bg-color">
-                      <PhBarcodeIcon class="w-6 h-6" />
+                    <div class="flex h-10 items-center justify-center rounded-xl w-10 second-child-bg-color relative">
+                      <PhBarcodeIcon class="absolute top-0 right-0 w-6 h-6" />
+                      <PhBarcodeIcon class="w-6 h-6 bg-slate-100 dark:bg-slate-900 absolute top-2 right-2" />
                     </div>
                     <div class="w-full">{{ $t('duplicates') }}</div>
                   </router-link>
                   <div v-if="showHideButtons">
-                  <button @click="restoreBarcodeDuplicatesFromOthers" class="ml-auto space-y-1 px-1 py-2 hover:bg-blue-300/10 text-sm text-blue-600 hover:text-blue-800">
-                    <EyeIcon class="w-6 h-6" />
-                  </button>
-                </div>
+                    <button @click="restoreBarcodeDuplicatesFromOthers"
+                      class="ml-auto space-y-1 px-1 py-2 hover:bg-blue-300/10 text-sm text-blue-600 hover:text-blue-800">
+                      <EyeIcon class="w-6 h-6" />
+                    </button>
+                  </div>
                 </div>
                 <div v-if="!saleSettingsVisible && navigationGuard('view_settings')"
-                  class="relative h-10 flex items-center w-full py-5 text-zinc-400 dark:text-zinc-200 text-lg font-medium space-x-4">
-                  <router-link to="/sale-settings" @click="selectPage()"
-                    active-class="active"
+                  class="relative h-10 flex items-center w-full py-5 text-zinc-400 dark:text-zinc-200 text-lg font-medium space-x-2">
+                  <router-link to="/sale-settings" @click="selectPage()" active-class="active"
                     class="relative h-10 flex items-center w-full hover:bg-blue-300/10 hover:text-blue-600 py-5 text-zinc-400 dark:text-zinc-200 text-lg font-medium space-x-4 cursor-pointer transition-colors duration-300">
                     <div class="w-1.5 h-12 rounded-r-xl first-child-bg-color mr-2"></div>
                     <div class="flex h-10 items-center justify-center rounded-xl w-10 second-child-bg-color">
@@ -1052,15 +1068,15 @@ const toggleShowHideButtons = () => {
                     <div class="w-full">{{ $t('settings') }}</div>
                   </router-link>
                   <div v-if="showHideButtons">
-                  <button @click="restoreSaleSettingsFromOthers" class="ml-auto space-y-1 px-1 py-2 hover:bg-blue-300/10 text-sm text-blue-600 hover:text-blue-800">
-                    <EyeIcon class="w-6 h-6" />
-                  </button>
-                </div>
+                    <button @click="restoreSaleSettingsFromOthers"
+                      class="ml-auto space-y-1 px-1 py-2 hover:bg-blue-300/10 text-sm text-blue-600 hover:text-blue-800">
+                      <EyeIcon class="w-6 h-6" />
+                    </button>
+                  </div>
                 </div>
                 <div v-if="!corporateClientsVisible && navigationGuard('view_settings')"
-                  class="relative h-10 flex items-center w-full py-5 text-zinc-400 dark:text-zinc-200 text-lg font-medium space-x-4">
-                  <router-link to="/corporate-clients" @click="selectPage()"
-                    active-class="active"
+                  class="relative h-10 flex items-center w-full py-5 text-zinc-400 dark:text-zinc-200 text-lg font-medium space-x-2">
+                  <router-link to="/corporate-clients" @click="selectPage()" active-class="active"
                     class="relative h-10 flex items-center w-full hover:bg-blue-300/10 hover:text-blue-600 py-5 text-zinc-400 dark:text-zinc-200 text-lg font-medium space-x-4 cursor-pointer transition-colors duration-300">
                     <div class="w-1.5 h-12 rounded-r-xl first-child-bg-color mr-2"></div>
                     <div class="flex h-10 items-center justify-center rounded-xl w-10 second-child-bg-color">
@@ -1069,15 +1085,15 @@ const toggleShowHideButtons = () => {
                     <div class="w-full">{{ $t('corporateClients') }}</div>
                   </router-link>
                   <div v-if="showHideButtons">
-                  <button @click="restoreCorporrateClientsFromOthers" class="ml-auto space-y-1 px-1 py-2 hover:bg-blue-300/10 text-sm text-blue-600 hover:text-blue-800">
-                    <EyeIcon class="w-6 h-6" />
-                  </button>
-                </div>
+                    <button @click="restoreCorporrateClientsFromOthers"
+                      class="ml-auto space-y-1 px-1 py-2 hover:bg-blue-300/10 text-sm text-blue-600 hover:text-blue-800">
+                      <EyeIcon class="w-6 h-6" />
+                    </button>
+                  </div>
                 </div>
                 <div v-if="!clientsVisible && navigationGuard('view_settings')"
-                  class="relative h-10 flex items-center w-full py-5 text-zinc-400 dark:text-zinc-200 text-lg font-medium space-x-4">
-                  <router-link to="/clients" @click="selectPage()"
-                    active-class="active"
+                  class="relative h-10 flex items-center w-full py-5 text-zinc-400 dark:text-zinc-200 text-lg font-medium space-x-2">
+                  <router-link to="/clients" @click="selectPage()" active-class="active"
                     class="relative h-10 flex items-center w-full hover:bg-blue-300/10 hover:text-blue-600 py-5 text-zinc-400 dark:text-zinc-200 text-lg font-medium space-x-4 cursor-pointer transition-colors duration-300">
                     <div class="w-1.5 h-12 rounded-r-xl first-child-bg-color mr-2"></div>
                     <div class="flex h-10 items-center justify-center rounded-xl w-10 second-child-bg-color">
@@ -1086,15 +1102,15 @@ const toggleShowHideButtons = () => {
                     <div class="w-full">{{ $t('clients') }}</div>
                   </router-link>
                   <div v-if="showHideButtons">
-                  <button @click="restoreClientsFromOthers" class="ml-auto space-y-1 px-1 py-2 hover:bg-blue-300/10 text-sm text-blue-600 hover:text-blue-800">
-                    <EyeIcon class="w-6 h-6" />
-                  </button>
-                </div>
+                    <button @click="restoreClientsFromOthers"
+                      class="ml-auto space-y-1 px-1 py-2 hover:bg-blue-300/10 text-sm text-blue-600 hover:text-blue-800">
+                      <EyeIcon class="w-6 h-6" />
+                    </button>
+                  </div>
                 </div>
                 <div v-if="!agentsVisible && navigationGuard('view_agents')"
-                  class="relative h-10 flex items-center w-full py-5 text-zinc-400 dark:text-zinc-200 text-lg font-medium space-x-4">
-                  <router-link to="/agents" @click="selectPage()"
-                    active-class="active"
+                  class="relative h-10 flex items-center w-full py-5 text-zinc-400 dark:text-zinc-200 text-lg font-medium space-x-2">
+                  <router-link to="/agents" @click="selectPage()" active-class="active"
                     class="relative h-10 flex items-center w-full hover:bg-blue-300/10 hover:text-blue-600 py-5 text-zinc-400 dark:text-zinc-200 text-lg font-medium space-x-4 cursor-pointer transition-colors duration-300">
                     <div class="w-1.5 h-12 rounded-r-xl first-child-bg-color mr-2"></div>
                     <div class="flex h-10 items-center justify-center rounded-xl w-10 second-child-bg-color">
@@ -1103,15 +1119,15 @@ const toggleShowHideButtons = () => {
                     <div class="w-full">{{ $t('agents') }}</div>
                   </router-link>
                   <div v-if="showHideButtons">
-                  <button @click="restoreAgentsFromOthers" class="ml-auto space-y-1 px-1 py-2 hover:bg-blue-300/10 text-sm text-blue-600 hover:text-blue-800">
-                    <EyeIcon class="w-6 h-6" />
-                  </button>
-                </div>
+                    <button @click="restoreAgentsFromOthers"
+                      class="ml-auto space-y-1 px-1 py-2 hover:bg-blue-300/10 text-sm text-blue-600 hover:text-blue-800">
+                      <EyeIcon class="w-6 h-6" />
+                    </button>
+                  </div>
                 </div>
                 <div v-if="!vouchersVisible && navigationGuard('view_agents')"
-                  class="relative h-10 flex items-center w-full py-5 text-zinc-400 dark:text-zinc-200 text-lg font-medium space-x-4">
-                  <router-link to="/vouchers" @click="selectPage()"
-                    active-class="active"
+                  class="relative h-10 flex items-center w-full py-5 text-zinc-400 dark:text-zinc-200 text-lg font-medium space-x-2">
+                  <router-link to="/vouchers" @click="selectPage()" active-class="active"
                     class="relative h-10 flex items-center w-full hover:bg-blue-300/10 hover:text-blue-600 py-5 text-zinc-400 dark:text-zinc-200 text-lg font-medium space-x-4 cursor-pointer transition-colors duration-300">
                     <div class="w-1.5 h-12 rounded-r-xl first-child-bg-color mr-2"></div>
                     <div class="flex h-10 items-center justify-center rounded-xl w-10 second-child-bg-color">
@@ -1120,15 +1136,15 @@ const toggleShowHideButtons = () => {
                     <div class="w-full">{{ $t('vouchers') }}</div>
                   </router-link>
                   <div v-if="showHideButtons">
-                  <button @click="restoreVouchersFromOthers" class="ml-auto space-y-1 px-1 py-2 hover:bg-blue-300/10 text-sm text-blue-600 hover:text-blue-800">
-                    <EyeIcon class="w-6 h-6" />
-                  </button>
+                    <button @click="restoreVouchersFromOthers"
+                      class="ml-auto space-y-1 px-1 py-2 hover:bg-blue-300/10 text-sm text-blue-600 hover:text-blue-800">
+                      <EyeIcon class="w-6 h-6" />
+                    </button>
                   </div>
                 </div>
                 <div v-if="!priceListsVisible && navigationGuard('view_agents')"
-                  class="relative h-10 flex items-center w-full py-5 text-zinc-400 dark:text-zinc-200 text-lg font-medium space-x-4">
-                  <router-link to="/price-lists" @click="selectPage()"
-                    active-class="active"
+                  class="relative h-10 flex items-center w-full py-5 text-zinc-400 dark:text-zinc-200 text-lg font-medium space-x-2">
+                  <router-link to="/price-lists" @click="selectPage()" active-class="active"
                     class="relative h-10 flex items-center w-full hover:bg-blue-300/10 hover:text-blue-600 py-5 text-zinc-400 dark:text-zinc-200 text-lg font-medium space-x-4 cursor-pointer transition-colors duration-300">
                     <div class="w-1.5 h-12 rounded-r-xl first-child-bg-color mr-2"></div>
                     <div class="flex h-10 items-center justify-center rounded-xl w-10 second-child-bg-color">
@@ -1137,15 +1153,15 @@ const toggleShowHideButtons = () => {
                     <div class="w-full">{{ $t('priceLists') }}</div>
                   </router-link>
                   <div v-if="showHideButtons">
-                  <button @click="restorePriceListsFromOthers" class="ml-auto space-y-1 px-1 py-2 hover:bg-blue-300/10 text-sm text-blue-600 hover:text-blue-800">
-                    <EyeIcon class="w-6 h-6" />
-                  </button>
-                </div>
+                    <button @click="restorePriceListsFromOthers"
+                      class="ml-auto space-y-1 px-1 py-2 hover:bg-blue-300/10 text-sm text-blue-600 hover:text-blue-800">
+                      <EyeIcon class="w-6 h-6" />
+                    </button>
+                  </div>
                 </div>
                 <div v-if="!wishesVisible && navigationGuard('view_users')"
-                  class="relative h-10 flex items-center w-full py-5 text-zinc-400 dark:text-zinc-200 text-lg font-medium space-x-4">
-                  <router-link to="/wishes" @click="selectPage()"
-                    active-class="active"
+                  class="relative h-10 flex items-center w-full py-5 text-zinc-400 dark:text-zinc-200 text-lg font-medium space-x-2">
+                  <router-link to="/wishes" @click="selectPage()" active-class="active"
                     class="relative h-10 flex items-center w-full hover:bg-blue-300/10 hover:text-blue-600 py-5 text-zinc-400 dark:text-zinc-200 text-lg font-medium space-x-4 cursor-pointer transition-colors duration-300">
                     <div class="w-1.5 h-12 rounded-r-xl first-child-bg-color mr-2"></div>
                     <div class="flex h-10 items-center justify-center rounded-xl w-10 second-child-bg-color">
@@ -1154,15 +1170,15 @@ const toggleShowHideButtons = () => {
                     <div class="w-full">{{ $t('wishes') }}</div>
                   </router-link>
                   <div v-if="showHideButtons">
-                  <button @click="restoreWishesFromOthers" class="ml-auto space-y-1 px-1 py-2 hover:bg-blue-300/10 text-sm text-blue-600 hover:text-blue-800">
-                    <EyeIcon class="w-6 h-6" />
-                  </button>
-                </div>
+                    <button @click="restoreWishesFromOthers"
+                      class="ml-auto space-y-1 px-1 py-2 hover:bg-blue-300/10 text-sm text-blue-600 hover:text-blue-800">
+                      <EyeIcon class="w-6 h-6" />
+                    </button>
+                  </div>
                 </div>
                 <div v-if="!categoriesVisible && navigationGuard('view_agents')"
-                  class="relative h-10 flex items-center w-full py-5 text-zinc-400 dark:text-zinc-200 text-lg font-medium space-x-4">
-                  <router-link to="/categories" @click="selectPage()"
-                    active-class="active"
+                  class="relative h-10 flex items-center w-full py-5 text-zinc-400 dark:text-zinc-200 text-lg font-medium space-x-2">
+                  <router-link to="/categories" @click="selectPage()" active-class="active"
                     class="relative h-10 flex items-center w-full hover:bg-blue-300/10 hover:text-blue-600 py-5 text-zinc-400 dark:text-zinc-200 text-lg font-medium space-x-4 cursor-pointer transition-colors duration-300">
                     <div class="w-1.5 h-12 rounded-r-xl first-child-bg-color mr-2"></div>
                     <div class="flex h-10 items-center justify-center rounded-xl w-10 second-child-bg-color">
@@ -1171,15 +1187,15 @@ const toggleShowHideButtons = () => {
                     <div class="w-full">{{ $t('categories') }}</div>
                   </router-link>
                   <div v-if="showHideButtons">
-                  <button @click="restoreCategoriesFromOthers" class="ml-auto space-y-1 px-1 py-2 hover:bg-blue-300/10 text-sm text-blue-600 hover:text-blue-800">
-                    <EyeIcon class="w-6 h-6" />
-                  </button>
-                </div>
+                    <button @click="restoreCategoriesFromOthers"
+                      class="ml-auto space-y-1 px-1 py-2 hover:bg-blue-300/10 text-sm text-blue-600 hover:text-blue-800">
+                      <EyeIcon class="w-6 h-6" />
+                    </button>
+                  </div>
                 </div>
                 <div v-if="!ipBannedVisible && navigationGuard('create_market')"
-                  class="relative h-10 flex items-center w-full py-5 text-zinc-400 dark:text-zinc-200 text-lg font-medium space-x-4">
-                  <router-link to="/ip-banned" @click="selectPage()"
-                    active-class="active"
+                  class="relative h-10 flex items-center w-full py-5 text-zinc-400 dark:text-zinc-200 text-lg font-medium space-x-2">
+                  <router-link to="/ip-banned" @click="selectPage()" active-class="active"
                     class="relative h-10 flex items-center w-full hover:bg-blue-300/10 hover:text-blue-600 py-5 text-zinc-400 dark:text-zinc-200 text-lg font-medium space-x-4 cursor-pointer transition-colors duration-300">
                     <div class="w-1.5 h-12 rounded-r-xl first-child-bg-color mr-2"></div>
                     <div class="flex h-10 items-center justify-center rounded-xl w-10 second-child-bg-color">
@@ -1188,15 +1204,15 @@ const toggleShowHideButtons = () => {
                     <div class="w-full">{{ $t('ipBanned') }}</div>
                   </router-link>
                   <div v-if="showHideButtons">
-                  <button @click="restoreIpBannedFromOthers" class="ml-auto space-y-1 px-1 py-2 hover:bg-blue-300/10 text-sm text-blue-600 hover:text-blue-800">
-                    <EyeIcon class="w-6 h-6" />
-                  </button>
-                </div>
+                    <button @click="restoreIpBannedFromOthers"
+                      class="ml-auto space-y-1 px-1 py-2 hover:bg-blue-300/10 text-sm text-blue-600 hover:text-blue-800">
+                      <EyeIcon class="w-6 h-6" />
+                    </button>
+                  </div>
                 </div>
                 <div v-if="!investorsVisible && navigationGuard('view_investors')"
-                  class="relative h-10 flex items-center w-full py-5 text-zinc-400 dark:text-zinc-200 text-lg font-medium space-x-4">
-                  <router-link to="/investors" @click="selectPage()"
-                    active-class="active"
+                  class="relative h-10 flex items-center w-full py-5 text-zinc-400 dark:text-zinc-200 text-lg font-medium space-x-2">
+                  <router-link to="/investors" @click="selectPage()" active-class="active"
                     class="relative h-10 flex items-center w-full hover:bg-blue-300/10 hover:text-blue-600 py-5 text-zinc-400 dark:text-zinc-200 text-lg font-medium space-x-4 cursor-pointer transition-colors duration-300">
                     <div class="w-1.5 h-12 rounded-r-xl first-child-bg-color mr-2"></div>
                     <div class="flex h-10 items-center justify-center rounded-xl w-10 second-child-bg-color">
@@ -1205,15 +1221,15 @@ const toggleShowHideButtons = () => {
                     <div class="w-full">{{ $t('investors') }}</div>
                   </router-link>
                   <div v-if="showHideButtons">
-                  <button @click="restoreInvestorsFromOthers" class="ml-auto space-y-1 px-1 py-2 hover:bg-blue-300/10 text-sm text-blue-600 hover:text-blue-800">
-                    <EyeIcon class="w-6 h-6" />
-                  </button>
-                </div>
+                    <button @click="restoreInvestorsFromOthers"
+                      class="ml-auto space-y-1 px-1 py-2 hover:bg-blue-300/10 text-sm text-blue-600 hover:text-blue-800">
+                      <EyeIcon class="w-6 h-6" />
+                    </button>
+                  </div>
                 </div>
                 <div v-if="!investsVisible && navigationGuard('view_invests')"
-                  class="relative h-10 flex items-center w-full py-5 text-zinc-400 dark:text-zinc-200 text-lg font-medium space-x-4">
-                  <router-link to="/invests" @click="selectPage()"
-                    active-class="active"
+                  class="relative h-10 flex items-center w-full py-5 text-zinc-400 dark:text-zinc-200 text-lg font-medium space-x-2">
+                  <router-link to="/invests" @click="selectPage()" active-class="active"
                     class="relative h-10 flex items-center w-full hover:bg-blue-300/10 hover:text-blue-600 py-5 text-zinc-400 dark:text-zinc-200 text-lg font-medium space-x-4 cursor-pointer transition-colors duration-300">
                     <div class="w-1.5 h-12 rounded-r-xl first-child-bg-color mr-2"></div>
                     <div class="flex h-10 items-center justify-center rounded-xl w-10 second-child-bg-color">
@@ -1222,15 +1238,15 @@ const toggleShowHideButtons = () => {
                     <div class="w-full">{{ $t('invests') }}</div>
                   </router-link>
                   <div v-if="showHideButtons">
-                  <button @click="restoreInvestsFromOthers" class="ml-auto space-y-1 px-1 py-2 hover:bg-blue-300/10 text-sm text-blue-600 hover:text-blue-800">
-                    <EyeIcon class="w-6 h-6" />
-                  </button>
+                    <button @click="restoreInvestsFromOthers"
+                      class="ml-auto space-y-1 px-1 py-2 hover:bg-blue-300/10 text-sm text-blue-600 hover:text-blue-800">
+                      <EyeIcon class="w-6 h-6" />
+                    </button>
+                  </div>
                 </div>
-              </div>
                 <div v-if="!investPlansVisible && navigationGuard('view_invest_plans')"
-                  class="relative h-10 flex items-center w-full py-5 text-zinc-400 dark:text-zinc-200 text-lg font-medium space-x-4">
-                  <router-link to="/invest-plans" @click="selectPage()"
-                    active-class="active"
+                  class="relative h-10 flex items-center w-full py-5 text-zinc-400 dark:text-zinc-200 text-lg font-medium space-x-2">
+                  <router-link to="/invest-plans" @click="selectPage()" active-class="active"
                     class="relative h-10 flex items-center w-full hover:bg-blue-300/10 hover:text-blue-600 py-5 text-zinc-400 dark:text-zinc-200 text-lg font-medium space-x-4 cursor-pointer transition-colors duration-300">
                     <div class="w-1.5 h-12 rounded-r-xl first-child-bg-color mr-2"></div>
                     <div class="flex h-10 items-center justify-center rounded-xl w-10 second-child-bg-color">
@@ -1239,9 +1255,10 @@ const toggleShowHideButtons = () => {
                     <div class="w-full">{{ $t('investPlans') }}</div>
                   </router-link>
                   <div v-if="showHideButtons">
-                  <button @click="restoreInvestPlansFromOthers" class="ml-auto space-y-1 px-1 py-2 hover:bg-blue-300/10 text-sm text-blue-600 hover:text-blue-800">
-                    <EyeIcon class="w-6 h-6" />
-                  </button>
+                    <button @click="restoreInvestPlansFromOthers"
+                      class="ml-auto space-y-1 px-1 py-2 hover:bg-blue-300/10 text-sm text-blue-600 hover:text-blue-800">
+                      <EyeIcon class="w-6 h-6" />
+                    </button>
                   </div>
                 </div>
               </div>
@@ -1283,5 +1300,3 @@ const toggleShowHideButtons = () => {
   background-color: rgb(30 41 59) !important;
 }
 </style>
-
-
