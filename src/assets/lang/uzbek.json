@@ -489,6 +489,13 @@
   "enterNameCategory": "Kategoriya nomini kiriting",
   "categories": "Kategoriyalar",
   "nameCategory": "Kategoriya nomi",
+  "recommend": "recommend",
+  "unprofitable": "unprofitable",
+  "deficit": "deficit",
+  "unprofitableProducts": "unprofitabaleProducts",
+  "hiddenUnprofitableProducts": "hiddenUnprofitableProducts",
+  "hideUnprofitableProduct": "hideUnprofitableProduct",
+  "recent": "recent",
   "CategoryInformation": "Kategoriya haqida ma'lumot"
 
 }

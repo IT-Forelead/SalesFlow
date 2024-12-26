@@ -1416,7 +1416,7 @@ const submitUnprofitableStatsFilterData = () => {
     toast.warning(t('plsSelectLimit'))
   } else {
     isLoading.value = true
-    ProductService.getUnprofitableStat({
+    ProductService.getUnprofitableStats({
       intervalType: filterUnprofitableData.intervalType,
       limit: filterUnprofitableData.limit,
     }).then((res) => {
@@ -1446,12 +1446,10 @@ onClickOutside(unprofitableDropdown, () => {
   }
 })
 
-
-
 const unprofitableStatsChartSeries = computed(() => [
   {
     name: 'Kirim',
-    data: unprofitableStats.value?.map((item) => item.deficit * -1).reverse(),
+    data: unprofitableStats.value?.map((item) => item.deficit),
   },
 ])
 
@@ -1554,7 +1552,7 @@ onMounted(() => {
   OrderService.getCorporateClientsStats({
     from: moment().subtract(30, 'days').startOf('day').format().toString().slice(0, 10),
     to: moment().startOf('day').format().toString().slice(0, 10),
-    intervalType: "week",
+    intervalType: "day",
   }).then((res) => {
     corporateStats.value = res
     var a = res?.flatMap((item) => item.data.map((i) => i.date))
@@ -1565,18 +1563,18 @@ onMounted(() => {
     )
   })
 
-  ProductService.getUnprofitableStat({
-    limit: 10,
-    intervalType: "week"
+  ProductService.getUnprofitableStats({
+    limit: 20,
+    intervalType: "month"
   }).then((res) => {
     unprofitableStats.value = res
   })
   
   ProductService.getVarietyStats({
-    startDate: moment().subtract(90, 'days').startOf('day').format().toString().slice(0, 10),
+    startDate: moment().subtract(60, 'days').startOf('day').format().toString().slice(0, 10),
     endDate: moment().startOf('day').format().toString().slice(0, 10),
     interval: 1,
-    intervalType: "week"
+    intervalType: "day"
   }).then((res) => {
     varietyStats.value = res
     var aa = res?.flatMap((item) => item.data.map((i) => i.day))
