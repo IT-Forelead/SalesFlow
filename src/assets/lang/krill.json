@@ -477,6 +477,8 @@
   "card": "UzCard/Humo",
   "click": "CLICK орқали тўлов",
   "autoUtilization": "Автоутилизация",
+  "unprofitableStatistics": "Фойдасиз махсулот статистика",
+  "corporateStatistics": "Юридик статистика",
   "Categories": "Категориялар",
   "addCategory": "Категория қўшиш",
   "editCategory": "Категория таҳрирлаш",
@@ -484,5 +486,12 @@
   "enterNameCategory": "Категория номини киритинг",
   "categories": "Категориялар",
   "nameCategory": "Категория номи",
+  "recommend": "Рекомендовать",
+  "unprofitable": "Убыточный",
+  "deficit": "Дефицит",
+  "unprofitableProducts": "Прибыльсиз маҳсулотлар",
+  "hiddenUnprofitableProducts": "Ҳамирланмаган маҳсулотлар",
+  "hideUnprofitableProduct": "Прибыльсиз маҳсулотни яшириш",
+  "recent": "Яқин махсулотлар",
   "CategoryInformation": "Категория ҳақида маълумот"
 }
