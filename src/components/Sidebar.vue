@@ -39,7 +39,7 @@ import PriceListIcon from '../assets/icons/PriceListIcon.vue'
 import UserIcon from '@/assets/icons/UserIcon.vue'
 import InvisIcon from '@/assets/icons/EyeSlashIcon.vue'
 import EyeIcon from '@/assets/icons/EyeIcon.vue'
-import CashboxIcon from '@/assets/icons/CashboxIcon.vue'
+import MoneyIcon from '@/assets/icons/MoneyIcon.vue'
 import CategoryService from '../services/category.service.js'
 
 const { t } = useI18n()
@@ -423,7 +423,7 @@ const toggleShowHideButtons = () => {
                 class="relative h-10 flex items-center w-full hover:bg-blue-300/10 hover:text-blue-600 py-5 text-zinc-400 dark:text-zinc-200 text-lg font-medium space-x-4 cursor-pointer transition-colors duration-300">
                 <div class="w-1.5 h-12 rounded-r-xl first-child-bg-color mr-2"></div>
                 <div class="flex h-10 items-center justify-center rounded-xl w-10 second-child-bg-color">
-                  <CashboxIcon class="w-6 h-6" />
+                  <MoneyIcon class="w-6 h-6" />
                 </div>
                 <div class="w-full">
                   {{ $t('sale') }}
@@ -868,7 +868,7 @@ const toggleShowHideButtons = () => {
                     class="relative h-10 flex items-center w-full hover:bg-blue-300/10 hover:text-blue-600 py-5 text-zinc-400 dark:text-zinc-200 text-lg font-medium space-x-4 cursor-pointer transition-colors duration-300">
                     <div class="w-1.5 h-12 rounded-r-xl first-child-bg-color mr-2"></div>
                     <div class="flex h-10 items-center justify-center rounded-xl w-10 second-child-bg-color">
-                      <CashboxIcon class="w-6 h-6" />
+                      <MoneyIcon class="w-6 h-6" />
                     </div>
                     <div class="w-full">
                       {{ $t('sale') }}
