@@ -479,5 +479,22 @@
   "choosePaymentType": "To'lov turini tanlang",
   "card": "UzCard/Humo",
   "click": "CLICK orqali to'lov",
-  "autoUtilization": "Avtoutilizatsiya"
+  "autoUtilization": "Avtoutilizatsiya",
+  "unprofitableStatistics": "Foydasiz mahsulot statistika",
+  "corporateStatistics": "Yuridik statistika",
+  "Categories": "Kategoriyalar",
+  "addCategory": "Kategoriya qo'shish",
+  "editCategory": "Kategoriya tahrirlash",
+  "deleteCategory": "Kategoriya o'chirish",
+  "enterNameCategory": "Kategoriya nomini kiriting",
+  "categories": "Kategoriyalar",
+  "nameCategory": "Kategoriya nomi",
+  "recommend": "Rekomendatsiya qilish",
+  "unprofitable": "Foydasiz",
+  "deficit": "Defitsit",
+  "unprofitableProducts": "Foydasiz mahsulotlar",
+  "hiddenUnprofitableProducts": "Yashirilgan foydasiz mahsulotlar",
+  "hideUnprofitableProduct": "Foydasiz mahsulotni yashirish",
+  "recentProducts": "Yaqin mahsulotlar",
+  "CategoryInformation": "Kategoriya haqida ma'lumot"
 }

@@ -55,6 +55,12 @@ export const useModalStore = defineStore('modal', {
     isOpenDeleteRecommendProductModal: false,
     isOpenHiddenRecommendProductsModal: false,
     isOpenUnhideRecommendProductModal: false,
+    isOpenDeleteCategoryModal: false,
+    isOpenCreateCategoryModal: false,
+    isOpenEditCategoryModal: false,
+    isOpenDeleteUnprofitableProductModal: false,
+    isOpenHiddenUnprofitableProductsModal: false,
+    isOpenUnhideUnprofitableProductModal: false,
   }),
   actions: {
     openEditTelegramBotModal() {
@@ -363,5 +369,41 @@ export const useModalStore = defineStore('modal', {
     closeUnhideRecommendProductModal() {
       this.isOpenUnhideRecommendProductModal = false
     },
+    openDeleteCategoryModal() {
+      this.isOpenDeleteCategoryModal = true
+    },
+    closeDeleteCategoryModal() {
+      this.isOpenDeleteCategoryModal = false
+    },
+    openCreateCategoryModal() {
+      this.isOpenCreateCategoryModal = true
+    },
+    closeCreateCategoryModal() {
+      this.isOpenCreateCategoryModal = false
+    },
+    openEditCategoryModal() {
+      this.isOpenEditCategoryModal = true
+    },
+    closeEditCategoryModal() {
+      this.isOpenEditCategoryModal = false
+    },
+    openDeleteUnprofitableProductModal() {
+      this.isOpenDeleteUnprofitableProductModal = true
+    },
+    closeDeleteUnprofitableProductModal() {
+      this.isOpenDeleteUnprofitableProductModal = false
+    },
+    openHiddenUnprofitableProductsModal() {
+      this.isOpenHiddenUnprofitableProductsModal = true
+    },
+    closeHiddenUnprofitableProductsModal() {
+      this.isOpenHiddenUnprofitableProductsModal = false
+    },
+    openUnhideUnprofitableProductModal() {
+      this.isOpenUnhideUnprofitableProductModal = true
+    },
+    closeUnhideUnprofitableProductModal() {
+      this.isOpenUnhideUnprofitableProductModal = false
+    }
   }
 })

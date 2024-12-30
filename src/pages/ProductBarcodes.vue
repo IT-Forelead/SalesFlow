@@ -1,6 +1,7 @@
 <script setup>
-import { computed, h, ref, watch, watchEffect } from 'vue'
+import { computed, h, ref, watch, watchEffect, onMounted} from 'vue'
 import ProductService from '../services/product.service.js'
+import CategoryService from '../services/category.service.js'
 import { useModalStore } from '../store/modal.store'
 import SearchIcon from '../assets/icons/SearchIcon.vue'
 import Spinners270RingIcon from '../assets/icons/Spinners270RingIcon.vue'
@@ -13,12 +14,24 @@ import BarcodesTable from '../components/common/BarcodesTable.vue'
 import EditIcon from '../assets/icons/EditIcon.vue'
 import { useI18n } from 'vue-i18n'
 import moment from 'moment'
+import { useCategoryStore } from '../store/category.store.js'
 
 const { t } = useI18n()
+
+const getCategories = async () => {
+  const res = await CategoryService.getCategories();
+  useCategoryStore().clearStore();
+  useCategoryStore().setCategories(res);
+};
+
+getCategories()
 
 const globalSearchFromTable = ref('')
 const isLoading = ref(false)
 const renderKey = ref(0)
+const categories = computed(() => {
+  return useCategoryStore().categories
+})
 const productStore = useProductStore()
 
 const productBarcodes = computed(() => {
@@ -52,6 +65,11 @@ const columns = [
   {
     accessorKey: 'trademark',
     header: t('name'),
+  },
+  {
+    accessorKey: 'categoryId',
+    accessorFn: row => categories.value?.filter((c) => c.id == row.categoryId)[0]?.name,
+    header: t('category'),
   },
   {
     accessorKey: 'packaging',
@@ -138,6 +156,7 @@ getBarcodes()
 watch(page, () => {
   getBarcodes()
 })
+
 
 </script>
 <template>
