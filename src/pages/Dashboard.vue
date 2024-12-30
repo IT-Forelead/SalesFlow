@@ -932,6 +932,7 @@ const predictStatsAreaChartOptions = computed(() => {
       },
     },
     yaxis: {
+      tickAmount: 6,
       floating: false,
       labels: {
         show: true,
@@ -1013,6 +1014,7 @@ const predictCountStatsAreaChartOptions = computed(() => {
       },
     },
     yaxis: {
+      tickAmount: 6,
       floating: false,
       max: 100,
       labels: {
@@ -1289,14 +1291,14 @@ const corporateStatsAreaChartOptions = computed(() => {
 const corporateSeries = computed(() => {
   return corporateStats.value?.map((a) => {
     const totalIncome = a?.data?.map((item) => item.income).reduce((sum, income) => sum + income, 0);
-    return totalIncome;
+    return totalIncome; 
   }) || [];
 });
 
 const corporateOptions = computed(() => {
   const formattedTotalIncome = corporateStats.value?.map((a) => {
     const totalIncome = a?.data?.map((item) => item.income).reduce((sum, income) => sum + income, 0);
-    return useMoneyFormatter(totalIncome);
+    return useMoneyFormatter(totalIncome); 
   }) || [];
 
   return {
@@ -1352,14 +1354,6 @@ const monthStatsChartSeries = computed(() => [
 ])
 
 const monthStatsAreaChartOptions = computed(() => {
-  const allDataValues = [
-    ...monthStatsChartSeries.value[0].data, // 'Kirim'
-    ...monthStatsChartSeries.value[1].data, // 'Foyda'
-    ...monthStatsChartSeries.value[2].data, // 'Chiqim'
-    ...monthStatsChartSeries.value[3].data, // 'Sof foyda'
-  ];
-  const maxDataValue = Math.max(...allDataValues.map((val) => Math.abs(val)));
-  const roundedMax = Math.ceil(maxDataValue / 100000) * 100000;
   return {
     legend: {
       labels: {
@@ -1391,7 +1385,7 @@ const monthStatsAreaChartOptions = computed(() => {
           colors: '#4a90e2',
         },
         formatter: function (val) {
-          return moment(val).format('D-MMM');
+          return moment(val).format('D-MMM')
         },
       },
       tooltip: {
@@ -1405,14 +1399,12 @@ const monthStatsAreaChartOptions = computed(() => {
       },
     },
     yaxis: {
-      max: roundedMax,
-      min: -roundedMax,
+      tickAmount: 6,
       floating: false,
-
       labels: {
         show: true,
         formatter: function (val) {
-          return useMoneyFormatter(val);
+          return useMoneyFormatter(val)
         },
         style: {
           colors: '#4a90e2',
@@ -1426,6 +1418,8 @@ const monthStatsAreaChartOptions = computed(() => {
       axisTicks: {
         show: true,
       },
+      min: Math.min(...monthStats.value?.map(item => Math.min(item.income, item.profit, item.expense, item.netProfit))),
+      max: Math.max(...monthStats.value?.map(item => Math.max(item.income, item.profit, item.expense, item.netProfit))),
     },
     fill: {
       opacity: 0.5,
@@ -1433,7 +1427,10 @@ const monthStatsAreaChartOptions = computed(() => {
     grid: {
       yaxis: {
         lines: {
-          offsetX: -30,
+          show: true,
+          borderColor: '#4a90e2',
+          width: 1,
+          style: 'solid',
         },
       },
       padding: {
@@ -1444,20 +1441,21 @@ const monthStatsAreaChartOptions = computed(() => {
       yaxis: [
         {
           y: 0,
-          borderColor: 'rgba(0,0,0,0.2)',
-          borderWidth: 2,
-          strokeDashArray: 0,
+          borderColor: '#000',
+          borderWidth: 3,
           label: {
             show: false,
           },
         },
       ],
     },
-  };
-});
+  }
+})
 
 const unprofitableDropdown = ref(null)
 const unprofitableStats = ref([])
+
+
 const filterUnprofitableData = reactive({
   intervalType: useProductStore().intervalType,
   limit: useProductStore().limit
@@ -2491,7 +2489,8 @@ const recommendStatsAreaChartOptions = computed(() => {
             <ChartDonutIcon class="w-8 h-8 dark:text-blue-400 text-blue-600" />
           </div>
         </div>
-        <apexchart type="donut" height="320" :options="corporateOptions" :series="corporateSeries">
+        <apexchart type="donut" height="320" :options="corporateOptions"
+          :series="corporateSeries">
         </apexchart>
       </div>
     </div>

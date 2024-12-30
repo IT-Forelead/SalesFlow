@@ -316,7 +316,7 @@ const createMinimalPriceSettings = () => {
       </TabPanel>
       <TabPanel>
         <template #header>
-          <select class="py-0 !border-none flex align-items-center gap-2" id="three" v-model="selectedOption">
+          <select id="three" v-model="selectedOption" class=" border-white border-solid border-0">
             <option value="recommend" selected>{{ $t('recommendProducts') }}</option>
             <option value="unprofitable">{{ $t('unprofitableProducts') }}</option>
             <option value="recent">{{ $t('recentProducts') }}</option>
