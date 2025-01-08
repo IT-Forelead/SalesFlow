@@ -13,6 +13,7 @@ export const useDropdownStore = defineStore('dropdown', {
     isOpenMonthFilterBy: false,
     isOpenPredictFilterBy: false,
     isOpenRecommendFilterBy: false,
+    isOpenRecentFilterBy: false,
 
     isOpenUnprofitableFilterBy: false,
     isOpenCorporateFilterBy: false,
@@ -64,5 +65,8 @@ export const useDropdownStore = defineStore('dropdown', {
     toggleUnprofitableFilterBy() {
       this.isOpenUnprofitableFilterBy = !this.isOpenUnprofitableFilterBy
     },
+    toggleRecentFilterBy() {
+      this.isOpenRecentFilterBy = !this.isOpenRecentFilterBy
+    }
   }
 })

@@ -100,6 +100,15 @@ class ProductService {
   async unhideUnprofitableProduct(productId) {
     return AxiosService.delete(`/product/unprofitable/unhide/${productId}`);
   }
+  async getRecentlyProducts(page, limit) {
+    return AxiosService.get(`/product/recently-out/blocked?page=${page}&limit=${limit}`)
+  }
+  async deleteRecetnlyHideProduct(productId) {
+    return AxiosService.delete(`/product/recently-out/hide/${productId}`)
+  }
+  async deleteRecentlyUnhideProduct(productId) {
+    return AxiosService.delete(`/product/recently-out/unhide/${productId}`)
+  }
 }
 
 export default new ProductService()

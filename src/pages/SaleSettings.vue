@@ -18,6 +18,7 @@ import TrashIcon from '../assets/icons/TrashIcon.vue'
 import moment from 'moment'
 import RecommendProducts from '../components/vaucher/RecommendProducts.vue'
 import UnprofitableProducts from '../components/vaucher/UnprofitableProducts.vue'
+import RecentProducts from '@/components/vaucher/RecentProducts.vue'
 
 const { t } = useI18n()
 const isLoading = ref(false)
@@ -325,7 +326,7 @@ const createMinimalPriceSettings = () => {
         <div class="p-2">
           <RecommendProducts v-if="selectedOption === 'recommend'" />
           <UnprofitableProducts v-if="selectedOption === 'unprofitable'" />
-          <UnprofitableProducts v-if="recent === 'recent'" />
+          <RecentProducts v-if="recent === 'recent'" />
         </div>
       </TabPanel>
     </TabView>
