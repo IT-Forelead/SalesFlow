@@ -15,8 +15,8 @@ import CTable from '../common/CTable.vue'
 const { t } = useI18n()
 const isLoading = ref(false)
 const globalSearchFromTable = ref('')
-const productStats = ref()
 const productStore = useProductStore()
+const productStats = ref()
 
 const recentProducts = computed(() => productStore.recentProducts)
 const renderKey = computed(() => productStore.renderKey)
@@ -100,51 +100,51 @@ const cleanFilterRecentData = () => {
 }
 
 const submitRecentStatsFilterData = () => {
-  if (!filterRecentData.intervalType) {
-    toast.warning(t('plsSelectIntervalType'))
-  } else if (!filterRecentData.limit) {
-    toast.warning(t('plsSelectLimit'))
-  } else {
-    isLoading.value = true
-    productStore.setIntervalType(filterRecentData.intervalType)
-    productStore.setLimit(filterRecentdData.limit)
-    ProductService.getRecentlyProducts({
-      intervalType: filterRecentData.intervalType,
-      limit: filterRecentData.limit,
-    }).then((res) => {
-      productStore.clearStore()
-      productStore.setRecentProducts(res)
-      isLoading.value = false
-      if (useDropdownStore().isOpenRecentFilterBy) {
-        useDropdownStore().toggleRecentFilterBy()
-      }
-    }).catch(() => {
-      isLoading.value = false
-    })
+  if (!filterRecentData.intervalType || !filterRecentData.limit) {
+    toast.warning(t('Пожалуйста, заполните все поля фильтра.'));
+    return;
   }
-}
-
-const getRecentlyProducts = () => {
-  isLoading.value = true
-  ProductService.getRecentlyProducts(
-    {
-      intervalType: filterRecentData.intervalType,
-      limit: filterRecentData.limit
-    }
-  )
+  isLoading.value = true;
+  ProductService.getRecentlyOutProducts({
+    intervalType: filterRecentData.intervalType,
+    limit: filterRecentData.limit,
+  })
     .then((res) => {
-      productStore.clearStore()
-      productStore.setRecentProducts(res)
-    }).finally(() => {
-      isLoading.value = false
+      productStore.setRecentProducts(res.data);
     })
-}
+    .catch((err) => {
+      console.error('Ошибка при загрузке данных:', err);
+    })
+    .finally(() => {
+      isLoading.value = false;
+    });
+};
+
+
+const getRecentlyOutProducts = () => {
+  isLoading.value = true;
+  ProductService.getRecentlyOutProducts({
+    intervalType: filterRecentData.intervalType,
+    limit: filterRecentData.limit,
+  })
+    .then((res) => {
+      productStore.clearStore();
+      productStore.setRecentProducts(res.data)
+    })
+    .catch((err) => {
+      console.error('Failed to load recent products:', err);
+    })
+    .finally(() => {
+      isLoading.value = false;
+    });
+};
 
 onMounted(() => {
+  console.log('Вызов getRecentlyOutProducts');
   cleanFilterRecentData
-  getRecentlyProducts()
-  ProductService.getRecentlyProducts()
-    .then((res) => {
+  getRecentlyOutProducts()
+  ProductService.getRecentlyOutProducts()
+  .then((res) => {
       productStats.value = res
     })
 })

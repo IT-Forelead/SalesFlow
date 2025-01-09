@@ -326,7 +326,7 @@ const createMinimalPriceSettings = () => {
         <div class="p-2">
           <RecommendProducts v-if="selectedOption === 'recommend'" />
           <UnprofitableProducts v-if="selectedOption === 'unprofitable'" />
-          <RecentProducts v-if="recent === 'recent'" />
+          <RecentProducts v-if="selectedOption === 'recent'" />
         </div>
       </TabPanel>
     </TabView>

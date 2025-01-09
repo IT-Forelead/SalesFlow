@@ -65,9 +65,9 @@ const cleanFilterRecentData = () => {
   filterRecentData.limit = 0
 }
 
-const getRecentStats = () => {
+const getRecentlyOutProducts = () => {
   isLoading.value = true
-  ProductService.getRecentStats(
+  ProductService.getRecentlyOutProducts(
     {
       intervalType: filterRecentData.intervalType,
       limit: filterRecentData.limit
@@ -83,6 +83,7 @@ const getRecentStats = () => {
 
 onMounted(() => {
   cleanFilterRecentData
+  getRecentlyOutProducts()
   
 })
 
