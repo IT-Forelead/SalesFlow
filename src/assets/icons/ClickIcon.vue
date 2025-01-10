@@ -1,10 +1,10 @@
 
 <template>
-  <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24"><path fill="currentColor" d="M19.1 8.7c1.8 1.8 1.8 4.6 0 6.5l1 1c2.5-2.3 2.5-6.1 0-8.5zM18 9.8l-1 1c.5.7.5 1.6 0 2.3l1 1c1.2-1.2 1.2-3 0-4.3M14 1H4a2 2 0 0 0-2 2v18a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V3a2 2 0 0 0-2-2m0 19H4V4h10z"></path></svg>
+  <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24"><path fill="currentColor" d="M2 16v2a5 5 0 0 1 5 5h2a7 7 0 0 0-7-7m0 4v3h3a3 3 0 0 0-3-3m0-8v2a9 9 0 0 1 9 9h2c0-6.08-4.92-11-11-11M17 1H7a2 2 0 0 0-2 2v7.37c.69.16 1.36.37 2 .63V5h10v13h-3.03c.53 1.25.84 2.59.95 4H17a2 2 0 0 0 2-2V3a2 2 0 0 0-2-2"></path></svg>
 </template>
 
 <script>
 export default {
-  name: 'MdiCellphoneSound'
+  name: 'MdiCellphoneNfc'
 }
 </script>

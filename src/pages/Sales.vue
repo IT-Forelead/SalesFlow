@@ -47,8 +47,8 @@ import Dialog from 'primevue/dialog';
 import CashbackService from '../services/cashback.service';
 import CorporateClientsService from '@/services/corporateClients.service.js';
 import { useCorporateClientsStore } from '@/store/corporateClients.store';
-import MoneyIcons from '../assets/icons/MoneyIcons.vue';
-import CreditIcon from '../assets/icons/CreditIcon.vue';
+import MoneyWavyIcon from '../assets/icons/MoneyWavyIcon.vue';
+import CreditCardIcon from '../assets/icons/CreditCardIcon.vue';
 import ClickIcon from '../assets/icons/ClickIcon.vue';
 
 
@@ -1983,7 +1983,7 @@ const handlePrintCheckChange = () => {
                   @click="createOrderForCash(printCheck)"
                   class="w-full xl:py-3 px-4 lg:py-2 py-3 rounded-lg text-white text-lg font-medium bg-blue-500 cursor-pointer hover:bg-blue-600"
                 >
-                  <MoneyIcons class="ml-2 h-6 w-6 inline" />
+                  <MoneyWavyIcon class="ml-2 h-6 w-6 inline" />
 
                 </button>
                 <!-- Кнопка для терминала -->
@@ -1991,7 +1991,7 @@ const handlePrintCheckChange = () => {
                   @click="createOrderForCard(printCheck)"
                   class="w-full xl:py-3 px-4 lg:py-2 py-3 rounded-lg text-white text-lg font-medium bg-blue-500 cursor-pointer hover:bg-blue-600"
                 >
-                  <CreditIcon class="ml-2 h-6 w-6 inline" />
+                  <CreditCardIcon class="ml-2 h-6 w-6 inline" />
 
                 </button>
 
