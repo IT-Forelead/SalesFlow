@@ -1345,21 +1345,10 @@ const monthStatsChartSeries = computed(() => [
     name: 'Chiqim',
     data: monthStats.value?.map((item) => item.expense).reverse(),
   },
-  {
-    name: 'Sof foyda',
-    data: monthStats.value?.map((item) => item.netProfit).reverse(),
-  },
 ])
 
 const monthStatsAreaChartOptions = computed(() => {
-  const allDataValues = [
-    ...monthStatsChartSeries.value[0].data, // 'Kirim'
-    ...monthStatsChartSeries.value[1].data, // 'Foyda'
-    ...monthStatsChartSeries.value[2].data, // 'Chiqim'
-    ...monthStatsChartSeries.value[3].data, // 'Sof foyda'
-  ];
-  const maxDataValue = Math.max(...allDataValues.map((val) => Math.abs(val)));
-  const roundedMax = Math.ceil(maxDataValue / 100000) * 100000;
+  
   return {
     legend: {
       labels: {
@@ -1405,8 +1394,7 @@ const monthStatsAreaChartOptions = computed(() => {
       },
     },
     yaxis: {
-      max: roundedMax,
-      min: -roundedMax,
+      
       floating: false,
 
       labels: {
@@ -1439,19 +1427,6 @@ const monthStatsAreaChartOptions = computed(() => {
       padding: {
         left: 20,
       },
-    },
-    annotations: {
-      yaxis: [
-        {
-          y: 0,
-          borderColor: 'rgba(0,0,0,0.2)',
-          borderWidth: 2,
-          strokeDashArray: 0,
-          label: {
-            show: false,
-          },
-        },
-      ],
     },
   };
 });
