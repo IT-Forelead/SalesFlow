@@ -495,5 +495,6 @@
   "hiddenUnprofitableProducts": "Скрытые неприбыльные продукты",
   "hideUnprofitableProduct": "Скрыть неприбыльный продукт",
   "recent": "Недавние продукты",
-  "CategoryInformation": "Информация о категории"
+  "CategoryInformation": "Информация о категории",
+  "printOrder": "Выдать чек"
 }
