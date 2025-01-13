@@ -1,9 +1,6 @@
 <script setup>
 import { vMaska } from 'maska'
 import { reactive, ref, computed, h, onMounted } from 'vue'
-import { toast } from 'vue-sonner'
-import Spinners270RingIcon from '../../assets/icons/Spinners270RingIcon.vue'
-import { cleanObjectEmptyFields } from '../../mixins/utils'
 import { useModalStore } from '../../store/modal.store.js'
 import CancelButton from '../buttons/CancelButton.vue'
 import CModal from '../common/CModal.vue'
@@ -16,8 +13,6 @@ import EyeIcon from '@/assets/icons/EyeIcon.vue'
 const { t } = useI18n()
 const productStore = useProductStore()
 const renderKey = computed(() => productStore.renderKey)
-// const page = ref(1)
-// const pageSize = 30
 const isLoading = ref(false)
 const hiddenProducts = computed(() => productStore.hiddenProducts)
 

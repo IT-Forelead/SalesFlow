@@ -82,7 +82,7 @@ const openDeleteRecentProductModal = (data) => {
 }
 
 const openHiddenRecentProductsModal = () => {
-  ProductService.getHiddenRecentProducts(1, 30).then((res) => {
+  ProductService.getRecentlyProducts(1, 30).then((res) => {
       productStore.clearStore()
       productStore.setHiddenRecentProducts(res.data)
       useModalStore().openHiddenRecentProductsModal()
@@ -142,7 +142,7 @@ const getRecentlyOutProducts = () => {
 onMounted(() => {
   console.log('Вызов getRecentlyOutProducts');
   cleanFilterRecentData
-  getRecentlyOutProducts()
+  
   ProductService.getRecentlyOutProducts()
   .then((res) => {
       productStats.value = res
