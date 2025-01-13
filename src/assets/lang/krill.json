@@ -494,5 +494,8 @@
   "hideUnprofitableProduct": "Прибыльсиз маҳсулотни яшириш",
   "recent": "Яқин махсулотлар",
   "CategoryInformation": "Категория ҳақида маълумот",
-  "printOrder": "Чек чоп етиш"
+  "printOrder": "Чек чоп етиш",
+  "editPaymentType": "Тўлов турини таҳрирлаш",
+  "paymentEditedSuccessfully": "Тўлов турини таҳрирланди!",
+  "errorWhileEditingPayment": "Тўлов турини хатолик юз берди"
 }

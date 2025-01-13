@@ -40,9 +40,9 @@ import ScrollPanel from 'primevue/scrollpanel';
 import { Money3 } from 'v-money3';
 import HolidayDiscountService from '../services/holidayDiscount.service.js';
 import { useHolidayDiscount } from '../store/holidayDiscount.store.js';
-import PhPercent from '../assets/icons/PercentIcon.vue';
+import DiscountIcon from '@/assets/icons/DiscountIcon.vue'
 import useMoneyFormatter from '../mixins/currencyFormatter.js';
-import TicketSale from '../assets/icons/TicketSaleIcon.vue';
+import QrCodeIcon from '../assets/icons/QrCodeIcon.vue';
 import Dialog from 'primevue/dialog';
 import CashbackService from '../services/cashback.service';
 import CorporateClientsService from '@/services/corporateClients.service.js';
@@ -50,6 +50,7 @@ import { useCorporateClientsStore } from '@/store/corporateClients.store';
 import MoneyWavyIcon from '../assets/icons/MoneyWavyIcon.vue';
 import CreditCardIcon from '../assets/icons/CreditCardIcon.vue';
 import ClickIcon from '../assets/icons/ClickIcon.vue';
+
 
 
 const notificationDropdown = ref(null);
@@ -1462,7 +1463,7 @@ const handlePrintCheckChange = () => {
           :title="t('cardIdScanning')"
           class="hidden md:flex items-center justify-center bg-slate-100 dark:bg-slate-700 rounded-xl h-12 w-12 cursor-pointer"
         >
-          <TicketSale class="w-5 h-5 text-blue-600 dark:text-blue-400" />
+          <QrCodeIcon class="w-5 h-5 text-blue-600 dark:text-blue-400" />
         </button>
         <Dialog
           v-model:visible="useModalStore().isOpenCardIdModal"
@@ -1861,7 +1862,7 @@ const handlePrintCheckChange = () => {
               :class="showDiscountForm ? 'border-blue-300 bg-blue-50' : ''"
               class="flex-1 hover:bg-blue-100 bg-blue-50 dark:border-slate-600 hover:border-blue-300 dark:bg-slate-700 dark:text-slate-100 dark:hover:bg-blue-500  hover:cursor-pointer flex flex-col w-full items-center text-center justify-center border rounded-lg py-4"
             >
-              <PhPercent class="w-6 h-6" />
+              <DiscountIcon class="w-6 h-6" />
               <div class="text-lg font-medium">
                 {{ $t('intoDiscount') }}
               </div>

@@ -61,6 +61,7 @@ export const useModalStore = defineStore('modal', {
     isOpenDeleteUnprofitableProductModal: false,
     isOpenHiddenUnprofitableProductsModal: false,
     isOpenUnhideUnprofitableProductModal: false,
+    isOpenEditOrderModal: false,
   }),
   actions: {
     openEditTelegramBotModal() {
@@ -404,6 +405,12 @@ export const useModalStore = defineStore('modal', {
     },
     closeUnhideUnprofitableProductModal() {
       this.isOpenUnhideUnprofitableProductModal = false
+    },
+    openEditOrderModal() {
+      this.isOpenEditOrderModal = true
+    },
+    closeEditOrderModal() {
+      this.isOpenEditOrderModal = false
     }
   }
 })
