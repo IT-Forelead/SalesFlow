@@ -497,5 +497,8 @@
   "hideUnprofitableProduct": "Foydasiz mahsulotni yashirish",
   "recentProducts": "Yaqin mahsulotlar",
   "CategoryInformation": "Kategoriya haqida ma'lumot",
-  "printOrder": "Chek chop etish"
+  "printOrder": "Chek chop etish",
+  "editPaymentType": "To'lov turini tahrirlash",
+  "paymentEditedSuccessfully": "To'lov turini tahrirlandi!",
+  "errorWhileEditingPayment": "To'lov turini xatolik yuz berdi"
 }
