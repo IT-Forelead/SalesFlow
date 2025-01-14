@@ -127,23 +127,19 @@ const getRecentlyOutProducts = () => {
     intervalType: filterRecentData.intervalType,
     limit: filterRecentData.limit,
   })
-    .then((res) => {
-      productStore.clearStore();
-      productStore.setRecentProducts(res.data)
+  .then((res) => {
+      productStore.clearStore()
+      productStore.setRecentProducts(res)
+    }).finally(() => {
+      isLoading.value = false
     })
-    .catch((err) => {
-      console.error('Failed to load recent products:', err);
-    })
-    .finally(() => {
-      isLoading.value = false;
-    });
-};
+}
 
 onMounted(() => {
   console.log('Вызов getRecentlyOutProducts');
   cleanFilterRecentData
-  
-  ProductService.getRecentlyOutProducts()
+  getRecentlyOutProducts()
+  ProductService.getProductStats()
   .then((res) => {
       productStats.value = res
     })
