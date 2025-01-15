@@ -61,6 +61,7 @@ export const useModalStore = defineStore('modal', {
     isOpenDeleteUnprofitableProductModal: false,
     isOpenHiddenUnprofitableProductsModal: false,
     isOpenUnhideUnprofitableProductModal: false,
+    isOpenEditOrderModal: false,
     isOpenDeleteRecentProductsModal: false,
     isOpenHiddenRecentProductsModal: false,
     isOpenUnhideRecentProductModal: false,
@@ -407,6 +408,12 @@ export const useModalStore = defineStore('modal', {
     },
     closeUnhideUnprofitableProductModal() {
       this.isOpenUnhideUnprofitableProductModal = false
+    },
+    openEditOrderModal() {
+      this.isOpenEditOrderModal = true
+    },
+    closeEditOrderModal() {
+      this.isOpenEditOrderModal = false
     },
     openDeleteRecentProductsModal() {
       this.isOpenDeleteRecentProductsModal = true

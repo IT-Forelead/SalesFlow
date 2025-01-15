@@ -40,13 +40,18 @@ import ScrollPanel from 'primevue/scrollpanel';
 import { Money3 } from 'v-money3';
 import HolidayDiscountService from '../services/holidayDiscount.service.js';
 import { useHolidayDiscount } from '../store/holidayDiscount.store.js';
-import PhPercent from '../assets/icons/PercentIcon.vue';
+import DiscountIcon from '@/assets/icons/DiscountIcon.vue'
 import useMoneyFormatter from '../mixins/currencyFormatter.js';
-import TicketSale from '../assets/icons/TicketSaleIcon.vue';
+import QrCodeIcon from '../assets/icons/QrCodeIcon.vue';
 import Dialog from 'primevue/dialog';
 import CashbackService from '../services/cashback.service';
 import CorporateClientsService from '@/services/corporateClients.service.js';
 import { useCorporateClientsStore } from '@/store/corporateClients.store';
+import MoneyWavyIcon from '../assets/icons/MoneyWavyIcon.vue';
+import CreditCardIcon from '../assets/icons/CreditCardIcon.vue';
+import ClickIcon from '../assets/icons/ClickIcon.vue';
+
+
 
 const notificationDropdown = ref(null);
 
@@ -1339,6 +1344,29 @@ const getCustomerBalance = () => {
 const closeCardIdModal = () => {
   useModalStore().closeCardIdModal();
 };
+
+const printCheck = ref(true);
+
+const createOrderForCash = (printCheck = true) => {
+  submitData.paymentType = 'cash';
+  createOrder(printCheck);
+};
+
+const createOrderForCard = (printCheck = true) => {
+  submitData.paymentType = 'terminal';
+  createOrder(printCheck);
+};
+
+const createOrderForClick = (printCheck = true) => {
+  submitData.paymentType = 'click';
+  createOrder(printCheck);
+};
+
+const handlePrintCheckChange = () => {
+  if (!printCheck) {
+    printCheck = false;
+  }
+};
 </script>
 
 <template>
@@ -1435,7 +1463,7 @@ const closeCardIdModal = () => {
           :title="t('cardIdScanning')"
           class="hidden md:flex items-center justify-center bg-slate-100 dark:bg-slate-700 rounded-xl h-12 w-12 cursor-pointer"
         >
-          <TicketSale class="w-5 h-5 text-blue-600 dark:text-blue-400" />
+          <QrCodeIcon class="w-5 h-5 text-blue-600 dark:text-blue-400" />
         </button>
         <Dialog
           v-model:visible="useModalStore().isOpenCardIdModal"
@@ -1823,17 +1851,7 @@ const closeCardIdModal = () => {
           {{ useMoneyFormatter(submitData.customerMoney - submitData.paymentReceived) }}
         </div>
       </div>
-      <div class="flex-1 space-y-1">
-        <label for="payment-type" class="text-base dark:text-white md:text-lg font-medium">
-          {{ $t('paymentType') }}
-        </label>
-        <select id="payment-type" v-model="submitData.paymentType"
-                class="bg-slate-100 border-none dark:bg-slate-700 dark:text-white text-slate-900 rounded-lg text-base md:text-lg block w-full h-11">
-          <option value="cash" selected>{{ $t('cash') }}</option>
-          <option value="terminal">{{ $t('card') }}</option>
-          <option value="click">{{ $t('click') }}</option>
-        </select>
-      </div>
+      
       <div class="space-y-3">
         <div class="py-3 lg:py-0 space-y-1">
           <div
@@ -1844,7 +1862,7 @@ const closeCardIdModal = () => {
               :class="showDiscountForm ? 'border-blue-300 bg-blue-50' : ''"
               class="flex-1 hover:bg-blue-100 bg-blue-50 dark:border-slate-600 hover:border-blue-300 dark:bg-slate-700 dark:text-slate-100 dark:hover:bg-blue-500  hover:cursor-pointer flex flex-col w-full items-center text-center justify-center border rounded-lg py-4"
             >
-              <PhPercent class="w-6 h-6" />
+              <DiscountIcon class="w-6 h-6" />
               <div class="text-lg font-medium">
                 {{ $t('intoDiscount') }}
               </div>
@@ -1961,59 +1979,46 @@ const closeCardIdModal = () => {
 
           <div v-else class="space-y-4">
             <div v-if="!isLoadingOrderWithPrint && !isLoadingOrderWithoutPrint" class="space-y-4">
-              <div class="flex space-x-4">
-                <button
-                  @click="createOrder(true)"
+              <div class="flex space-x-2 justify-between">
+                <button :title="t('cash')"
+                  @click="createOrderForCash(printCheck)"
                   class="w-full xl:py-3 px-4 lg:py-2 py-3 rounded-lg text-white text-lg font-medium bg-blue-500 cursor-pointer hover:bg-blue-600"
                 >
-                  {{ $t('payment') }}
-                  <BillCheckIcon class="ml-2 h-6 w-6 inline" />
+                  <MoneyWavyIcon class="ml-2 h-6 w-6 inline" />
+
                 </button>
-                <button
-                  @click="createOrder(false)"
-                  class="w-full xl:py-3 px-4 lg:py-2 py-3 rounded-lg text-lg font-medium dark:bg-slate-700 dark:text-blue-400 dark:hover:bg-[#293348] cursor-pointer bg-blue-50 dark:border-slate-600 border border-blue-300 text-blue-500 hover:bg-blue-200"
-                >
-                  {{ $t('payment') }}
-                  <BillCrossIcon class="ml-2 h-6 w-6 inline" />
-                </button>
-              </div>
-            </div>
-            <div v-else class="space-y-4">
-              <div class="flex space-x-4">
-                <button
-                  v-if="isLoadingOrderWithPrint"
-                  class="flex items-center justify-center w-full xl:py-3 px-4 lg:py-2 py-3 rounded-lg text-white text-lg font-medium bg-blue-600"
-                >
-                  <Spinners270RingIcon
-                    class="mr-2 w-5 h-5 text-gray-200 animate-spin dark:text-slate-100 fill-gray-600 dark:fill-gray-300"
-                  />
-                  {{ $t('payment') }}
-                </button>
-                <button
-                  v-else
+                <!-- Кнопка для терминала -->
+                <button :title="t('terminal')"
+                  @click="createOrderForCard(printCheck)"
                   class="w-full xl:py-3 px-4 lg:py-2 py-3 rounded-lg text-white text-lg font-medium bg-blue-500 cursor-pointer hover:bg-blue-600"
                 >
-                  {{ $t('payment') }}
-                  <BillCheckIcon class="ml-2 h-6 w-6 inline" />
+                  <CreditCardIcon class="ml-2 h-6 w-6 inline" />
+
                 </button>
-                <button
-                  v-if="isLoadingOrderWithoutPrint"
-                  class="flex items-center justify-center w-full xl:py-3 px-4 lg:py-2 py-3 rounded-lg text-lg font-medium cursor-pointer bg-blue-50 border border-blue-300 text-blue-500 hover:bg-blue-100"
+
+                <!-- Кнопка для клика -->
+                <button :title="t('click')" 
+                  @click="createOrderForClick(printCheck)"
+                  class="w-full xl:py-3 px-4 lg:py-2 py-3 rounded-lg text-white text-lg font-medium bg-blue-500 cursor-pointer hover:bg-blue-600"
                 >
-                  <Spinners270RingIcon
-                    class="mr-2 w-5 h-5 text-blue-500 animate-spin dark:text-slate-100 fill-gray-600 dark:fill-gray-300"
-                  />
-                  {{ $t('payment') }}
-                </button>
-                <button
-                  v-else
-                  class="w-full xl:py-3 px-4 lg:py-2 py-3 rounded-lg text-lg font-medium cursor-pointer bg-blue-50 border border-blue-300 text-blue-500 hover:bg-blue-100"
-                >
-                  {{ $t('payment') }}
-                  <BillCrossIcon class="ml-2 h-6 w-6 inline" />
+                  <ClickIcon class="ml-2 h-6 w-6 inline" />
+
                 </button>
               </div>
+
+              <!-- Чекбокс для выбора печати -->
+              <div @change="handlePrintCheckChange"
+              class="flex p-4 space-x-4 items-center border rounded-xl hover:bg-blue-100 dark:bg-slate-700 dark:hover:bg-slate-700 dark:text-slate-100">
+                <input 
+                  type="checkbox" 
+                  id="printCheck" 
+                  v-model="printCheck" 
+                  class="rounded" 
+                />
+                <label class="w-full" for="printCheck">{{ $t('printOrder') }}</label>
+              </div>
             </div>
+            <!--  -->
           </div>
 
           <div v-if="showDebtForm" class="flex flex-col space-y-3">

@@ -932,7 +932,6 @@ const predictStatsAreaChartOptions = computed(() => {
       },
     },
     yaxis: {
-      tickAmount: 6,
       floating: false,
       labels: {
         show: true,
@@ -1014,7 +1013,6 @@ const predictCountStatsAreaChartOptions = computed(() => {
       },
     },
     yaxis: {
-      tickAmount: 6,
       floating: false,
       max: 100,
       labels: {
@@ -1288,6 +1286,52 @@ const corporateStatsAreaChartOptions = computed(() => {
   }
 })
 
+const corporateSeries = computed(() => {
+  return corporateStats.value?.map((a) => {
+    const totalIncome = a?.data?.map((item) => item.income).reduce((sum, income) => sum + income, 0);
+    return totalIncome;
+  }) || [];
+});
+
+const corporateOptions = computed(() => {
+  const formattedTotalIncome = corporateStats.value?.map((a) => {
+    const totalIncome = a?.data?.map((item) => item.income).reduce((sum, income) => sum + income, 0);
+    return useMoneyFormatter(totalIncome);
+  }) || [];
+
+  return {
+    chart: {
+      type: 'donut',
+    },
+    labels: corporateStats.value?.map((a) => a?.fullName) || [],
+    legend: {
+      show: true,
+      labels: {
+        colors: 'rgb(128, 128, 128)',
+        useSeriesColors: false,
+      },
+    },
+    responsive: [{
+      breakpoint: 480,
+      options: {
+        chart: {
+          width: 200,
+        },
+        legend: {
+          position: 'bottom',
+        },
+      },
+    }],
+    tooltip: {
+      y: {
+        formatter: function (value, { seriesIndex }) {
+          return useMoneyFormatter(value);
+        }
+      }
+    },
+  }
+});
+
 const monthStatsChartSeries = computed(() => [
   {
     name: 'Kirim',
@@ -1297,9 +1341,14 @@ const monthStatsChartSeries = computed(() => [
     name: 'Foyda',
     data: monthStats.value?.map((item) => item.profit).reverse(),
   },
+  {
+    name: 'Chiqim',
+    data: monthStats.value?.map((item) => item.expense).reverse(),
+  },
 ])
 
 const monthStatsAreaChartOptions = computed(() => {
+  
   return {
     legend: {
       labels: {
@@ -1331,7 +1380,7 @@ const monthStatsAreaChartOptions = computed(() => {
           colors: '#4a90e2',
         },
         formatter: function (val) {
-          return moment(val).format('D-MMM')
+          return moment(val).format('D-MMM');
         },
       },
       tooltip: {
@@ -1345,12 +1394,13 @@ const monthStatsAreaChartOptions = computed(() => {
       },
     },
     yaxis: {
-      tickAmount: 6,
+      
       floating: false,
+
       labels: {
         show: true,
         formatter: function (val) {
-          return useMoneyFormatter(val)
+          return useMoneyFormatter(val);
         },
         style: {
           colors: '#4a90e2',
@@ -1378,13 +1428,11 @@ const monthStatsAreaChartOptions = computed(() => {
         left: 20,
       },
     },
-  }
-})
+  };
+});
 
 const unprofitableDropdown = ref(null)
 const unprofitableStats = ref([])
-
-
 const filterUnprofitableData = reactive({
   intervalType: useProductStore().intervalType,
   limit: useProductStore().limit
@@ -1569,7 +1617,7 @@ onMounted(() => {
   }).then((res) => {
     unprofitableStats.value = res
   })
-  
+
   ProductService.getVarietyStats({
     startDate: moment().subtract(60, 'days').startOf('day').format().toString().slice(0, 10),
     endDate: moment().startOf('day').format().toString().slice(0, 10),
@@ -2316,6 +2364,113 @@ const recommendStatsAreaChartOptions = computed(() => {
       <apexchart type="area" height="320" :options="turnoverStatsAreaChartOptions" :series="turnoverStatsChartSeries">
       </apexchart>
     </div>
+
+
+    <div class="flex flex-col md:flex-row space-x-0 md:space-x-4 space-y-2 md:space-y-0">
+      <div class="flex-1 bg-slate-100 dark:bg-slate-900 rounded-3xl p-5">
+        <div class="flex flex-col md:flex-row md:items-center md:justify-between px-2 space-y-3 md:space-y-0">
+          <div>
+            <div class="text-base font-bold text-slate-800 dark:text-slate-200">
+              {{ $t('corporateStatistics') }}
+            </div>
+            <div class="text-sm text-gray-600 dark:text-white">
+              {{ $t('beginStatText') }}
+              <span class="font-bold lowercase">{{ $t('monthly') }}</span>
+              {{ $t('endStatText') }}
+            </div>
+          </div>
+          <div class="relative" ref="corporateDropdown">
+            <div @click="useDropdownStore().toggleCorporateFilterBy()"
+              class="border-none w-40 select-none text-gray-900 bg-white dark:text-zinc-200 dark:bg-slate-800 shadow rounded-lg p-2 px-5 flex items-center hover:bg-gray-100 cursor-pointer space-x-1">
+              <FunnelIcon class="w-5 h-5 dark:text-zinc-50 text-gray-400" />
+              <span>{{ $t('filter') }}</span>
+            </div>
+            <div v-if="useDropdownStore().isOpenCorporateFilterBy"
+              class="absolute dark:bg-slate-800 w-96 bg-white shadow rounded-xl  p-3 z-20 top-12 right-0 space-y-3">
+              <div class=" items-center space-x-1">
+                <div class="flex">
+                  <div class="flex items-center space-x-1">
+                    <label for="" class="dark:text-white">
+                      {{ $t('from') }}
+                      <input v-model="filterCorporateData.from" type="date"
+                        class="border-none text-gray-500 bg-gray-100 rounded-lg     dark:bg-slate-600 dark:text-white w-full" />
+                    </label>
+                    <ArrowDownIcon class="-rotate-90 text-gray-600 dark:text-white mt-6" />
+                    <label for="" class="dark:text-white">
+                      {{ $t('to') }}
+                      <input v-model="filterCorporateData.to" type="date"
+                        class="border-none text-gray-500 bg-gray-100 rounded-lg     dark:bg-slate-600 dark:text-white w-full" />
+                    </label>
+                  </div>
+                </div>
+                <div class="flex justify-between space-x-4">
+                  <label for="" class="dark:text-white w-1/2">
+                    {{ $t('intervalType') }}
+                    <select v-model="filterCorporateData.intervalType"
+                      class="bg-blue-100 dark:bg-slate-600 border-none text-slate-900 dark:text-white rounded-lg text-base md:text-lg block w-full h-11">
+                      <option value="day">
+                        {{ $t('day') }}
+                      </option>
+                      <option value="week">
+                        {{ $t('week') }}
+                      </option>
+                      <option value="month">
+                        {{ $t('month') }}
+                      </option>
+                      <option value="year">
+                        {{ $t('year') }}
+                      </option>
+                    </select>
+                  </label>
+                </div>
+              </div>
+              <div class="flex items-center space-x-2">
+                <div @click="cleanFilterCorporateData()"
+                  class="basis-1/3 w-full bg-slate-100 hover:bg-slate-300 cursor-pointer select-none py-3 rounded-lg flex items-center justify-center">
+                  <span>{{ $t('cleaning') }}</span>
+                </div>
+                <div class="basis-2/3">
+                  <div v-if="isLoading"
+                    class="w-full bg-blue-600 py-3 select-none text-white rounded-lg flex items-center justify-center">
+                    <Spinners270RingIcon
+                      class="mr-2 w-5 h-5 text-gray-200 animate-spin fill-gray-600 dark:fill-gray-300" />
+                    <span>{{ $t('loading') }}</span>
+                  </div>
+                  <div v-else @click="submitCorporateStatsFilterData()"
+                    class="w-full bg-blue-500 hover:bg-blue-600 cursor-pointer select-none py-3 text-white rounded-lg flex items-center justify-center">
+                    <span>{{ $t('filter') }}</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <apexchart type="bar" height="320" :options="corporateStatsAreaChartOptions"
+          :series="corporateStatsChartSeries">
+        </apexchart>
+      </div>
+
+      <div class="flex-1 bg-slate-100 dark:bg-slate-900 rounded-3xl p-5">
+        <div class="flex flex-col md:flex-row md:items-center md:justify-between px-2 space-y-3 md:space-y-0">
+          <div>
+            <div class="text-base font-bold text-slate-800 dark:text-slate-200">
+              {{ $t('corporateStatistics') }}
+            </div>
+            <div class="text-sm text-gray-600 dark:text-white">
+              {{ $t('beginStatText') }}
+              <span class="font-bold lowercase">{{ $t('monthly') }}</span>
+              {{ $t('endStatText') }}
+            </div>
+          </div>
+          <div class="flex items-center justify-center rounded-xl bg-blue-100 dark:bg-slate-800 p-2">
+            <ChartDonutIcon class="w-8 h-8 dark:text-blue-400 text-blue-600" />
+          </div>
+        </div>
+        <apexchart type="donut" height="320" :options="corporateOptions" :series="corporateSeries">
+        </apexchart>
+      </div>
+    </div>
+
     <div class="flex flex-col md:flex-row space-x-0 md:space-x-4 space-y-2 md:space-y-0">
       <div class="flex-1 bg-slate-100 dark:bg-slate-900 rounded-3xl p-5">
         <div class="flex items-center justify-between px-2">
@@ -2594,87 +2749,7 @@ const recommendStatsAreaChartOptions = computed(() => {
       </apexchart>
     </div>
 
-    <div class="flex-1 bg-slate-100 dark:bg-slate-900 rounded-3xl p-5">
-      <div class="flex flex-col md:flex-row md:items-center md:justify-between px-2 space-y-3 md:space-y-0">
-        <div>
-          <div class="text-base font-bold text-slate-800 dark:text-slate-200">
-            {{ $t('corporateStatistics') }}
-          </div>
-          <div class="text-sm text-gray-600 dark:text-white">
-            {{ $t('beginStatText') }}
-            <span class="font-bold lowercase">{{ $t('monthly') }}</span>
-            {{ $t('endStatText') }}
-          </div>
-        </div>
-        <div class="relative" ref="corporateDropdown">
-          <div @click="useDropdownStore().toggleCorporateFilterBy()"
-            class="border-none w-40 select-none text-gray-900 bg-white dark:text-zinc-200 dark:bg-slate-800 shadow rounded-lg p-2 px-5 flex items-center hover:bg-gray-100 cursor-pointer space-x-1">
-            <FunnelIcon class="w-5 h-5 dark:text-zinc-50 text-gray-400" />
-            <span>{{ $t('filter') }}</span>
-          </div>
-          <div v-if="useDropdownStore().isOpenCorporateFilterBy"
-            class="absolute dark:bg-slate-800 w-96 bg-white shadow rounded-xl  p-3 z-20 top-12 right-0 space-y-3">
-            <div class=" items-center space-x-1">
-              <div class="flex">
-                <div class="flex items-center space-x-1">
-                  <label for="" class="dark:text-white">
-                    {{ $t('from') }}
-                    <input v-model="filterCorporateData.from" type="date"
-                      class="border-none text-gray-500 bg-gray-100 rounded-lg     dark:bg-slate-600 dark:text-white w-full" />
-                  </label>
-                  <ArrowDownIcon class="-rotate-90 text-gray-600 dark:text-white mt-6" />
-                  <label for="" class="dark:text-white">
-                    {{ $t('to') }}
-                    <input v-model="filterCorporateData.to" type="date"
-                      class="border-none text-gray-500 bg-gray-100 rounded-lg     dark:bg-slate-600 dark:text-white w-full" />
-                  </label>
-                </div>
-              </div>
-              <div class="flex justify-between space-x-4">
-                <label for="" class="dark:text-white w-1/2">
-                  {{ $t('intervalType') }}
-                  <select v-model="filterCorporateData.intervalType"
-                    class="bg-blue-100 dark:bg-slate-600 border-none text-slate-900 dark:text-white rounded-lg text-base md:text-lg block w-full h-11">
-                    <option value="day">
-                      {{ $t('day') }}
-                    </option>
-                    <option value="week">
-                      {{ $t('week') }}
-                    </option>
-                    <option value="month">
-                      {{ $t('month') }}
-                    </option>
-                    <option value="year">
-                      {{ $t('year') }}
-                    </option>
-                  </select>
-                </label>
-              </div>
-            </div>
-            <div class="flex items-center space-x-2">
-              <div @click="cleanFilterCorporateData()"
-                class="basis-1/3 w-full bg-slate-100 hover:bg-slate-300 cursor-pointer select-none py-3 rounded-lg flex items-center justify-center">
-                <span>{{ $t('cleaning') }}</span>
-              </div>
-              <div class="basis-2/3">
-                <div v-if="isLoading"
-                  class="w-full bg-blue-600 py-3 select-none text-white rounded-lg flex items-center justify-center">
-                  <Spinners270RingIcon
-                    class="mr-2 w-5 h-5 text-gray-200 animate-spin fill-gray-600 dark:fill-gray-300" />
-                  <span>{{ $t('loading') }}</span>
-                </div>
-                <div v-else @click="submitCorporateStatsFilterData()"
-                  class="w-full bg-blue-500 hover:bg-blue-600 cursor-pointer select-none py-3 text-white rounded-lg flex items-center justify-center">
-                  <span>{{ $t('filter') }}</span>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <apexchart type="bar" height="320" :options="corporateStatsAreaChartOptions" :series="corporateStatsChartSeries">
-      </apexchart>
-    </div>
+
 
     <div class="flex-1 bg-slate-100 dark:bg-slate-900 rounded-3xl p-5">
       <div class="flex flex-col md:flex-row md:items-center md:justify-between px-2 space-y-3 md:space-y-0">

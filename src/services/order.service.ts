@@ -57,6 +57,9 @@ class OrderService {
   async getCorporateClientsStats(data: any) {
     return AxiosService.post(`/order/corporate-clients/stats`, data);
   }
+  async updateOrder(data: any) {
+    return AxiosService.put(`/order/payment-type`, data);
+  }
 }
 
 export default new OrderService();

@@ -1,7 +1,6 @@
 <script setup>
 import { onMounted, ref, watch, watchEffect } from 'vue'
 import HouseIcon from './../assets/icons/HouseIcon.vue'
-import MoneyIcon from './../assets/icons/MoneyIcon.vue'
 import PhShoppingCart from '../assets/icons/ShoppingCartIcon.vue'
 import PhBarcodeIcon from '../assets/icons/BarcodeIcon.vue'
 import PhPercent from '../assets/icons/PercentIcon.vue'
@@ -40,7 +39,19 @@ import PriceListIcon from '../assets/icons/PriceListIcon.vue'
 import UserIcon from '@/assets/icons/UserIcon.vue'
 import InvisIcon from '@/assets/icons/EyeSlashIcon.vue'
 import EyeIcon from '@/assets/icons/EyeIcon.vue'
+import CashRegisterIcon from '@/assets/icons/CashRegisterIcon.vue'
+import AgentIcon from '@/assets/icons/AgentIcon.vue'
+import VoucherIcon from '@/assets/icons/VoucherIcon.vue'
+import CategoryIcon from '@/assets/icons/CategoryIcon.vue'
+import SalesCartIcon from '@/assets/icons/SalesCartIcon.vue'
+import UserBanIcon from '@/assets/icons/UserBanIcon.vue'
+import QrCodeIcon from '@/assets/icons/QrCodeIcon.vue'
+import DollarIcon from '@/assets/icons/DollarIcon.vue'
 import CategoryService from '../services/category.service.js'
+import UpcomingIcon from '@/assets/icons/UpcomingIcon.vue'
+import PercentCartIcon from '@/assets/icons/PercentCartIcon.vue'
+import DiscountIcon from '@/assets/icons/DiscountIcon.vue'
+import PercentBagIcon from '@/assets/icons/PercentBagIcon.vue'
 
 const { t } = useI18n()
 const router = useRouter()
@@ -124,10 +135,10 @@ const loadSidebarState = () => {
     cashbackHistoriesVisible.value = parsedState.cashbackHistoriesVisible ?? true;
     discountVisible.value = parsedState.discountVisible ?? true;
     upcomingProductsVisible.value = parsedState.upcomingProductsVisible ?? true
-    incomeExpenseVisible.value = parsedState.upcomingProductsVisible ?? true
-    productsVisible.value = parsedState.upcomingProductsVisible ?? true
-    saleVisible.value = parsedState.upcomingProductsVisible ?? true
-    dashboardVisible.value = parsedState.upcomingProductsVisible ?? true
+    incomeExpenseVisible.value = parsedState.incomeExpenseVisible ?? true
+    productsVisible.value = parsedState.productsVisible ?? true
+    saleVisible.value = parsedState.saleVisible ?? true
+    dashboardVisible.value = parsedState.dashboardVisible ?? true
     categoriesVisible.value = parsedState.categoriesVisible ?? true
   }
 };
@@ -154,7 +165,7 @@ const saveSidebarState = () => {
     discountVisible: discountVisible.value,
     upcomingProductsVisible: upcomingProductsVisible.value,
     incomeExpenseVisible: incomeExpenseVisible.value,
-    productsVisible: productBarcodesVisible.value,
+    productsVisible: productsVisible.value,
     saleVisible: saleVisible.value,
     dashboardVisible: dashboardVisible.value,
     categoriesVisible: categoriesVisible.value
@@ -423,7 +434,7 @@ const toggleShowHideButtons = () => {
                 class="relative h-10 flex items-center w-full hover:bg-blue-300/10 hover:text-blue-600 py-5 text-zinc-400 dark:text-zinc-200 text-lg font-medium space-x-4 cursor-pointer transition-colors duration-300">
                 <div class="w-1.5 h-12 rounded-r-xl first-child-bg-color mr-2"></div>
                 <div class="flex h-10 items-center justify-center rounded-xl w-10 second-child-bg-color">
-                  <MoneyIcon class="w-6 h-6" />
+                  <CashRegisterIcon class="w-6 h-6" />
                 </div>
                 <div class="w-full">
                   {{ $t('sale') }}
@@ -478,7 +489,7 @@ const toggleShowHideButtons = () => {
                 class="relative h-10 flex items-center w-full hover:bg-blue-300/10 hover:text-blue-600 py-5 text-zinc-400 dark:text-zinc-200 text-lg font-medium space-x-4 cursor-pointer transition-colors duration-300">
                 <div class="w-1.5 h-12 rounded-r-xl first-child-bg-color mr-2"></div>
                 <div class="flex h-10 items-center justify-center rounded-xl w-10 second-child-bg-color">
-                  <PhShoppingCart class="w-6 h-6" />
+                  <UpcomingIcon class="w-6 h-6" />
                 </div>
                 <div class="w-full">
                   {{ $t('upcomingProducts') }}
@@ -496,7 +507,7 @@ const toggleShowHideButtons = () => {
                 class="relative h-10 flex items-center w-full hover:bg-blue-300/10 hover:text-blue-600 py-5 text-zinc-400 dark:text-zinc-200 text-lg font-medium space-x-4 cursor-pointer transition-colors duration-300">
                 <div class="w-1.5 h-12 rounded-r-xl first-child-bg-color mr-2"></div>
                 <div class="flex h-10 items-center justify-center rounded-xl w-10 second-child-bg-color">
-                  <PhPercent class="w-6 h-6" />
+                  <DiscountIcon class="w-6 h-6" />
                 </div>
                 <div class="w-full">
                   {{ $t('discount') }}
@@ -514,7 +525,7 @@ const toggleShowHideButtons = () => {
                 class="relative h-10 flex items-center w-full hover:bg-blue-300/10 hover:text-blue-600 py-5 text-zinc-400 dark:text-zinc-200 text-lg font-medium space-x-4 cursor-pointer transition-colors duration-300">
                 <div class="w-1.5 h-12 rounded-r-xl first-child-bg-color mr-2"></div>
                 <div class="flex h-10 items-center justify-center rounded-xl w-10 second-child-bg-color">
-                  <TicketSaleIcon class="w-6 h-6" />
+                  <PercentBagIcon class="w-6 h-6" />
                 </div>
                 <div class="w-full">
                   {{ $t('cashbackHistories') }}
@@ -532,7 +543,7 @@ const toggleShowHideButtons = () => {
                 class="relative h-10 flex items-center w-full hover:bg-blue-300/10 hover:text-blue-600 py-5 text-zinc-400 dark:text-zinc-200 text-lg font-medium space-x-4 cursor-pointer transition-colors duration-300">
                 <div class="w-1.5 h-12 rounded-r-xl first-child-bg-color mr-2"></div>
                 <div class="flex h-10 items-center justify-center rounded-xl w-10 second-child-bg-color">
-                  <PhShoppingCart class="w-6 h-6" />
+                  <SalesCartIcon class="w-6 h-6" />
                 </div>
                 <div class="w-full">
                   {{ $t('sales') }}
@@ -606,7 +617,7 @@ const toggleShowHideButtons = () => {
                 <div class="w-1.5 h-12 rounded-r-xl first-child-bg-color mr-2"></div>
                 <div class="flex h-10 items-center justify-center rounded-xl w-10 second-child-bg-color relative">
                   <PhBarcodeIcon class="absolute top-0 right-0 w-6 h-6" />
-                  <PhBarcodeIcon class="w-6 h-6 bg-slate-100 dark:bg-slate-900 absolute top-2 right-2" />
+                  <PhBarcodeIcon class="bg-slate-100 dark:bg-slate-900 absolute top-3 right-3"/>
                 </div>
                 <div class="w-full">
                   {{ $t('duplicates') }}
@@ -641,9 +652,10 @@ const toggleShowHideButtons = () => {
               <router-link to="/corporate-clients" @click="selectPage()" active-class="active"
                 class="relative h-10 flex items-center w-full hover:bg-blue-300/10 hover:text-blue-600 py-5 text-zinc-400 dark:text-zinc-200 text-lg font-medium space-x-4 cursor-pointer transition-colors duration-300">
                 <div class="w-1.5 h-12 rounded-r-xl first-child-bg-color mr-2"></div>
-                <div class="flex h-10 items-center justify-center rounded-xl w-10 second-child-bg-color">
-                  <ClientCorpIcon class="w-6 h-6" />
-                </div>
+                <div class="flex h-10 items-center justify-center rounded-xl w-10 second-child-bg-color relative">
+                      <UserIcon class="absolute top-0 right-0 w-6 h-6" />
+                      <DollarIcon class="bg-slate-100 dark:bg-slate-900 absolute top-3 right-3"/>
+                    </div>
                 <div class="w-full">
                   {{ $t('corporateClients') }}
                 </div>
@@ -659,9 +671,10 @@ const toggleShowHideButtons = () => {
               <router-link to="/clients" @click="selectPage()" active-class="active"
                 class="relative h-10 flex items-center w-full hover:bg-blue-300/10 hover:text-blue-600 py-5 text-zinc-400 dark:text-zinc-200 text-lg font-medium space-x-4 cursor-pointer transition-colors duration-300">
                 <div class="w-1.5 h-12 rounded-r-xl first-child-bg-color mr-2"></div>
-                <div class="flex h-10 items-center justify-center rounded-xl w-10 second-child-bg-color">
-                  <ClientIcon class="w-6 h-6" />
-                </div>
+                <div class="flex h-10 items-center justify-center rounded-xl w-10 second-child-bg-color relative">
+                      <UserIcon class="absolute top-0 right-0 w-6 h-6" />
+                      <QrCodeIcon class="bg-slate-100 dark:bg-slate-900 absolute top-3 right-3"/>
+                    </div>
                 <div class="w-full">
                   {{ $t('clients') }}
                 </div>
@@ -678,7 +691,7 @@ const toggleShowHideButtons = () => {
                 class="relative h-10 flex items-center w-full hover:bg-blue-300/10 hover:text-blue-600 py-5 text-zinc-400 dark:text-zinc-200 text-lg font-medium space-x-4 cursor-pointer transition-colors duration-300">
                 <div class="w-1.5 h-12 rounded-r-xl first-child-bg-color mr-2"></div>
                 <div class="flex h-10 items-center justify-center rounded-xl w-10 second-child-bg-color">
-                  <PhUsersThree class="w-6 h-6" />
+                  <AgentIcon class="w-6 h-6" />
                 </div>
                 <div class="w-full">
                   {{ $t('agents') }}
@@ -696,7 +709,7 @@ const toggleShowHideButtons = () => {
                 class="relative h-10 flex items-center w-full hover:bg-blue-300/10 hover:text-blue-600 py-5 text-zinc-400 dark:text-zinc-200 text-lg font-medium space-x-4 cursor-pointer transition-colors duration-300">
                 <div class="w-1.5 h-12 rounded-r-xl first-child-bg-color mr-2"></div>
                 <div class="flex h-10 items-center justify-center rounded-xl w-10 second-child-bg-color">
-                  <PhUsersThree class="w-6 h-6" />
+                  <VoucherIcon class="w-6 h-6" />
                 </div>
                 <div class="w-full">
                   {{ $t('vouchers') }}
@@ -750,7 +763,7 @@ const toggleShowHideButtons = () => {
                 class="relative h-10 flex items-center w-full hover:bg-blue-300/10 hover:text-blue-600 py-5 text-zinc-400 dark:text-zinc-200 text-lg font-medium space-x-4 cursor-pointer transition-colors duration-300">
                 <div class="w-1.5 h-12 rounded-r-xl first-child-bg-color mr-2"></div>
                 <div class="flex h-10 items-center justify-center rounded-xl w-10 second-child-bg-color">
-                  <FileLinearIcon class="w-6 h-6" />
+                  <CategoryIcon class="w-6 h-6" />
                 </div>
                 <div class="w-full">
                   {{ $t('categories') }}
@@ -768,7 +781,7 @@ const toggleShowHideButtons = () => {
                 class="relative h-10 flex items-center w-full hover:bg-blue-300/10 hover:text-blue-600 py-5 text-zinc-400 dark:text-zinc-200 text-lg font-medium space-x-4 cursor-pointer transition-colors duration-300">
                 <div class="w-1.5 h-12 rounded-r-xl first-child-bg-color mr-2"></div>
                 <div class="flex h-10 items-center justify-center rounded-xl w-10 second-child-bg-color">
-                  <PhLockKey class="w-6 h-6" />
+                  <UserBanIcon class="w-6 h-6" />
                 </div>
                 <div class="w-full">
                   {{ $t('ipBanned') }}
@@ -862,13 +875,14 @@ const toggleShowHideButtons = () => {
                     </button>
                   </div>
                 </div>
+
                 <div v-if="!saleVisible && navigationGuard('create_product')"
                   class="relative h-10 flex items-center w-full py-5 text-zinc-400 dark:text-zinc-200 text-lg font-medium space-x-2">
                   <router-link to="/sales" @click="selectPage()" active-class="active"
                     class="relative h-10 flex items-center w-full hover:bg-blue-300/10 hover:text-blue-600 py-5 text-zinc-400 dark:text-zinc-200 text-lg font-medium space-x-4 cursor-pointer transition-colors duration-300">
                     <div class="w-1.5 h-12 rounded-r-xl first-child-bg-color mr-2"></div>
                     <div class="flex h-10 items-center justify-center rounded-xl w-10 second-child-bg-color">
-                      <MoneyIcon class="w-6 h-6" />
+                      <CashRegisterIcon class="w-6 h-6" />
                     </div>
                     <div class="w-full">
                       {{ $t('sale') }}
@@ -925,7 +939,7 @@ const toggleShowHideButtons = () => {
                     class="relative h-10 flex items-center w-full hover:bg-blue-300/10 hover:text-blue-600 py-5 text-zinc-400 dark:text-zinc-200 text-lg font-medium space-x-4 cursor-pointer transition-colors duration-300">
                     <div class="w-1.5 h-12 rounded-r-xl first-child-bg-color mr-2"></div>
                     <div class="flex h-10 items-center justify-center rounded-xl w-10 second-child-bg-color">
-                      <PhShoppingCart class="w-6 h-6" />
+                      <UpcomingIcon class="w-6 h-6" />
                     </div>
                     <div class="w-full">{{ $t('upcomingProducts') }}</div>
                   </router-link>
@@ -942,7 +956,7 @@ const toggleShowHideButtons = () => {
                     class="relative h-10 flex items-center w-full hover:bg-blue-300/10 hover:text-blue-600 py-5 text-zinc-400 dark:text-zinc-200 text-lg font-medium space-x-4 cursor-pointer transition-colors duration-300">
                     <div class="w-1.5 h-12 rounded-r-xl first-child-bg-color mr-2"></div>
                     <div class="flex h-10 items-center justify-center rounded-xl w-10 second-child-bg-color">
-                      <PhPercent class="w-6 h-6" />
+                      <PercentCartIcon class="w-6 h-6" />
                     </div>
                     <div class="w-full">{{ $t('discount') }}</div>
                   </router-link>
@@ -953,13 +967,14 @@ const toggleShowHideButtons = () => {
                     </button>
                   </div>
                 </div>
+
                 <div v-if="!cashbackHistoriesVisible"
                   class="relative h-10 flex items-center w-full py-5 text-zinc-400 dark:text-zinc-200 text-lg font-medium space-x-2">
                   <router-link to="/cashback-histories" @click="selectPage()" active-class="active"
                     class="relative h-10 flex items-center w-full hover:bg-blue-300/10 hover:text-blue-600 py-5 text-zinc-400 dark:text-zinc-200 text-lg font-medium space-x-4 cursor-pointer transition-colors duration-300">
                     <div class="w-1.5 h-12 rounded-r-xl first-child-bg-color mr-2"></div>
                     <div class="flex h-10 items-center justify-center rounded-xl w-10 second-child-bg-color">
-                      <TicketSaleIcon class="w-6 h-6" />
+                      <PercentCartIcon class="w-6 h-6" />
                     </div>
                     <div class="w-full">{{ $t('cashbackHistories') }}</div>
                   </router-link>
@@ -970,6 +985,7 @@ const toggleShowHideButtons = () => {
                     </button>
                   </div>
                 </div>
+
                 <div v-if="!ordersVisible"
                   class="relative h-10 flex items-center w-full py-5 text-zinc-400 dark:text-zinc-200 text-lg font-medium space-x-2">
                   <router-link to="/orders" @click="selectPage()" active-class="active"
@@ -1046,7 +1062,7 @@ const toggleShowHideButtons = () => {
                     <div class="w-1.5 h-12 rounded-r-xl first-child-bg-color mr-2"></div>
                     <div class="flex h-10 items-center justify-center rounded-xl w-10 second-child-bg-color relative">
                       <PhBarcodeIcon class="absolute top-0 right-0 w-6 h-6" />
-                      <PhBarcodeIcon class="w-6 h-6 bg-slate-100 dark:bg-slate-900 absolute top-2 right-2" />
+                      <PhBarcodeIcon class="bg-slate-100 dark:bg-slate-900 absolute top-3 right-3"/>
                     </div>
                     <div class="w-full">{{ $t('duplicates') }}</div>
                   </router-link>
@@ -1079,8 +1095,9 @@ const toggleShowHideButtons = () => {
                   <router-link to="/corporate-clients" @click="selectPage()" active-class="active"
                     class="relative h-10 flex items-center w-full hover:bg-blue-300/10 hover:text-blue-600 py-5 text-zinc-400 dark:text-zinc-200 text-lg font-medium space-x-4 cursor-pointer transition-colors duration-300">
                     <div class="w-1.5 h-12 rounded-r-xl first-child-bg-color mr-2"></div>
-                    <div class="flex h-10 items-center justify-center rounded-xl w-10 second-child-bg-color">
-                      <ClientCorpIcon class="w-6 h-6" />
+                    <div class="flex h-10 items-center justify-center rounded-xl w-10 second-child-bg-color relative">
+                      <UserIcon class="absolute top-0 right-0 w-6 h-6" />
+                      <DollarIcon class="bg-slate-100 dark:bg-slate-900 absolute top-3 right-3" />
                     </div>
                     <div class="w-full">{{ $t('corporateClients') }}</div>
                   </router-link>
@@ -1096,8 +1113,9 @@ const toggleShowHideButtons = () => {
                   <router-link to="/clients" @click="selectPage()" active-class="active"
                     class="relative h-10 flex items-center w-full hover:bg-blue-300/10 hover:text-blue-600 py-5 text-zinc-400 dark:text-zinc-200 text-lg font-medium space-x-4 cursor-pointer transition-colors duration-300">
                     <div class="w-1.5 h-12 rounded-r-xl first-child-bg-color mr-2"></div>
-                    <div class="flex h-10 items-center justify-center rounded-xl w-10 second-child-bg-color">
-                      <ClientIcon class="w-6 h-6" />
+                    <div class="flex h-10 items-center justify-center rounded-xl w-10 second-child-bg-color relative">
+                      <UserIcon class="absolute top-0 right-0 w-6 h-6" />
+                      <QrCodeIcon class="bg-slate-100 dark:bg-slate-900 absolute top-3 right-3"/>
                     </div>
                     <div class="w-full">{{ $t('clients') }}</div>
                   </router-link>
@@ -1114,7 +1132,7 @@ const toggleShowHideButtons = () => {
                     class="relative h-10 flex items-center w-full hover:bg-blue-300/10 hover:text-blue-600 py-5 text-zinc-400 dark:text-zinc-200 text-lg font-medium space-x-4 cursor-pointer transition-colors duration-300">
                     <div class="w-1.5 h-12 rounded-r-xl first-child-bg-color mr-2"></div>
                     <div class="flex h-10 items-center justify-center rounded-xl w-10 second-child-bg-color">
-                      <PhUsersThree class="w-6 h-6" />
+                      <AgentIcon class="w-6 h-6" />
                     </div>
                     <div class="w-full">{{ $t('agents') }}</div>
                   </router-link>
@@ -1131,7 +1149,7 @@ const toggleShowHideButtons = () => {
                     class="relative h-10 flex items-center w-full hover:bg-blue-300/10 hover:text-blue-600 py-5 text-zinc-400 dark:text-zinc-200 text-lg font-medium space-x-4 cursor-pointer transition-colors duration-300">
                     <div class="w-1.5 h-12 rounded-r-xl first-child-bg-color mr-2"></div>
                     <div class="flex h-10 items-center justify-center rounded-xl w-10 second-child-bg-color">
-                      <PhUsersThree class="w-6 h-6" />
+                      <VoucherIcon class="w-6 h-6" />
                     </div>
                     <div class="w-full">{{ $t('vouchers') }}</div>
                   </router-link>
@@ -1182,7 +1200,7 @@ const toggleShowHideButtons = () => {
                     class="relative h-10 flex items-center w-full hover:bg-blue-300/10 hover:text-blue-600 py-5 text-zinc-400 dark:text-zinc-200 text-lg font-medium space-x-4 cursor-pointer transition-colors duration-300">
                     <div class="w-1.5 h-12 rounded-r-xl first-child-bg-color mr-2"></div>
                     <div class="flex h-10 items-center justify-center rounded-xl w-10 second-child-bg-color">
-                      <FileLinearIcon class="w-6 h-6" />
+                      <CategoryIcon class="w-6 h-6" />
                     </div>
                     <div class="w-full">{{ $t('categories') }}</div>
                   </router-link>
@@ -1199,7 +1217,7 @@ const toggleShowHideButtons = () => {
                     class="relative h-10 flex items-center w-full hover:bg-blue-300/10 hover:text-blue-600 py-5 text-zinc-400 dark:text-zinc-200 text-lg font-medium space-x-4 cursor-pointer transition-colors duration-300">
                     <div class="w-1.5 h-12 rounded-r-xl first-child-bg-color mr-2"></div>
                     <div class="flex h-10 items-center justify-center rounded-xl w-10 second-child-bg-color">
-                      <PhLockKey class="w-6 h-6" />
+                      <UserBanIcon class="w-6 h-6" />
                     </div>
                     <div class="w-full">{{ $t('ipBanned') }}</div>
                   </router-link>

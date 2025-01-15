@@ -317,10 +317,10 @@ const createMinimalPriceSettings = () => {
       </TabPanel>
       <TabPanel>
         <template #header>
-          <select id="three" v-model="selectedOption" class=" border-white border-solid border-0">
-            <option value="recommend" selected>{{ $t('recommend') }}</option>
-            <option value="unprofitable">{{ $t('unprofitable') }}</option>
-            <option value="recent">{{ $t('recent') }}</option>
+          <select class="py-0 !border-none flex align-items-center gap-2" id="three" v-model="selectedOption">
+            <option value="recommend" selected>{{ $t('recommendProducts') }}</option>
+            <option value="unprofitable">{{ $t('unprofitableProducts') }}</option>
+            <option value="recent">{{ $t('recentProducts') }}</option>
           </select>
         </template>
         <div class="p-2">
