@@ -500,5 +500,7 @@
   "printOrder": "Chek chop etish",
   "editPaymentType": "To'lov turini tahrirlash",
   "paymentEditedSuccessfully": "To'lov turini tahrirlandi!",
-  "errorWhileEditingPayment": "To'lov turini xatolik yuz berdi"
+  "errorWhileEditingPayment": "To'lov turini xatolik yuz berdi",
+  "expenses": "Затраты",
+  "addExpense": "Добавить затрату"
 }

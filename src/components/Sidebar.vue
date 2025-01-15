@@ -47,11 +47,11 @@ import SalesCartIcon from '@/assets/icons/SalesCartIcon.vue'
 import UserBanIcon from '@/assets/icons/UserBanIcon.vue'
 import QrCodeIcon from '@/assets/icons/QrCodeIcon.vue'
 import DollarIcon from '@/assets/icons/DollarIcon.vue'
-import CategoryService from '../services/category.service.js'
 import UpcomingIcon from '@/assets/icons/UpcomingIcon.vue'
 import PercentCartIcon from '@/assets/icons/PercentCartIcon.vue'
 import DiscountIcon from '@/assets/icons/DiscountIcon.vue'
 import PercentBagIcon from '@/assets/icons/PercentBagIcon.vue'
+import ExpenseIcon from '@/assets/icons/ExpenseIcon.vue'
 
 const { t } = useI18n()
 const router = useRouter()
@@ -140,6 +140,7 @@ const loadSidebarState = () => {
     saleVisible.value = parsedState.saleVisible ?? true
     dashboardVisible.value = parsedState.dashboardVisible ?? true
     categoriesVisible.value = parsedState.categoriesVisible ?? true
+    expensesVisible.value = parsedState.expensesVisible ?? true
   }
 };
 
@@ -168,7 +169,8 @@ const saveSidebarState = () => {
     productsVisible: productsVisible.value,
     saleVisible: saleVisible.value,
     dashboardVisible: dashboardVisible.value,
-    categoriesVisible: categoriesVisible.value
+    categoriesVisible: categoriesVisible.value,
+    expensesVisible: expensesVisible.value
   };
   localStorage.setItem('sidebarState', JSON.stringify(state));
 };
@@ -197,6 +199,7 @@ const productsVisible = ref(true);
 const saleVisible = ref(true);
 const dashboardVisible = ref(true);
 const categoriesVisible = ref(true);
+const expensesVisible = ref(true);
 
 const whenPressEnter = (e) => {
   if (e.keyCode === 13) {
@@ -210,7 +213,7 @@ onMounted(() => {
   payload.value = parseJwt()
   loadSidebarState();
 })
-watch([investsVisible, investPlansVisible, investorsVisible, ipBannedVisible, wishesVisible, priceListsVisible, vouchersVisible, agentsVisible, clientsVisible, corporateClientsVisible, saleSettingsVisible, barcodeDuplicatesVisible, productBarcodesVisible, usersVisible, marketsVisible, ordersVisible, cashbackHistoriesVisible, discountVisible, upcomingProductsVisible, incomeExpenseVisible, productsVisible, saleVisible, dashboardVisible, categoriesVisible], saveSidebarState, { deep: true });
+watch([investsVisible, investPlansVisible, investorsVisible, ipBannedVisible, wishesVisible, priceListsVisible, vouchersVisible, agentsVisible, clientsVisible, corporateClientsVisible, saleSettingsVisible, barcodeDuplicatesVisible, productBarcodesVisible, usersVisible, marketsVisible, ordersVisible, cashbackHistoriesVisible, discountVisible, upcomingProductsVisible, incomeExpenseVisible, productsVisible, saleVisible, dashboardVisible, categoriesVisible, expensesVisible], saveSidebarState, { deep: true });
 
 const moveDashboardToOthers = () => {
   dashboardVisible.value = false;
@@ -376,6 +379,13 @@ const moveCategoriesToOthers = () => {
 };
 const restoreCategoriesFromOthers = () => {
   categoriesVisible.value = true;
+};
+
+const moveExpensesToOthers = () => {
+  expensesVisible.value = false;
+};
+const restoreExpensesFromOthers = () => {
+  expensesVisible.value = true;
 };
 
 const showHideButtons = ref(false)
@@ -776,6 +786,26 @@ const toggleShowHideButtons = () => {
                 </button>
               </div>
             </div>
+
+            <div class="flex w-full justify-between" v-if="expensesVisible && navigationGuard('view_agents')">
+              <router-link to="/expenses" @click="selectPage()" active-class="active"
+                class="relative h-10 flex items-center w-full hover:bg-blue-300/10 hover:text-blue-600 py-5 text-zinc-400 dark:text-zinc-200 text-lg font-medium space-x-4 cursor-pointer transition-colors duration-300">
+                <div class="w-1.5 h-12 rounded-r-xl first-child-bg-color mr-2"></div>
+                <div class="flex h-10 items-center justify-center rounded-xl w-10 second-child-bg-color">
+                  <ExpenseIcon class="w-6 h-6" />
+                </div>
+                <div class="w-full">
+                  {{ $t('expenses') }}
+                </div>
+              </router-link>
+              <div v-if="showHideButtons">
+                <button @click="moveExpensesToOthers"
+                  class="ml-auto space-y-1 px-1 py-2 hover:bg-blue-300/10 text-sm text-red-600 hover:text-red-800">
+                  <InvisIcon class="w-6 h-6" />
+                </button>
+              </div>
+            </div>
+
             <div class="flex w-full justify-between" v-if="ipBannedVisible && navigationGuard('create_market')">
               <router-link to="/ip-banned" @click="selectPage()" active-class="active"
                 class="relative h-10 flex items-center w-full hover:bg-blue-300/10 hover:text-blue-600 py-5 text-zinc-400 dark:text-zinc-200 text-lg font-medium space-x-4 cursor-pointer transition-colors duration-300">
@@ -1211,6 +1241,25 @@ const toggleShowHideButtons = () => {
                     </button>
                   </div>
                 </div>
+
+                <div v-if="!expensesVisible && navigationGuard('view_agents')"
+                  class="relative h-10 flex items-center w-full py-5 text-zinc-400 dark:text-zinc-200 text-lg font-medium space-x-2">
+                  <router-link to="/categories" @click="selectPage()" active-class="active"
+                    class="relative h-10 flex items-center w-full hover:bg-blue-300/10 hover:text-blue-600 py-5 text-zinc-400 dark:text-zinc-200 text-lg font-medium space-x-4 cursor-pointer transition-colors duration-300">
+                    <div class="w-1.5 h-12 rounded-r-xl first-child-bg-color mr-2"></div>
+                    <div class="flex h-10 items-center justify-center rounded-xl w-10 second-child-bg-color">
+                      <ExpenseIcon class="w-6 h-6" />
+                    </div>
+                    <div class="w-full">{{ $t('categories') }}</div>
+                  </router-link>
+                  <div v-if="showHideButtons">
+                    <button @click="restoreExpensesFromOthers"
+                      class="ml-auto space-y-1 px-1 py-2 hover:bg-blue-300/10 text-sm text-blue-600 hover:text-blue-800">
+                      <EyeIcon class="w-6 h-6" />
+                    </button>
+                  </div>
+                </div>
+
                 <div v-if="!ipBannedVisible && navigationGuard('create_market')"
                   class="relative h-10 flex items-center w-full py-5 text-zinc-400 dark:text-zinc-200 text-lg font-medium space-x-2">
                   <router-link to="/ip-banned" @click="selectPage()" active-class="active"
