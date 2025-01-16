@@ -48,6 +48,10 @@ import UserBanIcon from '@/assets/icons/UserBanIcon.vue'
 import QrCodeIcon from '@/assets/icons/QrCodeIcon.vue'
 import DollarIcon from '@/assets/icons/DollarIcon.vue'
 import CategoryService from '../services/category.service.js'
+import UpcomingIcon from '@/assets/icons/UpcomingIcon.vue'
+import PercentCartIcon from '@/assets/icons/PercentCartIcon.vue'
+import DiscountIcon from '@/assets/icons/DiscountIcon.vue'
+import PercentBagIcon from '@/assets/icons/PercentBagIcon.vue'
 
 const { t } = useI18n()
 const router = useRouter()
@@ -485,7 +489,7 @@ const toggleShowHideButtons = () => {
                 class="relative h-10 flex items-center w-full hover:bg-blue-300/10 hover:text-blue-600 py-5 text-zinc-400 dark:text-zinc-200 text-lg font-medium space-x-4 cursor-pointer transition-colors duration-300">
                 <div class="w-1.5 h-12 rounded-r-xl first-child-bg-color mr-2"></div>
                 <div class="flex h-10 items-center justify-center rounded-xl w-10 second-child-bg-color">
-                  <PhShoppingCart class="w-6 h-6" />
+                  <UpcomingIcon class="w-6 h-6" />
                 </div>
                 <div class="w-full">
                   {{ $t('upcomingProducts') }}
@@ -503,7 +507,7 @@ const toggleShowHideButtons = () => {
                 class="relative h-10 flex items-center w-full hover:bg-blue-300/10 hover:text-blue-600 py-5 text-zinc-400 dark:text-zinc-200 text-lg font-medium space-x-4 cursor-pointer transition-colors duration-300">
                 <div class="w-1.5 h-12 rounded-r-xl first-child-bg-color mr-2"></div>
                 <div class="flex h-10 items-center justify-center rounded-xl w-10 second-child-bg-color">
-                  <PhPercent class="w-6 h-6" />
+                  <DiscountIcon class="w-6 h-6" />
                 </div>
                 <div class="w-full">
                   {{ $t('discount') }}
@@ -521,7 +525,7 @@ const toggleShowHideButtons = () => {
                 class="relative h-10 flex items-center w-full hover:bg-blue-300/10 hover:text-blue-600 py-5 text-zinc-400 dark:text-zinc-200 text-lg font-medium space-x-4 cursor-pointer transition-colors duration-300">
                 <div class="w-1.5 h-12 rounded-r-xl first-child-bg-color mr-2"></div>
                 <div class="flex h-10 items-center justify-center rounded-xl w-10 second-child-bg-color">
-                  <TicketSaleIcon class="w-6 h-6" />
+                  <PercentBagIcon class="w-6 h-6" />
                 </div>
                 <div class="w-full">
                   {{ $t('cashbackHistories') }}
@@ -613,7 +617,7 @@ const toggleShowHideButtons = () => {
                 <div class="w-1.5 h-12 rounded-r-xl first-child-bg-color mr-2"></div>
                 <div class="flex h-10 items-center justify-center rounded-xl w-10 second-child-bg-color relative">
                   <PhBarcodeIcon class="absolute top-0 right-0 w-6 h-6" />
-                  <PhBarcodeIcon class="w-6 h-6 bg-slate-100 dark:bg-slate-900 absolute top-2 right-2" />
+                  <PhBarcodeIcon class="bg-slate-100 dark:bg-slate-900 absolute top-3 right-3"/>
                 </div>
                 <div class="w-full">
                   {{ $t('duplicates') }}
@@ -650,7 +654,7 @@ const toggleShowHideButtons = () => {
                 <div class="w-1.5 h-12 rounded-r-xl first-child-bg-color mr-2"></div>
                 <div class="flex h-10 items-center justify-center rounded-xl w-10 second-child-bg-color relative">
                       <UserIcon class="absolute top-0 right-0 w-6 h-6" />
-                      <DollarIcon class=" w-6 h-6 bg-slate-100 dark:bg-slate-900 absolute top-2 right-2" />
+                      <DollarIcon class="bg-slate-100 dark:bg-slate-900 absolute top-3 right-3"/>
                     </div>
                 <div class="w-full">
                   {{ $t('corporateClients') }}
@@ -669,7 +673,7 @@ const toggleShowHideButtons = () => {
                 <div class="w-1.5 h-12 rounded-r-xl first-child-bg-color mr-2"></div>
                 <div class="flex h-10 items-center justify-center rounded-xl w-10 second-child-bg-color relative">
                       <UserIcon class="absolute top-0 right-0 w-6 h-6" />
-                      <QrCodeIcon class=" w-6 h-6 bg-slate-100 dark:bg-slate-900 absolute top-2 right-2" />
+                      <QrCodeIcon class="bg-slate-100 dark:bg-slate-900 absolute top-3 right-3"/>
                     </div>
                 <div class="w-full">
                   {{ $t('clients') }}
@@ -935,7 +939,7 @@ const toggleShowHideButtons = () => {
                     class="relative h-10 flex items-center w-full hover:bg-blue-300/10 hover:text-blue-600 py-5 text-zinc-400 dark:text-zinc-200 text-lg font-medium space-x-4 cursor-pointer transition-colors duration-300">
                     <div class="w-1.5 h-12 rounded-r-xl first-child-bg-color mr-2"></div>
                     <div class="flex h-10 items-center justify-center rounded-xl w-10 second-child-bg-color">
-                      <PhShoppingCart class="w-6 h-6" />
+                      <UpcomingIcon class="w-6 h-6" />
                     </div>
                     <div class="w-full">{{ $t('upcomingProducts') }}</div>
                   </router-link>
@@ -952,7 +956,7 @@ const toggleShowHideButtons = () => {
                     class="relative h-10 flex items-center w-full hover:bg-blue-300/10 hover:text-blue-600 py-5 text-zinc-400 dark:text-zinc-200 text-lg font-medium space-x-4 cursor-pointer transition-colors duration-300">
                     <div class="w-1.5 h-12 rounded-r-xl first-child-bg-color mr-2"></div>
                     <div class="flex h-10 items-center justify-center rounded-xl w-10 second-child-bg-color">
-                      <PhPercent class="w-6 h-6" />
+                      <PercentCartIcon class="w-6 h-6" />
                     </div>
                     <div class="w-full">{{ $t('discount') }}</div>
                   </router-link>
@@ -970,7 +974,7 @@ const toggleShowHideButtons = () => {
                     class="relative h-10 flex items-center w-full hover:bg-blue-300/10 hover:text-blue-600 py-5 text-zinc-400 dark:text-zinc-200 text-lg font-medium space-x-4 cursor-pointer transition-colors duration-300">
                     <div class="w-1.5 h-12 rounded-r-xl first-child-bg-color mr-2"></div>
                     <div class="flex h-10 items-center justify-center rounded-xl w-10 second-child-bg-color">
-                      <TicketSaleIcon class="w-6 h-6" />
+                      <PercentCartIcon class="w-6 h-6" />
                     </div>
                     <div class="w-full">{{ $t('cashbackHistories') }}</div>
                   </router-link>
@@ -1058,7 +1062,7 @@ const toggleShowHideButtons = () => {
                     <div class="w-1.5 h-12 rounded-r-xl first-child-bg-color mr-2"></div>
                     <div class="flex h-10 items-center justify-center rounded-xl w-10 second-child-bg-color relative">
                       <PhBarcodeIcon class="absolute top-0 right-0 w-6 h-6" />
-                      <PhBarcodeIcon class="w-6 h-6 bg-slate-100 dark:bg-slate-900 absolute top-2 right-2" />
+                      <PhBarcodeIcon class="bg-slate-100 dark:bg-slate-900 absolute top-3 right-3"/>
                     </div>
                     <div class="w-full">{{ $t('duplicates') }}</div>
                   </router-link>
@@ -1093,7 +1097,7 @@ const toggleShowHideButtons = () => {
                     <div class="w-1.5 h-12 rounded-r-xl first-child-bg-color mr-2"></div>
                     <div class="flex h-10 items-center justify-center rounded-xl w-10 second-child-bg-color relative">
                       <UserIcon class="absolute top-0 right-0 w-6 h-6" />
-                      <DollarIcon class=" w-6 h-6 bg-slate-100 dark:bg-slate-900 absolute top-2 right-2" />
+                      <DollarIcon class="bg-slate-100 dark:bg-slate-900 absolute top-3 right-3" />
                     </div>
                     <div class="w-full">{{ $t('corporateClients') }}</div>
                   </router-link>
@@ -1111,7 +1115,7 @@ const toggleShowHideButtons = () => {
                     <div class="w-1.5 h-12 rounded-r-xl first-child-bg-color mr-2"></div>
                     <div class="flex h-10 items-center justify-center rounded-xl w-10 second-child-bg-color relative">
                       <UserIcon class="absolute top-0 right-0 w-6 h-6" />
-                      <QrCodeIcon class="w-6 h-6 bg-slate-100 dark:bg-slate-900 absolute top-2 right-2" />
+                      <QrCodeIcon class="bg-slate-100 dark:bg-slate-900 absolute top-3 right-3"/>
                     </div>
                     <div class="w-full">{{ $t('clients') }}</div>
                   </router-link>

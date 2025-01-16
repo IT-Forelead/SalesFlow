@@ -40,9 +40,9 @@ import ScrollPanel from 'primevue/scrollpanel';
 import { Money3 } from 'v-money3';
 import HolidayDiscountService from '../services/holidayDiscount.service.js';
 import { useHolidayDiscount } from '../store/holidayDiscount.store.js';
-import PhPercent from '../assets/icons/PercentIcon.vue';
+import DiscountIcon from '@/assets/icons/DiscountIcon.vue'
 import useMoneyFormatter from '../mixins/currencyFormatter.js';
-import TicketSale from '../assets/icons/TicketSaleIcon.vue';
+import QrCodeIcon from '../assets/icons/QrCodeIcon.vue';
 import Dialog from 'primevue/dialog';
 import CashbackService from '../services/cashback.service';
 import CorporateClientsService from '@/services/corporateClients.service.js';
@@ -52,11 +52,12 @@ import CreditCardIcon from '../assets/icons/CreditCardIcon.vue';
 import ClickIcon from '../assets/icons/ClickIcon.vue';
 
 
+
 const notificationDropdown = ref(null);
 
 const sidebarStore = useSidebarStore()
 const isWishFocus = computed(() => {
-    return sidebarStore.isWishFocus
+  return sidebarStore.isWishFocus
 })
 
 onClickOutside(notificationDropdown, () => {
@@ -286,7 +287,7 @@ const searchProducts = () => {
           useProductStore().setProducts(res.data);
         }
       });
-    } else if (!isNaN(search.value) && ((/^\d{1,8}$/.test(+search.value)))) { 
+    } else if (!isNaN(search.value) && ((/^\d{1,8}$/.test(+search.value)))) {
       ProductService.getProductsDetails(
         cleanObjectEmptyFields({
           serialId: +search.value,
@@ -333,8 +334,8 @@ const addProductToCart = (product, amount) => {
     if (product?.rest <= existingProduct.amount) {
       toast.error(t('productIsOutOfStore'));
       productOutOfStore.play();
-      clearSearchInput(); 
-      return; 
+      clearSearchInput();
+      return;
     } else {
       let updatedAmount;
 
@@ -364,9 +365,9 @@ const addProductToCart = (product, amount) => {
         addedToBasket.play();
       }
 
-      activeBasket.value.splice(existingProductIndex, 1); 
+      activeBasket.value.splice(existingProductIndex, 1);
       activeBasket.value.unshift(updatedProduct);
-      clearSearchInput(); 
+      clearSearchInput();
     }
   } else {
     if (product?.rest > 0) {
@@ -564,7 +565,7 @@ const clearSearchInput = () => {
   // onFocusSearchInput()
 };
 
-const clearSubmitData = () => {  
+const clearSubmitData = () => {
   submitData.discountPercent = '';
   submitData.discountReason = '';
   discount.value = '';
@@ -584,6 +585,7 @@ const clearSubmitData = () => {
     thirdBasket.value = [];
   }
   localStorage.removeItem('activeBasket');
+  printCheck.value = true
 };
 
 const clearAndClose = () => {
@@ -599,7 +601,7 @@ const createOrder = (printCheck = true) => {
     toast.error('Tanlangan mahsulotlar mavjud emas!');
   } else if (submitData.paymentReceived < 0) {
     toast.error(t('enterCorrectPayment'))
-  } else if (activeBasket.value.filter(p => p.expirationDate != null && new Date().setHours(0,0,0,0) > new Date(p.expirationDate)).length > 0) {
+  } else if (activeBasket.value.filter(p => p.expirationDate != null && new Date().setHours(0, 0, 0, 0) > new Date(p.expirationDate)).length > 0) {
     toast.error(t('dontSellExpireProducts'))
   } else {
     if (printCheck) {
@@ -724,8 +726,8 @@ const handleDiscountClick = () => {
 async function printChaque(data) {
   await axios
     .post(API_URL + '/print', data)
-    .then(async () => {})
-    .catch(() => {});
+    .then(async () => { })
+    .catch(() => { });
 }
 
 watch(
@@ -769,7 +771,7 @@ watch(
   () => expirationDate.value,
   () => {
     expirationDate.value = activeBasket.value
-      .map((product) => product?.expirationDate )
+      .map((product) => product?.expirationDate)
   },
   { deep: true },
 );
@@ -1106,12 +1108,12 @@ onMounted(() => {
   useProductStore().clearStore();
   const localActiveBasketStatusJson = localStorage.getItem('activeBasketStatus');
   const localActiveBasket = localStorage.getItem('activeBasket')
-  activeBasketStatus.value = localActiveBasketStatusJson ?   JSON.parse(localActiveBasketStatusJson) : activeBasketStatus.value
-  
+  activeBasketStatus.value = localActiveBasketStatusJson ? JSON.parse(localActiveBasketStatusJson) : activeBasketStatus.value
+
   try {
     JSON.parse(localActiveBasket);
     activeBasket.value.push(...JSON.parse(localActiveBasket));
-  } catch (e) {}
+  } catch (e) { }
 
   const localFirstActiveBasket = localStorage.getItem('firstBasket')
   try {
@@ -1369,10 +1371,8 @@ const handlePrintCheckChange = () => {
 </script>
 
 <template>
-  <div
-    v-if="products.length > 0"
-    class="fixed top-0 right-0 bottom-0 left-0 z-40 backdrop-blur-[2px] bg-gray-900/70"
-  ></div>
+  <div v-if="products.length > 0" class="fixed top-0 right-0 bottom-0 left-0 z-40 backdrop-blur-[2px] bg-gray-900/70">
+  </div>
   <div class="flex max-h-screen overflow-hidden flex-col md:flex-row">
     <div class="flex-auto md:w-2/3 w-full space-y-4 py-8 px-4 md:px-8">
       <div class="flex items-center space-x-2 pb-2">
@@ -1380,47 +1380,26 @@ const handlePrintCheckChange = () => {
           <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
             <SearchIcon class="w-5 h-5 text-slate-400 dark:text-slate-100" />
           </div>
-          <input
-            id="globle-search"
-            v-model="search"
-            v-on:keypress="whenPressEnter($event)"
-            type="search"
-            @blur="reFocus()"
-            ref="onSearchFocus"
+          <input id="globle-search" v-model="search" v-on:keypress="whenPressEnter($event)" type="search"
+            @blur="reFocus()" ref="onSearchFocus"
             class="bg-slate-100 border-none text-slate-900 dark:bg-slate-700 dark:text-slate-100 text-base md:text-lg rounded-xl block w-full h-12 pl-10 py-2 placeholder-slate-400 placeholder:text-sm md:placeholder:text-lg lg:placeholder:text-base"
-            :placeholder="t('searchByProductNameOrBarcode')"
-          />
-          <div
-            v-if="search"
-            @click="clearSearchInput()"
-            class="absolute inset-y-0 right-20 p-1 flex items-center cursor-pointer"
-          >
+            :placeholder="t('searchByProductNameOrBarcode')" />
+          <div v-if="search" @click="clearSearchInput()"
+            class="absolute inset-y-0 right-20 p-1 flex items-center cursor-pointer">
             <XIcon class="w-5 h-5 text-slate-600 dark:text-slate-100" />
           </div>
-          <button
-            @click="searchProducts()"
-            type="button"
-            class="absolute inset-y-0 right-0 px-4 bg-[#0167F3] text-white rounded-r-xl"
-          >
+          <button @click="searchProducts()" type="button"
+            class="absolute inset-y-0 right-0 px-4 bg-[#0167F3] text-white rounded-r-xl">
             {{ $t('search') }}
           </button>
-          <div
-            v-if="isLoadingSearchProducts"
-            class="h-[500px] z-[9999] flex items-center justify-center absolute w-full"
-          >
+          <div v-if="isLoadingSearchProducts"
+            class="h-[500px] z-[9999] flex items-center justify-center absolute w-full">
             <Spinners270RingIcon class="w-12 h-12 text-blue-500 animate-spin" />
           </div>
-          <ScrollPanel
-            v-if="products.length > 0"
-            ref="searchProductDropdown"
-            class="h-[500px] flex flex-row absolute top-16 left-0 bg-transparent w-full space-y-2"
-          >
-            <div
-              v-for="(product, idx) in products"
-              :key="idx"
-              @click="addProductToCart(product)"
-              class="flex items-center justify-between bg-white dark:bg-slate-800 border shadow-sm rounded-xl px-3 py-2 my-2 w-full cursor-pointer hover:bg-slate-100"
-            >
+          <ScrollPanel v-if="products.length > 0" ref="searchProductDropdown"
+            class="h-[500px] flex flex-row absolute top-16 left-0 bg-transparent w-full space-y-2">
+            <div v-for="(product, idx) in products" :key="idx" @click="addProductToCart(product)"
+              class="flex items-center justify-between bg-white dark:bg-slate-800 border shadow-sm rounded-xl px-3 py-2 my-2 w-full cursor-pointer hover:bg-slate-100">
               <div class="flex items-center space-x-3">
                 <div class="flex items-center justify-center bg-slate-200 w-10 h-10 rounded-lg">
                   <ImageIcon class="text-gray-500 w-8 h-8" />
@@ -1449,61 +1428,35 @@ const handlePrintCheckChange = () => {
           </ScrollPanel>
         </div>
 
-        <div
-          @click="useModalStore().openCameraScannerModal()"
-          :title="t('barcodeScanning')"
-          class="flex items-center justify-center bg-slate-100 dark:bg-slate-700 rounded-xl h-12 w-12 cursor-pointer"
-        >
+        <div @click="useModalStore().openCameraScannerModal()" :title="t('barcodeScanning')"
+          class="flex items-center justify-center bg-slate-100 dark:bg-slate-700 rounded-xl h-12 w-12 cursor-pointer">
           <BarcodeIcon class="w-6 h-6 text-blue-600 dark:text-blue-400" />
         </div>
-        <button
-          :disabled="isCashbackUsed"
-          @click="openCardIdModal"
-          :title="t('cardIdScanning')"
-          class="hidden md:flex items-center justify-center bg-slate-100 dark:bg-slate-700 rounded-xl h-12 w-12 cursor-pointer"
-        >
-          <TicketSale class="w-5 h-5 text-blue-600 dark:text-blue-400" />
+        <button :disabled="isCashbackUsed" @click="openCardIdModal" :title="t('cardIdScanning')"
+          class="hidden md:flex items-center justify-center bg-slate-100 dark:bg-slate-700 rounded-xl h-12 w-12 cursor-pointer">
+          <QrCodeIcon class="w-5 h-5 text-blue-600 dark:text-blue-400" />
         </button>
-        <Dialog
-          v-model:visible="useModalStore().isOpenCardIdModal"
-          modal
-          :header="t('cardIdScanning')"
-          :closable="false"
-        >
+        <Dialog v-model:visible="useModalStore().isOpenCardIdModal" modal :header="t('cardIdScanning')"
+          :closable="false">
           <div class="h-40 w-[25vw] flex flex-col space-y-10 items-center">
-            <input
-              ref="onCashbackFocus"
-              id="customerId"
-              @blur="cashbackReFocus()"
-              v-model="submitData.cashbackCustomerId"
-              v-on:keypress="whenPressEnter($event)"
-              type="search"
+            <input ref="onCashbackFocus" id="customerId" @blur="cashbackReFocus()"
+              v-model="submitData.cashbackCustomerId" v-on:keypress="whenPressEnter($event)" type="search"
               class="mt-3 bg-slate-100 border-none text-slate-900 dark:text-slate-100 text-base rounded-xl block w-full h-12 pl-5 py-2 placeholder-slate-400 placeholder:text-lg"
-              :placeholder="t('searchByCashback')"
-            />
+              :placeholder="t('searchByCashback')" />
             <div class="flex w-full justify-end space-x-3">
-              <button
-                @click="getCustomerBalance"
-                type="button"
-                class="xl:py-3 px-4 lg:py-2 py-3 rounded-lg text-white text-lg font-medium bg-blue-500 cursor-pointer hover:bg-blue-600"
-              >
+              <button @click="getCustomerBalance" type="button"
+                class="xl:py-3 px-4 lg:py-2 py-3 rounded-lg text-white text-lg font-medium bg-blue-500 cursor-pointer hover:bg-blue-600">
                 {{ $t('search') }}
               </button>
-              <button
-                @click="closeCardIdModal()"
-                type="button"
-                class="xl:py-3 px-4 lg:py-2 py-3 rounded-lg text-lg font-medium cursor-pointer bg-blue-50 border border-blue-300 text-blue-500 hover:bg-blue-100"
-              >
+              <button @click="closeCardIdModal()" type="button"
+                class="xl:py-3 px-4 lg:py-2 py-3 rounded-lg text-lg font-medium cursor-pointer bg-blue-50 border border-blue-300 text-blue-500 hover:bg-blue-100">
                 {{ $t('back') }}
               </button>
             </div>
           </div>
         </Dialog>
-        <div
-          @click="clearAndClose()"
-          :title="t('clearTheBasket')"
-          class="hidden md:flex items-center justify-center bg-slate-100 dark:bg-slate-700 rounded-xl h-12 w-12 cursor-pointer"
-        >
+        <div @click="clearAndClose()" :title="t('clearTheBasket')"
+          class="hidden md:flex items-center justify-center bg-slate-100 dark:bg-slate-700 rounded-xl h-12 w-12 cursor-pointer">
           <BroomIcon class="w-5 h-5 text-blue-600 dark:text-blue-400" />
         </div>
       </div>
@@ -1513,28 +1466,16 @@ const handlePrintCheckChange = () => {
           {{ $t('shoppingCart') }}
         </div>
         <div class="flex space-x-2">
-          <div
-            v-for="(basket, idx) in baskets"
-            :key="idx"
-            @click="changeBasketStatus(basket.id)"
+          <div v-for="(basket, idx) in baskets" :key="idx" @click="changeBasketStatus(basket.id)"
             class="px-4 py-2 inline-flex flex-col xl:flex-row sm:flex items-center leading-none border-b-2 rounded-xl"
-            :class="
-              activeBasketStatus == basket.id
-                ? 'bg-slate-100 dark:bg-slate-700 border-blue-500'
-                : 'bg-slate-50 dark:bg-gray-700 border-slate-200 cursor-pointer'
-            "
-          >
-            <BasketIcon
-              class="w-6 h-6 mr-2"
-              :class="
-                activeBasketStatus == basket.id ? 'text-blue-600 dark:text-blue-400 text-sm' : 'text-gray-500 dark:text-slate-100 text-sm'
-              "
-            />
-            <span
-              :class="
-                activeBasketStatus == basket.id ? 'text-blue-600 dark:text-blue-400 text-sm' : 'text-red-900 dark:text-slate-100 text-sm'
-              "
-            >
+            :class="activeBasketStatus == basket.id
+              ? 'bg-slate-100 dark:bg-slate-700 border-blue-500'
+              : 'bg-slate-50 dark:bg-gray-700 border-slate-200 cursor-pointer'
+              ">
+            <BasketIcon class="w-6 h-6 mr-2" :class="activeBasketStatus == basket.id ? 'text-blue-600 dark:text-blue-400 text-sm' : 'text-gray-500 dark:text-slate-100 text-sm'
+              " />
+            <span :class="activeBasketStatus == basket.id ? 'text-blue-600 dark:text-blue-400 text-sm' : 'text-red-900 dark:text-slate-100 text-sm'
+              ">
               {{ basket.name }}
             </span>
           </div>
@@ -1563,21 +1504,22 @@ const handlePrintCheckChange = () => {
                 </th>
               </tr>
             </thead>
-            <tbody class="bg-slate-100 dark:text-slate-100 divide-y-8 dark:divide-slate-800 dark:bg-gray-700 divide-white">
-              <tr
-                :class="{ 'bg-red-100 dark:bg-red-400': product.expirationDate && new Date().setHours(0, 0, 0, 0) > new Date(product.expirationDate),
-                'bg-blue-100 dark:text-slate-100 dark:bg-gray-600': selectP === product }" @click="selectProduct(product)" v-for="(product, idx) in  activeBasket" :key="idx" class="overflow-x-auto overflow-y-auto">
+            <tbody
+              class="bg-slate-100 dark:text-slate-100 divide-y-8 dark:divide-slate-800 dark:bg-gray-700 divide-white">
+              <tr :class="{
+                'bg-red-100 dark:bg-red-400': product.expirationDate && new Date().setHours(0, 0, 0, 0) > new Date(product.expirationDate),
+                'bg-blue-100 dark:text-slate-100 dark:bg-gray-600': selectP === product
+              }" @click="selectProduct(product)" v-for="(product, idx) in activeBasket" :key="idx"
+                class="overflow-x-auto overflow-y-auto">
                 <td class="px-3 py-2 whitespace-nowrap rounded-l-xl">
                   <div class="flex items-center space-x-3">
                     <div
-                      class="flex items-center justify-center dark:bg-slate-500 bg-slate-200 md:w-12 md:h-12 w-8 h-8 rounded-lg"
-                    >
+                      class="flex items-center justify-center dark:bg-slate-500 bg-slate-200 md:w-12 md:h-12 w-8 h-8 rounded-lg">
                       <ImageIcon class="text-gray-500 dark:text-zinc-300 w-6 h-6" />
                     </div>
                     <div>
                       <div
-                        class="text-sm md:text-base font-semibold dark:text-slate-100 text-gray-800 max-w-full whitespace-break-spaces"
-                      >
+                        class="text-sm md:text-base font-semibold dark:text-slate-100 text-gray-800 max-w-full whitespace-break-spaces">
                         {{ product?.name + ' - ' + product?.packaging }}
                       </div>
                       <div class="text-sm md:text-base font-medium text-gray-500 dark:text-zinc-300">
@@ -1591,13 +1533,14 @@ const handlePrintCheckChange = () => {
                             {{ roundFloatToTwoDecimal(product?.quantity - product?.amount) }}
                           </span>
                         </div>
-                        <div v-if="new Date().setHours(0,0,0,0) > new Date(product.expirationDate)">
+                        <div v-if="new Date().setHours(0, 0, 0, 0) > new Date(product.expirationDate)">
                           {{ $t('expirationDate') }}:
                           <span class="text-red-600 text-sm md:text-base">
                             {{ product?.expirationDate }}
                           </span>
                         </div>
-                        <div v-else-if="new Date().setHours(0,0,0,0) == new Date(product.expirationDate).setHours(0,0,0,0)">
+                        <div
+                          v-else-if="new Date().setHours(0, 0, 0, 0) == new Date(product.expirationDate).setHours(0, 0, 0, 0)">
                           {{ $t('expirationDate') }}:
                           <span class="text-orange-400 text-sm md:text-base">
                             {{ product?.expirationDate }}
@@ -1619,23 +1562,16 @@ const handlePrintCheckChange = () => {
                 <td class="px-3 py-2 text-center whitespace-nowrap">
                   <div class="flex justify-center">
                     <div class="flex items-center justify-between w-36 rounded-xl p-1">
-                      <div
-                        @click="reduceCountOfProducts(product)"
-                        v-if="reduceCountChecking(product)"
-                        class="flex items-center justify-center w-8 h-8 bg-white dark:bg-slate-500 dark:text-blue-400 text-blue-700 shadow-sm hover:bg-slate-200 dark:hover:bg-gray-400 cursor-pointer rounded-xl"
-                      >
+                      <div @click="reduceCountOfProducts(product)" v-if="reduceCountChecking(product)"
+                        class="flex items-center justify-center w-8 h-8 bg-white dark:bg-slate-500 dark:text-blue-400 text-blue-700 shadow-sm hover:bg-slate-200 dark:hover:bg-gray-400 cursor-pointer rounded-xl">
                         <MinusIcon class="w-4 h-4" />
                       </div>
-                      <div
-                        v-else
-                        class="flex items-center justify-center w-8 h-8 bg-white text-slate-700 dark:bg-slate-500 dark:text-slate-100 cursor-default rounded-xl"
-                      >
+                      <div v-else
+                        class="flex items-center justify-center w-8 h-8 bg-white text-slate-700 dark:bg-slate-500 dark:text-slate-100 cursor-default rounded-xl">
                         <MinusIcon class="w-4 h-4" />
                       </div>
-                      <div
-                        v-if="product?.saleType === 'kg' && product?.amount <= 0.1"
-                        class="flex items-center justify-center text-lg font-normal"
-                      >
+                      <div v-if="product?.saleType === 'kg' && product?.amount <= 0.1"
+                        class="flex items-center justify-center text-lg font-normal">
                         {{
                           roundFloatToFourDecimal(product?.amount) +
                           ' ' +
@@ -1650,24 +1586,16 @@ const handlePrintCheckChange = () => {
                           saleTypeShortTranslate(product?.saleType)
                         }}
                       </div>
-                      <div
-                        @click="increaseCountOfProducts(product)"
-                        v-if="increaseCountChecking(product)"
-                        class="flex items-center justify-center w-8 h-8 bg-white text-blue-700 dark:bg-slate-500 dark:text-blue-400 shadow-sm dark:hover:bg-gray-400 hover:bg-slate-200 cursor-pointer rounded-xl"
-                      >
+                      <div @click="increaseCountOfProducts(product)" v-if="increaseCountChecking(product)"
+                        class="flex items-center justify-center w-8 h-8 bg-white text-blue-700 dark:bg-slate-500 dark:text-blue-400 shadow-sm dark:hover:bg-gray-400 hover:bg-slate-200 cursor-pointer rounded-xl">
                         <PlusIcon class="w-4 h-4" />
                       </div>
-                      <div
-                        @click="increaseCountToAll(product)"
-                        v-else-if="increaseCountAll(product)"
-                        class="flex items-center justify-center w-8 h-8 bg-white text-blue-700 dark:bg-slate-500 dark:text-slate-100 shadow-sm hover:bg-slate-200 cursor-default rounded-xl"
-                      >
+                      <div @click="increaseCountToAll(product)" v-else-if="increaseCountAll(product)"
+                        class="flex items-center justify-center w-8 h-8 bg-white text-blue-700 dark:bg-slate-500 dark:text-slate-100 shadow-sm hover:bg-slate-200 cursor-default rounded-xl">
                         <PlusIcon class="w-4 h-4" />
                       </div>
-                      <div
-                        v-else
-                        class="flex items-center justify-center w-8 h-8 bg-white text-slate-700 dark:bg-slate-500 dark:text-slate-100 cursor-default rounded-xl"
-                      >
+                      <div v-else
+                        class="flex items-center justify-center w-8 h-8 bg-white text-slate-700 dark:bg-slate-500 dark:text-slate-100 cursor-default rounded-xl">
                         <PlusIcon class="w-4 h-4" />
                       </div>
                     </div>
@@ -1676,17 +1604,12 @@ const handlePrintCheckChange = () => {
                 <td class="px-3 py-2 text-center whitespace-nowrap">
                   <div class="flex justify-center">
                     <div class="flex items-center justify-between w-48 rounded-xl p-1">
-                      <div
-                        @click="reduceCountOfPrice(product)"
-                        v-if="reducePriceChecking(product)"
-                        class="flex items-center justify-center w-8 h-8 bg-white text-blue-700 dark:bg-slate-500 dark:text-blue-400 dark:hover:bg-gray-400 shadow-sm hover:bg-slate-200 cursor-pointer rounded-xl"
-                      >
+                      <div @click="reduceCountOfPrice(product)" v-if="reducePriceChecking(product)"
+                        class="flex items-center justify-center w-8 h-8 bg-white text-blue-700 dark:bg-slate-500 dark:text-blue-400 dark:hover:bg-gray-400 shadow-sm hover:bg-slate-200 cursor-pointer rounded-xl">
                         <MinusIcon class="w-4 h-4" />
                       </div>
-                      <div
-                        v-else
-                        class="flex items-center justify-center w-8 h-8 bg-white text-slate-700 dark:bg-slate-500 dark:text-slate-100 cursor-default rounded-xl"
-                      >
+                      <div v-else
+                        class="flex items-center justify-center w-8 h-8 bg-white text-slate-700 dark:bg-slate-500 dark:text-slate-100 cursor-default rounded-xl">
                         <MinusIcon class="w-4 h-4" />
                       </div>
 
@@ -1697,17 +1620,12 @@ const handlePrintCheckChange = () => {
                           )
                         }}
                       </div>
-                      <div
-                        @click="increaseCountOfPrice(product)"
-                        v-if="increasePriceChecking(product)"
-                        class="flex items-center justify-center w-8 h-8 bg-white text-blue-700 dark:bg-slate-500 dark:hover:bg-gray-400 dark:text-blue-400 shadow-sm hover:bg-slate-200 cursor-pointer rounded-xl"
-                      >
+                      <div @click="increaseCountOfPrice(product)" v-if="increasePriceChecking(product)"
+                        class="flex items-center justify-center w-8 h-8 bg-white text-blue-700 dark:bg-slate-500 dark:hover:bg-gray-400 dark:text-blue-400 shadow-sm hover:bg-slate-200 cursor-pointer rounded-xl">
                         <PlusIcon class="w-4 h-4" />
                       </div>
-                      <div
-                        v-else
-                        class="flex items-center justify-center w-8 h-8 bg-white text-slate-700 dark:bg-slate-500 dark:text-slate-100 cursor-default rounded-xl"
-                      >
+                      <div v-else
+                        class="flex items-center justify-center w-8 h-8 bg-white text-slate-700 dark:bg-slate-500 dark:text-slate-100 cursor-default rounded-xl">
                         <PlusIcon class="w-4 h-4" />
                       </div>
                     </div>
@@ -1715,13 +1633,10 @@ const handlePrintCheckChange = () => {
                 </td>
                 <td class="px-3 py-2 whitespace-nowrap rounded-r-2xl">
                   <div class="flex justify-center space-x-2">
-                    <TrashIcon
-                      @click="
-                        $event.stopPropagation();
-                        removeProductFromCart(product);
-                      "
-                      class="w-6 h-6 text-red-600 dark:text-red-600 cursor-pointer transform hover:scale-105"
-                    />
+                    <TrashIcon @click="
+                      $event.stopPropagation();
+                    removeProductFromCart(product);
+                    " class="w-6 h-6 text-red-600 dark:text-red-600 cursor-pointer transform hover:scale-105" />
                   </div>
                 </td>
               </tr>
@@ -1729,10 +1644,8 @@ const handlePrintCheckChange = () => {
           </table>
         </div>
       </div>
-      <div
-        v-else
-        class="flex flex-col items-center justify-center border-2 border-dashed dark:border-slate-600 h-96 rounded-3xl space-y-1"
-      >
+      <div v-else
+        class="flex flex-col items-center justify-center border-2 border-dashed dark:border-slate-600 h-96 rounded-3xl space-y-1">
         <h4 class="text-slate-900 dark:text-slate-100 text-xl font-semibold">
           {{ $t('cartIsCurrentlyEmpty') }}
         </h4>
@@ -1742,9 +1655,7 @@ const handlePrintCheckChange = () => {
       </div>
     </div>
 
-    <div
-      class="flex-auto overflow-y-auto md:w-1/3 w-full border-l h-dvh py-8 px-4 md:px-8 space-y-4"
-    >
+    <div class="flex-auto overflow-y-auto md:w-1/3 w-full border-l h-dvh py-8 px-4 md:px-8 space-y-4">
       <div class="space-y-2">
         <h3 class="text-xl dark:text-zinc-200 font-semibold">
           {{ $t('salesDetails') }}
@@ -1801,14 +1712,14 @@ const handlePrintCheckChange = () => {
               Math.round((totalPrice - (totalPrice * submitData.discountPercent) / 100) / 100) *
                 100 -
                 customerBalance >=
-              0
+                0
                 ? useMoneyFormatter(
-                    Math.round(
-                      (totalPrice - (totalPrice * submitData.discountPercent) / 100) / 100,
-                    ) *
-                      100 -
-                      customerBalance,
-                  )
+                  Math.round(
+                    (totalPrice - (totalPrice * submitData.discountPercent) / 100) / 100,
+                  ) *
+                  100 -
+                  customerBalance,
+                )
                 : `0 UZS`
             }}
           </div>
@@ -1818,28 +1729,18 @@ const handlePrintCheckChange = () => {
         <label class="text-base dark:text-zinc-200 font-medium">
           {{ $t('paymentReceived') }}
         </label>
-        <money3
-          v-model="submitData.paymentReceived"
-          v-bind="moneyConf"
-          id="price"
-          ref="onTotalFocus"
+        <money3 v-model="submitData.paymentReceived" v-bind="moneyConf" id="price" ref="onTotalFocus"
           @blur="totalReFocus()"
-          class="border-none text-right text-gray-500 dark:text-slate-400 dark:bg-slate-700 bg-slate-100 rounded-lg w-full text-lg"
-        />
+          class="border-none text-right text-gray-500 dark:text-slate-400 dark:bg-slate-700 bg-slate-100 rounded-lg w-full text-lg" />
       </div>
       <div class="space-y-1" @click="a">
         <label class="text-base dark:text-zinc-200 font-medium">
           {{ $t('customerMoney') }}
         </label>
         <div>
-          <money3
-            v-model="submitData.customerMoney"
-            id="customer-money"
-            ref="onCustomerMoneyFocus"
-            @blur="customerMoneyReFocus()"
-            v-bind="moneyConf"
-            class="border-none text-right text-gray-500 dark:text-slate-400 dark:bg-slate-700 bg-slate-100 rounded-lg w-full text-lg"
-          />
+          <money3 v-model="submitData.customerMoney" id="customer-money" ref="onCustomerMoneyFocus"
+            @blur="customerMoneyReFocus()" v-bind="moneyConf"
+            class="border-none text-right text-gray-500 dark:text-slate-400 dark:bg-slate-700 bg-slate-100 rounded-lg w-full text-lg" />
         </div>
       </div>
       <div class="flex items-center justify-between">
@@ -1850,27 +1751,20 @@ const handlePrintCheckChange = () => {
           {{ useMoneyFormatter(submitData.customerMoney - submitData.paymentReceived) }}
         </div>
       </div>
-      
+
       <div class="space-y-3">
         <div class="py-3 lg:py-0 space-y-1">
-          <div
-            class="flex w-full space-x-2 lg:space-x-4 xl:space-x-4 xl:space-y-0 lg:space-y-0 flex-row"
-          >
-            <div
-              @click="showDiscountForm = !showDiscountForm"
+          <div class="flex w-full space-x-2 lg:space-x-4 xl:space-x-4 xl:space-y-0 lg:space-y-0 flex-row">
+            <div @click="showDiscountForm = !showDiscountForm"
               :class="showDiscountForm ? 'border-blue-300 bg-blue-50' : ''"
-              class="flex-1 hover:bg-blue-100 bg-blue-50 dark:border-slate-600 hover:border-blue-300 dark:bg-slate-700 dark:text-slate-100 dark:hover:bg-blue-500  hover:cursor-pointer flex flex-col w-full items-center text-center justify-center border rounded-lg py-4"
-            >
-              <PhPercent class="w-6 h-6" />
+              class="flex-1 hover:bg-blue-100 bg-blue-50 dark:border-slate-600 hover:border-blue-300 dark:bg-slate-700 dark:text-slate-100 dark:hover:bg-blue-500  hover:cursor-pointer flex flex-col w-full items-center text-center justify-center border rounded-lg py-4">
+              <DiscountIcon class="w-6 h-6" />
               <div class="text-lg font-medium">
                 {{ $t('intoDiscount') }}
               </div>
             </div>
-            <div
-              @click="showCorporateClients = !showCorporateClients"
-              :class="showCorporateClients ? 'bg-blue-50' : ''"
-              class="flex-1 flex flex-col hover:border-blue-300 dark:border-slate-600 border-blue-300 dark:bg-slate-700 dark:text-slate-100 dark:hover:bg-blue-500 hover:bg-blue-100 bg-blue-50 hover:cursor-pointer items-center text-center justify-center border rounded-lg py-4"
-            >
+            <div @click="showCorporateClients = !showCorporateClients" :class="showCorporateClients ? 'bg-blue-50' : ''"
+              class="flex-1 flex flex-col hover:border-blue-300 dark:border-slate-600 border-blue-300 dark:bg-slate-700 dark:text-slate-100 dark:hover:bg-blue-500 hover:bg-blue-100 bg-blue-50 hover:cursor-pointer items-center text-center justify-center border rounded-lg py-4">
               <DebtIcon class="w-6 h-6" />
               <div class="text-lg font-medium">
                 {{ $t('corporateClients') }}
@@ -1884,54 +1778,35 @@ const handlePrintCheckChange = () => {
               </label>
             </div>
             <div>
-              <input
-                min="0"
-                max="100"
-                v-model="discount"
-                type="number"
-                ref="onDiscountFocus"
-                @blur="discountReFocus()"
-                class="border-none text-right text-gray-500 dark:bg-slate-700 dark:text-gray-400 bg-slate-100 rounded-lg w-full text-lg"
-              />
+              <input min="0" max="100" v-model="discount" type="number" ref="onDiscountFocus" @blur="discountReFocus()"
+                class="border-none text-right text-gray-500 dark:bg-slate-700 dark:text-gray-400 bg-slate-100 rounded-lg w-full text-lg" />
               <div class="flex space-x-3 my-3 justify-end">
                 <button
                   class="px-2 py-2 flex items-center justify-center text-lg cursor-pointer dark:text-slate-100 dark:bg-[#7a8ea1] dark:hover:bg-blue-500 border-blue-400 bg-blue-100 hover:border-blue-400 hover:text-white hover:bg-blue-400 rounded-lg"
-                  :class="{ 'bg-blue-400 text-white': discount === 10 }"
-                  @click="setDiscountValue(10)"
-                >
+                  :class="{ 'bg-blue-400 text-white': discount === 10 }" @click="setDiscountValue(10)">
                   10%
                 </button>
                 <button
                   class="px-2 flex items-center justify-center text-lg cursor-pointer dark:text-slate-100 dark:bg-slate-500 dark:hover:bg-blue-500 border-blue-400 bg-blue-100 hover:border-blue-400 hover:text-white hover:bg-blue-400 rounded-lg"
-                  :class="{ 'bg-blue-400 text-white': discount === 25 }"
-                  @click="setDiscountValue(25)"
-                >
+                  :class="{ 'bg-blue-400 text-white': discount === 25 }" @click="setDiscountValue(25)">
                   25%
                 </button>
                 <button
                   class="px-2 flex items-center justify-center text-lg cursor-pointer dark:text-slate-100 dark:bg-slate-600 dark:hover:bg-blue-500 border-blue-400 bg-blue-200 hover:border-blue-400 hover:text-white hover:bg-blue-400 rounded-lg"
-                  :class="{ 'bg-blue-400 text-white': discount === 50 }"
-                  @click="setDiscountValue(50)"
-                >
+                  :class="{ 'bg-blue-400 text-white': discount === 50 }" @click="setDiscountValue(50)">
                   50%
                 </button>
                 <button
                   class="px-2 flex items-center justify-center text-lg cursor-pointer dark:text-slate-100 dark:bg-slate-700 dark:hover:bg-blue-500 border-blue-400 bg-blue-300 hover:border-blue-400 hover:text-white hover:bg-blue-400 rounded-lg"
-                  :class="{ 'bg-blue-400 text-white': discount === 100 }"
-                  @click="setDiscountValue(100)"
-                >
+                  :class="{ 'bg-blue-400 text-white': discount === 100 }" @click="setDiscountValue(100)">
                   100%
                 </button>
               </div>
               <div class="space-y-2">
                 <label class="text-base dark:text-slate-100 font-medium" for="reason">{{ $t('reason') }}</label>
-                <input
-                  type="text"
-                  v-model="submitData.discountReason"
-                  ref="onDiscountReasonFocus"
+                <input type="text" v-model="submitData.discountReason" ref="onDiscountReasonFocus"
                   @blur="discountReasonReFocus()"
-                  class="border-none text-left text-gray-500 dark:bg-slate-700 dark:text-gray-400 bg-slate-100 rounded-lg w-full text-lg"
-                />
+                  class="border-none text-left text-gray-500 dark:bg-slate-700 dark:text-gray-400 bg-slate-100 rounded-lg w-full text-lg" />
               </div>
               <div class="mt-5">
                 <CancelButton class="w-full" @click="closeDiscountForm" />
@@ -1940,21 +1815,15 @@ const handlePrintCheckChange = () => {
           </div>
         </div>
         <div v-if="hasDiscount && activeBasket.length > 0" class="flex flex-col space-y-4">
-          <button
-            v-if="!isLoadingDiscount"
-            @click="handleDiscountClick"
-            class="px-6 w-full uppercase animate-pulse py-5 bg-gradient-to-r from-blue-500 to-green-500 text-white font-semibold text-lg rounded-full shadow-md hover:shadow-lg transition duration-300 transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-opacity-75"
-          >
+          <button v-if="!isLoadingDiscount" @click="handleDiscountClick"
+            class="px-6 w-full uppercase animate-pulse py-5 bg-gradient-to-r from-blue-500 to-green-500 text-white font-semibold text-lg rounded-full shadow-md hover:shadow-lg transition duration-300 transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-opacity-75">
             chegirma %
           </button>
 
-          <button
-            v-if="isLoadingDiscount"
-            class="flex items-center justify-center px-6 w-full uppercase animate-pulse py-5 bg-gradient-to-r from-blue-500 to-green-500 text-white font-semibold text-lg rounded-full shadow-md hover:shadow-lg transition duration-300 transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-opacity-75"
-          >
+          <button v-if="isLoadingDiscount"
+            class="flex items-center justify-center px-6 w-full uppercase animate-pulse py-5 bg-gradient-to-r from-blue-500 to-green-500 text-white font-semibold text-lg rounded-full shadow-md hover:shadow-lg transition duration-300 transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-opacity-75">
             <Spinners270RingIcon
-              class="mr-2 w-5 h-5 text-white animate-spin dark:text-slate-100 fill-gray-600 dark:fill-gray-300"
-            />
+              class="mr-2 w-5 h-5 text-white animate-spin dark:text-slate-100 fill-gray-600 dark:fill-gray-300" />
             chegirma %
           </button>
         </div>
@@ -1966,10 +1835,9 @@ const handlePrintCheckChange = () => {
               </div>
               <div class="space-y-2">
                 <button :disabled="isLoadingOrderWithoutPrint"
-                  v-for="client in useCorporateClientsStore().corporateClients"
-                  @click="createOrderForCorp(client.id)" :key="client.id"
-                  class="w-full xl:py-3 px-4 lg:py-2 py-3 rounded-lg text-white text-lg font-medium bg-blue-500 cursor-pointer hover:bg-blue-600"
-                >
+                  v-for="client in useCorporateClientsStore().corporateClients" @click="createOrderForCorp(client.id)"
+                  :key="client.id"
+                  class="w-full xl:py-3 px-4 lg:py-2 py-3 rounded-lg text-white text-lg font-medium bg-blue-500 cursor-pointer hover:bg-blue-600">
                   {{ client.customerName }}
                 </button>
               </div>
@@ -1979,27 +1847,21 @@ const handlePrintCheckChange = () => {
           <div v-else class="space-y-4">
             <div v-if="!isLoadingOrderWithPrint && !isLoadingOrderWithoutPrint" class="space-y-4">
               <div class="flex space-x-2 justify-between">
-                <button :title="t('cash')"
-                  @click="createOrderForCash(printCheck)"
-                  class="w-full xl:py-3 px-4 lg:py-2 py-3 rounded-lg text-white text-lg font-medium bg-blue-500 cursor-pointer hover:bg-blue-600"
-                >
+                <button :title="t('cash')" @click="createOrderForCash(printCheck)"
+                  class="w-full xl:py-3 px-4 lg:py-2 py-3 rounded-lg text-white text-lg font-medium bg-blue-500 cursor-pointer hover:bg-blue-600">
                   <MoneyWavyIcon class="ml-2 h-6 w-6 inline" />
 
                 </button>
                 <!-- Кнопка для терминала -->
-                <button :title="t('terminal')"
-                  @click="createOrderForCard(printCheck)"
-                  class="w-full xl:py-3 px-4 lg:py-2 py-3 rounded-lg text-white text-lg font-medium bg-blue-500 cursor-pointer hover:bg-blue-600"
-                >
+                <button :title="t('terminal')" @click="createOrderForCard(printCheck)"
+                  class="w-full xl:py-3 px-4 lg:py-2 py-3 rounded-lg text-white text-lg font-medium bg-blue-500 cursor-pointer hover:bg-blue-600">
                   <CreditCardIcon class="ml-2 h-6 w-6 inline" />
 
                 </button>
 
                 <!-- Кнопка для клика -->
-                <button :title="t('click')" 
-                  @click="createOrderForClick(printCheck)"
-                  class="w-full xl:py-3 px-4 lg:py-2 py-3 rounded-lg text-white text-lg font-medium bg-blue-500 cursor-pointer hover:bg-blue-600"
-                >
+                <button :title="t('click')" @click="createOrderForClick(printCheck)"
+                  class="w-full xl:py-3 px-4 lg:py-2 py-3 rounded-lg text-white text-lg font-medium bg-blue-500 cursor-pointer hover:bg-blue-600">
                   <ClickIcon class="ml-2 h-6 w-6 inline" />
 
                 </button>
@@ -2007,17 +1869,41 @@ const handlePrintCheckChange = () => {
 
               <!-- Чекбокс для выбора печати -->
               <div @change="handlePrintCheckChange"
-              class="flex p-4 space-x-4 items-center border rounded-xl hover:bg-blue-100 dark:bg-slate-700 dark:hover:bg-slate-700 dark:text-slate-100">
-                <input 
-                  type="checkbox" 
-                  id="printCheck" 
-                  v-model="printCheck" 
-                  class="rounded" 
-                />
+                class="flex p-4 space-x-4 items-center border rounded-xl hover:bg-blue-100 dark:bg-slate-700 dark:hover:bg-slate-700 dark:text-slate-100">
+                <input type="checkbox" id="printCheck" v-model="printCheck" class="rounded" />
                 <label class="w-full" for="printCheck">{{ $t('printOrder') }}</label>
               </div>
             </div>
             <!--  -->
+
+            <div v-else class="space-y-4">
+              <div class="w-full flex space-x-2 justify-between">
+                <button v-if="submitData.paymentType === 'cash'"
+                  class="w-full xl:py-3 px-4 lg:py-2 py-3 rounded-lg text-white text-lg font-medium bg-blue-500 cursor-pointer hover:bg-blue-600">
+                  <Spinners270RingIcon class="ml-2 h-6 w-6 inline" />
+                </button>
+                <button v-else
+                  class="w-full xl:py-3 px-4 lg:py-2 py-3 rounded-lg text-white text-lg font-medium bg-blue-500 cursor-pointer hover:bg-blue-600">
+                  <MoneyWavyIcon class="ml-2 h-6 w-6 inline" />
+                </button>
+                <button v-if="submitData.paymentType === 'terminal'"
+                  class="w-full xl:py-3 px-4 lg:py-2 py-3 rounded-lg text-white text-lg font-medium bg-blue-500 cursor-pointer hover:bg-blue-600">
+                  <Spinners270RingIcon class="ml-2 h-6 w-6 inline" />
+                </button>
+                <button v-else
+                  class="w-full xl:py-3 px-4 lg:py-2 py-3 rounded-lg text-white text-lg font-medium bg-blue-500 cursor-pointer hover:bg-blue-600">
+                  <CreditCardIcon class="ml-2 h-6 w-6 inline" />
+                </button>
+                <button v-if="submitData.paymentType === 'click'"
+                  class="w-full xl:py-3 px-4 lg:py-2 py-3 rounded-lg text-white text-lg font-medium bg-blue-500 cursor-pointer hover:bg-blue-600">
+                  <Spinners270RingIcon class="ml-2 h-6 w-6 inline" />
+                </button>
+                <button v-else
+                  class="w-full xl:py-3 px-4 lg:py-2 py-3 rounded-lg text-white text-lg font-medium bg-blue-500 cursor-pointer hover:bg-blue-600">
+                  <ClickIcon class="ml-2 h-6 w-6 inline" />
+                </button>
+              </div>
+            </div>
           </div>
 
           <div v-if="showDebtForm" class="flex flex-col space-y-3">
@@ -2028,66 +1914,43 @@ const handlePrintCheckChange = () => {
                     {{ $t('fullName') }}
                     <span class="text-red-500 mr-2">*</span>
                   </label>
-                  <input
-                    v-model="customerForm.fullName"
-                    id="debtor-fullname"
-                    type="text"
-                    ref="onFullNameFocus"
+                  <input v-model="customerForm.fullName" id="debtor-fullname" type="text" ref="onFullNameFocus"
                     @blur="fullNameReFocus()"
                     class="bg-slate-100 border-none text-slate-900 dark:text-slate-100 rounded-lg w-full py-2.5 placeholder-slate-400"
-                    :placeholder="t('enterFullName')"
-                  />
+                    :placeholder="t('enterFullName')" />
                 </div>
                 <div class="w-full">
                   <label for="debtor-phone" class="text-base font-medium">
                     {{ $t('phone') }}
                     <span class="text-red-500 mr-2">*</span>
                   </label>
-                  <input
-                    ref="onPhoneFocus"
-                    @blur="phoneReFocus()"
-                    v-model="customerForm.phone"
-                    id="debtor-phone"
-                    type="text"
-                    v-maska
-                    data-maska="+998(##) ###-##-##"
+                  <input ref="onPhoneFocus" @blur="phoneReFocus()" v-model="customerForm.phone" id="debtor-phone"
+                    type="text" v-maska data-maska="+998(##) ###-##-##"
                     class="bg-slate-100 border-none w-full text-slate-900 dark:text-slate-100 rounded-lg py-2.5 placeholder-slate-400"
-                    placeholder="+998(00) 000-00-00"
-                  />
+                    placeholder="+998(00) 000-00-00" />
                 </div>
                 <div class="w-full">
                   <label for="remained" class="text-base font-medium">
                     {{ $t('remainDebt') }}
                     <span class="text-red-500 mr-2">*</span>
                   </label>
-                  <money3
-                    v-model="customerForm.remained"
-                    type="text"
-                    v-bind="moneyConf"
-                    id="debtor-price"
-                    ref="onDebtFocus"
-                    @blur="debtReFocus()"
-                    class="border-none text-right text-gray-500 dark:text-zinc-300 bg-slate-100 rounded-lg w-full text-lg"
-                  ></money3>
+                  <money3 v-model="customerForm.remained" type="text" v-bind="moneyConf" id="debtor-price"
+                    ref="onDebtFocus" @blur="debtReFocus()"
+                    class="border-none text-right text-gray-500 dark:text-zinc-300 bg-slate-100 rounded-lg w-full text-lg">
+                  </money3>
                 </div>
               </div>
             </div>
             <div class="space-y-2 pb-12">
               <CancelButton class="w-full !rounded-lg" @click="closeDebtForm" />
-              <button
-                v-if="isLoadingDebtSaleForm"
-                class="w-full xl:py-3 px-4 lg:py-2 py-3 rounded-lg text-white flex items-center justify-center text-lg font-medium bg-blue-500 cursor-pointer hover:bg-blue-600"
-              >
+              <button v-if="isLoadingDebtSaleForm"
+                class="w-full xl:py-3 px-4 lg:py-2 py-3 rounded-lg text-white flex items-center justify-center text-lg font-medium bg-blue-500 cursor-pointer hover:bg-blue-600">
                 <Spinners270RingIcon
-                  class="mr-2 w-5 h-5 text-gray-200 animate-spin dark:text-slate-100 fill-gray-600 dark:fill-gray-300"
-                />
+                  class="mr-2 w-5 h-5 text-gray-200 animate-spin dark:text-slate-100 fill-gray-600 dark:fill-gray-300" />
                 {{ $t('intoDebt') }}
               </button>
-              <button
-                v-else
-                @click="createOrderWithDebt"
-                class="w-full xl:py-3 px-4 lg:py-2 py-3 rounded-lg text-white flex items-center justify-center text-lg font-medium bg-blue-500 cursor-pointer hover:bg-blue-600"
-              >
+              <button v-else @click="createOrderWithDebt"
+                class="w-full xl:py-3 px-4 lg:py-2 py-3 rounded-lg text-white flex items-center justify-center text-lg font-medium bg-blue-500 cursor-pointer hover:bg-blue-600">
                 {{ $t('intoDebt') }}
               </button>
             </div>
@@ -2102,52 +1965,33 @@ const handlePrintCheckChange = () => {
                     {{ $t('fullName') }}
                     <span class="text-red-500 mr-2">*</span>
                   </label>
-                  <input
-                    ref="onFullNameFocus"
-                    @blur="fullNameReFocus()"
-                    id="customer-fullname"
-                    type="text"
+                  <input ref="onFullNameFocus" @blur="fullNameReFocus()" id="customer-fullname" type="text"
                     v-model="customerForm.fullName"
                     class="bg-slate-100 border-none text-slate-900 dark:text-slate-100 rounded-lg w-full py-2.5 placeholder-slate-400"
-                    :placeholder="t('enterFullName')"
-                  />
+                    :placeholder="t('enterFullName')" />
                 </div>
                 <div class="flex-1">
                   <label for="customer-phone" class="text-base font-medium">
                     {{ $t('phone') }}
                     <span class="text-red-500 mr-2">*</span>
                   </label>
-                  <input
-                    ref="onPhoneFocus"
-                    @blur="phoneReFocus()"
-                    id="customer-phone"
-                    type="text"
-                    v-model="customerForm.phone"
-                    v-maska
-                    data-maska="+998(##) ###-##-##"
+                  <input ref="onPhoneFocus" @blur="phoneReFocus()" id="customer-phone" type="text"
+                    v-model="customerForm.phone" v-maska data-maska="+998(##) ###-##-##"
                     class="bg-slate-100 border-none text-slate-900 dark:text-slate-100 rounded-lg w-full py-2.5 placeholder-slate-400"
-                    placeholder="+998(00) 000-00-00"
-                  />
+                    placeholder="+998(00) 000-00-00" />
                 </div>
               </div>
             </div>
             <div>
               <CancelButton @click="closeForm" />
-              <button
-                v-if="isLoadingCustomerForm"
-                class="inline-flex items-center justify-center ms-3 text-white bg-blue-600 focus:ring-4 focus:outline-none focus:ring-slate-300 rounded-xl border border-slate-200 text-sm font-medium px-5 py-2.5 focus:z-10 cursor-default"
-              >
+              <button v-if="isLoadingCustomerForm"
+                class="inline-flex items-center justify-center ms-3 text-white bg-blue-600 focus:ring-4 focus:outline-none focus:ring-slate-300 rounded-xl border border-slate-200 text-sm font-medium px-5 py-2.5 focus:z-10 cursor-default">
                 <Spinners270RingIcon
-                  class="mr-2 w-5 h-5 text-gray-200 animate-spin dark:text-slate-100 fill-gray-600 dark:fill-gray-300"
-                />
+                  class="mr-2 w-5 h-5 text-gray-200 animate-spin dark:text-slate-100 fill-gray-600 dark:fill-gray-300" />
                 {{ $t('create') }}
               </button>
-              <button
-                v-else
-                @click="createSale()"
-                type="button"
-                class="ms-3 text-white bg-blue-500 hover:bg-blue-600 focus:ring-4 focus:outline-none focus:ring-slate-300 rounded-xl border border-slate-200 text-sm font-medium px-5 py-2.5 focus:z-10"
-              >
+              <button v-else @click="createSale()" type="button"
+                class="ms-3 text-white bg-blue-500 hover:bg-blue-600 focus:ring-4 focus:outline-none focus:ring-slate-300 rounded-xl border border-slate-200 text-sm font-medium px-5 py-2.5 focus:z-10">
                 {{ $t('create') }}
               </button>
             </div>
@@ -2157,81 +2001,68 @@ const handlePrintCheckChange = () => {
           <div v-if="selectP && true" class="h-52 py-4 grid grid-cols-3 grid-rows-4 gap-2">
             <div
               class="flex items-center justify-center text-lg cursor-pointer dark:bg-slate-700 dark:text-slate-100 border border-slate-400 bg-slate-100 hover:border-blue-400 hover:text-blue-400 hover:bg-blue-100 rounded-lg"
-              @click="appendValue(1)"
-            >
+              @click="appendValue(1)">
               1
             </div>
             <div
               class="flex items-center justify-center text-lg cursor-pointer dark:bg-slate-700 dark:text-slate-100 border border-slate-400 bg-slate-100 hover:border-blue-400 hover:text-blue-400 hover:bg-blue-100 rounded-lg"
-              @click="appendValue(2)"
-            >
+              @click="appendValue(2)">
               2
             </div>
             <div
               class="flex items-center justify-center text-lg cursor-pointer dark:bg-slate-700 dark:text-slate-100 border border-slate-400 bg-slate-100 hover:border-blue-400 hover:text-blue-400 hover:bg-blue-100 rounded-lg"
-              @click="appendValue(3)"
-            >
+              @click="appendValue(3)">
               3
             </div>
             <div
               class="flex items-center justify-center text-lg cursor-pointer dark:bg-slate-700 dark:text-slate-100 border border-slate-400 bg-slate-100 hover:border-blue-400 hover:text-blue-400 hover:bg-blue-100 rounded-lg"
-              @click="appendValue(4)"
-            >
+              @click="appendValue(4)">
               4
             </div>
             <div
               class="flex items-center justify-center text-lg cursor-pointer dark:bg-slate-700 dark:text-slate-100 border border-slate-400 bg-slate-100 hover:border-blue-400 hover:text-blue-400 hover:bg-blue-100 rounded-lg"
-              @click="appendValue(5)"
-            >
+              @click="appendValue(5)">
               5
             </div>
             <div
               class="flex items-center justify-center text-lg cursor-pointer dark:bg-slate-700 dark:text-slate-100 border border-slate-400 bg-slate-100 hover:border-blue-400 hover:text-blue-400 hover:bg-blue-100 rounded-lg"
-              @click="appendValue(6)"
-            >
+              @click="appendValue(6)">
               6
             </div>
             <div
               class="flex items-center justify-center text-lg cursor-pointer dark:bg-slate-700 dark:text-slate-100 border border-slate-400 bg-slate-100 hover:border-blue-400 hover:text-blue-400 hover:bg-blue-100 rounded-lg"
-              @click="appendValue(7)"
-            >
+              @click="appendValue(7)">
               7
             </div>
             <div
               class="flex items-center justify-center text-lg cursor-pointer dark:bg-slate-700 dark:text-slate-100 border border-slate-400 bg-slate-100 hover:border-blue-400 hover:text-blue-400 hover:bg-blue-100 rounded-lg"
-              @click="appendValue(8)"
-            >
+              @click="appendValue(8)">
               8
             </div>
             <div
               class="flex items-center justify-center text-lg cursor-pointer dark:bg-slate-700 dark:text-slate-100 border border-slate-400 bg-slate-100 hover:border-blue-400 hover:text-blue-400 hover:bg-blue-100 rounded-lg"
-              @click="appendValue(9)"
-            >
+              @click="appendValue(9)">
               9
             </div>
             <div
               class="flex items-center justify-center text-lg cursor-pointer dark:bg-slate-700 dark:text-slate-100 border border-slate-400 bg-slate-100 hover:border-blue-400 hover:text-blue-400 hover:bg-blue-100 rounded-lg"
-              @click="separator()"
-            >
+              @click="separator()">
               .
             </div>
             <div
               class="flex items-center justify-center text-lg cursor-pointer dark:bg-slate-700 dark:text-slate-100 border border-slate-400 bg-slate-100 hover:border-blue-400 hover:text-blue-400 hover:bg-blue-100 rounded-lg"
-              @click="appendValue(0)"
-            >
+              @click="appendValue(0)">
               0
             </div>
             <div
               class="flex items-center justify-center text-lg cursor-pointer dark:bg-slate-700 dark:text-slate-100 border border-slate-400 bg-slate-100 hover:border-blue-400 hover:text-blue-400 hover:bg-blue-100 rounded-lg"
-              @click="removeLastDigit()"
-            >
-              {{ '<' }}
+              @click="removeLastDigit()">
+              {{ '<' }} </div>
             </div>
           </div>
         </div>
       </div>
     </div>
-  </div>
 </template>
 
 <style scoped></style>

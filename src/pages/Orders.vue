@@ -7,6 +7,7 @@ import OrdersTable from '../components/common/OrdersTable.vue'
 import OrderService from '../services/order.service'
 import useMoneyFormatter from '../mixins/currencyFormatter.js'
 import EyeIcon from '../assets/icons/EyeIcon.vue'
+import PhPencil from '../assets/icons/PencilIcon.vue'
 import { useModalStore } from '../store/modal.store'
 import { useOrderStore } from '../store/order.store'
 import CaretDoubleRightIcon from '../assets/icons/CaretDoubleRightIcon.vue'
@@ -119,7 +120,7 @@ const columns = [
     h('div', { class: 'flex items-center w-36 overflow-hidden relative' },
     [
       row.original.paymentType == 'terminal' ?
-        h('span', {}, t('card')) : 
+        h('span', {}, t('terminal')) : 
       row.original.paymentType == 'cash' ?
         h('span', {}, t('cash')) :
       row.original.paymentType == 'click' ?
@@ -141,10 +142,23 @@ const columns = [
       }, [
         h(EyeIcon, { class: 'w-6 h-6 dark:text-blue-400 text-blue-600 hover:scale-105' }),
       ]),
+      h('button', {
+        onClick: () => {
+          openEditOrder(row.original)
+        },
+      }, [
+        h(PhPencil, { class: 'w-6 h-6 dark:text-blue-400 text-blue-600 hover:scale-105' }),
+      ]),
     ]),
     enableSorting: false,
   },
 ]
+
+const openEditOrder = (data) => {
+  useOrderStore().setSelectedOrder(data)
+  useModalStore().openEditOrderModal()
+  getOrders({})
+}
 
 const openOrderInfo = (data) => {
   useModalStore().openOrderInfoModal()
@@ -160,6 +174,8 @@ const currentPage = computed(() => {
   return orderStore.currentPage
 })
 const getOrders = (params = {}) => {
+  console.log(params);
+  
   isLoading.value = true
   OrderService.getOrders( page.value , pageSize , {
    ...params
