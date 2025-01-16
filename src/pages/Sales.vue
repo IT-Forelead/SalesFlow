@@ -1848,22 +1848,19 @@ const handlePrintCheckChange = () => {
             <div v-if="!isLoadingOrderWithPrint && !isLoadingOrderWithoutPrint" class="space-y-4">
               <div class="flex space-x-2 justify-between">
                 <button :title="t('cash')" @click="createOrderForCash(printCheck)"
-                  class="w-full xl:py-3 px-4 lg:py-2 py-3 rounded-lg text-white text-lg font-medium bg-blue-500 cursor-pointer hover:bg-blue-600">
-                  <MoneyWavyIcon class="ml-2 h-6 w-6 inline" />
-
+                  class="w-full py-1 rounded-lg text-white text-lg font-medium bg-green-400 cursor-pointer hover:bg-green-500">
+                  <MoneyWavyIcon class="h-7 w-7 inline" />
                 </button>
                 <!-- Кнопка для терминала -->
                 <button :title="t('terminal')" @click="createOrderForCard(printCheck)"
-                  class="w-full xl:py-3 px-4 lg:py-2 py-3 rounded-lg text-white text-lg font-medium bg-blue-500 cursor-pointer hover:bg-blue-600">
-                  <CreditCardIcon class="ml-2 h-6 w-6 inline" />
-
+                  class="w-full py-1 rounded-lg text-white text-lg font-medium bg-yellow-300 cursor-pointer hover:bg-yellow-400">
+                  <CreditCardIcon class="h-7 w-7 inline" />
                 </button>
 
                 <!-- Кнопка для клика -->
                 <button :title="t('click')" @click="createOrderForClick(printCheck)"
-                  class="w-full xl:py-3 px-4 lg:py-2 py-3 rounded-lg text-white text-lg font-medium bg-blue-500 cursor-pointer hover:bg-blue-600">
-                  <ClickIcon class="ml-2 h-6 w-6 inline" />
-
+                  class="w-full py-1 rounded-lg text-white text-lg font-medium bg-blue-500 cursor-pointer hover:bg-blue-600">
+                  <ClickIcon class="h-7 w-7 inline" />
                 </button>
               </div>
 
@@ -1875,32 +1872,31 @@ const handlePrintCheckChange = () => {
               </div>
             </div>
             <!--  -->
-
             <div v-else class="space-y-4">
               <div class="w-full flex space-x-2 justify-between">
                 <button v-if="submitData.paymentType === 'cash'"
-                  class="w-full xl:py-3 px-4 lg:py-2 py-3 rounded-lg text-white text-lg font-medium bg-blue-500 cursor-pointer hover:bg-blue-600">
-                  <Spinners270RingIcon class="ml-2 h-6 w-6 inline" />
+                  class="w-full py-1 rounded-lg text-white text-lg font-medium bg-green-400 cursor-pointer hover:bg-green-500">
+                  <Spinners270RingIcon class="h-7 w-7 inline" />
                 </button>
                 <button v-else
-                  class="w-full xl:py-3 px-4 lg:py-2 py-3 rounded-lg text-white text-lg font-medium bg-blue-500 cursor-pointer hover:bg-blue-600">
-                  <MoneyWavyIcon class="ml-2 h-6 w-6 inline" />
+                  class="w-full py-1 rounded-lg text-white text-lg font-medium bg-green-400 cursor-pointer hover:bg-green-500">
+                  <MoneyWavyIcon class="h-7 w-7 inline" />
                 </button>
                 <button v-if="submitData.paymentType === 'terminal'"
-                  class="w-full xl:py-3 px-4 lg:py-2 py-3 rounded-lg text-white text-lg font-medium bg-blue-500 cursor-pointer hover:bg-blue-600">
-                  <Spinners270RingIcon class="ml-2 h-6 w-6 inline" />
+                  class="w-full py-1 rounded-lg text-white text-lg font-medium bg-yellow-300 cursor-pointer hover:bg-yellow-400">
+                  <Spinners270RingIcon class="h-7 w-7 inline" />
                 </button>
                 <button v-else
-                  class="w-full xl:py-3 px-4 lg:py-2 py-3 rounded-lg text-white text-lg font-medium bg-blue-500 cursor-pointer hover:bg-blue-600">
-                  <CreditCardIcon class="ml-2 h-6 w-6 inline" />
+                  class="w-full py-1 rounded-lg text-white text-lg font-medium bg-yellow-300 cursor-pointer hover:bg-yellow-400">
+                  <CreditCardIcon class="h-7 w-7 inline" />
                 </button>
                 <button v-if="submitData.paymentType === 'click'"
-                  class="w-full xl:py-3 px-4 lg:py-2 py-3 rounded-lg text-white text-lg font-medium bg-blue-500 cursor-pointer hover:bg-blue-600">
-                  <Spinners270RingIcon class="ml-2 h-6 w-6 inline" />
+                  class="w-full py-1 rounded-lg text-white text-lg font-medium bg-blue-500 cursor-pointer hover:bg-blue-600">
+                  <Spinners270RingIcon class="h-7 w-7 inline" />
                 </button>
                 <button v-else
-                  class="w-full xl:py-3 px-4 lg:py-2 py-3 rounded-lg text-white text-lg font-medium bg-blue-500 cursor-pointer hover:bg-blue-600">
-                  <ClickIcon class="ml-2 h-6 w-6 inline" />
+                  class="w-full py-1 rounded-lg text-white text-lg font-medium bg-blue-500 cursor-pointer hover:bg-blue-600">
+                  <ClickIcon class="h-7 w-7 inline" />
                 </button>
               </div>
             </div>
