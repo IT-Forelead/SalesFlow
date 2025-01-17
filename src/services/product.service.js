@@ -112,6 +112,9 @@ class ProductService {
   async deleteRecentlyUnhideProduct(productId) {
     return AxiosService.delete(`/product/recently-out/unhide/${productId}`)
   }
+  async getAllSessions(filter) {
+    return AxiosService.post('/sessions/all', filter);
+  }
 }
 
 export default new ProductService()

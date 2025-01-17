@@ -66,7 +66,7 @@ const columns = [
     cell: ({ row }) => h('div', { class: 'flex items-center space-x-2' }, [
       h('button', {
         onClick: () => {
-          openDeleteRecentProductModal(row.original)
+          openDeleteRecentProductsModal(row.original)
         },
       }, [
         h(EyeSlashIcon, { class: 'w-6 h-6 text-red-600 hover:scale-105' }),
@@ -76,8 +76,8 @@ const columns = [
   },
 ]
 
-const openDeleteRecentProductModal = (data) => {
-  useModalStore().openDeleteRecentProductModal()
+const openDeleteRecentProductsModal = (data) => {
+  useModalStore().openDeleteRecentProductsModal()
   productStore.setSelectedProduct(data)
 }
 

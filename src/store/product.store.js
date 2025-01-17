@@ -89,6 +89,10 @@ export const useProductStore = defineStore('product', {
     clearRecentProducts() {
       this.recentProducts = []
     },
+    setAllSession() {
+      this.allSession = []
+    },
+
     clearStore() {
       
       this.products = []
@@ -101,6 +105,7 @@ export const useProductStore = defineStore('product', {
       this.barcodeDuplicates = []
       this.selectedBarcodes = {}
       this.recentProducts = []
+      this.allSession = []
     },
   },
 })

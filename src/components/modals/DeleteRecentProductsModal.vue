@@ -17,8 +17,8 @@ const closeModal = () => {
   productStore.setSelectedProduct({})
 }
 
-const hideRecentProduct = () => {
-  ProductService.hideRecentProduct(useProductStore().selectedProduct.productId)
+const deleteRecetnlyHideProduct = () => {
+  ProductService.deleteRecetnlyHideProduct(useProductStore().selectedProduct.productId)
     .then(() => {
       toast.success(t('recommendDeletedSuccessfully'))
       ProductService.getRecentlyOutProducts(
@@ -45,10 +45,10 @@ const hideRecentProduct = () => {
 </script>
 
 <template>
-  <CModal :is-open="useModalStore().isOpenDeleteRecentProductModal"
-    v-if="useModalStore().isOpenDeleteRecentProductModal" @close=closeModal>
+  <CModal :is-open="useModalStore().isopenDeleteRecentProductsModal"
+    v-if="useModalStore().isopenDeleteRecentProductsModal" @close=closeModal>
     <template v-slot:header>
-      {{ $t('hideRecentProduct') }}
+      {{ $t('deleteRecetnlyHideProduct') }}
     </template>
     <template v-slot:body>
       <div class="flex items-center justify-center">
@@ -64,7 +64,7 @@ const hideRecentProduct = () => {
                 class="w-full md:w-auto py-2 px-4 rounded-xl text-gray-900 text-base font-medium bg-slate-50 cursor-pointer hover:bg-slate-200 border md:flex-1">
                 {{ $t('no') }}
               </button>
-              <button @click="hideRecentProduct()"
+              <button @click="deleteRecetnlyHideProduct"
                 class="w-full md:w-auto py-2 px-4 rounded-xl text-white text-base font-medium bg-red-600 cursor-pointer hover:bg-red-700">
                 {{ $t('yesOfCourse') }}
               </button>
