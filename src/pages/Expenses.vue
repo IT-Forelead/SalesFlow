@@ -102,55 +102,55 @@ const openEditExpenseModal = (data) => {
   useModalStore().openEditExpenseModal();
 };
 
-const filterExpenseData = reactive({
-  limit: expenseStore.limit,
-  expenseType: expenseStore.expenseType,
-  from: expenseStore.from,
-  to: expenseStore.to,
-  intervalType: ''
-});
+// const filterExpenseData = reactive({
+//   limit: expenseStore.limit,
+//   expenseType: expenseStore.expenseType,
+//   from: expenseStore.from,
+//   to: expenseStore.to,
+//   intervalType: ''
+// });
 
-const cleanFilterExpenseData = () => {
-  filterExpenseData.limit = 0;
-  filterExpenseData.expenseType = '';
-  filterExpenseData.from = '';
-  filterExpenseData.to = '';
-  filterExpenseData.intervalType = '';
-};
+// const cleanFilterExpenseData = () => {
+//   filterExpenseData.limit = 0;
+//   filterExpenseData.expenseType = '';
+//   filterExpenseData.from = '';
+//   filterExpenseData.to = '';
+//   filterExpenseData.intervalType = '';
+// };
 
-const submitExpensesFilterData = () => {
-  if (!filterExpenseData.intervalType) {
-    toast.warning(t('plsSelectIntervalType'));
-  } else if (!filterExpenseData.limit) {
-    toast.warning(t('plsSelectLimit'));
-  } else {
-    isLoading.value = true;
-    ExpenseService.getExpenses({
-      limit: filterExpenseData.limit,
-      expenseType: filterExpenseData.expenseType,
-      from: filterExpenseData.from,
-      to: filterExpenseData.to,
-      intervalType: filterExpenseData.intervalType
-    })
-      .then((res) => {
-        expenseStore.clearStore();
-        expenseStore.setExpenses(res.data);
-        isLoading.value = false;
-        if (useDropdownStore().isOpenExpenseFilterBy) {
-          useDropdownStore().toggleExpenseFilterBy();
-        }
-      })
-      .catch(() => {
-        isLoading.value = false;
-      });
-  }
-};
+// const submitExpensesFilterData = () => {
+//   if (!filterExpenseData.intervalType) {
+//     toast.warning(t('plsSelectIntervalType'));
+//   } else if (!filterExpenseData.limit) {
+//     toast.warning(t('plsSelectLimit'));
+//   } else {
+//     isLoading.value = true;
+//     ExpenseService.getExpenses({
+//       limit: filterExpenseData.limit,
+//       expenseType: filterExpenseData.expenseType,
+//       from: filterExpenseData.from,
+//       to: filterExpenseData.to,
+//       intervalType: filterExpenseData.intervalType
+//     })
+//       .then((res) => {
+//         expenseStore.clearStore();
+//         expenseStore.setExpenses(res.data);
+//         isLoading.value = false;
+//         if (useDropdownStore().isOpenExpenseFilterBy) {
+//           useDropdownStore().toggleExpenseFilterBy();
+//         }
+//       })
+//       .catch(() => {
+//         isLoading.value = false;
+//       });
+//   }
+// };
 
-onClickOutside(expenseDropdown, () => {
-  if (useDropdownStore().isOpenExpenseFilterBy) {
-    useDropdownStore().toggleExpenseFilterBy();
-  }
-});
+// onClickOutside(expenseDropdown, () => {
+//   if (useDropdownStore().isOpenExpenseFilterBy) {
+//     useDropdownStore().toggleExpenseFilterBy();
+//   }
+// });
 </script>
 
 <template>
@@ -169,7 +169,7 @@ onClickOutside(expenseDropdown, () => {
       </div>
 
       <div class="w-full flex space-x-10 md:w-auto order-1 md:order-2">
-        <div class="relative" ref="expenseDropdown">
+        <!-- <div class="relative" ref="expenseDropdown">
           <div @click="useDropdownStore().toggleExpenseFilterBy()"
             class="border-none w-40 select-none text-gray-900 bg-white dark:text-zinc-200 dark:bg-slate-800 shadow rounded-lg p-2 px-5 flex items-center hover:bg-gray-100 cursor-pointer space-x-1">
             <FunnelIcon class="w-5 h-5 dark:text-zinc-50 text-gray-400" />
@@ -235,7 +235,7 @@ onClickOutside(expenseDropdown, () => {
               </div>
             </div>
           </div>
-        </div>
+        </div> -->
         <button @click="useModalStore().openCreateExpenseModal()"
           class="w-full md:w-auto py-2 px-4 rounded-full text-white text-lg font-medium bg-blue-500 cursor-pointer hover:bg-blue-600">
           {{ $t('createExpense') }}

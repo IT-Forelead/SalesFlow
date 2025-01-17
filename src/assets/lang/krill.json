@@ -512,5 +512,6 @@
   "expenseAddedSuccessfully": "Харжат муваффақиятли қўшилди",
   "errorWhileCreatingExpense": "Харжатни қўшишда хато юз берди",
   "expenseEditedSuccessfully": "Харжат муваффақиятли ўзгартирилди",
-  "errorWhileEditingExpense": "Харжатни ўзгартиришда хато юз берди"
+  "errorWhileEditingExpense": "Харжатни ўзгартиришда хато юз берди",
+  "isActive": "Фаол"
 }
