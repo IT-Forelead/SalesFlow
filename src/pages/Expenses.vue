@@ -2,39 +2,34 @@
 import { onMounted, onUnmounted, h, ref, computed, reactive } from 'vue';
 import ExpenseService from '../services/expense.service.js';
 import { useExpenseStore } from '../store/expense.store.js';
-import SearchIcon from '../assets/icons/SearchIcon.vue';
-import Spinners270RingIcon from '../assets/icons/Spinners270RingIcon.vue';
+import useMoneyFormatter from '../mixins/currencyFormatter'
 import { useI18n } from 'vue-i18n';
 import moment from 'moment';
 import CTable from '../components/common/CTable.vue';
 import EditIcon from '@/assets/icons/EditIcon.vue';
-import TrashIcon from '@/assets/icons/TrashIcon.vue';
+import Spinners270RingIcon from '../assets/icons/Spinners270RingIcon.vue';
 import { onClickOutside } from '@vueuse/core';
-import { useModalStore } from '../store/modal.store.js'
-import { useDropdownStore } from '../store/dropdown.store.js'
+import { useModalStore } from '../store/modal.store.js';
+import { useDropdownStore } from '../store/dropdown.store.js';
 
 const { t } = useI18n();
-
+const expenseDropdown = ref();
 const globalSearchFromTable = ref('');
 const isLoading = ref(false);
-
-const expenseStore = useExpenseStore()
-const Expenses = ref([])
-
-
-const ExpenseTable = computed(() => expenseStore.expenses)
-const renderkey = computed(() => expenseStore.renderkey)
+const expenseStore = useExpenseStore();
+const ExpenseTable = computed(() => expenseStore.expenses);
+const renderkey = computed(() => expenseStore.renderkey);
 
 let isComponentMounted = true;
 
 onMounted(() => {
   isComponentMounted = true;
-  getExpenses
-        ({
-          limit: 10,
-          page: 1,
-        });
-      })
+  getExpenses({
+    limit: 10,
+    page: 1,
+  });
+});
+
 onUnmounted(() => {
   isComponentMounted = false;
 });
@@ -42,19 +37,17 @@ onUnmounted(() => {
 const getExpenses = async () => {
   isLoading.value = true;
   try {
-    const res = await ExpenseService.getExpenses
-        ({
-          limit: 10,
-          page: 1,
-        });
+    const res = await ExpenseService.getExpenses({
+      limit: 10,
+      page: 1,
+    });
     if (isComponentMounted) {
       useExpenseStore().clearStore();
       useExpenseStore().setExpenses(res.data);
-      useExpenseStore().renderkey += 1
+      useExpenseStore().renderkey += 1;
     }
   } finally {
     isLoading.value = false;
-
   }
 };
 
@@ -67,19 +60,29 @@ const columns = [
   },
   {
     accessorKey: 'name',
-    header: 'name',
+    header: t('name'),
   },
   {
     accessorKey: 'amount',
-    header: 'amount',
+    accessorFn: row => `${useMoneyFormatter(row.amount)}`,
+    header: t('expenseAmount'),
   },
   {
-    accessorKey: 'expenseType',
-    header: 'expenseType',
+    header: t('expenseType'),
+    cell: ({ row }) =>
+      h('div', { class: 'flex items-center' }, [
+        row.original.expenseType == 'one_time'
+          ? h('span', t('oneTime'))
+          : [
+              row.original.expenseType == 'repeated'
+                ? h('span', t('repeated'))
+                : `${row.original.expenseType}`,
+            ],
+      ]),
   },
   {
     accessorKey: 'createdAt',
-    accessorFn: row => moment(row.createdAt).format('DD/MM/YYYY H:mm'),
+    accessorFn: (row) => moment(row.createdAt).format('DD/MM/YYYY H:mm'),
     header: t('createdAt'),
   },
   {
@@ -89,114 +92,65 @@ const columns = [
       h('button', { onClick: () => { openEditExpenseModal(row.original) } }, [
         h(EditIcon, { class: 'w-6 h-6 dark:text-blue-400 text-blue-600 hover:scale-105' })
       ]),
-      h('button', { onClick: () => { openDeleteExpenseModal(row.original) } }, [
-        h(TrashIcon, { class: 'w-6 h-6 dark:text-red-400 text-red-600 hover:scale-105' })
-      ]),
     ]),
     enableSorting: false,
   },
 ];
-const openDeleteExpenseModal = (data) => {
-  useModalStore().openDeleteExpenseModal()
-  useExpenseStore().setSelectedExpense(data)
-}
 
 const openEditExpenseModal = (data) => {
-  useExpenseStore().setSelectedExpense(data)
-  useModalStore().openEditExpenseModal()
-  //getExpenses(data)
-}
-
-//filter
+  useExpenseStore().setSelectedExpense(data);
+  useModalStore().openEditExpenseModal();
+};
 
 const filterExpenseData = reactive({
   limit: expenseStore.limit,
-  page: expenseStore.page,
   expenseType: expenseStore.expenseType,
   from: expenseStore.from,
-  to: expenseStore.to
-})
+  to: expenseStore.to,
+  intervalType: ''
+});
 
 const cleanFilterExpenseData = () => {
-  filterExpenseData.limit = 0,
-    filterExpenseData.page = 0,
-    filterExpenseData.expenseType = '',
-    filterExpenseData.from = '',
-    filterExpenseData.to = ''
-
-}
+  filterExpenseData.limit = 0;
+  filterExpenseData.expenseType = '';
+  filterExpenseData.from = '';
+  filterExpenseData.to = '';
+  filterExpenseData.intervalType = '';
+};
 
 const submitExpensesFilterData = () => {
   if (!filterExpenseData.intervalType) {
-    toast.warning(t('plsSelectIntervalType'))
+    toast.warning(t('plsSelectIntervalType'));
   } else if (!filterExpenseData.limit) {
-    toast.warning(t('plsSelectLimit'))
+    toast.warning(t('plsSelectLimit'));
   } else {
-    isLoading.value = true
-    // productStore.setIntervalType(filterExpenseData.intervalType)
-    // productStore.setLimit(filterExpenseData.limit)
-    ProductService.getExpenses({
-      limit: 0,
-      page: 0,
-      // expenseType: '',
-      // from: '',
-      // to: ''
-    }).then((res) => {
-      expenseStore.clearStore()
-      expenseStore.setExpenses(res.data)
-      isLoading.value = false
-      if (useDropdownStore().isOpenExpenseFilterBy) {
-        useDropdownStore().toggleExpenseFilterBy()
-      }
-    }).catch(() => {
-      isLoading.value = false
+    isLoading.value = true;
+    ExpenseService.getExpenses({
+      limit: filterExpenseData.limit,
+      expenseType: filterExpenseData.expenseType,
+      from: filterExpenseData.from,
+      to: filterExpenseData.to,
+      intervalType: filterExpenseData.intervalType
     })
+      .then((res) => {
+        expenseStore.clearStore();
+        expenseStore.setExpenses(res.data);
+        isLoading.value = false;
+        if (useDropdownStore().isOpenExpenseFilterBy) {
+          useDropdownStore().toggleExpenseFilterBy();
+        }
+      })
+      .catch(() => {
+        isLoading.value = false;
+      });
   }
-}
-
-// const getExpenses = () => {
-//   isLoading.value = true
-//   ExpenseService.getExpenses(
-//     // {
-//     //   limit: expenseStore.limit,
-//     //   page: expenseStore.page,
-//     //   expenseType: expenseStore.expenseType,
-//     //   from: expenseStore.from,
-//     //   to: expenseStore.to
-//     // }
-//     {
-//       limit: 10,
-//       page: 1,
-//       // expenseType: expenseStore.expenseType,
-//       // from: expenseStore.from,
-//       // to: expenseStore.to
-//     }
-//   )
-//     .then((res) => {
-//       expenseStore.clearStore()
-//       expenseStore.setExpenses(res.data)
-//     }).finally(() => {
-//       isLoading.value = false
-//     })
-// }
-
-// onMounted(() => {
-//   cleanFilterExpenseData
-//   getExpenses()
-//   ExpenseService.getExpenses({limit: 10, page: 1})
-//     .then((res) => {
-//       Expenses.value = res
-//     })
-// })
-
-const expenseDropdown = ref()
+};
 
 onClickOutside(expenseDropdown, () => {
   if (useDropdownStore().isOpenExpenseFilterBy) {
-    useDropdownStore().toggleExpenseFilterBy()
+    useDropdownStore().toggleExpenseFilterBy();
   }
-})
-
+});
 </script>
 
 <template>
@@ -215,10 +169,6 @@ onClickOutside(expenseDropdown, () => {
       </div>
 
       <div class="w-full flex space-x-10 md:w-auto order-1 md:order-2">
-        <button @click="useModalStore().openCreateExpenseModal()"
-          class="w-full md:w-auto py-2 px-4 rounded-full text-white text-lg font-medium bg-blue-500 cursor-pointer hover:bg-blue-600">
-          {{ $t('addExpense') }}
-        </button>
         <div class="relative" ref="expenseDropdown">
           <div @click="useDropdownStore().toggleExpenseFilterBy()"
             class="border-none w-40 select-none text-gray-900 bg-white dark:text-zinc-200 dark:bg-slate-800 shadow rounded-lg p-2 px-5 flex items-center hover:bg-gray-100 cursor-pointer space-x-1">
@@ -227,33 +177,44 @@ onClickOutside(expenseDropdown, () => {
           </div>
           <div v-if="useDropdownStore().isOpenExpenseFilterBy"
             class="absolute dark:bg-slate-800  w-80  bg-white shadow rounded-xl  p-3 z-20 top-12 right-0 space-y-3">
-            <div class=" items-center space-x-1">
-              <div class="flex">
-              </div>
-              <div class="flex justify-between space-x-4"><label for="" class="dark:text-white w-1/2">
-                  {{ $t('limit') }}
-                  <input v-model="filterExpenseData.limit" type="number" min="0"
-                    class="border-none text-gray-500 bg-gray-100 rounded-lg     dark:bg-slate-600 dark:text-white w-full" />
-                </label>
-                <label for="" class="dark:text-white w-1/2">
-                  {{ $t('intervalType') }}
-                  <select v-model="filterExpenseData.intervalType"
-                    class="bg-blue-100 dark:bg-slate-600 border-none text-slate-900 dark:text-white rounded-lg text-base md:text-lg block w-full h-11">
-                    <option value="day">
-                      {{ $t('day') }}
-                    </option>
-                    <option value="week">
-                      {{ $t('week') }}
-                    </option>
-                    <option value="month">
-                      {{ $t('month') }}
-                    </option>
-                    <option value="year">
-                      {{ $t('year') }}
-                    </option>
-                  </select>
-                </label>
-              </div>
+            <div class="flex space-x-4">
+              <label for="limit" class="dark:text-white w-1/2">
+                {{ $t('limit') }}
+                <input v-model="filterExpenseData.limit" type="number" min="0"
+                  class="border-none text-gray-500 bg-gray-100 rounded-lg dark:bg-slate-600 dark:text-white w-full" />
+              </label>
+              <label for="expenseType" class="dark:text-white w-1/2">
+                {{ $t('expenseType') }}
+                <select v-model="filterExpenseData.expenseType"
+                  class="bg-blue-100 dark:bg-slate-600 border-none text-slate-900 dark:text-white rounded-lg text-base md:text-lg block w-full h-11">
+                  <option value="">{{ $t('oneTime') }}</option>
+                  <option value="repeated">{{ $t('repeated') }}</option>
+                </select>
+              </label>
+            </div>
+            <div class="flex space-x-4">
+              <label for="from" class="dark:text-white w-1/2">
+                {{ $t('from') }}
+                <input v-model="filterExpenseData.from" type="date"
+                  class="border-none text-gray-500 bg-gray-100 rounded-lg dark:bg-slate-600 dark:text-white w-full" />
+              </label>
+              <label for="to" class="dark:text-white w-1/2">
+                {{ $t('to') }}
+                <input v-model="filterExpenseData.to" type="date"
+                  class="border-none text-gray-500 bg-gray-100 rounded-lg dark:bg-slate-600 dark:text-white w-full" />
+              </label>
+            </div>
+            <div class="flex justify-between space-x-4">
+              <label for="intervalType" class="dark:text-white w-1/2">
+                {{ $t('intervalType') }}
+                <select v-model="filterExpenseData.intervalType"
+                  class="bg-blue-100 dark:bg-slate-600 border-none text-slate-900 dark:text-white rounded-lg text-base md:text-lg block w-full h-11">
+                  <option value="day">{{ $t('day') }}</option>
+                  <option value="week">{{ $t('week') }}</option>
+                  <option value="month">{{ $t('month') }}</option>
+                  <option value="year">{{ $t('year') }}</option>
+                </select>
+              </label>
             </div>
             <div class="flex items-center space-x-2">
               <div @click="cleanFilterExpenseData()"
@@ -275,10 +236,12 @@ onClickOutside(expenseDropdown, () => {
             </div>
           </div>
         </div>
+        <button @click="useModalStore().openCreateExpenseModal()"
+          class="w-full md:w-auto py-2 px-4 rounded-full text-white text-lg font-medium bg-blue-500 cursor-pointer hover:bg-blue-600">
+          {{ $t('createExpense') }}
+        </button>
       </div>
-
     </div>
-
     <div v-if="isLoading" class="flex items-center justify-center h-20">
       <Spinners270RingIcon class="w-6 h-6 text-gray-500 dark:text-zinc-300 animate-spin" />
     </div>

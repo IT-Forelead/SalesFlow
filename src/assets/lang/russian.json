@@ -499,5 +499,20 @@
   "printOrder": "Выдать чек",
   "editPaymentType": "Изменить тип оплаты",
   "paymentEditedSuccessfully": "Тип оплаты отредактирован!",
-  "errorWhileEditingPayment": "Ошибка при редактировании тип оплаты"
+  "errorWhileEditingPayment": "Ошибка при редактировании тип оплаты",
+  "expenses": "Затраты",
+  "expenseName": "Затраты",
+  "expenseAmount": "Количество затраты",
+  "addExpense": "Добавить затрату",
+  "expenseType": "Тип затраты",
+  "repeated": "Повторный",
+  "oneTime": "Единичный",
+  "createExpense": "Добавить затрату",
+  "editExpense": "Изменить затрату",
+  "enterExpense": "Введите затрату",
+  "enterExpenseAmount": "Ввведите сумму затраты",
+  "expenseAddedSuccessfully": "Затрата добавлена успешно",
+  "errorWhileCreatingExpense": "Ошибка при добавлении затраты",
+  "expenseEditedSuccessfully": "Затрата изменена успешно",
+  "errorWhileEditingExpense": "Ошибка при изменении затраты"
 }

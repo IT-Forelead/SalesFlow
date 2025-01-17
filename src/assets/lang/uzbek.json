@@ -502,5 +502,18 @@
   "paymentEditedSuccessfully": "To'lov turini tahrirlandi!",
   "errorWhileEditingPayment": "To'lov turini xatolik yuz berdi",
   "expenses": "Затраты",
-  "addExpense": "Добавить затрату"
+  "expenseName": "Xarjat nomi",
+  "expenseAmount": "Xarjat miqdori",
+  "addExpense": "Xarjat qo'shish",
+  "expenseType": "Xarjat turi",
+  "repeated": "Qaytalanadigan",
+  "oneTime": "Bir marta",
+  "createExpense": "Xarjat qo'shish",
+  "editExpense": "Xarjatni o'zgartirish",
+  "enterExpense": "Xarjatni kiriting",
+  "enterExpenseAmount": "Xarjat miqdorini kiriting",
+  "expenseAddedSuccessfully": "Xarjat muvaffaqiyatli qo'shildi",
+  "errorWhileCreatingExpense": "Xarjatni qo'shishda xato youz berdi",
+  "expenseEditedSuccessfully": "Xarjat muvaffaqiyatli o'zgartirildi",
+  "errorWhileEditingExpense": "Xarjatni o'zgartirishda xato yuz berdi"
 }

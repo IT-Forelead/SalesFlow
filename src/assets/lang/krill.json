@@ -497,5 +497,20 @@
   "printOrder": "Чек чоп етиш",
   "editPaymentType": "Тўлов турини таҳрирлаш",
   "paymentEditedSuccessfully": "Тўлов турини таҳрирланди!",
-  "errorWhileEditingPayment": "Тўлов турини хатолик юз берди"
+  "errorWhileEditingPayment": "Тўлов турини хатолик юз берди",
+  "expenses": "Харжатлар",
+  "expenseName": "Харжат номи",
+  "expenseAmount": "Харжат миқдори",
+  "addExpense": "Харжат қўшиш",
+  "expenseType": "Харжат тури",
+  "repeated": "Қайталанадиган",
+  "oneTime": "Бир марта",
+  "createExpense": "Харжат қўшиш",
+  "editExpense": "Харжатни ўзгартириш",
+  "enterExpense": "Харжатни киритинг",
+  "enterExpenseAmount": "Харжат миқдорини киритинг",
+  "expenseAddedSuccessfully": "Харжат муваффақиятли қўшилди",
+  "errorWhileCreatingExpense": "Харжатни қўшишда хато юз берди",
+  "expenseEditedSuccessfully": "Харжат муваффақиятли ўзгартирилди",
+  "errorWhileEditingExpense": "Харжатни ўзгартиришда хато юз берди"
 }

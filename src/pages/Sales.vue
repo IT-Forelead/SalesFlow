@@ -1364,9 +1364,7 @@ const createOrderForClick = (printCheck = true) => {
 };
 
 const handlePrintCheckChange = () => {
-  if (!printCheck) {
-    printCheck = false;
-  }
+  printCheck.value = !printCheck.value;
 };
 </script>
 
@@ -1843,7 +1841,6 @@ const handlePrintCheckChange = () => {
               </div>
             </div>
           </div>
-
           <div v-else class="space-y-4">
             <div v-if="!isLoadingOrderWithPrint && !isLoadingOrderWithoutPrint" class="space-y-4">
               <div class="flex space-x-2 justify-between">
@@ -1851,24 +1848,19 @@ const handlePrintCheckChange = () => {
                   class="w-full py-1 rounded-lg text-white text-lg font-medium bg-green-400 cursor-pointer hover:bg-green-500">
                   <MoneyWavyIcon class="h-7 w-7 inline" />
                 </button>
-                <!-- Кнопка для терминала -->
                 <button :title="t('terminal')" @click="createOrderForCard(printCheck)"
                   class="w-full py-1 rounded-lg text-white text-lg font-medium bg-yellow-300 cursor-pointer hover:bg-yellow-400">
                   <CreditCardIcon class="h-7 w-7 inline" />
                 </button>
-
-                <!-- Кнопка для клика -->
                 <button :title="t('click')" @click="createOrderForClick(printCheck)"
                   class="w-full py-1 rounded-lg text-white text-lg font-medium bg-blue-500 cursor-pointer hover:bg-blue-600">
                   <ClickIcon class="h-7 w-7 inline" />
                 </button>
               </div>
-
-              <!-- Чекбокс для выбора печати -->
-              <div @change="handlePrintCheckChange"
-                class="flex p-4 space-x-4 items-center border rounded-xl hover:bg-blue-100 dark:bg-slate-700 dark:hover:bg-slate-700 dark:text-slate-100">
+              <div @click="handlePrintCheckChange"
+                class="flex p-4 space-x-4 items-center border rounded-xl hover:bg-blue-100 dark:bg-slate-700 dark:hover:bg-slate-700 dark:text-slate-100 cursor-pointer w-full">
                 <input type="checkbox" id="printCheck" v-model="printCheck" class="rounded" />
-                <label class="w-full" for="printCheck">{{ $t('printOrder') }}</label>
+                <label class="w-fit cursor-pointer" id="printCheck">{{ $t('printOrder') }}</label>
               </div>
             </div>
             <!--  -->
