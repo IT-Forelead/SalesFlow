@@ -17,15 +17,11 @@ import axios from 'axios'
 import ScrollPanel from 'primevue/scrollpanel'
 
 const { t } = useI18n()
-
 const API_URL = import.meta.env.VITE_CHEQUE_API_URL
-
 const productStore = useProductStore()
-
 const products = computed(() => {
   return productStore.products
 })
-
 const onSearchFocus = ref(null)
 const isLoading = ref(false)
 const isSearching = ref(false)

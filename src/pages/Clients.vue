@@ -3,21 +3,18 @@ import { computed, h, onMounted, ref, watch } from 'vue'
 import moment from 'moment'
 import SearchIcon from '../assets/icons/SearchIcon.vue'
 import Spinners270RingIcon from '../assets/icons/Spinners270RingIcon.vue'
-import TrashIcon from '../assets/icons/TrashIcon.vue'
+
 import { useModalStore } from '../store/modal.store'
-import { useMarketStore } from '../store/market.store'
+
 import { useAuthStore } from '../store/auth.store.js'
 import decodeJwt, { parseJwt } from '../mixins/utils.js'
 import { useI18n } from 'vue-i18n'
 import EyeIcon from '../assets/icons/EyeIcon.vue'
-import DollarIcon from '../assets/icons/CurrencyCircleDollar.vue'
+
 import CTable from '../components/common/CTable.vue'
-import CaretLeftIcon from '../assets/icons/CaretLeftIcon.vue'
-import CaretRightIcon from '../assets/icons/CaretRightIcon.vue'
-import CaretDoubleRightIcon from '../assets/icons/CaretDoubleRightIcon.vue'
-import CaretDoubleLeftIcon from '../assets/icons/CaretDoubleLeftIcon.vue'
+
 import useMoneyFormatter from '../mixins/currencyFormatter.js'
-import FileLinearIcon from '../assets/icons/FileLinearIcon.vue'
+
 import CustomerService from '../services/customer.service'
 import CashbackService from '../services/cashback.service'
 import { useCustomerStore } from '../store/customer.store';

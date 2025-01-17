@@ -8,14 +8,14 @@ export const useDropdownStore = defineStore('dropdown', {
     isOpenFilterBy: false,
     isOpenSortBy: false,
     isOpenSelectTheme: false,
-
     isOpenVarietyFilterBy: false,
     isOpenMonthFilterBy: false,
     isOpenPredictFilterBy: false,
     isOpenRecommendFilterBy: false,
-
     isOpenUnprofitableFilterBy: false,
     isOpenCorporateFilterBy: false,
+
+    isOpenExpenseFilterBy: false,
   }),
   actions: {
     setSelectOptionAgent(data) {
@@ -63,6 +63,10 @@ export const useDropdownStore = defineStore('dropdown', {
     },
     toggleUnprofitableFilterBy() {
       this.isOpenUnprofitableFilterBy = !this.isOpenUnprofitableFilterBy
+    },
+
+    toggleExpenseFilterBy() {
+      this.isOpenExpenseFilterBy = !this.isOpenExpenseFilterBy
     },
   }
 })

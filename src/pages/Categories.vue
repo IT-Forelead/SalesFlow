@@ -12,13 +12,9 @@ import TrashIcon from '@/assets/icons/TrashIcon.vue';
 import { useModalStore } from '../store/modal.store'
 
 const { t } = useI18n();
-
 const globalSearchFromTable = ref('');
 const isLoading = ref(false);
-
 const CategoryStore = useCategoryStore()
-
-
 const CategoryTable = computed(() => CategoryStore.categories)
 const renderkey = computed(() => CategoryStore.renderkey)
 
