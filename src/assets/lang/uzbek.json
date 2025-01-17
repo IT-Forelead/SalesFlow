@@ -515,5 +515,6 @@
   "expenseAddedSuccessfully": "Xarjat muvaffaqiyatli qo'shildi",
   "errorWhileCreatingExpense": "Xarjatni qo'shishda xato youz berdi",
   "expenseEditedSuccessfully": "Xarjat muvaffaqiyatli o'zgartirildi",
-  "errorWhileEditingExpense": "Xarjatni o'zgartirishda xato yuz berdi"
+  "errorWhileEditingExpense": "Xarjatni o'zgartirishda xato yuz berdi",
+  "isActive": "Faol"
 }

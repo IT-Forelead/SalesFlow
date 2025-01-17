@@ -138,59 +138,61 @@ watch(
               {{ $t('expenseAmount') }}
               <span class="text-red-500 mr-2">*</span>
             </label>
-            <money3 v-bind="moneyConf"  id="amount" type="text" v-model.number="submitData.amount"
+            <money3 v-bind="moneyConf" id="amount" type="text" v-model.number="submitData.amount"
               class="bg-slate-100 border-none dark:bg-slate-700 dark:text-white text-slate-900 rounded-lg w-full py-2.5 placeholder-slate-400"
               :placeholder="t('enterExpenseAmount')"></money3>
           </div>
         </div>
-        <div v-if="selectedExpense.expenseType == 'repeated'">
-        <div class="flex items-center space-x-4">
-          <div class="flex-1 space-y-1">
-            <label for="price" class="text-base dark:text-white md:text-lg font-medium">
-              {{ $t('productionDate') }}
-            </label>
-            <input id="quantity" type="date" v-model="submitData.productionDate"
-              class="bg-slate-100 border-none dark:bg-slate-700 dark:text-white text-slate-900 rounded-lg w-full h-11 placeholder-slate-400 placeholder:text-sm md:placeholder:text-lg"
-              :placeholder="t('enterProductQuantity')">
+        <div class="space-y-4" v-if="selectedExpense.expenseType == 'repeated'">
+          <div class="flex items-center space-x-4">
+            <div class="flex-1 space-y-1">
+              <label for="price" class="text-base dark:text-white md:text-lg font-medium">
+                {{ $t('productionDate') }}
+              </label>
+              <input id="quantity" type="date" v-model="submitData.productionDate"
+                class="bg-slate-100 border-none dark:bg-slate-700 dark:text-white text-slate-900 rounded-lg w-full h-11 placeholder-slate-400 placeholder:text-sm md:placeholder:text-lg"
+                :placeholder="t('enterProductQuantity')">
+            </div>
+            <div class="flex-1 space-y-1">
+              <label for="price" class="text-base dark:text-white md:text-lg font-medium">
+                {{ $t('expirationDate') }}
+              </label>
+              <input id="quantity" type="date" v-model="submitData.expirationDate"
+                class="bg-slate-100 border-none dark:bg-slate-700 dark:text-white text-slate-900 rounded-lg w-full h-11 placeholder-slate-400 placeholder:text-sm md:placeholder:text-lg">
+            </div>
           </div>
-          <div class="flex-1 space-y-1">
-            <label for="price" class="text-base dark:text-white md:text-lg font-medium">
-              {{ $t('expirationDate') }}
-            </label>
-            <input id="quantity" type="date" v-model="submitData.expirationDate"
-              class="bg-slate-100 border-none dark:bg-slate-700 dark:text-white text-slate-900 rounded-lg w-full h-11 placeholder-slate-400 placeholder:text-sm md:placeholder:text-lg">
+          <div class="flex items-center space-x-4">
+            <div class="flex-1 space-y-1">
+              <label for="price" class="text-base dark:text-white md:text-lg font-medium">
+                {{ $t('paymentDate') }}
+              </label>
+              <input id="quantity" type="date" v-model="submitData.paymentDate"
+                class="bg-slate-100 border-none dark:bg-slate-700 dark:text-white text-slate-900 rounded-lg w-full h-11 placeholder-slate-400 placeholder:text-sm md:placeholder:text-lg">
+            </div>
+            <div class="flex-1 space-y-1">
+              <label for="interval-type" class="text-base dark:text-white md:text-lg font-medium">
+                {{ $t('intervalType') }}
+              </label>
+              <select id="interval-type" v-model="submitData.intervalType"
+                class="bg-slate-100 border-none dark:bg-slate-700 dark:text-white text-slate-900 rounded-lg text-base md:text-lg block w-full h-11">
+                <option value="day" selected>{{ $t('day') }}</option>
+                <option value="week">{{ $t('week') }}</option>
+                <option value="month">{{ $t('month') }}</option>
+                <option value="year">{{ $t('year') }}</option>
+              </select>
+            </div>
           </div>
-        </div>
-        <div class="flex items-center space-x-4">
-          <div class="flex-1 space-y-1">
-            <label for="price" class="text-base dark:text-white md:text-lg font-medium">
-              {{ $t('paymentDate') }}
-            </label>
-            <input id="quantity" type="date" v-model="submitData.paymentDate"
-              class="bg-slate-100 border-none dark:bg-slate-700 dark:text-white text-slate-900 rounded-lg w-full h-11 placeholder-slate-400 placeholder:text-sm md:placeholder:text-lg">
-          </div>
-          <div class="flex-1 space-y-1">
-            <label for="interval-type" class="text-base dark:text-white md:text-lg font-medium">
-              {{ $t('intervalType') }}
-            </label>
-            <select id="interval-type" v-model="submitData.intervalType"
-              class="bg-slate-100 border-none dark:bg-slate-700 dark:text-white text-slate-900 rounded-lg text-base md:text-lg block w-full h-11">
-              <option value="day" selected>{{ $t('day') }}</option>
-              <option value="week">{{ $t('week') }}</option>
-              <option value="month">{{ $t('month') }}</option>
-              <option value="year">{{ $t('year') }}</option>
-            </select>
-          </div>
+          <div class="flex items-center space-x-4">
+            <div @click="handleIsActive"
+              class="flex p-3 space-x-4 items-center border rounded-xl hover:bg-blue-100 dark:bg-slate-700 dark:hover:bg-slate-700 dark:text-slate-100 cursor-pointer w-full">
+              <input type="checkbox" id="isActive" v-model="submitData.isActive" class="rounded" />
+              <label class="w-fit cursor-pointer" id="isActive">{{ $t('isActive') }}</label>
+            </div>
 
-        </div>
-        <div class="w-1/2 flex items-center space-x-4">
-          <div @click="handleIsActive"
-            class="flex p-4 space-x-4 items-center border rounded-xl hover:bg-blue-100 dark:bg-slate-700 dark:hover:bg-slate-700 dark:text-slate-100 cursor-pointer w-full">
-            <input type="checkbox" id="isActive" v-model="submitData.isActive" class="rounded" />
-            <label class="w-fit cursor-pointer" id="isActive">{{ $t('isActive') }}</label>
+            <div class="flex p-4 space-x-4 items-center w-full">
+            </div>
           </div>
         </div>
-      </div>
       </div>
     </template>
     <template v-slot:footer>

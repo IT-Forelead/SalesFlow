@@ -514,5 +514,6 @@
   "expenseAddedSuccessfully": "Затрата добавлена успешно",
   "errorWhileCreatingExpense": "Ошибка при добавлении затраты",
   "expenseEditedSuccessfully": "Затрата изменена успешно",
-  "errorWhileEditingExpense": "Ошибка при изменении затраты"
+  "errorWhileEditingExpense": "Ошибка при изменении затраты",
+  "isActive": "Активный"
 }
