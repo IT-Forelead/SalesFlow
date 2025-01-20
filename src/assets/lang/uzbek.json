@@ -501,7 +501,7 @@
   "editPaymentType": "To'lov turini tahrirlash",
   "paymentEditedSuccessfully": "To'lov turini tahrirlandi!",
   "errorWhileEditingPayment": "To'lov turini xatolik yuz berdi",
-  "expenses": "Затраты",
+  "expenses": "Xarjatlar",
   "expenseName": "Xarjat nomi",
   "expenseAmount": "Xarjat miqdori",
   "addExpense": "Xarjat qo'shish",
@@ -516,5 +516,11 @@
   "errorWhileCreatingExpense": "Xarjatni qo'shishda xato youz berdi",
   "expenseEditedSuccessfully": "Xarjat muvaffaqiyatli o'zgartirildi",
   "errorWhileEditingExpense": "Xarjatni o'zgartirishda xato yuz berdi",
-  "isActive": "Faol"
+  "isActive": "Faol",
+  "categoryType": "Kategoriya turi",
+  "selectCategory": "Kategoriyani tanlang",
+  "createInvest": "Investitsiya qo'shish",
+  "deleteInvest": "Investitsiya o'chirish",
+  "investInformation": "Investitsiya haqida ma'lumot",
+  "nameInvest": "Investitsiya nomi"
 }

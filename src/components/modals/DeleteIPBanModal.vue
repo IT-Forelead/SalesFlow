@@ -11,7 +11,6 @@ import AuthService from '../../services/auth.service.js'
 import Spinners270RingIcon from '../../assets/icons/Spinners270RingIcon.vue'
 
 const { t } = useI18n()
-
 const AuthStore = useAuthStore()
 const isLoading = ref(false)
 const selectedIPBan = computed(() => {
@@ -19,7 +18,7 @@ const selectedIPBan = computed(() => {
 })
 
 const closeModal = () => {
-    useModalStore().closeDeleteIPBanModal()
+  useModalStore().closeDeleteIPBanModal()
 }
 
 const deleteIPBan = () => {
@@ -33,11 +32,9 @@ const deleteIPBan = () => {
           useAuthStore().clearStore()
           useAuthStore().setIPBans(res)
           useAuthStore().renderkey += 1
-          
         })
         isLoading.value = false
         closeModal()
-      
     })
     .catch((err) => {
       toast.error(t('errorWhileDeletingIPBan'))

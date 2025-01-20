@@ -11,6 +11,7 @@ import { useI18n } from 'vue-i18n'
 import { useInvestStore } from '../store/invest.store.js'
 import InvestService from '../services/invest.service.js'
 import EyeIcon from '../assets/icons/EyeIcon.vue'
+import TrashIcon from '@/assets/icons/TrashIcon.vue'
 
 const { t } = useI18n()
 const investStore = useInvestStore()
@@ -30,10 +31,11 @@ const renderkey = computed(() => investStore.renderkey)
 const columns = [
   {
     accessorKey: 'id',
-    header: () => h('div', { class: 'cursor-default'}, t('n')),
+    header: () => h('div', { class: 'cursor-default' }, t('n')),
     cell: ({ row }) => `${parseInt(row.id, 10) + 1}`,
     enableSorting: false,
   },
+
   {
     accessorKey: 'amount',
     header: t('amount'),
@@ -66,6 +68,10 @@ const columns = [
       h('button', { onClick: () => { openInvestDaily(row.original) } }, [
         h(EyeIcon, { class: 'w-6 h-6 dark:text-blue-400 text-blue-600 hover:scale-105' })
       ]),
+
+      h('button', { onClick: () => { openDeleteInvest(row.original) } }, [
+        h(TrashIcon, { class: 'w-6 h-6 dark:text-red-400 text-red-600 hover:scale-105' })
+      ]),
     ]),
     enableSorting: false,
   },
@@ -92,7 +98,7 @@ getInvestsByFilters({})
 const openInvestDaily = (data) => {
   InvestService.getInvestDailyByFilters({
     investId: data.id,
-    investorId: data.investorId,startDate: data.startDate,
+    investorId: data.investorId, startDate: data.startDate,
     endDate: data.endDate,
     minAmount: data.minAmount,
     maxAmount: data.maxAmount,
@@ -104,16 +110,9 @@ const openInvestDaily = (data) => {
   })
 }
 
-const getInvestsByFilter = (filter) => {
-  useDropdownStore().toggleFilterBy()
-  InvestService.getInvestsByFilter(
-    cleanObjectEmptyFields({
-      investorId: useInvestStore().selectedInvest.investorId,
-    }),
-  ).then((res) => {
-    investStore.setInvests(res.data)
-    investStore.renderkey += 1
-  })
+const openDeleteInvest = (data) => {
+  useModalStore().openDeleteInvestModal()
+  useInvestStore().setSelectedInvest(data)
 }
 </script>
 
@@ -130,6 +129,12 @@ const getInvestsByFilter = (filter) => {
         <input type="search" v-model="globalSearchFromTable"
           class="bg-slate-100 border-none w-full dark:bg-slate-700 dark:text-white text-slate-900 text-base md:text-lg rounded-full block pl-10 py-2 placeholder-slate-400"
           :placeholder="$t('search')">
+      </div>
+      <div class="w-full md:w-auto order-1 md:order-2">
+        <button @click="useModalStore().openCreateInvestModal()"
+          class="w-full md:w-auto py-2 px-4 rounded-full text-white text-lg font-medium bg-blue-500 cursor-pointer hover:bg-blue-600">
+          {{ $t('createInvest') }}
+        </button>
       </div>
     </div>
     <div v-if="isLoading" class="flex items-center justify-center h-20">

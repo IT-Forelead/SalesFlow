@@ -155,7 +155,7 @@ const profitChartOptions = computed(() => {
         },
       },
       tooltip: {
-        enabled: true,
+        enabled: false,
       },
       axisBorder: {
         show: false,
@@ -168,6 +168,9 @@ const profitChartOptions = computed(() => {
       axisBorder: {
         show: false,
       },
+      tooltip: {
+      enabled: false,
+    },
       axisTicks: {
         show: false,
       },
@@ -180,6 +183,9 @@ const profitChartOptions = computed(() => {
     },
     grid: {
       show: false,
+    },
+    tooltip: {
+      enabled: false,
     },
   }
 })
@@ -234,7 +240,7 @@ const salesChartOptions = computed(() => {
         },
       },
       tooltip: {
-        enabled: true,
+        enabled: false,
       },
       axisBorder: {
         show: false,
@@ -259,6 +265,9 @@ const salesChartOptions = computed(() => {
     },
     grid: {
       show: false,
+    },
+    tooltip: {
+      enabled: false,
     },
   }
 })
@@ -331,7 +340,7 @@ const salesAreaChartOptions = computed(() => {
       },
     },
     fill: {
-      opacity: 0.5,
+      opacity: 1,
     },
     grid: {
       yaxis: {

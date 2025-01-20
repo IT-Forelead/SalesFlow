@@ -513,5 +513,11 @@
   "errorWhileCreatingExpense": "Харжатни қўшишда хато юз берди",
   "expenseEditedSuccessfully": "Харжат муваффақиятли ўзгартирилди",
   "errorWhileEditingExpense": "Харжатни ўзгартиришда хато юз берди",
-  "isActive": "Фаол"
+  "isActive": "Фаол",
+  "categoryType": "Категория тури",
+  "selectCategory": "Категорияни танланг",
+  "createInvest": "Инвестиция қўшиш",
+  "deleteInvest": "Инвестиция ўчириш",
+  "investInformation": "Инвестиция ҳақида маълумот",
+  "nameInvest": "Инвестиция номи"
 }
