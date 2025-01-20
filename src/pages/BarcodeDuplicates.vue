@@ -86,6 +86,11 @@ const columns = [
   },
 ]
 
+const openEditProductBarcodeModal = (data) => {
+  useModalStore().openEditProductBarcodeModal()
+  useProductStore().setSelectedBarcodes(data)
+}
+
 const page = ref(1)
 const pageSize = 30
 const getDuplicates = () => {

@@ -122,7 +122,7 @@
   "plsEnterProductBarcode": "Mahsulot shtrix kodini kiriting!",
   "barcodeIsInvalid": "Shtrix-kod yaroqsiz!",
   "barcodeAddedSuccessfully": "Shtrix kod muvaffaqiyatli qo'shildi!",
-  "errorWhileCreatingBarcode": "Shtrix-kod yaratishda xatolik",
+  "errorWhileCreatingBarcode": "Shtrix-kod yaratishda xatolik yuz berdi",
   "createBarcode": "Shtrix-kod yaratish",
   "productName": "Mahsulot nomi",
   "packaging": "Qadoqi",
@@ -418,6 +418,7 @@
   "lastDays": "Oxirgi marta kun oldin sotilgan",
   "expirationSold": "Muddati ko'rsatilmagan mahsulot sotildi",
   "investors": "Investorlar",
+  "addInvestor": "Investorni tanlang",
   "createInvestor":"Investor yaratish",
   "investDailyIncome": "Investitsiyalarning kunlik daromadi",
   "invests": "Investitsiya",
@@ -516,5 +517,15 @@
   "errorWhileCreatingExpense": "Xarjatni qo'shishda xato youz berdi",
   "expenseEditedSuccessfully": "Xarjat muvaffaqiyatli o'zgartirildi",
   "errorWhileEditingExpense": "Xarjatni o'zgartirishda xato yuz berdi",
-  "isActive": "Faol"
+  "isActive": "Faol",
+  "categoryType": "Kategoriya turi",
+  "selectCategory": "Kategoriyani tanlang",
+  "createInvest": "Investitsiya qo'shish",
+  "deleteInvest": "Investitsiya o'chirish",
+  "investInformation": "Investitsiya haqida ma'lumot",
+  "nameInvest": "Investitsiya nomi",
+  "investAddedSuccessfully": "Investitsiya yaratildi",
+  "errorWhileCreatingInvest": "Investitsiya yaratish xatolik yuz berdi",
+  "investDeletedSuccessfully": "Investor o'chirildi",
+  "errorWhileDeletingInvest": "Investor o'chirish xatolik yuz berdi"
 }

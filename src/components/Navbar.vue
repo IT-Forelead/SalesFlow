@@ -58,6 +58,9 @@ import DeleteUnprofitableProduct from './modals/DeleteUnprofitableProduct.vue'
 import HiddenUnprofitableProductsModal from './modals/HiddenUnprofitableProductsModal.vue'
 import UnhideUnprofitableProduct from './modals/UnhideUnprofitableProduct.vue'
 
+import CreateInvestModal from './modals/CreateInvestModal.vue'
+import DeleteInvestModal from './modals/DeleteInvestModal.vue'
+
 const notificationDropdown = ref(null)
 
 onClickOutside(notificationDropdown, () => {
@@ -178,6 +181,8 @@ onUnmounted(() => {
   <EditOrderModal />
   <CreateExpenseModal />
   <EditExpenseModal />
+  <CreateInvestModal />
+  <DeleteInvestModal />
 </template>
 
 <style scoped></style>

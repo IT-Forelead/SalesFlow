@@ -415,7 +415,8 @@
   "lastDays": "Охирги марта кун олдин сотилган",
   "expirationSold": "Муддати кўрсатилмаган маҳсулот сотилди",
   "investors": "Инвесторлар",
-  "createInvestor":"Investor яратиш",
+  "addInvestor": "Инвесторни танланг",
+  "createInvestor":"Инвестор яратиш",
   "investDailyIncome": "Инвестицияларнинг кунлик даромади",
   "invests": "Инвестиция",
   "едитинвесцтатус": "Инвестиция ҳолатини ўзгартириш",
@@ -513,5 +514,14 @@
   "errorWhileCreatingExpense": "Харжатни қўшишда хато юз берди",
   "expenseEditedSuccessfully": "Харжат муваффақиятли ўзгартирилди",
   "errorWhileEditingExpense": "Харжатни ўзгартиришда хато юз берди",
-  "isActive": "Фаол"
+  "isActive": "Фаол",
+  "categoryType": "Категория тури",
+  "selectCategory": "Категорияни танланг",
+  "createInvest": "Инвестиция қўшиш",
+  "deleteInvest": "Инвестиция ўчириш",
+  "investInformation": "Инвестиция ҳақида маълумот",
+  "nameInvest": "Инвестиция номи",
+  "investAddedSuccessfully": "Инвестиция яратилди",
+  "errorWhileCreatingInvest": "Инвестиция яратиш хатолик юз берди", "investDeletedSuccessfully": "Инвестор ўчирилди",
+  "errorWhileDeletingInvest": "Инвестор ўчириш хатолик юз берди"
 }
