@@ -19,16 +19,18 @@ const closeModal = () => {
   modalStore.closeDeleteInvestModal();
   investStore.setSelectedInvest({});
 };
-
+ 
 const deleteInvest = () => {
   isLoading.value = true
+  console.log(selectedInvest.value.id);
+  
   InvestService.deleteInvest(selectedInvest.value.id)
     .then(() => {
       toast.success(t('clientDeletedSuccessfully'))
-      InvestService.getInvests()
+      InvestService.getInvestsByFilters({})
         .then((res) => {
           investStore.clearStore()
-          investStore.setInvests(res)
+          investStore.setInvests(res.data)
           investStore.renderkey += 1
         })
         .catch((err) => {
@@ -36,8 +38,8 @@ const deleteInvest = () => {
         })
       isLoading.value = false
       closeModal()
-    }).catch(() => {
-      console.log('bbbbbbbbbbb')
+    }).catch((e) => {
+      console.log(e)
       toast.error(t('errorWhileDeletingAgent'))
       isLoading.value = false
       closeModal()

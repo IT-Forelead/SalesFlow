@@ -7,7 +7,7 @@ class InvestService {
   async createInvest(data) {
     return AxiosService.post('/invests/create', data)
   }
-  async deleteInvest(data) {
+  async deleteInvest(id) {
     return AxiosService.delete(`/invests/${id}`)
   }
   async getInvestDailyByFilters(filter) {

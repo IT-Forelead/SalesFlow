@@ -53,10 +53,10 @@ const createInvest = () => {
     ).then(() => {
       toast.success(t('agentAddedSuccessfully'))
       isLoading.value = false
-      InvestService.getInvests()
+      InvestService.getInvestsByFilters({})
         .then((res) => {
           useInvestStore().clearStore()
-          useInvestStore().setInvests(res)
+          useInvestStore().setInvests(res.data)
           useInvestStore().renderkey += 1
         })
     }).catch(() => {
@@ -96,7 +96,7 @@ const getPlans = async () => {
         <div class="flex items-center space-x-4">
           <div class="flex-1">
             <label for="investor" class="text-base dark:text-white font-medium">
-              {{ $t('investor') }}
+              {{ $t('addInvestor') }}
               <span class="text-red-500 mr-2">*</span>
             </label>
             <select id="investor" v-model="submitForm.investorId"

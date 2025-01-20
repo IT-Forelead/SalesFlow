@@ -108,7 +108,7 @@ const openInvestDaily = (data) => {
     useInvestStore().setInvestDaily(res.data)
     useModalStore().openInvestDailyModal()
   })
-}
+} 
 
 const openDeleteInvest = (data) => {
   useModalStore().openDeleteInvestModal()
