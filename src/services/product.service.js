@@ -113,8 +113,8 @@ class ProductService {
     return AxiosService.delete(`/product/recently-out/unhide/${productId}`)
   }
   async getAllSessions(filter) {
-    return AxiosService.post('/sessions/all', filter);
-  }
+    return AxiosService.post(`/sessions/all`, filter); // Уберите "product"
+}
 }
 
 export default new ProductService()

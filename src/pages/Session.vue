@@ -9,7 +9,7 @@ import ProductService from '../services/product.service.js'
 import { useAuthStore } from '../store/auth.store.js'
 import decodeJwt, { parseJwt } from '../mixins/utils.js'
 import { useI18n } from 'vue-i18n'
-
+import { useMarketStore } from '../store/market.store.js'
 import CTable from '../components/common/CTable.vue'
 import CaretLeftIcon from '../assets/icons/CaretLeftIcon.vue'
 import CaretRightIcon from '../assets/icons/CaretRightIcon.vue'
@@ -25,7 +25,7 @@ const renderKey = ref(0)
 const Session = useMarketStore()
 const AllSession = computed(() => {
   renderKey.value += 1
-  return Session.AllSession
+  return Session.AllSession || []
 }) 
 
 const isLoading = ref(false)
@@ -41,8 +41,24 @@ const columns = [
     enableSorting: false,
   },
   {
-    accessorKey: 'fullName',
-    header: t('fullName'),
+    accessorKey: 'name',
+    header: t('name'),
+  },
+  {
+    accessorKey: 'ipAddress',
+    header: t('ipAddress'),
+  },
+  {
+    accessorKey: 'loginTime',
+    header: t('loginTime'),
+  },
+  {
+    accessorKey: 'lastActionTime',
+    header: t('lastActionTime'),
+  },
+  {
+    accessorKey: 'lastAction',
+    header: t('lastAction'),
   },
  
  
@@ -54,43 +70,23 @@ const columns = [
   
 ]
 
-const getAllSession = (filters = {}) => {
+const getAllSessions = (filters = {}) => {
   isLoading.value = true
-ProductService.getAllSession({ limit: pageSize, page: page.value, ...filters })
+ProductService.getAllSessions({ limit: pageSize, page: page.value, ...filters })
     .then((response) => {
-      useProductStore().clearStore()
       total.value = response.total
+      useProductStore().clearStore()
       useProductStore().setAllSession(response.data)
     }).finally(() => {
     isLoading.value = false
   })
 }
 
-const totalPages = computed(() => Math.ceil(total.value / pageSize))
-
-
-const goToPage = (pageNumber) => {
-  if (pageNumber >= 1 && pageNumber <= totalPages.value) {
-    page.value = pageNumber
-  }
-}
-
-const prevPage = () => {
-  goToPage(page.value - 1)
-}
-const nextPage = () => {
-  goToPage(page.value + 1)
-}
-
-getAllSession()
-
-watch(page, () => {
-  getAllSession()
-})
+getAllSessions()
 
 onMounted(() => {
   useAuthStore().setUser(decodeJwt(JSON.parse(localStorage.getItem('session'))?.accessToken))
-  payload.value = parseJwt()
+  
 })
 
 </script>
@@ -119,15 +115,5 @@ onMounted(() => {
     </div>
    
     <CTable v-else :data="AllSession" :key="renderKey" :columns="columns" :filter="globalSearchFromTable" />
-     <button @click="prevPage" :disabled="page === 1"
-          class="flex items-center justify-center px-3 py-2 text-base font-medium text-slate-900 dark:text-white rounded-lg select-none hover:bg-blue-200 disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
-          type="button">
-          <CaretLeftIcon class="w-5 h-5" />
-        </button>
-    <button @click="nextPage" :disabled="page === totalPages"
-          class="flex items-center gap-2 px-3 py-2 text-base font-medium text-center text-slate-900 dark:text-white rounded-lg select-none hover:bg-blue-200 disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
-          type="button">
-          <CaretRightIcon class="w-5 h-5" />
-        </button>
   </div>
 </template>
