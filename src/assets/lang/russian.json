@@ -522,5 +522,9 @@
   "createInvest": "Создать инвестицию",
   "deleteInvest": "Удалить инвестицию",
   "investInformation": "Информация об инвестиции",
-  "nameInvest": "Инвестиция"
+  "nameInvest": "Инвестиция",
+  "investAddedSuccessfully": "Инвестиция добавлена",
+  "errorWhileCreatingInvest": "Ошибка при добавлении инвестиции",
+  "investDeletedSuccessfully": "Инвестиция удалена",
+  "errorWhileDeletingInvest": "Ошибка при удалении инвестиции"
 }

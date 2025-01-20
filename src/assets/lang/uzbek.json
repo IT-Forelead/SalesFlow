@@ -122,7 +122,7 @@
   "plsEnterProductBarcode": "Mahsulot shtrix kodini kiriting!",
   "barcodeIsInvalid": "Shtrix-kod yaroqsiz!",
   "barcodeAddedSuccessfully": "Shtrix kod muvaffaqiyatli qo'shildi!",
-  "errorWhileCreatingBarcode": "Shtrix-kod yaratishda xatolik",
+  "errorWhileCreatingBarcode": "Shtrix-kod yaratishda xatolik yuz berdi",
   "createBarcode": "Shtrix-kod yaratish",
   "productName": "Mahsulot nomi",
   "packaging": "Qadoqi",
@@ -523,5 +523,9 @@
   "createInvest": "Investitsiya qo'shish",
   "deleteInvest": "Investitsiya o'chirish",
   "investInformation": "Investitsiya haqida ma'lumot",
-  "nameInvest": "Investitsiya nomi"
+  "nameInvest": "Investitsiya nomi",
+  "investAddedSuccessfully": "Investitsiya yaratildi",
+  "errorWhileCreatingInvest": "Investitsiya yaratish xatolik yuz berdi",
+  "investDeletedSuccessfully": "Investor o'chirildi",
+  "errorWhileDeletingInvest": "Investor o'chirish xatolik yuz berdi"
 }

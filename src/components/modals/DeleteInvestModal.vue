@@ -26,7 +26,7 @@ const deleteInvest = () => {
   
   InvestService.deleteInvest(selectedInvest.value.id)
     .then(() => {
-      toast.success(t('clientDeletedSuccessfully'))
+      toast.success(t('investDeletedSuccessfully'))
       InvestService.getInvestsByFilters({})
         .then((res) => {
           investStore.clearStore()
@@ -40,7 +40,7 @@ const deleteInvest = () => {
       closeModal()
     }).catch((e) => {
       console.log(e)
-      toast.error(t('errorWhileDeletingAgent'))
+      toast.error(t('errorWhileDeletingInvest'))
       isLoading.value = false
       closeModal()
     })

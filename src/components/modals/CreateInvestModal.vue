@@ -51,7 +51,7 @@ const createInvest = () => {
         activatedAt: submitForm.activatedAt,
       }),
     ).then(() => {
-      toast.success(t('agentAddedSuccessfully'))
+      toast.success(t('investAddedSuccessfully'))
       isLoading.value = false
       InvestService.getInvestsByFilters({})
         .then((res) => {
@@ -60,7 +60,7 @@ const createInvest = () => {
           useInvestStore().renderkey += 1
         })
     }).catch(() => {
-      toast.error(t('errorWhileCreatingAgent'))
+      toast.error(t('errorWhileCreatingInvest'))
       isLoading.value = false
     })
     closeModal()
