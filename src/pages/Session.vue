@@ -4,12 +4,12 @@ import { computed, h, onMounted, ref, watch } from 'vue'
 import SearchIcon from '../assets/icons/SearchIcon.vue'
 import Spinners270RingIcon from '../assets/icons/Spinners270RingIcon.vue'
 
-import { useProductStore } from '../store/product.store';
-import ProductService from '../services/product.service.js'
+
+import SessionService from '../services/session.service.js'
 import { useAuthStore } from '../store/auth.store.js'
 import decodeJwt, { parseJwt } from '../mixins/utils.js'
 import { useI18n } from 'vue-i18n'
-import { useMarketStore } from '../store/market.store.js'
+import { useSessionStore } from '../store/session.store.js'
 import CTable from '../components/common/CTable.vue'
 import CaretLeftIcon from '../assets/icons/CaretLeftIcon.vue'
 import CaretRightIcon from '../assets/icons/CaretRightIcon.vue'
@@ -22,7 +22,7 @@ const { t } = useI18n()
 const globalSearchFromTable = ref('')
 const renderKey = ref(0)
 // const payload = ref({})
-const Session = useMarketStore()
+const Session = useSessionStore()
 const AllSession = computed(() => {
   renderKey.value += 1
   return Session.AllSession || []
@@ -72,21 +72,21 @@ const columns = [
 
 const getAllSessions = (filters = {}) => {
   isLoading.value = true
-ProductService.getAllSessions({ limit: pageSize, page: page.value, ...filters })
+SessionService.getAllSessions({ limit: pageSize, page: page.value, date: date.value, ...filters })
     .then((response) => {
       total.value = response.total
-      useProductStore().clearStore()
-      useProductStore().setAllSession(response.data)
+      useSessionStore().clearStore()
+      useSessionStore().setAllSession(response.data)
     }).finally(() => {
     isLoading.value = false
   })
 }
 
-getAllSessions()
+
 
 onMounted(() => {
   useAuthStore().setUser(decodeJwt(JSON.parse(localStorage.getItem('session'))?.accessToken))
-  
+  getAllSessions()
 })
 
 </script>
