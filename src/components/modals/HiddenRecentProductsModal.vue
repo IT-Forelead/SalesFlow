@@ -21,10 +21,19 @@ const isLoading = ref(false)
 const hiddenRecentProducts = computed(() => productStore.hiddenRecentProducts)
 
 const columns = [
-  {
+{
     accessorKey: 'id',
     header: t('n'),
     cell: ({ row }) => `${parseInt(row.id, 10) + 1}`,
+    enableSorting: false,
+  },
+  {
+    accessorKey: 'serialId',
+    header: t('serialId'),
+  },
+  {
+    accessorKey: 'productId',
+    header: t('productId')
   },
   {
     accessorKey: 'name',
@@ -32,7 +41,23 @@ const columns = [
   },
   {
     accessorKey: 'packaging',
-    header: t('packaging'),
+    header: t('packaging')
+  },
+  {
+    accessorKey: 'barcode',
+    header: t('bardcode')
+  },
+  {
+    accessorKey: 'saleType',
+    header: t('saleType'),
+  },
+  {
+    accessorKey: 'remaining',
+    header: t('remaining')
+  },
+  {
+    accessorKey: 'sold',
+    header: t('sold')
   },
   {
     accessorKey: 'actions',
@@ -65,9 +90,9 @@ const cleanFilterRecentData = () => {
   filterRecentData.limit = 0
 }
 
-const getRecentlyOutProducts = () => {
+const getRecentlyProducts = () => {
   isLoading.value = true
-  ProductService.getRecentlyOutProducts(
+  ProductService.getRecentlyProducts(
     {
       intervalType: filterRecentData.intervalType,
       limit: filterRecentData.limit
@@ -83,7 +108,7 @@ const getRecentlyOutProducts = () => {
 
 onMounted(() => {
   cleanFilterRecentData
-  getRecentlyOutProducts()
+  getRecentlyProducts()
   
 })
 

@@ -13,7 +13,7 @@ const isLoading = ref(false)
 const productStore = useProductStore()
 
 const closeModal = () => {
-  useModalStore().closeDeleteRecentProductModal()
+  useModalStore().closeDeleteRecentProductsModal()
   productStore.setSelectedProduct({})
 }
 
@@ -45,8 +45,8 @@ const deleteRecetnlyHideProduct = () => {
 </script>
 
 <template>
-  <CModal :is-open="useModalStore().isopenDeleteRecentProductsModal"
-    v-if="useModalStore().isopenDeleteRecentProductsModal" @close=closeModal>
+  <CModal :is-open="useModalStore().isOpenDeleteRecentProductsModal"
+    v-if="useModalStore().isOpenDeleteRecentProductsModal" @close=closeModal>
     <template v-slot:header>
       {{ $t('deleteRecetnlyHideProduct') }}
     </template>

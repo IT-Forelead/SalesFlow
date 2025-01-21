@@ -72,7 +72,7 @@ const columns = [
 
 const getAllSessions = (filters = {}) => {
   isLoading.value = true
-SessionService.getAllSessions({ limit: pageSize, page: page.value, date: date.value, ...filters })
+SessionService.getAllSessions({ limit: pageSize, page: page.value,  ...filters })
     .then((response) => {
       total.value = response.total
       useSessionStore().clearStore()

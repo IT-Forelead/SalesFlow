@@ -8,7 +8,8 @@ export const useSessionStore = defineStore('session', {
     searchFilter:{},
     renderKey: 0,
     intervalType: 'month',
-    limit: 20
+    limit: 20,
+    date: new Date()
   }),
   actions: {
   
