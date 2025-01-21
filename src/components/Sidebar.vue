@@ -141,6 +141,7 @@ const loadSidebarState = () => {
     dashboardVisible.value = parsedState.dashboardVisible ?? true
     categoriesVisible.value = parsedState.categoriesVisible ?? true
     expensesVisible.value = parsedState.expensesVisible ?? true
+    whiteListVisible.value = parsedState.whiteListVisible ?? true
   }
 };
 
@@ -170,7 +171,8 @@ const saveSidebarState = () => {
     saleVisible: saleVisible.value,
     dashboardVisible: dashboardVisible.value,
     categoriesVisible: categoriesVisible.value,
-    expensesVisible: expensesVisible.value
+    expensesVisible: expensesVisible.value,
+    whiteListVisible: whiteListVisible.value
   };
   localStorage.setItem('sidebarState', JSON.stringify(state));
 };
@@ -200,6 +202,7 @@ const saleVisible = ref(true);
 const dashboardVisible = ref(true);
 const categoriesVisible = ref(true);
 const expensesVisible = ref(true);
+const whiteListVisible = ref(true);
 
 const whenPressEnter = (e) => {
   if (e.keyCode === 13) {
@@ -213,7 +216,7 @@ onMounted(() => {
   payload.value = parseJwt()
   loadSidebarState();
 })
-watch([investsVisible, investPlansVisible, investorsVisible, ipBannedVisible, wishesVisible, priceListsVisible, vouchersVisible, agentsVisible, clientsVisible, corporateClientsVisible, saleSettingsVisible, barcodeDuplicatesVisible, productBarcodesVisible, usersVisible, marketsVisible, ordersVisible, cashbackHistoriesVisible, discountVisible, upcomingProductsVisible, incomeExpenseVisible, productsVisible, saleVisible, dashboardVisible, categoriesVisible, expensesVisible], saveSidebarState, { deep: true });
+watch([investsVisible, investPlansVisible, investorsVisible, ipBannedVisible, wishesVisible, priceListsVisible, vouchersVisible, agentsVisible, clientsVisible, corporateClientsVisible, saleSettingsVisible, barcodeDuplicatesVisible, productBarcodesVisible, usersVisible, marketsVisible, ordersVisible, cashbackHistoriesVisible, discountVisible, upcomingProductsVisible, incomeExpenseVisible, productsVisible, saleVisible, dashboardVisible, categoriesVisible, expensesVisible, whiteListVisible], saveSidebarState, { deep: true });
 
 const moveDashboardToOthers = () => {
   dashboardVisible.value = false;
@@ -386,6 +389,12 @@ const moveExpensesToOthers = () => {
 };
 const restoreExpensesFromOthers = () => {
   expensesVisible.value = true;
+};
+const moveWhiteListToOthers = () => {
+  whiteListVisible.value = false;
+};
+const restoreWhiteListFromOthers = () => {
+  whiteListVisible.value = true;
 };
 
 const showHideButtons = ref(false)
@@ -781,6 +790,24 @@ const toggleShowHideButtons = () => {
               </router-link>
               <div v-if="showHideButtons">
                 <button @click="moveCategoriesToOthers"
+                  class="ml-auto space-y-1 px-1 py-2 hover:bg-blue-300/10 text-sm text-red-600 hover:text-red-800">
+                  <InvisIcon class="w-6 h-6" />
+                </button>
+              </div>
+            </div>
+            <div class="flex w-full justify-between" v-if="whiteListVisible && navigationGuard('view_agents')">
+              <router-link to="/categories" @click="selectPage()" active-class="active"
+                class="relative h-10 flex items-center w-full hover:bg-blue-300/10 hover:text-blue-600 py-5 text-zinc-400 dark:text-zinc-200 text-lg font-medium space-x-4 cursor-pointer transition-colors duration-300">
+                <div class="w-1.5 h-12 rounded-r-xl first-child-bg-color mr-2"></div>
+                <div class="flex h-10 items-center justify-center rounded-xl w-10 second-child-bg-color">
+                  <CategoryIcon class="w-6 h-6" />
+                </div>
+                <div class="w-full">
+                  {{ $t('whiteList') }}
+                </div>
+              </router-link>
+              <div v-if="showHideButtons">
+                <button @click="moveWhiteListToOthers()"
                   class="ml-auto space-y-1 px-1 py-2 hover:bg-blue-300/10 text-sm text-red-600 hover:text-red-800">
                   <InvisIcon class="w-6 h-6" />
                 </button>
@@ -1236,6 +1263,23 @@ const toggleShowHideButtons = () => {
                   </router-link>
                   <div v-if="showHideButtons">
                     <button @click="restoreCategoriesFromOthers"
+                      class="ml-auto space-y-1 px-1 py-2 hover:bg-blue-300/10 text-sm text-blue-600 hover:text-blue-800">
+                      <EyeIcon class="w-6 h-6" />
+                    </button>
+                  </div>
+                </div>
+                <div v-if="!whiteListVisible && navigationGuard('view_agents')"
+                  class="relative h-10 flex items-center w-full py-5 text-zinc-400 dark:text-zinc-200 text-lg font-medium space-x-2">
+                  <router-link to="/categories" @click="selectPage()" active-class="active"
+                    class="relative h-10 flex items-center w-full hover:bg-blue-300/10 hover:text-blue-600 py-5 text-zinc-400 dark:text-zinc-200 text-lg font-medium space-x-4 cursor-pointer transition-colors duration-300">
+                    <div class="w-1.5 h-12 rounded-r-xl first-child-bg-color mr-2"></div>
+                    <div class="flex h-10 items-center justify-center rounded-xl w-10 second-child-bg-color">
+                      <CategoryIcon class="w-6 h-6" />
+                    </div>
+                    <div class="w-full">{{ $t('whitelist') }}</div>
+                  </router-link>
+                  <div v-if="showHideButtons">
+                    <button @click="restoreWhiteListFromOthers()"
                       class="ml-auto space-y-1 px-1 py-2 hover:bg-blue-300/10 text-sm text-blue-600 hover:text-blue-800">
                       <EyeIcon class="w-6 h-6" />
                     </button>
