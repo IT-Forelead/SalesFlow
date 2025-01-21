@@ -526,5 +526,7 @@
   "investAddedSuccessfully": "Инвестиция добавлена",
   "errorWhileCreatingInvest": "Ошибка при добавлении инвестиции",
   "investDeletedSuccessfully": "Инвестиция удалена",
-  "errorWhileDeletingInvest": "Ошибка при удалении инвестиции"
+  "errorWhileDeletingInvest": "Ошибка при удалении инвестиции",
+  "expenseStatistics": "Xarjatlar statistikasi",
+  "errorWhileDeletingCategory": "Ошибка при удалении категории", "categoryDeletedSuccessfully": "Категория удалена", "errorWhileCreatingCategory": "Ошибка при добавлении категории", "categoryAddedSuccessfully": "Категория добавлена"
 }

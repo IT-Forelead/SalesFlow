@@ -527,5 +527,10 @@
   "investAddedSuccessfully": "Investitsiya yaratildi",
   "errorWhileCreatingInvest": "Investitsiya yaratish xatolik yuz berdi",
   "investDeletedSuccessfully": "Investor o'chirildi",
-  "errorWhileDeletingInvest": "Investor o'chirish xatolik yuz berdi"
+  "errorWhileDeletingInvest": "Investor o'chirish xatolik yuz berdi",
+  "expenseStatistics": "Xarjatlar statistikasi",
+  "errorWhileDeletingCategory": "Kategoriya o'chirish xatolik yuz berdi",
+  "categoryDeletedSuccessfully": "Kategoriya o'chirildi",
+  "errorWhileCreatingCategory": "Kategoriya yaratish xatolik yuz berdi",
+  "categoryAddedSuccessfully": "Kategoriya yaratildi"
 }

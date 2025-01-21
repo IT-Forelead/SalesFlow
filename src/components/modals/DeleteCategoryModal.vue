@@ -10,7 +10,6 @@ import CategoryService from '../../services/category.service.js';
 import Spinners270RingIcon from '@/assets/icons/Spinners270RingIcon.vue';
 
 const { t } = useI18n();
-
 const modalStore = useModalStore();
 const categoryStore = useCategoryStore();
 const isLoading = ref(false);
@@ -23,11 +22,9 @@ const closeModal = () => {
 
 const deleteCategory = () => {
   isLoading.value = true
-  
   CategoryService.deleteCategory(selectedCategory.value.id)
-  
     .then(() => {
-      toast.success(t('clientDeletedSuccessfully'))
+      toast.success(t('categoryDeletedSuccessfully'))
       CategoryService.getCategories()
         .then((res) => {
           categoryStore.clearStore()
@@ -40,9 +37,7 @@ const deleteCategory = () => {
       isLoading.value = false
       closeModal()
     }).catch(() => {
-      console.log('bbbbbbbbbbb')
-
-      toast.error(t('errorWhileDeletingAgent'))
+      toast.error(t('errorWhileDeletingCategory'))
       isLoading.value = false
       closeModal()
     })

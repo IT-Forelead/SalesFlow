@@ -24,6 +24,7 @@ import CaretLeftIcon from '@/assets/icons/CaretLeftIcon.vue'
 import CaretRightIcon from '@/assets/icons/CaretRightIcon.vue'
 import CaretDoubleRightIcon from '@/assets/icons/CaretDoubleRightIcon.vue'
 import CashbackService from '../services/cashback.service'
+import ExpenseService from '../services/expense.service'
 import {
   roundFloatToTwoDecimal,
 } from '../mixins/utils';
@@ -49,6 +50,7 @@ const qrTrading = t('qrTrading')
 const worstSellerProductStats = ref([])
 const allVarDate = ref([])
 const allCorpDate = ref([])
+const allExpenseDate = ref([])
 
 const pageWorstSell = ref(1)
 const pageSell = ref(1)
@@ -63,6 +65,38 @@ const varietyStats = ref([])
 const predictStats = ref([])
 const corporateStats = ref([])
 const corporateDropdown = ref(null)
+
+const isVisibleFirst = ref(true)
+function hideFirst() {
+  isVisibleFirst.value = false
+}
+function openFirst() {
+  isVisibleFirst.value = true
+}
+
+const isVisibleSecond = ref(true)
+function hideSecond() {
+  isVisibleSecond.value = false
+}
+function openSecond() {
+  isVisibleSecond.value = true
+}
+
+const isVisibleThird = ref(true)
+function hideThird() {
+  isVisibleThird.value = false
+}
+function openThird() {
+  isVisibleThird.value = true
+}
+
+const isVisibleFourth = ref(true)
+function hideFourth() {
+  isVisibleFourth.value = false
+}
+function openFourth() {
+  isVisibleFourth.value = true
+}
 
 const filterData = reactive({
   startDate: '',
@@ -169,8 +203,8 @@ const profitChartOptions = computed(() => {
         show: false,
       },
       tooltip: {
-      enabled: false,
-    },
+        enabled: false,
+      },
       axisTicks: {
         show: false,
       },
@@ -1357,7 +1391,7 @@ const monthStatsChartSeries = computed(() => [
 ])
 
 const monthStatsAreaChartOptions = computed(() => {
-  
+
   return {
     legend: {
       labels: {
@@ -1403,7 +1437,7 @@ const monthStatsAreaChartOptions = computed(() => {
       },
     },
     yaxis: {
-      
+
       floating: false,
 
       labels: {
@@ -1679,6 +1713,18 @@ onMounted(() => {
     .then((res) => {
       productStats.value = res
     })
+  ExpenseService.infoExpense({
+    from: moment().subtract(30, 'days').startOf('day').format().toString().slice(0, 10),
+    to: moment().startOf('day').format().toString().slice(0, 10),
+  }).then((res) => {
+    expenseStats.value = res
+    var a = res?.flatMap((item) => item.data.map((i) => i.date))
+    var b = new Set(a)
+    allExpenseDate.value = Array.from(b).sort((a, b) => // {
+      moment(a).toDate() - moment(b).toDate()
+      // }
+    )
+  })
   getSells()
   getProfits()
   getRevenues()
@@ -1686,6 +1732,146 @@ onMounted(() => {
   getSoldProductPrice()
   getOrdersStatsFinal()
 })
+
+const expenseStats = ref([])
+const expenseDropdown = ref(null)
+const expenseStatsChartSeries = computed(() => {
+  return expenseStats.value.map((item) =>
+  ({
+    name: item.name,
+    data: item.data.map((i) => {
+      return i.amount
+    })
+  })
+  );
+})
+
+const expenseStatsAreaChartOptions = computed(() => {
+  return {
+    legend: {
+      labels: {
+        colors: 'rgb(128, 128, 128)',
+      },
+    },
+    chart: {
+      height: 350,
+      type: 'bar',
+      zoom: {
+        enabled: false,
+      },
+      toolbar: {
+        show: false,
+      },
+    },
+    dataLabels: {
+      enabled: false,
+    },
+    stroke: {
+      curve: 'smooth',
+    },
+    xaxis: {
+      categories: allExpenseDate.value,
+      type: 'date',
+      labels: {
+        style: {
+          fontSize: '12px',
+          colors: '#4a90e2',
+        },
+        formatter: function (val) {
+          return moment(val).format('D-MMM')
+        },
+      },
+      tooltip: {
+        enabled: true,
+      },
+      axisBorder: {
+        show: false,
+      },
+      axisTicks: {
+        show: false,
+      },
+    },
+    yaxis: {
+      floating: false,
+      labels: {
+        show: true,
+        formatter: function (val) {
+          return useMoneyFormatter(val)
+        },
+        style: {
+          colors: '#4a90e2',
+        },
+        offsetY: 0,
+        offsetX: 0,
+      },
+      axisBorder: {
+        show: false,
+      },
+      axisTicks: {
+        show: true,
+      },
+    },
+    fill: {
+      opacity: 0.5,
+    },
+    grid: {
+      yaxis: {
+        lines: {
+          offsetX: -30,
+        },
+      },
+      padding: {
+        left: 20,
+      },
+    },
+  }
+})
+
+const expenseSeries = computed(() => {
+  return expenseStats.value?.map((a) => {
+    const totalAmount = a?.data?.map((item) => item.amount).reduce((sum, amount) => sum + amount, 0);
+    return totalAmount;
+  }) || [];
+});
+
+const expenseOptions = computed(() => {
+  const formattedTotalAmount = expenseStats.value?.map((a) => {
+    const totalAmount = a?.data?.map((item) => item.amount).reduce((sum, amount) => sum + amount, 0);
+    return useMoneyFormatter(totalAmount);
+  }) || [];
+
+  return {
+    chart: {
+      type: 'donut',
+    },
+    labels: expenseStats.value?.map((a) => a?.name) || [],
+    legend: {
+      show: true,
+      labels: {
+        colors: 'rgb(128, 128, 128)',
+        useSeriesColors: false,
+      },
+    },
+    responsive: [{
+      breakpoint: 480,
+      options: {
+        chart: {
+          width: 200,
+        },
+        legend: {
+          position: 'bottom',
+        },
+      },
+    }],
+    tooltip: {
+      y: {
+        formatter: function (value, { seriesIndex }) {
+          return useMoneyFormatter(value);
+        }
+      }
+    },
+  }
+});
 
 watch(
   () => salesChartFilterData.value,
@@ -1699,8 +1885,6 @@ watch(
 
 const recommendDropdown = ref(null)
 const recommendStats = ref([])
-
-
 const filterRecommendData = reactive({
   intervalType: useProductStore().intervalType,
   limit: useProductStore().limit
@@ -1911,9 +2095,12 @@ const recommendStatsAreaChartOptions = computed(() => {
         </div>
       </div>
     </div>
+    <!-- 4block -->
     <div
-      class="flex w-full justify-between flex-col md:flex-row space-x-0 md:space-x-4 space-y-2  dark:text-white md:space-y-0 h-auto overflow-y-auto">
-      <div class="p-5 flex flex-1 rounded-3xl bg-slate-100 dark:bg-slate-900 h-[650px] flex-col justify-between">
+      class="flex w-full justify-between flex-col md:flex-row space-x-0 md:space-x-4 space-y-2 dark:text-white md:space-y-0 h-auto overflow-y-auto">
+      <!-- block -->
+      <div v-if="isVisibleFirst"
+        class="p-5 flex w-1/4 rounded-3xl bg-slate-100 dark:bg-slate-900 h-[650px] flex-col justify-between">
         <div class="space-y-4">
           <div class="flex items-center justify-between">
             <div class="space-y-0.5">
@@ -1926,9 +2113,10 @@ const recommendStatsAreaChartOptions = computed(() => {
                 {{ $t('endStatText') }}
               </div>
             </div>
-            <div class="flex items-center justify-center rounded-xl bg-blue-100 dark:bg-slate-800 p-3">
+            <button @click="hideFirst"
+              class="flex items-center justify-center rounded-xl bg-blue-100 dark:bg-slate-800 p-3">
               <ShoppingCartIcon class="w-8 h-8 dark:text-blue-400 text-blue-600" />
-            </div>
+            </button>
           </div>
           <div class="divide-y divide-gray-100">
             <div v-for="(product, idx) in bestRevenueProductStats" :key="idx"
@@ -1999,7 +2187,24 @@ const recommendStatsAreaChartOptions = computed(() => {
           </div>
         </div>
       </div>
-      <div class="p-5 flex flex-1 rounded-3xl bg-slate-100 dark:bg-slate-900 h-[650px] flex-col justify-between">
+      <div v-else class="flex rounded-t-3xl bg-slate-100 dark:bg-slate-900 p-5 w-1/4 h-32 items-center justify-between">
+        <div class="space-y-0.5">
+          <div class="text-base md:text-xl  font-semibold">
+            {{ $t('bestRevenueProducts') }}
+          </div>
+          <div class="text-sm md:text-base text-gray-600 dark:text-white">
+            {{ $t('beginStatText') }}
+            <span class="font-bold">{{ 10 + $t('days') }}</span>
+            {{ $t('endStatText') }}
+          </div>
+        </div>
+        <button @click="openFirst" class="flex items-center justify-center rounded-xl bg-red-100 dark:bg-slate-800 p-3">
+          <ShoppingCartIcon class="w-8 h-8 dark:text-red-400 text-red-600" />
+        </button>
+      </div>
+      <!-- block -->
+      <div v-if="isVisibleSecond"
+        class="p-5 flex w-1/4 rounded-3xl bg-slate-100 dark:bg-slate-900 h-[650px] flex-col justify-between">
         <div class="space-y-4">
           <div class="flex items-center justify-between">
             <div class="space-y-0.5">
@@ -2012,9 +2217,10 @@ const recommendStatsAreaChartOptions = computed(() => {
                 {{ $t('endStatText') }}
               </div>
             </div>
-            <div class="flex items-center justify-center rounded-xl bg-blue-100 dark:bg-slate-800 p-3">
+            <button @click="hideSecond"
+              class="flex items-center justify-center rounded-xl bg-blue-100 dark:bg-slate-800 p-3">
               <ShoppingCartIcon class="w-8 h-8 dark:text-blue-400 text-blue-600" />
-            </div>
+            </button>
           </div>
           <div class="divide-y divide-gray-100">
             <div v-for="(product, idx) in bestProfitProductStats" :key="idx"
@@ -2085,7 +2291,25 @@ const recommendStatsAreaChartOptions = computed(() => {
           </div>
         </div>
       </div>
-      <div class="p-5 flex flex-1 rounded-3xl bg-slate-100 dark:bg-slate-900 h-[650px] flex-col justify-between">
+      <div v-else class="flex rounded-t-3xl bg-slate-100 dark:bg-slate-900 p-5 w-1/4 h-32 items-center justify-between">
+        <div class="space-y-0.5">
+          <div class="text-base md:text-xl  font-semibold">
+            {{ $t('bestProfitProducts') }}
+          </div>
+          <div class="text-sm md:text-base text-gray-600 dark:text-white">
+            {{ $t('beginStatText') }}
+            <span class="font-bold">{{ 10 + $t('days') }}</span>
+            {{ $t('endStatText') }}
+          </div>
+        </div>
+        <button @click="openSecond"
+          class="flex items-center justify-center rounded-xl bg-red-100 dark:bg-slate-800 p-3">
+          <ShoppingCartIcon class="w-8 h-8 dark:text-red-400 text-red-600" />
+        </button>
+      </div>
+      <!-- block -->
+      <div v-if="isVisibleThird"
+        class="p-5 flex w-1/4 rounded-3xl bg-slate-100 dark:bg-slate-900 h-[650px] flex-col justify-between">
         <div class="space-y-4">
           <div class="flex items-center justify-between">
             <div class="space-y-0.5">
@@ -2098,9 +2322,10 @@ const recommendStatsAreaChartOptions = computed(() => {
                 {{ $t('endStatText') }}
               </div>
             </div>
-            <div class="flex items-center justify-center rounded-xl bg-blue-100 dark:bg-slate-800 p-3">
+            <button @click="hideThird"
+              class="flex items-center justify-center rounded-xl bg-blue-100 dark:bg-slate-800 p-3">
               <ShoppingCartIcon class="w-8 h-8 dark:text-blue-400 text-blue-600" />
-            </div>
+            </button>
           </div>
           <div class="divide-y divide-gray-100">
             <div v-for="(product, idx) in bestSellerProductStats" :key="idx"
@@ -2171,7 +2396,24 @@ const recommendStatsAreaChartOptions = computed(() => {
           </div>
         </div>
       </div>
-      <div class="p-5 flex flex-1 rounded-3xl bg-slate-100 dark:bg-slate-900 h-[650px] flex-col justify-between">
+      <div v-else class="flex rounded-t-3xl bg-slate-100 dark:bg-slate-900 p-5 w-1/4 h-32 items-center justify-between">
+        <div class="space-y-0.5">
+          <div class="text-base md:text-xl  font-semibold">
+            {{ $t('bestSellingProducts') }}
+          </div>
+          <div class="text-sm md:text-base text-gray-600 dark:text-white">
+            {{ $t('beginStatText') }}
+            <span class="font-bold">{{ 10 + $t('days') }}</span>
+            {{ $t('endStatText') }}
+          </div>
+        </div>
+        <button @click="openThird" class="flex items-center justify-center rounded-xl bg-red-100 dark:bg-slate-800 p-3">
+          <ShoppingCartIcon class="w-8 h-8 dark:text-red-400 text-red-600" />
+        </button>
+      </div>
+      <!-- block -->
+      <div v-if="isVisibleFourth"
+        class="p-5 flex flex-1 rounded-3xl bg-slate-100 dark:bg-slate-900 h-[650px] flex-col justify-between">
         <div class="space-y-4">
           <div class="flex items-center justify-between">
             <div class="space-y-0.5">
@@ -2184,9 +2426,10 @@ const recommendStatsAreaChartOptions = computed(() => {
                 {{ $t('endStatText') }}
               </div>
             </div>
-            <div class="flex items-center justify-center rounded-xl bg-blue-100 dark:bg-slate-800 p-3">
+            <button @click="hideFourth"
+              class="flex items-center justify-center rounded-xl bg-blue-100 dark:bg-slate-800 p-3">
               <ShoppingCartIcon class="w-8 h-8 dark:text-blue-400 text-blue-600" />
-            </div>
+            </button>
           </div>
           <div class="divide-y divide-gray-100">
             <div v-for="(product, idx) in worstSellerProductStats" :key="idx"
@@ -2254,66 +2497,81 @@ const recommendStatsAreaChartOptions = computed(() => {
           </div>
         </div>
       </div>
-    </div>
-    <div class="flex-1">
-      <div class="flex flex-col md:flex-row space-x-0 md:space-x-4 space-y-2 md:space-y-0">
-        <div class="w-1/2 bg-slate-100 dark:bg-slate-900 rounded-3xl p-5">
-          <div class="flex flex-col md:flex-row md:items-center md:justify-between px-2 space-y-3 md:space-y-0">
-            <div>
-              <div class="text-base font-bold text-slate-800 dark:text-slate-200">
-                {{ $t('profitStatistics') }}
-              </div>
-              <div v-if="salesChartFilterData === 6" class="text-sm text-gray-600 dark:text-white">
-                {{ $t('beginStatText') }}
-                <span class="font-bold lowercase">{{ $t('week') }}</span>
-                {{ $t('endStatText') }}
-              </div>
-              <div v-else class="text-sm text-gray-600 dark:text-white">
-                {{ $t('beginStatText') }}
-                <span class="font-bold lowercase">{{ $t('monthly') }}</span>
-                {{ $t('endStatText') }}
-              </div>
-            </div>
-            <div>
-              <select v-model="salesChartFilterData"
-                class="bg-blue-100 dark:bg-slate-900 border-none text-slate-900 dark:text-white rounded-lg text-base md:text-lg block w-full h-11">
-                <option value="6">
-                  {{ $t('weeklyStatistics') }}
-                </option>
-                <option value="30">
-                  {{ $t('monthlyStatistics') }}
-                </option>
-              </select>
-            </div>
+      <div v-else class="flex rounded-t-3xl bg-slate-100 dark:bg-slate-900 p-5 w-1/4 h-32 items-center justify-between">
+        <div class="space-y-0.5">
+          <div class="text-base md:text-xl font-semibold">
+            {{ $t('worstSellingProducts') }}
           </div>
-          <div v-if="salesChartFilterData === 6">
-            <apexchart type="bar" height="320" :options="profitChartOptions" :series="profitChartSeries">
-            </apexchart>
-          </div>
-          <div v-else>
-            <apexchart type="bar" height="320" :options="salesAreaChartOptions" :series="profitChartSeries">
-            </apexchart>
+          <div class="text-sm md:text-base text-gray-600 dark:text-white">
+            {{ $t('beginStatText') }}
+            <span class="font-bold lowercase">{{ $t('worstSellingProducts') }}</span>
+            {{ $t('endStatText') }}
           </div>
         </div>
-        <div class="w-1/2 bg-slate-100 dark:bg-slate-900 rounded-3xl p-5">
-          <div class="flex flex-col md:flex-row md:items-center md:justify-between px-2 space-y-3 md:space-y-0">
-            <div>
-              <div class="text-base font-bold text-slate-800 dark:text-slate-200">
-                {{ $t('salesStatistics') }}
-              </div>
-              <div class="text-sm text-gray-600 dark:text-white">
-                {{ $t('beginStatText') }}
-                <span class="font-bold">{{ 7 + $t('days') }}</span>
-                {{ $t('endStatText') }}
-              </div>
+        <button @click="openFourth"
+          class="flex items-center justify-center rounded-xl bg-red-100 dark:bg-slate-800 p-3">
+          <ShoppingCartIcon class="w-8 h-8 dark:text-red-400 text-red-600" />
+        </button>
+      </div>
+    </div>
+
+    <div class="flex flex-col md:flex-row space-x-0 md:space-x-4 space-y-2 md:space-y-0">
+      <div class="w-1/2 bg-slate-100 dark:bg-slate-900 rounded-3xl p-5">
+        <div class="flex flex-col md:flex-row md:items-center md:justify-between px-2 space-y-3 md:space-y-0">
+          <div>
+            <div class="text-base font-bold text-slate-800 dark:text-slate-200">
+              {{ $t('profitStatistics') }}
             </div>
-            <div class="flex items-center justify-center rounded-xl bg-blue-100 dark:bg-slate-800 p-2">
-              <ChartBarIcon class="w-8 h-8 dark:text-blue-400 text-blue-600" />
+            <div v-if="salesChartFilterData === 6" class="text-sm text-gray-600 dark:text-white">
+              {{ $t('beginStatText') }}
+              <span class="font-bold lowercase">{{ $t('week') }}</span>
+              {{ $t('endStatText') }}
+            </div>
+            <div v-else class="text-sm text-gray-600 dark:text-white">
+              {{ $t('beginStatText') }}
+              <span class="font-bold lowercase">{{ $t('monthly') }}</span>
+              {{ $t('endStatText') }}
             </div>
           </div>
-          <apexchart type="bar" height="320" :options="salesChartOptions" :series="salesChartSeries">
+          <div>
+            <select v-model="salesChartFilterData"
+              class="bg-blue-100 dark:bg-slate-900 border-none text-slate-900 dark:text-white rounded-lg text-base md:text-lg block w-full h-11">
+              <option value="6">
+                {{ $t('weeklyStatistics') }}
+              </option>
+              <option value="30">
+                {{ $t('monthlyStatistics') }}
+              </option>
+            </select>
+          </div>
+        </div>
+        <div v-if="salesChartFilterData === 6">
+          <apexchart type="bar" height="320" :options="profitChartOptions" :series="profitChartSeries">
           </apexchart>
         </div>
+        <div v-else>
+          <apexchart type="bar" height="320" :options="salesAreaChartOptions" :series="profitChartSeries">
+          </apexchart>
+        </div>
+      </div>
+      <div class="w-1/2 bg-slate-100 dark:bg-slate-900 rounded-3xl p-5">
+        <div class="flex flex-col md:flex-row md:items-center md:justify-between px-2 space-y-3 md:space-y-0">
+          <div>
+            <div class="text-base font-bold text-slate-800 dark:text-slate-200">
+              {{ $t('salesStatistics') }}
+            </div>
+            <div class="text-sm text-gray-600 dark:text-white">
+              {{ $t('beginStatText') }}
+              <span class="font-bold">{{ 7 + $t('days') }}</span>
+              {{ $t('endStatText') }}
+            </div>
+          </div>
+          <div class="flex items-center justify-center rounded-xl bg-blue-100 dark:bg-slate-800 p-2">
+            <ChartBarIcon class="w-8 h-8 dark:text-blue-400 text-blue-600" />
+          </div>
+        </div>
+        <apexchart type="bar" height="320" :options="salesChartOptions" :series="salesChartSeries">
+        </apexchart>
       </div>
     </div>
     <div class="flex-1 bg-slate-100 dark:bg-slate-900 rounded-3xl p-5">
@@ -2373,7 +2631,6 @@ const recommendStatsAreaChartOptions = computed(() => {
       <apexchart type="area" height="320" :options="turnoverStatsAreaChartOptions" :series="turnoverStatsChartSeries">
       </apexchart>
     </div>
-
 
     <div class="flex flex-col md:flex-row space-x-0 md:space-x-4 space-y-2 md:space-y-0">
       <div class="flex-1 bg-slate-100 dark:bg-slate-900 rounded-3xl p-5">
@@ -2458,8 +2715,7 @@ const recommendStatsAreaChartOptions = computed(() => {
           :series="corporateStatsChartSeries">
         </apexchart>
       </div>
-
-      <div class="flex-1 bg-slate-100 dark:bg-slate-900 rounded-3xl p-5">
+      <div class="w-1/2 bg-slate-100 dark:bg-slate-900 rounded-3xl p-5">
         <div class="flex flex-col md:flex-row md:items-center md:justify-between px-2 space-y-3 md:space-y-0">
           <div>
             <div class="text-base font-bold text-slate-800 dark:text-slate-200">
@@ -2481,8 +2737,8 @@ const recommendStatsAreaChartOptions = computed(() => {
     </div>
 
     <div class="flex flex-col md:flex-row space-x-0 md:space-x-4 space-y-2 md:space-y-0">
-      <div class="flex-1 bg-slate-100 dark:bg-slate-900 rounded-3xl p-5">
-        <div class="flex items-center justify-between px-2">
+      <div class="w-1/2 bg-slate-100 dark:bg-slate-900 rounded-3xl p-5">
+        <div class="flex flex-col md:flex-row md:items-center md:justify-between px-2 space-y-3 md:space-y-0">
           <div>
             <div class="text-base font-bold text-slate-800 dark:text-slate-200">
               {{ $t('cashierStatistics') }}
@@ -2752,13 +3008,10 @@ const recommendStatsAreaChartOptions = computed(() => {
           </div>
         </div>
       </div>
-
       <apexchart type="bar" height="320" :options="unprofitableStatsAreaChartOptions"
         :series="unprofitableStatsChartSeries">
       </apexchart>
     </div>
-
-
 
     <div class="flex-1 bg-slate-100 dark:bg-slate-900 rounded-3xl p-5">
       <div class="flex flex-col md:flex-row md:items-center md:justify-between px-2 space-y-3 md:space-y-0">
@@ -2863,43 +3116,85 @@ const recommendStatsAreaChartOptions = computed(() => {
       </apexchart>
     </div>
 
-    <div class="flex-1">
-      <div class="flex flex-col md:flex-row space-x-0 md:space-x-4 space-y-2 md:space-y-0">
-        <div class="w-1/2 bg-slate-100 dark:bg-slate-900 rounded-3xl p-5">
-          <div class="flex flex-col md:flex-row md:items-center md:justify-between px-2 space-y-3 md:space-y-0">
-            <div>
-              <div class="text-base font-bold text-slate-800 dark:text-slate-200">
-                {{ $t('predictStat') }}
-              </div>
-              <div class="text-sm text-gray-600 dark:text-white">
-                {{ $t('predictStatFor') }}
-                <span class="font-bold lowercase">{{ '11 ' + $t('monthly') }}</span>
-                {{ $t('endStatText') }}
-              </div>
+    <div class="flex flex-col md:flex-row space-x-0 md:space-x-4 space-y-2 md:space-y-0">
+      <div class="w-1/2 bg-slate-100 dark:bg-slate-900 rounded-3xl p-5">
+        <div class="flex flex-col md:flex-row md:items-center md:justify-between px-2 space-y-3 md:space-y-0">
+          <div>
+            <div class="text-base font-bold text-slate-800 dark:text-slate-200">
+              {{ $t('predictStat') }}
+            </div>
+            <div class="text-sm text-gray-600 dark:text-white">
+              {{ $t('predictStatFor') }}
+              <span class="font-bold lowercase">{{ '11 ' + $t('monthly') }}</span>
+              {{ $t('endStatText') }}
             </div>
           </div>
-          <apexchart type="area" height="320" :options="predictStatsAreaChartOptions" :series="predictStatsChartSeries">
-          </apexchart>
         </div>
-        <div class="w-1/2 bg-slate-100 dark:bg-slate-900 rounded-3xl p-5">
-          <div class="flex flex-col md:flex-row md:items-center md:justify-between px-2 space-y-3 md:space-y-0">
-            <div>
-              <div class="text-base font-bold text-slate-800 dark:text-slate-200">
-                {{ $t('predictStat') }}
-              </div>
-              <div class="text-sm text-gray-600 dark:text-white">
-                {{ $t('predictStatFor') }}
-                <span class="font-bold lowercase">{{ '11 ' + $t('monthly') }}</span>
-                {{ $t('endStatText') }}
-              </div>
+        <apexchart type="area" height="320" :options="predictStatsAreaChartOptions" :series="predictStatsChartSeries">
+        </apexchart>
+      </div>
+      <div class="w-1/2 bg-slate-100 dark:bg-slate-900 rounded-3xl p-5">
+        <div class="flex flex-col md:flex-row md:items-center md:justify-between px-2 space-y-3 md:space-y-0">
+          <div>
+            <div class="text-base font-bold text-slate-800 dark:text-slate-200">
+              {{ $t('predictStat') }}
+            </div>
+            <div class="text-sm text-gray-600 dark:text-white">
+              {{ $t('predictStatFor') }}
+              <span class="font-bold lowercase">{{ '11 ' + $t('monthly') }}</span>
+              {{ $t('endStatText') }}
             </div>
           </div>
-          <apexchart type="area" height="320" :options="predictCountStatsAreaChartOptions"
-            :series="predictCountStatsChartSeries">
-          </apexchart>
         </div>
+        <apexchart type="area" height="320" :options="predictCountStatsAreaChartOptions"
+          :series="predictCountStatsChartSeries">
+        </apexchart>
       </div>
     </div>
+
+    <!--startexpense-->
+    <div class="flex flex-col md:flex-row space-x-0 md:space-x-4 space-y-2 md:space-y-0">
+      <div class="flex-1 bg-slate-100 dark:bg-slate-900 rounded-3xl p-5">
+        <div class="flex flex-col md:flex-row md:items-center md:justify-between px-2 space-y-3 md:space-y-0">
+          <div>
+            <div class="text-base font-bold text-slate-800 dark:text-slate-200">
+              {{ $t('expenseStatistics') }}
+            </div>
+            <div class="text-sm text-gray-600 dark:text-white">
+              {{ $t('beginStatText') }}
+              <span class="font-bold lowercase">{{ $t('monthly') }}</span>
+              {{ $t('endStatText') }}
+            </div>
+          </div>
+          <div class="relative" ref="expenseDropdown">
+
+
+          </div>
+        </div>
+        <apexchart type="bar" height="320" :options="expenseStatsAreaChartOptions" :series="expenseStatsChartSeries">
+        </apexchart>
+      </div>
+      <div class="w-1/2 bg-slate-100 dark:bg-slate-900 rounded-3xl p-5">
+        <div class="flex flex-col md:flex-row md:items-center md:justify-between px-2 space-y-3 md:space-y-0">
+          <div>
+            <div class="text-base font-bold text-slate-800 dark:text-slate-200">
+              {{ $t('expenseStatistics') }}
+            </div>
+            <div class="text-sm text-gray-600 dark:text-white">
+              {{ $t('beginStatText') }}
+              <span class="font-bold lowercase">{{ $t('monthly') }}</span>
+              {{ $t('endStatText') }}
+            </div>
+          </div>
+          <div class="flex items-center justify-center rounded-xl bg-blue-100 dark:bg-slate-800 p-2">
+            <ChartDonutIcon class="w-8 h-8 dark:text-blue-400 text-blue-600" />
+          </div>
+        </div>
+        <apexchart type="donut" height="320" :options="expenseOptions" :series="expenseSeries">
+        </apexchart>
+      </div>
+    </div>
+    <!--endexpense-->
   </div>
 </template>
 <!-- <style scoped>

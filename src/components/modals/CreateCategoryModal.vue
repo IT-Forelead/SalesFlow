@@ -39,7 +39,7 @@ const createCategory = () => {
 
       }),
     ).then(() => {
-      toast.success(t('agentAddedSuccessfully'))
+      toast.success(t('categoryAddedSuccessfully'))
       isLoading.value = false
       CategoryService.getCategories()
         .then((res) => {
@@ -48,7 +48,7 @@ const createCategory = () => {
           useCategoryStore().renderkey += 1
         })
     }).catch(() => {
-      toast.error(t('errorWhileCreatingAgent'))
+      toast.error(t('errorWhileCreatingAgentCategory'))
       isLoading.value = false
     })
     closeModal()
