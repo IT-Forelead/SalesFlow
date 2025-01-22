@@ -1391,7 +1391,6 @@ const monthStatsChartSeries = computed(() => [
 ])
 
 const monthStatsAreaChartOptions = computed(() => {
-
   return {
     legend: {
       labels: {
@@ -1528,7 +1527,6 @@ onClickOutside(unprofitableDropdown, () => {
     console.log(useDropdownStore().isOpenUnprofitableFilterBy)
   }
 })
-
 
 onClickOutside(unprofitableDropdown, () => {
   if (useDropdownStore().isOpenUnprofitableFilterBy) {
@@ -1828,47 +1826,93 @@ const expenseStatsAreaChartOptions = computed(() => {
 })
 
 const expenseSeries = computed(() => {
-  return expenseStats.value?.map((a) => {
-    const totalAmount = a?.data?.map((item) => item.amount).reduce((sum, amount) => sum + amount, 0);
-    return totalAmount;
-  }) || [];
+  return expenseStats.value.map((item) =>
+  ({
+    name: item.name,
+    data: item.data.map((i) => {
+      return i.amount
+    })
+  })
+  );
 });
 
 const expenseOptions = computed(() => {
-  const formattedTotalAmount = expenseStats.value?.map((a) => {
-    const totalAmount = a?.data?.map((item) => item.amount).reduce((sum, amount) => sum + amount, 0);
-    return useMoneyFormatter(totalAmount);
-  }) || [];
-
   return {
-    chart: {
-      type: 'donut',
-    },
-    labels: expenseStats.value?.map((a) => a?.name) || [],
     legend: {
-      show: true,
       labels: {
         colors: 'rgb(128, 128, 128)',
-        useSeriesColors: false,
       },
     },
-    responsive: [{
-      breakpoint: 480,
-      options: {
-        chart: {
-          width: 200,
+    chart: {
+      height: 350,
+      type: 'area',
+      zoom: {
+        enabled: false,
+      },
+      toolbar: {
+        show: false,
+      },
+    },
+    dataLabels: {
+      enabled: false,
+    },
+    stroke: {
+      curve: 'smooth',
+    },
+    xaxis: {
+      categories: allExpenseDate.value,
+      type: 'date',
+      labels: {
+        style: {
+          fontSize: '12px',
+          colors: '#4a90e2',
         },
-        legend: {
-          position: 'bottom',
+        formatter: function (val) {
+          return moment(val).format('D-MMM')
         },
       },
-    }],
-    tooltip: {
-      y: {
-        formatter: function (value, { seriesIndex }) {
-          return useMoneyFormatter(value);
-        }
-      }
+      tooltip: {
+        enabled: true,
+      },
+      axisBorder: {
+        show: false,
+      },
+      axisTicks: {
+        show: false,
+      },
+    },
+    yaxis: {
+      floating: false,
+      labels: {
+        show: true,
+        formatter: function (val) {
+          return useMoneyFormatter(val)
+        },
+        style: {
+          colors: '#4a90e2',
+        },
+        offsetY: 0,
+        offsetX: 0,
+      },
+      axisBorder: {
+        show: false,
+      },
+      axisTicks: {
+        show: true,
+      },
+    },
+    fill: {
+      opacity: 0.5,
+    },
+    grid: {
+      yaxis: {
+        lines: {
+          offsetX: -30,
+        },
+      },
+      padding: {
+        left: 20,
+      },
     },
   }
 });
@@ -3190,7 +3234,7 @@ const recommendStatsAreaChartOptions = computed(() => {
             <ChartDonutIcon class="w-8 h-8 dark:text-blue-400 text-blue-600" />
           </div>
         </div>
-        <apexchart type="donut" height="320" :options="expenseOptions" :series="expenseSeries">
+        <apexchart type="area" height="320" :options="expenseOptions" :series="expenseSeries">
         </apexchart>
       </div>
     </div>
