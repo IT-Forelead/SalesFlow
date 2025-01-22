@@ -796,7 +796,7 @@ const toggleShowHideButtons = () => {
               </div>
             </div>
             <div class="flex w-full justify-between" v-if="whiteListVisible && navigationGuard('view_agents')">
-              <router-link to="/categories" @click="selectPage()" active-class="active"
+              <router-link to="/whiteList" @click="selectPage()" active-class="active"
                 class="relative h-10 flex items-center w-full hover:bg-blue-300/10 hover:text-blue-600 py-5 text-zinc-400 dark:text-zinc-200 text-lg font-medium space-x-4 cursor-pointer transition-colors duration-300">
                 <div class="w-1.5 h-12 rounded-r-xl first-child-bg-color mr-2"></div>
                 <div class="flex h-10 items-center justify-center rounded-xl w-10 second-child-bg-color">
@@ -1270,7 +1270,7 @@ const toggleShowHideButtons = () => {
                 </div>
                 <div v-if="!whiteListVisible && navigationGuard('view_agents')"
                   class="relative h-10 flex items-center w-full py-5 text-zinc-400 dark:text-zinc-200 text-lg font-medium space-x-2">
-                  <router-link to="/categories" @click="selectPage()" active-class="active"
+                  <router-link to="/whiteList" @click="selectPage()" active-class="active"
                     class="relative h-10 flex items-center w-full hover:bg-blue-300/10 hover:text-blue-600 py-5 text-zinc-400 dark:text-zinc-200 text-lg font-medium space-x-4 cursor-pointer transition-colors duration-300">
                     <div class="w-1.5 h-12 rounded-r-xl first-child-bg-color mr-2"></div>
                     <div class="flex h-10 items-center justify-center rounded-xl w-10 second-child-bg-color">

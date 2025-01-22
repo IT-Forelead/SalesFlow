@@ -1,7 +1,7 @@
 <script setup>
-import { onMounted, onUnmounted, h, ref, computed } from 'vue';
-import CategoryService from '../services/category.service.js';
-import { useCategoryStore } from '../store/category.store.js';
+import {  h, ref, computed } from 'vue';
+import WhiteListService from '../services/whiteList.service';
+import { useWhiteListStore } from '../store/whiteList.store';
 import SearchIcon from '../assets/icons/SearchIcon.vue';
 import Spinners270RingIcon from '../assets/icons/Spinners270RingIcon.vue';
 import { useI18n } from 'vue-i18n';
@@ -14,35 +14,23 @@ import { useModalStore } from '../store/modal.store'
 const { t } = useI18n();
 const globalSearchFromTable = ref('');
 const isLoading = ref(false);
-const CategoryStore = useCategoryStore()
-const CategoryTable = computed(() => CategoryStore.categories)
-const renderkey = computed(() => CategoryStore.renderkey)
+const WhiteListStore = useWhiteListStore()
+const WhiteListTable = computed(() => WhiteListStore.whiteList)
+const renderkey = computed(() => WhiteListStore.renderkey)
+const page = ref(1)
+const pageSize = 30
 
-let isComponentMounted = true;
-
-onMounted(() => {
-  isComponentMounted = true;
-  getCategories();
-});
-
-onUnmounted(() => {
-  isComponentMounted = false;
-});
-
-const getCategories = async () => {
-  isLoading.value = true;
-  try {
-    const res = await CategoryService.getCategories();
-    if (isComponentMounted) {
-      useCategoryStore().clearStore();
-      useCategoryStore().setCategories(res);
-      useCategoryStore().renderkey += 1
-    }
-  } finally {
-    isLoading.value = false;
-    
+const getWhiteList = () => {
+  isLoading.value = true
+  WhiteListService.getWhiteList(pageSize, page.value)
+    .then((res) => {
+      useWhiteListStore().clearStore()
+      useWhiteListStore().setSelectedWhiteList(res.data)
+    }).finally(() => {
+      isLoading.value = false
+    })
   }
-};
+getWhiteList()
 
 const columns = [
   {
@@ -52,44 +40,45 @@ const columns = [
     cell: ({ row }) => `${parseInt(row.id, 10) + 1}`,
   },
   {
-    accessorKey: 'name',
-    header: 'Nomi',
+    accessorKey: 'isActive',
+    header: 'isActive',
   },
   {
     accessorKey: 'createdAt',
     accessorFn: row => moment(row.createdAt).format('DD/MM/YYYY H:mm'),
     header: t('createdAt'),
   },
+  
   {
     accessorKey: 'actions',
     header: t('actions'),
     cell: ({ row }) => h('div', { class: 'flex items-center space-x-2' }, [
-      h('button', { onClick: () => { openEditCategoryModal(row.original) } }, [
+      h('button', { onClick: () => { openEditWhiteListModal(row.original) } }, [
         h(EditIcon, { class: 'w-6 h-6 dark:text-blue-400 text-blue-600 hover:scale-105' })
       ]),
-      h('button', { onClick: () => { openDeleteCategoryModal(row.original) } }, [
+      h('button', { onClick: () => { openDeleteWhiteListModal(row.original) } }, [
         h(TrashIcon, { class: 'w-6 h-6 dark:text-red-400 text-red-600 hover:scale-105' })
       ]),
     ]),
     enableSorting: false,
   },
 ];
-const openDeleteCategoryModal = (data) => {
-  useModalStore().openDeleteCategoryModal()
-  useCategoryStore().setSelectedCategory(data)
+const openDeleteWhiteListModal = (data) => {
+  useModalStore().openDeleteWhiteListModal()
+  useWhiteListStore().setSelectedWhiteList(data)
 }
 
-const openEditCategoryModal = (data) => {
-  useCategoryStore().setSelectedCategory(data)
-  useModalStore().openEditCategoryModal()
-  getCategories(data)
+const openEditWhiteListModal = (data) => {
+  useWhiteListStore().setSelectedWhiteList(data)
+  useModalStore().openEditWhiteListModal()
+  getWhiteList(data)
 }
 </script>
 
 <template>
   <div class="p-4 md:p-8">
     <div class="text-slate-900 dark:text-white text-2xl md:text-3xl font-semibold mb-6">
-      {{ $t('categories') }}
+      {{ $t('WhiteLists') }}
     </div>
     <div class="flex flex-col md:flex-row items-center justify-between">
       <div class="relative w-full md:w-auto my-2 md:mb-0 order-2 md:order-1">
@@ -104,9 +93,9 @@ const openEditCategoryModal = (data) => {
         />
       </div>
       <div class="w-full md:w-auto order-1 md:order-2">
-        <button @click="useModalStore().openCreateCategoryModal()"
+        <button @click="useModalStore().openCreateWhiteListModal()"
           class="w-full md:w-auto py-2 px-4 rounded-full text-white text-lg font-medium bg-blue-500 cursor-pointer hover:bg-blue-600">
-          {{ $t('addCategory') }}
+          {{ $t('addWhiteList') }}
         </button>
       </div>
     </div>
@@ -116,7 +105,7 @@ const openEditCategoryModal = (data) => {
     <CTable
     :key="renderkey"
       v-else
-      :data="CategoryTable"
+      :data="WhiteListTable"
       :columns="columns"
       :filter="globalSearchFromTable"
     />

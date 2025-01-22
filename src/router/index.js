@@ -183,6 +183,13 @@ const routes = [
     beforeEnter: navigationGuards('view_agents'),
   },
   {
+    path: '/whiteList',
+    name: 'WhiteList',
+    component: () => import('../pages/WhiteList.vue'),
+    meta: { layout: 'dashboard' },
+    beforeEnter: navigationGuards('view_agents'),
+  },
+  {
     path: '/expenses',
     name: 'Expenses',
     component: () => import('../pages/Expenses.vue'),

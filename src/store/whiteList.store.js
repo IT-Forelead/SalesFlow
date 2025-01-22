@@ -3,12 +3,12 @@ import { defineStore } from 'pinia'
 export const useWhiteListStore = defineStore('whiteList', {
   state: () => ({
     whiteList: [],
-    totalOrders:0,
-    selectedOrder: {},
+    selectedWhiteList: {},
     currentPage: 1,
     params: {},
     isFromCashback: false,
     renderkey: 0,
+    
   }),
   actions: {
     setwhiteList(data) {
@@ -20,8 +20,8 @@ export const useWhiteListStore = defineStore('whiteList', {
     
     
     clearStore() {
-      this.orders = []
-      this.ordersStat = []
+      this.whiteList = []
+      this.selectedWhiteList = {}
     },
   },
 })

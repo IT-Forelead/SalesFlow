@@ -65,7 +65,10 @@ export const useModalStore = defineStore('modal', {
     isOpenCreateExpenseModal: false,
     isOpenEditExpenseModal: false,
     isOpenCreateInvestModal: false,
-    isOpenDeleteInvestModal: false
+    isOpenDeleteInvestModal: false,
+    isOpenEditWhiteListModal: false,
+    isOpenDeleteWhiteListModal: false,
+    isOpenCreateWhiteListModal: false,
   }),
   actions: {
     openEditTelegramBotModal() {
@@ -440,6 +443,24 @@ export const useModalStore = defineStore('modal', {
     },
     closeDeleteInvestModal() {
       this.isOpenDeleteInvestModal = false
+    },
+    openEditWhiteListModal() {
+      this.isOpenEditWhiteListModal = true
+    },
+    closeEditWhiteListModal() {
+      this.isOpenEditWhiteListModal = false
+    },
+    openDeleteWhiteListModal() {
+      this.isOpenDeleteWhiteListModal = true
+    },
+    closeDeleteWhiteListModal() {
+      this.isOpenDeleteWhiteListModal = false
+    },
+    openCreateWhiteListModal() {
+      this.isOpenCreateWhiteListModal = true
+    },
+    closeCreateWhiteListModal() {
+      this.isOpenCreateWhiteListModal = false
     },
   }
 })

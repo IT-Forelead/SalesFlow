@@ -6,7 +6,7 @@ class WhiteListService {
   }
 
   async addWhiteList(data) {
-    return AxiosService.post(`/id/add`, data)
+    return AxiosService.post(`/ip/add`, data)
   }
 
   async updateWhiteList(data) {
