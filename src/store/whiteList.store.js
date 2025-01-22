@@ -5,8 +5,6 @@ export const useWhiteListStore = defineStore('whiteList', {
     whiteList: [],
     selectedWhiteList: {},
     currentPage: 1,
-    params: {},
-    isFromCashback: false,
     renderkey: 0,
     
   }),

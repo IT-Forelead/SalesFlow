@@ -57,6 +57,7 @@ import EditExpenseModal from './modals/EditExpenseModal.vue'
 import DeleteUnprofitableProduct from './modals/DeleteUnprofitableProduct.vue'
 import HiddenUnprofitableProductsModal from './modals/HiddenUnprofitableProductsModal.vue'
 import UnhideUnprofitableProduct from './modals/UnhideUnprofitableProduct.vue'
+import CreateWhiteListModal from './modals/CreateWhiteListModal.vue'
 
 import CreateInvestModal from './modals/CreateInvestModal.vue'
 import DeleteInvestModal from './modals/DeleteInvestModal.vue'
@@ -183,6 +184,9 @@ onUnmounted(() => {
   <EditExpenseModal />
   <CreateInvestModal />
   <DeleteInvestModal />
+  <!-- <EditWhiteListModal /> -->
+  <CreateWhiteListModal />
+  <!-- <DeleteWhiteListModal /> -->
 </template>
 
 <style scoped></style>
