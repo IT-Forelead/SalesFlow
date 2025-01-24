@@ -2,69 +2,73 @@
 import { ref, computed } from 'vue';
 import { useModalStore } from '../../store/modal.store.js';
 import CModal from '../common/CModal.vue';
-import { useInvestStore } from '../../store/invest.store.js';
 import WarningCircleBoldIcon from '../../assets/icons/WarningCircleBoldIcon.vue';
 import { toast } from 'vue-sonner';
 import { useI18n } from 'vue-i18n';
-import InvestService from '../../services/invest.service.js';
 import Spinners270RingIcon from '@/assets/icons/Spinners270RingIcon.vue';
+import { useWhiteListStore } from '../../store/whiteList.store.js';
+import WhiteListService from '../../services/whiteList.service.js';
+
 
 const { t } = useI18n();
+
 const modalStore = useModalStore();
-const investStore = useInvestStore();
+const whiteListStore = useWhiteListStore();
 const isLoading = ref(false);
-const selectedInvest = computed(() => investStore.selectedInvest);
+const selectedWhiteList = computed(() => whiteListStore.selectedWhiteList);
 
 const closeModal = () => {
-  modalStore.closeDeleteInvestModal();
-  investStore.setSelectedInvest({});
+  modalStore.closeDeleteWhiteListModal();
+  whiteListStore.setSelectedWhiteList({});
 };
- 
-const deleteInvest = () => {
+
+const deleteWhiteList = () => {
   isLoading.value = true
-  console.log(selectedInvest.value.id);
   
-  InvestService.deleteInvest(selectedInvest.value.id)
+  WhiteListService.deleteWhiteList(selectedWhiteList.value.id)
+  
     .then(() => {
-      toast.success(t('investDeletedSuccessfully'))
-      InvestService.getInvestsByFilters({})
+      toast.success(t('clientDeletedSuccessfully'))
+      WhiteListService.getWhiteList()
         .then((res) => {
-          investStore.clearStore()
-          investStore.setInvests(res.data)
-          investStore.renderkey += 1
+          whiteListStore.clearStore()
+          whiteListStore.setWhiteList(res.data)
+          whiteListStore.renderkey +=1
         })
         .catch((err) => {
           toast.error(err.message)
         })
       isLoading.value = false
       closeModal()
-    }).catch((e) => {
-      console.log(e)
-      toast.error(t('errorWhileDeletingInvest'))
+    }).catch(() => {
+      console.log('bbbbbbbbbbb')
+
+      toast.error(t('errorWhileDeletingAgent'))
       isLoading.value = false
       closeModal()
     })
-}
+  }
+
 </script>
 
 <template>
-  <CModal :is-open="modalStore.isOpenDeleteInvestModal" v-if="modalStore.isOpenDeleteInvestModal" @close="closeModal()">
+  <CModal :is-open="modalStore.isOpenDeleteWhiteListModal" v-if="modalStore.isOpenDeleteWhiteListModal" @close="closeModal()">
     <template v-slot:header>
-      {{ $t('deleteInvest') }}
+      {{ $t('deleteWhiteList') }}
     </template>
     <template v-slot:body>
       <div class="space-y-16">
         <div class="space-y-2">
           <div class="bg-slate-100 dark:text-white dark:bg-slate-700 px-3 py-2 text-lg font-medium rounded-xl">
-            {{ $t('investInformation') }}
+            {{ $t('ipAddress') }}
           </div>
           <ul class="divide-y divide-slate-100">
             <li class="flex items-center dark:text-white justify-between py-2 px-3">
               <div class="text-base">
-                {{ $t('nameInvest') }}
+                {{ $t('nameWhiteList') }}
               </div>
               <div class="text-base font-medium">
-                {{ selectedInvest?.name }}
+                {{ selectedWhiteList?.ipAddress }}
               </div>
             </li>
           </ul>
@@ -76,10 +80,8 @@ const deleteInvest = () => {
               <h3 class="mb-5 text-lg md:text-xl text-center font-normal dark:text-white text-slate-500">
                 {{ $t('areYouSureYouWantToDeleteThisInformation') }}
               </h3>
-              <div
-                class="flex flex-col md:flex-row items-center justify-center md:justify-between space-y-4 md:space-y-0 md:space-x-4">
-                <button type="button" @click="closeModal()"
-                  class="w-full md:w-auto py-2 px-4 rounded-xl text-gray-900 text-base font-medium bg-slate-50 cursor-pointer hover:bg-slate-200 border md:flex-1">
+              <div class="flex flex-col md:flex-row items-center justify-center md:justify-between space-y-4 md:space-y-0 md:space-x-4">
+                <button type="button" @click="closeModal()" class="w-full md:w-auto py-2 px-4 rounded-xl text-gray-900 text-base font-medium bg-slate-50 cursor-pointer hover:bg-slate-200 border md:flex-1">
                   {{ $t('no') }}
                 </button>
                 <button v-if="isLoading"
@@ -89,8 +91,8 @@ const deleteInvest = () => {
                   {{ $t('yesOfCourse') }}
                 </button>
 
-                <button v-else @click="deleteInvest()"
-                  class="w-full md:w-auto py-2 px-4 rounded-xl text-white text-base font-medium bg-red-600 cursor-pointer hover:bg-red-700">
+                <button v-else @click="deleteWhiteList()"
+                        class="w-full md:w-auto py-2 px-4 rounded-xl text-white text-base font-medium bg-red-600 cursor-pointer hover:bg-red-700">
                   {{ $t('yesOfCourse') }}
                 </button>
               </div>

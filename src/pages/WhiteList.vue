@@ -25,7 +25,7 @@ const getWhiteList = () => {
   WhiteListService.getWhiteList(pageSize, page.value)
     .then((res) => {
       useWhiteListStore().clearStore()
-      useWhiteListStore().setSelectedWhiteList(res.data)
+      useWhiteListStore().setWhiteList(res.data)
     }).finally(() => {
       isLoading.value = false
     })
@@ -40,6 +40,10 @@ const columns = [
     cell: ({ row }) => `${parseInt(row.id, 10) + 1}`,
   },
   {
+    accessorKey: 'ipAddress',
+    header: 'ipAddress',
+  },
+  {
     accessorKey: 'isActive',
     header: 'isActive',
   },
@@ -49,30 +53,32 @@ const columns = [
     header: t('createdAt'),
   },
   
-  // {
-  //   accessorKey: 'actions',
-  //   header: t('actions'),
-    // cell: ({ row }) => h('div', { class: 'flex items-center space-x-2' }, [
-    //   // h('button', { onClick: () => { openEditWhiteListModal(row.original) } }, [
-    //   //   h(EditIcon, { class: 'w-6 h-6 dark:text-blue-400 text-blue-600 hover:scale-105' })
-    //   // ]),
-    //   // h('button', { onClick: () => { openDeleteWhiteListModal(row.original) } }, [
-    //   //   h(TrashIcon, { class: 'w-6 h-6 dark:text-red-400 text-red-600 hover:scale-105' })
-    //   // ]),
-    // ]),
-    // enableSorting: false,
-  // },
+  
+  
+  {
+    accessorKey: 'actions',
+    header: t('actions'),
+    cell: ({ row }) => h('div', { class: 'flex items-center space-x-2' }, [
+      h('button', { onClick: () => { openEditWhiteListModal(row.original) } }, [
+        h(EditIcon, { class: 'w-6 h-6 dark:text-blue-400 text-blue-600 hover:scale-105' })
+      ]),
+      h('button', { onClick: () => { openDeleteWhiteListModal(row.original) } }, [
+        h(TrashIcon, { class: 'w-6 h-6 dark:text-red-400 text-red-600 hover:scale-105' })
+      ]),
+    ]),
+    enableSorting: false,
+  },
 ];
-// const openDeleteWhiteListModal = (data) => {
-//   useModalStore().openDeleteWhiteListModal()
-//   useWhiteListStore().setSelectedWhiteList(data)
-// }
+const openDeleteWhiteListModal = (data) => {
+  useModalStore().openDeleteWhiteListModal()
+  useWhiteListStore().setSelectedWhiteList(data)
+}
 
-// const openEditWhiteListModal = (data) => {
-//   useWhiteListStore().setSelectedWhiteList(data)
-//   useModalStore().openEditWhiteListModal()
-//   getWhiteList(data)
-// }
+const openEditWhiteListModal = (data) => {
+  useWhiteListStore().setSelectedWhiteList(data)
+  useModalStore().openEditWhiteListModal()
+  getWhiteList(data)
+}
 </script>
 
 <template>

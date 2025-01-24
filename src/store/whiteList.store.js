@@ -9,7 +9,7 @@ export const useWhiteListStore = defineStore('whiteList', {
     
   }),
   actions: {
-    setwhiteList(data) {
+    setWhiteList(data) {
       this.whiteList.push(...data)
     },
     setSelectedWhiteList(data) {

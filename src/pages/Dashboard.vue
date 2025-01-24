@@ -2351,7 +2351,7 @@ const recommendStatsAreaChartOptions = computed(() => {
             </div>
             <div class="flex items-center space-x-2">
               <div @click="cleanFilterData()"
-                class="basis-1/3 w-full bg-slate-100 hover:bg-slate-300 cursor-pointer select-none py-3 rounded-lg flex items-center justify-center">
+                class="basis-1/3 w-full bg-slate-100 dark:bg-slate-600 hover:bg-slate-300 cursor-pointer select-none py-3 rounded-lg flex items-center justify-center">
                 <span>{{ $t('cleaning') }}</span>
               </div>
               <div class="basis-2/3">
@@ -2435,7 +2435,7 @@ const recommendStatsAreaChartOptions = computed(() => {
               </div>
               <div class="flex items-center space-x-2">
                 <div @click="cleanFilterCorporateData()"
-                  class="basis-1/3 w-full bg-slate-100 hover:bg-slate-300 cursor-pointer select-none py-3 rounded-lg flex items-center justify-center">
+                  class="basis-1/3 w-full bg-slate-100 dark:bg-slate-600 hover:bg-slate-300 cursor-pointer select-none py-3 rounded-lg flex items-center justify-center">
                   <span>{{ $t('cleaning') }}</span>
                 </div>
                 <div class="basis-2/3">
@@ -2651,7 +2651,7 @@ const recommendStatsAreaChartOptions = computed(() => {
             </div>
             <div class="flex items-center space-x-2">
               <div @click="cleanFilterRecommendData()"
-                class="basis-1/3 w-full bg-slate-100 hover:bg-slate-300 cursor-pointer select-none py-3 rounded-lg flex items-center justify-center">
+                class="basis-1/3 w-full bg-slate-100 dark:bg-slate-600 hover:bg-slate-300 cursor-pointer select-none py-3 rounded-lg flex items-center justify-center">
                 <span>{{ $t('cleaning') }}</span>
               </div>
               <div class="basis-2/3">
@@ -2733,7 +2733,7 @@ const recommendStatsAreaChartOptions = computed(() => {
             </div>
             <div class="flex items-center space-x-2">
               <div @click="cleanFilterUnprofitableData()"
-                class="basis-1/3 w-full bg-slate-100 hover:bg-slate-300 cursor-pointer select-none py-3 rounded-lg flex items-center justify-center">
+                class="basis-1/3 w-full bg-slate-100 dark:bg-slate-600 hover:bg-slate-300 cursor-pointer select-none py-3 rounded-lg flex items-center justify-center">
                 <span>{{ $t('cleaning') }}</span>
               </div>
               <div class="basis-2/3">
@@ -2823,7 +2823,7 @@ const recommendStatsAreaChartOptions = computed(() => {
             </div>
             <div class="flex items-center space-x-2">
               <div @click="cleanFilterVarietyData()"
-                class="basis-1/3 w-full bg-slate-100 hover:bg-slate-300 cursor-pointer select-none py-3 rounded-lg flex items-center justify-center">
+                class="basis-1/3 w-full bg-slate-100 dark:bg-slate-600 hover:bg-slate-300 cursor-pointer select-none py-3 rounded-lg flex items-center justify-center">
                 <span>{{ $t('cleaning') }}</span>
               </div>
               <div class="basis-2/3">
