@@ -21,7 +21,7 @@ const hideRecommendProduct = () => {
   ProductService.hideRecommendProduct(useProductStore().selectedProduct.productId)
     .then(() => {
       toast.success(t('recommendDeletedSuccessfully'))
-      ProductService.getRecommendStats(
+      ProductService.getRecommendProducts(
         {
           intervalType: productStore.intervalType,
           limit: productStore.limit

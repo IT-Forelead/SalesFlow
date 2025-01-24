@@ -14,7 +14,7 @@ const { t } = useI18n()
 const productStore = useProductStore()
 const renderKey = computed(() => productStore.renderKey)
 const isLoading = ref(false)
-const hiddenRecommendProducts = computed(() => productStore.hiddenRecommendProducts)
+const hiddenRecentProducts = computed(() => productStore.hiddenRecentProducts)
 
 const columns = [
   {
@@ -36,7 +36,7 @@ const columns = [
     cell: ({ row }) => h('div', { class: 'flex items-center space-x-2' }, [
       h('button', {
         onClick: () => {
-          openUnhideRecommendProductModal(row.original)
+          openUnhideRecentProductModal(row.original)
         },
       }, [
         h(EyeIcon, { class: 'w-6 h-6 text-blue-600 dark:text-blue-400 hover:scale-105' }),
@@ -46,40 +46,40 @@ const columns = [
   },
 ]
 
-const openUnhideRecommendProductModal = (data) => {
-  useProductStore().setSelectedHiddenRecommendProduct(data)
-  useModalStore().openUnhideRecommendProductModal()
+const openUnhideRecentProductModal = (data) => {
+  useProductStore().setSelectedHiddenRecentProduct(data)
+  useModalStore().openUnhideRecentProductModal()
 }
 
-const filterRecommendData = reactive({
+const filterRecentData = reactive({
   intervalType: useProductStore().intervalType,
   limit: useProductStore().limit,
 })
 
-const cleanFilterRecommendData = () => {
-  filterRecommendData.intervalType = ""
-  filterRecommendData.limit = 0
+const cleanFilterRecentData = () => {
+  filterRecentData.intervalType = ""
+  filterRecentData.limit = 0
 }
 
-const getRecommendProducts = () => {
+const getRecentProducts = () => {
   isLoading.value = true
-  ProductService.getRecommendProducts(
+  ProductService.getRecentProducts(
     {
-      intervalType: filterRecommendData.intervalType,
-      limit: filterRecommendData.limit
+      intervalType: filterRecentData.intervalType,
+      limit: filterRecentData.limit
     }
   )
     .then((res) => {
       useProductStore().clearStore()
-      useProductStore().setRecommendProducts(res)
+      useProductStore().setRecentProducts(res)
     }).finally(() => {
       isLoading.value = false
     })
 }
 
 onMounted(() => {
-  cleanFilterRecommendData
-  getRecommendProducts()
+  cleanFilterRecentData
+  getRecentProducts()
   // ProductService.getProductStats()
   //   .then((res) => {
   //     productStats.value = res
@@ -87,19 +87,19 @@ onMounted(() => {
 })
 
 const closeModal = () => {
-  useModalStore().closeHiddenRecommendProductsModal()
+  useModalStore().closeHiddenRecentProductsModal()
   productStore.setSelectedProduct({})
 }
 </script>
 <template>
-  <CModal :is-open="useModalStore().isOpenHiddenRecommendProductsModal"
-    v-if="useModalStore().isOpenHiddenRecommendProductsModal" @close=closeModal :key="renderKey">
+  <CModal :is-open="useModalStore().isOpenHiddenRecentProductsModal"
+    v-if="useModalStore().isOpenHiddenRecentProductsModal" @close=closeModal :key="renderKey">
     <template v-slot:header>
-      {{ $t('hiddenRecommendProducts') }}
+      {{ $t('hiddenRecentProducts') }}
     </template>
     <template v-slot:body>
       <div class="space-y-4">
-        <CTable :data="hiddenRecommendProducts" :columns="columns" />
+        <CTable :data="hiddenRecentProducts" :columns="columns" />
       </div>
     </template>
     <template v-slot:footer>

@@ -12,9 +12,9 @@ export const useDropdownStore = defineStore('dropdown', {
     isOpenMonthFilterBy: false,
     isOpenPredictFilterBy: false,
     isOpenRecommendFilterBy: false,
+    isOpenRecentFilterBy: false,
     isOpenUnprofitableFilterBy: false,
     isOpenCorporateFilterBy: false,
-
     isOpenExpenseFilterBy: false,
   }),
   actions: {
@@ -45,7 +45,6 @@ export const useDropdownStore = defineStore('dropdown', {
     closeSelectTheme() {
       this.isOpenSelectTheme = false
     },
-
     toggleVarietyFilterBy() {
       this.isOpenVarietyFilterBy = !this.isOpenVarietyFilterBy
     },
@@ -64,9 +63,11 @@ export const useDropdownStore = defineStore('dropdown', {
     toggleUnprofitableFilterBy() {
       this.isOpenUnprofitableFilterBy = !this.isOpenUnprofitableFilterBy
     },
-
     toggleExpenseFilterBy() {
       this.isOpenExpenseFilterBy = !this.isOpenExpenseFilterBy
     },
+    toggleRecentFilterBy() {
+      this.isOpenRecentFilterBy = !this.isOpenRecentFilterBy
+    }
   }
 })

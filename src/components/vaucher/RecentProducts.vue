@@ -11,15 +11,14 @@ import FunnelIcon from '../../assets/icons/FunnelIcon.vue'
 import EyeSlashIcon from '../../assets/icons/EyeSlashIcon.vue'
 import { onClickOutside } from '@vueuse/core'
 import CTable from '../common/CTable.vue'
-import { roundFloatToTwoDecimal } from '@/mixins/utils'
 
 const { t } = useI18n()
 const isLoading = ref(false)
 const globalSearchFromTable = ref('')
-const productStats = ref()
+// const productStats = ref()
 const productStore = useProductStore()
 
-const recommendProducts = computed(() => productStore.recommendProducts)
+const recentProducts = computed(() => productStore.recentProducts)
 const renderKey = computed(() => productStore.renderKey)
 
 const columns = [
@@ -30,37 +29,32 @@ const columns = [
     enableSorting: false,
   },
   {
-    accessorKey: 'productName',
-    header: t('productName')
+    accessorKey: 'serialId',
+    header: t('serialId'),
   },
   {
-    accessorKey: 'salesRatio',
-    header: t('salesRatio')
+    accessorKey: 'name',
+    header: t('name'),
   },
   {
-    accessorKey: 'totalAmount',
-    header: t('totalAmount'),
-    cell: ({ row }) => roundFloatToTwoDecimal(row.original.totalAmount),
+    accessorKey: 'packaging',
+    header: t('packaging')
+  },
+  {
+    accessorKey: 'barcode',
+    header: t('barcode')
   },
   {
     accessorKey: 'saleType',
-    header: t('saleType')
+    header: t('saleType'),
   },
   {
-    accessorKey: 'totalOrders',
-    header: t('totalOrders')
+    accessorKey: 'remaining',
+    header: t('remaining')
   },
   {
-    accessorKey: 'totalRevenue',
-    header: t('totalRevenue'),
-  },
-  {
-    accessorKey: 'totalProfit',
-    header: t('totalProfit')
-  },
-  {
-    accessorKey: 'left',
-    header: t('left')
+    accessorKey: 'sold',
+    header: t('sold')
   },
   {
     accessorKey: 'actions',
@@ -68,7 +62,7 @@ const columns = [
     cell: ({ row }) => h('div', { class: 'flex items-center space-x-2' }, [
       h('button', {
         onClick: () => {
-          openDeleteRecommendProductModal(row.original)
+          openDeleteRecentProductModal(row.original)
         },
       }, [
         h(EyeSlashIcon, { class: 'w-6 h-6 text-red-600 hover:scale-105' }),
@@ -78,47 +72,47 @@ const columns = [
   },
 ]
 
-const openDeleteRecommendProductModal = (data) => {
-  useModalStore().openDeleteRecommendProductModal()
+const openDeleteRecentProductModal = (data) => {
+  useModalStore().openDeleteRecentProductModal()
   productStore.setSelectedProduct(data)
 }
 
-const openHiddenRecommendProductsModal = () => {
-  ProductService.getHiddenRecommendProducts(1, 30).then((res) => {
+const openHiddenRecentProductsModal = () => {
+  ProductService.getHiddenRecentProducts(1, 30).then((res) => {
     productStore.clearStore()
-    productStore.setHiddenRecommendProducts(res.data)
-    useModalStore().openHiddenRecommendProductsModal()
+    productStore.setHiddenRecentProducts(res.data)
+    useModalStore().openHiddenRecentProductsModal()
   })
 }
 
-const filterRecommendData = reactive({
+const filterRecentData = reactive({
   intervalType: productStore.intervalType,
   limit: productStore.limit,
 })
 
-const cleanFilterRecommendData = () => {
-  filterRecommendData.intervalType = ""
-  filterRecommendData.limit = 0
+const cleanFilterRecentData = () => {
+  filterRecentData.intervalType = ""
+  filterRecentData.limit = 0
 }
 
-const submitRecommendStatsFilterData = () => {
-  if (!filterRecommendData.intervalType) {
+const submitRecentStatsFilterData = () => {
+  if (!filterRecentData.intervalType) {
     toast.warning(t('plsSelectIntervalType'))
-  } else if (!filterRecommendData.limit) {
+  } else if (!filterRecentData.limit) {
     toast.warning(t('plsSelectLimit'))
   } else {
     isLoading.value = true
-    productStore.setIntervalType(filterRecommendData.intervalType)
-    productStore.setLimit(filterRecommendData.limit)
-    ProductService.getRecommendProducts({
-      intervalType: filterRecommendData.intervalType,
-      limit: filterRecommendData.limit,
+    productStore.setIntervalType(filterRecentData.intervalType)
+    productStore.setLimit(filterRecentData.limit)
+    ProductService.getRecentProducts({
+      intervalType: filterRecentData.intervalType,
+      limit: filterRecentData.limit,
     }).then((res) => {
       productStore.clearStore()
-      productStore.setRecommendProducts(res)
+      productStore.setRecentProducts(res)
       isLoading.value = false
-      if (useDropdownStore().isOpenRecommendFilterBy) {
-        useDropdownStore().toggleRecommendFilterBy()
+      if (useDropdownStore().isOpenRecentFilterBy) {
+        useDropdownStore().toggleRecentFilterBy()
       }
     }).catch(() => {
       isLoading.value = false
@@ -126,43 +120,43 @@ const submitRecommendStatsFilterData = () => {
   }
 }
 
-const getRecommendProducts = () => {
+const getRecentProducts = () => {
   isLoading.value = true
-  ProductService.getRecommendProducts(
+  ProductService.getRecentProducts(
     {
-      intervalType: filterRecommendData.intervalType,
-      limit: filterRecommendData.limit
+      intervalType: filterRecentData.intervalType,
+      limit: filterRecentData.limit
     }
   )
     .then((res) => {
       productStore.clearStore()
-      productStore.setRecommendProducts(res)
+      productStore.setRecentProducts(res)
     }).finally(() => {
       isLoading.value = false
     })
 }
 
 onMounted(() => {
-  cleanFilterRecommendData
-  getRecommendProducts()
-  // ProductService.getProductStats()
+  cleanFilterRecentData
+  getRecentProducts()
+  // ProductService.getRecentProducts()
   //   .then((res) => {
   //     productStats.value = res
   //   })
 })
 
-const recommendDropdown = ref()
+const recentDropdown = ref()
 
-onClickOutside(recommendDropdown, () => {
-  if (useDropdownStore().isOpenRecommendFilterBy) {
-    useDropdownStore().toggleRecommendFilterBy()
+onClickOutside(recentDropdown, () => {
+  if (useDropdownStore().isOpenRecentFilterBy) {
+    useDropdownStore().toggleRecentFilterBy()
   }
 })
 </script>
 
 <template>
   <div class="text-slate-900 text-2xl md:text-3xl font-semibold mb-6">
-    {{ $t('recommendProducts') }}
+    {{ $t('recentProducts') }}
   </div>
 
   <!-- Search and Filter Section -->
@@ -178,25 +172,25 @@ onClickOutside(recommendDropdown, () => {
 
     <!-- Filter Dropdown Section -->
     <div class="flex justify-between space-x-10 w-full md:w-auto order-1 md:order-2">
-      <div class="relative" ref="recommendDropdown">
-        <div @click="useDropdownStore().toggleRecommendFilterBy()"
+      <div class="relative" ref="recentDropdown">
+        <div @click="useDropdownStore().toggleRecentFilterBy()"
           class="border-none w-40 select-none text-gray-900 bg-white dark:text-zinc-200 dark:bg-slate-800 shadow rounded-lg p-2 px-5 flex items-center hover:bg-gray-100 cursor-pointer space-x-1">
           <FunnelIcon class="w-5 h-5 dark:text-zinc-50 text-gray-400" />
           <span>{{ $t('filter') }}</span>
         </div>
-        <div v-if="useDropdownStore().isOpenRecommendFilterBy"
+        <div v-if="useDropdownStore().isOpenRecentFilterBy"
           class="absolute dark:bg-slate-800  w-80  bg-white shadow rounded-xl  p-3 z-20 top-12 right-0 space-y-3">
           <div class=" items-center space-x-1">
             <div class="flex">
             </div>
             <div class="flex justify-between space-x-4"><label for="" class="dark:text-white w-1/2">
                 {{ $t('limit') }}
-                <input v-model="filterRecommendData.limit" type="number" min="0"
+                <input v-model="filterRecentData.limit" type="number" min="0"
                   class="border-none text-gray-500 bg-gray-100 rounded-lg     dark:bg-slate-600 dark:text-white w-full" />
               </label>
               <label for="" class="dark:text-white w-1/2">
                 {{ $t('intervalType') }}
-                <select v-model="filterRecommendData.intervalType"
+                <select v-model="filterRecentData.intervalType"
                   class="bg-blue-100 dark:bg-slate-600 border-none text-slate-900 dark:text-white rounded-lg text-base md:text-lg block w-full h-11">
                   <option value="day">
                     {{ $t('day') }}
@@ -215,7 +209,7 @@ onClickOutside(recommendDropdown, () => {
             </div>
           </div>
           <div class="flex items-center space-x-2">
-            <div @click="cleanFilterRecommendData()"
+            <div @click="cleanFilterRecentData()"
               class="basis-1/3 w-full bg-slate-100 hover:bg-slate-300 cursor-pointer select-none py-3 rounded-lg flex items-center justify-center">
               <span>{{ $t('cleaning') }}</span>
             </div>
@@ -225,7 +219,7 @@ onClickOutside(recommendDropdown, () => {
                 <Spinners270RingIcon class="mr-2 w-5 h-5 text-gray-200 animate-spin fill-gray-600 dark:fill-gray-300" />
                 <span>{{ $t('loading') }}</span>
               </div>
-              <div v-else @click="submitRecommendStatsFilterData()"
+              <div v-else @click="submitRecentStatsFilterData()"
                 class="w-full bg-blue-500 hover:bg-blue-600 cursor-pointer select-none py-3 text-white rounded-lg flex items-center justify-center">
                 <span>{{ $t('filter') }}</span>
               </div>
@@ -233,14 +227,14 @@ onClickOutside(recommendDropdown, () => {
           </div>
         </div>
       </div>
-      <button @click="openHiddenRecommendProductsModal"
-        class="w-full md:w-auto py-2 px-4 rounded-full text-white text-lg font-medium bg-blue-500 cursor-pointer hover:bg-blue-600">{{ t('hiddenRecommendProducts') }}</button>
+      <button @click="openHiddenRecentProductsModal"
+        class="w-full md:w-auto py-2 px-4 rounded-full text-white text-lg font-medium bg-blue-500 cursor-pointer hover:bg-blue-600">{{ t('hiddenRecentProducts') }}</button>
     </div>
   </div>
   <div v-if="isLoading" class="flex items-center justify-center h-20">
     <Spinners270RingIcon class="w-6 h-6 text-gray-500 dark:text-zinc-300 animate-spin" />
   </div>
-  <CTable v-else :data="recommendProducts" :key="renderKey" :columns="columns" :filter="globalSearchFromTable" />
+  <CTable v-else :data="recentProducts" :key="renderKey" :columns="columns" :filter="globalSearchFromTable" />
 </template>
 
 <style scoped></style>

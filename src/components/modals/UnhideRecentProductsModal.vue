@@ -13,28 +13,30 @@ const isLoading = ref(false)
 const productStore = useProductStore()
 
 const closeModal = () => {
-  useModalStore().closeDeleteUnprofitableProductModal()
+  useModalStore().closeUnhideRecentProductModal()
   productStore.setSelectedProduct({})
 }
 
-const hideUnprofitableProduct = () => {
-  ProductService.hideUnprofitableProduct(useProductStore().selectedProduct.productId)
+const unhideRecentProduct = () => {
+  ProductService.unhideRecentProduct(useProductStore().selectedHiddenRecentProduct.productId)
     .then(() => {
-      toast.success(t('unprofitableDeletedSuccessfully'))
-      ProductService.getUnprofitableProducts(
-        {
-          intervalType: productStore.intervalType,
-          limit: productStore.limit
-        }
-      )
+      toast.success(t('recentUnhidedSuccessfully'))
+      ProductService.getHiddenRecentProducts(1, 30)
         .then((res) => {
-          productStore.clearStore()
-          productStore.setUnprofitableProducts(res)
-          closeModal()
-          productStore.renderKey += 1
+          productStore.clearHiddenRecentProducts()
+          productStore.setHiddenRecentProducts(res.data)
+          ProductService.getRecentProducts({
+            intervalType: productStore.intervalType,
+            limit: productStore.limit,
+          }).then((res) => {
+            productStore.clearRecentProducts()
+            productStore.setRecentProducts(res)
+            productStore.renderKey += 1
+            closeModal()
+          })
         })
         .catch(() => {
-          toast.error(t('errorWhileDeletingUnprofitable'))
+          toast.error(t('errorWhileDeletingRecent'))
           isLoading.value = false
         })
         .finally(() => {
@@ -45,10 +47,10 @@ const hideUnprofitableProduct = () => {
 </script>
 
 <template>
-  <CModal :is-open="useModalStore().isOpenDeleteUnprofitableProductModal"
-    v-if="useModalStore().isOpenDeleteUnprofitableProductModal" @close=closeModal>
+  <CModal :is-open="useModalStore().isOpenUnhideRecentProductModal"
+    v-if="useModalStore().isOpenUnhideRecentProductModal" @close=closeModal>
     <template v-slot:header>
-      {{ $t('hideUnprofitableProduct') }}
+      {{ $t('unhideRecentProduct') }}
     </template>
     <template v-slot:body>
       <div class="flex items-center justify-center">
@@ -56,7 +58,7 @@ const hideUnprofitableProduct = () => {
           <div class="flex flex-col items-center space-y-4">
             <WarningCircleBoldIcon class="text-slate-400 dark:text-white w-14 h-14" />
             <h3 class="mb-5 text-lg md:text-xl text-center font-normal dark:text-white text-slate-500">
-              {{ $t('areYouSureYouWantToDeleteThisInformation') }}
+              {{ $t('areYouSureYouWantToUnhideThisInformation') }}
             </h3>
             <div
               class="flex flex-col md:flex-row items-center justify-center md:justify-between space-y-4 md:space-y-0 md:space-x-4">
@@ -64,7 +66,7 @@ const hideUnprofitableProduct = () => {
                 class="w-full md:w-auto py-2 px-4 rounded-xl text-gray-900 text-base font-medium bg-slate-50 cursor-pointer hover:bg-slate-200 border md:flex-1">
                 {{ $t('no') }}
               </button>
-              <button @click="hideUnprofitableProduct()"
+              <button @click="unhideRecentProduct()"
                 class="w-full md:w-auto py-2 px-4 rounded-xl text-white text-base font-medium bg-red-600 cursor-pointer hover:bg-red-700">
                 {{ $t('yesOfCourse') }}
               </button>

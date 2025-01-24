@@ -527,6 +527,20 @@
   "errorWhileCreatingInvest": "Ошибка при добавлении инвестиции",
   "investDeletedSuccessfully": "Инвестиция удалена",
   "errorWhileDeletingInvest": "Ошибка при удалении инвестиции",
-  "expenseStatistics": "Xarjatlar statistikasi",
-  "errorWhileDeletingCategory": "Ошибка при удалении категории", "categoryDeletedSuccessfully": "Категория удалена", "errorWhileCreatingCategory": "Ошибка при добавлении категории", "categoryAddedSuccessfully": "Категория добавлена"
+  "sessions": "Сессии",
+  "hideRecentProduct": "Скрыть недавно показанный продукт",
+  "unhideRecentProduct": "Показать недавно скрытый продукт",
+  "recommendUnhidedSuccessfully": "Рекомендуемый продукт успешно показан",
+  "unprofitableDeletedSuccessfully": "Неприбыльный продукт успешно удален",
+  "recentUnhidedSuccessfully": "Недавно скрытый продукт успешно восстановлен",
+  "unhideUnprofitableProduct": "Восстановить неприбыльный продукт",
+  "unprofitableUnhidedSuccessfully": "Неприбыльный продукт успешно восстановлен",
+  "errorWhileUnhidedRecommend": "Ошибка при восстановлении рекомендованного продукта",
+  "errorWhileUnhidedUnprofit": "Ошибка при восстановлении неприбыльного продукта",
+  "errorWhileUnhidedRecent": "Ошибка при восстановлении недавно скрытого продукта",
+  "remaining": "Остаток",
+  "lastAction": "Последнее действие",
+  "loginTime": "Время входа",
+  "lastActionTime": "Время последнего действия",
+  "refresh": "В процессе"
 }

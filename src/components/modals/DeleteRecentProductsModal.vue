@@ -13,15 +13,15 @@ const isLoading = ref(false)
 const productStore = useProductStore()
 
 const closeModal = () => {
-  useModalStore().closeDeleteUnprofitableProductModal()
+  useModalStore().closeDeleteRecentProductModal()
   productStore.setSelectedProduct({})
 }
 
-const hideUnprofitableProduct = () => {
-  ProductService.hideUnprofitableProduct(useProductStore().selectedProduct.productId)
+const hideRecentProduct = () => {
+  ProductService.hideRecentProduct(useProductStore().selectedProduct.productId)
     .then(() => {
-      toast.success(t('unprofitableDeletedSuccessfully'))
-      ProductService.getUnprofitableProducts(
+      toast.success(t('recommendDeletedSuccessfully'))
+      ProductService.getRecentProducts(
         {
           intervalType: productStore.intervalType,
           limit: productStore.limit
@@ -29,12 +29,12 @@ const hideUnprofitableProduct = () => {
       )
         .then((res) => {
           productStore.clearStore()
-          productStore.setUnprofitableProducts(res)
+          productStore.setRecentProducts(res)
           closeModal()
           productStore.renderKey += 1
         })
         .catch(() => {
-          toast.error(t('errorWhileDeletingUnprofitable'))
+          toast.error(t('errorWhileDeletingRecommend'))
           isLoading.value = false
         })
         .finally(() => {
@@ -45,10 +45,10 @@ const hideUnprofitableProduct = () => {
 </script>
 
 <template>
-  <CModal :is-open="useModalStore().isOpenDeleteUnprofitableProductModal"
-    v-if="useModalStore().isOpenDeleteUnprofitableProductModal" @close=closeModal>
+  <CModal :is-open="useModalStore().isOpenDeleteRecentProductModal"
+    v-if="useModalStore().isOpenDeleteRecentProductModal" @close=closeModal>
     <template v-slot:header>
-      {{ $t('hideUnprofitableProduct') }}
+      {{ $t('hideRecentProduct') }}
     </template>
     <template v-slot:body>
       <div class="flex items-center justify-center">
@@ -64,7 +64,7 @@ const hideUnprofitableProduct = () => {
                 class="w-full md:w-auto py-2 px-4 rounded-xl text-gray-900 text-base font-medium bg-slate-50 cursor-pointer hover:bg-slate-200 border md:flex-1">
                 {{ $t('no') }}
               </button>
-              <button @click="hideUnprofitableProduct()"
+              <button @click="hideRecentProduct"
                 class="w-full md:w-auto py-2 px-4 rounded-xl text-white text-base font-medium bg-red-600 cursor-pointer hover:bg-red-700">
                 {{ $t('yesOfCourse') }}
               </button>

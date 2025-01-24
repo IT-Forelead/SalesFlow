@@ -51,6 +51,9 @@ import UnhideRecommendProduct from './modals/UnhideRecommendProduct.vue'
 import CreateCategoryModal from './modals/CreateCategoryModal.vue'
 import DeleteCategoryModal from './modals/DeleteCategoryModal.vue'
 import EditCategoryModal from './modals/EditCategoryModal.vue'
+import DeleteRecentProductsModal from './modals/DeleteRecentProductsModal.vue'
+import HiddenRecentProductsModal from './modals/HiddenRecentProductsModal.vue'
+import UnhideRecentProductsModal from './modals/UnhideRecentProductsModal.vue'
 import EditOrderModal from './modals/EditOrderModal.vue'
 import CreateExpenseModal from './modals/CreateExpenseModal.vue'
 import EditExpenseModal from './modals/EditExpenseModal.vue'
@@ -179,6 +182,9 @@ onUnmounted(() => {
   <HiddenUnprofitableProductsModal />
   <UnhideUnprofitableProduct />
   <EditOrderModal />
+  <DeleteRecentProductsModal />
+  <HiddenRecentProductsModal />
+  <UnhideRecentProductsModal />
   <CreateExpenseModal />
   <EditExpenseModal />
   <CreateInvestModal />

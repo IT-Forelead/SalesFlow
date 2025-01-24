@@ -3,24 +3,28 @@ import { defineStore } from 'pinia'
 export const useProductStore = defineStore('product', {
   state: () => ({
     products: [],
+    selectedProduct: {},
+    selectedHiddenRecommendProduct: {},
+    selectedHiddenUnprofitableProduct: {},
+    selectedHiddenRecentProduct: {},
+    hiddenRecommendProducts: [],
+    hiddenUnprofitableProducts: [],
+    hiddenRecentProducts: [],
     recommendProducts: [],
     unprofitableProducts: [],
+    recentProducts: [],
     total:0,
     currentPage: 1,
     barcodesTotal:0,
     dublicatesTotal:0,
     productBarcodes: [],
-    selectedProduct: {},
-    hiddenProducts: [],
-    hiddenUnprofitableProducts: [],
-    selectedHiddenProduct: {},
     selectedBarcodes:{},
     searchFilter:{},
     barcodeDuplicates: [],
     selectedDuplicates:{},
     renderKey: 0,
     intervalType: 'month',
-    limit: 20
+    limit: 20,
   }),
   actions: {
     setProducts(data) {
@@ -32,23 +36,54 @@ export const useProductStore = defineStore('product', {
     setUnprofitableProducts(data) {
       this.unprofitableProducts.push(...data)
     },
-    setProductBarcodes(data) {
-      this.productBarcodes.push(...data)
+    setRecentProducts(data) {
+      this.recentProducts.push(...data)
     },
-    setHiddenProducts(data) {
-      this.hiddenProducts.push(...data)
+
+    setHiddenRecommendProducts(data) {
+      this.hiddenRecommendProducts.push(...data)
     },
     setHiddenUnprofitableProducts(data) {
-      this.hiddenProducts.push(...data)
+      this.hiddenUnprofitableProducts.push(...data)
     },
-    setSelectedHiddenProduct(data) {
-      this.selectedHiddenProduct = data
-    },
-    setBarcodeDuplicates(data) {
-      this.barcodeDuplicates.push(...data)
+    setHiddenRecentProducts(data) {
+      this.hiddenRecentProducts.push(...data)
     },
     setSelectedProduct(data) {
       this.selectedProduct = data
+    },
+    setSelectedHiddenRecommendProduct(data) {
+      this.selectedHiddenRecommendProduct = data
+    },
+    setSelectedHiddenUnprofitableProduct(data) {
+      this.selectedHiddenUnprofitableProduct = data
+    },
+    setSelectedHiddenRecentProduct(data) {
+      this.selectedHiddenRecentProduct = data
+    },
+    clearRecommendProducts() {
+      this.recommendProducts = []
+    },
+    clearUnprofitableProducts() {
+      this.unprofitableProducts = []
+    },
+    clearRecentProducts() {
+      this.recentProducts = []
+    },
+    clearHiddenRecommendProducts() {
+      this.hiddenRecommendProducts = []
+    },
+    clearHiddenUnprofitableProducts() {
+      this.hiddenUnprofitableProducts = []
+    },
+    clearHiddenRecentProducts() {
+      this.hiddenRecentProducts = []
+    },
+    setProductBarcodes(data) {
+      this.productBarcodes.push(...data)
+    },
+    setBarcodeDuplicates(data) {
+      this.barcodeDuplicates.push(...data)
     },
     setSearchFilter(data) {
       this.searchFilter = data
@@ -65,24 +100,16 @@ export const useProductStore = defineStore('product', {
     setIntervalType(data) {
       this.intervalType = data
     },
-    clearHiddenProducts() {
-      this.hiddenProducts = []
-    },
-    clearRecommendProducts() {
-      this.recommendProducts = []
-    },
 
-    clearUnprofitableProducts() {
-      this.unprofitableProducts = []
-    },
     clearStore() {
-      
       this.products = []
       this.recommendProducts = []
       this.unprofitableProducts = []
-      this.productBarcodes = []
-      this.hiddenProducts = []
+      this.recentProducts = []
+      this.hiddenRecommendProducts = []
       this.hiddenUnprofitableProducts = []
+      this.hiddenRecentProducts = []
+      this.productBarcodes = []
       this.barcodeDuplicates = []
       this.selectedBarcodes = {}
     },

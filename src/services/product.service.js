@@ -43,7 +43,6 @@ class ProductService {
   async getDuplicates(page, limit) {
     return AxiosService.get(`/product/barcodes/duplicates?page=${page}&limit=${limit}`)
   }
-  
   async getProductsWithMostProfit(page, limit) {
     return AxiosService.get(`/product/stats/profit?page=${page}&limit=${limit}`)
   }
@@ -75,22 +74,23 @@ class ProductService {
   async getVarietyStats(data) {
     return AxiosService.post('/product/stats/variety', data);
   }
-  async getRecommendStats(data) {
+//recommend
+  async getRecommendProducts(data) {
     return AxiosService.post('/product/recommendation', data);
   }
   async hideRecommendProduct(productId) {
     return AxiosService.delete(`/product/recommendation/hide/${productId}`);
   }
-  async getHiddenProducts(page, limit) {
+  async getHiddenRecommendProducts(page, limit) {
     return AxiosService.get(`/product/recommendation/blocked?page=${page}&limit=${limit}`)
   }
   async unhideRecommendProduct(productId) {
     return AxiosService.delete(`/product/recommendation/unhide/${productId}`);
   }
-  async getUnprofitableStats(data) {
+//unprofit
+  async getUnprofitableProducts(data) {
     return AxiosService.post(`/product/unprofitable`, data);
   }
-
   async hideUnprofitableProduct(productId) {
     return AxiosService.delete(`/product/unprofitable/hide/${productId}`);
   }
@@ -99,6 +99,19 @@ class ProductService {
   }
   async unhideUnprofitableProduct(productId) {
     return AxiosService.delete(`/product/unprofitable/unhide/${productId}`);
+  }
+//recent
+  async getRecentProducts(data) {
+    return AxiosService.get(`/product/recently-out`, data)
+  }
+  async hideRecentProduct(productId) {
+    return AxiosService.delete(`/product/recently-out/hide/${productId}`)
+  }
+  async getHiddenRecentProducts(page, limit) {
+    return AxiosService.get(`/product/recently-out/blocked?page=${page}&limit=${limit}`)
+  }
+  async unhideRecentProduct(productId) {
+    return AxiosService.delete(`/product/recently-out/unhide/${productId}`)
   }
 }
 

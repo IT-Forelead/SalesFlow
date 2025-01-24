@@ -134,6 +134,13 @@ const routes = [
     beforeEnter: navigationGuards('view_settings'),
   },
   {
+    path: '/sessions',
+    name: 'Sessions',
+    component: () => import('../pages/Session.vue'),
+    meta: { layout: 'dashboard' },
+    beforeEnter: navigationGuards('view_settings'),
+  },
+  {
     path: '/cashback-histories',
     name: 'Cashbacks histories',
     component: () => import('../pages/CashbackHistories.vue'),

@@ -18,15 +18,15 @@ const closeModal = () => {
 }
 
 const unhideUnprofitableProduct = () => {
-  ProductService.unhideUnprofitableProduct(useProductStore().selectedHiddenProduct.productId)
+  ProductService.unhideUnprofitableProduct(useProductStore().selectedHiddenUnprofitableProduct.productId)
     .then(() => {
       toast.success(t('unprofitableUnhidedSuccessfully'))
-      ProductService.getHiddenProducts(1, 30)
+      ProductService.getHiddenUnprofitableProducts(1, 30)
         .then((res) => {
-          productStore.clearHiddenProducts()
+          productStore.clearHiddenUnprofitableProducts()
           productStore.setHiddenUnprofitableProducts(res.data)
 
-          ProductService.getUnprofitableStats({
+          ProductService.getUnprofitableProducts({
             intervalType: productStore.intervalType,
             limit: productStore.limit,
           }).then((res) => {

@@ -125,6 +125,7 @@ const loadSidebarState = () => {
     vouchersVisible.value = parsedState.vouchersVisible ?? true;
     agentsVisible.value = parsedState.agentsVisible ?? true;
     clientsVisible.value = parsedState.clientsVisible ?? true;
+    sessionVisible.value = parsedState.sessionVisible ?? true;
     corporateClientsVisible.value = parsedState.corporateClientsVisible ?? true;
     saleSettingsVisible.value = parsedState.saleSettingsVisible ?? true;
     barcodeDuplicatesVisible.value = parsedState.barcodeDuplicatesVisible ?? true;
@@ -155,6 +156,7 @@ const saveSidebarState = () => {
     vouchersVisible: vouchersVisible.value,
     agentsVisible: agentsVisible.value,
     clientsVisible: clientsVisible.value,
+    sessionVisible: sessionVisible.value,
     corporateClientsVisible: corporateClientsVisible.value,
     saleSettingsVisible: saleSettingsVisible.value,
     barcodeDuplicatesVisible: barcodeDuplicatesVisible.value,
@@ -184,6 +186,7 @@ const priceListsVisible = ref(true);
 const vouchersVisible = ref(true);
 const agentsVisible = ref(true);
 const clientsVisible = ref(true);
+const sessionVisible = ref(true);
 const corporateClientsVisible = ref(true);
 const saleSettingsVisible = ref(true);
 const barcodeDuplicatesVisible = ref(true);
@@ -213,7 +216,7 @@ onMounted(() => {
   payload.value = parseJwt()
   loadSidebarState();
 })
-watch([investsVisible, investPlansVisible, investorsVisible, ipBannedVisible, wishesVisible, priceListsVisible, vouchersVisible, agentsVisible, clientsVisible, corporateClientsVisible, saleSettingsVisible, barcodeDuplicatesVisible, productBarcodesVisible, usersVisible, marketsVisible, ordersVisible, cashbackHistoriesVisible, discountVisible, upcomingProductsVisible, incomeExpenseVisible, productsVisible, saleVisible, dashboardVisible, categoriesVisible, expensesVisible], saveSidebarState, { deep: true });
+watch([investsVisible, investPlansVisible, investorsVisible, ipBannedVisible, wishesVisible, priceListsVisible, vouchersVisible, agentsVisible, clientsVisible, sessionVisible, corporateClientsVisible, saleSettingsVisible, barcodeDuplicatesVisible, productBarcodesVisible, usersVisible, marketsVisible, ordersVisible, cashbackHistoriesVisible, discountVisible, upcomingProductsVisible, incomeExpenseVisible, productsVisible, saleVisible, dashboardVisible, categoriesVisible, expensesVisible], saveSidebarState, { deep: true });
 
 const moveDashboardToOthers = () => {
   dashboardVisible.value = false;
@@ -317,6 +320,12 @@ const moveClientsToOthers = () => {
   clientsVisible.value = false;
 };
 const restoreClientsFromOthers = () => {
+  clientsVisible.value = true;
+};
+const moveSessionToOthers = () => {
+  clientsVisible.value = false;
+};
+const restoreSessionFromOthers = () => {
   clientsVisible.value = true;
 };
 
@@ -696,6 +705,25 @@ const toggleShowHideButtons = () => {
                 </button>
               </div>
             </div>
+            <div class="flex w-full justify-between" v-if="sessionVisible && navigationGuard('view_settings')">
+              <router-link to="/sessions" @click="selectPage()" active-class="active"
+                class="relative h-10 flex items-center w-full hover:bg-blue-300/10 hover:text-blue-600 py-5 text-zinc-400 dark:text-zinc-200 text-lg font-medium space-x-4 cursor-pointer transition-colors duration-300">
+                <div class="w-1.5 h-12 rounded-r-xl first-child-bg-color mr-2"></div>
+                <div class="flex h-10 items-center justify-center rounded-xl w-10 second-child-bg-color relative">
+                      <UserIcon class="absolute top-0 right-0 w-6 h-6" />
+                      <QrCodeIcon class="bg-slate-100 dark:bg-slate-900 absolute top-3 right-3"/>
+                    </div>
+                <div class="w-full">
+                  {{ $t('sessions') }}
+                </div>
+              </router-link>
+              <div v-if="showHideButtons">
+                <button @click="moveSessionToOthers"
+                  class="ml-auto space-y-1 px-1 py-2 hover:bg-blue-300/10 text-sm text-red-600 hover:text-red-800">
+                  <InvisIcon class="w-6 h-6" />
+                </button>
+              </div>
+            </div>
             <div class="flex w-full justify-between" v-if="agentsVisible && navigationGuard('view_agents')">
               <router-link to="/agents" @click="selectPage()" active-class="active"
                 class="relative h-10 flex items-center w-full hover:bg-blue-300/10 hover:text-blue-600 py-5 text-zinc-400 dark:text-zinc-200 text-lg font-medium space-x-4 cursor-pointer transition-colors duration-300">
@@ -879,7 +907,7 @@ const toggleShowHideButtons = () => {
               </div>
             </div>
             <details
-              v-if="!investsVisible || !investPlansVisible || !investorsVisible || !ipBannedVisible || !wishesVisible || !priceListsVisible || !vouchersVisible || !agentsVisible || !clientsVisible || !corporateClientsVisible || !saleSettingsVisible || !barcodeDuplicatesVisible || !productBarcodesVisible || !usersVisible || !marketsVisible || !ordersVisible || !cashbackHistoriesVisible || !discountVisible || !upcomingProductsVisible || !incomeExpenseVisible || !productsVisible || !saleVisible || !dashboardVisible"
+              v-if="!investsVisible || !investPlansVisible || !investorsVisible || !ipBannedVisible || !wishesVisible || !priceListsVisible || !vouchersVisible || !agentsVisible || !clientsVisible || !sessionVisible || !corporateClientsVisible || !saleSettingsVisible || !barcodeDuplicatesVisible || !productBarcodesVisible || !usersVisible || !marketsVisible || !ordersVisible || !cashbackHistoriesVisible || !discountVisible || !upcomingProductsVisible || !incomeExpenseVisible || !productsVisible || !saleVisible || !dashboardVisible"
               class="mt-4">
               <summary
                 class="cursor-pointer py-2 pl-9 text-lg font-medium hover:bg-blue-300/10 hover:text-blue-600 text-zinc-400 dark:text-zinc-200 space-x-4">
@@ -1151,6 +1179,24 @@ const toggleShowHideButtons = () => {
                   </router-link>
                   <div v-if="showHideButtons">
                     <button @click="restoreClientsFromOthers"
+                      class="ml-auto space-y-1 px-1 py-2 hover:bg-blue-300/10 text-sm text-blue-600 hover:text-blue-800">
+                      <EyeIcon class="w-6 h-6" />
+                    </button>
+                  </div>
+                </div>
+                <div v-if="!sessionVisible && navigationGuard('view_settings')"
+                  class="relative h-10 flex items-center w-full py-5 text-zinc-400 dark:text-zinc-200 text-lg font-medium space-x-2">
+                  <router-link to="/sessions" @click="selectPage()" active-class="active"
+                    class="relative h-10 flex items-center w-full hover:bg-blue-300/10 hover:text-blue-600 py-5 text-zinc-400 dark:text-zinc-200 text-lg font-medium space-x-4 cursor-pointer transition-colors duration-300">
+                    <div class="w-1.5 h-12 rounded-r-xl first-child-bg-color mr-2"></div>
+                    <div class="flex h-10 items-center justify-center rounded-xl w-10 second-child-bg-color relative">
+                      <UserIcon class="absolute top-0 right-0 w-6 h-6" />
+                      <QrCodeIcon class="bg-slate-100 dark:bg-slate-900 absolute top-3 right-3"/>
+                    </div>
+                    <div class="w-full">{{ $t('sessions') }}</div>
+                  </router-link>
+                  <div v-if="showHideButtons">
+                    <button @click="restoreSessionFromOthers"
                       class="ml-auto space-y-1 px-1 py-2 hover:bg-blue-300/10 text-sm text-blue-600 hover:text-blue-800">
                       <EyeIcon class="w-6 h-6" />
                     </button>

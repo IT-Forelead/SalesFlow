@@ -52,12 +52,19 @@ export const useModalStore = defineStore('modal', {
     isOpenImageModal: false,
     isOpenCreateVoucherModal: false,
     isOpenAgentInfoModal: false,
-    isOpenDeleteRecommendProductModal: false,
-    isOpenHiddenRecommendProductsModal: false,
-    isOpenUnhideRecommendProductModal: false,
+    isOpenEditOrderModal: false,
+    isOpenCreateExpenseModal: false,
+    isOpenEditExpenseModal: false,
+    isOpenCreateInvestModal: false,
+    isOpenDeleteInvestModal: false,
     isOpenDeleteCategoryModal: false,
     isOpenCreateCategoryModal: false,
     isOpenEditCategoryModal: false,
+
+    isOpenDeleteRecommendProductModal: false,
+    isOpenHiddenRecommendProductsModal: false,
+    isOpenUnhideRecommendProductModal: false,
+
     isOpenDeleteUnprofitableProductModal: false,
     isOpenHiddenUnprofitableProductsModal: false,
     isOpenUnhideUnprofitableProductModal: false,
@@ -66,6 +73,10 @@ export const useModalStore = defineStore('modal', {
     isOpenEditExpenseModal: false,
     isOpenCreateInvestModal: false,
     isOpenDeleteInvestModal: false
+
+    isOpenDeleteRecentProductModal: false,
+    isOpenHiddenRecentProductsModal: false,
+    isOpenUnhideRecentProductModal: false,
   }),
   actions: {
     openEditTelegramBotModal() {
@@ -441,5 +452,23 @@ export const useModalStore = defineStore('modal', {
     closeDeleteInvestModal() {
       this.isOpenDeleteInvestModal = false
     },
+    openDeleteRecentProductModal() {
+      this.isOpenDeleteRecentProductModal = true
+    },
+    closeDeleteRecentProductModal() {
+      this.isOpenDeleteRecentProductModal = false
+    },
+    openHiddenRecentProductsModal() {
+      this.isOpenHiddenRecentProductsModal = true
+    },
+    closeHiddenRecentProductsModal() {
+      this.isOpenHiddenRecentProductsModal = false
+    },
+    openUnhideRecentProductModal() {
+      this.isOpenUnhideRecentProductModal = true
+    },
+    closeUnhideRecentProductModal() {
+      this.isOpenUnhideRecentProductModal = false
+    }
   }
 })
