@@ -101,7 +101,7 @@ const cleanFilterRecommendData = () => {
   filterRecommendData.limit = 0
 }
 
-const submitRecommendStatsFilterData = () => {
+const submitRecommendProductsFilterData = () => {
   if (!filterRecommendData.intervalType) {
     toast.warning(t('plsSelectIntervalType'))
   } else if (!filterRecommendData.limit) {
@@ -225,7 +225,7 @@ onClickOutside(recommendDropdown, () => {
                 <Spinners270RingIcon class="mr-2 w-5 h-5 text-gray-200 animate-spin fill-gray-600 dark:fill-gray-300" />
                 <span>{{ $t('loading') }}</span>
               </div>
-              <div v-else @click="submitRecommendStatsFilterData()"
+              <div v-else @click="submitRecommendProductsFilterData()"
                 class="w-full bg-blue-500 hover:bg-blue-600 cursor-pointer select-none py-3 text-white rounded-lg flex items-center justify-center">
                 <span>{{ $t('filter') }}</span>
               </div>

@@ -1474,7 +1474,7 @@ const monthStatsAreaChartOptions = computed(() => {
 });
 
 const unprofitableDropdown = ref(null)
-const unprofitableStats = ref([])
+const unprofitableProducts = ref([])
 const filterUnprofitableData = reactive({
   intervalType: useProductStore().intervalType,
   limit: useProductStore().limit
@@ -1499,18 +1499,18 @@ onClickOutside(corporateDropdown, () => {
   }
 })
 
-const submitUnprofitableStatsFilterData = () => {
+const submitUnprofitableProductsFilterData = () => {
   if (!filterUnprofitableData.intervalType) {
     toast.warning(t('plsSelectIntervalType'))
   } else if (!filterUnprofitableData.limit) {
     toast.warning(t('plsSelectLimit'))
   } else {
     isLoading.value = true
-    ProductService.getUnprofitableStats({
+    ProductService.getUnprofitableProducts({
       intervalType: filterUnprofitableData.intervalType,
       limit: filterUnprofitableData.limit,
     }).then((res) => {
-      unprofitableStats.value = res
+      unprofitableProducts.value = res
       isLoading.value = false
       if (useDropdownStore().isOpenUnprofitableFilterBy) {
         useDropdownStore().toggleUnprofitableFilterBy()
@@ -1535,14 +1535,14 @@ onClickOutside(unprofitableDropdown, () => {
   }
 })
 
-const unprofitableStatsChartSeries = computed(() => [
+const unprofitableProductsChartSeries = computed(() => [
   {
     name: 'Kirim',
-    data: unprofitableStats.value?.map((item) => item.deficit),
+    data: unprofitableProducts.value?.map((item) => item.deficit),
   },
 ])
 
-const unprofitableStatsAreaChartOptions = computed(() => {
+const unprofitableProductsAreaChartOptions = computed(() => {
   return {
     legend: {
       labels: {
@@ -1566,7 +1566,7 @@ const unprofitableStatsAreaChartOptions = computed(() => {
       curve: 'smooth',
     },
     xaxis: {
-      categories: unprofitableStats.value?.map((item) => item.productName).reverse(),
+      categories: unprofitableProducts.value?.map((item) => item.productName).reverse(),
       type: 'date',
       labels: {
         style: {
@@ -1652,11 +1652,11 @@ onMounted(() => {
     )
   })
 
-  ProductService.getUnprofitableStats({
+  ProductService.getUnprofitableProducts({
     limit: 20,
     intervalType: "month"
   }).then((res) => {
-    unprofitableStats.value = res
+    unprofitableProducts.value = res
   })
 
   ProductService.getVarietyStats({
@@ -1674,12 +1674,12 @@ onMounted(() => {
     )
   })
 
-  ProductService.getRecommendStats({
+  ProductService.getRecommendProducts({
     intervalType: useProductStore().intervalType,
     limit: useProductStore().limit
   }).then((res) => {
     console.log(res)
-    recommendStats.value = res
+    recommendProducts.value = res
   })
   OrderService.getTurnoverStats({
     from: moment().subtract(60, 'days').startOf('day').format().toString().slice(0, 10),
@@ -1712,7 +1712,7 @@ onMounted(() => {
       productStats.value = res
     })
   ExpenseService.infoExpense({
-    from: moment().subtract(30, 'days').startOf('day').format().toString().slice(0, 10),
+    from: moment().subtract(1, 'year').startOf('day').format().toString().slice(0, 10),
     to: moment().startOf('day').format().toString().slice(0, 10),
   }).then((res) => {
     expenseStats.value = res
@@ -1928,7 +1928,7 @@ watch(
 )
 
 const recommendDropdown = ref(null)
-const recommendStats = ref([])
+const recommendProducts = ref([])
 const filterRecommendData = reactive({
   intervalType: useProductStore().intervalType,
   limit: useProductStore().limit
@@ -1946,18 +1946,18 @@ onClickOutside(recommendDropdown, () => {
   }
 })
 
-const submitRecommendStatsFilterData = () => {
+const submitRecommendProductsFilterData = () => {
   if (!filterRecommendData.intervalType) {
     toast.warning(t('plsSelectIntervalType'))
   } else if (!filterRecommendData.limit) {
     toast.warning(t('plsSelectLimit'))
   } else {
     isLoading.value = true
-    ProductService.getRecommendStats({
+    ProductService.getRecommendProducts({
       intervalType: filterRecommendData.intervalType,
       limit: filterRecommendData.limit,
     }).then((res) => {
-      recommendStats.value = res
+      recommendProducts.value = res
       isLoading.value = false
       if (useDropdownStore().isOpenRecommendFilterBy) {
         useDropdownStore().toggleRecommendFilterBy()
@@ -1982,18 +1982,18 @@ onClickOutside(recommendDropdown, () => {
   }
 })
 
-const recommendStatsChartSeries = computed(() => [
+const recommendProductsChartSeries = computed(() => [
   {
     name: 'Total profit',
-    data: recommendStats.value?.map((item) => item.totalProfit),
+    data: recommendProducts.value?.map((item) => item.totalProfit),
   },
   {
     name: 'Total revenue',
-    data: recommendStats.value?.map((item) => item.totalRevenue),
+    data: recommendProducts.value?.map((item) => item.totalRevenue),
   },
 ]);
 
-const recommendStatsAreaChartOptions = computed(() => {
+const recommendProductsAreaChartOptions = computed(() => {
   return {
     legend: {
       labels: {
@@ -2017,7 +2017,7 @@ const recommendStatsAreaChartOptions = computed(() => {
       curve: 'smooth',
     },
     xaxis: {
-      categories: recommendStats.value?.map((item) => item.productName),
+      categories: recommendProducts.value?.map((item) => item.productName),
       type: 'date',
       labels: {
         style: {
@@ -2071,7 +2071,7 @@ const recommendStatsAreaChartOptions = computed(() => {
     tooltip: {
       enabled: true,
       custom: function ({ series, seriesIndex, dataPointIndex, w }) {
-        const data = recommendStats.value[dataPointIndex];
+        const data = recommendProducts.value[dataPointIndex];
         if (seriesIndex === 0) {
           return `
             
@@ -2897,7 +2897,7 @@ const recommendStatsAreaChartOptions = computed(() => {
       <div class="flex flex-col md:flex-row md:items-center md:justify-between px-2 space-y-3 md:space-y-0">
         <div>
           <div class="text-base font-bold text-slate-800 dark:text-slate-200">
-            {{ $t('recommendStat') }}
+            {{ $t('recommendProduct') }}
           </div>
           <div class="text-sm text-gray-600 dark:text-white">
             {{ $t('beginStatText') }}
@@ -2961,7 +2961,7 @@ const recommendStatsAreaChartOptions = computed(() => {
                     class="mr-2 w-5 h-5 text-gray-200 animate-spin fill-gray-600 dark:fill-gray-300" />
                   <span>{{ $t('loading') }}</span>
                 </div>
-                <div v-else @click="submitRecommendStatsFilterData()"
+                <div v-else @click="submitRecommendProductsFilterData()"
                   class="w-full bg-blue-500 hover:bg-blue-600 cursor-pointer select-none py-3 text-white rounded-lg flex items-center justify-center">
                   <span>{{ $t('filter') }}</span>
                 </div>
@@ -2971,7 +2971,7 @@ const recommendStatsAreaChartOptions = computed(() => {
         </div>
       </div>
 
-      <apexchart type="bar" height="320" :options="recommendStatsAreaChartOptions" :series="recommendStatsChartSeries">
+      <apexchart type="bar" height="320" :options="recommendProductsAreaChartOptions" :series="recommendProductsChartSeries">
       </apexchart>
     </div>
 
@@ -2979,7 +2979,7 @@ const recommendStatsAreaChartOptions = computed(() => {
       <div class="flex flex-col md:flex-row md:items-center md:justify-between px-2 space-y-3 md:space-y-0">
         <div>
           <div class="text-base font-bold text-slate-800 dark:text-slate-200">
-            {{ $t('unprofitableStatistics') }}
+            {{ $t('unprofitableProducts') }}
           </div>
           <div class="text-sm text-gray-600 dark:text-white">
             {{ $t('beginStatText') }}
@@ -3043,7 +3043,7 @@ const recommendStatsAreaChartOptions = computed(() => {
                     class="mr-2 w-5 h-5 text-gray-200 animate-spin fill-gray-600 dark:fill-gray-300" />
                   <span>{{ $t('loading') }}</span>
                 </div>
-                <div v-else @click="submitUnprofitableStatsFilterData()"
+                <div v-else @click="submitUnprofitableProductsFilterData()"
                   class="w-full bg-blue-500 hover:bg-blue-600 cursor-pointer select-none py-3 text-white rounded-lg flex items-center justify-center">
                   <span>{{ $t('filter') }}</span>
                 </div>
@@ -3052,8 +3052,8 @@ const recommendStatsAreaChartOptions = computed(() => {
           </div>
         </div>
       </div>
-      <apexchart type="bar" height="320" :options="unprofitableStatsAreaChartOptions"
-        :series="unprofitableStatsChartSeries">
+      <apexchart type="bar" height="320" :options="unprofitableProductsAreaChartOptions"
+        :series="unprofitableProductsChartSeries">
       </apexchart>
     </div>
 

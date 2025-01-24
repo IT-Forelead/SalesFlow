@@ -72,7 +72,7 @@ export const useModalStore = defineStore('modal', {
     isOpenCreateExpenseModal: false,
     isOpenEditExpenseModal: false,
     isOpenCreateInvestModal: false,
-    isOpenDeleteInvestModal: false
+    isOpenDeleteInvestModal: false,
 
     isOpenDeleteRecentProductModal: false,
     isOpenHiddenRecentProductsModal: false,
