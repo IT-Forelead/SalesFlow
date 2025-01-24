@@ -541,5 +541,8 @@
   "lastAction": "Последнее действие",
   "loginTime": "Время входа",
   "lastActionTime": "Время последнего действия",
-  "refresh": "В процессе"
+  "refresh": "В процессе",
+  "hiddenRecentProducts": "Скрытые последние продукты",
+  "hiddenRecommendProducts": "Рекомендуйте скрытые продукты",
+  "recentDeletedSuccessfully": "Последнее успешно удалено"
 }

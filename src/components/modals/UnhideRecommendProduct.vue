@@ -11,7 +11,6 @@ import { ref } from 'vue'
 const { t } = useI18n()
 const isLoading = ref(false)
 const productStore = useProductStore()
-
 const closeModal = () => {
   useModalStore().closeUnhideRecommendProductModal()
   productStore.setSelectedProduct({})
@@ -25,7 +24,6 @@ const unhideRecommendProduct = () => {
         .then((res) => {
           productStore.clearHiddenRecommendProducts()
           productStore.setHiddenRecommendProducts(res.data)
-
           ProductService.getRecommendProducts({
             intervalType: productStore.intervalType,
             limit: productStore.limit,

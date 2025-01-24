@@ -15,9 +15,7 @@ import CTable from '../common/CTable.vue'
 const { t } = useI18n()
 const isLoading = ref(false)
 const globalSearchFromTable = ref('')
-// const productStats = ref()
 const productStore = useProductStore()
-
 const unprofitableProducts = computed(() => productStore.unprofitableProducts)
 const renderKey = computed(() => productStore.renderKey)
 
@@ -29,33 +27,27 @@ const columns = [
     enableSorting: false,
   },
   {
-    accessorKey: 'serialId',
-    header: t('serialId'),
+    accessorKey: 'productName',
+    header: t('productName'),
   },
   {
-    accessorKey: 'name',
-    header: t('name'),
+    accessorKey: 'deficit',
+    header: t('deficit'),
+  },
+  {
+    accessorKey: 'utilizedQuantity',
+    header: t('quantity'),
   },
   {
     accessorKey: 'packaging',
     header: t('packaging')
   },
-  {
-    accessorKey: 'barcode',
-    header: t('barcode')
-  },
+ 
   {
     accessorKey: 'saleType',
     header: t('saleType'),
   },
-  {
-    accessorKey: 'remaining',
-    header: t('remaining')
-  },
-  {
-    accessorKey: 'sold',
-    header: t('sold')
-  },
+ 
   {
     accessorKey: 'actions',
     header: t('actions'),
@@ -139,10 +131,6 @@ const getUnprofitableProducts = () => {
 onMounted(() => {
   cleanFilterUnprofitableData
   getUnprofitableProducts()
-  // ProductService.getUnprofitableProducts()
-  //   .then((res) => {
-  //     productStats.value = res
-  //   })
 })
 
 const unprofitableDropdown = ref()

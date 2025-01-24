@@ -93,7 +93,7 @@ onMounted(() => {
 const closeModal = () => {
   useModalStore().closeHiddenUnprofitableProductsModal()
   productStore.setSelectedProduct({})
-}
+} 
 </script>
 <template>
   <CModal :is-open="useModalStore().isOpenHiddenUnprofitableProductsModal"

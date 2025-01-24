@@ -11,7 +11,6 @@ import { ref } from 'vue'
 const { t } = useI18n()
 const isLoading = ref(false)
 const productStore = useProductStore()
-
 const closeModal = () => {
   useModalStore().closeDeleteRecentProductModal()
   productStore.setSelectedProduct({})
@@ -20,7 +19,7 @@ const closeModal = () => {
 const hideRecentProduct = () => {
   ProductService.hideRecentProduct(useProductStore().selectedProduct.productId)
     .then(() => {
-      toast.success(t('recommendDeletedSuccessfully'))
+      toast.success(t('recentDeletedSuccessfully'))
       ProductService.getRecentProducts(
         {
           intervalType: productStore.intervalType,
@@ -34,7 +33,7 @@ const hideRecentProduct = () => {
           productStore.renderKey += 1
         })
         .catch(() => {
-          toast.error(t('errorWhileDeletingRecommend'))
+          toast.error(t('errorWhileDeletingRecent'))
           isLoading.value = false
         })
         .finally(() => {
@@ -64,7 +63,7 @@ const hideRecentProduct = () => {
                 class="w-full md:w-auto py-2 px-4 rounded-xl text-gray-900 text-base font-medium bg-slate-50 cursor-pointer hover:bg-slate-200 border md:flex-1">
                 {{ $t('no') }}
               </button>
-              <button @click="hideRecentProduct"
+              <button @click="hideRecentProduct()"
                 class="w-full md:w-auto py-2 px-4 rounded-xl text-white text-base font-medium bg-red-600 cursor-pointer hover:bg-red-700">
                 {{ $t('yesOfCourse') }}
               </button>

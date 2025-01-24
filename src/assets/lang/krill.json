@@ -538,5 +538,8 @@
   "lastAction": "Амаллар тури",
   "loginTime": "Кириш вақти",
   "lastActionTime": "Охирги амалл вақти",
-  "refresh": "Янгилаш"
+  "refresh": "Янгилаш",
+  "hiddenRecentProducts": "Яширин сўнгги маҳсулотлар",
+  "hiddenRecommendProducts": "Яширин маҳсулотларни тавсия етинг",
+  "recentDeletedSuccessfully": "Сўнгги муваффақиятли ўчирилди"
 }

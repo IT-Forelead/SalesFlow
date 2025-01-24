@@ -18,9 +18,10 @@ const isLoading = ref(false)
 const globalSearchFromTable = ref('')
 const productStats = ref()
 const productStore = useProductStore()
-
 const recommendProducts = computed(() => productStore.recommendProducts)
 const renderKey = computed(() => productStore.renderKey)
+
+
 
 const columns = [
   {
@@ -31,6 +32,10 @@ const columns = [
   },
   {
     accessorKey: 'productName',
+    header: t('productName')
+  },
+  {
+    accessorKey: 'packaging',
     header: t('productName')
   },
   {
@@ -145,10 +150,6 @@ const getRecommendProducts = () => {
 onMounted(() => {
   cleanFilterRecommendData
   getRecommendProducts()
-  // ProductService.getProductStats()
-  //   .then((res) => {
-  //     productStats.value = res
-  //   })
 })
 
 const recommendDropdown = ref()

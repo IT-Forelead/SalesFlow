@@ -11,7 +11,6 @@ import { ref } from 'vue'
 const { t } = useI18n()
 const isLoading = ref(false)
 const productStore = useProductStore()
-
 const closeModal = () => {
   useModalStore().closeUnhideUnprofitableProductModal()
   productStore.setSelectedProduct({})

@@ -31,6 +31,10 @@ const columns = [
     header: t('packaging'),
   },
   {
+    accessorKey: 'reason',
+    header: t('reason'),
+  },
+  {
     accessorKey: 'actions',
     header: t('actions'),
     cell: ({ row }) => h('div', { class: 'flex items-center space-x-2' }, [
@@ -80,10 +84,6 @@ const getRecentProducts = () => {
 onMounted(() => {
   cleanFilterRecentData
   getRecentProducts()
-  // ProductService.getProductStats()
-  //   .then((res) => {
-  //     productStats.value = res
-  //   })
 })
 
 const closeModal = () => {

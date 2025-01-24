@@ -543,5 +543,8 @@
   "lastAction": "Oxirgi amallar turi",
   "loginTime": "Kirish vaqti",
   "lastActionTime": "Oxirgi amall vaqti",
-  "refresh": "Yangilash"
+  "refresh": "Yangilash",
+  "hiddenRecentProducts": "Yashirin so'nggi mahsulotlar",
+  "hiddenRecommendProducts": "Yashirin mahsulotlarni tavsiya eting",
+  "recentDeletedSuccessfully": "So'nggi muvaffaqiyatli o'chirildi"
 }
