@@ -14,7 +14,7 @@ const { t } = useI18n()
 const productStore = useProductStore()
 const renderKey = computed(() => productStore.renderKey)
 const isLoading = ref(false)
-const hiddenProducts = computed(() => productStore.hiddenProducts)
+const hiddenRecommendProducts = computed(() => productStore.hiddenRecommendProducts)
 
 const columns = [
   {
@@ -47,7 +47,7 @@ const columns = [
 ]
 
 const openUnhideRecommendProductModal = (data) => {
-  useProductStore().setSelectedHiddenProduct(data)
+  useProductStore().setSelectedHiddenRecommendProduct(data)
   useModalStore().openUnhideRecommendProductModal()
 }
 
@@ -61,9 +61,9 @@ const cleanFilterRecommendData = () => {
   filterRecommendData.limit = 0
 }
 
-const getRecommendStats = () => {
+const getRecommendProducts = () => {
   isLoading.value = true
-  ProductService.getRecommendStats(
+  ProductService.getRecommendProducts(
     {
       intervalType: filterRecommendData.intervalType,
       limit: filterRecommendData.limit
@@ -79,7 +79,7 @@ const getRecommendStats = () => {
 
 onMounted(() => {
   cleanFilterRecommendData
-  getRecommendStats()
+  getRecommendProducts()
   // ProductService.getProductStats()
   //   .then((res) => {
   //     productStats.value = res
@@ -95,11 +95,11 @@ const closeModal = () => {
   <CModal :is-open="useModalStore().isOpenHiddenRecommendProductsModal"
     v-if="useModalStore().isOpenHiddenRecommendProductsModal" @close=closeModal :key="renderKey">
     <template v-slot:header>
-      {{ $t('hiddenProducts') }}
+      {{ $t('hiddenRecommendProducts') }}
     </template>
     <template v-slot:body>
       <div class="space-y-4">
-        <CTable :data="hiddenProducts" :columns="columns" />
+        <CTable :data="hiddenRecommendProducts" :columns="columns" />
       </div>
     </template>
     <template v-slot:footer>

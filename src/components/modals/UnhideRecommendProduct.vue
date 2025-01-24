@@ -18,15 +18,15 @@ const closeModal = () => {
 }
 
 const unhideRecommendProduct = () => {
-  ProductService.unhideRecommendProduct(useProductStore().selectedHiddenProduct.productId)
+  ProductService.unhideRecommendProduct(useProductStore().selectedHiddenRecommendProduct.productId)
     .then(() => {
       toast.success(t('recommendUnhidedSuccessfully'))
-      ProductService.getHiddenProducts(1, 30)
+      ProductService.getHiddenRecommendProducts(1, 30)
         .then((res) => {
-          productStore.clearHiddenProducts()
-          productStore.setHiddenProducts(res.data)
+          productStore.clearHiddenRecommendProducts()
+          productStore.setHiddenRecommendProducts(res.data)
 
-          ProductService.getRecommendStats({
+          ProductService.getRecommendProducts({
             intervalType: productStore.intervalType,
             limit: productStore.limit,
           }).then((res) => {

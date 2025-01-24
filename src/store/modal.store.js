@@ -52,17 +52,24 @@ export const useModalStore = defineStore('modal', {
     isOpenImageModal: false,
     isOpenCreateVoucherModal: false,
     isOpenAgentInfoModal: false,
-    isOpenDeleteRecommendProductModal: false,
-    isOpenHiddenRecommendProductsModal: false,
-    isOpenUnhideRecommendProductModal: false,
+    isOpenEditOrderModal: false,
+    isOpenCreateExpenseModal: false,
+    isOpenEditExpenseModal: false,
+    isOpenCreateInvestModal: false,
+    isOpenDeleteInvestModal: false,
     isOpenDeleteCategoryModal: false,
     isOpenCreateCategoryModal: false,
     isOpenEditCategoryModal: false,
+
+    isOpenDeleteRecommendProductModal: false,
+    isOpenHiddenRecommendProductsModal: false,
+    isOpenUnhideRecommendProductModal: false,
+
     isOpenDeleteUnprofitableProductModal: false,
     isOpenHiddenUnprofitableProductsModal: false,
     isOpenUnhideUnprofitableProductModal: false,
-    isOpenEditOrderModal: false,
-    isOpenDeleteRecentProductsModal: false,
+
+    isOpenDeleteRecentProductModal: false,
     isOpenHiddenRecentProductsModal: false,
     isOpenUnhideRecentProductModal: false,
   }),
@@ -415,11 +422,36 @@ export const useModalStore = defineStore('modal', {
     closeEditOrderModal() {
       this.isOpenEditOrderModal = false
     },
-    openDeleteRecentProductsModal() {
-      this.isOpenDeleteRecentProductsModal = true
+    openCreateExpenseModal() {
+      this.isOpenCreateExpenseModal = true
     },
-    closeDeleteRecentProductsModal() {
-      this.isOpenDeleteRecentProductsModal = false
+    closeCreateExpenseModal() {
+      this.isOpenCreateExpenseModal = false
+    },
+    openEditExpenseModal() {
+      this.isOpenEditExpenseModal = true
+    },
+    closeEditExpenseModal() {
+      this.isOpenEditExpenseModal = false
+    },
+
+    openCreateInvestModal() {
+      this.isOpenCreateInvestModal = true
+    },
+    closeCreateInvestModal() {
+      this.isOpenCreateInvestModal = false
+    },
+    openDeleteInvestModal() {
+      this.isOpenDeleteInvestModal = true
+    },
+    closeDeleteInvestModal() {
+      this.isOpenDeleteInvestModal = false
+    },
+    openDeleteRecentProductModal() {
+      this.isOpenDeleteRecentProductModal = true
+    },
+    closeDeleteRecentProductModal() {
+      this.isOpenDeleteRecentProductModal = false
     },
     openHiddenRecentProductsModal() {
       this.isOpenHiddenRecentProductsModal = true

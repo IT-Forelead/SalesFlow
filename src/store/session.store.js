@@ -2,23 +2,19 @@ import { defineStore } from 'pinia'
 
 export const useSessionStore = defineStore('session', {
   state: () => ({
-    allSession: [],
-    total:0,
-    currentPage: 1,
-    searchFilter:{},
-    renderKey: 0,
-    intervalType: 'month',
-    limit: 20,
-    date: new Date()
+    sessions: [],
+    selectedSession: {},
+    renderkey: 0,
   }),
   actions: {
-  
-    setAllSession() {
-      this.allSession = []
+    setSessions(data) {
+      this.sessions.push(...data)
     },
-
+    setSelectedSession(data) {
+      this.selectedSession = data
+    },
     clearStore() {
-      this.allSession = []
+      this.sessions = []
     },
   },
 })

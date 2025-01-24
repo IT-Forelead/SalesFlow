@@ -11,6 +11,7 @@ import FunnelIcon from '../../assets/icons/FunnelIcon.vue'
 import EyeSlashIcon from '../../assets/icons/EyeSlashIcon.vue'
 import { onClickOutside } from '@vueuse/core'
 import CTable from '../common/CTable.vue'
+import { roundFloatToTwoDecimal } from '@/mixins/utils'
 
 const { t } = useI18n()
 const isLoading = ref(false)
@@ -39,6 +40,7 @@ const columns = [
   {
     accessorKey: 'totalAmount',
     header: t('totalAmount'),
+    cell: ({ row }) => roundFloatToTwoDecimal(row.original.totalAmount),
   },
   {
     accessorKey: 'saleType',
@@ -82,11 +84,11 @@ const openDeleteRecommendProductModal = (data) => {
 }
 
 const openHiddenRecommendProductsModal = () => {
-  ProductService.getHiddenProducts(1, 30).then((res) => {
-      productStore.clearStore()
-      productStore.setHiddenProducts(res.data)
-      useModalStore().openHiddenRecommendProductsModal()
-    })
+  ProductService.getHiddenRecommendProducts(1, 30).then((res) => {
+    productStore.clearStore()
+    productStore.setHiddenRecommendProducts(res.data)
+    useModalStore().openHiddenRecommendProductsModal()
+  })
 }
 
 const filterRecommendData = reactive({
@@ -108,7 +110,7 @@ const submitRecommendStatsFilterData = () => {
     isLoading.value = true
     productStore.setIntervalType(filterRecommendData.intervalType)
     productStore.setLimit(filterRecommendData.limit)
-    ProductService.getRecommendStats({
+    ProductService.getRecommendProducts({
       intervalType: filterRecommendData.intervalType,
       limit: filterRecommendData.limit,
     }).then((res) => {
@@ -124,9 +126,9 @@ const submitRecommendStatsFilterData = () => {
   }
 }
 
-const getRecommendStats = () => {
+const getRecommendProducts = () => {
   isLoading.value = true
-  ProductService.getRecommendStats(
+  ProductService.getRecommendProducts(
     {
       intervalType: filterRecommendData.intervalType,
       limit: filterRecommendData.limit
@@ -142,11 +144,11 @@ const getRecommendStats = () => {
 
 onMounted(() => {
   cleanFilterRecommendData
-  getRecommendStats()
-  ProductService.getProductStats()
-    .then((res) => {
-      productStats.value = res
-    })
+  getRecommendProducts()
+  // ProductService.getProductStats()
+  //   .then((res) => {
+  //     productStats.value = res
+  //   })
 })
 
 const recommendDropdown = ref()
@@ -232,7 +234,7 @@ onClickOutside(recommendDropdown, () => {
         </div>
       </div>
       <button @click="openHiddenRecommendProductsModal"
-      class="w-full md:w-auto py-2 px-4 rounded-full text-white text-lg font-medium bg-blue-500 cursor-pointer hover:bg-blue-600">{{t('hiddenProducts')}}</button>
+        class="w-full md:w-auto py-2 px-4 rounded-full text-white text-lg font-medium bg-blue-500 cursor-pointer hover:bg-blue-600">{{ t('hiddenRecommendProducts') }}</button>
     </div>
   </div>
   <div v-if="isLoading" class="flex items-center justify-center h-20">

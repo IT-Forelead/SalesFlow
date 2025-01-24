@@ -704,7 +704,7 @@ const toggleShowHideButtons = () => {
                       <QrCodeIcon class="bg-slate-100 dark:bg-slate-900 absolute top-3 right-3"/>
                     </div>
                 <div class="w-full">
-                  {{ $t('Session') }}
+                  {{ $t('sessions') }}
                 </div>
               </router-link>
               <div v-if="showHideButtons">
@@ -1163,7 +1163,7 @@ const toggleShowHideButtons = () => {
                       <UserIcon class="absolute top-0 right-0 w-6 h-6" />
                       <QrCodeIcon class="bg-slate-100 dark:bg-slate-900 absolute top-3 right-3"/>
                     </div>
-                    <div class="w-full">{{ $t('session') }}</div>
+                    <div class="w-full">{{ $t('sessions') }}</div>
                   </router-link>
                   <div v-if="showHideButtons">
                     <button @click="restoreSessionFromOthers"

@@ -13,15 +13,15 @@ const isLoading = ref(false)
 const productStore = useProductStore()
 
 const closeModal = () => {
-  useModalStore().closeDeleteRecentProductsModal()
+  useModalStore().closeDeleteRecentProductModal()
   productStore.setSelectedProduct({})
 }
 
-const deleteRecetnlyHideProduct = () => {
-  ProductService.deleteRecetnlyHideProduct(useProductStore().selectedProduct.productId)
+const hideRecentProduct = () => {
+  ProductService.hideRecentProduct(useProductStore().selectedProduct.productId)
     .then(() => {
       toast.success(t('recommendDeletedSuccessfully'))
-      ProductService.getRecentlyOutProducts(
+      ProductService.getRecentProducts(
         {
           intervalType: productStore.intervalType,
           limit: productStore.limit
@@ -29,7 +29,7 @@ const deleteRecetnlyHideProduct = () => {
       )
         .then((res) => {
           productStore.clearStore()
-          productStore.setRecentlyProducts(res)
+          productStore.setRecentProducts(res)
           closeModal()
           productStore.renderKey += 1
         })
@@ -45,10 +45,10 @@ const deleteRecetnlyHideProduct = () => {
 </script>
 
 <template>
-  <CModal :is-open="useModalStore().isOpenDeleteRecentProductsModal"
-    v-if="useModalStore().isOpenDeleteRecentProductsModal" @close=closeModal>
+  <CModal :is-open="useModalStore().isOpenDeleteRecentProductModal"
+    v-if="useModalStore().isOpenDeleteRecentProductModal" @close=closeModal>
     <template v-slot:header>
-      {{ $t('deleteRecetnlyHideProduct') }}
+      {{ $t('hideRecentProduct') }}
     </template>
     <template v-slot:body>
       <div class="flex items-center justify-center">
@@ -64,7 +64,7 @@ const deleteRecetnlyHideProduct = () => {
                 class="w-full md:w-auto py-2 px-4 rounded-xl text-gray-900 text-base font-medium bg-slate-50 cursor-pointer hover:bg-slate-200 border md:flex-1">
                 {{ $t('no') }}
               </button>
-              <button @click="deleteRecetnlyHideProduct"
+              <button @click="hideRecentProduct"
                 class="w-full md:w-auto py-2 px-4 rounded-xl text-white text-base font-medium bg-red-600 cursor-pointer hover:bg-red-700">
                 {{ $t('yesOfCourse') }}
               </button>

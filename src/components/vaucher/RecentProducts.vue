@@ -15,8 +15,8 @@ import CTable from '../common/CTable.vue'
 const { t } = useI18n()
 const isLoading = ref(false)
 const globalSearchFromTable = ref('')
+// const productStats = ref()
 const productStore = useProductStore()
-const productStats = ref()
 
 const recentProducts = computed(() => productStore.recentProducts)
 const renderKey = computed(() => productStore.renderKey)
@@ -33,10 +33,6 @@ const columns = [
     header: t('serialId'),
   },
   {
-    accessorKey: 'productId',
-    header: t('productId')
-  },
-  {
     accessorKey: 'name',
     header: t('name'),
   },
@@ -46,7 +42,7 @@ const columns = [
   },
   {
     accessorKey: 'barcode',
-    header: t('bardcode')
+    header: t('barcode')
   },
   {
     accessorKey: 'saleType',
@@ -66,7 +62,7 @@ const columns = [
     cell: ({ row }) => h('div', { class: 'flex items-center space-x-2' }, [
       h('button', {
         onClick: () => {
-          openDeleteRecentProductsModal(row.original)
+          openDeleteRecentProductModal(row.original)
         },
       }, [
         h(EyeSlashIcon, { class: 'w-6 h-6 text-red-600 hover:scale-105' }),
@@ -76,17 +72,17 @@ const columns = [
   },
 ]
 
-const openDeleteRecentProductsModal = (data) => {
-  useModalStore().openDeleteRecentProductsModal()
+const openDeleteRecentProductModal = (data) => {
+  useModalStore().openDeleteRecentProductModal()
   productStore.setSelectedProduct(data)
 }
 
 const openHiddenRecentProductsModal = () => {
-  ProductService.getRecentlyProducts(1, 30).then((res) => {
-      productStore.clearStore()
-      productStore.setHiddenRecentProducts(res.data)
-      useModalStore().openHiddenRecentProductsModal()
-    })
+  ProductService.getHiddenRecentProducts(1, 30).then((res) => {
+    productStore.clearStore()
+    productStore.setHiddenRecentProducts(res.data)
+    useModalStore().openHiddenRecentProductsModal()
+  })
 }
 
 const filterRecentData = reactive({
@@ -100,34 +96,39 @@ const cleanFilterRecentData = () => {
 }
 
 const submitRecentStatsFilterData = () => {
-  if (!filterRecentData.intervalType || !filterRecentData.limit) {
-    toast.warning(t('Пожалуйста, заполните все поля фильтра.'));
-    return;
+  if (!filterRecentData.intervalType) {
+    toast.warning(t('plsSelectIntervalType'))
+  } else if (!filterRecentData.limit) {
+    toast.warning(t('plsSelectLimit'))
+  } else {
+    isLoading.value = true
+    productStore.setIntervalType(filterRecentData.intervalType)
+    productStore.setLimit(filterRecentData.limit)
+    ProductService.getRecentProducts({
+      intervalType: filterRecentData.intervalType,
+      limit: filterRecentData.limit,
+    }).then((res) => {
+      productStore.clearStore()
+      productStore.setRecentProducts(res)
+      isLoading.value = false
+      if (useDropdownStore().isOpenRecentFilterBy) {
+        useDropdownStore().toggleRecentFilterBy()
+      }
+    }).catch(() => {
+      isLoading.value = false
+    })
   }
-  isLoading.value = true;
-  ProductService.getRecentlyOutProducts({
-    intervalType: filterRecentData.intervalType,
-    limit: filterRecentData.limit,
-  })
+}
+
+const getRecentProducts = () => {
+  isLoading.value = true
+  ProductService.getRecentProducts(
+    {
+      intervalType: filterRecentData.intervalType,
+      limit: filterRecentData.limit
+    }
+  )
     .then((res) => {
-      productStore.setRecentProducts(res.data);
-    })
-    .catch((err) => {
-      console.error('Ошибка при загрузке данных:', err);
-    })
-    .finally(() => {
-      isLoading.value = false;
-    });
-};
-
-
-const getRecentlyOutProducts = () => {
-  isLoading.value = true;
-  ProductService.getRecentlyOutProducts({
-    intervalType: filterRecentData.intervalType,
-    limit: filterRecentData.limit,
-  })
-  .then((res) => {
       productStore.clearStore()
       productStore.setRecentProducts(res)
     }).finally(() => {
@@ -136,13 +137,12 @@ const getRecentlyOutProducts = () => {
 }
 
 onMounted(() => {
-  console.log('Вызов getRecentlyOutProducts');
   cleanFilterRecentData
-  getRecentlyOutProducts()
-  ProductService.getProductStats()
-  .then((res) => {
-      productStats.value = res
-    })
+  getRecentProducts()
+  // ProductService.getRecentProducts()
+  //   .then((res) => {
+  //     productStats.value = res
+  //   })
 })
 
 const recentDropdown = ref()
@@ -228,7 +228,7 @@ onClickOutside(recentDropdown, () => {
         </div>
       </div>
       <button @click="openHiddenRecentProductsModal"
-      class="w-full md:w-auto py-2 px-4 rounded-full text-white text-lg font-medium bg-blue-500 cursor-pointer hover:bg-blue-600">{{t('hiddenProducts')}}</button>
+        class="w-full md:w-auto py-2 px-4 rounded-full text-white text-lg font-medium bg-blue-500 cursor-pointer hover:bg-blue-600">{{ t('hiddenRecentProducts') }}</button>
     </div>
   </div>
   <div v-if="isLoading" class="flex items-center justify-center h-20">

@@ -1,8 +1,6 @@
 <script setup>
+import { vMaska } from 'maska'
 import { reactive, ref, computed, h, onMounted } from 'vue'
-import { toast } from 'vue-sonner'
-import Spinners270RingIcon from '../../assets/icons/Spinners270RingIcon.vue'
-import { cleanObjectEmptyFields } from '../../mixins/utils'
 import { useModalStore } from '../../store/modal.store.js'
 import CancelButton from '../buttons/CancelButton.vue'
 import CModal from '../common/CModal.vue'
@@ -15,25 +13,14 @@ import EyeIcon from '@/assets/icons/EyeIcon.vue'
 const { t } = useI18n()
 const productStore = useProductStore()
 const renderKey = computed(() => productStore.renderKey)
-// const page = ref(1)
-// const pageSize = 30
 const isLoading = ref(false)
 const hiddenRecentProducts = computed(() => productStore.hiddenRecentProducts)
 
 const columns = [
-{
+  {
     accessorKey: 'id',
     header: t('n'),
     cell: ({ row }) => `${parseInt(row.id, 10) + 1}`,
-    enableSorting: false,
-  },
-  {
-    accessorKey: 'serialId',
-    header: t('serialId'),
-  },
-  {
-    accessorKey: 'productId',
-    header: t('productId')
   },
   {
     accessorKey: 'name',
@@ -41,23 +28,7 @@ const columns = [
   },
   {
     accessorKey: 'packaging',
-    header: t('packaging')
-  },
-  {
-    accessorKey: 'barcode',
-    header: t('bardcode')
-  },
-  {
-    accessorKey: 'saleType',
-    header: t('saleType'),
-  },
-  {
-    accessorKey: 'remaining',
-    header: t('remaining')
-  },
-  {
-    accessorKey: 'sold',
-    header: t('sold')
+    header: t('packaging'),
   },
   {
     accessorKey: 'actions',
@@ -90,9 +61,9 @@ const cleanFilterRecentData = () => {
   filterRecentData.limit = 0
 }
 
-const getRecentlyProducts = () => {
+const getRecentProducts = () => {
   isLoading.value = true
-  ProductService.getRecentlyProducts(
+  ProductService.getRecentProducts(
     {
       intervalType: filterRecentData.intervalType,
       limit: filterRecentData.limit
@@ -108,8 +79,11 @@ const getRecentlyProducts = () => {
 
 onMounted(() => {
   cleanFilterRecentData
-  getRecentlyProducts()
-  
+  getRecentProducts()
+  // ProductService.getProductStats()
+  //   .then((res) => {
+  //     productStats.value = res
+  //   })
 })
 
 const closeModal = () => {

@@ -21,7 +21,7 @@ const hideUnprofitableProduct = () => {
   ProductService.hideUnprofitableProduct(useProductStore().selectedProduct.productId)
     .then(() => {
       toast.success(t('unprofitableDeletedSuccessfully'))
-      ProductService.getUnprofitableStats(
+      ProductService.getUnprofitableProducts(
         {
           intervalType: productStore.intervalType,
           limit: productStore.limit

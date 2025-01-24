@@ -13,31 +13,30 @@ const isLoading = ref(false)
 const productStore = useProductStore()
 
 const closeModal = () => {
-  useModalStore().closeUnhideRecommendProductModal()
+  useModalStore().closeUnhideRecentProductModal()
   productStore.setSelectedProduct({})
 }
 
-const unhideRecommendProduct = () => {
-  ProductService.unhideRecommendProduct(useProductStore().selectedHiddenProduct.productId)
+const unhideRecentProduct = () => {
+  ProductService.unhideRecentProduct(useProductStore().selectedHiddenRecentProduct.productId)
     .then(() => {
-      toast.success(t('recommendUnhidedSuccessfully'))
-      ProductService.getHiddenProducts(1, 30)
+      toast.success(t('recentUnhidedSuccessfully'))
+      ProductService.getHiddenRecentProducts(1, 30)
         .then((res) => {
-          productStore.clearHiddenProducts()
-          productStore.setHiddenProducts(res.data)
-
-          ProductService.getRecommendStats({
+          productStore.clearHiddenRecentProducts()
+          productStore.setHiddenRecentProducts(res.data)
+          ProductService.getRecentProducts({
             intervalType: productStore.intervalType,
             limit: productStore.limit,
           }).then((res) => {
-            productStore.clearRecommendProducts()
-            productStore.setRecommendProducts(res)
+            productStore.clearRecentProducts()
+            productStore.setRecentProducts(res)
             productStore.renderKey += 1
             closeModal()
           })
         })
         .catch(() => {
-          toast.error(t('errorWhileDeletingRecommend'))
+          toast.error(t('errorWhileDeletingRecent'))
           isLoading.value = false
         })
         .finally(() => {
@@ -48,10 +47,10 @@ const unhideRecommendProduct = () => {
 </script>
 
 <template>
-  <CModal :is-open="useModalStore().isOpenUnhideRecommendProductModal"
-    v-if="useModalStore().isOpenUnhideRecommendProductModal" @close=closeModal>
+  <CModal :is-open="useModalStore().isOpenUnhideRecentProductModal"
+    v-if="useModalStore().isOpenUnhideRecentProductModal" @close=closeModal>
     <template v-slot:header>
-      {{ $t('unhideRecommendProduct') }}
+      {{ $t('unhideRecentProduct') }}
     </template>
     <template v-slot:body>
       <div class="flex items-center justify-center">
@@ -67,7 +66,7 @@ const unhideRecommendProduct = () => {
                 class="w-full md:w-auto py-2 px-4 rounded-xl text-gray-900 text-base font-medium bg-slate-50 cursor-pointer hover:bg-slate-200 border md:flex-1">
                 {{ $t('no') }}
               </button>
-              <button @click="unhideRecommendProduct()"
+              <button @click="unhideRecentProduct()"
                 class="w-full md:w-auto py-2 px-4 rounded-xl text-white text-base font-medium bg-red-600 cursor-pointer hover:bg-red-700">
                 {{ $t('yesOfCourse') }}
               </button>

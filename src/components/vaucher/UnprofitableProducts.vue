@@ -4,7 +4,7 @@ import { useI18n } from 'vue-i18n'
 import { useProductStore } from '../../store/product.store.js'
 import { useModalStore } from '../../store/modal.store.js'
 import ProductService from '../../services/product.service.js'
-import { useDropdownStore } from '../../store/dropdown.store.js'
+import { useDropdownStore } from '../../store/dropdown.store'
 import Spinners270RingIcon from '../../assets/icons/Spinners270RingIcon.vue'
 import SearchIcon from '../../assets/icons/SearchIcon.vue'
 import FunnelIcon from '../../assets/icons/FunnelIcon.vue'
@@ -15,7 +15,7 @@ import CTable from '../common/CTable.vue'
 const { t } = useI18n()
 const isLoading = ref(false)
 const globalSearchFromTable = ref('')
-const productStats = ref()
+// const productStats = ref()
 const productStore = useProductStore()
 
 const unprofitableProducts = computed(() => productStore.unprofitableProducts)
@@ -29,20 +29,32 @@ const columns = [
     enableSorting: false,
   },
   {
-    accessorKey: 'productName',
-    header: t('productName')
+    accessorKey: 'serialId',
+    header: t('serialId'),
+  },
+  {
+    accessorKey: 'name',
+    header: t('name'),
   },
   {
     accessorKey: 'packaging',
-    header: t('packaging'),
+    header: t('packaging')
+  },
+  {
+    accessorKey: 'barcode',
+    header: t('barcode')
   },
   {
     accessorKey: 'saleType',
-    header: t('saleType')
+    header: t('saleType'),
   },
   {
-    accessorKey: 'deficit',
-    header: t('deficit')
+    accessorKey: 'remaining',
+    header: t('remaining')
+  },
+  {
+    accessorKey: 'sold',
+    header: t('sold')
   },
   {
     accessorKey: 'actions',
@@ -67,10 +79,10 @@ const openDeleteUnprofitableProductModal = (data) => {
 
 const openHiddenUnprofitableProductsModal = () => {
   ProductService.getHiddenUnprofitableProducts(1, 30).then((res) => {
-      productStore.clearStore()
-      productStore.setHiddenUnprofitableProducts(res.data)
-      useModalStore().openHiddenUnprofitableProductsModal()
-    })
+    productStore.clearStore()
+    productStore.setHiddenUnprofitableProducts(res.data)
+    useModalStore().openHiddenUnprofitableProductsModal()
+  })
 }
 
 const filterUnprofitableData = reactive({
@@ -92,7 +104,7 @@ const submitUnprofitableStatsFilterData = () => {
     isLoading.value = true
     productStore.setIntervalType(filterUnprofitableData.intervalType)
     productStore.setLimit(filterUnprofitableData.limit)
-    ProductService.getUnprofitableStats({
+    ProductService.getUnprofitableProducts({
       intervalType: filterUnprofitableData.intervalType,
       limit: filterUnprofitableData.limit,
     }).then((res) => {
@@ -108,9 +120,9 @@ const submitUnprofitableStatsFilterData = () => {
   }
 }
 
-const getUnprofitableStats = () => {
+const getUnprofitableProducts = () => {
   isLoading.value = true
-  ProductService.getUnprofitableStats(
+  ProductService.getUnprofitableProducts(
     {
       intervalType: filterUnprofitableData.intervalType,
       limit: filterUnprofitableData.limit
@@ -126,11 +138,11 @@ const getUnprofitableStats = () => {
 
 onMounted(() => {
   cleanFilterUnprofitableData
-  getUnprofitableStats()
-  ProductService.getProductStats()
-    .then((res) => {
-      productStats.value = res
-    })
+  getUnprofitableProducts()
+  // ProductService.getUnprofitableProducts()
+  //   .then((res) => {
+  //     productStats.value = res
+  //   })
 })
 
 const unprofitableDropdown = ref()
@@ -216,7 +228,7 @@ onClickOutside(unprofitableDropdown, () => {
         </div>
       </div>
       <button @click="openHiddenUnprofitableProductsModal"
-      class="w-full md:w-auto py-2 px-4 rounded-full text-white text-lg font-medium bg-blue-500 cursor-pointer hover:bg-blue-600">{{t('hiddenUnprofitableProducts')}}</button>
+        class="w-full md:w-auto py-2 px-4 rounded-full text-white text-lg font-medium bg-blue-500 cursor-pointer hover:bg-blue-600">{{ t('hiddenUnprofitableProducts') }}</button>
     </div>
   </div>
   <div v-if="isLoading" class="flex items-center justify-center h-20">
