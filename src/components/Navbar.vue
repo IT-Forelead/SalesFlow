@@ -120,8 +120,8 @@ onUnmounted(() => {
       <div class="flex space-x-1 items-center justify-center">
         <img src="/images/logo.svg" class="w-10 h-10" alt="#">
         <div class="text-2xl font-extrabold">
-          <span class="text-[#0167f3]">Sale</span>
-          <span class="dark:text-white">Flow</span>
+          <span class="text-[#0167f3]">Pro</span>
+          <span class="dark:text-white">Market</span>
         </div>
       </div>
     </div>

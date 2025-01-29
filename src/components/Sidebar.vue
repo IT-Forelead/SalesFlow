@@ -408,8 +408,8 @@ const toggleShowHideButtons = () => {
           <div class="flex space-x-1 items-center justify-center">
             <img src="/images/logo.svg" class="w-12 h-12" alt="#">
             <div class="text-3xl font-extrabold cursor-default">
-              <span class="text-[#0167f3]">Sales</span>
-              <span class="dark:text-white">Flow</span>
+              <span class="text-[#0167f3]">Pro</span>
+              <span class="dark:text-white">Market</span>
             </div>
           </div>
           <div class="flex items-center justify-end">
