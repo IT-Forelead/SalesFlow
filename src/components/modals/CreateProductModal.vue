@@ -68,12 +68,9 @@ const submitData = reactive({
   saleType: '',
   price: 0,
   toLend: false,
-  autoUtilization: false,
   quantity: 0,
   purchasePrice: 0,
   boxPrice: 0,
-  productionDate: moment().format('YYYY-MM-DD'),
-  expirationDate: '',
 })
 
 const clearSubmitData = () => {
@@ -85,10 +82,7 @@ const clearSubmitData = () => {
   submitData.price = 0
   submitData.purchasePrice = 0
   submitData.boxPrice = 0
-  submitData.productionDate = moment().format('YYYY-MM-DD')
-  submitData.expirationDate = ''
   submitData.toLend = false
-  submitData.autoUtilization = false
   submitData.quantity = 0
 }
 
@@ -109,8 +103,6 @@ const createProduct = () => {
     toast.warning(t('plsEnterProductName'))
   } else if (submitData.barcode && !isBarcode(submitData.barcode)) {
     toast.warning(t('barcodeIsInvalid'))
-  } else if (!submitData.packaging) {
-    toast.warning(t('plsEnterProductPackaging'))
   } else if (!submitData.saleType) {
     toast.warning(t('plsSelectSaleType'))
   } else if (!submitData.quantity || submitData.quantity < 0) {
@@ -129,11 +121,8 @@ const createProduct = () => {
         saleType: submitData.saleType,
         price: submitData.price,
         purchasePrice: submitData.purchasePrice,
-        expirationDate: submitData.expirationDate,
-        productionDate: submitData.productionDate,
         quantity: submitData.quantity,
         toLend: submitData.toLend,
-        autoUtilization: submitData.autoUtilization,
         agentId: selectedAgent.value?.id,
       }),
     ).then(() => {
@@ -337,10 +326,7 @@ watch(
       submitData.price = data?.price
       submitData.quantity = data?.quantity
       submitData.toLend = data?.toLend
-      submitData.autoUtilization = data?.autoUtilization
       submitData.purchasePrice = data?.purchasePrice
-      submitData.productionDate = data?.productionDate
-      submitData.expirationDate = data?.expirationDate
     }
   },
   { deep: true },
@@ -426,11 +412,6 @@ const createAgent = () => {
   }
 }
 
-const calculateExpirationDate = (months) => {
-  const newDate = moment(submitData.productionDate, 'YYYY-MM-DD').add(months, 'months')
-  submitData.expirationDate = newDate.format('YYYY-MM-DD')
-}
-
 </script>
 
 <template>
@@ -506,7 +487,6 @@ const calculateExpirationDate = (months) => {
             <div class="flex-1 space-y-1">
               <label for="default-value" class="text-base dark:text-white md:text-lg font-medium">
                 {{ $t('packaging') }}
-                <span class="text-red-500 mr-2">*</span>
               </label>
               <input id="default-value" type="text" v-model="submitData.packaging"
                      class="bg-slate-100 border-none dark:bg-slate-700 dark:text-white text-slate-900 rounded-lg w-full h-11 placeholder-slate-400 placeholder:text-sm md:placeholder:text-lg"
@@ -565,36 +545,11 @@ const calculateExpirationDate = (months) => {
               </money3>
             </div>
           </div>
-          <div class="flex flex-col md:flex-row md:items-center space-y-2 md:space-y-0 md:space-x-4">
-            <div class="flex-1 space-y-1">
-              <label for="quantity" class="text-base dark:text-white md:text-lg font-medium">
-                {{ $t('productionDate') }}
-              </label>
-              <input id="quantity" type="date" v-model="submitData.productionDate"
-                     class="bg-slate-100 border-none dark:bg-slate-700 dark:text-white text-slate-900 rounded-lg w-full h-11 placeholder-slate-400 placeholder:text-sm md:placeholder:text-lg"
-                     :placeholder="t('enterProductQuantity')">
-            </div>
-            <div class="flex-1 space-y-1">
-              <label for="price" class="text-base dark:text-white md:text-lg font-medium">
-                {{ $t('expirationDate') }}
-              </label>
-              <input id="quantity" type="date" v-model="submitData.expirationDate"
-                     class="bg-slate-100 border-none dark:bg-slate-700 dark:text-white text-slate-900 rounded-lg w-full h-11 placeholder-slate-400 placeholder:text-sm md:placeholder:text-lg">
-            </div>
-          </div>
-          <div class="space-x-3.5 space-y-2 md:text-left text-center">
-            <button
-              v-for="months in [1, 3, 6, 9, 12, 24]" :key="months"
-              @click="calculateExpirationDate(months)"
-              type="button"
-              class="dark:text-white text-slate-600 bg-white dark:bg-slate-800  hover:dark:bg-slate-400 hover:bg-slate-100 focus:ring-4 focus:outline-none focus:ring-slate-300 rounded-xl border border-slate-200 text-sm font-medium px-4 py-2.5 hover:dark:text-white lowercase"
-            >+ {{ months }} {{ t("month") }}</button>
-          </div>
+          
           <div class="flex flex-col md:flex-row md:items-center space-y-2 md:space-y-0 md:space-x-4">
             <div class="flex-1 space-y-1 items-center">
               <label for="agents" class="text-base dark:text-white md:text-lg font-medium">
                 {{ $t('agents') }}
-                <span class="text-red-500 mr-2">*</span>
               </label>
               <div class="flex space-x-2 space-y-1 items-center flex-row">
                 <SelectOptionAgent class="w-96 " :options="agents" />
@@ -656,28 +611,11 @@ const calculateExpirationDate = (months) => {
                 <input v-model="submitData.toLend" id="toLend" type="checkbox"
                        class="w-5 h-5 text-blue-600 dark:bg-gray-600 border-slate-300 dark:border-slate-600 rounded focus:ring-blue-500 focus:ring-2 mr-2">
                 <label for="toLend" class="py-2 text-base font-medium">{{ $t('toLend') }}</label>
-
-                
               </div>
-              
-              
-              
             </div>
-            <div class="flex-1 space-y-1 md:pb-0 pb-12">
-
-
-            <label for="autoUtilization" class="text-base dark:text-white md:text-lg font-medium">
-                {{ $t('autoUtilization') }}
-              </label>
-              <div class="flex items-center px-4 border border-gray-200 dark:border-gray-600 dark:bg-slate-700 dark:text-white bg-slate-50 rounded-lg mt-2 lg:mt-0 md:mt-0">
-                <input v-model="submitData.autoUtilization" id="autoUtilization" type="checkbox"
-                       class="w-5 h-5 text-blue-600 dark:bg-gray-600 border-slate-300 dark:border-slate-600 rounded focus:ring-blue-500 focus:ring-2 mr-2">
-                <label for="autoUtilization" class="py-2 text-base font-medium">{{ $t('autoUtilization') }}</label>
-                </div>
-              </div>
-          </div>
           </div>
         </div>
+      </div>
     </template>
     <template v-slot:footer>
       <CancelButton @click="closeModal" />
