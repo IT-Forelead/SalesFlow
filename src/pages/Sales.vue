@@ -197,7 +197,6 @@ const discount = ref(0);
 const onDebtFocus = ref(null);
 const onCustomerMoneyFocus = ref(0);
 const onCashbackFocus = ref(null);
-const expirationDate = ref();
 // const onDebtFocus = ref(null)
 
 const setDiscountValue = (value) => {
@@ -359,11 +358,8 @@ const addProductToCart = (product, amount) => {
 
       const updatedProduct = { ...existingProduct, amount: updatedAmount };
 
-      if (updatedProduct.expirationDate && new Date().setHours(0, 0, 0, 0) > new Date(updatedProduct.expirationDate)) {
-        expiredProduct.play();
-      } else {
-        addedToBasket.play();
-      }
+
+      addedToBasket.play();
 
       activeBasket.value.splice(existingProductIndex, 1);
       activeBasket.value.unshift(updatedProduct);
@@ -396,14 +392,9 @@ const addProductToCart = (product, amount) => {
         saleType: product?.saleType,
         amount: newAmount,
         serialId: product?.serialId,
-        expirationDate: product?.expirationDate,
       };
 
-      if (newProduct.expirationDate && new Date().setHours(0, 0, 0, 0) > new Date(newProduct.expirationDate)) {
-        expiredProduct.play();
-      } else {
-        addedToBasket.play();
-      }
+      addedToBasket.play();
 
       activeBasket.value.unshift(newProduct);
       clearSearchInput();
@@ -601,19 +592,13 @@ const createOrder = (printCheck = true) => {
     toast.error('Tanlangan mahsulotlar mavjud emas!');
   } else if (submitData.paymentReceived < 0) {
     toast.error(t('enterCorrectPayment'))
-  } else if (activeBasket.value.filter(p => p.expirationDate != null && new Date().setHours(0, 0, 0, 0) > new Date(p.expirationDate)).length > 0) {
-    toast.error(t('dontSellExpireProducts'))
   } else {
     if (printCheck) {
       isLoadingOrderWithPrint.value = true;
     } else {
       isLoadingOrderWithoutPrint.value = true;
     }
-    if (activeBasket.value.filter(p => p.expirationDate == null).length > 0) {
-      setTimeout(() => {
-        toast.warning(t('expirationSold'))
-      }, 2000)
-    }
+
     OrderService.createOrder(
       cleanObjectEmptyFields({
         holidayDiscountId: holidayDiscount.value?.id,
@@ -764,14 +749,6 @@ watch(
     realPrice.value = activeBasket.value
       .map((product) => product?.price * roundFloatToTwoDecimal(product?.amount))
       .reduce((accumulator, currentValue) => accumulator + currentValue, 0);
-  },
-  { deep: true },
-);
-watch(
-  () => expirationDate.value,
-  () => {
-    expirationDate.value = activeBasket.value
-      .map((product) => product?.expirationDate)
   },
   { deep: true },
 );
@@ -1505,7 +1482,6 @@ const handlePrintCheckChange = () => {
             <tbody
               class="bg-slate-100 dark:text-slate-100 divide-y-8 dark:divide-slate-800 dark:bg-gray-700 divide-white">
               <tr :class="{
-                'bg-red-100 dark:bg-red-400': product.expirationDate && new Date().setHours(0, 0, 0, 0) > new Date(product.expirationDate),
                 'bg-blue-100 dark:text-slate-100 dark:bg-gray-600': selectP === product
               }" @click="selectProduct(product)" v-for="(product, idx) in activeBasket" :key="idx"
                 class="overflow-x-auto overflow-y-auto">
@@ -1529,25 +1505,6 @@ const handlePrintCheckChange = () => {
                           {{ $t('remainingAmount') }}:
                           <span class="text-red-600 text-sm dark:text-red-600 md:text-base">
                             {{ roundFloatToTwoDecimal(product?.quantity - product?.amount) }}
-                          </span>
-                        </div>
-                        <div v-if="new Date().setHours(0, 0, 0, 0) > new Date(product.expirationDate)">
-                          {{ $t('expirationDate') }}:
-                          <span class="text-red-600 text-sm md:text-base">
-                            {{ product?.expirationDate }}
-                          </span>
-                        </div>
-                        <div
-                          v-else-if="new Date().setHours(0, 0, 0, 0) == new Date(product.expirationDate).setHours(0, 0, 0, 0)">
-                          {{ $t('expirationDate') }}:
-                          <span class="text-orange-400 text-sm md:text-base">
-                            {{ product?.expirationDate }}
-                          </span>
-                        </div>
-                        <div v-else>
-                          {{ $t('expirationDate') }}:
-                          <span class="text-sm md:text-base">
-                            {{ product?.expirationDate }}
                           </span>
                         </div>
                       </div>

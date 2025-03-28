@@ -339,8 +339,6 @@ watch(
       submitData.toLend = data?.toLend
       submitData.autoUtilization = data?.autoUtilization
       submitData.purchasePrice = data?.purchasePrice
-      submitData.productionDate = data?.productionDate
-      submitData.expirationDate = data?.expirationDate
     }
   },
   { deep: true },
@@ -565,31 +563,7 @@ const calculateExpirationDate = (months) => {
               </money3>
             </div>
           </div>
-          <div class="flex flex-col md:flex-row md:items-center space-y-2 md:space-y-0 md:space-x-4">
-            <div class="flex-1 space-y-1">
-              <label for="quantity" class="text-base dark:text-white md:text-lg font-medium">
-                {{ $t('productionDate') }}
-              </label>
-              <input id="quantity" type="date" v-model="submitData.productionDate"
-                     class="bg-slate-100 border-none dark:bg-slate-700 dark:text-white text-slate-900 rounded-lg w-full h-11 placeholder-slate-400 placeholder:text-sm md:placeholder:text-lg"
-                     :placeholder="t('enterProductQuantity')">
-            </div>
-            <div class="flex-1 space-y-1">
-              <label for="price" class="text-base dark:text-white md:text-lg font-medium">
-                {{ $t('expirationDate') }}
-              </label>
-              <input id="quantity" type="date" v-model="submitData.expirationDate"
-                     class="bg-slate-100 border-none dark:bg-slate-700 dark:text-white text-slate-900 rounded-lg w-full h-11 placeholder-slate-400 placeholder:text-sm md:placeholder:text-lg">
-            </div>
-          </div>
-          <div class="space-x-3.5 space-y-2 md:text-left text-center">
-            <button
-              v-for="months in [1, 3, 6, 9, 12, 24]" :key="months"
-              @click="calculateExpirationDate(months)"
-              type="button"
-              class="dark:text-white text-slate-600 bg-white dark:bg-slate-800  hover:dark:bg-slate-400 hover:bg-slate-100 focus:ring-4 focus:outline-none focus:ring-slate-300 rounded-xl border border-slate-200 text-sm font-medium px-4 py-2.5 hover:dark:text-white lowercase"
-            >+ {{ months }} {{ t("month") }}</button>
-          </div>
+          
           <div class="flex flex-col md:flex-row md:items-center space-y-2 md:space-y-0 md:space-x-4">
             <div class="flex-1 space-y-1 items-center">
               <label for="agents" class="text-base dark:text-white md:text-lg font-medium">

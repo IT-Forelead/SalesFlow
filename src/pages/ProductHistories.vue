@@ -68,16 +68,12 @@ const filterData = reactive({
   remainingProducts: false,
   sortBy: '',
   sortOrder: '',
-  startExpirationDate: '',
-  endExpirationDate: '',
 })
 
 const clearFilterData = () => {
   filterData.remainingProducts = false
   filterData.sortBy = ''
   filterData.sortOrder = ''
-  filterData.startExpirationDate = ''
-  filterData.endExpirationDate = ''
 }
 
 const currentPage = computed(() => productHistoryStore.currentPage )
@@ -161,16 +157,6 @@ const columns = [
     header: t('percent'),
     cell: ({ row }) => calcPercentOfSale(row.original.purchasePrice, row.original.price) + '%',
     enableSorting: false,
-  },
-  {
-    accessorKey: 'production_date',
-    header: t('productionDate'),
-    cell: ({ row }) => row.original.productionDate,
-  },
-  {
-    accessorKey: 'expiration_date',
-    header: t('expirationDate'),
-    cell: ({ row }) => row.original.expirationDate,
   },
   {
     accessorKey: 'createdAt',
@@ -258,8 +244,6 @@ const printLabel = (product) => {
         packaging: product.packaging,
         serialId: product.serialId,
         price: product.price,
-        productionDate: product.productionDate,
-        expirationDate: product.expirationDate,
         totalPrice: product.price,
       }),
     )
@@ -315,16 +299,6 @@ const resetSortData = () => {
   clearFilterData()
   getProductHistories(filterData)
   useDropdownStore().toggleSortBy()
-}
-
-const submitFilterData = async () => {
-  isLoading.value = true
-  if (!filterData.startExpirationDate && !filterData.endExpirationDate) {
-    toast.error('Kamida bitta vaqtni tanlang')
-  } else {
-   await getProductHistories(filterData)
-    useDropdownStore().toggleFilterBy()
-  }
 }
 
 // const debounce = (fn, delay) => {
@@ -523,47 +497,6 @@ const onChange = (event) => {
                placeholder="Search everything...">
       </div>
       <div class="w-full md:w-auto order-1 md:order-2 flex space-x-2">
-        <div class="relative w-auto" ref="filterByDropdown">
-          <div @click="useDropdownStore().toggleFilterBy()"
-               class="border-none select-none text-gray-500 dark:bg-slate-700 dark:text-white bg-slate-100 rounded-full w-full p-2 px-5 flex items-center hover:bg-gray-200 cursor-pointer space-x-1">
-            <FunnelIcon class="w-5 h-5 text-gray-400 dark:text-white" />
-            <span>{{ $t('filter') }}</span>
-          </div>
-          <div v-if="useDropdownStore().isOpenFilterBy"
-               class="absolute bg-white dark:bg-slate-700 shadow-md rounded-xl w-64 p-3 z-20 top-12 right-0 space-y-3">
-            <div class="flex-1 space-y-1">
-              <label for="startExpirationDate" class="text-base dark:text-white md:text-lg font-medium">
-                {{ $t('from') }}
-              </label>
-              <input id="startExpirationDate" type="date" v-model="filterData.startExpirationDate"
-                     class="bg-slate-100 border-none text-slate-900 dark:text-white dark:bg-slate-600 rounded-lg w-full h-11 placeholder-slate-400 placeholder:text-sm md:placeholder:text-lg"
-                     :placeholder="t('enterProductQuantity')">
-            </div>
-            <div class="flex-1 space-y-1">
-              <label for="endExpirationDate" class="text-base dark:text-white md:text-lg font-medium">
-                {{ $t('to') }}
-              </label>
-              <input id="endExpirationDate" type="date" v-model="filterData.endExpirationDate"
-                class="bg-slate-100 border-none text-slate-900 dark:text-white dark:bg-slate-600 rounded-lg w-full h-11 placeholder-slate-400 placeholder:text-sm md:placeholder:text-lg"
-                :placeholder="t('enterProductQuantity')">
-            </div>
-            <div class="flex items-center space-x-2">
-              <div @click="clearFilterData()"
-                class="bg-blue-500 hover:bg-blue-600 cursor-pointer select-none py-2 px-3 text-white rounded-lg flex items-center justify-center">
-                <BroomIcon class="w-5 h-5 text-white" />
-              </div>
-              <div v-if="isLoading"
-                 class="w-full bg-blue-600 py-2 select-none text-white rounded-lg flex items-center justify-center">
-              <Spinners270RingIcon
-                class="mr-2 w-5 h-5 text-gray-200 animate-spin dark:text-white fill-gray-600 dark:fill-gray-300" />
-              <span>{{ $t('loading') }}</span>
-            </div>
-            <div v-else @click="submitFilterData()"
-                 class="w-full bg-blue-500 hover:bg-blue-600 cursor-pointer select-none py-2 text-white rounded-lg flex items-center justify-center">
-              <span>{{ $t('filter') }}</span></div>
-            </div>
-          </div>
-        </div>
         <div class="relative w-auto" ref="sortByDropdown">
           <div @click="useDropdownStore().toggleSortBy()"
             class="border-none select-none text-gray-500 dark:text-white dark:bg-slate-700 bg-slate-100 rounded-full w-full p-2 px-5 flex items-center hover:bg-gray-200 cursor-pointer space-x-1">
@@ -604,22 +537,6 @@ const onChange = (event) => {
               <li @click="getSort('quantity', 'DESC'); sortByOption = $t('byQuantity') + ` (ko'pi)`"
                 class="px-2 py-1 text-sm dark:text-white hover:bg-slate-100 hover:dark:bg-slate-900 rounded cursor-pointer">
                 {{ $t('byQuantity') }} `ko'pi`
-              </li>
-              <li @click="getSort('production_date', 'ASC'); sortByOption = $t('byProductionDate') + ' (eski)'"
-                class="px-2 py-1 text-sm dark:text-white hover:bg-slate-100 hover:dark:bg-slate-900 rounded cursor-pointer">
-                {{ $t('byProductionDate') }} (eski)
-              </li>
-              <li @click="getSort('production_date', 'DESC'); sortByOption = $t('byProductionDate') + ' (yangi)'"
-                class="px-2 py-1 text-sm dark:text-white hover:bg-slate-100 hover:dark:bg-slate-900 rounded cursor-pointer">
-                {{ $t('byProductionDate') }} (yangi)
-              </li>
-              <li @click="getSort('expiration_date', 'ASC'); sortByOption = $t  ('byExpirationDate') + ' (eski)'"
-                class="px-2 py-1 text-sm dark:text-white hover:bg-slate-100 hover:dark:bg-slate-900 rounded cursor-pointer">
-                {{ $t('byExpirationDate') }} (eski)
-              </li>
-              <li @click="getSort('expiration_date', 'DESC'); sortByOption = $t('byExpirationDate') + ' (yangi)'"
-                class="px-2 py-1 text-sm dark:text-white hover:bg-slate-100 hover:dark:bg-slate-900 rounded cursor-pointer">
-                {{ $t('byExpirationDate') }} (yangi)
               </li>
             </ul>
           </div>
