@@ -39,9 +39,13 @@ const columns = [
     cell: ({ row }) => `${parseInt(row.id, 10) + 1}`,
   },
   {
-    accessorKey: 'caisher',
-    header: t('cashier'),
-    accessorFn: row => `${row.cashierFirstName} ${row.cashierLastName}`,
+  accessorKey: 'cashier',
+  header: t('cashier'),
+  cell: ({ row }) => 
+    h('div', { class: 'space-y-1' }, [
+      h('div', { class: 'text-base text-gray-900 dark:text-zinc-200' }, row.original.cashierFirstName),
+      h('div', { class: 'text-base text-gray-900 dark:text-zinc-200' }, row.original.cashierLastName),
+    ]),
   },
   {
     accessorKey: 'createdAt',

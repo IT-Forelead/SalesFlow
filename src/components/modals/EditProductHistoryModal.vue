@@ -37,8 +37,6 @@ const submitData = reactive({
   productSaleType: '',
   quantity: 0,
   purchasePrice: 0,
-  productionDate: '',
-  expirationDate: '',
   toLend: false,
   autoUtilization: false,
   salePrice: 0,
@@ -52,8 +50,6 @@ const clearSubmitData = () => {
   submitData.productSaleType = ''
   submitData.purchasePrice = 0
   submitData.quantity = 0
-  submitData.productionDate = ''
-  submitData.expirationDate = ''
   submitData.salePrice = 0
   submitData.toLend = false
   submitData.autoUtilization = false
@@ -78,8 +74,6 @@ const editProductHistory = () => {
       purchasePrice: submitData.purchasePrice,
       salePrice: submitData.salePrice,
       quantity: submitData.quantity,
-      productionDate: submitData.productionDate,
-      expirationDate: submitData.expirationDate,
       toLend: submitData.toLend,
       autoUtilization: submitData.autoUtilization,
     }).then(() => {
@@ -114,8 +108,6 @@ watch(
       submitData.productSaleType = data?.saleType
       submitData.quantity = data?.quantity
       submitData.purchasePrice = data?.purchasePrice
-      submitData.productionDate = data?.productionDate
-      submitData.expirationDate = data?.expirationDate
       submitData.toLend = data?.toLend
       submitData.autoUtilization = data?.autoUtilization
       submitData.salePrice = data?.price
@@ -131,10 +123,6 @@ const closeModal = () => {
   clearSubmitData()
 }
 
-const calculateExpirationDate = (months) => {
-  const newDate = moment(submitData.productionDate, 'YYYY-MM-DD').add(months, 'months')
-  submitData.expirationDate = newDate.format('YYYY-MM-DD')
-}
 </script>
 
 <template>
@@ -203,28 +191,6 @@ const calculateExpirationDate = (months) => {
               <option value="litre">Litrli</option>
             </select>
           </div>
-        </div>
-        <div class="flex items-center space-x-4">
-          <div class="flex-1 space-y-1">
-            <label for="price" class="text-base dark:text-white md:text-lg font-medium">
-              {{ $t('productionDate') }}
-            </label>
-            <input id="quantity" type="date" v-model="submitData.productionDate"
-              class="bg-slate-100 border-none dark:bg-slate-700 dark:text-white text-slate-900 rounded-lg w-full h-11 placeholder-slate-400 placeholder:text-sm md:placeholder:text-lg"
-              :placeholder="t('enterProductQuantity')">
-          </div>
-          <div class="flex-1 space-y-1">
-            <label for="price" class="text-base dark:text-white md:text-lg font-medium">
-              {{ $t('expirationDate') }}
-            </label>
-            <input id="quantity" type="date" v-model="submitData.expirationDate"
-              class="bg-slate-100 border-none dark:bg-slate-700 dark:text-white text-slate-900 rounded-lg w-full h-11 placeholder-slate-400 placeholder:text-sm md:placeholder:text-lg">
-          </div>
-        </div>
-        <div class="space-x-2 space-y-1 md:text-left text-center">
-          <button v-for="months in [1, 3, 6, 9, 12, 24]" :key="months" @click="calculateExpirationDate(months)" type="button"
-            class="text-slate-600 dark:bg-slate-800 bg-white dark:text-white hover:bg-slate-100 focus:ring-4 focus:outline-none focus:ring-slate-300 rounded-xl border border-slate-200 text-sm font-medium px-2.5 py-1 hover:text-slate-900 hover:dark:text-white lowercase">+
-            {{ months }} {{ t("month") }}</button>
         </div>
         <div class="flex items-center space-x-4">
           <div class="flex-1 space-y-1">

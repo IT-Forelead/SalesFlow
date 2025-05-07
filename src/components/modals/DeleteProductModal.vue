@@ -71,7 +71,6 @@ const deleteProduct = () => {
         isLoading.value = false
           closeModal()
         }
-        
       })
       .catch(() => {
         toast.error(t('errorWhileDeletingProduct'))

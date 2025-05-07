@@ -124,7 +124,7 @@ watch(
     }
   }
 )
-
+ 
 onMounted(() => {
   getCategories();
 });

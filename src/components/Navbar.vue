@@ -52,10 +52,14 @@ import CreateCategoryModal from './modals/CreateCategoryModal.vue'
 import DeleteCategoryModal from './modals/DeleteCategoryModal.vue'
 import EditCategoryModal from './modals/EditCategoryModal.vue'
 import EditOrderModal from './modals/EditOrderModal.vue'
-
+import CreateExpenseModal from './modals/CreateExpenseModal.vue'
+import EditExpenseModal from './modals/EditExpenseModal.vue'
 import DeleteUnprofitableProduct from './modals/DeleteUnprofitableProduct.vue'
 import HiddenUnprofitableProductsModal from './modals/HiddenUnprofitableProductsModal.vue'
 import UnhideUnprofitableProduct from './modals/UnhideUnprofitableProduct.vue'
+
+import CreateInvestModal from './modals/CreateInvestModal.vue'
+import DeleteInvestModal from './modals/DeleteInvestModal.vue'
 
 const notificationDropdown = ref(null)
 
@@ -175,6 +179,10 @@ onUnmounted(() => {
   <HiddenUnprofitableProductsModal />
   <UnhideUnprofitableProduct />
   <EditOrderModal />
+  <CreateExpenseModal />
+  <EditExpenseModal />
+  <CreateInvestModal />
+  <DeleteInvestModal />
 </template>
 
 <style scoped></style>

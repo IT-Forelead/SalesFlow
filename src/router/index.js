@@ -177,8 +177,15 @@ const routes = [
   },
   {
     path: '/categories',
-    name: 'Category',
+    name: 'Categories',
     component: () => import('../pages/Categories.vue'),
+    meta: { layout: 'dashboard' },
+    beforeEnter: navigationGuards('view_agents'),
+  },
+  {
+    path: '/expenses',
+    name: 'Expenses',
+    component: () => import('../pages/Expenses.vue'),
     meta: { layout: 'dashboard' },
     beforeEnter: navigationGuards('view_agents'),
   },

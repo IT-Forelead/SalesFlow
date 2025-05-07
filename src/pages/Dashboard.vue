@@ -155,7 +155,7 @@ const profitChartOptions = computed(() => {
         },
       },
       tooltip: {
-        enabled: true,
+        enabled: false,
       },
       axisBorder: {
         show: false,
@@ -168,6 +168,9 @@ const profitChartOptions = computed(() => {
       axisBorder: {
         show: false,
       },
+      tooltip: {
+      enabled: false,
+    },
       axisTicks: {
         show: false,
       },
@@ -180,6 +183,9 @@ const profitChartOptions = computed(() => {
     },
     grid: {
       show: false,
+    },
+    tooltip: {
+      enabled: false,
     },
   }
 })
@@ -234,7 +240,7 @@ const salesChartOptions = computed(() => {
         },
       },
       tooltip: {
-        enabled: true,
+        enabled: false,
       },
       axisBorder: {
         show: false,
@@ -259,6 +265,9 @@ const salesChartOptions = computed(() => {
     },
     grid: {
       show: false,
+    },
+    tooltip: {
+      enabled: false,
     },
   }
 })
@@ -331,7 +340,7 @@ const salesAreaChartOptions = computed(() => {
       },
     },
     fill: {
-      opacity: 0.5,
+      opacity: 1,
     },
     grid: {
       yaxis: {
@@ -2494,7 +2503,7 @@ const recommendStatsAreaChartOptions = computed(() => {
       <!-- <div class="flex-1"></div> -->
       <div class="flex-1 flex flex-col space-y-4">
         <div class="flex flex-col md:flex-row md:items-center space-x-0 md:space-x-4 space-y-2 md:space-y-0">
-          <div class="flex-1 w-full space-y-4 rounded-3xl bg-slate-100 dark:bg-slate-900 p-5">
+          <div class="flex-1 w-full h-full space-y-4 rounded-3xl bg-slate-100 dark:bg-slate-900 p-5">
             <div
               class="flex flex-row md:flex-col items-center md:items-start space-x-4 md:space-x-0 space-y-0 md:space-y-2">
               <div class="inline-flex items-center justify-center rounded-xl bg-blue-100 dark:bg-slate-800 p-3">
@@ -2510,7 +2519,7 @@ const recommendStatsAreaChartOptions = computed(() => {
               </div>
             </div>
           </div>
-          <div class="flex-1 w-full space-y-4 rounded-3xl bg-slate-100 dark:bg-slate-900 p-5">
+          <div class="flex-1 w-full h-full space-y-4 rounded-3xl bg-slate-100 dark:bg-slate-900 p-5">
             <div
               class="flex flex-row md:flex-col items-center md:items-start space-x-4 md:space-x-0 space-y-0  md:space-y-2">
               <div class="inline-flex items-center justify-center rounded-xl bg-blue-100 dark:bg-slate-800 p-3">
@@ -2537,7 +2546,7 @@ const recommendStatsAreaChartOptions = computed(() => {
                   {{ $t('totalProductPrice') }}
                 </div>
                 <div class="text-xl md:text-2xl dark:text-white font-semibold">
-                  {{ useMoneyFormatter(productStats.sum) }}
+                  {{ useMoneyFormatter(productStats.purchaseSum) }}
                 </div>
               </div>
             </div>
@@ -2545,7 +2554,7 @@ const recommendStatsAreaChartOptions = computed(() => {
         </div>
         <div class="flex flex-col md:flex-row md:items-center space-x-0 md:space-x-4 space-y-2 md:space-y-0">
           <div v-for="(product, idx) in soldProductPrice" :key="idx"
-            class="flex-1 w-full space-y-4 rounded-3xl bg-slate-100 dark:bg-slate-900 p-5">
+            class="flex-1 w-full h-full space-y-4 rounded-3xl bg-slate-100 dark:bg-slate-900 p-5">
             <div
               class="flex flex-row md:flex-col items-center md:items-start space-x-4 md:space-x-0 space-y-0 md:space-y-2">
               <div class="inline-flex items-center justify-center rounded-xl bg-blue-100 dark:bg-slate-800 p-3">
@@ -2565,7 +2574,7 @@ const recommendStatsAreaChartOptions = computed(() => {
             </div>
           </div>
 
-          <div class="flex-1 w-full h-full space-y-4 rounded-3xl bg-slate-100 dark:bg-slate-900 p-5">
+          <div class="flex-1 w-full h-full h-full space-y-4 rounded-3xl bg-slate-100 dark:bg-slate-900 p-5">
             <div
               class="flex flex-row md:flex-col items-center md:items-start space-x-4 md:space-x-0 space-y-0 md:space-y-2">
               <div class="inline-flex items-center justify-center rounded-xl bg-blue-100 dark:bg-slate-800 p-3">
