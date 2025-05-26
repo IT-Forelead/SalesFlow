@@ -526,5 +526,6 @@
   "investAddedSuccessfully": "Инвестиция добавлена",
   "errorWhileCreatingInvest": "Ошибка при добавлении инвестиции",
   "investDeletedSuccessfully": "Инвестиция удалена",
-  "errorWhileDeletingInvest": "Ошибка при удалении инвестиции"
+  "errorWhileDeletingInvest": "Ошибка при удалении инвестиции",
+  "totalProductCost": "Общая закупочная стоимость"
 }

@@ -2543,7 +2543,7 @@ const recommendStatsAreaChartOptions = computed(() => {
               </div>
               <div>
                 <div class="text-base text-gray-600 dark:text-white">
-                  {{ $t('totalProductPrice') }}
+                  {{ $t('totalProductCost') }}
                 </div>
                 <div class="text-xl md:text-2xl dark:text-white font-semibold">
                   {{ useMoneyFormatter(productStats.purchaseSum) }}

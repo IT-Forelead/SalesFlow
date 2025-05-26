@@ -469,5 +469,6 @@
   "unhideRecommendProduct": "Remove hidden product",
   "areYouSureYouWantToUnhideThisInformation": "Are you sure you want to unhide this information?",
   "errorWhileUnhidingRecommend": "Error occurred while recommending the product",
-  "recommendUnhiddenSuccessfully": "Recommendation product has been successfully unhidden"
+  "recommendUnhiddenSuccessfully": "Recommendation product has been successfully unhidden",
+  "totalProductCost": "Total product cost"
 }
