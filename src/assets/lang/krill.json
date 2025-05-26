@@ -523,5 +523,6 @@
   "nameInvest": "Инвестиция номи",
   "investAddedSuccessfully": "Инвестиция яратилди",
   "errorWhileCreatingInvest": "Инвестиция яратиш хатолик юз берди", "investDeletedSuccessfully": "Инвестор ўчирилди",
-  "errorWhileDeletingInvest": "Инвестор ўчириш хатолик юз берди"
+  "errorWhileDeletingInvest": "Инвестор ўчириш хатолик юз берди",
+  "totalProductCost": "Жами махсулот тан нархи"
 }

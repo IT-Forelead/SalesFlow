@@ -527,5 +527,6 @@
   "investAddedSuccessfully": "Investitsiya yaratildi",
   "errorWhileCreatingInvest": "Investitsiya yaratish xatolik yuz berdi",
   "investDeletedSuccessfully": "Investor o'chirildi",
-  "errorWhileDeletingInvest": "Investor o'chirish xatolik yuz berdi"
+  "errorWhileDeletingInvest": "Investor o'chirish xatolik yuz berdi",
+  "totalProductCost": "Jami mahsulotlar tan narxi"
 }
